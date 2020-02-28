@@ -1,0 +1,49 @@
+export const GET_EVENTS = 'GET_EVENTS';
+export type GET_EVENTS = typeof GET_EVENTS;
+
+export const GET_SINGLE_EVENT = 'GET_SINGLE_EVENT';
+export type GET_SINGLE_EVENT = typeof GET_SINGLE_EVENT;
+
+export const GET_APPLICANTS = 'GET_APPLICANTS';
+export type GET_APPLICANTS = typeof GET_APPLICANTS;
+
+export const GET_ARTISTS = 'GET_ARTISTS';
+export type GET_ARTISTS = typeof GET_ARTISTS;
+
+export const GET_PORTFOLIOS = 'GET_PORTFOLIOS';
+export type GET_PORTFOLIOS = typeof GET_PORTFOLIOS;
+
+export const RECEIVED_PORTFOLIOS = 'RECEIVED_PORTFOLIOS';
+export type RECEIVED_PORTFOLIOS = typeof RECEIVED_PORTFOLIOS;
+
+export const FAILED_RECEIVED_PORTFOLIOS = 'FAILED_RECEIVED_PORTFOLIOS';
+export type FAILED_RECEIVED_PORTFOLIOS = typeof FAILED_RECEIVED_PORTFOLIOS;
+
+export const SIGNUP = 'SIGNUP';
+export type SIGNUP = typeof SIGNUP;
+
+export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
+export type SIGNUP_SUCCESS = typeof SIGNUP_SUCCESS;
+
+export const SIGNUP_FAILED = 'LOGIN_FAILED';
+export type SIGNUP_FAILED = typeof LOGIN_FAILED;
+
+export const LOGIN = 'LOGIN';
+export type LOGIN = typeof LOGIN;
+
+export const LOGIN_FAILED = 'LOGIN_FAILED';
+export type LOGIN_FAILED = typeof LOGIN_FAILED;
+
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export type LOGIN_SUCCESS = typeof LOGIN_SUCCESS;
+
+export const GET_PROJECTS = "GET_PROJECTS";
+export type GET_PROJECTS = typeof GET_PROJECTS;
+
+export const RECEIVED_PROJECTS = 'RECEIVED_PROJECTS';
+export type RECEIVED_PROJECTS = typeof RECEIVED_PROJECTS;
+
+export const FAILED_RECEIVED_PROJECTS = "FAILED_RECEIVED_PROJECTS"
+export type FAILED_RECEIVED_PROJECTS = typeof FAILED_RECEIVED_PROJECTS;
+
+
