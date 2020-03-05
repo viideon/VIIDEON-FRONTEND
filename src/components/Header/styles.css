@@ -1,0 +1,36 @@
+.HeaderContainer{
+    background-color: whitesmoke;
+    border-bottom-style: solid;
+    border-bottom-width: thin;
+    border-bottom-color: #3598DC;
+}
+.HeaderComponent{
+    display: flex;
+    flex-direction: row;
+    height: 10vh;
+}
+.HeaderStyling{
+   flex: 2;
+}
+.HeaderStyle{
+    padding: 20px;
+    margin-left: 5%;
+    font-size: 30px;
+    color: #3598DC;
+}
+.IconComponents{
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+}
+.ImagePlusTag{
+    margin-top: 20px;
+    width: 35px;
+    height: 35px;
+}
+.ImageGiftTag{
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 35px;
+    height: 35px;
+}

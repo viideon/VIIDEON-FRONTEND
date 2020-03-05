@@ -1,0 +1,10 @@
+.MianContainer{
+    margin-left: -100px;
+    margin-right: -200px;
+}
+.CardComponent{
+    padding: 10px;
+}
+.VideoCardComponent{
+    width: 189vh;
+}
