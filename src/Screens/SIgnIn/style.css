@@ -7,3 +7,10 @@
     padding: 15px;
     box-shadow: 0 0 10px lightgrey;
 }
+.RegisterAccount{
+    display: flex;
+    flex-direction: row;
+}
+.Account{
+    margin: 10px;
+}

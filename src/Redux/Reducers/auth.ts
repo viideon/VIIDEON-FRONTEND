@@ -13,6 +13,7 @@ const authReducer = (state = initialState, action: any) => {
                 loginError:false
             };
         case types.LOGIN_SUCCESS:
+            console.log("Login Success",action.payload)
             return {
                 ...state,
                 user: action.payload.message.user,
@@ -20,7 +21,6 @@ const authReducer = (state = initialState, action: any) => {
                 loading: false,
                 loginError: null,
                 token: action.payload.message.token
-
             };
         case types.LOGIN_FAILURE:
             return {

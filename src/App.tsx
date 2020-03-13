@@ -21,9 +21,9 @@ const App: React.FC = () => {
       <Provider store={store}>
         <Router>
           <Switch>
-            <Route exact path="/" component={Home} />
             <Route exact path="/signin" component={SignIn} />
             <Route exact path="/signup" component={SignUp} />
+            <Route exact path="/Home" component={Home} />
 
             {/* <Route path="/aboutus" component={AboutUs} />
           <Route path="/welcome" component={Welcome} />
