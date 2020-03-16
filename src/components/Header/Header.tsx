@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Images } from '../../config';
 import './styles.css';
-import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import PopupMenu from './PopupList';
 
 type IProps = {
   navigation: any;
@@ -20,20 +20,7 @@ const Header: FC<IProps> = ({
           <div className='IconComponents'>
             <img src={Images.plus} className='ImagePlusTag' alt="ImagePlusTag" />
             <img src={Images.gift} className='ImageGiftTag' alt="ImageGiftTag" />
-          </div>
-          <div style={{marginTop:'10px', marginRight:'20px'}}>
-            <UncontrolledDropdown>
-              <DropdownToggle caret>
-                Dropdown
-            </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem >Your Setting</DropdownItem>
-                <DropdownItem >Action</DropdownItem>
-                <DropdownItem>Another Action</DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>Another Action</DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
+            <PopupMenu  />
           </div>
         </div>
       </div>

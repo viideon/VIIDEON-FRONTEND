@@ -47,11 +47,73 @@ position: absolute;
 display: none;
 }
 
-/* -------------------------------------------------------------------------------------------- */
+/* --------------------------------Your Profile Style------------------------------------------------------------ */
 
 #yourProfileWrap{
-    border: 1px solid black;
-    border-radius: 5px;
-    padding:20px;
-    margin:30px;
+  border-radius: 5px;
+  padding-bottom: 10px;
+  margin: 30px;
+  box-shadow: 0px 0px 5px #cac6c6;
+  padding: 20px;
+}
+#yourProfielHead{
+  color: blue;
+}
+
+#formInput Input{
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  padding: 0%;
+  border-radius: 0%;
+}
+ #typeInput:focus {
+  color: #575756;
+  background-color: #fff;
+  border-color: #cac6c6;
+  outline: 0;
+  box-shadow: none;
+}
+#fromFields{
+  padding: 0%;
+}
+#yourProfileUpdateBtn{
+  background-color: rgb(48, 126, 156);
+  border: none;
+  border-radius: 0%;
+}
+#memberDubbPara{
+  font-size: small;
+  font-weight: 200;
+}
+#typeSelectInput{
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  padding: 0%;
+  border-radius: 0%;
+}
+#typeSelectInput:focus{
+  color: #575756;
+  background-color: #fff;
+  border-color: #cac6c6;
+  outline: 0;
+  box-shadow: none;
+}
+
+/* ------------------------------------------Link Dubb Account-------------------------------- */
+#linkAccountHead{
+  color: blue;
+}
+#linkAccountWrap{
+  border-radius: 5px;
+  padding-bottom: 10px;
+  margin: 30px;
+  box-shadow: 0px 0px 5px #cac6c6;
+  padding: 20px;
+}
+#linkAccountSendBtn{
+  background-color: rgb(48, 126, 156);
+  border: none;
+  border-radius: 0%;
 }

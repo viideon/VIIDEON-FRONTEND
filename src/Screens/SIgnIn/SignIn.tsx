@@ -57,6 +57,7 @@ class SignIn extends Component<IProps, IState> {
     //   this.props.login(user);
     // }
     this.props.history.push('/')
+   
   }
   render() {
     const { emailError, passwordError, invalidEmailError } = this.state;
@@ -64,21 +65,21 @@ class SignIn extends Component<IProps, IState> {
     return (
       <>
         <div className='MainContainer'>
-          <Form style={{ margin: 25, width: '85%' }}>
+          <Form style={{margin:25, width: '85%' }}>
             <FormGroup>
               <Label for="exampleEmail" >Email</Label>
               <Input type="email" name="email" id="exampleEmail" placeholder="Email"
                 onChange={this.usernameHandler}
               />
             </FormGroup>
-            {emailError &&
+            {emailError&&
               <Alert color="danger">
-                Email Not Empty
+              Email Not Empty
              </Alert>
             }
-            {invalidEmailError &&
+             {invalidEmailError&&
               <Alert color="danger">
-                Email Invalid
+              Email Invalid
              </Alert>
             }
             <FormGroup>
@@ -87,16 +88,12 @@ class SignIn extends Component<IProps, IState> {
                 onChange={this.passwordHandler}
               />
             </FormGroup>
-            {passwordError &&
+            {passwordError&&
               <Alert color="danger">
-                Password Not Empty
+              Password Not Empty
              </Alert>
             }
             <Button theme="info" onClick={this.loginHandler}>Login</Button>
-          <div className='RegisterAccount'>
-            <p className="Account">Don't Have Account?</p>
-            <Button theme="info" onClick={() => { this.props.history.push('/signup') }}>Register</Button>
-          </div>
           </Form>
         </div>
 
