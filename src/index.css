@@ -1,0 +1,27 @@
+/* :root {
+  --primary-color: '#4ac4ac';
+} */
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Courier New', 'Lato',
+    'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+    'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+code {
+  font-family: 'Courier New', 'Lato', Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+:root {
+  --pink-color: #FF49C3;
+  --lite-bg-color: #F8F8F8;
+  --dark-bg-color: #ECECEC;
+  --gray: #575756;
+  --tutu: #FFEFF9;
+  --lite-pink-color: #FF6DCF;
+}

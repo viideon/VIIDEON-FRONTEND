@@ -1,0 +1,57 @@
+#profilePhotoWrap {
+  border-radius: 5px;
+  padding-bottom: 10px;
+  margin: 30px;
+  box-shadow: 0px 0px 5px #cac6c6;
+  padding: 20px;
+}
+#profilePhotoHead {
+  display: flex;
+  padding-top: 5px;
+  padding-bottom: 0%;
+  color: blue;
+}
+#infoCircleStyle {
+  margin-top: 5px;
+  margin-left: 5px;
+}
+#uploadProfilePara {
+  margin-top: 8px;
+  margin-left: 5px;
+  font-weight: 200;
+  font-size: small;
+}
+#profileImgWrap {
+  display: flex;
+  justify-content: center;
+}
+#profileImgStyle {
+  border-radius: 5px;
+  width: 160px;
+  height: 160px;
+}
+#profileImgLabelWrap{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+#profileImgLabelStyle {
+  padding: 5px;
+  background-color: royalblue;
+  color: #ffffff;
+  cursor: pointer;
+
+}
+#profileSelectInput{
+position: absolute;
+display: none;
+}
+
+/* -------------------------------------------------------------------------------------------- */
+
+#yourProfileWrap{
+    border: 1px solid black;
+    border-radius: 5px;
+    padding:20px;
+    margin:30px;
+}
