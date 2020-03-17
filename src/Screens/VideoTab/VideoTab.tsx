@@ -89,13 +89,6 @@ const Example = () => {
                 </TabPane>
                 <TabPane tabId="2">
                     <h4>Tab 2</h4>
-
-                    {/* <div>
-                        <PercentageCircle percent={80}></PercentageCircle>
-                        <PercentageCircle percent={80}>
-                            <p>Children</p>
-                        </PercentageCircle>
-                    </div> */}
                 </TabPane>
                 <TabPane tabId="3">
                     <Editing />

@@ -36,6 +36,7 @@
     "react-icons": "^3.9.0",
     "react-joi-validation": "^1.7.0",
     "react-loading": "^2.0.3",
+    "react-media-recorder": "^1.2.0",
     "react-phone-number-input": "^3.0.16",
     "react-redux": "^7.1.3",
     "react-router-dom": "^5.1.2",
