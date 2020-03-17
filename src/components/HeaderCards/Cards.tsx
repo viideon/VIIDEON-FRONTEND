@@ -3,17 +3,21 @@ import { Card, CardTitle, CardText, CardImg, CardImgOverlay } from 'reactstrap';
 import './styles.css';
 
 type IProps = {
-  color:any;
+  // color: any;
+  styles?: object;
 };
-const HeaderCard: FC<IProps> = ({
-  color
-}) => {
+const HeaderCard: React.FC<IProps> = props => {
+  // const HeaderCard: React.FC<IProps> = props => {
   return (
     <>
-        <Card className='CardMain' inverse style={{ backgroundColor: color, borderColor: color }}>
-          <CardText className='Title'>14</CardText>
-          <CardText className='Description'>Videos</CardText>
-        </Card>
+      <Card className='CardMain' inverse
+        style={props.styles} 
+
+      // style={props.styles, {backgroundColor: props.color, borderColor: props.color}}
+      >
+        <CardText className='Title'>14</CardText>
+        <CardText className='Description'>Videos</CardText>
+      </Card>
     </>
   );
 }

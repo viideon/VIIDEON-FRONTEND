@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col, Input, Label } from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Input, Label } from 'reactstrap';
 import classnames from 'classnames';
 import { SketchPicker } from 'react-color';
 
