@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.17.3/libexec/bin/yarn.js add react-bootstrap/lib/FormControl
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.17.3/libexec/bin/yarn.js install
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/abdulbasit/.npm-global/bin:/opt/X11/bin:/Users/hashlogics/Downloads/google-cloud-sdk/bin:/Users/hashlogics/Library/Android/sdk/platform-tools/:/Users/hashlogics/Library/Android/sdk/platform-tools/
@@ -14,17 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/react-bootstrap%2flib/FormControl: Request "https://registry.yarnpkg.com/react-bootstrap%2flib/FormControl" returned a 405
-      at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.17.3/libexec/lib/cli.js:66839:18)
-      at Request.self.callback (/usr/local/Cellar/yarn/1.17.3/libexec/lib/cli.js:140464:22)
-      at Request.emit (events.js:189:13)
-      at Request.<anonymous> (/usr/local/Cellar/yarn/1.17.3/libexec/lib/cli.js:141436:10)
-      at Request.emit (events.js:189:13)
-      at IncomingMessage.<anonymous> (/usr/local/Cellar/yarn/1.17.3/libexec/lib/cli.js:141358:12)
-      at Object.onceWrapper (events.js:277:13)
-      at IncomingMessage.emit (events.js:194:15)
-      at endReadableNT (_stream_readable.js:1103:12)
-      at process._tickCallback (internal/process/next_tick.js:63:19)
+  Error: ENOSPC: no space left on device, copyfile '/Users/hashlogics/Library/Caches/Yarn/v4/npm-lodash-4.17.15-b447f6670a0455bbfeedd11392eff330ea097548/node_modules/lodash/functionsIn.js' -> '/Users/hashlogics/Desktop/vidionpro-client/node_modules/lodash/functionsIn.js'
 
 npm manifest: 
   {

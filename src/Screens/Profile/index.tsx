@@ -173,7 +173,12 @@ class Profile extends Component<IProps, IState>  {
           </div>
           <hr />
           <div id="profileImgWrap">
-            <img src={this.state.url ? this.state.url : profileImg} alt="profileImg" id="profileImgStyle" />
+            {
+              this.state.url === '' ?
+                < img src={this.props.auth.user!.user!.url} alt="profileImg" id="profileImgStyle" />
+                :
+                < img src={this.state.url ? this.state.url : profileImg} alt="profileImg" id="profileImgStyle" />
+            }
           </div>
           <div id="profileImgLabelWrap">
             <Label id="profileImgLabelStyle">SELECT NEW PHOTO

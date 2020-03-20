@@ -19,7 +19,7 @@ export function* profile(userProfile: any) {
       headers: {
          'Content-Type': 'application/json'
       },
-      body: JSON.stringify(userProfile)
+      body: JSON.stringify(new_user)
    }
    const response = yield fetch(`${CONSTANTS.BASE_URL}/user/update/${userProfile.userId}`, opt);
    const message = yield response.json();
