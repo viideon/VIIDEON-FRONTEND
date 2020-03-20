@@ -55,8 +55,9 @@ class SignIn extends Component<IProps, IState> {
       };
       console.log("The Login User Are: ", user);
       this.props.login(user);
-      this.props.history.push('/Home')
     }
+    // this.props.history.push('/')
+
   }
   render() {
     const { emailError, passwordError, invalidEmailError } = this.state;
@@ -93,11 +94,11 @@ class SignIn extends Component<IProps, IState> {
              </Alert>
             }
             <Button theme="info" onClick={this.loginHandler}>Login</Button>
-          <div className='RegisterAccount'>
-            <p className="Account">Don't Have Account?</p>
-            <Button theme="info" onClick={() => { this.props.history.push('/signup') }}>Register</Button>
-          </div>
-          </Form>
+            <div className='RegisterAccount'>
+              <p className="Account">Don't Have Account?</p>
+              <Button theme="info" onClick={() => { this.props.history.push('/signup') }}>Register</Button>
+            </div>
+            </Form>
         </div>
 
       </>

@@ -1,0 +1,119 @@
+#profilePhotoWrap {
+  border-radius: 5px;
+  padding-bottom: 10px;
+  margin: 30px;
+  box-shadow: 0px 0px 5px #cac6c6;
+  padding: 20px;
+}
+#profilePhotoHead {
+  display: flex;
+  padding-top: 5px;
+  padding-bottom: 0%;
+  color: blue;
+}
+#infoCircleStyle {
+  margin-top: 5px;
+  margin-left: 5px;
+}
+#uploadProfilePara {
+  margin-top: 8px;
+  margin-left: 5px;
+  font-weight: 200;
+  font-size: small;
+}
+#profileImgWrap {
+  display: flex;
+  justify-content: center;
+}
+#profileImgStyle {
+  border-radius: 5px;
+  width: 160px;
+  height: 160px;
+}
+#profileImgLabelWrap{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+#profileImgLabelStyle {
+  padding: 5px;
+  background-color: royalblue;
+  color: #ffffff;
+  cursor: pointer;
+
+}
+#profileSelectInput{
+position: absolute;
+display: none;
+}
+
+/* --------------------------------Your Profile Style------------------------------------------------------------ */
+
+#yourProfileWrap{
+  border-radius: 5px;
+  padding-bottom: 10px;
+  margin: 30px;
+  box-shadow: 0px 0px 5px #cac6c6;
+  padding: 20px;
+}
+#yourProfielHead{
+  color: blue;
+}
+
+#formInput Input{
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  padding: 0%;
+  border-radius: 0%;
+}
+ #typeInput:focus {
+  color: #575756;
+  background-color: #fff;
+  border-color: #cac6c6;
+  outline: 0;
+  box-shadow: none;
+}
+#fromFields{
+  padding: 0%;
+}
+#yourProfileUpdateBtn{
+  background-color: rgb(48, 126, 156);
+  border: none;
+  border-radius: 0%;
+}
+#memberDubbPara{
+  font-size: small;
+  font-weight: 200;
+}
+#typeSelectInput{
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  padding: 0%;
+  border-radius: 0%;
+}
+#typeSelectInput:focus{
+  color: #575756;
+  background-color: #fff;
+  border-color: #cac6c6;
+  outline: 0;
+  box-shadow: none;
+}
+
+/* ------------------------------------------Link Dubb Account-------------------------------- */
+#linkAccountHead{
+  color: blue;
+}
+#linkAccountWrap{
+  border-radius: 5px;
+  padding-bottom: 10px;
+  margin: 30px;
+  box-shadow: 0px 0px 5px #cac6c6;
+  padding: 20px;
+}
+#linkAccountSendBtn{
+  background-color: rgb(48, 126, 156);
+  border: none;
+  border-radius: 0%;
+}

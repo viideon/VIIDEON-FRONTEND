@@ -1,20 +1,28 @@
 import React, { FC } from 'react';
 import { Card, CardTitle, CardImg, CardBody } from 'reactstrap';
-import {Images} from '../../config';
+import { Player } from 'video-react';
+import "../../../node_modules/video-react/dist/video-react.css";
+import { Images } from '../../config';
 import './styles.css';
 
 type IProps = {
-    image:any;
-    title:any;
+  image: any;
+  title: any;
+  url: any;
 };
 const VideoCard: FC<IProps> = ({
-    image,
-    title
+  image,
+  title,
+  url,
 }) => {
   return (
     <>
-        <Card className='VideoMain'>
-        <CardImg top width="100%" src={image} alt="Card image cap" />
+      <Card className='VideoMain'>
+        <Player 
+          playsInline
+          poster="/assets/poster.png"
+          src={url}
+        />
         <CardBody>
           <CardTitle>{title}</CardTitle>
         </CardBody>

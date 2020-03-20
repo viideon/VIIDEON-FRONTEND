@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Row, Col, Container } from 'reactstrap';
 import { connect } from 'react-redux';
 import Header from '../../components/Header/Header';
 import SideBar from '../../components/SideBar/SideBar';
@@ -8,7 +8,7 @@ import VedioComponent from '../../components/VideosComponent/VideosComponent';
 import { VideoUser } from '../../Redux/Actions/videos';
 import { VideoState } from '../../Redux/Types/videos';
 import { Video } from '../../Redux/Types/videos';
-import requireAuthentication from '../../authentication';
+import Styles from './styles';
 
 import S3 from 'aws-s3';
 import AWS from 'aws-sdk';
@@ -20,24 +20,12 @@ type IProps = {
   videoUser: VideoState;
   addVideo: (video: Video) => void;
 };
-// type File={
-//   name:string
-//   type:string
-//   size:any
-// }
+
 type IState = {
   file: any;
   url: string
 };
-// const config = {
-//   keyPrefix: "test/",
-//   bucket: "paractice",
-//   ACL: 'public-read',
-//   region: "us-east-1",
-//   accessKey: "AKIAIK4LMUMBSKO7CYAQ",
-//   secretKey: "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",
-//   successActionStatus: 201
-// }
+
 const config = {
   bucketName: 'paractice',
   dirName: 'nafeel',
@@ -98,54 +86,48 @@ class Home extends Component<IProps, IState> {
   }
   render() {
     return (
-      <>
-        <Header navigation={this.props.navigation}
-        />
-        <Row>
-          <Col sm="4">
-            <SideBar navigation={this.props.navigation} />
-          </Col>
-          <Col sm="8" className='MianContainer'>
-            <Row>
-              <Col sm="3" className='CardComponent'>
+      <div>
+        <Header navigation={this.props.navigation} />
+        <Container id="homeContainerWrap" >
+          <Row>
+            <Col xs="3" md="3">
+              <SideBar navigation={this.props.navigation} />
+            </Col>
+            <Col xs="9" md="9" >
+              <div id="headerCardWrap">
                 <HeaderCard
-                  color='#3598DC'
+                  styles={Styles.headerCardOne}
                 />
-              </Col>
-              <Col sm="3" className='CardComponent' >
                 <HeaderCard
-                  color='#e7505a'
+                  styles={Styles.headerCardTwo}
+                />
+                <HeaderCard
+                  styles={Styles.headerCardThree}
+                />
+                <HeaderCard
+                  styles={Styles.headerCardFour}
+                />
+              </div>
+              <div>
+                <Row>
+                  <Col xs="9">
+                    <VedioComponent navigation={this.props.navigation} />
+                  </Col>
+                  <Col xs="3">
+                    <input type='file' onChange={this.fileHandler} id="videoTypeInput" />
+                  </Col>
+                </Row>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </div>
 
-                />
-              </Col>
-              <Col sm="3" className='CardComponent'>
-                <HeaderCard
-                  color='#32c5d2'
-
-                />
-              </Col>
-              <Col sm="3" className='CardComponent'>
-                <HeaderCard
-                  color='#8e44ad'
-                />
-              </Col>
-            </Row>
-            <Row className='VideoCardComponent'>
-              <Col sm="7">
-                <VedioComponent navigation={this.props.navigation} />
-              </Col >
-              <Col sm="5">
-                <input type='file' onChange={this.fileHandler} />
-              </Col>
-              <button style={{ marginTop: 30 }} onClick={this.saveVideo}>Save Video</button>
-            </Row>
-          </Col>
-        </Row>
-      </>
     );
   }
 }
 const mapStateToProps = (state: any) => {
+  console.log('This Auth User is: ', state.auth)
   return {
     videoUser: state.video
   };
@@ -155,7 +137,7 @@ const mapDispatchToProps = (dispatch: any) => {
     addVideo: (video: Video) => dispatch(VideoUser(video))
   };
 };
-export default requireAuthentication(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Home));
+)(Home);

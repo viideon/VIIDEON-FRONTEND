@@ -4,7 +4,7 @@ import { AuthState } from '../src/Redux/Types/auth';
 
 type IProps = {
     auth: AuthState;
-    history:any;
+    history: any;
 };
 type IState = {
 };
@@ -36,7 +36,7 @@ export default function requireAuthentication(Component: any) {
         }
     };
     const mapStateToProps = (state: any) => {
-        console.log("The Auth sate",state.auth)
+        console.log("The Auth sate", state.auth)
         return {
             auth: state.auth
         };

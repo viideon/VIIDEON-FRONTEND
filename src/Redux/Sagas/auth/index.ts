@@ -5,10 +5,10 @@ import { login } from './api';
 function* loginUser(action: any) {
     try {
         const result = yield login(action.payload);
-        console.log('result Response',result)
+        console.log('result Response', result)
         if (result.status === 201) {
             yield put({ type: types.LOGIN_SUCCESS, payload: result.message });
-            yield put(push('/Home'));
+            yield put(push('/'));
             alert("Login Successfully")
         }
         else {
@@ -19,7 +19,7 @@ function* loginUser(action: any) {
     } catch (error) {
         console.log(error);
     }
-    yield put(push('/Home'));
+    yield put(push('/'));
 }
 export function* authWatcher() {
     yield takeEvery(types.LOGIN_REQUEST, loginUser);

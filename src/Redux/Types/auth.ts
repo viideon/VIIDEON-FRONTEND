@@ -1,13 +1,28 @@
- const LOGIN_REQUEST: string = "LOGIN_REQUEST";
- const LOGIN_SUCCESS: string = "LOGIN_SUCCESS";
- const LOGIN_FAILURE: string = "LOGIN_FAILURE";
+const LOGIN_REQUEST: string = "LOGIN_REQUEST";
+const LOGIN_SUCCESS: string = "LOGIN_SUCCESS";
+const LOGIN_FAILURE: string = "LOGIN_FAILURE";
 
 export const types = {
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
 }
+interface Us {
+    _id: string
+    firstName: string
+    lastName: string
+    mobileNumber: string
+    timeZone: string
+    title: string
+    userName: string
+    affiliateId: string
+    businessPhone: string
+    email: string
+    webAddress: string
+    url: string
+}
 export interface User {
+    user?: Us
     email: string;
     password: string;
 }
