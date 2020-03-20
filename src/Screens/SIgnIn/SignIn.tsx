@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { loginUser } from '../../Redux/Actions/auth';
 import { AuthState, User } from '../../Redux/Types/auth';
 import './style.css';
+import * as Constants from '../../constants/components/SignIn';
 
 const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -37,7 +38,6 @@ class SignIn extends Component<IProps, IState> {
       email: event.target.value
     })
   }
-
   passwordHandler = (event: any) => {
     this.setState({
       password: event.target.value
@@ -56,8 +56,6 @@ class SignIn extends Component<IProps, IState> {
       console.log("The Login User Are: ", user);
       this.props.login(user);
     }
-    // this.props.history.push('/')
-
   }
   render() {
     const { emailError, passwordError, invalidEmailError } = this.state;
@@ -67,38 +65,38 @@ class SignIn extends Component<IProps, IState> {
         <div className='MainContainer'>
           <Form style={{ margin: 25, width: '85%' }}>
             <FormGroup>
-              <Label for="exampleEmail" >Email</Label>
+              <Label for="exampleEmail" >{Constants.EMAIL}</Label>
               <Input type="email" name="email" id="exampleEmail" placeholder="Email"
                 onChange={this.usernameHandler}
               />
             </FormGroup>
             {emailError &&
               <Alert color="danger">
-                Email Not Empty
-             </Alert>
+                {Constants.EMAIL_ERROR}
+              </Alert>
             }
             {invalidEmailError &&
               <Alert color="danger">
-                Email Invalid
-             </Alert>
+                {Constants.EMAIL_INVALID}
+              </Alert>
             }
             <FormGroup>
-              <Label for="examplePassword" >Password</Label>
+              <Label for="examplePassword" >{Constants.PASSWORD}</Label>
               <Input type="password" name="password" id="examplePassword" placeholder="Password"
                 onChange={this.passwordHandler}
               />
             </FormGroup>
             {passwordError &&
               <Alert color="danger">
-                Password Not Empty
-             </Alert>
+                {Constants.PASSWORD_ERROR}
+              </Alert>
             }
-            <Button theme="info" onClick={this.loginHandler}>Login</Button>
+            <Button theme="info" onClick={this.loginHandler}>{Constants.LOGIN}</Button>
             <div className='RegisterAccount'>
-              <p className="Account">Don't Have Account?</p>
-              <Button theme="info" onClick={() => { this.props.history.push('/signup') }}>Register</Button>
+              <p className="Account">{Constants.DONT_HAVE_ACCOUNT}</p>
+              <Button theme="info" onClick={() => { this.props.history.push('/signup') }}>{Constants.REGISTER}</Button>
             </div>
-            </Form>
+          </Form>
         </div>
 
       </>

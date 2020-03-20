@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { registerUser } from '../../Redux/Actions/register';
 import { RegisterState } from '../../Redux/Types/register';
 import { User } from '../../Redux/Types/register';
-
+import * as Constants from '../../constants/components/signUp';
 const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 type IProps = {
@@ -22,11 +22,11 @@ type IState = {
   emailError: boolean;
   passwordError: boolean;
   invalidEmailError: boolean;
-  c_passwordError:boolean;
-  firstError:boolean;
-  lastError:boolean;
-  userNameError:boolean;
-  confirmPasswordError:boolean;
+  c_passwordError: boolean;
+  firstError: boolean;
+  lastError: boolean;
+  userNameError: boolean;
+  confirmPasswordError: boolean;
 };
 class SignUp extends Component<IProps, IState> {
   constructor(props: any) {
@@ -108,87 +108,85 @@ class SignUp extends Component<IProps, IState> {
       <>
         <div style={{ marginTop: '5%', marginLeft: '40%' }}>
           <Form style={{ width: '30%' }}>
-          <FormGroup>
-              <Label for="exampleEmail" >First Name</Label>
+            <FormGroup>
+              <Label for="exampleEmail" >{Constants.FIRSTNAME}</Label>
               <Input type="email" name="firstName" id="exampleEmail" placeholder="First Name"
                 onChange={this.firstNameHandler}
               />
             </FormGroup>
             {firstError &&
               <Alert color="danger">
-                First Name Not Empty
-             </Alert>
+                {Constants.FIRSTNAME_ERROR}
+              </Alert>
             }
             <FormGroup>
-              <Label for="exampleEmail" >Last Name</Label>
+              <Label for="exampleEmail" >{Constants.LASTNAME}</Label>
               <Input type="email" name="lastName" id="exampleEmail" placeholder="Last Name"
                 onChange={this.lastNameHandler}
               />
             </FormGroup>
             {lastError &&
               <Alert color="danger">
-                Last Name Not Empty
-             </Alert>
+                {Constants.LASTNAME_ERROR}
+              </Alert>
             }
             <FormGroup>
-              <Label for="exampleEmail" >UserName</Label>
+              <Label for="exampleEmail" >{Constants.USERNAME}</Label>
               <Input type="email" name="userName" id="exampleEmail" placeholder="UserName"
                 onChange={this.userNameHandler}
               />
             </FormGroup>
             {userNameError &&
               <Alert color="danger">
-                UserName Not Empty
-             </Alert>
+                {Constants.USERNAME_ERROR}
+              </Alert>
             }
             <FormGroup>
-              <Label for="exampleEmail" >Email</Label>
+              <Label for="exampleEmail" >{Constants.EMAIL}</Label>
               <Input type="email" name="email" id="exampleEmail" placeholder="Email"
                 onChange={this.emailHandler}
               />
             </FormGroup>
             {emailError &&
               <Alert color="danger">
-                Email Not Empty
-             </Alert>
+                {Constants.EMAIL_ERROR}
+              </Alert>
             }
             {invalidEmailError &&
               <Alert color="danger">
-                Email Invalid
-             </Alert>
+                {Constants.EMAIL_INVALID}
+              </Alert>
             }
             <FormGroup>
-              <Label for="examplePassword" >Password</Label>
+              <Label for="examplePassword" >{Constants.PASSWORD}</Label>
               <Input type="password" name="password" id="examplePassword" placeholder="Password"
                 onChange={this.passwordHandler}
               />
             </FormGroup>
             {passwordError &&
               <Alert color="danger">
-                Password Not Empty
-             </Alert>
+                {Constants.PASSWORD_ERROR}
+              </Alert>
             }
             <FormGroup>
-              <Label for="examplePassword" >Confrim Password</Label>
+              <Label for="examplePassword" >{Constants.CONFIRM_PASSWORD}</Label>
               <Input type="password" name="confirmPassword" id="examplePassword" placeholder="Confrim Password"
                 onChange={this.confirmPasswordHandler}
               />
             </FormGroup>
             {confirmPasswordError &&
               <Alert color="danger">
-               Confrim Password Not Empty
-             </Alert>
+                {Constants.CONFIRM_ERROR}
+              </Alert>
             }
             {c_passwordError &&
               <Alert color="danger">
-                Password Not Matched
-             </Alert>
+                {Constants.PASSWORD_MATCHING}
+              </Alert>
             }
-            <Button theme="info" onClick={this.registerHandler}>Register</Button>
+            <Button theme="info" onClick={this.registerHandler}>{Constants.REGISTER}</Button>
           </Form>
         </div>
-
-
       </>
     );
   }

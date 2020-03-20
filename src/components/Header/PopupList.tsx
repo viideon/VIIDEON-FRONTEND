@@ -58,7 +58,6 @@ export default function CustomizedMenus() {
       <img src={userImage} alt="UserPopupImg"
         aria-controls="customized-menu"
         aria-haspopup="true"
-        //   variant="contained"
         onClick={handleClick}
         style={{ width: '30px', height: '30px', borderRadius: '50%', cursor: 'pointer', margin: '20px' }} />
       <StyledMenu
@@ -66,8 +65,7 @@ export default function CustomizedMenus() {
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
+        onClose={handleClose}>
         <StyledMenuItem>
           <ListItemIcon>
             <SendIcon fontSize="small" />

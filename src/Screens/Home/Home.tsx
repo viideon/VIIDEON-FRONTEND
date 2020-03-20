@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Container } from 'reactstrap';
 import { connect } from 'react-redux';
+import AWS from 'aws-sdk';
 import Header from '../../components/Header/Header';
 import SideBar from '../../components/SideBar/SideBar';
 import HeaderCard from '../../components/HeaderCards/Cards';
@@ -9,8 +10,6 @@ import { VideoUser } from '../../Redux/Actions/videos';
 import { VideoState } from '../../Redux/Types/videos';
 import { Video } from '../../Redux/Types/videos';
 import Styles from './styles';
-
-import AWS from 'aws-sdk';
 
 import './styles.css';
 
@@ -61,7 +60,6 @@ class Home extends Component<IProps, IState> {
       if (err) {
         throw err;
       }
-      console.log(`File uploaded successfully. ${data.Location} ${err}`)
       that.setState({ url: data.Location })
     });
   }
@@ -92,15 +90,23 @@ class Home extends Component<IProps, IState> {
               <div id="headerCardWrap">
                 <HeaderCard
                   styles={Styles.headerCardOne}
+                  Video='14'
+                  Title='Videos'
                 />
                 <HeaderCard
                   styles={Styles.headerCardTwo}
+                  Video='0'
+                  Title='Total Video Views'
                 />
                 <HeaderCard
                   styles={Styles.headerCardThree}
+                  Video='3'
+                  Title='CallS to Action'
                 />
                 <HeaderCard
                   styles={Styles.headerCardFour}
+                  Video='1'
+                  Title='Team Members'
                 />
               </div>
               <div>
@@ -117,7 +123,6 @@ class Home extends Component<IProps, IState> {
           </Row>
         </Container>
       </div>
-
     );
   }
 }

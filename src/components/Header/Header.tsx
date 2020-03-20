@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Images } from '../../config';
 import './styles.css';
 import PopupMenu from './PopupList';
-
+import * as Constants from '../../constants/components/home';
 type IProps = {
   navigation: any;
 };
@@ -15,7 +15,7 @@ const Header: FC<IProps> = ({
       <div className='HeaderContainer'>
         <div className='HeaderComponent'>
           <div className='HeaderStyling'>
-            <h3 className='HeaderStyle'>VIDIONPRO</h3>
+            <h3 className='HeaderStyle'>{Constants.HEADER}</h3>
           </div>
           <div className='IconComponents'>
             <img src={Images.plus} className='ImagePlusTag' alt="ImagePlusTag" />
