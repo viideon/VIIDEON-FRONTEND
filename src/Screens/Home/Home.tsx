@@ -10,7 +10,6 @@ import { VideoState } from '../../Redux/Types/videos';
 import { Video } from '../../Redux/Types/videos';
 import Styles from './styles';
 
-import S3 from 'aws-s3';
 import AWS from 'aws-sdk';
 
 import './styles.css';
@@ -34,8 +33,7 @@ const config = {
   accessKeyId: 'AKIAIK4LMUMBSKO7CYAQ',
   secretAccessKey: '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',
 }
-const S3Client = new S3(config);
-const newFileName = 'my-awesome-file';
+
 class Home extends Component<IProps, IState> {
   constructor(props: any) {
     super(props);
@@ -66,9 +64,6 @@ class Home extends Component<IProps, IState> {
       console.log(`File uploaded successfully. ${data.Location} ${err}`)
       that.setState({ url: data.Location })
     });
-    // S3Client.uploadFile(file, newFileName)
-    // .then((data:any) => console.log("The Response",data))
-    // .catch((err:any) => console.error('THe Error Message is',err))
   }
   saveVideo = () => {
     const { name } = this.state.file;

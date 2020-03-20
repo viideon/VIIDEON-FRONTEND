@@ -2,16 +2,15 @@ import React, { Component } from 'react';
 import { Input, Label, Row, Col, Form, FormGroup, Button } from 'reactstrap';
 import './style.css';
 import { connect } from 'react-redux';
+import { FaInfoCircle } from "react-icons/fa";
+import AWS from 'aws-sdk';
 import LinkAccount from './LinkAccount';
 import { profileUser } from '../../Redux/Actions/profile';
 import { ProfileState, UserProfile } from '../../Redux/Types/profile';
 import { AuthState } from '../../Redux/Types/auth';
-import { FaInfoCircle } from "react-icons/fa";
 import profileImg from '../../assets/profileImages/profileImg.png';
 import TimeZone from '../../components/TimeZone/Data/timezone.json'
-
-import S3 from 'aws-s3';
-import AWS from 'aws-sdk';
+import * as Constants from '../../constants/components/profile';
 
 type IProps = {
   auth: AuthState;
@@ -141,11 +140,6 @@ class Profile extends Component<IProps, IState>  {
   }
   fileHandler = (e: any) => {
     const that = this;
-    const file = {
-      name: e.target.files[0].name,
-      type: e.target.files[0].type,
-      size: e.target.files[0].size
-    }
     console.log("The Image Profile", e.target.files[0])
     let s3 = new AWS.S3(config)
     var options = {
@@ -163,13 +157,12 @@ class Profile extends Component<IProps, IState>  {
     });
   }
   render() {
-
     return (
       <div>
         <div id="profilePhotoWrap">
           <div id="profilePhotoHead">
-            <h4>PROFILE PHOTO </h4><i><FaInfoCircle id="infoCircleStyle" /></i>
-            <p id="uploadProfilePara">Upload a profile photo of you to display on your video pages</p>
+            <h4>{Constants.PROFILE_PHOTO} </h4><i><FaInfoCircle id="infoCircleStyle" /></i>
+            <p id="uploadProfilePara">{Constants.UPLOAD_DESCRIPTION}</p>
           </div>
           <hr />
           <div id="profileImgWrap">
@@ -181,100 +174,97 @@ class Profile extends Component<IProps, IState>  {
             }
           </div>
           <div id="profileImgLabelWrap">
-            <Label id="profileImgLabelStyle">SELECT NEW PHOTO
-            <Input type="file" id="profileSelectInput" onChange={this.fileHandler} />
+            <Label id="profileImgLabelStyle">{Constants.SELECT_NEW_PHOTO}
+              <Input type="file" id="profileSelectInput" onChange={this.fileHandler} />
             </Label>
           </div>
         </div>
         <div id="yourProfileWrap">
-          <h4 id="yourProfielHead">YOUR PROFILE</h4>
+          <h4 id="yourProfielHead">{Constants.YOUR_PROFILE}</h4>
           <hr />
           <Row>
             <Col className="col-md-6 m-auto">
               <Form id="formInput">
                 <FormGroup>
-                  <Label for="exampleEmail">First Name</Label>
+                  <Label for="exampleEmail">{Constants.FIRSTNAME}</Label>
                   <Input type="text" name="firstName" id="typeInput" placeholder=""
                     value={this.state.firstName}
                     onChange={this.firstNameHandler}
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleEmail">Last Name</Label>
+                  <Label for="exampleEmail">{Constants.LASTNAME}</Label>
                   <Input type="text" name="lastName" id="typeInput" placeholder=""
                     value={this.state.lastName}
                     onChange={this.lastNameHandler}
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleEmail">User Name</Label>
+                  <Label for="exampleEmail">{Constants.USERNAME}</Label>
                   <Input type="text" name="userName" id="typeInput" placeholder=""
                     value={this.state.userName}
                     onChange={this.userNameHandler}
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleEmail">E-Mail Address</Label>
+                  <Label for="exampleEmail">{Constants.E_MAIL}</Label>
                   <Input type="text" name="email" id="typeInput" placeholder=""
                     value={this.state.email}
                     onChange={this.emailHandler}
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleEmail">Mobile Number</Label>
+                  <Label for="exampleEmail">{Constants.MOBILE_NUMBER}</Label>
                   <Input type="text" name="mobile" id="typeInput" placeholder=""
                     value={this.state.mobileNumber}
                     onChange={this.mobileHandler}
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleEmail">Timezone</Label>
+                  <Label for="exampleEmail">{Constants.TIMEZONE}</Label>
                   <Input type="select" name="timezone" id="typeSelectInput" placeholder=""
                     value={this.state.timeZone}
                     onChange={this.timeHandler}>
-                    {/* <Input type="select" name="select" id="exampleSelect"> */}
                     {Object.entries(TimeZone).map((key, value) => {
                       return <option value={key}>{key}</option>
                     })}
                   </Input>
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleEmail">Business Phone</Label>
+                  <Label for="exampleEmail">{Constants.BUSINESS_PHONE}</Label>
                   <Input type="text" name="email" id="typeInput" placeholder=""
                     value={this.state.businessPhone}
                     onChange={this.businessPhoneHandler}
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleEmail">Web Address</Label>
+                  <Label for="exampleEmail">{Constants.WEB_ADDRESS}</Label>
                   <Input type="text" name="email" id="typeInput" placeholder=""
                     value={this.state.webAddress}
                     onChange={this.webHandler}
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleEmail">Title</Label>
+                  <Label for="exampleEmail">{Constants.TITILE}</Label>
                   <Input type="text" name="email" id="typeInput" placeholder=""
                     value={this.state.title}
                     onChange={this.titleHandler}
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleEmail">Affiliate URL</Label>
+                  <Label for="exampleEmail">{Constants.AFFILIATE}</Label>
                   <Input type="text" name="email" id="typeInput" placeholder=""
                     value={this.state.affiliateId}
                     onChange={this.afiliateHandler}
                   />
-                  <p id="memberDubbPara">Are you a member of the Dubb Affiliate Program? Enter your referral ID here to replace
-                                your referral link with your affiliate link to earn recurring commissions. Signup at <a href="#"> earn.dubb.com.</a></p>
+                  <p id="memberDubbPara">{Constants.PROFILE_DESCRIPTION} <a href="#"> {Constants.PROFILE_URL}</a></p>
                 </FormGroup>
                 <Button id="yourProfileUpdateBtn"
                   onClick={() => this.update()}
-                >Update</Button>
+                >{Constants.UPDATE}</Button>
               </Form>
             </Col>
           </Row>
-
         </div>
         <LinkAccount />
       </div>
