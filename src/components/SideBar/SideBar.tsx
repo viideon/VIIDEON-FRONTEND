@@ -3,7 +3,7 @@ import './style.css';
 
 
 type IProps = {
-  navigation: any;
+  history: any;
 };
 type IState = {
 };

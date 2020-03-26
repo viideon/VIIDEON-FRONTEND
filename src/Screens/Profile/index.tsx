@@ -9,13 +9,14 @@ import { profileUser } from '../../Redux/Actions/profile';
 import { ProfileState, UserProfile } from '../../Redux/Types/profile';
 import { AuthState } from '../../Redux/Types/auth';
 import profileImg from '../../assets/profileImages/profileImg.png';
-import TimeZone from '../../components/TimeZone/Data/timezone.json'
+import TimeZone from '../../components/TimeZone/Data/timezone.json';
 import * as Constants from '../../constants/components/profile';
+import Loading from '../../components/Loading';
 
 type IProps = {
   auth: AuthState;
   navigation: any;
-  profiler: ProfileState;
+  userProfile: ProfileState;
   profile: (userProfile: UserProfile) => void;
 };
 
@@ -157,6 +158,7 @@ class Profile extends Component<IProps, IState>  {
     });
   }
   render() {
+    const { loading } = this.props.userProfile;
     return (
       <div>
         <div id="profilePhotoWrap">
@@ -245,7 +247,7 @@ class Profile extends Component<IProps, IState>  {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleEmail">{Constants.TITILE}</Label>
+                  <Label for="exampleEmail">{Constants.TITLE}</Label>
                   <Input type="text" name="email" id="typeInput" placeholder=""
                     value={this.state.title}
                     onChange={this.titleHandler}
@@ -263,6 +265,9 @@ class Profile extends Component<IProps, IState>  {
                   onClick={() => this.update()}
                 >{Constants.UPDATE}</Button>
               </Form>
+              <div style={{ marginLeft: '50%', opacity: 0.5 }}>
+                {loading ? <Loading /> : null}
+              </div>
             </Col>
           </Row>
         </div>
@@ -274,7 +279,7 @@ class Profile extends Component<IProps, IState>  {
 const mapStateToProps = (state: any) => {
   return {
     auth: state.auth,
-    profile: state.profile
+    userProfile: state.profile
   };
 };
 const mapDispatchToProps = (dispatch: any) => {

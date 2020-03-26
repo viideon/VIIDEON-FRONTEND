@@ -7,7 +7,7 @@ import SignUp from '../src/Screens/SignUp/SignUp';
 import VideoTab from './Screens/VideoTab/VideoTab';
 import Profile from './Screens/Profile/index';
 import { AuthState } from '../src/Redux/Types/auth';
-
+import UploadRecord from '../src/Screens/UploadRecordVideo';
 type IProps = {
   auth: AuthState;
 
@@ -23,6 +23,7 @@ class Routes extends Component<IProps, IState> {
             <Route exact path="/" component={Home} />
             <Route exact path="/videotab" component={VideoTab} />
             <Route exact path="/profile" component={Profile} />
+            <Route exact path="/video/create" component={UploadRecord} />
           </Switch>
         </Router> :
           <Router>

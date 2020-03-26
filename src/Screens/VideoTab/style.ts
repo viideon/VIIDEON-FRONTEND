@@ -16,6 +16,12 @@ const styles = {
   },
   inputwrapper: {
     fontSize: '1.4rem'
+  },
+  recorder: {
+    width: '95%',
+    height: 500,
+    marginLeft: 'auto',
+    marginRight: 'auto'
   }
 }
 export default styles;

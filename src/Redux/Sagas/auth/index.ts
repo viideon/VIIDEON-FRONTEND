@@ -9,7 +9,6 @@ function* loginUser(action: any) {
         if (result.status === 201) {
             yield put({ type: types.LOGIN_SUCCESS, payload: result.message });
             yield put(push('/'));
-            alert("Login Successfully")
         }
         else {
             yield put({ type: types.LOGIN_FAILURE, payload: result.message });

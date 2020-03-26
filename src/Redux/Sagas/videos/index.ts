@@ -4,8 +4,8 @@ import { video } from './api';
 function* userVideo(action: any) {
     try {
         const result = yield video(action.payload);
-        console.log('result Response',result)
-        if (result.status === 201) {
+        console.log('result Response', result)
+        if (result.status === 200) {
             yield put({ type: types.VIDEO_SUCCESS, payload: result.message });
             alert("Upload Successfully")
         }

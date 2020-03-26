@@ -1,15 +1,18 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
+import { Tooltip } from 'reactstrap';
 import { Images } from '../../config';
 import './styles.css';
 import PopupMenu from './PopupList';
 import * as Constants from '../../constants/components/home';
 type IProps = {
-  navigation: any;
+  history: any;
 };
 const Header: FC<IProps> = ({
-  navigation
+  history
 }) => {
+  const [tooltipOpen, setTooltipOpen] = useState(false);
 
+  const toggle = () => setTooltipOpen(!tooltipOpen);
   return (
     <>
       <div className='HeaderContainer'>
@@ -18,7 +21,12 @@ const Header: FC<IProps> = ({
             <h3 className='HeaderStyle'>{Constants.HEADER}</h3>
           </div>
           <div className='IconComponents'>
-            <img src={Images.plus} className='ImagePlusTag' alt="ImagePlusTag" />
+            <span style={{ textDecoration: "underline", color: "blue" }} id="TooltipExample">
+              <img src={Images.plus} className='ImagePlusTag' alt="ImagePlusTag" onClick={() => { history.push('/video/create') }} />
+            </span>
+            <Tooltip placement="bottom" isOpen={tooltipOpen} target="TooltipExample" toggle={toggle}>
+              Record and Upload a Video
+            </Tooltip>
             <img src={Images.gift} className='ImageGiftTag' alt="ImageGiftTag" />
             <PopupMenu />
           </div>

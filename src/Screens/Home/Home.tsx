@@ -14,7 +14,7 @@ import Styles from './styles';
 import './styles.css';
 
 type IProps = {
-  navigation: any;
+  history: any;
   videoUser: VideoState;
   addVideo: (video: Video) => void;
 };
@@ -80,11 +80,11 @@ class Home extends Component<IProps, IState> {
   render() {
     return (
       <div>
-        <Header navigation={this.props.navigation} />
+        <Header history={this.props.history} />
         <Container id="homeContainerWrap" >
           <Row>
             <Col xs="3" md="3">
-              <SideBar navigation={this.props.navigation} />
+              <SideBar history={this.props.history} />
             </Col>
             <Col xs="9" md="9" >
               <div id="headerCardWrap">
@@ -112,7 +112,7 @@ class Home extends Component<IProps, IState> {
               <div>
                 <Row>
                   <Col xs="9">
-                    <VedioComponent navigation={this.props.navigation} />
+                    <VedioComponent history={this.props.history} />
                   </Col>
                   <Col xs="3">
                     <input type='file' onChange={this.fileHandler} id="videoTypeInput" />

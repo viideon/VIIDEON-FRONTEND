@@ -6,7 +6,7 @@ import "../../../node_modules/video-react/dist/video-react.css";
 import './styles.css';
 
 type IProps = {
-  navigation: any;
+  history: any;
 };
 type IState = {
 };

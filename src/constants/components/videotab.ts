@@ -13,6 +13,7 @@ export const DASH = '|';
 export const MP4 = 'MP4';
 export const SEND_SHARE = 'Share & Send';
 export const PRIVACY = 'Privacy';
+export const COMMENTS='Comments'
 export const OPTION_1 = 'Feature: Publicly visible on your profile page';
 export const OPTION_2 = 'Shareable: Send via link, email or social';
 export const OPTION_3 = 'Draft: Only visible in my account';

@@ -5,6 +5,7 @@ import { registerUser } from '../../Redux/Actions/register';
 import { RegisterState } from '../../Redux/Types/register';
 import { User } from '../../Redux/Types/register';
 import * as Constants from '../../constants/components/signUp';
+import Loading from '../../components/Loading';
 const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 type IProps = {
@@ -103,6 +104,7 @@ class SignUp extends Component<IProps, IState> {
     }
   }
   render() {
+    const { loading } = this.props.registerUser;
     const { firstError, lastError, emailError, passwordError, confirmPasswordError, c_passwordError, invalidEmailError, userNameError } = this.state;
     return (
       <>
@@ -185,6 +187,9 @@ class SignUp extends Component<IProps, IState> {
               </Alert>
             }
             <Button theme="info" onClick={this.registerHandler}>{Constants.REGISTER}</Button>
+            <div style={{ marginLeft: '50%', opacity: 0.5 }}>
+              {loading ? <Loading /> : null}
+            </div>
           </Form>
         </div>
       </>

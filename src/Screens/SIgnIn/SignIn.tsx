@@ -5,6 +5,7 @@ import { loginUser } from '../../Redux/Actions/auth';
 import { AuthState, User } from '../../Redux/Types/auth';
 import './style.css';
 import * as Constants from '../../constants/components/SignIn';
+import Loading from '../../components/Loading';
 
 const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -58,8 +59,8 @@ class SignIn extends Component<IProps, IState> {
     }
   }
   render() {
+    const { loading } = this.props.auth;
     const { emailError, passwordError, invalidEmailError } = this.state;
-
     return (
       <>
         <div className='MainContainer'>
@@ -97,8 +98,10 @@ class SignIn extends Component<IProps, IState> {
               <Button theme="info" onClick={() => { this.props.history.push('/signup') }}>{Constants.REGISTER}</Button>
             </div>
           </Form>
+          <div style={{ marginLeft: '50%', opacity: 0.5}}>
+            {loading ? <Loading /> : null}
+          </div>
         </div>
-
       </>
     );
   }
