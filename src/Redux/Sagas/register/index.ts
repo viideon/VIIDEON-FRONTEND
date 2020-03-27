@@ -9,7 +9,7 @@ function* registerUser(action: any) {
         if (result.status === 201) {
             console.log("result", result)
             yield put({ type: types.REGISTRATION_SUCCESS, payload: result.message });
-            yield put(push('/signin'));
+            yield put(push('/'));
             alert("SignUp Successfully")
         }
         else {

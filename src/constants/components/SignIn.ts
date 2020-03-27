@@ -1,4 +1,4 @@
-export const EMAIL = 'Email';
+export const EMAIL = 'E-MAIL ADDRESS';
 export const EMAIL_ERROR = 'Email Not Empty';
 export const EMAIL_INVALID = 'Email Invalid';
 export const PASSWORD = 'Password';

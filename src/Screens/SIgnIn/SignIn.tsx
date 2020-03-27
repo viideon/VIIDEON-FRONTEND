@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Alert, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import { loginUser } from '../../Redux/Actions/auth';
 import { AuthState, User } from '../../Redux/Types/auth';
@@ -63,45 +63,71 @@ class SignIn extends Component<IProps, IState> {
     const { emailError, passwordError, invalidEmailError } = this.state;
     return (
       <>
-        <div className='MainContainer'>
-          <Form style={{ margin: 25, width: '85%' }}>
-            <FormGroup>
-              <Label for="exampleEmail" >{Constants.EMAIL}</Label>
-              <Input type="email" name="email" id="exampleEmail" placeholder="Email"
-                onChange={this.usernameHandler}
-              />
-            </FormGroup>
-            {emailError &&
-              <Alert color="danger">
-                {Constants.EMAIL_ERROR}
-              </Alert>
-            }
-            {invalidEmailError &&
-              <Alert color="danger">
-                {Constants.EMAIL_INVALID}
-              </Alert>
-            }
-            <FormGroup>
-              <Label for="examplePassword" >{Constants.PASSWORD}</Label>
-              <Input type="password" name="password" id="examplePassword" placeholder="Password"
-                onChange={this.passwordHandler}
-              />
-            </FormGroup>
-            {passwordError &&
-              <Alert color="danger">
-                {Constants.PASSWORD_ERROR}
-              </Alert>
-            }
-            <Button theme="info" onClick={this.loginHandler}>{Constants.LOGIN}</Button>
-            <div className='RegisterAccount'>
-              <p className="Account">{Constants.DONT_HAVE_ACCOUNT}</p>
-              <Button theme="info" onClick={() => { this.props.history.push('/signup') }}>{Constants.REGISTER}</Button>
+        <Row xs="2">
+          <Col xs="7">
+            <div className='firstLayoutContainer'>
+              <div className='firstLayoutMainContainer'>
+
+                <p className='signUp'>Signup to</p>
+                <p className='logo'>VIDIONPRO</p>
+                <p className='login'>Login to your account</p>
+              </div>
             </div>
-          </Form>
-          <div style={{ marginLeft: '50%', opacity: 0.5}}>
-            {loading ? <Loading /> : null}
-          </div>
-        </div>
+
+          </Col >
+          <Col xs="5">
+            <div className='secondLayoutMainContainer'>
+              <p className='loginTwo'>Login</p>
+              <div className='createAccount'>
+                <p className="account">Don't have an account yet?</p>
+                <div onClick={() => { this.props.history.push('/signup') }}>
+                  <p className='create' >Create one here</p>
+                </div>
+              </div>
+              <div style={{ marginLeft: '35%', opacity: 0.5 }}>
+                {loading ? <Loading /> : null}
+              </div>
+              <Form id="formInput" style={{ margin: 25, width: '85%' }}>
+                <FormGroup>
+                  <Label for="exampleEmail" style={{ fontWeight: 'bold' }}>{Constants.EMAIL}</Label>
+                  <div className="textInput">
+                    <Input type="text" name="email" id="typeInput" placeholder=""
+                      onChange={this.usernameHandler}
+                    />
+                    <i className="w3-xxlarge fa fa-user" style={{ width: '5%', margin: 10 }}></i>
+                  </div>
+                </FormGroup>
+                {emailError &&
+                  <Alert color="danger">
+                    {Constants.EMAIL_ERROR}
+                  </Alert>
+                }
+                {invalidEmailError &&
+                  <Alert color="danger">
+                    {Constants.EMAIL_INVALID}
+                  </Alert>
+                }
+                <FormGroup>
+                  <Label for="examplePassword" style={{ fontWeight: 'bold' }}>{Constants.PASSWORD}</Label>
+                  <div className="textInput">
+                    <Input type="password" name="password" id="typeInput" placeholder="Password"
+                      onChange={this.passwordHandler}
+                    />
+                    <i className="w3-xxlarge fa fa-key" style={{ width: '5%', margin: 10 }}></i>
+                  </div>
+                </FormGroup>
+                {passwordError &&
+                  <Alert color="danger">
+                    {Constants.PASSWORD_ERROR}
+                  </Alert>
+                }
+                <div className='buttonWrapper'>
+                  <Button color='#9F55FF' onClick={this.loginHandler} style={{ backgroundColor: '#9F55FF', width: '100%', color: 'white' }}>{Constants.LOGIN}</Button>
+                </div>
+              </Form>
+            </div>
+          </Col>
+        </Row>
       </>
     );
   }
