@@ -6,6 +6,7 @@ import { AuthState, User } from '../../Redux/Types/auth';
 import './style.css';
 import * as Constants from '../../constants/components/SignIn';
 import Loading from '../../components/Loading';
+import { constants } from 'buffer';
 
 const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -68,20 +69,20 @@ class SignIn extends Component<IProps, IState> {
             <div className='firstLayoutContainer'>
               <div className='firstLayoutMainContainer'>
 
-                <p className='signUp'>Signup to</p>
-                <p className='logo'>VIDIONPRO</p>
-                <p className='login'>Login to your account</p>
+                <p className='signUp'>{Constants.SIGNUP_TO}</p>
+                <p className='logo'>{Constants.VIDIONPRO}</p>
+                <p className='login'>{Constants.LOGIN_TO_ACCOUNT}</p>
               </div>
             </div>
 
           </Col >
           <Col xs="5">
             <div className='secondLayoutMainContainer'>
-              <p className='loginTwo'>Login</p>
+              <p className='loginTwo'>{Constants.LOGIN}</p>
               <div className='createAccount'>
-                <p className="account">Don't have an account yet?</p>
+                <p className="account">{Constants.DONT_HAVE_ACCOUNT_YET}</p>
                 <div onClick={() => { this.props.history.push('/signup') }}>
-                  <p className='create' >Create one here</p>
+                  <p className='create' >{Constants.CREATE_NEW}</p>
                 </div>
               </div>
               <div style={{ marginLeft: '35%', opacity: 0.5 }}>

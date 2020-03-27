@@ -14,7 +14,7 @@ import styles from '../VideoTab/style';
 import Button from '@material-ui/core/Button';
 import { AuthState } from '../../Redux/Types/auth';
 import Loading from '../../components/Loading';
-import * as Constants from '../../constants/components/profile';
+import * as Constants from '../../constants/components/UploadRecord';
 import '../../../node_modules/react-tabs/style/react-tabs.css';
 import './style.css';
 
@@ -156,14 +156,14 @@ class UploaadRecord extends Component<IProps, IState> {
       <>
         <Header history={this.props.history} />
         <div className='recordMainContainer'>
-          <p className='mainHeader'>CREATE A VIDEO</p>
-          <p className='titleHeader'>Record and share a personalized video.</p>
+          <p className='mainHeader'>{Constants.CREATE_VIDEO}</p>
+          <p className='titleHeader'>{Constants.RECORD_AND_SHARE}</p>
           <hr />
           <Tabs>
             <TabList>
 
-              <Tab><FaLaptop id="videoTabIcon" style={{ padding: 5, width: 20, height: 20 }} />Upload from Computer</Tab>
-              <Tab> <FaCamera id="videoTabIcon" style={{ padding: 5, width: 20, height: 20 }} />Record With Camera</Tab>
+              <Tab><FaLaptop id="videoTabIcon" style={{ padding: 5, width: 20, height: 20 }} />{Constants.UPLOAD_FROM_COMPUTER}</Tab>
+              <Tab> <FaCamera id="videoTabIcon" style={{ padding: 5, width: 20, height: 20 }} />{Constants.RECORD_WITH_CAMERA}</Tab>
             </TabList>
 
             <TabPanel>
@@ -177,14 +177,14 @@ class UploaadRecord extends Component<IProps, IState> {
                           <img src={require('../../assets/upload.png')} style={{ width: 80, height: 60, marginLeft: '45%' }} />
                         </div>
                         <aside>
-                          <p style={{ marginLeft: '37%', marginTop: 20, }} >Click or Drag File to Upload Video</p>
+                          <p style={{ marginLeft: '37%', marginTop: 20, }} >{Constants.CLICK_AND_DRAG}</p>
                           {
                             this.state.files.map((file: any) => (
                               <>
                                 <li key={file.name}>
                                   {file.name} - {file.size} bytes
                               </li>
-                                <Button color="secondary" onClick={() => { this.fileHandler() }}>Send Through Email</Button>
+                                <Button color="secondary" onClick={() => { this.fileHandler() }}>{Constants.SEND_THROUGH_EMAIL}</Button>
                               </>
                             ))
                           }
@@ -212,7 +212,7 @@ class UploaadRecord extends Component<IProps, IState> {
                               onChange={this.titleNameHandler}
                             />
                           </FormGroup>
-                          <Button color="secondary" onClick={() => { this.submit() }}>Send Through Email</Button>
+                          <Button color="secondary" onClick={() => { this.submit() }}>{Constants.SEND_THROUGH_EMAIL}</Button>
                         </Form>
                         <div style={{ marginLeft: '50%' }}>
                           {this.state.loading ? <Loading /> : null}

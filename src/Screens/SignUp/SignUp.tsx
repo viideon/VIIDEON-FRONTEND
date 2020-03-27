@@ -129,25 +129,25 @@ class SignUp extends Component<IProps, IState> {
               this.state.next ?
                 <div className='firstStateLayoutContainer'>
                   <div className='firstLayoutMainContainer'>
-                    <p className='signUp'>Signup to</p>
-                    <p className='logo'>VIDIONPRO</p>
+                    <p className='signUp'>{Constants.SIGNUP_TO}</p>
+                    <p className='logo'>{Constants.VIDIONPRO}</p>
                   </div>
                 </div> :
                 <div className='firstLayoutContainer'>
                   <div className='firstLayoutMainContainer'>
-                    <p className='signUp'>Signup to</p>
-                    <p className='logo'>VIDIONPRO</p>
+                    <p className='signUp'>{Constants.SIGNUP_TO}</p>
+                    <p className='logo'>{Constants.VIDIONPRO}</p>
                   </div>
                 </div>
             }
           </Col >
           <Col xs="5">
             <div className='secondLayoutMainContainer'>
-              <p className='loginTwo'>Register</p>
+              <p className='loginTwo'>{Constants.REGISTER}</p>
               <div className='createAccount'>
-                <p className="account">Already have an account?</p>
+                <p className="account">{Constants.ALREADY_HAD_ACCOUNT}</p>
                 <div onClick={() => { this.props.history.push('/') }}>
-                  <p className='create' >Login here</p>
+                  <p className='create' >{Constants.LOGIN_HERE}</p>
                 </div>
               </div>
               <div style={{ marginLeft: '35%', opacity: 0.5 }}>
