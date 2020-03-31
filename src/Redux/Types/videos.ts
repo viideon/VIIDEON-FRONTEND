@@ -3,15 +3,16 @@ const VIDEO_SUCCESS: string = "VIDEO_SUCCESS";
 const VIDEO_FAILURE: string = "VIDEO_FAILURE";
 
 export const types = {
-    VIDEO_REQUEST,
-    VIDEO_SUCCESS,
-    VIDEO_FAILURE,
+  VIDEO_REQUEST,
+  VIDEO_SUCCESS,
+  VIDEO_FAILURE,
 }
 export interface Video {
-    url: string;
-    thumbnail:string;
-    title:string;
-    userId: string;
+  url: string;
+  thumbnail: string;
+  title: string;
+  userId: string;
+  recieverEmail: string;
 }
 export interface VideoState {
   video?: Video;

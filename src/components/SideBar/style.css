@@ -10,7 +10,8 @@
 .OptionIcons{
     display: flex;
     flex-direction: row;
-    margin-top: 10px;
+    padding: 10px 0px;
+    border-bottom: 1px solid #fff;
     margin-bottom: 10px;
 }
 .IconNameStyling{

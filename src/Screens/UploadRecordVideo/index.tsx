@@ -18,6 +18,8 @@ import * as Constants from '../../constants/components/UploadRecord';
 import '../../../node_modules/react-tabs/style/react-tabs.css';
 import './style.css';
 
+const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
 type IProps = {
   auth: AuthState;
   history: any;
@@ -32,7 +34,8 @@ type IState = {
   videoRecord: any;
   name: any;
   urlRecord: string;
-  recordFile: any
+  recordFile: any;
+  recieverEmail: string;
 };
 const config = {
   bucketName: 'paractice',
@@ -57,7 +60,8 @@ class UploaadRecord extends Component<IProps, IState> {
       loading: false,
       videoRecord: '',
       name: '',
-      urlRecord: ''
+      urlRecord: '',
+      recieverEmail: '',
     };
   }
   titleNameHandler = (event: any) => {
@@ -65,47 +69,65 @@ class UploaadRecord extends Component<IProps, IState> {
       name: event.target.value
     })
   }
+  emailHandler = (event: any) => {
+    this.setState({
+      recieverEmail: event.target.value
+    })
+  }
   fileHandler = () => {
-    const that = this;
-    this.setState({ loading: true });
-    const file = {
-      name: this.state.files[0].name,
-      type: this.state.files[0].type,
-      size: this.state.files[0].size
+    if (reg.test(this.state.recieverEmail) === false) {
+      alert('Invalid Email')
     }
-    console.log("The File Name is:", file)
-    this.setState({ file })
-    let s3 = new AWS.S3(config)
-    var options = {
-      Bucket: config.bucketName,
-      ACL: config.ACL,
-      Key: Date.now().toString(),
-      Body: this.state.files[0]
-    };
-    s3.upload(options, function (err: any, data: any) {
-      if (err) {
-        throw err;
+    else if (this.state.recieverEmail) {
+      const that = this;
+      this.setState({ loading: true });
+      const file = {
+        name: this.state.files[0].name,
+        type: this.state.files[0].type,
+        size: this.state.files[0].size
       }
-      that.setState({ url: data.Location })
-      console.log('The S3 Bucket Data is:', data.Location)
-      const { name } = that.state.file;
-      const title = name;
-      const url = that.state.url;
-      const thumbnail = 'dummy';
-      const userId = that.props.auth.user!.user!._id
-      console.log('Ok')
-      const video = {
-        url,
-        thumbnail,
-        title,
-        userId,
-      }
-      that.props.addVideo(video)
-      that.setState({ loading: false });
-    });
+      console.log("The File Name is:", file)
+      this.setState({ file })
+      let s3 = new AWS.S3(config)
+      var options = {
+        Bucket: config.bucketName,
+        ACL: config.ACL,
+        Key: Date.now().toString(),
+        Body: this.state.files[0]
+      };
+      s3.upload(options, function (err: any, data: any) {
+        if (err) {
+          throw err;
+        }
+        that.setState({ url: data.Location })
+        console.log('The S3 Bucket Data is:', data.Location)
+        const { name } = that.state.file;
+        const title = name;
+        const url = that.state.url;
+        const thumbnail = 'dummy';
+        const userId = that.props.auth.user!.user!._id;
+        const recieverEmail = that.state.recieverEmail;
+        console.log('Ok')
+        const video = {
+          url,
+          thumbnail,
+          title,
+          userId,
+          recieverEmail
+        }
+        that.props.addVideo(video)
+        that.setState({ loading: false });
+      });
+    }
+    else {
+      alert('Fill the field first')
+    }
   }
   submit = () => {
-    if (this.state.name) {
+    if (reg.test(this.state.recieverEmail) === false) {
+      alert('Invalid Email')
+    }
+    else if (this.state.name && this.state.recieverEmail) {
       const that = this;
       this.setState({ loading: true });
       let file = {
@@ -133,20 +155,22 @@ class UploaadRecord extends Component<IProps, IState> {
         const title = that.state.name;
         const url = that.state.urlRecord;
         const thumbnail = 'dummy';
-        const userId = that.props.auth.user!.user!._id
+        const userId = that.props.auth.user!.user!._id;
+        const recieverEmail = that.state.recieverEmail;
         console.log('Ok')
         const video = {
           url,
           thumbnail,
           title,
           userId,
+          recieverEmail
         }
         that.props.addVideo(video)
         that.setState({ loading: false });
       });
     }
     else {
-      alert('Please Select The Title First')
+      alert('Fill the field first')
     }
   }
   render() {
@@ -184,6 +208,15 @@ class UploaadRecord extends Component<IProps, IState> {
                                 <li key={file.name}>
                                   {file.name} - {file.size} bytes
                               </li>
+                                <Form id="formInput">
+                                  <FormGroup>
+                                    <Label for="exampleEmail" style={{ fontWeight: 'bold' }}>{Constants.SENDER_ADDRESS}</Label>
+                                    <Input type="text" name="firstName" id="typeInput" placeholder=""
+                                      value={this.state.recieverEmail}
+                                      onChange={this.emailHandler}
+                                    />
+                                  </FormGroup>
+                                </Form>
                                 <Button color="secondary" onClick={() => { this.fileHandler() }}>{Constants.SEND_THROUGH_EMAIL}</Button>
                               </>
                             ))
@@ -210,6 +243,13 @@ class UploaadRecord extends Component<IProps, IState> {
                             <Input type="text" name="firstName" id="typeInput" placeholder=""
                               value={this.state.name}
                               onChange={this.titleNameHandler}
+                            />
+                          </FormGroup>
+                          <FormGroup>
+                            <Label for="exampleEmail">{Constants.SENDER_ADDRESS}</Label>
+                            <Input type="text" name="firstName" id="typeInput" placeholder=""
+                              value={this.state.recieverEmail}
+                              onChange={this.emailHandler}
                             />
                           </FormGroup>
                           <Button color="secondary" onClick={() => { this.submit() }}>{Constants.SEND_THROUGH_EMAIL}</Button>

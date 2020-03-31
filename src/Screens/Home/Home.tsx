@@ -69,11 +69,13 @@ class Home extends Component<IProps, IState> {
     const url = this.state.url;
     const thumbnail = 'dummy';
     const userId = '5e592c5bac9cd60024085779'
+    const recieverEmail = 'test22@gmail.com'
     const video = {
       url,
       thumbnail,
       title,
       userId,
+      recieverEmail
     }
     this.props.addVideo(video)
   }
@@ -113,9 +115,6 @@ class Home extends Component<IProps, IState> {
                 <Row>
                   <Col xs="9">
                     <VedioComponent history={this.props.history} />
-                  </Col>
-                  <Col xs="3">
-                    <input type='file' onChange={this.fileHandler} id="videoTypeInput" />
                   </Col>
                 </Row>
               </div>

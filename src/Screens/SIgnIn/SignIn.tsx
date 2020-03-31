@@ -7,6 +7,7 @@ import './style.css';
 import * as Constants from '../../constants/components/SignIn';
 import Loading from '../../components/Loading';
 import { constants } from 'buffer';
+import color from '@material-ui/core/colors/amber';
 
 const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -85,45 +86,52 @@ class SignIn extends Component<IProps, IState> {
                   <p className='create' >{Constants.CREATE_NEW}</p>
                 </div>
               </div>
-              <div style={{ marginLeft: '35%', opacity: 0.5 }}>
+              <div style={{ marginLeft: '15%', opacity: 0.5 }}>
                 {loading ? <Loading /> : null}
               </div>
-              <Form id="formInput" style={{ margin: 25, width: '85%' }}>
+              <Form style={{ margin: 5, width: '85%' }}>
                 <FormGroup>
                   <Label for="exampleEmail" style={{ fontWeight: 'bold' }}>{Constants.EMAIL}</Label>
                   <div className="textInput">
-                    <Input type="text" name="email" id="typeInput" placeholder=""
+                    <Input type="text" name="email" id="email" placeholder="Email address"
                       onChange={this.usernameHandler}
+                      style={{ borderRadius: '10rem', borderWidth: 0, borderColor: 'white', boxShadow: 'white' }}
+
                     />
                     <i className="w3-xxlarge fa fa-user" style={{ width: '5%', margin: 10 }}></i>
                   </div>
                 </FormGroup>
-                {emailError &&
-                  <Alert color="danger">
-                    {Constants.EMAIL_ERROR}
-                  </Alert>
-                }
-                {invalidEmailError &&
-                  <Alert color="danger">
-                    {Constants.EMAIL_INVALID}
-                  </Alert>
-                }
+                <div style={{ width: '69%' }}>
+                  {emailError &&
+                    <Alert color="danger">
+                      {Constants.EMAIL_ERROR}
+                    </Alert>
+                  }
+                  {invalidEmailError &&
+                    <Alert color="danger">
+                      {Constants.EMAIL_INVALID}
+                    </Alert>
+                  }
+                </div>
                 <FormGroup>
                   <Label for="examplePassword" style={{ fontWeight: 'bold' }}>{Constants.PASSWORD}</Label>
                   <div className="textInput">
-                    <Input type="password" name="password" id="typeInput" placeholder="Password"
+                    <Input type="password" name="password" id="password" placeholder="Password"
                       onChange={this.passwordHandler}
+                      style={{ borderRadius: '10rem', borderWidth: 0, borderColor: 'white', boxShadow: 'white' }}
                     />
                     <i className="w3-xxlarge fa fa-key" style={{ width: '5%', margin: 10 }}></i>
                   </div>
                 </FormGroup>
-                {passwordError &&
-                  <Alert color="danger">
-                    {Constants.PASSWORD_ERROR}
-                  </Alert>
-                }
+                <div style={{ width: '69%' }}>
+                  {passwordError &&
+                    <Alert color="danger">
+                      {Constants.PASSWORD_ERROR}
+                    </Alert>
+                  }
+                </div>
                 <div className='buttonWrapper'>
-                  <Button color='#9F55FF' onClick={this.loginHandler} style={{ backgroundColor: '#9F55FF', width: '100%', color: 'white' }}>{Constants.LOGIN}</Button>
+                  <Button color='#9F55FF' onClick={this.loginHandler} style={{ backgroundColor: '#9F55FF', width: '100%', color: 'white',borderRadius: '10rem' }}>{Constants.LOGIN}</Button>
                 </div>
               </Form>
             </div>

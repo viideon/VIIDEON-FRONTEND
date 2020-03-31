@@ -13,11 +13,11 @@ type IState = {
 class VideoReplies extends Component<IProps, IState>  {
   render() {
     return (
-      <div style={{ marginTop: '10%' }}>
+      <div style={{ marginTop: '10%', marginLeft: '4%' }}>
         <FormGroup row>
           <Label for="exampleSelect" sm={2}>{Constants.COMMENTS}</Label>
           <Col sm={10}>
-            <Input type="select" name="select" id="exampleSelect">
+            <Input type="select" name="select" id="exampleSelect" style={{ width: '70%', marginRight: '5%' }}>
               <option>{Constants.OPTION_1}</option>
               <option>{Constants.OPTION_2}</option>
               <option>{Constants.OPTION_3}</option>

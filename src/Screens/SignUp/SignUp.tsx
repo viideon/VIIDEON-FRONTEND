@@ -153,12 +153,13 @@ class SignUp extends Component<IProps, IState> {
               <div style={{ marginLeft: '35%', opacity: 0.5 }}>
                 {loading ? <Loading /> : null}
               </div>
-              <Form id="formInput" style={{ margin: 25, width: '85%' }}>
+              <Form style={{ margin: 5, width: '85%' }}>
                 <FormGroup>
                   <Label for="exampleEmail" style={{ fontWeight: 'bold' }}>{Constants.EMAIL}</Label>
-                  <div className="textInput">
+                  <div className="textInpu1">
                     <Input type="text" name="email" id="typeInput" placeholder="Enter Your business e-mail"
                       onChange={this.emailHandler}
+                      style={{ borderRadius: '10rem', borderWidth: 0, borderColor: 'white', boxShadow: 'white' }}
                     />
                   </div>
                 </FormGroup>
@@ -175,7 +176,7 @@ class SignUp extends Component<IProps, IState> {
                 {
                   this.state.showNext &&
                   <div className='buttonWrapper'>
-                    <Button color='#9F55FF' onClick={this.nextHandler} style={{ backgroundColor: '#9F55FF', width: '100%', color: 'white' }}>{Constants.NEXT}</Button>
+                    <Button color='#9F55FF' onClick={this.nextHandler} style={{ backgroundColor: '#9F55FF', width: '100%', color: 'white',borderRadius: '10rem' }}>{Constants.NEXT}</Button>
                   </div>
                 }
                 {
@@ -183,8 +184,9 @@ class SignUp extends Component<IProps, IState> {
                   <>
                     <FormGroup>
                       <Label for="exampleEmail" >{Constants.FIRSTNAME}</Label>
-                      <div className="textInput">
+                      <div className="textInpu1">
                         <Input type="email" name="firstName" id="exampleEmail" placeholder="First Name"
+                          style={{ borderRadius: '10rem', borderWidth: 0, borderColor: 'white', boxShadow: 'white' }}
                           onChange={this.firstNameHandler}
                         />
                       </div>
@@ -196,8 +198,9 @@ class SignUp extends Component<IProps, IState> {
                     }
                     <FormGroup>
                       <Label for="exampleEmail" >{Constants.LASTNAME}</Label>
-                      <div className="textInput">
+                      <div className="textInpu1">
                         <Input type="email" name="lastName" id="exampleEmail" placeholder="Last Name"
+                          style={{ borderRadius: '10rem', borderWidth: 0, borderColor: 'white', boxShadow: 'white' }}
                           onChange={this.lastNameHandler}
                         />
                       </div>
@@ -209,8 +212,9 @@ class SignUp extends Component<IProps, IState> {
                     }
                     <FormGroup>
                       <Label for="exampleEmail" >{Constants.USERNAME}</Label>
-                      <div className="textInput">
+                      <div className="textInpu1">
                         <Input type="email" name="userName" id="exampleEmail" placeholder="UserName"
+                          style={{ borderRadius: '10rem', borderWidth: 0, borderColor: 'white', boxShadow: 'white' }}
                           onChange={this.userNameHandler}
                         />
                       </div>
@@ -222,8 +226,9 @@ class SignUp extends Component<IProps, IState> {
                     }
                     <FormGroup>
                       <Label for="examplePassword" >{Constants.PASSWORD}</Label>
-                      <div className="textInput">
+                      <div className="textInpu1">
                         <Input type="password" name="password" id="examplePassword" placeholder="Password"
+                          style={{ borderRadius: '10rem', borderWidth: 0, borderColor: 'white', boxShadow: 'white' }}
                           onChange={this.passwordHandler}
                         />
                       </div>
@@ -235,8 +240,9 @@ class SignUp extends Component<IProps, IState> {
                     }
                     <FormGroup>
                       <Label for="examplePassword" >{Constants.CONFIRM_PASSWORD}</Label>
-                      <div className="textInput">
+                      <div className="textInpu1">
                         <Input type="password" name="confirmPassword" id="examplePassword" placeholder="Confrim Password"
+                          style={{ borderRadius: '10rem', borderWidth: 0, borderColor: 'white', boxShadow: 'white' }}
                           onChange={this.confirmPasswordHandler}
                         />
                       </div>
@@ -252,7 +258,7 @@ class SignUp extends Component<IProps, IState> {
                       </Alert>
                     }
                     <div className='buttonWrapper'>
-                      <Button color='#9F55FF' onClick={this.registerHandler} style={{ backgroundColor: '#9F55FF', width: '100%', color: 'white' }}>{Constants.REGISTER}</Button>
+                      <Button color='#9F55FF' onClick={this.registerHandler} style={{ backgroundColor: '#9F55FF', width: '100%', color: 'white',borderRadius: '10rem' }}>{Constants.REGISTER}</Button>
                     </div>
                   </>
                 }

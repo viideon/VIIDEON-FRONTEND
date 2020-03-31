@@ -1,7 +1,7 @@
 export const EMAIL = 'E-MAIL ADDRESS';
-export const EMAIL_ERROR = 'Email Not Empty';
-export const EMAIL_INVALID = 'Email Invalid';
-export const PASSWORD = 'Password';
+export const EMAIL_ERROR = 'Enter your email';
+export const EMAIL_INVALID = 'Invalid email';
+export const PASSWORD = 'PASSWORD';
 export const PASSWORD_ERROR = 'Password Not Empty';
 export const LOGIN = 'Login';
 export const DONT_HAVE_ACCOUNT = "Don't Have Account?";

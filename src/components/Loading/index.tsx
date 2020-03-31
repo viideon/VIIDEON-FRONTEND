@@ -4,7 +4,7 @@ type IProps = {
 
 };
 const Loading: FC<IProps> = ({ }) => (
-    <ReactLoading type={"spin"} color={"red"} height={'15%'} width={'15%'} />
+    <ReactLoading type={"spin"} color={"red"} height={'10%'} width={'10%'} />
 );
 
 export default Loading;

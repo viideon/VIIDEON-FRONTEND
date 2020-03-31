@@ -5,7 +5,7 @@
 }
 .firstLayoutMainContainer
 {
-    padding-left: 20%;
+    padding-left: 10%;
 }
 .signUp{
   padding-top: 15%;
@@ -42,23 +42,24 @@
     font-size: 20px;
     color: #9F55FF;
     font-weight: bold;
+    cursor: pointer ;
 }
 .textInput{
     display: flex;
     width: 70%;
     border-style: solid;
-    border-width: 7px;
+    border-width: 2px;
     border-color: #9F55FF;
-    border-radius: 10px;
+    border-radius: 10rem;
     justify-content: space-between;
 }
 .buttonWrapper{
     margin-top: 20px;
     width: 30%;
     border-style: solid;
-    border-width: 5px;
+    border-width: 3px;
     border-color: #9F55FF;
-    border-radius: 10px; 
+    border-radius: 10rem; 
 }
 /* .MainContainer{
     width: 30%;
