@@ -13,3 +13,7 @@
     color: #3598DC;
     margin-bottom: 20px;
 }
+.mainWrapperComponent{
+    display: flex;
+    justify-content: space-between;
+}

@@ -10,7 +10,7 @@ const authReducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 loading: true,
-                loginError:false
+                loginError: false
             };
         case types.LOGIN_SUCCESS:
             console.log("in reducer", action.payload)
@@ -28,6 +28,12 @@ const authReducer = (state = initialState, action: any) => {
                 loggedInStatus: false,
                 loading: false,
                 loginError: action.payload.message,
+            };
+        case types.LOUGOUT:
+            return {
+                ...state,
+                loggedInStatus: false,
+                loading: false,
             };
         default: {
             return { ...state };

@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Label, Input, Alert, Row, Col } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Alert, Row, Col, Container } from 'reactstrap';
 import { connect } from 'react-redux';
 import { loginUser } from '../../Redux/Actions/auth';
 import { AuthState, User } from '../../Redux/Types/auth';
 import './style.css';
 import * as Constants from '../../constants/components/SignIn';
 import Loading from '../../components/Loading';
-import { constants } from 'buffer';
-import color from '@material-ui/core/colors/amber';
 
 const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -65,78 +63,82 @@ class SignIn extends Component<IProps, IState> {
     const { emailError, passwordError, invalidEmailError } = this.state;
     return (
       <>
-        <Row xs="2">
-          <Col xs="7">
-            <div className='firstLayoutContainer'>
-              <div className='firstLayoutMainContainer'>
+        <Container fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
+          <Row>
+            <Col sm="7">
+              <div className='firstLayoutContainer'>
+                <div className='firstLayoutMainContainer'>
 
-                <p className='signUp'>{Constants.SIGNUP_TO}</p>
-                <p className='logo'>{Constants.VIDIONPRO}</p>
-                <p className='login'>{Constants.LOGIN_TO_ACCOUNT}</p>
-              </div>
-            </div>
-
-          </Col >
-          <Col xs="5">
-            <div className='secondLayoutMainContainer'>
-              <p className='loginTwo'>{Constants.LOGIN}</p>
-              <div className='createAccount'>
-                <p className="account">{Constants.DONT_HAVE_ACCOUNT_YET}</p>
-                <div onClick={() => { this.props.history.push('/signup') }}>
-                  <p className='create' >{Constants.CREATE_NEW}</p>
+                  <p className='signUp'>{Constants.SIGNUP_TO}</p>
+                  <p className='logo'>{Constants.VIDIONPRO}</p>
+                  <p className='login'>{Constants.LOGIN_TO_ACCOUNT}</p>
                 </div>
               </div>
-              <div style={{ marginLeft: '15%', opacity: 0.5 }}>
-                {loading ? <Loading /> : null}
-              </div>
-              <Form style={{ margin: 5, width: '85%' }}>
-                <FormGroup>
-                  <Label for="exampleEmail" style={{ fontWeight: 'bold' }}>{Constants.EMAIL}</Label>
-                  <div className="textInput">
-                    <Input type="text" name="email" id="email" placeholder="Email address"
-                      onChange={this.usernameHandler}
-                      style={{ borderRadius: '10rem', borderWidth: 0, borderColor: 'white', boxShadow: 'white' }}
 
-                    />
-                    <i className="w3-xxlarge fa fa-user" style={{ width: '5%', margin: 10 }}></i>
+            </Col >
+            <Col sm="5">
+              <div className='secondLayoutMainContainer'>
+                <p className='loginTwo'>{Constants.LOGIN}</p>
+                <div className='createAccount'>
+                  <p className="account">{Constants.DONT_HAVE_ACCOUNT_YET}</p>
+                  <div onClick={() => { this.props.history.push('/signup') }}>
+                    <p className='create' >{Constants.CREATE_NEW}</p>
                   </div>
-                </FormGroup>
-                <div style={{ width: '69%' }}>
-                  {emailError &&
-                    <Alert color="danger">
-                      {Constants.EMAIL_ERROR}
-                    </Alert>
-                  }
-                  {invalidEmailError &&
-                    <Alert color="danger">
-                      {Constants.EMAIL_INVALID}
-                    </Alert>
-                  }
                 </div>
-                <FormGroup>
-                  <Label for="examplePassword" style={{ fontWeight: 'bold' }}>{Constants.PASSWORD}</Label>
-                  <div className="textInput">
-                    <Input type="password" name="password" id="password" placeholder="Password"
-                      onChange={this.passwordHandler}
-                      style={{ borderRadius: '10rem', borderWidth: 0, borderColor: 'white', boxShadow: 'white' }}
-                    />
-                    <i className="w3-xxlarge fa fa-key" style={{ width: '5%', margin: 10 }}></i>
+                <div style={{ marginLeft: '35%', opacity: 0.5 }}>
+                  {loading ? <Loading /> : null}
+                </div>
+                <Form style={{ margin: 5, width: '85%' }}>
+                  <FormGroup>
+                    <Label for="exampleEmail" style={{ fontWeight: 'bold' }}>{Constants.EMAIL}</Label>
+                    <div className="textInput">
+                      <Input type="text" name="email" id="email" placeholder="Email address"
+                        onChange={this.usernameHandler}
+                        style={{ borderRadius: '10rem', borderWidth: 0, borderColor: 'white', boxShadow: 'white' }}
+
+                      />
+                      <i className="w3-xxlarge fa fa-user" style={{ width: '5%', margin: 10 }}></i>
+                    </div>
+                  </FormGroup>
+                  <div style={{ width: '69%' }}>
+                    {emailError &&
+                      <Alert color="danger">
+                        {Constants.EMAIL_ERROR}
+                      </Alert>
+                    }
+                    {invalidEmailError &&
+                      <Alert color="danger">
+                        {Constants.EMAIL_INVALID}
+                      </Alert>
+                    }
                   </div>
-                </FormGroup>
-                <div style={{ width: '69%' }}>
-                  {passwordError &&
-                    <Alert color="danger">
-                      {Constants.PASSWORD_ERROR}
-                    </Alert>
-                  }
-                </div>
-                <div className='buttonWrapper'>
-                  <Button color='#9F55FF' onClick={this.loginHandler} style={{ backgroundColor: '#9F55FF', width: '100%', color: 'white',borderRadius: '10rem' }}>{Constants.LOGIN}</Button>
-                </div>
-              </Form>
-            </div>
-          </Col>
-        </Row>
+                  <FormGroup>
+                    <Label for="examplePassword" style={{ fontWeight: 'bold' }}>{Constants.PASSWORD}</Label>
+                    <div className="textInput">
+                      <Input type="password" name="password" id="password" placeholder="Password"
+                        onChange={this.passwordHandler}
+                        style={{ borderRadius: '10rem', borderWidth: 0, borderColor: 'white', boxShadow: 'white' }}
+                      />
+                      <i className="w3-xxlarge fa fa-key" style={{ width: '5%', margin: 10 }}></i>
+                    </div>
+                  </FormGroup>
+                  <div style={{ width: '69%' }}>
+                    {passwordError &&
+                      <Alert color="danger">
+                        {Constants.PASSWORD_ERROR}
+                      </Alert>
+                    }
+                  </div>
+                  <div className='mainWrapperLayout'>
+                    <p className="forgotPassword">Forget your Password</p>
+
+                    <Button color='#9F55FF' onClick={this.loginHandler} style={{ marginTop: 18, backgroundColor: '#9F55FF', width: '30%', height: 50, color: 'white', borderRadius: '10rem' }}>{Constants.LOGIN}</Button>
+                  </div>
+                </Form>
+              </div>
+            </Col>
+          </Row>
+        </Container>
       </>
     );
   }

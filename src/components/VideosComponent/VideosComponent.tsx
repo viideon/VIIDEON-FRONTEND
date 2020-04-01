@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col } from 'reactstrap';
 import VideoCard from '../VideoCard/VideoCard';
 import "../../../node_modules/video-react/dist/video-react.css";
-
+import RecordOption from '../../components/RecordOption';
 import './styles.css';
 
 type IProps = {
@@ -20,7 +20,10 @@ class VedioComponent extends Component<IProps, IState> {
     return (
       <>
         <div className='VideoComponent'>
-          <h4 className='Header'>MY VIDEOS</h4>
+          <div className='mainWrapperComponent'>
+            <h4 className='Header'>MY VIDEOS</h4>
+            <RecordOption history={this.props.history} />
+          </div>
           <Row>
             <Col sm="4">
               <VideoCard

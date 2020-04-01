@@ -12,9 +12,12 @@ function* userVideo(action: any) {
         else {
             yield put({ type: types.VIDEO_FAILURE, payload: result.message });
             // alert(result.message.message.toString());
-            alert("Error")
+            alert("Something Went Wrong")
+
         }
     } catch (error) {
+        yield put({ type: types.VIDEO_FAILURE, payload: error });
+        alert("Something Went Wrong")
         console.log(error);
     }
 }

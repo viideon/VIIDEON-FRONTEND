@@ -6,4 +6,9 @@ export function loginUser(user: User): LoginAction {
         payload: user
     };
 }
-
+export function logout(user: User): LoginAction {
+    return {
+        type: types.LOUGOUT,
+        payload: user
+    };
+}

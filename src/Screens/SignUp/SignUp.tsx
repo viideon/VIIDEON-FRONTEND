@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Label, Input, Alert, Row, Col } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Alert, Row, Col, Container } from 'reactstrap';
 import { connect } from 'react-redux';
 import { registerUser } from '../../Redux/Actions/register';
 import { RegisterState } from '../../Redux/Types/register';
@@ -123,149 +123,151 @@ class SignUp extends Component<IProps, IState> {
     const { firstError, lastError, emailError, passwordError, confirmPasswordError, c_passwordError, invalidEmailError, userNameError } = this.state;
     return (
       <>
-        <Row xs="2">
-          <Col xs="7">
-            {
-              this.state.next ?
-                <div className='firstStateLayoutContainer'>
-                  <div className='firstLayoutMainContainer'>
-                    <p className='signUp'>{Constants.SIGNUP_TO}</p>
-                    <p className='logo'>{Constants.VIDIONPRO}</p>
-                  </div>
-                </div> :
-                <div className='firstLayoutContainer'>
-                  <div className='firstLayoutMainContainer'>
-                    <p className='signUp'>{Constants.SIGNUP_TO}</p>
-                    <p className='logo'>{Constants.VIDIONPRO}</p>
-                  </div>
-                </div>
-            }
-          </Col >
-          <Col xs="5">
-            <div className='secondLayoutMainContainer'>
-              <p className='loginTwo'>{Constants.REGISTER}</p>
-              <div className='createAccount'>
-                <p className="account">{Constants.ALREADY_HAD_ACCOUNT}</p>
-                <div onClick={() => { this.props.history.push('/') }}>
-                  <p className='create' >{Constants.LOGIN_HERE}</p>
-                </div>
-              </div>
-              <div style={{ marginLeft: '35%', opacity: 0.5 }}>
-                {loading ? <Loading /> : null}
-              </div>
-              <Form style={{ margin: 5, width: '85%' }}>
-                <FormGroup>
-                  <Label for="exampleEmail" style={{ fontWeight: 'bold' }}>{Constants.EMAIL}</Label>
-                  <div className="textInpu1">
-                    <Input type="text" name="email" id="typeInput" placeholder="Enter Your business e-mail"
-                      onChange={this.emailHandler}
-                      style={{ borderRadius: '10rem', borderWidth: 0, borderColor: 'white', boxShadow: 'white' }}
-                    />
-                  </div>
-                </FormGroup>
-                {emailError &&
-                  <Alert color="danger">
-                    {Constants.EMAIL_ERROR}
-                  </Alert>
-                }
-                {invalidEmailError &&
-                  <Alert color="danger">
-                    {Constants.EMAIL_INVALID}
-                  </Alert>
-                }
-                {
-                  this.state.showNext &&
-                  <div className='buttonWrapper'>
-                    <Button color='#9F55FF' onClick={this.nextHandler} style={{ backgroundColor: '#9F55FF', width: '100%', color: 'white',borderRadius: '10rem' }}>{Constants.NEXT}</Button>
-                  </div>
-                }
-                {
-                  this.state.next &&
-                  <>
-                    <FormGroup>
-                      <Label for="exampleEmail" >{Constants.FIRSTNAME}</Label>
-                      <div className="textInpu1">
-                        <Input type="email" name="firstName" id="exampleEmail" placeholder="First Name"
-                          style={{ borderRadius: '10rem', borderWidth: 0, borderColor: 'white', boxShadow: 'white' }}
-                          onChange={this.firstNameHandler}
-                        />
-                      </div>
-                    </FormGroup>
-                    {firstError &&
-                      <Alert color="danger">
-                        {Constants.FIRSTNAME_ERROR}
-                      </Alert>
-                    }
-                    <FormGroup>
-                      <Label for="exampleEmail" >{Constants.LASTNAME}</Label>
-                      <div className="textInpu1">
-                        <Input type="email" name="lastName" id="exampleEmail" placeholder="Last Name"
-                          style={{ borderRadius: '10rem', borderWidth: 0, borderColor: 'white', boxShadow: 'white' }}
-                          onChange={this.lastNameHandler}
-                        />
-                      </div>
-                    </FormGroup>
-                    {lastError &&
-                      <Alert color="danger">
-                        {Constants.LASTNAME_ERROR}
-                      </Alert>
-                    }
-                    <FormGroup>
-                      <Label for="exampleEmail" >{Constants.USERNAME}</Label>
-                      <div className="textInpu1">
-                        <Input type="email" name="userName" id="exampleEmail" placeholder="UserName"
-                          style={{ borderRadius: '10rem', borderWidth: 0, borderColor: 'white', boxShadow: 'white' }}
-                          onChange={this.userNameHandler}
-                        />
-                      </div>
-                    </FormGroup>
-                    {userNameError &&
-                      <Alert color="danger">
-                        {Constants.USERNAME_ERROR}
-                      </Alert>
-                    }
-                    <FormGroup>
-                      <Label for="examplePassword" >{Constants.PASSWORD}</Label>
-                      <div className="textInpu1">
-                        <Input type="password" name="password" id="examplePassword" placeholder="Password"
-                          style={{ borderRadius: '10rem', borderWidth: 0, borderColor: 'white', boxShadow: 'white' }}
-                          onChange={this.passwordHandler}
-                        />
-                      </div>
-                    </FormGroup>
-                    {passwordError &&
-                      <Alert color="danger">
-                        {Constants.PASSWORD_ERROR}
-                      </Alert>
-                    }
-                    <FormGroup>
-                      <Label for="examplePassword" >{Constants.CONFIRM_PASSWORD}</Label>
-                      <div className="textInpu1">
-                        <Input type="password" name="confirmPassword" id="examplePassword" placeholder="Confrim Password"
-                          style={{ borderRadius: '10rem', borderWidth: 0, borderColor: 'white', boxShadow: 'white' }}
-                          onChange={this.confirmPasswordHandler}
-                        />
-                      </div>
-                    </FormGroup>
-                    {confirmPasswordError &&
-                      <Alert color="danger">
-                        {Constants.CONFIRM_ERROR}
-                      </Alert>
-                    }
-                    {c_passwordError &&
-                      <Alert color="danger">
-                        {Constants.PASSWORD_MATCHING}
-                      </Alert>
-                    }
-                    <div className='buttonWrapper'>
-                      <Button color='#9F55FF' onClick={this.registerHandler} style={{ backgroundColor: '#9F55FF', width: '100%', color: 'white',borderRadius: '10rem' }}>{Constants.REGISTER}</Button>
+        <Container fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
+          <Row xs="2">
+            <Col xs="7">
+              {
+                this.state.next ?
+                  <div className='firstStateLayoutContainer'>
+                    <div className='firstLayoutMainContainer'>
+                      <p className='signUp'>{Constants.SIGNUP_TO}</p>
+                      <p className='logo'>{Constants.VIDIONPRO}</p>
                     </div>
-                  </>
-                }
-              </Form>
-            </div>
-          </Col>
-        </Row>
+                  </div> :
+                  <div className='firstLayoutContainer'>
+                    <div className='firstLayoutMainContainer'>
+                      <p className='signUp'>{Constants.SIGNUP_TO}</p>
+                      <p className='logo'>{Constants.VIDIONPRO}</p>
+                    </div>
+                  </div>
+              }
+            </Col >
+            <Col xs="5">
+              <div className='secondLayoutMainContainer'>
+                <p className='loginTwo'>{Constants.REGISTER}</p>
+                <div className='createAccount'>
+                  <p className="account">{Constants.ALREADY_HAD_ACCOUNT}</p>
+                  <div onClick={() => { this.props.history.push('/') }}>
+                    <p className='create' >{Constants.LOGIN_HERE}</p>
+                  </div>
+                </div>
+                <div style={{ marginLeft: '35%', opacity: 0.5 }}>
+                  {loading ? <Loading /> : null}
+                </div>
+                <Form style={{ margin: 5, width: '85%' }}>
+                  <FormGroup>
+                    <Label for="exampleEmail" style={{ fontWeight: 'bold' }}>{Constants.EMAIL}</Label>
+                    <div className="textInpu1">
+                      <Input type="text" name="email" id="typeInput" placeholder="Enter Your business e-mail"
+                        onChange={this.emailHandler}
+                        style={{ borderRadius: '10rem', borderWidth: 0, borderColor: 'white', boxShadow: 'white' }}
+                      />
+                    </div>
+                  </FormGroup>
+                  {emailError &&
+                    <Alert color="danger">
+                      {Constants.EMAIL_ERROR}
+                    </Alert>
+                  }
+                  {invalidEmailError &&
+                    <Alert color="danger">
+                      {Constants.EMAIL_INVALID}
+                    </Alert>
+                  }
+                  {
+                    this.state.showNext &&
+                    <div className='buttonWrapper'>
+                      <Button color='#9F55FF' onClick={this.nextHandler} style={{ backgroundColor: '#9F55FF', width: '100%', color: 'white', borderRadius: '10rem' }}>{Constants.NEXT}</Button>
+                    </div>
+                  }
+                  {
+                    this.state.next &&
+                    <>
+                      <FormGroup>
+                        <Label for="exampleEmail" >{Constants.FIRSTNAME}</Label>
+                        <div className="textInpu1">
+                          <Input type="email" name="firstName" id="exampleEmail" placeholder="First Name"
+                            style={{ borderRadius: '10rem', borderWidth: 0, borderColor: 'white', boxShadow: 'white' }}
+                            onChange={this.firstNameHandler}
+                          />
+                        </div>
+                      </FormGroup>
+                      {firstError &&
+                        <Alert color="danger">
+                          {Constants.FIRSTNAME_ERROR}
+                        </Alert>
+                      }
+                      <FormGroup>
+                        <Label for="exampleEmail" >{Constants.LASTNAME}</Label>
+                        <div className="textInpu1">
+                          <Input type="email" name="lastName" id="exampleEmail" placeholder="Last Name"
+                            style={{ borderRadius: '10rem', borderWidth: 0, borderColor: 'white', boxShadow: 'white' }}
+                            onChange={this.lastNameHandler}
+                          />
+                        </div>
+                      </FormGroup>
+                      {lastError &&
+                        <Alert color="danger">
+                          {Constants.LASTNAME_ERROR}
+                        </Alert>
+                      }
+                      <FormGroup>
+                        <Label for="exampleEmail" >{Constants.USERNAME}</Label>
+                        <div className="textInpu1">
+                          <Input type="email" name="userName" id="exampleEmail" placeholder="UserName"
+                            style={{ borderRadius: '10rem', borderWidth: 0, borderColor: 'white', boxShadow: 'white' }}
+                            onChange={this.userNameHandler}
+                          />
+                        </div>
+                      </FormGroup>
+                      {userNameError &&
+                        <Alert color="danger">
+                          {Constants.USERNAME_ERROR}
+                        </Alert>
+                      }
+                      <FormGroup>
+                        <Label for="examplePassword" >{Constants.PASSWORD}</Label>
+                        <div className="textInpu1">
+                          <Input type="password" name="password" id="examplePassword" placeholder="Password"
+                            style={{ borderRadius: '10rem', borderWidth: 0, borderColor: 'white', boxShadow: 'white' }}
+                            onChange={this.passwordHandler}
+                          />
+                        </div>
+                      </FormGroup>
+                      {passwordError &&
+                        <Alert color="danger">
+                          {Constants.PASSWORD_ERROR}
+                        </Alert>
+                      }
+                      <FormGroup>
+                        <Label for="examplePassword" >{Constants.CONFIRM_PASSWORD}</Label>
+                        <div className="textInpu1">
+                          <Input type="password" name="confirmPassword" id="examplePassword" placeholder="Confrim Password"
+                            style={{ borderRadius: '10rem', borderWidth: 0, borderColor: 'white', boxShadow: 'white' }}
+                            onChange={this.confirmPasswordHandler}
+                          />
+                        </div>
+                      </FormGroup>
+                      {confirmPasswordError &&
+                        <Alert color="danger">
+                          {Constants.CONFIRM_ERROR}
+                        </Alert>
+                      }
+                      {c_passwordError &&
+                        <Alert color="danger">
+                          {Constants.PASSWORD_MATCHING}
+                        </Alert>
+                      }
+                      <div className='buttonWrapper1'>
+                        <Button color='#9F55FF' onClick={this.registerHandler} style={{ backgroundColor: '#9F55FF', width: '100%', color: 'white', borderRadius: '10rem' }}>{Constants.REGISTER}</Button>
+                      </div>
+                    </>
+                  }
+                </Form>
+              </div>
+            </Col>
+          </Row>
+        </Container>
       </>
     );
   }

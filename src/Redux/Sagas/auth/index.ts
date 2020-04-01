@@ -13,12 +13,13 @@ function* loginUser(action: any) {
         else {
             yield put({ type: types.LOGIN_FAILURE, payload: result.message });
             // alert(result.message.message.toString());
-            alert("Error")
+            alert("please Try Again")
         }
     } catch (error) {
+        yield put({ type: types.LOGIN_FAILURE, payload: error });
         console.log(error);
+        alert("Invalid Credentials")
     }
-    yield put(push('/'));
 }
 export function* authWatcher() {
     yield takeEvery(types.LOGIN_REQUEST, loginUser);

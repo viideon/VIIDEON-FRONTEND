@@ -17,23 +17,21 @@ type IState = {
 class Routes extends Component<IProps, IState> {
   render() {
     return (
-      <div className="App">
-        {this.props.auth.loggedInStatus === true ? <Router>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/videotab" component={VideoTab} />
-            <Route exact path="/profile" component={Profile} />
-            <Route exact path="/video/create" component={UploadRecord} />
-          </Switch>
-        </Router> :
-          <Router>
+      <Router>
+          {this.props.auth.loggedInStatus === true ?
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/videotab" component={VideoTab} />
+              <Route exact path="/profile" component={Profile} />
+              <Route exact path="/video/create" component={UploadRecord} />
+            </Switch>
+            :
             <Switch>
               <Route exact path="/" component={SignIn} />
               <Route exact path="/signup" component={SignUp} />
             </Switch>
-          </Router>
-        }
-      </div>
+          }
+      </Router>
     );
   }
 };
@@ -44,5 +42,5 @@ const mapStateToProps = (state: any) => {
   };
 };
 export default connect(mapStateToProps)(Routes)
-// export default Routes;
+    // export default Routes;
 // export default App;
