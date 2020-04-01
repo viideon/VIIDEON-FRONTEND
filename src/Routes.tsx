@@ -20,15 +20,15 @@ class Routes extends Component<IProps, IState> {
       <Router>
           {this.props.auth.loggedInStatus === true ?
             <Switch>
-              <Route exact path="/" component={Home} />
               <Route exact path="/videotab" component={VideoTab} />
               <Route exact path="/profile" component={Profile} />
               <Route exact path="/video/create" component={UploadRecord} />
+              <Route exact path="/" component={Home} />
             </Switch>
             :
             <Switch>
-              <Route exact path="/" component={SignIn} />
               <Route exact path="/signup" component={SignUp} />
+              <Route path="/" component={SignIn} />
             </Switch>
           }
       </Router>

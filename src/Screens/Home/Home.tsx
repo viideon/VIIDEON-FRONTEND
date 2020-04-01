@@ -113,7 +113,7 @@ class Home extends Component<IProps, IState> {
               </div>
               <div>
                 <Row>
-                  <Col xs="9">
+                  <Col xs="12">
                     <VedioComponent history={this.props.history} />
                   </Col>
                 </Row>

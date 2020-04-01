@@ -21,7 +21,7 @@
 .IconComponents{
     display: flex;
     flex-direction: row;
-    flex: 1;
+    flex: 0.5;
 }
 .ImagePlusTag{
     margin-top: 20px;

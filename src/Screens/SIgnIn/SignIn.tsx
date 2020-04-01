@@ -88,7 +88,7 @@ class SignIn extends Component<IProps, IState> {
                 <div style={{ marginLeft: '35%', opacity: 0.5 }}>
                   {loading ? <Loading /> : null}
                 </div>
-                <Form style={{ margin: 5, width: '85%' }}>
+                <Form style={{ width: '80%' }}>
                   <FormGroup>
                     <Label for="exampleEmail" style={{ fontWeight: 'bold' }}>{Constants.EMAIL}</Label>
                     <div className="textInput">
@@ -132,7 +132,7 @@ class SignIn extends Component<IProps, IState> {
                   <div className='mainWrapperLayout'>
                     <p className="forgotPassword">Forget your Password</p>
 
-                    <Button color='#9F55FF' onClick={this.loginHandler} style={{ marginTop: 18, backgroundColor: '#9F55FF', width: '30%', height: 50, color: 'white', borderRadius: '10rem' }}>{Constants.LOGIN}</Button>
+                    <Button color='#9F55FF' onClick={this.loginHandler} style={{ marginTop: 18, backgroundColor: '#9F55FF', width: '40%', marginBottom:'10px', color: 'white', borderRadius: '10rem' }}>{Constants.LOGIN}</Button>
                   </div>
                 </Form>
               </div>

@@ -10,7 +10,7 @@ type IProps = {
 };
 type IState = {
 };
-class VedioComponent extends Component<IProps, IState> {
+class VideoComponent extends Component<IProps, IState> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -49,4 +49,4 @@ class VedioComponent extends Component<IProps, IState> {
     );
   }
 }
-export default VedioComponent
+export default VideoComponent

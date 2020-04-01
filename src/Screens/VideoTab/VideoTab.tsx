@@ -17,7 +17,7 @@ const VideoTab = () => {
     if (activeTab !== tab) setActiveTab(tab);
   }
   return (
-    <Container fluid>
+    <Container>
       <br /><br />
       <Header />
       <br /><br />

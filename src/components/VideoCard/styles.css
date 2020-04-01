@@ -5,3 +5,8 @@
 .video-react .video-react-big-play-button{
     width: 2em;
 }
+
+.VideoMain .card-title {
+    font-weight: bold;
+    font-size: 14px;
+}

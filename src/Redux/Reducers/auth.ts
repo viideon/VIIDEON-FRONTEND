@@ -1,7 +1,6 @@
 import { types, AuthState } from "../Types/auth";
 
 let initialState: AuthState = {
-
 };
 
 const authReducer = (state = initialState, action: any) => {

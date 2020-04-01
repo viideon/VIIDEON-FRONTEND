@@ -21,11 +21,11 @@ const Header: FC<IProps> = ({
           height: 30,
           marginTop:20
         }} alt="ImagePlusTag" onClick={() => { history.push('/video/create') }} /> */}
-        <Button color='#3598DC' onClick={() => { history.push('/video/create') }} style={{ marginTop: 18, backgroundColor: '#3598DC', width: '100%', height: 40, color: 'white', }}>Add Video</Button>
+        <Button onClick={() => { history.push('/video/create') }} style={{ marginTop: 18, backgroundColor: '#9F55FF', width: '100%', height: 40, color: 'white', }}>Record/Upload a Video</Button>
 
       </span>
       <Tooltip placement="bottom" isOpen={tooltipOpen} target="TooltipExample" toggle={toggle}>
-        Record and Upload a Video
+        Record or Upload a Video
       </Tooltip>
     </>
   );

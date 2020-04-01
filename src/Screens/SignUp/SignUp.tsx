@@ -154,7 +154,7 @@ class SignUp extends Component<IProps, IState> {
                 <div style={{ marginLeft: '35%', opacity: 0.5 }}>
                   {loading ? <Loading /> : null}
                 </div>
-                <Form style={{ margin: 5, width: '85%' }}>
+                <Form style={{ width: '80%' }}>
                   <FormGroup>
                     <Label for="exampleEmail" style={{ fontWeight: 'bold' }}>{Constants.EMAIL}</Label>
                     <div className="textInpu1">
@@ -177,7 +177,7 @@ class SignUp extends Component<IProps, IState> {
                   {
                     this.state.showNext &&
                     <div className='buttonWrapper'>
-                      <Button color='#9F55FF' onClick={this.nextHandler} style={{ backgroundColor: '#9F55FF', width: '100%', color: 'white', borderRadius: '10rem' }}>{Constants.NEXT}</Button>
+                      <Button color='#9F55FF' onClick={this.nextHandler} style={{ backgroundColor: '#9F55FF', width: '40%', float:'right', marginBottom:'10px', color: 'white', borderRadius: '10rem' }}>{Constants.NEXT}</Button>
                     </div>
                   }
                   {
@@ -259,7 +259,7 @@ class SignUp extends Component<IProps, IState> {
                         </Alert>
                       }
                       <div className='buttonWrapper1'>
-                        <Button color='#9F55FF' onClick={this.registerHandler} style={{ backgroundColor: '#9F55FF', width: '100%', color: 'white', borderRadius: '10rem' }}>{Constants.REGISTER}</Button>
+                        <Button color='#9F55FF' onClick={this.registerHandler} style={{ backgroundColor: '#9F55FF', width: '40%', float:'right', marginBottom:'10px', color: 'white', borderRadius: '10rem' }}>{Constants.REGISTER}</Button>
                       </div>
                     </>
                   }
