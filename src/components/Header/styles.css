@@ -26,11 +26,13 @@
 .ImagePlusTag{
     margin-top: 20px;
     width: 30px;
+    cursor: pointer;
     height: 30px;
 }
 .ImageGiftTag{
     margin-top: 20px;
     margin-left: 20px;
     width: 30px;
+    cursor: pointer;
     height: 30px;
 }

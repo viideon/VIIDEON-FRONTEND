@@ -5,6 +5,7 @@ function* userVideo(action: any) {
     try {
         const result = yield video(action.payload);
         console.log('result Response', result)
+        console.log('res===', result.status)
         if (result.status === 200) {
             yield put({ type: types.VIDEO_SUCCESS, payload: result.message });
             alert("Upload Successfully")
@@ -17,6 +18,7 @@ function* userVideo(action: any) {
         }
     } catch (error) {
         yield put({ type: types.VIDEO_FAILURE, payload: error });
+        console.log(error)
         alert("Something Went Wrong")
         console.log(error);
     }

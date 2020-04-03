@@ -86,7 +86,6 @@ class UploaadRecord extends Component<IProps, IState> {
         type: this.state.files[0].type,
         size: this.state.files[0].size
       }
-      console.log("The File Name is:", file)
       this.setState({ file })
       let s3 = new AWS.S3(config)
       var options = {
@@ -100,14 +99,12 @@ class UploaadRecord extends Component<IProps, IState> {
           throw err;
         }
         that.setState({ url: data.Location })
-        console.log('The S3 Bucket Data is:', data.Location)
         const { name } = that.state.file;
         const title = name;
         const url = that.state.url;
         const thumbnail = 'dummy';
         const userId = that.props.auth.user!.user!._id;
         const recieverEmail = that.state.recieverEmail;
-        console.log('Ok')
         const video = {
           url,
           thumbnail,
@@ -137,7 +134,6 @@ class UploaadRecord extends Component<IProps, IState> {
         path: this.state.videoRecord.type
       }
 
-      console.log("The File Name is:", JSON.stringify(file))
       this.setState({ recordFile: file })
       let s3 = new AWS.S3(config)
       var options = {
@@ -151,13 +147,11 @@ class UploaadRecord extends Component<IProps, IState> {
           throw err;
         }
         that.setState({ urlRecord: data.Location })
-        console.log('The S3 Bucket Data is:', data.Location)
         const title = that.state.name;
         const url = that.state.urlRecord;
         const thumbnail = 'dummy';
         const userId = that.props.auth.user!.user!._id;
         const recieverEmail = that.state.recieverEmail;
-        console.log('Ok')
         const video = {
           url,
           thumbnail,
@@ -196,28 +190,31 @@ class UploaadRecord extends Component<IProps, IState> {
                   <Dropzone onDrop={this.onDrop}>
                     {({ getRootProps, getInputProps }) => (
                       <section className="container">
-                        <div {...getRootProps({ className: 'dropzone' })}>
+                        <div {...getRootProps({ className: 'dropzone' })} style={{ textAlign: 'center', cursor:'pointer',margin:'auto', width:100}}>
                           <input {...getInputProps()} />
-                          <img src={require('../../assets/upload.png')} style={{ width: 80, height: 60, marginLeft: '45%' }} />
+                          <img src={require('../../assets/upload.png')} style={{ width: 80, margin: 'auto' }} />
                         </div>
                         <aside>
-                          <p style={{ marginLeft: '37%', marginTop: 20, }} >{Constants.CLICK_AND_DRAG}</p>
+                          <p style={{ marginTop: 20, textAlign:'center'}} >{Constants.CLICK_AND_DRAG}</p>
                           {
                             this.state.files.map((file: any) => (
                               <>
-                                <li key={file.name}>
-                                  {file.name} - {file.size} bytes
-                              </li>
+                              <div style={{boxShadow:'0 0 10px #dadada'}}>
+                                <p>
+                                  File Name: {file.name}
+                                </p>
+                                <p>Size: {file.size} bytes</p>
+                              </div>
                                 <Form id="formInput">
                                   <FormGroup>
                                     <Label for="exampleEmail" style={{ fontWeight: 'bold' }}>{Constants.SENDER_ADDRESS}</Label>
-                                    <Input type="text" name="firstName" id="typeInput" placeholder=""
+                                    <Input type="text" name="firstName" id="typeInput" placeholder="Enter email address"
                                       value={this.state.recieverEmail}
                                       onChange={this.emailHandler}
                                     />
                                   </FormGroup>
                                 </Form>
-                                <Button color="secondary" onClick={() => { this.fileHandler() }}>{Constants.SEND_THROUGH_EMAIL}</Button>
+                                <Button color="secondary" variant="contained" onClick={() => { this.fileHandler() }}>{Constants.SEND_THROUGH_EMAIL}</Button>
                               </>
                             ))
                           }
@@ -233,44 +230,47 @@ class UploaadRecord extends Component<IProps, IState> {
             </TabPanel>
             <TabPanel>
               {
-                this.state.videoRecord ?
-                  <div style={{ marginTop: 20, marginBottom: 20 }}>
-                    <Row>
-                      <Col className="col-md-6 m-auto">
-                        <Form id="formInput">
-                          <FormGroup>
-                            <Label for="exampleEmail">{Constants.TITLE}</Label>
-                            <Input type="text" name="firstName" id="typeInput" placeholder=""
-                              value={this.state.name}
-                              onChange={this.titleNameHandler}
-                            />
-                          </FormGroup>
-                          <FormGroup>
-                            <Label for="exampleEmail">{Constants.SENDER_ADDRESS}</Label>
-                            <Input type="text" name="firstName" id="typeInput" placeholder=""
-                              value={this.state.recieverEmail}
-                              onChange={this.emailHandler}
-                            />
-                          </FormGroup>
-                          <Button color="secondary" onClick={() => { this.submit() }}>{Constants.SEND_THROUGH_EMAIL}</Button>
-                        </Form>
-                        <div style={{ marginLeft: '50%' }}>
-                          {this.state.loading ? <Loading /> : null}
-                        </div>
-                      </Col>
-                    </Row>
-                  </div>
-                  :
-                  <div style={styles.recorder}>
-                    <VideoRecorder
-                      onRecordingComplete={(videoBlob: any) => {
-                        // Do something with the video...
-                        console.log('videoBlob', videoBlob)
-                        this.setState({ videoRecord: videoBlob })
-                      }}
-                    />
-                  </div>
+                this.state.videoRecord &&
+                <div style={{ marginTop: 20, marginBottom: 20 }}>
+                  <Row>
+                    <Col className="col-md-6 m-auto">
+                      <Form id="formInput">
+                        <FormGroup>
+                          <Label for="exampleEmail">{Constants.TITLE}</Label>
+                          <Input type="text" name="firstName" id="typeInput" placeholder=""
+                            value={this.state.name}
+                            onChange={this.titleNameHandler}
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          <Label for="exampleEmail">{Constants.SENDER_ADDRESS}</Label>
+                          <Input type="text" name="firstName" id="typeInput" placeholder=""
+                            value={this.state.recieverEmail}
+                            onChange={this.emailHandler}
+                          />
+                        </FormGroup>
+                        <Button color="secondary" variant="contained" onClick={() => { this.submit() }}>{Constants.SEND_THROUGH_EMAIL}</Button>
+                      </Form>
+                      <div style={{ marginLeft: '50%' }}>
+                        {this.state.loading ? <Loading /> : null}
+                      </div>
+                    </Col>
+                  </Row>
+
+                </div>
               }
+              <div style={styles.recorder}>
+                <VideoRecorder
+                  isOnInitially
+                  showReplayControls
+                  replayVideoAutoplayAndLoopOff
+                  isReplayVideoInitiallyMuted={false}
+                  onRecordingComplete={(videoBlob: any) => {
+                    // Do something with the video...
+                    this.setState({ videoRecord: videoBlob })
+                  }}
+                />
+              </div>
             </TabPanel>
           </Tabs>
         </div>
@@ -279,7 +279,6 @@ class UploaadRecord extends Component<IProps, IState> {
   }
 }
 const mapStateToProps = (state: any) => {
-  console.log('This Auth User is: ', state.auth)
   return {
     auth: state.auth,
     videoUser: state.video
