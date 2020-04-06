@@ -23,6 +23,27 @@ function* userVideo(action: any) {
         console.log(error);
     }
 }
+
+function* saveVideo(action: any) {
+    try {
+        const result = yield video(action.payload);
+        if (result.status === 200) {
+            yield put({ type: types.VIDEO_SAVE_SUCESS });
+            alert("Video Saved Successfully")
+        }
+        else {
+            yield put({ type: types.VIDEO_SAVE_FAILURE });
+            alert("Something Went Wrong")
+        }
+    } catch (error) {
+        yield put({ type: types.VIDEO_FAILURE, payload: error });
+        console.log(error)
+        alert("Something Went Wrong")
+        console.log(error);
+    }
+}
+
 export function* videoWatcher() {
     yield takeEvery(types.VIDEO_REQUEST, userVideo);
+    yield takeEvery(types.VIDEO_SAVE, saveVideo);
 }

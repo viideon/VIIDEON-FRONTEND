@@ -23,6 +23,10 @@ const videoReducer = (state = initialState, action: any) => {
         loading: false,
         errorMessage: action.payload.message
       };
+    case types.VIDEO_SAVE_SUCESS:
+      return { ...state, videSaved: true };
+    case types.VIDEO_SAVE_FAILURE:
+      return { ...state, videoSaved: false };
     default: {
       return state;
     }

@@ -12,3 +12,4 @@ export function* video(user: any) {
    const message = yield response.json();
    return yield ({ status: response.status, message })
 }
+

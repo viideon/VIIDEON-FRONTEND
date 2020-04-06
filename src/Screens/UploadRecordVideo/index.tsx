@@ -6,9 +6,8 @@ import { FaCamera, FaLaptop } from "react-icons/fa";
 import Dropzone from "react-dropzone";
 import { connect } from "react-redux";
 import Header from "../../components/Header/Header";
-import { VideoUser } from "../../Redux/Actions/videos";
-import { VideoState } from "../../Redux/Types/videos";
-import { Video } from "../../Redux/Types/videos";
+import { VideoUser, saveVideo } from "../../Redux/Actions/videos";
+import { VideoState, Video, VideoSave } from "../../Redux/Types/videos";
 import VideoRecorder from "react-video-recorder";
 import styles from "../VideoTab/style";
 import Button from "@material-ui/core/Button";
@@ -26,6 +25,7 @@ type IProps = {
   history: any;
   videoUser: VideoState;
   addVideo: (video: Video) => void;
+  saveVideo: (video: VideoSave) => void;
 };
 type IState = {
   file: any;
@@ -164,6 +164,40 @@ class UploadRecord extends Component<IProps, IState> {
       alert("Fill the field first");
     }
   };
+  saveVideo = () => {
+    this.setState({ loading: true });
+    let file = {
+      name: this.state.name,
+      type: this.state.videoRecord.type,
+      size: this.state.videoRecord.size,
+      path: this.state.videoRecord.type
+    };
+
+    this.setState({ recordFile: file });
+    let s3 = new AWS.S3(config);
+    var options = {
+      Bucket: config.bucketName,
+      ACL: config.ACL,
+      Key: Date.now().toString(),
+      Body: JSON.stringify(file)
+    };
+    const that = this;
+    s3.upload(options, function(err: any, data: any) {
+      if (err) {
+        throw err;
+      }
+      that.setState({ urlRecord: data.Location });
+      const url = that.state.urlRecord;
+      const userId = that.props.auth.user!.user!._id;
+
+      const video = {
+        url,
+        userId
+      };
+      that.props.saveVideo(video);
+      that.setState({ loading: false });
+    });
+  };
   render() {
     console.log("The Record Video is:", this.state.recordFile);
     console.log("The Upload Video is:", this.state.files);
@@ -293,6 +327,13 @@ class UploadRecord extends Component<IProps, IState> {
                           />
                         </FormGroup>
                         <Button
+                          variant="contained"
+                          style={{ marginRight: "15px" }}
+                          onClick={this.saveVideo}
+                        >
+                          {Constants.SAVE_VIDEO}
+                        </Button>
+                        <Button
                           color="secondary"
                           variant="contained"
                           onClick={this.submit}
@@ -334,7 +375,8 @@ const mapStateToProps = (state: any) => {
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    addVideo: (video: Video) => dispatch(VideoUser(video))
+    addVideo: (video: Video) => dispatch(VideoUser(video)),
+    saveVideo: (video: VideoSave) => dispatch(saveVideo(video))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(UploadRecord);
