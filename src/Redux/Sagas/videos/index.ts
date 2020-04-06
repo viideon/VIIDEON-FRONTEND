@@ -8,7 +8,7 @@ function* userVideo(action: any) {
         console.log('res===', result.status)
         if (result.status === 200) {
             yield put({ type: types.VIDEO_SUCCESS, payload: result.message });
-            alert("Upload Successfully")
+            alert("Email Sent Successfully")
         }
         else {
             yield put({ type: types.VIDEO_FAILURE, payload: result.message });
