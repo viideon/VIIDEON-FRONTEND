@@ -18,7 +18,8 @@ import * as Constants from "../../constants/components/UploadRecord";
 import "../../../node_modules/react-tabs/style/react-tabs.css";
 import "./style.css";
 
-const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+// const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+const reg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 type IProps = {
   auth: AuthState;
@@ -211,6 +212,7 @@ class UploadRecord extends Component<IProps, IState> {
                           <img
                             src={require("../../assets/upload.png")}
                             style={{ width: 80, margin: "auto" }}
+                            alt="upload"
                           />
                         </div>
                         <aside>
