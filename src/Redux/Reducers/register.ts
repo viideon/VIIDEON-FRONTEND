@@ -25,7 +25,7 @@ const registerReducer = (state = initialState, action: any) => {
         errorMessage: action.payload.message
       };
     default: {
-      return { ...state };
+      return state;
     }
   }
 };
