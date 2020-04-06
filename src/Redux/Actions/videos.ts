@@ -1,4 +1,4 @@
-import { types, VideoAction, VideoSaveAction, Video, VideoSave } from "../Types/videos";
+import { types, VideoAction, VideoSaveAction, getUserVideoAction, Video, VideoSave } from "../Types/videos";
 
 export function VideoUser(video: Video): VideoAction {
   return {
@@ -11,5 +11,12 @@ export function saveVideo(videoInfo: VideoSave): VideoSaveAction {
   return {
     type: types.VIDEO_SAVE,
     payload: videoInfo
+  }
+}
+
+export function getUserVideos(userId: string): getUserVideoAction {
+  return {
+    type: types.GET_USER_VIDEOS,
+    payload: userId
   }
 }

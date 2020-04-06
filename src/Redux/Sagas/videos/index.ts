@@ -27,6 +27,8 @@ function* userVideo(action: any) {
 function* saveVideo(action: any) {
     try {
         const result = yield video(action.payload);
+        console.log('result Response', result)
+        console.log('res===', result.status)
         if (result.status === 200) {
             yield put({ type: types.VIDEO_SAVE_SUCESS });
             alert("Video Saved Successfully")
