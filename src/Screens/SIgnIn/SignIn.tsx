@@ -5,9 +5,8 @@ import { loginUser } from "../../Redux/Actions/auth";
 import { AuthState, User } from "../../Redux/Types/auth";
 import "./style.css";
 import * as Constants from "../../constants/components/SignIn";
+import { reg } from "../../constants/emailRegEx";
 import Loading from "../../components/Loading";
-
-const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 type IProps = {
   navigation: any;
@@ -55,7 +54,7 @@ class SignIn extends Component<IProps, IState> {
         email,
         password
       };
-      console.log("The Login User Are: ", user);
+
       this.props.login(user);
     }
   };

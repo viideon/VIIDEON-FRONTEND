@@ -15,10 +15,8 @@ import { AuthState } from "../../Redux/Types/auth";
 import Loading from "../../components/Loading";
 import * as Constants from "../../constants/components/UploadRecord";
 import "../../../node_modules/react-tabs/style/react-tabs.css";
+import { reg } from "../../constants/emailRegEx";
 import "./style.css";
-
-// const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-const reg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 type IProps = {
   auth: AuthState;

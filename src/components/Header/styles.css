@@ -1,38 +1,39 @@
-.HeaderContainer{
-    background-color: whitesmoke;
-    border-bottom-style: solid;
-    border-bottom-width: thin;
-    border-bottom-color: #3598DC;
+.HeaderContainer {
+  background-color: whitesmoke;
+  border-bottom-style: solid;
+  border-bottom-width: thin;
+  border-bottom-color: #3598dc;
 }
-.HeaderComponent{
-    display: flex;
-    flex-direction: row;
-    height: 10vh;
+.HeaderComponent {
+  display: flex;
+  flex-direction: row;
+  height: 10vh;
 }
-.HeaderStyling{
-   flex: 2;
+.HeaderStyling {
+  flex: 2;
 }
-.HeaderStyle{
-    padding: 20px;
-    margin-left: 5%;
-    font-size: 30px;
-    color: #3598DC;
+.HeaderStyle {
+  padding: 20px;
+  margin-left: 5%;
+  font-size: 30px;
+  color: #3598dc;
+  cursor: pointer;
 }
-.IconComponents{
-    display: flex;
-    flex-direction: row;
-    flex: 0.5;
+.IconComponents {
+  display: flex;
+  flex-direction: row;
+  flex: 0.5;
 }
-.ImagePlusTag{
-    margin-top: 20px;
-    width: 30px;
-    cursor: pointer;
-    height: 30px;
+.ImagePlusTag {
+  margin-top: 20px;
+  width: 30px;
+  cursor: pointer;
+  height: 30px;
 }
-.ImageGiftTag{
-    margin-top: 20px;
-    margin-left: 20px;
-    width: 30px;
-    cursor: pointer;
-    height: 30px;
+.ImageGiftTag {
+  margin-top: 20px;
+  margin-left: 20px;
+  width: 30px;
+  cursor: pointer;
+  height: 30px;
 }

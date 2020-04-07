@@ -6,8 +6,9 @@ import { RegisterState } from '../../Redux/Types/register';
 import { User } from '../../Redux/Types/register';
 import * as Constants from '../../constants/components/signUp';
 import Loading from '../../components/Loading';
+import {reg} from"../../constants/emailRegEx"
 import './style.css';
-const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
 
 type IProps = {
   navigation: any;
