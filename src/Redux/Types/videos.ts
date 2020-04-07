@@ -7,6 +7,9 @@ const VIDEO_SAVE_FAILURE: string = "VIDEO_SAVE_FAILURE";
 const GET_USER_VIDEOS: string = "GET_USER_VIDEOS";
 const GET_USER_VIDEOS_SUCCESS: string = "GET_USER_VIDEOS_SUCCESS";
 const GET_USER_VIDEOS_FAILED: string = "GET_USER_VIDEOS_FAILURE";
+const UPDATE_VIDEO: string = "UPDATE_VIDEO";
+const UPDATE_VIDEO_SUCCESS: string = "UPDATE_VIDEO_SUCCESS";
+const UPDATE_VIDEO_FAIL: string = "UPDATE_VIDEO_FAIL"
 
 export const types = {
   VIDEO_REQUEST,
@@ -17,7 +20,10 @@ export const types = {
   VIDEO_SAVE_FAILURE,
   GET_USER_VIDEOS,
   GET_USER_VIDEOS_FAILED,
-  GET_USER_VIDEOS_SUCCESS
+  GET_USER_VIDEOS_SUCCESS,
+  UPDATE_VIDEO,
+  UPDATE_VIDEO_SUCCESS,
+  UPDATE_VIDEO_FAIL
 }
 export interface Video {
   url: string;
@@ -29,6 +35,13 @@ export interface Video {
 export interface VideoSave {
   url: string;
   userId: string;
+}
+export interface VideoUpdate {
+  url?: string;
+  thumbnail?: string;
+  title?: string;
+  userId?: string;
+  recieverEmail?: string;
 }
 
 export interface VideoState {
@@ -51,4 +64,9 @@ export interface VideoSaveAction {
 
 export interface getUserVideoAction {
   type: typeof GET_USER_VIDEOS
+}
+
+export interface updateVideoAction {
+  type: typeof UPDATE_VIDEO
+  payload: VideoUpdate
 }

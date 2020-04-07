@@ -22,3 +22,7 @@ export async function getVideos() {
 export async function getVideosByUserId(id: string) {
    return API.get('/video/user', { params: { id: id } });
 }
+
+export async function updateUserVideo(video: any) {
+   return API.patch("/video", video);
+}

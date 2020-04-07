@@ -1,6 +1,6 @@
 import { put, takeEvery, call, select } from 'redux-saga/effects';
 import { types } from '../../Types/videos';
-import { video, getVideosByUserId } from './api';
+import { video, getVideosByUserId, updateUserVideo } from './api';
 import { selectID } from "../../Selectors/index"
 function* userVideo(action: any) {
     try {
@@ -39,9 +39,9 @@ function* saveVideo(action: any) {
         }
     } catch (error) {
         yield put({ type: types.VIDEO_FAILURE, payload: error });
-        console.log(error)
+
         alert("Something Went Wrong")
-        console.log(error);
+
     }
 }
 
@@ -62,9 +62,24 @@ function* getUserVideos() {
         yield put({ type: types.GET_USER_VIDEOS_FAILED, payload: error })
     }
 }
+function* updateVideo(action: any) {
+    try {
+        const result = yield call(updateUserVideo, action.payload);
+        if (result.status === 200) {
+            yield put({ type: types.UPDATE_VIDEO_SUCCESS, payload: result.data.message })
+        }
+        else {
+            yield put({ type: types.UPDATE_VIDEO_FAIL, payload: result.data.message })
+        }
+    }
+    catch (error) {
+        yield put({ type: types.UPDATE_VIDEO_FAIL, payload: error })
+    }
+}
 
 export function* videoWatcher() {
     yield takeEvery(types.VIDEO_REQUEST, userVideo);
     yield takeEvery(types.VIDEO_SAVE, saveVideo);
     yield takeEvery(types.GET_USER_VIDEOS, getUserVideos);
+    yield takeEvery(types.UPDATE_VIDEO, updateVideo);
 }

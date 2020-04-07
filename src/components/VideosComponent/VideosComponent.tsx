@@ -50,7 +50,7 @@ class VideoComponent extends Component<IProps> {
             </Col>
             {userVideos &&
               userVideos.map((video: any) => (
-                <Col sm="4">
+                <Col sm="4" key={video._id}>
                   <VideoCard title={video.title} url={video.url} />
                 </Col>
               ))}
