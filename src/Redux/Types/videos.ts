@@ -51,5 +51,4 @@ export interface VideoSaveAction {
 
 export interface getUserVideoAction {
   type: typeof GET_USER_VIDEOS
-  payload: string
 }

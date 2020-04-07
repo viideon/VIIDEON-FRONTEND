@@ -14,9 +14,8 @@ export function saveVideo(videoInfo: VideoSave): VideoSaveAction {
   }
 }
 
-export function getUserVideos(userId: string): getUserVideoAction {
+export function getUserVideos(): getUserVideoAction {
   return {
     type: types.GET_USER_VIDEOS,
-    payload: userId
   }
 }

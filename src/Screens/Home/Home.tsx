@@ -5,7 +5,7 @@ import AWS from "aws-sdk";
 import Header from "../../components/Header/Header";
 import SideBar from "../../components/SideBar/SideBar";
 import HeaderCard from "../../components/HeaderCards/Cards";
-import VedioComponent from "../../components/VideosComponent/VideosComponent";
+import VideoComponent from "../../components/VideosComponent/VideosComponent";
 import { VideoUser } from "../../Redux/Actions/videos";
 import { VideoState } from "../../Redux/Types/videos";
 import { Video } from "../../Redux/Types/videos";
@@ -103,7 +103,7 @@ class Home extends Component<IProps, IState> {
                 <HeaderCard
                   styles={Styles.headerCardThree}
                   Video="3"
-                  Title="CallS to Action"
+                  Title="Call to Action"
                 />
                 <HeaderCard
                   styles={Styles.headerCardFour}
@@ -114,7 +114,7 @@ class Home extends Component<IProps, IState> {
               <div>
                 <Row>
                   <Col xs="12">
-                    <VedioComponent history={this.props.history} />
+                    <VideoComponent history={this.props.history} />
                   </Col>
                 </Row>
               </div>

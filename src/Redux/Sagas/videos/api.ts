@@ -1,4 +1,5 @@
 import * as CONSTANTS from '../../../constants/components/baseUrl';
+import API from "../../../lib/Api"
 
 
 export function* video(user: any) {
@@ -14,3 +15,10 @@ export function* video(user: any) {
    return yield ({ status: response.status, message })
 }
 
+export async function getVideos() {
+   return API.get('/video');
+}
+
+export async function getVideosByUserId(id: string) {
+   return API.get('/video/user', { params: { id: id } });
+}

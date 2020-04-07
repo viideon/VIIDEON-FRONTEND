@@ -1,6 +1,7 @@
-import { put, takeEvery } from 'redux-saga/effects';
+import { put, takeEvery, call, select } from 'redux-saga/effects';
 import { types } from '../../Types/videos';
-import { video } from './api';
+import { video, getVideosByUserId } from './api';
+import { selectID } from "../../Selectors/index"
 function* userVideo(action: any) {
     try {
         const result = yield video(action.payload);
@@ -12,7 +13,6 @@ function* userVideo(action: any) {
         }
         else {
             yield put({ type: types.VIDEO_FAILURE, payload: result.message });
-            // alert(result.message.message.toString());
             alert("Something Went Wrong")
 
         }
@@ -29,7 +29,7 @@ function* saveVideo(action: any) {
         const result = yield video(action.payload);
         console.log('result Response', result)
         console.log('res===', result.status)
-        if (result.status === 200) {
+        if (result.status === 201) {
             yield put({ type: types.VIDEO_SAVE_SUCESS });
             alert("Video Saved Successfully")
         }
@@ -45,7 +45,26 @@ function* saveVideo(action: any) {
     }
 }
 
+function* getUserVideos() {
+    let userId = yield select(selectID);
+
+    try {
+        const result = yield call(getVideosByUserId, userId);
+        if (result.status === 200) {
+            console.log("user result", result);
+            yield put({ type: types.GET_USER_VIDEOS_SUCCESS, payload: result.data.message })
+        }
+        else {
+            yield put({ type: types.GET_USER_VIDEOS_FAILED, payload: result.data.message })
+        }
+    }
+    catch (error) {
+        yield put({ type: types.GET_USER_VIDEOS_FAILED, payload: error })
+    }
+}
+
 export function* videoWatcher() {
     yield takeEvery(types.VIDEO_REQUEST, userVideo);
     yield takeEvery(types.VIDEO_SAVE, saveVideo);
+    yield takeEvery(types.GET_USER_VIDEOS, getUserVideos);
 }
