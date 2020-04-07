@@ -10,13 +10,18 @@ import "./styles.css";
 type IProps = {
   history: any;
   getUserVideos: () => void;
+  userVideos: object[];
 };
-
+interface Video {
+  title: string;
+  url: string;
+}
 class VideoComponent extends Component<IProps> {
   componentDidMount() {
     this.props.getUserVideos();
   }
   render() {
+    const { userVideos } = this.props;
     return (
       <>
         <div className="VideoComponent">
@@ -43,6 +48,12 @@ class VideoComponent extends Component<IProps> {
                 url="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
               />
             </Col>
+            {userVideos &&
+              userVideos.map((video: any) => (
+                <Col sm="4">
+                  <VideoCard title={video.title} url={video.url} />
+                </Col>
+              ))}
           </Row>
         </div>
       </>
@@ -52,7 +63,7 @@ class VideoComponent extends Component<IProps> {
 
 const mapStateToProps = (state: any) => {
   return {
-    uservideos: state.video.videos
+    userVideos: state.video.videos
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
