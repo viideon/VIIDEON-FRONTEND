@@ -55,3 +55,14 @@
 #uploadInput {
   display: none;
 }
+.editingTabWrapper {
+  padding-top: 10px;
+  padding-bottom: 40px;
+}
+.wrapperEditThumbnail {
+  padding-top: 30px;
+}
+.btnEditThumbnailWrapper {
+  display: flex;
+  justify-content: space-around;
+}

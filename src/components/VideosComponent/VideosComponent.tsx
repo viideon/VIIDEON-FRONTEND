@@ -51,11 +51,7 @@ class VideoComponent extends Component<IProps> {
             </Col>
             {userVideos &&
               userVideos.map((video: any) => (
-                <Col
-                  sm="4"
-                  key={video._id}
-                  // onClick={() => this.navigateToVideoTab(video._id)}
-                >
+                <Col sm="4" key={video._id}>
                   <VideoCard
                     title={video.title}
                     url={video.url}

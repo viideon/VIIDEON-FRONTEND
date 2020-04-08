@@ -1,11 +1,13 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
+import { Button } from "@material-ui/core";
 import AWS from "aws-sdk";
 import { connect } from "react-redux";
 import { updateVideo } from "../../Redux/Actions/videos";
 import { VideoUpdate } from "../../Redux/Types/videos";
 import { config } from "../../config/aws";
 import { getVideoById } from "../../Redux/Selectors";
+import { Container, Row, Col } from "reactstrap";
+import ThemeButton from "../../components/ThemeButton";
 import VideoCard from "../../components/VideoCard/VideoCard";
 import "./style.css";
 
@@ -23,6 +25,7 @@ interface IProps {
   videoId?: string | null;
   video: Video;
 }
+
 class Editing extends React.Component<IProps, IState> {
   state = {
     file: "",
@@ -72,6 +75,7 @@ class Editing extends React.Component<IProps, IState> {
   };
   saveChanges = () => {
     const video = {
+      id: this.props.videoId,
       thumbnail: this.state.url
     };
     this.props.updateVideo(video);
@@ -80,25 +84,41 @@ class Editing extends React.Component<IProps, IState> {
     const { video } = this.props;
 
     return (
-      <div className="video-container">
-        <div style={{ width: "50%", height: "150px" }}>
-          {video && <VideoCard title={video.title} url={video.url} />}
-        </div>
+      <div className="editingTabWrapper">
+        <Container>
+          <Row>
+            <Col xs="1" md="2"></Col>
+            <Col xs="10" md="8">
+              {video && <VideoCard title={video.title} url={video.url} />}
+            </Col>
+            <Col xs="1" md="2"></Col>
+          </Row>
+          <Row>
+            <Col xs="1" md="2"></Col>
+            <Col xs="10" md="8">
+              <div className="wrapperEditThumbnail">
+                <input
+                  id="uploadInput"
+                  type="file"
+                  onChange={this.onFileChange}
+                  ref={this.setInputRef}
+                />
+                <div className="btnEditThumbnailWrapper">
+                  <ThemeButton
+                    name="Upload File"
+                    onClick={this.triggerFileUploadBtn}
+                  />
 
-        <div>
-          <input
-            id="uploadInput"
-            type="file"
-            onChange={this.onFileChange}
-            ref={this.setInputRef}
-          />
-          <Button variant="outlined" onClick={this.triggerFileUploadBtn}>
-            Upload File
-          </Button>
-          <Button variant="outlined" onClick={this.saveChanges}>
-            Apply Editing Changes
-          </Button>
-        </div>
+                  <ThemeButton
+                    name="Apply Editing Changes"
+                    onClick={this.saveChanges}
+                  />
+                </div>
+              </div>
+            </Col>
+            <Col xs="1" md="2"></Col>
+          </Row>
+        </Container>
       </div>
     );
   }
