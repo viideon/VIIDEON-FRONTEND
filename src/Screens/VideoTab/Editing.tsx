@@ -1,6 +1,6 @@
 import React from "react";
-import { Button } from "@material-ui/core";
-import AWS from "aws-sdk";
+// import AWS from "aws-sdk";
+import S3FileUpload from "react-s3";
 import { connect } from "react-redux";
 import { updateVideo } from "../../Redux/Actions/videos";
 import { VideoUpdate } from "../../Redux/Types/videos";
@@ -9,10 +9,11 @@ import { getVideoById } from "../../Redux/Selectors";
 import { Container, Row, Col } from "reactstrap";
 import ThemeButton from "../../components/ThemeButton";
 import VideoCard from "../../components/VideoCard/VideoCard";
+// import Alert from "../../components/Alert";
 import "./style.css";
 
 interface IState {
-  file: File | string;
+  file: File | null;
   url: string;
 }
 interface Video {
@@ -28,7 +29,7 @@ interface IProps {
 
 class Editing extends React.Component<IProps, IState> {
   state = {
-    file: "",
+    file: null,
     url: "",
     isUpdated: false
   };
@@ -54,25 +55,16 @@ class Editing extends React.Component<IProps, IState> {
   };
   onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0] !== null) {
-      this.setState({ file: e.target.files![0] });
+      let file = e.target.files![0];
+      S3FileUpload.uploadFile(file, config)
+        .then((data: any) => this.setState({ url: data.location }))
+        .catch((err: any) => alert(err));
+      console.log("file", file);
+    } else {
+      console.log("file not present");
     }
-    const that = this;
-    let s3 = new AWS.S3(config);
-
-    const options = {
-      Bucket: config.bucketName,
-      ACL: config.ACL,
-      Key: Date.now().toString(),
-      Body: this.state.file
-    };
-
-    s3.upload(options, function(err: any, data: any) {
-      if (err) {
-        throw err;
-      }
-      that.setState({ url: data.Location });
-    });
   };
+
   saveChanges = () => {
     const video = {
       id: this.props.videoId,
@@ -82,10 +74,10 @@ class Editing extends React.Component<IProps, IState> {
   };
   render() {
     const { video } = this.props;
-
     return (
       <div className="editingTabWrapper">
         <Container>
+          {/* {isVideoUpdated && <Alert text="Thumbnail Updated" color="success" />} */}
           <Row>
             <Col xs="1" md="2"></Col>
             <Col xs="10" md="8">
