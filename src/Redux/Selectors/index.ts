@@ -4,6 +4,6 @@ export const selectID = (state: any) => {
 
 export const getVideoById = (state: any, id: string) => {
     if (id) {
-        return state.video.videos.filter((video: any) => video._id === id);
+        return state.video.videos.find((video: any) => video._id === id);
     }
 }

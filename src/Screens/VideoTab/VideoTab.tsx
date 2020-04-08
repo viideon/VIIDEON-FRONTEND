@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   TabContent,
   TabPane,
@@ -27,16 +27,10 @@ import * as Constants from "../../constants/components/videotab";
 
 const VideoTab = ({ match: { params } }: any) => {
   const [activeTab, setActiveTab] = useState("1");
-  const [videoId, setVideoId] = useState("");
 
   const toggle = (tab: any) => {
     if (activeTab !== tab) setActiveTab(tab);
   };
-  useEffect(() => {
-    if (params.id) {
-      setVideoId(params.id);
-    }
-  }, [params.id]);
 
   return (
     <Container>
@@ -153,7 +147,7 @@ const VideoTab = ({ match: { params } }: any) => {
           <h4>{Constants.TAB}</h4>
         </TabPane>
         <TabPane tabId="3">
-          <Editing videoId={videoId} />
+          <Editing videoId={params.id} />
         </TabPane>
         <TabPane tabId="4">
           <Design />

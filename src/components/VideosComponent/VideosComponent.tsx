@@ -54,9 +54,13 @@ class VideoComponent extends Component<IProps> {
                 <Col
                   sm="4"
                   key={video._id}
-                  onClick={() => this.navigateToVideoTab(video._id)}
+                  // onClick={() => this.navigateToVideoTab(video._id)}
                 >
-                  <VideoCard title={video.title} url={video.url} />
+                  <VideoCard
+                    title={video.title}
+                    url={video.url}
+                    onClick={() => this.navigateToVideoTab(video._id)}
+                  />
                 </Col>
               ))}
           </Row>

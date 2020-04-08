@@ -6,6 +6,7 @@ import { updateVideo } from "../../Redux/Actions/videos";
 import { VideoUpdate } from "../../Redux/Types/videos";
 import { config } from "../../config/aws";
 import { getVideoById } from "../../Redux/Selectors";
+import VideoCard from "../../components/VideoCard/VideoCard";
 import "./style.css";
 
 interface IState {
@@ -14,6 +15,7 @@ interface IState {
 }
 interface Video {
   url: string;
+  title: string;
 }
 interface IProps {
   updateVideo: (video: VideoUpdate) => void;
@@ -76,24 +78,12 @@ class Editing extends React.Component<IProps, IState> {
   };
   render() {
     const { video } = this.props;
+
     return (
       <div className="video-container">
-        {video && (
-          <iframe
-            title="primaryWorkVideo"
-            id="videoStyle"
-            src={video.url}
-            frameBorder="0"
-            allow="fullscreen"
-            style={{
-              background: "transparent",
-              width: "100%",
-              padding: "10%",
-              paddingTop: "2%",
-              height: "80%"
-            }}
-          />
-        )}
+        <div style={{ width: "50%", height: "150px" }}>
+          {video && <VideoCard title={video.title} url={video.url} />}
+        </div>
 
         <div>
           <input
