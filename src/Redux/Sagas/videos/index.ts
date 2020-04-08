@@ -51,7 +51,7 @@ function* getUserVideos() {
     try {
         const result = yield call(getVideosByUserId, userId);
         if (result.status === 200) {
-            console.log("user result", result);
+
             yield put({ type: types.GET_USER_VIDEOS_SUCCESS, payload: result.data.message })
         }
         else {

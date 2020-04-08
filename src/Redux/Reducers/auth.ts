@@ -12,7 +12,7 @@ const authReducer = (state = initialState, action: any) => {
                 loginError: false
             };
         case types.LOGIN_SUCCESS:
-            console.log("in reducer", action.payload)
+
             return {
                 ...state,
                 user: action.payload,

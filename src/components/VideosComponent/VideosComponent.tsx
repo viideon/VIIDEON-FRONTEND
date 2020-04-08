@@ -12,14 +12,15 @@ type IProps = {
   getUserVideos: () => void;
   userVideos: object[];
 };
-interface Video {
-  title: string;
-  url: string;
-}
+
 class VideoComponent extends Component<IProps> {
   componentDidMount() {
     this.props.getUserVideos();
   }
+
+  navigateToVideoTab = (id: string) => {
+    this.props.history.push(`/videotab/${id}`);
+  };
   render() {
     const { userVideos } = this.props;
     return (
@@ -50,7 +51,11 @@ class VideoComponent extends Component<IProps> {
             </Col>
             {userVideos &&
               userVideos.map((video: any) => (
-                <Col sm="4" key={video._id}>
+                <Col
+                  sm="4"
+                  key={video._id}
+                  onClick={() => this.navigateToVideoTab(video._id)}
+                >
                   <VideoCard title={video.title} url={video.url} />
                 </Col>
               ))}

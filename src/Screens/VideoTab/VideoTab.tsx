@@ -1,31 +1,59 @@
-import React, { useState } from 'react';
-import { TabContent, TabPane, Nav, NavItem, NavLink, Container } from 'reactstrap';
-import classnames from 'classnames';
-import { FaInfo, FaChartLine, FaCut, FaPalette, FaRegEye, FaReply } from "react-icons/fa";
-import './style.css';
-import Header from './Header';
-import Detail from './Detail';
-import Editing from './Editing';
-import Design from './Design';
-import Privacy from './Privacy';
-import VideoReplies from './VideoReplies';
-import * as Constants from '../../constants/components/videotab';
+import React, { useState, useEffect } from "react";
+import {
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
+  Container
+} from "reactstrap";
+import classnames from "classnames";
+import {
+  FaInfo,
+  FaChartLine,
+  FaCut,
+  FaPalette,
+  FaRegEye,
+  FaReply
+} from "react-icons/fa";
+import "./style.css";
+import Header from "./Header";
+import Detail from "./Detail";
+import Editing from "./Editing";
+import Design from "./Design";
+import Privacy from "./Privacy";
+import VideoReplies from "./VideoReplies";
+import * as Constants from "../../constants/components/videotab";
 
-const VideoTab = () => {
-  const [activeTab, setActiveTab] = useState('1');
+const VideoTab = ({ match: { params } }: any) => {
+  const [activeTab, setActiveTab] = useState("1");
+  const [videoId, setVideoId] = useState("");
+
   const toggle = (tab: any) => {
     if (activeTab !== tab) setActiveTab(tab);
-  }
+  };
+  useEffect(() => {
+    if (params.id) {
+      setVideoId(params.id);
+    }
+  }, [params.id]);
+
   return (
     <Container>
-      <br /><br />
+      <br />
+      <br />
       <Header />
-      <br /><br />
+      <br />
+      <br />
       <Nav tabs id="videoTabWrap">
-        <NavItem >
-          <NavLink id="videoTabNavLink"
-            className={classnames({ active: activeTab === '1' })}
-            onClick={() => { toggle('1') }}>
+        <NavItem>
+          <NavLink
+            id="videoTabNavLink"
+            className={classnames({ active: activeTab === "1" })}
+            onClick={() => {
+              toggle("1");
+            }}
+          >
             <span>
               <i>
                 <FaInfo id="videoTabIcon" />
@@ -35,9 +63,13 @@ const VideoTab = () => {
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink id="videoTabNavLink"
-            className={classnames({ active: activeTab === '2' })}
-            onClick={() => { toggle('2') }}>
+          <NavLink
+            id="videoTabNavLink"
+            className={classnames({ active: activeTab === "2" })}
+            onClick={() => {
+              toggle("2");
+            }}
+          >
             <span>
               <i>
                 <FaChartLine id="videoTabIcon" />
@@ -47,9 +79,13 @@ const VideoTab = () => {
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink id="videoTabNavLink"
-            className={classnames({ active: activeTab === '3' })}
-            onClick={() => { toggle('3') }}>
+          <NavLink
+            id="videoTabNavLink"
+            className={classnames({ active: activeTab === "3" })}
+            onClick={() => {
+              toggle("3");
+            }}
+          >
             <span>
               <i>
                 <FaCut id="videoTabIcon" />
@@ -59,9 +95,13 @@ const VideoTab = () => {
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink id="videoTabNavLink"
-            className={classnames({ active: activeTab === '4' })}
-            onClick={() => { toggle('4') }}>
+          <NavLink
+            id="videoTabNavLink"
+            className={classnames({ active: activeTab === "4" })}
+            onClick={() => {
+              toggle("4");
+            }}
+          >
             <span>
               <i>
                 <FaPalette id="videoTabIcon" />
@@ -71,9 +111,13 @@ const VideoTab = () => {
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink id="videoTabNavLink"
-            className={classnames({ active: activeTab === '5' })}
-            onClick={() => { toggle('5') }}>
+          <NavLink
+            id="videoTabNavLink"
+            className={classnames({ active: activeTab === "5" })}
+            onClick={() => {
+              toggle("5");
+            }}
+          >
             <span>
               <i>
                 <FaRegEye id="videoTabIcon" />
@@ -83,9 +127,13 @@ const VideoTab = () => {
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink id="videoTabNavLink"
-            className={classnames({ active: activeTab === '6' })}
-            onClick={() => { toggle('6') }}>
+          <NavLink
+            id="videoTabNavLink"
+            className={classnames({ active: activeTab === "6" })}
+            onClick={() => {
+              toggle("6");
+            }}
+          >
             <span>
               <i>
                 <FaReply id="videoTabIcon" />
@@ -105,7 +153,7 @@ const VideoTab = () => {
           <h4>{Constants.TAB}</h4>
         </TabPane>
         <TabPane tabId="3">
-          <Editing />
+          <Editing videoId={videoId} />
         </TabPane>
         <TabPane tabId="4">
           <Design />
@@ -119,5 +167,5 @@ const VideoTab = () => {
       </TabContent>
     </Container>
   );
-}
+};
 export default VideoTab;

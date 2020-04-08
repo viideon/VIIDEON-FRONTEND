@@ -5,15 +5,21 @@ import { connect } from "react-redux";
 import { updateVideo } from "../../Redux/Actions/videos";
 import { VideoUpdate } from "../../Redux/Types/videos";
 import { config } from "../../config/aws";
+import { getVideoById } from "../../Redux/Selectors";
 import "./style.css";
 
 interface IState {
   file: File | string;
   url: string;
 }
+interface Video {
+  url: string;
+}
 interface IProps {
   updateVideo: (video: VideoUpdate) => void;
   isVideoUpdated: boolean;
+  videoId?: string | null;
+  video: Video;
 }
 class Editing extends React.Component<IProps, IState> {
   state = {
@@ -21,6 +27,7 @@ class Editing extends React.Component<IProps, IState> {
     url: "",
     isUpdated: false
   };
+
   static getDerivedStateFromProps(nextProps: any, prevState: any) {
     if (
       nextProps.isVideoUpdated &&
@@ -68,24 +75,26 @@ class Editing extends React.Component<IProps, IState> {
     this.props.updateVideo(video);
   };
   render() {
-    console.log("url", this.state.url);
-    console.log("updated", this.state.isUpdated);
+    const { video } = this.props;
     return (
       <div className="video-container">
-        <iframe
-          title="primaryWorkVideo"
-          id="videoStyle"
-          // src={"https://dubb.sfo2.digitaloceanspaces.com/videos/2019-12-14/3c415fc72253774eb51c19f956057cf0/720p_PWvT.mp4"}
-          frameBorder="0"
-          allow="fullscreen"
-          style={{
-            background: "transparent",
-            width: "100%",
-            padding: "10%",
-            paddingTop: "2%",
-            height: "80%"
-          }}
-        ></iframe>
+        {video && (
+          <iframe
+            title="primaryWorkVideo"
+            id="videoStyle"
+            src={video.url}
+            frameBorder="0"
+            allow="fullscreen"
+            style={{
+              background: "transparent",
+              width: "100%",
+              padding: "10%",
+              paddingTop: "2%",
+              height: "80%"
+            }}
+          />
+        )}
+
         <div>
           <input
             id="uploadInput"
@@ -105,9 +114,11 @@ class Editing extends React.Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: any, ownProps: any) => {
+  const video = getVideoById(state, ownProps.videoId);
   return {
-    isVideoUpdated: state.video.isVideoUpdated
+    isVideoUpdated: state.video.isVideoUpdated,
+    video: video
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
