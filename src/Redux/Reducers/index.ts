@@ -10,13 +10,21 @@ import profileReducer from './profile';
 const rootPersistConfig = {
     key: 'root',
     storage: storage,
-    whitelist: ["auth", "video"]
+    whitelist: ["auth"],
+    blacklist: ["video"]
 };
+
+const videoPersistConfig = {
+    key: 'video',
+    storage: storage,
+    whitelist: ['videos'],
+    blacklist: ["isVideoUpdated"]
+}
 
 const rootReducer = combineReducers({
     register: registerReducer,
     auth: authReducer,
-    video: videoReducer,
+    video: persistReducer(videoPersistConfig, videoReducer),
     profile: profileReducer,
 });
 

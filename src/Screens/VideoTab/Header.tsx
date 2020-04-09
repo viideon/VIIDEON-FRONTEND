@@ -31,7 +31,9 @@ const Header = () => {
             <Col xs="12" sm="12" md="5">
               <div id="headerVideo">
                 <iframe
-                  //  src={"https://dubb.sfo2.digitaloceanspaces.com/videos/2019-12-14/3c415fc72253774eb51c19f956057cf0/720p_PWvT.mp4"}
+                  src={
+                    "https://dubb.sfo2.digitaloceanspaces.com/videos/2019-12-14/3c415fc72253774eb51c19f956057cf0/720p_PWvT.mp4"
+                  }
                   title="videoDetail"
                   allow="fullscreen"
                   height="100%"

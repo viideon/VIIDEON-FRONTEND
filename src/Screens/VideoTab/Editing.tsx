@@ -9,7 +9,7 @@ import { getVideoById } from "../../Redux/Selectors";
 import { Container, Row, Col } from "reactstrap";
 import ThemeButton from "../../components/ThemeButton";
 import VideoCard from "../../components/VideoCard/VideoCard";
-// import Alert from "../../components/Alert";
+import Alert from "../../components/Alert";
 import "./style.css";
 
 interface IState {
@@ -59,9 +59,8 @@ class Editing extends React.Component<IProps, IState> {
       S3FileUpload.uploadFile(file, config)
         .then((data: any) => this.setState({ url: data.location }))
         .catch((err: any) => alert(err));
-      console.log("file", file);
     } else {
-      console.log("file not present");
+      alert("No file selected ,Try again");
     }
   };
 
@@ -73,14 +72,19 @@ class Editing extends React.Component<IProps, IState> {
     this.props.updateVideo(video);
   };
   render() {
-    const { video } = this.props;
+    const { video, isVideoUpdated } = this.props;
     return (
       <div className="editingTabWrapper">
         <Container>
-          {/* {isVideoUpdated && <Alert text="Thumbnail Updated" color="success" />} */}
           <Row>
             <Col xs="1" md="2"></Col>
             <Col xs="10" md="8">
+              {isVideoUpdated && (
+                <Alert text="Thumbnail Updated" color="success" />
+              )}
+              {isVideoUpdated === false && (
+                <Alert text="Update failed" color="danger" />
+              )}
               {video && <VideoCard title={video.title} url={video.url} />}
             </Col>
             <Col xs="1" md="2"></Col>

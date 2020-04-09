@@ -196,6 +196,7 @@ class UploadRecord extends Component<IProps, IState> {
       that.setState({ loading: false });
     });
   };
+
   render() {
     console.log("The Record Video is:", this.state.recordFile);
     console.log("The Upload Video is:", this.state.files);
@@ -216,7 +217,6 @@ class UploadRecord extends Component<IProps, IState> {
                 {Constants.UPLOAD_FROM_COMPUTER}
               </Tab>
               <Tab>
-                {" "}
                 <FaCamera
                   id="videoTabIcon"
                   style={{ padding: 5, width: 20, height: 20 }}
