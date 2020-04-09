@@ -1,67 +1,81 @@
-.firstLayoutContainer{
-    background-color:rgba(39, 51, 62, 0.6);
-    height: 100vh;
-    background-image: linear-gradient(-135deg,rgba(16,20,128,.7) 25%,rgba(159,85,255,.7));
+.firstLayoutContainer {
+  background-color: rgba(39, 51, 62, 0.6);
+  height: 100vh;
+  background-image: linear-gradient(
+    -135deg,
+    rgba(16, 20, 128, 0.7) 25%,
+    rgba(159, 85, 255, 0.7)
+  );
 }
-.firstStateLayoutContainer{
-    background-color:rgba(39, 51, 62, 0.6);
-    height: 150vh;
-    background-image: linear-gradient(-135deg,rgba(16,20,128,.7) 25%,rgba(159,85,255,.7));
+.firstStateLayoutContainer {
+  background-color: rgba(39, 51, 62, 0.6);
+  height: 150vh;
+  background-image: linear-gradient(
+    -135deg,
+    rgba(16, 20, 128, 0.7) 25%,
+    rgba(159, 85, 255, 0.7)
+  );
 }
-.firstLayoutMainContainer
-{
-    padding-left: 20%;
+.firstLayoutMainContainer {
+  padding-left: 20%;
 }
-.signUp{
+.signUp {
   padding-top: 12%;
-    color: white;
-    font-size: 60px;
+  color: white;
+  font-size: 60px;
 }
-.logo{
-    margin-top: 0em;
-    color: white;
-    font-size: 50px;
-    font-weight: 900;
+.logo {
+  margin-top: 0em;
+  color: white;
+  font-size: 50px;
+  font-weight: 900;
 }
-.login{
-    color: white;
-    font-size: 25px;
+.login {
+  color: white;
+  font-size: 25px;
 }
-.secondLayoutMainContainer{
-    padding-left: 5%;
+.secondLayoutMainContainer {
+  padding-left: 5%;
 }
-.loginTwo{
-    padding-top: 15%;
-    color: #101480;
-    font-size: 55px;
-    font-weight: 600;
+.loginTwo {
+  padding-top: 15%;
+  color: #101480;
+  font-size: 55px;
+  font-weight: 600;
 }
-.createAccount{
-    margin-top: 0em;
-    display: flex;
+.createAccount {
+  margin-top: 0em;
+  display: flex;
 }
-.account{
-    font-size: 20px;
-    color: #646F79;
+.account {
+  font-size: 20px;
+  color: #646f79;
 }
-.create{
-    padding-left: 10px;
-    font-size: 20px;
-    color: #9F55FF;
-    font-weight: bold;
-    cursor: pointer ;
+.create {
+  padding-left: 10px;
+  font-size: 20px;
+  color: #9f55ff;
+  font-weight: bold;
+  cursor: pointer;
 }
-.textInpu1{
-    display: flex;
-    width: 100%;
-    border-style: solid;
-    border-width: 2px;
-    border-color: #9F55FF;
-    border-radius: 10rem;
-    justify-content: space-between;
+.textInpu1 {
+  display: flex;
+  width: 100%;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #9f55ff;
+  border-radius: 10rem;
+  justify-content: space-between;
 }
 
-.buttonWrapper1{
-    margin-top: 20px;
-    border-radius: 10rem; 
+.buttonWrapper1 {
+  margin-top: 20px;
+  border-radius: 10rem;
+}
+.loadingWrapper {
+  margin-left: 35%;
+  opacity: 0.5;
+}
+#wrapperFormSignup {
+  width: 80%;
 }

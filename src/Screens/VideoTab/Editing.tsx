@@ -99,6 +99,7 @@ class Editing extends React.Component<IProps, IState> {
                   onChange={this.onFileChange}
                   ref={this.setInputRef}
                 />
+                <h4 className="thumbnaillEditMsg">Edit Thumbnail</h4>
                 <div className="btnEditThumbnailWrapper">
                   <ThemeButton
                     name="Upload File"

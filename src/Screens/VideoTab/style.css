@@ -35,7 +35,7 @@
 /* ---------------------Editing------------ */
 .video-container {
   position: relative;
-  padding-bottom: 56.25%;
+  padding-bottom: 59.25%;
   height: 0;
   overflow: hidden;
 }
@@ -65,4 +65,7 @@
 .btnEditThumbnailWrapper {
   display: flex;
   justify-content: space-around;
+}
+.thumbnaillEditMsg {
+  margin-bottom: 25px;
 }
