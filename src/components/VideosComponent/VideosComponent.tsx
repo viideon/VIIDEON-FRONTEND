@@ -31,19 +31,19 @@ class VideoComponent extends Component<IProps> {
             <RecordOption history={this.props.history} />
           </div>
           <Row>
-            <Col sm="4">
+            <Col xs="12" md="4" sm="6">
               <VideoCard
                 title="Dubb Account Setup"
                 url="http://techslides.com/demos/sample-videos/small.mp4"
               />
             </Col>
-            <Col sm="4">
+            <Col xs="12" sm="6" md="4">
               <VideoCard
                 url="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
                 title="Sample Use Case - Sales Prospecting"
               />
             </Col>
-            <Col sm="4">
+            <Col xs="12" sm="6" md="4">
               <VideoCard
                 title="Sample Use Case - Screen Recording"
                 url="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
@@ -51,10 +51,11 @@ class VideoComponent extends Component<IProps> {
             </Col>
             {userVideos &&
               userVideos.map((video: any) => (
-                <Col sm="4" key={video._id}>
+                <Col xs="12" md="4" sm="6" key={video._id}>
                   <VideoCard
                     title={video.title}
                     url={video.url}
+                    thumbnail={video.thumbnail}
                     onClick={() => this.navigateToVideoTab(video._id)}
                   />
                 </Col>

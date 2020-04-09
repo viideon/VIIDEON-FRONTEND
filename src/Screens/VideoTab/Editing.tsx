@@ -19,6 +19,7 @@ interface IState {
 interface Video {
   url: string;
   title: string;
+  thumbnail?: string;
 }
 interface IProps {
   updateVideo: (video: VideoUpdate) => void;
@@ -57,7 +58,11 @@ class Editing extends React.Component<IProps, IState> {
     if (e.target.files![0] !== null) {
       let file = e.target.files![0];
       S3FileUpload.uploadFile(file, config)
-        .then((data: any) => this.setState({ url: data.location }))
+        .then((data: any) => {
+          this.setState({ url: data.location });
+          alert("Thumbnail Updated");
+          return;
+        })
         .catch((err: any) => alert(err));
     } else {
       alert("No file selected ,Try again");
@@ -85,7 +90,13 @@ class Editing extends React.Component<IProps, IState> {
               {isVideoUpdated === false && (
                 <Alert text="Update failed" color="danger" />
               )}
-              {video && <VideoCard title={video.title} url={video.url} />}
+              {video && (
+                <VideoCard
+                  title={video.title}
+                  url={video.url}
+                  thumbnail={video.thumbnail}
+                />
+              )}
             </Col>
             <Col xs="1" md="2"></Col>
           </Row>

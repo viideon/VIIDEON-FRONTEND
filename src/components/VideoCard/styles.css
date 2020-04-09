@@ -11,3 +11,6 @@
   font-weight: bold;
   font-size: 14px;
 }
+#videoCardBody {
+  min-height: 75px;
+}

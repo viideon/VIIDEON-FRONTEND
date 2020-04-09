@@ -1,12 +1,12 @@
 import { put, takeEvery, call, select } from 'redux-saga/effects';
 import { types } from '../../Types/videos';
 import { video, getVideosByUserId, updateUserVideo } from './api';
-import { selectID } from "../../Selectors/index"
+import { selectID, selectVideos } from "../../Selectors/index"
+
 function* userVideo(action: any) {
     try {
         const result = yield video(action.payload);
-        console.log('result Response', result)
-        console.log('res===', result.status)
+
         if (result.status === 200) {
             yield put({ type: types.VIDEO_SUCCESS, payload: result.message });
             alert("Email Sent Successfully")
@@ -27,8 +27,7 @@ function* userVideo(action: any) {
 function* saveVideo(action: any) {
     try {
         const result = yield video(action.payload);
-        console.log('result Response', result)
-        console.log('res===', result.status)
+
         if (result.status === 201) {
             yield put({ type: types.VIDEO_SAVE_SUCESS });
             alert("Video Saved Successfully")
@@ -65,8 +64,13 @@ function* getUserVideos() {
 function* updateVideo(action: any) {
     try {
         const result = yield call(updateUserVideo, action.payload);
+
         if (result.status === 200) {
-            yield put({ type: types.UPDATE_VIDEO_SUCCESS, payload: result.data.message })
+            const videos = yield select(selectVideos);
+            const responseVideo = result.data.video;
+            const updatedVideos = videos.map((video: any) => ((video._id === responseVideo._id ? responseVideo : video)));
+
+            yield put({ type: types.UPDATE_VIDEO_SUCCESS, payload: updatedVideos })
         }
         else {
             yield put({ type: types.UPDATE_VIDEO_FAIL, payload: result.data.message })
