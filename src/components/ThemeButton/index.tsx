@@ -5,7 +5,6 @@ interface IProps {
   name?: string;
   onClick?: () => void;
 }
-
 const useStyles = makeStyles(theme => ({
   button: {
     "&:hover": {
@@ -13,7 +12,6 @@ const useStyles = makeStyles(theme => ({
     }
   }
 }));
-
 const ThemeButton: React.FC<IProps> = ({ name, onClick }) => {
   const classes = useStyles();
   return (
@@ -23,11 +21,3 @@ const ThemeButton: React.FC<IProps> = ({ name, onClick }) => {
   );
 };
 export default ThemeButton;
-
-// button: {
-//   "& .MuiButton-root": {
-//     "&:hover": {
-//       backgrounColor: "#000"
-//     }
-//   }
-// }
