@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { AuthState, User } from "../../Redux/Types/auth";
 import { logout } from "../../Redux/Actions/auth";
-
 import "./style.css";
 
 type IProps = {
@@ -16,32 +15,20 @@ class SideBar extends Component<IProps, IState> {
     super(props);
     this.state = {};
   }
+
+  logout = () => {
+    this.props.logout(this.props.auth);
+  };
   render() {
     return (
       <>
         <div className="MainDrawer">
           <div className="OptionIcons">
-            <i
-              className="fa fa-fw fa-home"
-              style={{
-                fontSize: "1.20em",
-                width: "1.5em",
-                display: "inline-block",
-                color: "#b4bcc8"
-              }}
-            />
+            <i className="fa fa-fw fa-home" style={iconStyle} />
             <h4 className="IconNameStyling">Dashboard</h4>
           </div>
           <div className="OptionIcons">
-            <i
-              className="fa fa-fw fa-video"
-              style={{
-                fontSize: "1.20em",
-                width: "1.5em",
-                display: "inline-block",
-                color: "#b4bcc8"
-              }}
-            />
+            <i className="fa fa-fw fa-video" style={iconStyle} />
             <h4
               className="IconNameStyling"
               onClick={() => {
@@ -52,15 +39,7 @@ class SideBar extends Component<IProps, IState> {
             </h4>
           </div>
           <div className="OptionIcons">
-            <i
-              className="fa fa-user-o"
-              style={{
-                fontSize: "1.20em",
-                width: "1.5em",
-                display: "inline-block",
-                color: "#b4bcc8"
-              }}
-            />
+            <i className="fa fa-user-o" style={iconStyle} />
             <h4
               className="IconNameStyling"
               onClick={() => {
@@ -71,15 +50,7 @@ class SideBar extends Component<IProps, IState> {
             </h4>
           </div>
           <div className="OptionIcons">
-            <i
-              className="fa fa-camera-retro fa-lg"
-              style={{
-                fontSize: "1.20em",
-                width: "1.5em",
-                display: "inline-block",
-                color: "#b4bcc8"
-              }}
-            />
+            <i className="fa fa-camera-retro fa-lg" style={iconStyle} />
             <h4
               className="IconNameStyling"
               onClick={() => {
@@ -90,33 +61,12 @@ class SideBar extends Component<IProps, IState> {
             </h4>
           </div>
           <div className="OptionIcons">
-            <i
-              className="fa fa-fw fa-feed"
-              style={{
-                fontSize: "1.20em",
-                width: "1.5em",
-                display: "inline-block",
-                color: "#b4bcc8"
-              }}
-            />
-            <h4 className="IconNameStyling">Connentions</h4>
+            <i className="fa fa-fw fa-feed" style={iconStyle} />
+            <h4 className="IconNameStyling">Connections</h4>
           </div>
           <div className="OptionIcons">
-            <i
-              className="fa fa-user-circle-o"
-              style={{
-                fontSize: "1.20em",
-                width: "1.5em",
-                display: "inline-block",
-                color: "#b4bcc8"
-              }}
-            />
-            <h4
-              className="IconNameStyling"
-              onClick={() => {
-                this.props.logout(this.props.auth);
-              }}
-            >
+            <i className="fa fa-user-circle-o" style={iconStyle} />
+            <h4 className="IconNameStyling" onClick={this.logout}>
               Logout
             </h4>
           </div>
@@ -125,6 +75,12 @@ class SideBar extends Component<IProps, IState> {
     );
   }
 }
+const iconStyle = {
+  fontSize: "1.20em",
+  width: "1.5em",
+  display: "inline-block",
+  color: "#b4bcc8"
+};
 const mapStateToProps = (state: any) => {
   return {
     auth: state.auth
