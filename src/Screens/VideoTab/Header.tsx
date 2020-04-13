@@ -22,7 +22,7 @@ import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import * as Constants from "../../constants/components/videotab";
 import styles from "./style";
 
-const Header = () => {
+const VideoTabHeader = () => {
   return (
     <div>
       <Row>
@@ -101,4 +101,4 @@ const Header = () => {
     </div>
   );
 };
-export default Header;
+export default VideoTabHeader;

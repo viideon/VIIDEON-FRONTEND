@@ -20,7 +20,7 @@ function* userVideo(action: any) {
         yield put({ type: types.VIDEO_FAILURE, payload: error });
         console.log(error)
         alert("Something Went Wrong")
-        console.log(error);
+
     }
 }
 

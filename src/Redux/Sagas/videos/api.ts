@@ -10,7 +10,7 @@ export function* video(user: any) {
       },
       body: JSON.stringify(user)
    }
-   const response = yield fetch(`${CONSTANTS.BASE_URL}/video`, opt);
+   const response = yield fetch(`${CONSTANTS.DEV_URL}/video`, opt);
    const message = yield response.json();
    return yield ({ status: response.status, message })
 }

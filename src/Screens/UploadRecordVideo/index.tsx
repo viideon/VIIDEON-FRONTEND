@@ -16,6 +16,7 @@ import Loading from "../../components/Loading";
 import * as Constants from "../../constants/components/UploadRecord";
 import "../../../node_modules/react-tabs/style/react-tabs.css";
 import { reg } from "../../constants/emailRegEx";
+import { config } from "../../config/aws";
 import "./style.css";
 
 type IProps = {
@@ -36,14 +37,7 @@ type IState = {
   recordFile: any;
   recieverEmail: string;
 };
-const config = {
-  bucketName: "paractice",
-  dirName: "nafeel",
-  region: "us-east-1",
-  ACL: "public-read",
-  accessKeyId: "AKIAIK4LMUMBSKO7CYAQ",
-  secretAccessKey: "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"
-};
+
 class UploadRecord extends Component<IProps, IState> {
   onDrop: (files: any) => void;
   constructor(props: any) {
@@ -73,6 +67,7 @@ class UploadRecord extends Component<IProps, IState> {
       recieverEmail: event.target.value
     });
   };
+
   fileHandler = () => {
     if (reg.test(this.state.recieverEmail) === false) {
       return alert("Invalid Email");
@@ -163,6 +158,10 @@ class UploadRecord extends Component<IProps, IState> {
     }
   };
   saveVideo = () => {
+    if (this.state.name === "") {
+      alert("Enter a title to save video");
+      return;
+    }
     this.setState({ loading: true });
     let file = {
       name: this.state.name,
@@ -210,17 +209,11 @@ class UploadRecord extends Component<IProps, IState> {
           <Tabs>
             <TabList>
               <Tab>
-                <FaLaptop
-                  id="videoTabIcon"
-                  style={{ padding: 5, width: 20, height: 20 }}
-                />
+                <FaLaptop id="videoTabIcon" style={iconStyle} />
                 {Constants.UPLOAD_FROM_COMPUTER}
               </Tab>
               <Tab>
-                <FaCamera
-                  id="videoTabIcon"
-                  style={{ padding: 5, width: 20, height: 20 }}
-                />
+                <FaCamera id="videoTabIcon" style={iconStyle} />
                 {Constants.RECORD_WITH_CAMERA}
               </Tab>
             </TabList>
@@ -267,7 +260,7 @@ class UploadRecord extends Component<IProps, IState> {
                                   </Label>
                                   <Input
                                     type="text"
-                                    name="firstName"
+                                    name="recieverEmail"
                                     id="typeInput"
                                     placeholder="Enter email address"
                                     value={this.state.recieverEmail}
@@ -299,12 +292,17 @@ class UploadRecord extends Component<IProps, IState> {
                 <div style={{ marginTop: 20, marginBottom: 20 }}>
                   <Row>
                     <Col className="col-md-6 m-auto">
+                      <div style={{ marginLeft: "50%" }}>
+                        {this.state.loading ? (
+                          <Loading height="15%" width="15%" />
+                        ) : null}
+                      </div>
                       <Form id="formInput">
                         <FormGroup>
                           <Label for="exampleEmail">{Constants.TITLE}</Label>
                           <Input
                             type="text"
-                            name="firstName"
+                            name="name"
                             id="typeInput"
                             placeholder=""
                             value={this.state.name}
@@ -317,20 +315,14 @@ class UploadRecord extends Component<IProps, IState> {
                           </Label>
                           <Input
                             type="text"
-                            name="firstName"
+                            name="email"
                             id="typeInput"
                             placeholder=""
                             value={this.state.recieverEmail}
                             onChange={this.emailHandler}
                           />
                         </FormGroup>
-                        <Button
-                          variant="contained"
-                          style={{ marginRight: "15px" }}
-                          onClick={this.saveVideo}
-                        >
-                          {Constants.SAVE_VIDEO}
-                        </Button>
+
                         <Button
                           color="secondary"
                           variant="contained"
@@ -338,17 +330,22 @@ class UploadRecord extends Component<IProps, IState> {
                         >
                           {Constants.SEND_THROUGH_EMAIL}
                         </Button>
+                        <span className="orSpanText">or</span>
+                        <Button
+                          variant="contained"
+                          style={{ marginRight: "15px" }}
+                          onClick={this.saveVideo}
+                        >
+                          {Constants.SAVE_VIDEO}
+                        </Button>
                       </Form>
-                      <div style={{ marginLeft: "50%" }}>
-                        {this.state.loading ? <Loading /> : null}
-                      </div>
                     </Col>
                   </Row>
                 </div>
               )}
               <div style={styles.recorder}>
                 <VideoRecorder
-                  isOnInitially
+                  isOnInitially={false}
                   showReplayControls
                   replayVideoAutoplayAndLoopOff
                   isReplayVideoInitiallyMuted={false}
@@ -365,6 +362,12 @@ class UploadRecord extends Component<IProps, IState> {
     );
   }
 }
+
+const iconStyle = {
+  padding: 5,
+  width: 20,
+  height: 20
+};
 const mapStateToProps = (state: any) => {
   return {
     auth: state.auth,

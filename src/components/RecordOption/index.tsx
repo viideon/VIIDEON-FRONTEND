@@ -1,7 +1,5 @@
 import React, { FC, useState } from "react";
 import { Button, Tooltip } from "reactstrap";
-
-// import { Images } from '../../config';
 import "./styles.css";
 
 type IProps = {
