@@ -15,6 +15,12 @@ export function* video(user: any) {
    return yield ({ status: response.status, message })
 }
 
+export async function saveVideo(video: any) {
+   return API.post("/video", video);
+}
+export async function sendVideoToEmail(video: any) {
+   return API.post('/video/email', video);
+}
 export async function getVideos() {
    return API.get('/video');
 }

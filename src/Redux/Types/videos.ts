@@ -1,6 +1,6 @@
-const VIDEO_REQUEST: string = "VIDEO_REQUEST";
-const VIDEO_SUCCESS: string = "VIDEO_SUCCESS";
-const VIDEO_FAILURE: string = "VIDEO_FAILURE";
+const VIDEO_SEND_REQUEST: string = "VIDEO_SEND_REQUEST";
+const VIDEO_SEND_SUCCESS: string = "VIDEO_SEND_SUCCESS";
+const VIDEO_SEND_FAILURE: string = "VIDEO_SEND_FAILURE";
 const VIDEO_SAVE: string = "VIDEO_SAVE";
 const VIDEO_SAVE_SUCESS: string = "VIDEO_SAVE_SUCESS";
 const VIDEO_SAVE_FAILURE: string = "VIDEO_SAVE_FAILURE";
@@ -12,9 +12,9 @@ const UPDATE_VIDEO_SUCCESS: string = "UPDATE_VIDEO_SUCCESS";
 const UPDATE_VIDEO_FAIL: string = "UPDATE_VIDEO_FAIL"
 
 export const types = {
-  VIDEO_REQUEST,
-  VIDEO_SUCCESS,
-  VIDEO_FAILURE,
+  VIDEO_SEND_REQUEST,
+  VIDEO_SEND_SUCCESS,
+  VIDEO_SEND_FAILURE,
   VIDEO_SAVE,
   VIDEO_SAVE_SUCESS,
   VIDEO_SAVE_FAILURE,
@@ -25,14 +25,12 @@ export const types = {
   UPDATE_VIDEO_SUCCESS,
   UPDATE_VIDEO_FAIL
 }
-export interface Video {
+export interface EmailVideo {
   url: string;
-  thumbnail: string;
-  title: string;
-  userId: string;
   recieverEmail: string;
 }
 export interface VideoSave {
+  title: string;
   url: string;
   userId: string;
 }
@@ -45,7 +43,7 @@ export interface VideoUpdate {
 }
 
 export interface VideoState {
-  video?: Video;
+  video?: EmailVideo;
   success?: string;
   loading?: boolean;
   error?: boolean;
@@ -53,8 +51,8 @@ export interface VideoState {
 
 }
 export interface VideoAction {
-  type: typeof VIDEO_REQUEST
-  payload: Video
+  type: typeof VIDEO_SEND_REQUEST
+  payload: EmailVideo
 }
 
 export interface VideoSaveAction {

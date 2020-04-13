@@ -6,8 +6,8 @@ import { FaCamera, FaLaptop } from "react-icons/fa";
 import Dropzone from "react-dropzone";
 import { connect } from "react-redux";
 import Header from "../../components/Header/Header";
-import { VideoUser, saveVideo } from "../../Redux/Actions/videos";
-import { VideoState, Video, VideoSave } from "../../Redux/Types/videos";
+import { sendVideoToEmail, saveVideo } from "../../Redux/Actions/videos";
+import { VideoState, EmailVideo, VideoSave } from "../../Redux/Types/videos";
 import VideoRecorder from "react-video-recorder";
 import styles from "../VideoTab/style";
 import Button from "@material-ui/core/Button";
@@ -23,7 +23,7 @@ type IProps = {
   auth: AuthState;
   history: any;
   videoUser: VideoState;
-  addVideo: (video: Video) => void;
+  sendVideoToEmail: (video: EmailVideo) => void;
   saveVideo: (video: VideoSave) => void;
 };
 type IState = {
@@ -32,7 +32,7 @@ type IState = {
   files: any;
   loading: boolean;
   videoRecord: any;
-  name: any;
+  title: string;
   urlRecord: string;
   recordFile: any;
   recieverEmail: string;
@@ -52,14 +52,14 @@ class UploadRecord extends Component<IProps, IState> {
       recordFile: [],
       loading: false,
       videoRecord: "",
-      name: "",
+      title: "",
       urlRecord: "",
       recieverEmail: ""
     };
   }
   titleNameHandler = (event: any) => {
     this.setState({
-      name: event.target.value
+      title: event.target.value
     });
   };
   emailHandler = (event: any) => {
@@ -92,20 +92,14 @@ class UploadRecord extends Component<IProps, IState> {
           throw err;
         }
         that.setState({ url: data.Location });
-        const { name } = that.state.file;
-        const title = name;
+        // const { name } = that.state.file;
         const url = that.state.url;
-        const thumbnail = "dummy";
-        const userId = that.props.auth.user!.user!._id;
         const recieverEmail = that.state.recieverEmail;
         const video = {
           url,
-          thumbnail,
-          title,
-          userId,
           recieverEmail
         };
-        that.props.addVideo(video);
+        that.props.sendVideoToEmail(video);
         that.setState({ loading: false });
       });
     } else {
@@ -115,11 +109,11 @@ class UploadRecord extends Component<IProps, IState> {
   submit = () => {
     if (reg.test(this.state.recieverEmail) === false) {
       return alert("Invalid Email");
-    } else if (this.state.name && this.state.recieverEmail) {
+    } else if (this.state.recieverEmail) {
       const that = this;
       this.setState({ loading: true });
       let file = {
-        name: this.state.name,
+        name: this.state.title,
         type: this.state.videoRecord.type,
         size: this.state.videoRecord.size,
         path: this.state.videoRecord.type
@@ -138,19 +132,13 @@ class UploadRecord extends Component<IProps, IState> {
           throw err;
         }
         that.setState({ urlRecord: data.Location });
-        const title = that.state.name;
         const url = that.state.urlRecord;
-        const thumbnail = "dummy";
-        const userId = that.props.auth.user!.user!._id;
         const recieverEmail = that.state.recieverEmail;
         const video = {
           url,
-          thumbnail,
-          title,
-          userId,
           recieverEmail
         };
-        that.props.addVideo(video);
+        that.props.sendVideoToEmail(video);
         that.setState({ loading: false });
       });
     } else {
@@ -158,13 +146,13 @@ class UploadRecord extends Component<IProps, IState> {
     }
   };
   saveVideo = () => {
-    if (this.state.name === "") {
+    if (this.state.title === "") {
       alert("Enter a title to save video");
       return;
     }
     this.setState({ loading: true });
     let file = {
-      name: this.state.name,
+      name: this.state.title,
       type: this.state.videoRecord.type,
       size: this.state.videoRecord.size,
       path: this.state.videoRecord.type
@@ -184,12 +172,13 @@ class UploadRecord extends Component<IProps, IState> {
         throw err;
       }
       that.setState({ urlRecord: data.Location });
-      const url = that.state.urlRecord;
-      const userId = that.props.auth.user!.user!._id;
+      // const url = that.state.urlRecord;
+      // const userId = that.props.auth.user!.user!._id;
 
       const video = {
-        url,
-        userId
+        url: that.state.urlRecord,
+        userId: that.props.auth.user!.user!._id,
+        title: that.state.title
       };
       that.props.saveVideo(video);
       that.setState({ loading: false });
@@ -305,7 +294,7 @@ class UploadRecord extends Component<IProps, IState> {
                             name="name"
                             id="typeInput"
                             placeholder=""
-                            value={this.state.name}
+                            value={this.state.title}
                             onChange={this.titleNameHandler}
                           />
                         </FormGroup>
@@ -376,7 +365,7 @@ const mapStateToProps = (state: any) => {
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    addVideo: (video: Video) => dispatch(VideoUser(video)),
+    sendVideoToEmail: (video: EmailVideo) => dispatch(sendVideoToEmail(video)),
     saveVideo: (video: VideoSave) => dispatch(saveVideo(video))
   };
 };

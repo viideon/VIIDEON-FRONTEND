@@ -1,32 +1,30 @@
 import { put, takeEvery, call, select } from 'redux-saga/effects';
 import { types } from '../../Types/videos';
-import { video, getVideosByUserId, updateUserVideo } from './api';
+import { sendVideoToEmail, saveVideo, getVideosByUserId, updateUserVideo } from './api';
 import { selectID, selectVideos } from "../../Selectors/index"
 
-function* userVideo(action: any) {
+function* sendVideoOnEmail(action: any) {
     try {
-        const result = yield video(action.payload);
-
+        const result = yield sendVideoToEmail(action.payload);
         if (result.status === 200) {
-            yield put({ type: types.VIDEO_SUCCESS, payload: result.message });
+            yield put({ type: types.VIDEO_SEND_REQUEST, payload: result.message });
             alert("Email Sent Successfully")
         }
         else {
-            yield put({ type: types.VIDEO_FAILURE, payload: result.message });
+            yield put({ type: types.VIDEO_SEND_FAILURE, payload: result.message });
             alert("Something Went Wrong")
 
         }
     } catch (error) {
-        yield put({ type: types.VIDEO_FAILURE, payload: error });
-        console.log(error)
-        alert("Something Went Wrong")
+        yield put({ type: types.VIDEO_SEND_FAILURE, payload: error });
+        alert(error);
 
     }
 }
 
-function* saveVideo(action: any) {
+function* saveUserVideo(action: any) {
     try {
-        const result = yield video(action.payload);
+        const result = yield saveVideo(action.payload);
 
         if (result.status === 201) {
             yield put({ type: types.VIDEO_SAVE_SUCESS });
@@ -37,10 +35,8 @@ function* saveVideo(action: any) {
             alert("Something Went Wrong")
         }
     } catch (error) {
-        yield put({ type: types.VIDEO_FAILURE, payload: error });
-
-        alert("Something Went Wrong")
-
+        yield put({ type: types.VIDEO_SAVE_FAILURE, payload: error });
+        alert(error);
     }
 }
 
@@ -82,8 +78,8 @@ function* updateVideo(action: any) {
 }
 
 export function* videoWatcher() {
-    yield takeEvery(types.VIDEO_REQUEST, userVideo);
-    yield takeEvery(types.VIDEO_SAVE, saveVideo);
+    yield takeEvery(types.VIDEO_SEND_REQUEST, sendVideoOnEmail);
+    yield takeEvery(types.VIDEO_SAVE, saveUserVideo);
     yield takeEvery(types.GET_USER_VIDEOS, getUserVideos);
     yield takeEvery(types.UPDATE_VIDEO, updateVideo);
 }
