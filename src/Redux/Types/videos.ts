@@ -33,6 +33,7 @@ export interface VideoSave {
   title: string;
   url: string;
   userId: string;
+  thumbnail?: string;
 }
 export interface VideoUpdate {
   url?: string;
@@ -50,7 +51,7 @@ export interface VideoState {
   errorMessage?: string;
 
 }
-export interface VideoAction {
+export interface VideoEmailAction {
   type: typeof VIDEO_SEND_REQUEST
   payload: EmailVideo
 }

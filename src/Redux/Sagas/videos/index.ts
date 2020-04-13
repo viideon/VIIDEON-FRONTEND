@@ -7,25 +7,22 @@ function* sendVideoOnEmail(action: any) {
     try {
         const result = yield sendVideoToEmail(action.payload);
         if (result.status === 200) {
-            yield put({ type: types.VIDEO_SEND_REQUEST, payload: result.message });
+            yield put({ type: types.VIDEO_SEND_SUCCESS, payload: result.message });
             alert("Email Sent Successfully")
         }
         else {
             yield put({ type: types.VIDEO_SEND_FAILURE, payload: result.message });
             alert("Something Went Wrong")
-
         }
     } catch (error) {
         yield put({ type: types.VIDEO_SEND_FAILURE, payload: error });
         alert(error);
-
     }
 }
 
 function* saveUserVideo(action: any) {
     try {
         const result = yield saveVideo(action.payload);
-
         if (result.status === 201) {
             yield put({ type: types.VIDEO_SAVE_SUCESS });
             alert("Video Saved Successfully")

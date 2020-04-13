@@ -92,7 +92,6 @@ class UploadRecord extends Component<IProps, IState> {
           throw err;
         }
         that.setState({ url: data.Location });
-        // const { name } = that.state.file;
         const url = that.state.url;
         const recieverEmail = that.state.recieverEmail;
         const video = {
@@ -112,20 +111,20 @@ class UploadRecord extends Component<IProps, IState> {
     } else if (this.state.recieverEmail) {
       const that = this;
       this.setState({ loading: true });
-      let file = {
-        name: this.state.title,
-        type: this.state.videoRecord.type,
-        size: this.state.videoRecord.size,
-        path: this.state.videoRecord.type
-      };
+      // let file = {
+      //   name: this.state.title,
+      //   type: this.state.videoRecord.type,
+      //   size: this.state.videoRecord.size,
+      //   path: this.state.videoRecord.type
+      // };
 
-      this.setState({ recordFile: file });
+      // this.setState({ recordFile: file });
       let s3 = new AWS.S3(config);
       var options = {
         Bucket: config.bucketName,
         ACL: config.ACL,
-        Key: Date.now().toString(),
-        Body: JSON.stringify(file)
+        Key: Date.now().toString() + ".webm",
+        Body: this.state.videoRecord
       };
       s3.upload(options, function(err: any, data: any) {
         if (err) {
@@ -151,30 +150,29 @@ class UploadRecord extends Component<IProps, IState> {
       return;
     }
     this.setState({ loading: true });
-    let file = {
-      name: this.state.title,
-      type: this.state.videoRecord.type,
-      size: this.state.videoRecord.size,
-      path: this.state.videoRecord.type
-    };
+    // let file = {
+    //   name: this.state.title,
+    //   type: this.state.videoRecord.type,
+    //   size: this.state.videoRecord.size,
+    //   path: this.state.videoRecord.type
+    // };
 
-    this.setState({ recordFile: file });
+    // this.setState({ recordFile: file });
+
     let s3 = new AWS.S3(config);
     var options = {
       Bucket: config.bucketName,
       ACL: config.ACL,
-      Key: Date.now().toString(),
-      Body: JSON.stringify(file)
+      Key: Date.now().toString() + ".webm",
+      Body: this.state.videoRecord
     };
+
     const that = this;
     s3.upload(options, function(err: any, data: any) {
       if (err) {
         throw err;
       }
       that.setState({ urlRecord: data.Location });
-      // const url = that.state.urlRecord;
-      // const userId = that.props.auth.user!.user!._id;
-
       const video = {
         url: that.state.urlRecord,
         userId: that.props.auth.user!.user!._id,
@@ -186,8 +184,6 @@ class UploadRecord extends Component<IProps, IState> {
   };
 
   render() {
-    console.log("The Record Video is:", this.state.recordFile);
-    console.log("The Upload Video is:", this.state.files);
     return (
       <>
         <Header history={this.props.history} />
@@ -298,6 +294,13 @@ class UploadRecord extends Component<IProps, IState> {
                             onChange={this.titleNameHandler}
                           />
                         </FormGroup>
+                        <Button
+                          variant="contained"
+                          style={{ marginBottom: "8px" }}
+                          onClick={this.saveVideo}
+                        >
+                          {Constants.SAVE_VIDEO}
+                        </Button>
                         <FormGroup>
                           <Label for="exampleEmail">
                             {Constants.SENDER_ADDRESS}
@@ -319,14 +322,7 @@ class UploadRecord extends Component<IProps, IState> {
                         >
                           {Constants.SEND_THROUGH_EMAIL}
                         </Button>
-                        <span className="orSpanText">or</span>
-                        <Button
-                          variant="contained"
-                          style={{ marginRight: "15px" }}
-                          onClick={this.saveVideo}
-                        >
-                          {Constants.SAVE_VIDEO}
-                        </Button>
+                        {/* <span className="orSpanText">or</span> */}
                       </Form>
                     </Col>
                   </Row>

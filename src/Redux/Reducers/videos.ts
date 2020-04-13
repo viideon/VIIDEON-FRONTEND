@@ -5,18 +5,18 @@ let initialState: VideoState = {
 };
 const videoReducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case types.VIDEO_REQUEST:
+    case types.VIDEO_SEND_REQUEST:
       return {
         ...state,
         loading: true
       };
-    case types.VIDEO_SUCCESS:
+    case types.VIDEO_SEND_SUCCESS:
       return {
         ...state,
         loading: false,
         success: action.payload
       };
-    case types.VIDEO_FAILURE:
+    case types.VIDEO_SEND_FAILURE:
       return {
         ...state,
         error: true,

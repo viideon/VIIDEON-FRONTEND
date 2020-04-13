@@ -1,6 +1,6 @@
-import { types, VideoAction, VideoSaveAction, getUserVideoAction, updateVideoAction, VideoUpdate, EmailVideo, VideoSave } from "../Types/videos";
+import { types, VideoEmailAction, VideoSaveAction, getUserVideoAction, updateVideoAction, VideoUpdate, EmailVideo, VideoSave } from "../Types/videos";
 
-export function sendVideoToEmail(video: EmailVideo): VideoAction {
+export function sendVideoToEmail(video: EmailVideo): VideoEmailAction {
   return {
     type: types.VIDEO_SEND_REQUEST,
     payload: video

@@ -1,84 +1,17 @@
 import React, { Component } from "react";
 import { Row, Col, Container } from "reactstrap";
-import { connect } from "react-redux";
-import AWS from "aws-sdk";
 import Header from "../../components/Header/Header";
 import SideBar from "../../components/SideBar/SideBar";
 import HeaderCard from "../../components/HeaderCards/Cards";
 import VideoComponent from "../../components/VideosComponent/VideosComponent";
-import { VideoUser } from "../../Redux/Actions/videos";
-import { VideoState } from "../../Redux/Types/videos";
-import { Video } from "../../Redux/Types/videos";
 import Styles from "./styles";
-
 import "./styles.css";
 
 type IProps = {
   history: any;
-  videoUser: VideoState;
-  addVideo: (video: Video) => void;
 };
 
-type IState = {
-  file: any;
-  url: string;
-};
-
-const config = {
-  bucketName: "paractice",
-  dirName: "nafeel",
-  region: "us-east-1",
-  ACL: "public-read",
-  accessKeyId: "AKIAIK4LMUMBSKO7CYAQ",
-  secretAccessKey: "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"
-};
-
-class Home extends Component<IProps, IState> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      file: {},
-      url: ""
-    };
-  }
-  fileHandler = (e: any) => {
-    const that = this;
-    const file = {
-      name: e.target.files[0].name,
-      type: e.target.files[0].type,
-      size: e.target.files[0].size
-    };
-    this.setState({ file });
-    let s3 = new AWS.S3(config);
-    var options = {
-      Bucket: config.bucketName,
-      ACL: config.ACL,
-      Key: Date.now().toString(),
-      Body: e.target.files[0]
-    };
-    s3.upload(options, function(err: any, data: any) {
-      if (err) {
-        throw err;
-      }
-      that.setState({ url: data.Location });
-    });
-  };
-  saveVideo = () => {
-    const { name } = this.state.file;
-    const title = name;
-    const url = this.state.url;
-    const thumbnail = "dummy";
-    const userId = "5e592c5bac9cd60024085779";
-    const recieverEmail = "test22@gmail.com";
-    const video = {
-      url,
-      thumbnail,
-      title,
-      userId,
-      recieverEmail
-    };
-    this.props.addVideo(video);
-  };
+class Home extends Component<IProps> {
   render() {
     return (
       <div>
@@ -125,14 +58,5 @@ class Home extends Component<IProps, IState> {
     );
   }
 }
-const mapStateToProps = (state: any) => {
-  return {
-    videoUser: state.video
-  };
-};
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    addVideo: (video: Video) => dispatch(VideoUser(video))
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+
+export default Home;
