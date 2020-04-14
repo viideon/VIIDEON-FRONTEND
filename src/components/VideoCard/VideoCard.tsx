@@ -12,9 +12,9 @@ type IProps = {
 };
 const VideoCard: FC<IProps> = ({ title, url, thumbnail, onClick }) => {
   return (
-    <div>
+    <div onClick={onClick}>
       <Card className="VideoMain">
-        <div onClick={onClick}>
+        <div>
           <Player
             playsInline
             poster={thumbnail ? thumbnail : "/assests/poster"}
