@@ -10,6 +10,7 @@ const GET_USER_VIDEOS_FAILED: string = "GET_USER_VIDEOS_FAILURE";
 const UPDATE_VIDEO: string = "UPDATE_VIDEO";
 const UPDATE_VIDEO_SUCCESS: string = "UPDATE_VIDEO_SUCCESS";
 const UPDATE_VIDEO_FAIL: string = "UPDATE_VIDEO_FAIL"
+const TOGGLE_SEND_VARIABLE = "TOGGLE_SEND_VARIABLE"
 
 export const types = {
   VIDEO_SEND_REQUEST,
@@ -23,7 +24,8 @@ export const types = {
   GET_USER_VIDEOS_SUCCESS,
   UPDATE_VIDEO,
   UPDATE_VIDEO_SUCCESS,
-  UPDATE_VIDEO_FAIL
+  UPDATE_VIDEO_FAIL,
+  TOGGLE_SEND_VARIABLE
 }
 export interface EmailVideo {
   url: string;
@@ -49,7 +51,9 @@ export interface VideoState {
   loading?: boolean;
   error?: boolean;
   errorMessage?: string;
-  videoSaved?: boolean;
+  videoSaved?: boolean | null;
+  videoSend?: boolean | null;
+  isVideoUpdated?: boolean | null;
 
 }
 export interface VideoEmailAction {

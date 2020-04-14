@@ -60,7 +60,7 @@ class Editing extends React.Component<IProps, IState> {
       S3FileUpload.uploadFile(file, config)
         .then((data: any) => {
           this.setState({ url: data.location });
-          alert("Thumbnail Updated");
+          alert("Thumbnail Uploaded ,Apply Changes to update");
           return;
         })
         .catch((err: any) => alert(err));

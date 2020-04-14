@@ -55,3 +55,7 @@
   padding-left: 12px;
   padding-right: 12px;
 }
+.fileInformationDiv {
+  box-shadow: 0 0 10px #dadada;
+  padding: 3px 5px 2px 10px;
+}

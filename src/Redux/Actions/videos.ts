@@ -26,3 +26,9 @@ export function updateVideo(video: VideoUpdate): updateVideoAction {
     payload: video
   }
 }
+
+export function toggleSendVariable(){
+  return {
+    type:types.TOGGLE_SEND_VARIABLE
+  }
+}

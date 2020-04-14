@@ -6,7 +6,11 @@ import { FaCamera, FaLaptop } from "react-icons/fa";
 import Dropzone from "react-dropzone";
 import { connect } from "react-redux";
 import Header from "../../components/Header/Header";
-import { sendVideoToEmail, saveVideo } from "../../Redux/Actions/videos";
+import {
+  sendVideoToEmail,
+  saveVideo,
+  toggleSendVariable
+} from "../../Redux/Actions/videos";
 import { VideoState, EmailVideo, VideoSave } from "../../Redux/Types/videos";
 import VideoRecorder from "react-video-recorder";
 import styles from "../VideoTab/style";
@@ -25,6 +29,7 @@ type IProps = {
   videoUser: VideoState;
   sendVideoToEmail: (video: EmailVideo) => void;
   saveVideo: (video: VideoSave) => void;
+  toggleSendVariable: () => void;
 };
 type IState = {
   file: any;
@@ -43,6 +48,7 @@ class UploadRecord extends Component<IProps, IState> {
   constructor(props: any) {
     super(props);
     this.onDrop = files => {
+      this.props.toggleSendVariable();
       this.setState({ files });
     };
     this.state = {
@@ -69,14 +75,12 @@ class UploadRecord extends Component<IProps, IState> {
   };
 
   fileHandler = () => {
+    if (this.state.title === "") {
+      alert("Enter a video title");
+      return;
+    }
     const that = this;
-    this.setState({ loading: true });
-    // const file = {
-    //   name: this.state.files[0].name,
-    //   type: this.state.files[0].type,
-    //   size: this.state.files[0].size
-    // };
-    // this.setState({ file });
+
     let s3 = new AWS.S3(config);
     var options = {
       Bucket: config.bucketName,
@@ -88,22 +92,23 @@ class UploadRecord extends Component<IProps, IState> {
       if (err) {
         throw err;
       }
-      that.setState({ url: data.Location });
-      const url = that.state.url;
+      that.setState({ urlRecord: data.Location });
+      const url = that.state.urlRecord;
       const video = {
         title: that.state.title,
         url,
         userId: that.props.auth.user!.user!._id
       };
       that.props.saveVideo(video);
-      that.setState({ loading: false });
     });
   };
 
   submit = () => {
-    if (reg.test(this.state.recieverEmail) === false) {
+    if (this.state.recieverEmail === "") {
+      return alert("Add an Email");
+    } else if (reg.test(this.state.recieverEmail) === false) {
       return alert("Invalid Email");
-    } else if (this.state.recieverEmail) {
+    } else {
       const that = this;
       const url = that.state.urlRecord;
       const recieverEmail = that.state.recieverEmail;
@@ -112,8 +117,6 @@ class UploadRecord extends Component<IProps, IState> {
         recieverEmail
       };
       that.props.sendVideoToEmail(video);
-    } else {
-      alert("Fill the field first");
     }
   };
   saveVideo = () => {
@@ -192,59 +195,65 @@ class UploadRecord extends Component<IProps, IState> {
                           </p>
                           {this.state.files.map((file: any) => (
                             <div key={file.name}>
-                              <div style={{ boxShadow: "0 0 10px #dadada" }}>
+                              {/* style={{ boxShadow: "0 0 10px #dadada" }} */}
+                              <div className="fileInformationDiv">
                                 <p>File Name: {file.name}</p>
                                 <p>Size: {file.size} bytes</p>
                               </div>
                               <Form id="formInput">
-                                <div>
-                                  <FormGroup>
-                                    <Label for="exampleEmail">
-                                      {Constants.TITLE}
-                                    </Label>
-                                    <Input
-                                      type="text"
-                                      name="name"
-                                      id="typeInput"
-                                      placeholder=""
-                                      value={this.state.title}
-                                      onChange={this.titleNameHandler}
-                                    />
-                                  </FormGroup>
-                                  <Button
-                                    variant="contained"
-                                    style={{ marginBottom: "8px" }}
-                                    onClick={this.fileHandler}
-                                  >
-                                    {Constants.SAVE_VIDEO}
-                                  </Button>
-                                </div>
-                                <div>
-                                  <FormGroup>
-                                    <Label
-                                      for="exampleEmail"
-                                      style={{ fontWeight: "bold" }}
+                                {videoSaved === null && (
+                                  <div>
+                                    <FormGroup>
+                                      <Label for="exampleEmail">
+                                        {Constants.TITLE}
+                                      </Label>
+                                      <Input
+                                        type="text"
+                                        name="name"
+                                        id="typeInput"
+                                        placeholder=""
+                                        value={this.state.title}
+                                        onChange={this.titleNameHandler}
+                                      />
+                                    </FormGroup>
+                                    <Button
+                                      variant="contained"
+                                      style={{ marginBottom: "8px" }}
+                                      onClick={this.fileHandler}
                                     >
-                                      {Constants.SENDER_ADDRESS}
-                                    </Label>
-                                    <Input
-                                      type="text"
-                                      name="recieverEmail"
-                                      id="typeInput"
-                                      placeholder="Enter email address"
-                                      value={this.state.recieverEmail}
-                                      onChange={this.emailHandler}
-                                      required
-                                    />
-                                  </FormGroup>
-                                  <Button
-                                    color="secondary"
-                                    variant="contained"
-                                    onClick={this.fileHandler}
-                                  >
-                                    {Constants.SEND_THROUGH_EMAIL}
-                                  </Button>
-                                </div>
+                                      {Constants.SAVE_VIDEO}
+                                    </Button>
+                                  </div>
+                                )}
+
+                                {videoSaved === true && (
+                                  <div>
+                                    <FormGroup>
+                                      <Label
+                                        for="exampleEmail"
+                                        style={{ fontWeight: "bold" }}
+                                      >
+                                        {Constants.SENDER_ADDRESS}
+                                      </Label>
+                                      <Input
+                                        type="text"
+                                        name="recieverEmail"
+                                        id="typeInput"
+                                        placeholder="Enter email address"
+                                        value={this.state.recieverEmail}
+                                        onChange={this.emailHandler}
+                                        required
+                                      />
+                                    </FormGroup>
+                                    <Button
+                                      color="secondary"
+                                      variant="contained"
+                                      onClick={this.submit}
+                                    >
+                                      {Constants.SEND_THROUGH_EMAIL}
+                                    </Button>
+                                  </div>
+                                )}
                               </Form>
                             </div>
                           ))}
@@ -253,7 +262,7 @@ class UploadRecord extends Component<IProps, IState> {
                     )}
                   </Dropzone>
                   <div style={{ marginLeft: "50%" }}>
-                    {this.state.loading ? <Loading /> : null}
+                    {loading && <Loading />}
                   </div>
                 </div>
               </div>
@@ -267,7 +276,7 @@ class UploadRecord extends Component<IProps, IState> {
                         {loading && <Loading height="15%" width="15%" />}
                       </div>
                       <Form id="formInput">
-                        {videoSaved === false && (
+                        {videoSaved === null && (
                           <div>
                             <FormGroup>
                               <Label for="exampleEmail">
@@ -330,6 +339,7 @@ class UploadRecord extends Component<IProps, IState> {
                   isReplayVideoInitiallyMuted={false}
                   onRecordingComplete={(videoBlob: any) => {
                     // Do something with the video...
+                    this.props.toggleSendVariable();
                     this.setState({ videoRecord: videoBlob });
                   }}
                 />
@@ -356,7 +366,8 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     sendVideoToEmail: (video: EmailVideo) => dispatch(sendVideoToEmail(video)),
-    saveVideo: (video: VideoSave) => dispatch(saveVideo(video))
+    saveVideo: (video: VideoSave) => dispatch(saveVideo(video)),
+    toggleSendVariable: () => dispatch(toggleSendVariable())
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(UploadRecord);

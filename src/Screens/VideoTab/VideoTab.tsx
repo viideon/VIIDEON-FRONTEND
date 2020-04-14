@@ -147,7 +147,7 @@ const VideoTab = ({ match: { params }, history }: any) => {
             </Container>
           </TabPane>
           <TabPane tabId="2">
-            <h4>{Constants.TAB}</h4>
+            <h4>Screen to be desgined Yet.</h4>
           </TabPane>
           <TabPane tabId="3">
             <Editing videoId={params.id} />

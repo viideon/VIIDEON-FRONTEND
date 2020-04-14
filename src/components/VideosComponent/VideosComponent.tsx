@@ -27,7 +27,7 @@ class VideoComponent extends Component<IProps> {
       <>
         <div className="VideoComponent">
           <div className="mainWrapperComponent">
-            <h4 className="Header">MY VIDEOS</h4>
+            <h5 className="Header">MY VIDEOS</h5>
             <RecordOption history={this.props.history} />
           </div>
           <Row>

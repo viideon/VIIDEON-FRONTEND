@@ -18,32 +18,42 @@ class Home extends Component<IProps> {
         <Header history={this.props.history} />
         <Container id="homeContainerWrap">
           <Row>
-            <Col xs="3" md="3">
+            <Col xs="4" md="3">
               <SideBar history={this.props.history} />
             </Col>
-            <Col xs="9" md="9">
-              <div id="headerCardWrap">
-                <HeaderCard
-                  styles={Styles.headerCardOne}
-                  Video="14"
-                  Title="Videos"
-                />
-                <HeaderCard
-                  styles={Styles.headerCardTwo}
-                  Video="0"
-                  Title="Total Video Views"
-                />
-                <HeaderCard
-                  styles={Styles.headerCardThree}
-                  Video="3"
-                  Title="Call to Action"
-                />
-                <HeaderCard
-                  styles={Styles.headerCardFour}
-                  Video="1"
-                  Title="Team Members"
-                />
-              </div>
+            <Col xs="8" md="9">
+              <Row>
+                <Col xs="6" md="3">
+                  <HeaderCard
+                    styles={Styles.headerCardOne}
+                    Video="14"
+                    Title="Videos"
+                  />
+                </Col>
+                <Col xs="6" md="3">
+                  <HeaderCard
+                    styles={Styles.headerCardTwo}
+                    Video="0"
+                    Title="Total Video Views"
+                  />
+                </Col>
+                <Col xs="6" md="3">
+                  <HeaderCard
+                    styles={Styles.headerCardThree}
+                    Video="3"
+                    Title="Call to Action"
+                  />
+                </Col>
+                <Col xs="6" md="3">
+                  <HeaderCard
+                    styles={Styles.headerCardFour}
+                    Video="1"
+                    Title="Team Members"
+                  />
+                </Col>
+              </Row>
+              {/* <div id="headerCardWrap"> */}
+              {/* </div> */}
               <div>
                 <Row>
                   <Col xs="12">
