@@ -1,7 +1,7 @@
 import { types, VideoState } from "../Types/videos";
 
 let initialState: VideoState = {
-
+  videoSaved: false,
 };
 const videoReducer = (state = initialState, action: any) => {
   switch (action.type) {
@@ -37,10 +37,12 @@ const videoReducer = (state = initialState, action: any) => {
       return { ...state, videos: action.payload, isVideoUpdated: true }
     case types.UPDATE_VIDEO_FAIL:
       return { ...state, isVideoUpdated: false }
+    case types.VIDEO_SAVE:
+      return { ...state, loading: true }
     case types.VIDEO_SAVE_SUCESS:
-      return { ...state, videSaved: true };
+      return { ...state, videoSaved: true, loading: false };
     case types.VIDEO_SAVE_FAILURE:
-      return { ...state, videoSaved: false };
+      return { ...state, videoSaved: false, loading: false };
     default: {
       return state;
     }

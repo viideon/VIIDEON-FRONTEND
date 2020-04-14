@@ -69,77 +69,49 @@ class UploadRecord extends Component<IProps, IState> {
   };
 
   fileHandler = () => {
-    if (reg.test(this.state.recieverEmail) === false) {
-      return alert("Invalid Email");
-    } else if (this.state.recieverEmail) {
-      const that = this;
-      this.setState({ loading: true });
-      const file = {
-        name: this.state.files[0].name,
-        type: this.state.files[0].type,
-        size: this.state.files[0].size
+    const that = this;
+    this.setState({ loading: true });
+    // const file = {
+    //   name: this.state.files[0].name,
+    //   type: this.state.files[0].type,
+    //   size: this.state.files[0].size
+    // };
+    // this.setState({ file });
+    let s3 = new AWS.S3(config);
+    var options = {
+      Bucket: config.bucketName,
+      ACL: config.ACL,
+      Key: Date.now().toString() + this.state.files[0].name,
+      Body: this.state.files[0]
+    };
+    s3.upload(options, function(err: any, data: any) {
+      if (err) {
+        throw err;
+      }
+      that.setState({ url: data.Location });
+      const url = that.state.url;
+      const video = {
+        title: that.state.title,
+        url,
+        userId: that.props.auth.user!.user!._id
       };
-      this.setState({ file });
-      let s3 = new AWS.S3(config);
-      var options = {
-        Bucket: config.bucketName,
-        ACL: config.ACL,
-        Key: Date.now().toString(),
-        Body: this.state.files[0]
-      };
-      s3.upload(options, function(err: any, data: any) {
-        if (err) {
-          throw err;
-        }
-        that.setState({ url: data.Location });
-        const url = that.state.url;
-        const recieverEmail = that.state.recieverEmail;
-        const video = {
-          url,
-          recieverEmail
-        };
-        that.props.sendVideoToEmail(video);
-        that.setState({ loading: false });
-      });
-    } else {
-      alert("Fill the field first");
-    }
+      that.props.saveVideo(video);
+      that.setState({ loading: false });
+    });
   };
+
   submit = () => {
     if (reg.test(this.state.recieverEmail) === false) {
       return alert("Invalid Email");
     } else if (this.state.recieverEmail) {
       const that = this;
-      this.setState({ loading: true });
-      // let file = {
-      //   name: this.state.title,
-      //   type: this.state.videoRecord.type,
-      //   size: this.state.videoRecord.size,
-      //   path: this.state.videoRecord.type
-      // };
-
-      // this.setState({ recordFile: file });
-      let s3 = new AWS.S3(config);
-      var options = {
-        Bucket: config.bucketName,
-        ACL: config.ACL,
-        Key: Date.now().toString() + ".webm",
-        Body: this.state.videoRecord
+      const url = that.state.urlRecord;
+      const recieverEmail = that.state.recieverEmail;
+      const video = {
+        url,
+        recieverEmail
       };
-      s3.upload(options, function(err: any, data: any) {
-        if (err) {
-          throw err;
-        }
-        that.setState({ urlRecord: data.Location });
-        const url = that.state.urlRecord;
-        const recieverEmail = that.state.recieverEmail;
-        const video = {
-          url,
-          recieverEmail
-        };
-        that.props.sendVideoToEmail(video);
-        that.setState({ loading: false });
-      });
+      that.props.sendVideoToEmail(video);
     } else {
       alert("Fill the field first");
     }
@@ -149,16 +121,6 @@ class UploadRecord extends Component<IProps, IState> {
       alert("Enter a title to save video");
       return;
     }
-    this.setState({ loading: true });
-    // let file = {
-    //   name: this.state.title,
-    //   type: this.state.videoRecord.type,
-    //   size: this.state.videoRecord.size,
-    //   path: this.state.videoRecord.type
-    // };
-
-    // this.setState({ recordFile: file });
-
     let s3 = new AWS.S3(config);
     var options = {
       Bucket: config.bucketName,
@@ -166,7 +128,6 @@ class UploadRecord extends Component<IProps, IState> {
       Key: Date.now().toString() + ".webm",
       Body: this.state.videoRecord
     };
-
     const that = this;
     s3.upload(options, function(err: any, data: any) {
       if (err) {
@@ -179,11 +140,11 @@ class UploadRecord extends Component<IProps, IState> {
         title: that.state.title
       };
       that.props.saveVideo(video);
-      that.setState({ loading: false });
     });
   };
 
   render() {
+    let { videoSaved, loading } = this.props.videoUser;
     return (
       <>
         <Header history={this.props.history} />
@@ -230,37 +191,62 @@ class UploadRecord extends Component<IProps, IState> {
                             {Constants.CLICK_AND_DRAG}
                           </p>
                           {this.state.files.map((file: any) => (
-                            <>
+                            <div key={file.name}>
                               <div style={{ boxShadow: "0 0 10px #dadada" }}>
                                 <p>File Name: {file.name}</p>
                                 <p>Size: {file.size} bytes</p>
                               </div>
                               <Form id="formInput">
-                                <FormGroup>
-                                  <Label
-                                    for="exampleEmail"
-                                    style={{ fontWeight: "bold" }}
+                                <div>
+                                  <FormGroup>
+                                    <Label for="exampleEmail">
+                                      {Constants.TITLE}
+                                    </Label>
+                                    <Input
+                                      type="text"
+                                      name="name"
+                                      id="typeInput"
+                                      placeholder=""
+                                      value={this.state.title}
+                                      onChange={this.titleNameHandler}
+                                    />
+                                  </FormGroup>
+                                  <Button
+                                    variant="contained"
+                                    style={{ marginBottom: "8px" }}
+                                    onClick={this.fileHandler}
                                   >
-                                    {Constants.SENDER_ADDRESS}
-                                  </Label>
-                                  <Input
-                                    type="text"
-                                    name="recieverEmail"
-                                    id="typeInput"
-                                    placeholder="Enter email address"
-                                    value={this.state.recieverEmail}
-                                    onChange={this.emailHandler}
-                                  />
-                                </FormGroup>
+                                    {Constants.SAVE_VIDEO}
+                                  </Button>
+                                </div>
+                                <div>
+                                  <FormGroup>
+                                    <Label
+                                      for="exampleEmail"
+                                      style={{ fontWeight: "bold" }}
+                                    >
+                                      {Constants.SENDER_ADDRESS}
+                                    </Label>
+                                    <Input
+                                      type="text"
+                                      name="recieverEmail"
+                                      id="typeInput"
+                                      placeholder="Enter email address"
+                                      value={this.state.recieverEmail}
+                                      onChange={this.emailHandler}
+                                      required
+                                    />
+                                  </FormGroup>
+                                  <Button
+                                    color="secondary"
+                                    variant="contained"
+                                    onClick={this.fileHandler}
+                                  >
+                                    {Constants.SEND_THROUGH_EMAIL}
+                                  </Button>
+                                </div>
                               </Form>
-                              <Button
-                                color="secondary"
-                                variant="contained"
-                                onClick={this.fileHandler}
-                              >
-                                {Constants.SEND_THROUGH_EMAIL}
-                              </Button>
-                            </>
+                            </div>
                           ))}
                         </aside>
                       </section>
@@ -278,51 +264,59 @@ class UploadRecord extends Component<IProps, IState> {
                   <Row>
                     <Col className="col-md-6 m-auto">
                       <div style={{ marginLeft: "50%" }}>
-                        {this.state.loading ? (
-                          <Loading height="15%" width="15%" />
-                        ) : null}
+                        {loading && <Loading height="15%" width="15%" />}
                       </div>
                       <Form id="formInput">
-                        <FormGroup>
-                          <Label for="exampleEmail">{Constants.TITLE}</Label>
-                          <Input
-                            type="text"
-                            name="name"
-                            id="typeInput"
-                            placeholder=""
-                            value={this.state.title}
-                            onChange={this.titleNameHandler}
-                          />
-                        </FormGroup>
-                        <Button
-                          variant="contained"
-                          style={{ marginBottom: "8px" }}
-                          onClick={this.saveVideo}
-                        >
-                          {Constants.SAVE_VIDEO}
-                        </Button>
-                        <FormGroup>
-                          <Label for="exampleEmail">
-                            {Constants.SENDER_ADDRESS}
-                          </Label>
-                          <Input
-                            type="text"
-                            name="email"
-                            id="typeInput"
-                            placeholder=""
-                            value={this.state.recieverEmail}
-                            onChange={this.emailHandler}
-                          />
-                        </FormGroup>
+                        {videoSaved === false && (
+                          <div>
+                            <FormGroup>
+                              <Label for="exampleEmail">
+                                {Constants.TITLE}
+                              </Label>
+                              <Input
+                                type="text"
+                                name="name"
+                                id="typeInput"
+                                placeholder=""
+                                value={this.state.title}
+                                onChange={this.titleNameHandler}
+                              />
+                            </FormGroup>
+                            <Button
+                              variant="contained"
+                              style={{ marginBottom: "8px" }}
+                              onClick={this.saveVideo}
+                            >
+                              {Constants.SAVE_VIDEO}
+                            </Button>
+                          </div>
+                        )}
 
-                        <Button
-                          color="secondary"
-                          variant="contained"
-                          onClick={this.submit}
-                        >
-                          {Constants.SEND_THROUGH_EMAIL}
-                        </Button>
-                        {/* <span className="orSpanText">or</span> */}
+                        {videoSaved === true && (
+                          <div>
+                            <FormGroup>
+                              <Label for="exampleEmail">
+                                {Constants.SENDER_ADDRESS}
+                              </Label>
+                              <Input
+                                type="text"
+                                name="email"
+                                id="typeInput"
+                                placeholder=""
+                                value={this.state.recieverEmail}
+                                onChange={this.emailHandler}
+                              />
+                            </FormGroup>
+
+                            <Button
+                              color="secondary"
+                              variant="contained"
+                              onClick={this.submit}
+                            >
+                              {Constants.SEND_THROUGH_EMAIL}
+                            </Button>
+                          </div>
+                        )}
                       </Form>
                     </Col>
                   </Row>

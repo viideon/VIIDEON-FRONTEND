@@ -49,6 +49,7 @@ export interface VideoState {
   loading?: boolean;
   error?: boolean;
   errorMessage?: string;
+  videoSaved?: boolean;
 
 }
 export interface VideoEmailAction {

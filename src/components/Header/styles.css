@@ -3,6 +3,10 @@
   border-bottom-style: solid;
   border-bottom-width: thin;
   border-bottom-color: #3598dc;
+  /* position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1; */
 }
 .HeaderComponent {
   display: flex;

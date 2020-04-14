@@ -23,44 +23,50 @@ class SideBar extends Component<IProps, IState> {
     return (
       <>
         <div className="MainDrawer">
-          <div className="OptionIcons">
+          <div
+            className="OptionIcons"
+            onClick={() => {
+              this.props.history.push("/");
+            }}
+          >
             <i className="fa fa-fw fa-home" style={iconStyle} />
             <h4 className="IconNameStyling">Dashboard</h4>
           </div>
-          <div className="OptionIcons">
+          <div
+            className="OptionIcons"
+            onClick={() => {
+              alert(
+                "Under Progress ,click a recorded  video to move to video tab"
+              );
+            }}
+          >
             <i className="fa fa-fw fa-video" style={iconStyle} />
-            <h4
-              className="IconNameStyling"
-              onClick={() => {
-                this.props.history.push("/videotab");
-              }}
-            >
-              Videos
-            </h4>
+            <h4 className="IconNameStyling">Videos</h4>
           </div>
-          <div className="OptionIcons">
+          <div
+            className="OptionIcons"
+            onClick={() => {
+              this.props.history.push("/profile");
+            }}
+          >
             <i className="fa fa-user-o" style={iconStyle} />
-            <h4
-              className="IconNameStyling"
-              onClick={() => {
-                this.props.history.push("/profile");
-              }}
-            >
-              Profile
-            </h4>
+            <h4 className="IconNameStyling">Profile</h4>
           </div>
-          <div className="OptionIcons">
+          <div
+            className="OptionIcons"
+            onClick={() => {
+              this.props.history.push("/video/create");
+            }}
+          >
             <i className="fa fa-camera-retro fa-lg" style={iconStyle} />
-            <h4
-              className="IconNameStyling"
-              onClick={() => {
-                this.props.history.push("/video/create");
-              }}
-            >
-              Upload Video
-            </h4>
+            <h4 className="IconNameStyling">Upload Video</h4>
           </div>
-          <div className="OptionIcons">
+          <div
+            className="OptionIcons"
+            onClick={() => {
+              alert("Feature not created yet");
+            }}
+          >
             <i className="fa fa-fw fa-feed" style={iconStyle} />
             <h4 className="IconNameStyling">Connections</h4>
           </div>

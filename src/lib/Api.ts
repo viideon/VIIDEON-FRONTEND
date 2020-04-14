@@ -5,7 +5,7 @@ const baseURL = process.env.REACT_APP_DEVAPI;
 
 const API = axios.create({
   baseURL,
-  timeout: 6000,
+  timeout: 8000,
 });
 
 export default API;

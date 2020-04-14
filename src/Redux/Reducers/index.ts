@@ -18,7 +18,7 @@ const videoPersistConfig = {
     key: 'video',
     storage: storage,
     whitelist: ['videos'],
-    blacklist: ["isVideoUpdated"]
+    blacklist: ["isVideoUpdated", "videoSaved"]
 }
 
 const rootReducer = combineReducers({
