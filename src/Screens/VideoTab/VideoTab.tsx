@@ -39,7 +39,7 @@ const VideoTab = ({ match: { params }, history }: any) => {
       <Container>
         <br />
         <br />
-        <VideoTabHeader />
+        <VideoTabHeader videoId={params.id} />
         <br />
         <br />
         <Nav tabs id="videoTabWrap">
