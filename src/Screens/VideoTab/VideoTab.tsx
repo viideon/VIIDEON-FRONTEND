@@ -23,6 +23,7 @@ import Editing from "./Editing";
 import Design from "./Design";
 import Privacy from "./Privacy";
 import VideoReplies from "./VideoReplies";
+import Analytics from "./Analytics";
 import * as Constants from "../../constants/components/videotab";
 import "./style.css";
 
@@ -147,7 +148,7 @@ const VideoTab = ({ match: { params }, history }: any) => {
             </Container>
           </TabPane>
           <TabPane tabId="2">
-            <h4>Screen to be desgined Yet.</h4>
+            <Analytics />
           </TabPane>
           <TabPane tabId="3">
             <Editing videoId={params.id} />

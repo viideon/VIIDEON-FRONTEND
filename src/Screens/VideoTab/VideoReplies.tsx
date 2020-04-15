@@ -28,14 +28,6 @@ class VideoReplies extends Component<IProps, IState> {
           </Col>
         </FormGroup>
       </div>
-      // <div style={styles.recorder}>
-      //   <VideoRecorder
-      //     onRecordingComplete={(videoBlob: any) => {
-
-      //       // Do something with the video...
-      //       console.log('videoBlob', videoBlob)
-      //     }}
-      //   />
     );
   }
 }

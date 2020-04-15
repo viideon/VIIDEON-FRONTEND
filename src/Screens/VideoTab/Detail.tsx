@@ -8,7 +8,7 @@ function Detail() {
     <div>
       <Form>
         <FormGroup row style={{ margin: "30px" }}>
-          <Col xs={1}>
+          <Col xs={3} md={2}>
             <Label for="exampleText" id="descriptionLabel">
               {Constants.DESCRIPTION}
             </Label>
@@ -29,7 +29,7 @@ function Detail() {
           </Col>
         </FormGroup>
         <FormGroup row style={{ margin: "30px" }}>
-          <Col xs={1}>
+          <Col xs={3} md={2}>
             <Label for="exampleText" id="descriptionLabel">
               {Constants.TAG}
             </Label>
