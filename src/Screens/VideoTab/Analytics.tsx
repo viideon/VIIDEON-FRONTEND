@@ -3,11 +3,12 @@ import { Grid } from "@material-ui/core";
 import GeneralStats from "../../components/GeneralStats";
 import VideoViews from "../../components/VideoViews";
 import ActivityAnalytics from "../../components/ActivityAnalytics";
+import "./style.css";
 
 class Analytics extends React.Component {
   render() {
     return (
-      <div>
+      <div className="wrapperAnalytics">
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <GeneralStats />

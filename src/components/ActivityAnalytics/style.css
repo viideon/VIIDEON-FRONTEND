@@ -29,3 +29,8 @@
 #formSelectInput {
   min-width: 133px;
 }
+.wrapperActionActivity {
+  min-width: 25%;
+  display: flex;
+  justify-content: space-around;
+}

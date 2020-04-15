@@ -7,21 +7,21 @@ const ActivityAnalytics: React.FC = () => {
   return (
     <div className="wrapperActivity">
       <div className="headActivity">
-        <h6>Video Views</h6>
-        <div>
-          {" "}
+        <h6>Activity</h6>
+        <div className="wrapperActionActivity">
           <FormControl variant="outlined" id="formSelectInput">
             <InputLabel htmlFor="outlined-age-native-simple">
-              Filter Range
+              Filter By
             </InputLabel>
-            <Select native label="Filter Range">
+            <Select native label="Filter By">
               <option aria-label="None" value="" />
               <option value={10}>All Time</option>
               <option value={20}>Today</option>
               <option value={30}>Yesterday</option>
             </Select>
           </FormControl>
-          <TooltipButton />
+          <TooltipButton title="Reload" color="#2786fb" />
+          <TooltipButton title="Export" color="#1dc9b7" />
         </div>
       </div>
       <div className="bodyActivity"></div>
