@@ -1,5 +1,6 @@
 import React from "react";
-import { FormControl, InputLabel, Select } from "@material-ui/core";
+import { FormControl, InputLabel, Select, Grid } from "@material-ui/core";
+import ProgressBar from "../CircularProgressBar";
 import "./style.css";
 
 const GeneralStats: React.FC = () => {
@@ -19,7 +20,42 @@ const GeneralStats: React.FC = () => {
           </Select>
         </FormControl>
       </div>
-      <div className="bodyGeneralStats"></div>
+      <div className="bodyGeneralStats">
+        <Grid container>
+          <Grid item xs={6} md={6}>
+            <div className="wrapperProgress">
+              <ProgressBar width="25%" value={1} heading="Email Click Rates" />
+            </div>
+          </Grid>
+          <Grid item xs={6} md={6}>
+            <div className="wrapperProgress">
+              <ProgressBar width="25%" value={1} heading="CTA Click Rates" />
+            </div>
+          </Grid>
+          <Grid item xs={6} md={6}>
+            <div className="wrapperProgress">
+              <ProgressBar width="25%" value={1} heading="Watch Rates" />
+            </div>
+          </Grid>
+          <Grid item xs={6} md={6}>
+            <div className="wrapperProgress">
+              <ProgressBar width="25%" value={1} heading="Reaction Rates" />
+            </div>
+          </Grid>
+          <Grid item xs={6} md={6}>
+            {" "}
+            <div className="wrapperProgress">
+              <ProgressBar width="25%" value={1} heading="Call Rates" />
+            </div>
+          </Grid>
+          <Grid item xs={6} md={6}>
+            {" "}
+            <div className="wrapperProgress">
+              <ProgressBar width="25%" value={1} heading="Email Rates" />
+            </div>
+          </Grid>
+        </Grid>
+      </div>
     </div>
   );
 };

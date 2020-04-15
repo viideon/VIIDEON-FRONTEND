@@ -2,17 +2,18 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import Home from "../src/Screens/Home/Home";
-import SignIn from "../src/Screens/SIgnIn/SignIn";
 import VideoTab from "./Screens/VideoTab/VideoTab";
 import Profile from "./Screens/Profile/index";
 import { AuthState } from "../src/Redux/Types/auth";
 import Signup from "./Screens/Signup/index";
+import SignIn from "./Screens/SignIn";
 import UploadRecord from "../src/Screens/UploadRecordVideo";
+
 type IProps = {
   auth: AuthState;
 };
-type IState = {};
-class Routes extends Component<IProps, IState> {
+
+class Routes extends Component<IProps> {
   render() {
     return (
       <Router>
