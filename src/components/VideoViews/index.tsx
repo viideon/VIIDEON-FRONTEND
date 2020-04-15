@@ -1,5 +1,6 @@
 import React from "react";
 import { FormControl, InputLabel, Select } from "@material-ui/core";
+import Chart from "../Chart";
 import "./style.css";
 
 const VideoViews: React.FC = () => {
@@ -19,7 +20,9 @@ const VideoViews: React.FC = () => {
           </Select>
         </FormControl>
       </div>
-      <div className="bodyViews"></div>
+      <div className="bodyViews">
+        <Chart />
+      </div>
     </div>
   );
 };

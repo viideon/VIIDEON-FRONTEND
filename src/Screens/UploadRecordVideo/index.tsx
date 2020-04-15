@@ -14,7 +14,7 @@ import {
 import { VideoState, EmailVideo, VideoSave } from "../../Redux/Types/videos";
 import VideoRecorder from "react-video-recorder";
 import styles from "../VideoTab/style";
-import Button from "@material-ui/core/Button";
+import { Button, LinearProgress } from "@material-ui/core";
 import { AuthState } from "../../Redux/Types/auth";
 import Loading from "../../components/Loading";
 import * as Constants from "../../constants/components/UploadRecord";
@@ -41,6 +41,8 @@ type IState = {
   urlRecord: string;
   recordFile: any;
   recieverEmail: string;
+  fileProgress: boolean;
+  videoProgress: boolean;
 };
 
 class UploadRecord extends Component<IProps, IState> {
@@ -60,7 +62,9 @@ class UploadRecord extends Component<IProps, IState> {
       videoRecord: "",
       title: "",
       urlRecord: "",
-      recieverEmail: ""
+      recieverEmail: "",
+      fileProgress: false,
+      videoProgress: false
     };
   }
   titleNameHandler = (event: any) => {
@@ -79,8 +83,8 @@ class UploadRecord extends Component<IProps, IState> {
       alert("Enter a video title");
       return;
     }
+    this.setState({ fileProgress: true });
     const that = this;
-
     let s3 = new AWS.S3(config);
     var options = {
       Bucket: config.bucketName,
@@ -99,6 +103,7 @@ class UploadRecord extends Component<IProps, IState> {
         url,
         userId: that.props.auth.user!.user!._id
       };
+      that.setState({ fileProgress: false });
       that.props.saveVideo(video);
     });
   };
@@ -124,6 +129,7 @@ class UploadRecord extends Component<IProps, IState> {
       alert("Enter a title to save video");
       return;
     }
+    this.setState({ videoProgress: true });
     let s3 = new AWS.S3(config);
     var options = {
       Bucket: config.bucketName,
@@ -142,6 +148,7 @@ class UploadRecord extends Component<IProps, IState> {
         userId: that.props.auth.user!.user!._id,
         title: that.state.title
       };
+      that.setState({ videoProgress: false });
       that.props.saveVideo(video);
     });
   };
@@ -203,6 +210,9 @@ class UploadRecord extends Component<IProps, IState> {
                               <Form id="formInput">
                                 {videoSaved === null && (
                                   <div>
+                                    {this.state.fileProgress && (
+                                      <LinearProgress />
+                                    )}
                                     <FormGroup>
                                       <Label for="exampleEmail">
                                         {Constants.TITLE}
@@ -278,6 +288,7 @@ class UploadRecord extends Component<IProps, IState> {
                       <Form id="formInput">
                         {videoSaved === null && (
                           <div>
+                            {this.state.videoProgress && <LinearProgress />}
                             <FormGroup>
                               <Label for="exampleEmail">
                                 {Constants.TITLE}
