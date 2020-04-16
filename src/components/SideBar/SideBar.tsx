@@ -30,18 +30,18 @@ class SideBar extends Component<IProps, IState> {
             }}
           >
             <i className="fa fa-fw fa-home" style={iconStyle} />
-            <h4 className="IconNameStyling">Dashboard</h4>
+            <span className="IconNameStyling">Dashboard</span>
           </div>
           <div
             className="OptionIcons"
             onClick={() => {
               alert(
-                "Under Progress ,click a recorded  video to move to video tab"
+                "Under Progress , click a recorded  video to move to video tab"
               );
             }}
           >
             <i className="fa fa-fw fa-video" style={iconStyle} />
-            <h4 className="IconNameStyling">Videos</h4>
+            <span className="IconNameStyling">Videos</span>
           </div>
           <div
             className="OptionIcons"
@@ -50,7 +50,7 @@ class SideBar extends Component<IProps, IState> {
             }}
           >
             <i className="fa fa-user-o" style={iconStyle} />
-            <h4 className="IconNameStyling">Profile</h4>
+            <span className="IconNameStyling">Profile</span>
           </div>
           <div
             className="OptionIcons"
@@ -59,7 +59,7 @@ class SideBar extends Component<IProps, IState> {
             }}
           >
             <i className="fa fa-camera-retro fa-lg" style={iconStyle} />
-            <h4 className="IconNameStyling">Upload Video</h4>
+            <span className="IconNameStyling">Upload Video</span>
           </div>
           <div
             className="OptionIcons"
@@ -68,13 +68,13 @@ class SideBar extends Component<IProps, IState> {
             }}
           >
             <i className="fa fa-fw fa-feed" style={iconStyle} />
-            <h4 className="IconNameStyling">Connections</h4>
+            <span className="IconNameStyling">Connections</span>
           </div>
           <div className="OptionIcons">
             <i className="fa fa-user-circle-o" style={iconStyle} />
-            <h4 className="IconNameStyling" onClick={this.logout}>
+            <span className="IconNameStyling" onClick={this.logout}>
               Logout
-            </h4>
+            </span>
           </div>
         </div>
       </>
@@ -82,7 +82,7 @@ class SideBar extends Component<IProps, IState> {
   }
 }
 const iconStyle = {
-  fontSize: "1.20em",
+  fontSize: "14px",
   width: "1.5em",
   display: "inline-block",
   color: "#b4bcc8"

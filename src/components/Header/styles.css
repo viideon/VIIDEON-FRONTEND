@@ -1,8 +1,6 @@
 .HeaderContainer {
-  background-color: whitesmoke;
-  border-bottom-style: solid;
-  border-bottom-width: thin;
-  border-bottom-color: #3598dc;
+  background-color: #fff;
+  border-bottom: 1px solid #3598dc;
   /* position: fixed;
   top: 0;
   width: 100%;

@@ -1,45 +1,27 @@
-import React, { FC, useState } from "react";
-import { Button, Tooltip } from "reactstrap";
-import "./styles.css";
+import React from "react";
+import { IconButton, Tooltip } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 
 type IProps = {
   history: any;
 };
-const Header: FC<IProps> = ({ history }) => {
-  const [tooltipOpen, setTooltipOpen] = useState(false);
-
-  const toggle = () => setTooltipOpen(!tooltipOpen);
+const Header: React.FC<IProps> = ({ history }) => {
+  const navigate = () => {
+    history.push("/video/create");
+  };
   return (
-    <>
-      <span
-        style={{ textDecoration: "underline", color: "blue" }}
-        id="TooltipExample"
+    <Tooltip title="Create new Video" placement="top" arrow>
+      <IconButton
+        aria-label="delete"
+        style={{
+          border: "1px solid #d3d3d3",
+          color: "#3598DC"
+        }}
+        onClick={() => navigate()}
       >
-        <Button
-          onClick={() => {
-            history.push("/video/create");
-          }}
-          style={{
-            marginTop: 18,
-            backgroundColor: "#9F55FF",
-            width: "100%",
-            minWidth: "192px",
-            height: 40,
-            color: "white"
-          }}
-        >
-          Record/Upload a Video
-        </Button>
-      </span>
-      <Tooltip
-        placement="bottom"
-        isOpen={tooltipOpen}
-        target="TooltipExample"
-        toggle={toggle}
-      >
-        Record or Upload a Video
-      </Tooltip>
-    </>
+        <AddIcon />
+      </IconButton>
+    </Tooltip>
   );
 };
 export default Header;

@@ -1,0 +1,23 @@
+.VideoComponent {
+  width: 100%;
+  border-radius: 5px;
+  margin: auto;
+  margin-top: 5%;
+  opacity: 5px;
+  padding: 15px;
+  box-shadow: 0 0 10px lightgrey;
+}
+.Header {
+  margin-top: 5px;
+  font-size: 20px;
+  color: #3598dc;
+  margin-bottom: 5px;
+}
+.mainHeadingWrapper {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #eef1f5;
+  margin-bottom: 13px;
+  align-items: center;
+}

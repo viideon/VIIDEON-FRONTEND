@@ -3,7 +3,7 @@ import { Row, Col, Container } from "reactstrap";
 import Header from "../../components/Header/Header";
 import SideBar from "../../components/SideBar/SideBar";
 import HeaderCard from "../../components/HeaderCards/Cards";
-import VideoComponent from "../../components/VideosComponent/VideosComponent";
+import VideoSection from "../../components/VideosSection/VideoSection";
 import Styles from "./styles";
 import "./styles.css";
 
@@ -52,12 +52,10 @@ class Home extends Component<IProps> {
                   />
                 </Col>
               </Row>
-              {/* <div id="headerCardWrap"> */}
-              {/* </div> */}
               <div>
                 <Row>
                   <Col xs="12">
-                    <VideoComponent history={this.props.history} />
+                    <VideoSection history={this.props.history} />
                   </Col>
                 </Row>
               </div>
