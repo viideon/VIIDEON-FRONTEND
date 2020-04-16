@@ -5,7 +5,8 @@ import { Input, Label, Row, Col, Form, FormGroup } from "reactstrap";
 import { FaCamera, FaLaptop } from "react-icons/fa";
 import Dropzone from "react-dropzone";
 import { connect } from "react-redux";
-import Header from "../../components/Header/Header";
+import { toast } from "react-toastify";
+// import Header from "../../components/Header/Header";
 import {
   sendVideoToEmail,
   saveVideo,
@@ -84,7 +85,7 @@ class UploadRecord extends Component<IProps, IState> {
 
   fileHandler = () => {
     if (this.state.title === "") {
-      alert("Enter a video title");
+      toast.warn("Enter a video title");
       return;
     }
     this.setState({ fileProgress: true, progressFile: 0 });
@@ -99,7 +100,7 @@ class UploadRecord extends Component<IProps, IState> {
     s3.upload(options, function(err: any, data: any) {
       if (err) {
         that.setState({ fileProgress: false });
-        alert(err);
+        toast.error(err);
         return;
       }
       that.setState({ urlRecord: data.Location });
@@ -119,7 +120,7 @@ class UploadRecord extends Component<IProps, IState> {
 
   saveVideo = () => {
     if (this.state.title === "") {
-      alert("Enter a title to save video");
+      toast.warn("Enter a title to save video");
       return;
     }
     this.setState({ videoProgress: true, progressVideo: 0 });
@@ -134,7 +135,7 @@ class UploadRecord extends Component<IProps, IState> {
     s3.upload(options, function(err: any, data: any) {
       if (err) {
         that.setState({ fileProgress: false });
-        alert(err);
+        toast.error(err);
         return;
       }
       that.setState({ urlRecord: data.Location });
@@ -152,9 +153,9 @@ class UploadRecord extends Component<IProps, IState> {
   };
   submitEmail = () => {
     if (this.state.recieverEmail === "") {
-      return alert("Add an Email");
+      return toast.warn("Add an Email");
     } else if (reg.test(this.state.recieverEmail) === false) {
-      return alert("Invalid Email");
+      return toast.warn("Invalid Email");
     } else {
       const that = this;
       const url = that.state.urlRecord;
@@ -171,7 +172,7 @@ class UploadRecord extends Component<IProps, IState> {
     let { videoSaved, loading } = this.props.videoUser;
     return (
       <>
-        <Header history={this.props.history} />
+        {/* <Header history={this.props.history} /> */}
         <div className="recordMainContainer">
           <p className="mainHeader">{Constants.CREATE_VIDEO}</p>
           <p className="titleHeader">{Constants.RECORD_AND_SHARE}</p>
@@ -229,8 +230,8 @@ class UploadRecord extends Component<IProps, IState> {
                                         value={this.state.progressFile}
                                       />
                                     )}
-                                    <FormGroup>
-                                      <Label for="exampleEmail">
+                                    <FormGroup style={{ marginTop: "5px" }}>
+                                      <Label className="labelUploadSection">
                                         {Constants.TITLE}
                                       </Label>
                                       <Input
@@ -255,10 +256,7 @@ class UploadRecord extends Component<IProps, IState> {
                                 {videoSaved === true && (
                                   <div>
                                     <FormGroup>
-                                      <Label
-                                        for="exampleEmail"
-                                        style={{ fontWeight: "bold" }}
-                                      >
+                                      <Label className="labelUploadSection">
                                         {Constants.SENDER_ADDRESS}
                                       </Label>
                                       <Input
@@ -311,7 +309,7 @@ class UploadRecord extends Component<IProps, IState> {
                               />
                             )}
                             <FormGroup>
-                              <Label for="exampleEmail">
+                              <Label className="labelUploadSection">
                                 {Constants.TITLE}
                               </Label>
                               <Input
@@ -336,7 +334,7 @@ class UploadRecord extends Component<IProps, IState> {
                         {videoSaved === true && (
                           <div>
                             <FormGroup>
-                              <Label for="exampleEmail">
+                              <Label className="labelUploadSection">
                                 {Constants.SENDER_ADDRESS}
                               </Label>
                               <Input

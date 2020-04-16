@@ -70,7 +70,7 @@ class Signin extends React.Component<IProps, IState> {
             <div className="firstLayoutContainer">
               <div className="firstLayoutMainContainer">
                 <p className="signUp">{Constants.SIGNUP_TO}</p>
-                <p className="logo">{Constants.VIDIONPRO}</p>
+                <p className="logoSignin">{Constants.VIDIONPRO}</p>
                 <p className="login">{Constants.LOGIN_TO_ACCOUNT}</p>
               </div>
             </div>

@@ -25,8 +25,8 @@
   color: white;
   font-size: 60px;
 }
-.logo {
-  margin-top: 0em;
+.logoSignin {
+  margin-top: -14px;
   color: white;
   font-size: 50px;
   font-weight: 900;
@@ -76,7 +76,7 @@
 }
 .forgotPassword {
   padding-top: 24px;
-  font-size: 20px;
+  font-size: 1.1em;
   color: #646f79;
   cursor: pointer;
 }

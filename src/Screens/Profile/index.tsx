@@ -9,7 +9,7 @@ import { profileUser } from "../../Redux/Actions/profile";
 import { ProfileState, UserProfile } from "../../Redux/Types/profile";
 import { AuthState } from "../../Redux/Types/auth";
 import profileImg from "../../assets/profileImages/profileImg.png";
-import Header from "../../components/Header/Header";
+// import Header from "../../components/Header/Header";
 import TimeZone from "../../components/TimeZone/Data/timezone.json";
 import * as Constants from "../../constants/components/profile";
 import Loading from "../../components/Loading";
@@ -162,7 +162,7 @@ class Profile extends Component<IProps, IState> {
     const { loading } = this.props.userProfile;
     return (
       <div>
-        <Header history={this.props.history} />
+        {/* <Header history={this.props.history} /> */}
         <div id="profilePhotoWrap">
           <div id="profilePhotoHead">
             <h4>{Constants.PROFILE_PHOTO} </h4>

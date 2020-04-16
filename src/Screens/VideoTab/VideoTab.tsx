@@ -17,7 +17,6 @@ import {
   FaReply
 } from "react-icons/fa";
 import VideoTabHeader from "./Header";
-import Header from "../../components/Header/Header";
 import Detail from "./Detail";
 import Editing from "./Editing";
 import Design from "./Design";
@@ -35,8 +34,7 @@ const VideoTab = ({ match: { params }, history }: any) => {
   };
 
   return (
-    <div>
-      <Header history={history} />
+    <div className="wrapperVideoTab">
       <Container>
         <br />
         <br />

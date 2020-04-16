@@ -7,6 +7,7 @@ import Profile from "./Screens/Profile/index";
 import { AuthState } from "../src/Redux/Types/auth";
 import Signup from "./Screens/Signup/index";
 import SignIn from "./Screens/SignIn";
+import Header from "./components/Header/Header";
 import UploadRecord from "../src/Screens/UploadRecordVideo";
 
 type IProps = {
@@ -18,12 +19,15 @@ class Routes extends Component<IProps> {
     return (
       <Router>
         {this.props.auth.loggedInStatus === true ? (
-          <Switch>
-            <Route exact path="/videotab/:id" component={VideoTab} />
-            <Route exact path="/profile" component={Profile} />
-            <Route exact path="/video/create" component={UploadRecord} />
-            <Route exact path="/" component={Home} />
-          </Switch>
+          <>
+            <Header />
+            <Switch>
+              <Route exact path="/videotab/:id" component={VideoTab} />
+              <Route exact path="/profile" component={Profile} />
+              <Route exact path="/video/create" component={UploadRecord} />
+              <Route exact path="/" component={Home} />
+            </Switch>
+          </>
         ) : (
           <Switch>
             <Route exact path="/signup" component={Signup} />

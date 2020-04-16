@@ -1,4 +1,5 @@
 import React, { FC, useState } from "react";
+import { withRouter } from "react-router-dom";
 import { Tooltip } from "reactstrap";
 import { Images } from "../../config";
 import "./styles.css";
@@ -57,4 +58,4 @@ const Header: FC<IProps> = ({ history }) => {
     </>
   );
 };
-export default Header;
+export default withRouter(Header);

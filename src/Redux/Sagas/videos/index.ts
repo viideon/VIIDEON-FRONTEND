@@ -9,7 +9,7 @@ function* sendVideoOnEmail(action: any) {
         const result = yield sendVideoToEmail(action.payload);
         if (result.status === 200) {
             yield put({ type: types.VIDEO_SEND_SUCCESS, payload: result.message });
-            toast.done("Email Sent Successfully");
+            toast.info("Email Sent Successfully");
         }
         else {
             yield put({ type: types.VIDEO_SEND_FAILURE, payload: result.message });
@@ -26,7 +26,7 @@ function* saveUserVideo(action: any) {
         const result = yield saveVideo(action.payload);
         if (result.status === 201) {
             yield put({ type: types.VIDEO_SAVE_SUCESS });
-            toast.done("Video Saved Successfully");
+            toast.info("Video Saved Successfully");
 
         }
         else {
