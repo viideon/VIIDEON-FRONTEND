@@ -43,6 +43,8 @@ type IState = {
   recieverEmail: string;
   fileProgress: boolean;
   videoProgress: boolean;
+  progressFile: number;
+  progressVideo: number;
 };
 
 class UploadRecord extends Component<IProps, IState> {
@@ -64,7 +66,9 @@ class UploadRecord extends Component<IProps, IState> {
       urlRecord: "",
       recieverEmail: "",
       fileProgress: false,
-      videoProgress: false
+      videoProgress: false,
+      progressFile: 0,
+      progressVideo: 0
     };
   }
   titleNameHandler = (event: any) => {
@@ -83,7 +87,7 @@ class UploadRecord extends Component<IProps, IState> {
       alert("Enter a video title");
       return;
     }
-    this.setState({ fileProgress: true });
+    this.setState({ fileProgress: true, progressFile: 0 });
     const that = this;
     let s3 = new AWS.S3(config);
     var options = {
@@ -94,7 +98,9 @@ class UploadRecord extends Component<IProps, IState> {
     };
     s3.upload(options, function(err: any, data: any) {
       if (err) {
-        throw err;
+        that.setState({ fileProgress: false });
+        alert(err);
+        return;
       }
       that.setState({ urlRecord: data.Location });
       const url = that.state.urlRecord;
@@ -105,10 +111,46 @@ class UploadRecord extends Component<IProps, IState> {
       };
       that.setState({ fileProgress: false });
       that.props.saveVideo(video);
+    }).on("httpUploadProgress", function(progress) {
+      let uploaded: number = (progress.loaded * 100) / progress.total;
+      that.setState({ progressFile: uploaded });
     });
   };
 
-  submit = () => {
+  saveVideo = () => {
+    if (this.state.title === "") {
+      alert("Enter a title to save video");
+      return;
+    }
+    this.setState({ videoProgress: true, progressVideo: 0 });
+    let s3 = new AWS.S3(config);
+    var options = {
+      Bucket: config.bucketName,
+      ACL: config.ACL,
+      Key: Date.now().toString() + ".webm",
+      Body: this.state.videoRecord
+    };
+    const that = this;
+    s3.upload(options, function(err: any, data: any) {
+      if (err) {
+        that.setState({ fileProgress: false });
+        alert(err);
+        return;
+      }
+      that.setState({ urlRecord: data.Location });
+      const video = {
+        url: that.state.urlRecord,
+        userId: that.props.auth.user!.user!._id,
+        title: that.state.title
+      };
+      that.setState({ videoProgress: false });
+      that.props.saveVideo(video);
+    }).on("httpUploadProgress", function(progress) {
+      let uploaded: number = (progress.loaded * 100) / progress.total;
+      that.setState({ progressVideo: uploaded });
+    });
+  };
+  submitEmail = () => {
     if (this.state.recieverEmail === "") {
       return alert("Add an Email");
     } else if (reg.test(this.state.recieverEmail) === false) {
@@ -123,34 +165,6 @@ class UploadRecord extends Component<IProps, IState> {
       };
       that.props.sendVideoToEmail(video);
     }
-  };
-  saveVideo = () => {
-    if (this.state.title === "") {
-      alert("Enter a title to save video");
-      return;
-    }
-    this.setState({ videoProgress: true });
-    let s3 = new AWS.S3(config);
-    var options = {
-      Bucket: config.bucketName,
-      ACL: config.ACL,
-      Key: Date.now().toString() + ".webm",
-      Body: this.state.videoRecord
-    };
-    const that = this;
-    s3.upload(options, function(err: any, data: any) {
-      if (err) {
-        throw err;
-      }
-      that.setState({ urlRecord: data.Location });
-      const video = {
-        url: that.state.urlRecord,
-        userId: that.props.auth.user!.user!._id,
-        title: that.state.title
-      };
-      that.setState({ videoProgress: false });
-      that.props.saveVideo(video);
-    });
   };
 
   render() {
@@ -202,7 +216,6 @@ class UploadRecord extends Component<IProps, IState> {
                           </p>
                           {this.state.files.map((file: any) => (
                             <div key={file.name}>
-                              {/* style={{ boxShadow: "0 0 10px #dadada" }} */}
                               <div className="fileInformationDiv">
                                 <p>File Name: {file.name}</p>
                                 <p>Size: {file.size} bytes</p>
@@ -211,7 +224,10 @@ class UploadRecord extends Component<IProps, IState> {
                                 {videoSaved === null && (
                                   <div>
                                     {this.state.fileProgress && (
-                                      <LinearProgress />
+                                      <LinearProgress
+                                        variant="determinate"
+                                        value={this.state.progressFile}
+                                      />
                                     )}
                                     <FormGroup>
                                       <Label for="exampleEmail">
@@ -258,7 +274,7 @@ class UploadRecord extends Component<IProps, IState> {
                                     <Button
                                       color="secondary"
                                       variant="contained"
-                                      onClick={this.submit}
+                                      onClick={this.submitEmail}
                                     >
                                       {Constants.SEND_THROUGH_EMAIL}
                                     </Button>
@@ -288,7 +304,12 @@ class UploadRecord extends Component<IProps, IState> {
                       <Form id="formInput">
                         {videoSaved === null && (
                           <div>
-                            {this.state.videoProgress && <LinearProgress />}
+                            {this.state.videoProgress && (
+                              <LinearProgress
+                                variant="determinate"
+                                value={this.state.progressVideo}
+                              />
+                            )}
                             <FormGroup>
                               <Label for="exampleEmail">
                                 {Constants.TITLE}
@@ -331,7 +352,7 @@ class UploadRecord extends Component<IProps, IState> {
                             <Button
                               color="secondary"
                               variant="contained"
-                              onClick={this.submit}
+                              onClick={this.submitEmail}
                             >
                               {Constants.SEND_THROUGH_EMAIL}
                             </Button>

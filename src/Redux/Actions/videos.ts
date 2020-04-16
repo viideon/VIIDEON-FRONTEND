@@ -27,8 +27,14 @@ export function updateVideo(video: VideoUpdate): updateVideoAction {
   }
 }
 
-export function toggleSendVariable(){
+export function toggleSendVariable() {
   return {
-    type:types.TOGGLE_SEND_VARIABLE
+    type: types.TOGGLE_SEND_VARIABLE
+  }
+}
+
+export function setIsVideoUpdatedNull() {
+  return {
+    type: types.SET_VIDEO_UPDATED_NULL
   }
 }

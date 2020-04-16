@@ -11,6 +11,7 @@ const UPDATE_VIDEO: string = "UPDATE_VIDEO";
 const UPDATE_VIDEO_SUCCESS: string = "UPDATE_VIDEO_SUCCESS";
 const UPDATE_VIDEO_FAIL: string = "UPDATE_VIDEO_FAIL"
 const TOGGLE_SEND_VARIABLE = "TOGGLE_SEND_VARIABLE"
+const SET_VIDEO_UPDATED_NULL = "SET_VIDEO_UPDATED_NULL"
 
 export const types = {
   VIDEO_SEND_REQUEST,
@@ -25,7 +26,8 @@ export const types = {
   UPDATE_VIDEO,
   UPDATE_VIDEO_SUCCESS,
   UPDATE_VIDEO_FAIL,
-  TOGGLE_SEND_VARIABLE
+  TOGGLE_SEND_VARIABLE,
+  SET_VIDEO_UPDATED_NULL
 }
 export interface EmailVideo {
   url: string;
@@ -45,6 +47,7 @@ export interface VideoUpdate {
   recieverEmail?: string;
 }
 
+//Video State interface
 export interface VideoState {
   video?: EmailVideo;
   success?: string;
@@ -56,6 +59,7 @@ export interface VideoState {
   isVideoUpdated?: boolean | null;
 
 }
+// Action interfaces 
 export interface VideoEmailAction {
   type: typeof VIDEO_SEND_REQUEST
   payload: EmailVideo
@@ -73,4 +77,8 @@ export interface getUserVideoAction {
 export interface updateVideoAction {
   type: typeof UPDATE_VIDEO
   payload: VideoUpdate
+}
+
+export interface setVideoUpdateNull {
+  type: typeof SET_VIDEO_UPDATED_NULL
 }
