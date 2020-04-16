@@ -33,8 +33,3 @@ export function toggleSendVariable() {
   }
 }
 
-export function setIsVideoUpdatedNull() {
-  return {
-    type: types.SET_VIDEO_UPDATED_NULL
-  }
-}

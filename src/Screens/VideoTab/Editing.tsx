@@ -1,5 +1,4 @@
 import React from "react";
-// import AWS from "aws-sdk";
 import S3FileUpload from "react-s3";
 import { connect } from "react-redux";
 import { updateVideo } from "../../Redux/Actions/videos";
@@ -9,7 +8,7 @@ import { getVideoById } from "../../Redux/Selectors";
 import { Container, Row, Col } from "reactstrap";
 import ThemeButton from "../../components/ThemeButton";
 import VideoCard from "../../components/VideoCard/VideoCard";
-import Alert from "../../components/Alert";
+import { toast } from "react-toastify";
 import "./style.css";
 
 interface IState {
@@ -35,18 +34,6 @@ class Editing extends React.Component<IProps, IState> {
     isUpdated: false
   };
 
-  static getDerivedStateFromProps(nextProps: any, prevState: any) {
-    if (
-      nextProps.isVideoUpdated &&
-      nextProps.isVideoUpdated !== prevState.isUpdated
-    ) {
-      return {
-        isUpdated: true
-      };
-    } else {
-      return null;
-    }
-  }
   upload: any;
   setInputRef = (ref: any) => {
     this.upload = ref;
@@ -60,12 +47,12 @@ class Editing extends React.Component<IProps, IState> {
       S3FileUpload.uploadFile(file, config)
         .then((data: any) => {
           this.setState({ url: data.location });
-          alert("Thumbnail Uploaded ,Apply Changes to update");
+          toast.success("Thumbnail Updated , Apply changes to update");
           return;
         })
         .catch((err: any) => alert(err));
     } else {
-      alert("No file selected ,Try again");
+      toast.error("No file selected");
     }
   };
 
@@ -77,19 +64,13 @@ class Editing extends React.Component<IProps, IState> {
     this.props.updateVideo(video);
   };
   render() {
-    const { video, isVideoUpdated } = this.props;
+    const { video } = this.props;
     return (
       <div className="editingTabWrapper">
         <Container>
           <Row>
             <Col xs="1" md="2"></Col>
             <Col xs="10" md="8">
-              {isVideoUpdated && (
-                <Alert text="Thumbnail Updated" color="success" />
-              )}
-              {isVideoUpdated === false && (
-                <Alert text="Update failed" color="danger" />
-              )}
               {video && (
                 <VideoCard
                   title={video.title}
@@ -109,6 +90,7 @@ class Editing extends React.Component<IProps, IState> {
                   type="file"
                   onChange={this.onFileChange}
                   ref={this.setInputRef}
+                  accept="image/x-png,image/gif,image/jpeg"
                 />
                 <h4 className="thumbnaillEditMsg">Edit Thumbnail</h4>
                 <div className="btnEditThumbnailWrapper">
@@ -135,7 +117,6 @@ class Editing extends React.Component<IProps, IState> {
 const mapStateToProps = (state: any, ownProps: any) => {
   const video = getVideoById(state, ownProps.videoId);
   return {
-    isVideoUpdated: state.video.isVideoUpdated,
     video: video
   };
 };

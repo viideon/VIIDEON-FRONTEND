@@ -7,6 +7,13 @@ import persistedReducer from "./Redux/Reducers";
 import rootSaga from "./Redux/Sagas/index";
 import Routes from "./Routes";
 import { PersistGate } from "redux-persist/integration/react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure({
+  autoClose: 6000,
+  hideProgressBar: true
+});
 
 const sagaMiddleware = creatSagaMiddleware();
 declare global {

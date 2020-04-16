@@ -2,21 +2,22 @@ import { put, takeEvery, call, select } from 'redux-saga/effects';
 import { types } from '../../Types/videos';
 import { sendVideoToEmail, saveVideo, getVideosByUserId, updateUserVideo } from './api';
 import { selectID, selectVideos } from "../../Selectors/index"
+import { toast } from 'react-toastify';
 
 function* sendVideoOnEmail(action: any) {
     try {
         const result = yield sendVideoToEmail(action.payload);
         if (result.status === 200) {
             yield put({ type: types.VIDEO_SEND_SUCCESS, payload: result.message });
-            alert("Email Sent Successfully")
+            toast.done("Email Sent Successfully");
         }
         else {
             yield put({ type: types.VIDEO_SEND_FAILURE, payload: result.message });
-            alert("Something Went Wrong")
+            toast.error("Something Went Wrong");
         }
     } catch (error) {
         yield put({ type: types.VIDEO_SEND_FAILURE, payload: error });
-        alert(error);
+        toast.error(error);
     }
 }
 
@@ -25,15 +26,16 @@ function* saveUserVideo(action: any) {
         const result = yield saveVideo(action.payload);
         if (result.status === 201) {
             yield put({ type: types.VIDEO_SAVE_SUCESS });
-            alert("Video Saved Successfully")
+            toast.done("Video Saved Successfully");
+
         }
         else {
             yield put({ type: types.VIDEO_SAVE_FAILURE });
-            alert("Something Went Wrong")
+            toast.error("Something Went Wrong");
         }
     } catch (error) {
         yield put({ type: types.VIDEO_SAVE_FAILURE, payload: error });
-        alert(error);
+        toast.error(error);
     }
 }
 
@@ -43,7 +45,6 @@ function* getUserVideos() {
     try {
         const result = yield call(getVideosByUserId, userId);
         if (result.status === 200) {
-
             yield put({ type: types.GET_USER_VIDEOS_SUCCESS, payload: result.data.message })
         }
         else {
@@ -51,6 +52,7 @@ function* getUserVideos() {
         }
     }
     catch (error) {
+        toast.error("Failed to fetch user videos please try again");
         yield put({ type: types.GET_USER_VIDEOS_FAILED, payload: error })
     }
 }
@@ -62,14 +64,17 @@ function* updateVideo(action: any) {
             const videos = yield select(selectVideos);
             const responseVideo = result.data.video;
             const updatedVideos = videos.map((video: any) => ((video._id === responseVideo._id ? responseVideo : video)));
-
             yield put({ type: types.UPDATE_VIDEO_SUCCESS, payload: updatedVideos })
+            toast.success("Updated");
         }
         else {
+            toast.error("Update failed, please try again");
             yield put({ type: types.UPDATE_VIDEO_FAIL, payload: result.data.message })
+
         }
     }
     catch (error) {
+        toast.error("Update failed, please try again");
         yield put({ type: types.UPDATE_VIDEO_FAIL, payload: error })
     }
 }
