@@ -28,29 +28,10 @@ class VideoSection extends Component<IProps> {
       <>
         <div className="VideoComponent">
           <div className="mainHeadingWrapper">
-            <h5 className="Header">MY VIDEOS</h5>
+            <span className="Header">MY VIDEOS</span>
             <RecordOption history={this.props.history} />
           </div>
           <Grid container spacing={1}>
-            <Grid item xs={12} sm={6} md={4}>
-              <VideoCard
-                title="Dubb Account Setup"
-                url="http://techslides.com/demos/sample-videos/small.mp4"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <VideoCard
-                url="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
-                title="Sample Use Case - Sales Prospecting"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <VideoCard
-                title="Sample Use Case - Screen Recording"
-                url="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
-              />
-            </Grid>
-
             {userVideos &&
               userVideos.map((video: any) => (
                 <Grid item xs={12} sm={6} md={4} key={video._id}>
@@ -80,35 +61,3 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(VideoSection);
-
-// <Row>
-// <Col xs="12" md="4" sm="6">
-//   <VideoCard
-//     title="Dubb Account Setup"
-//     url="http://techslides.com/demos/sample-videos/small.mp4"
-//   />
-// </Col>
-// <Col xs="12" sm="6" md="4">
-//   <VideoCard
-//     url="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
-//     title="Sample Use Case - Sales Prospecting"
-//   />
-// </Col>
-// <Col xs="12" sm="6" md="4">
-//   <VideoCard
-//     title="Sample Use Case - Screen Recording"
-//     url="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
-//   />
-// </Col>
-// {userVideos &&
-//   userVideos.map((video: any) => (
-//     <Col xs="12" md="4" sm="6" key={video._id}>
-//       <VideoCard
-//         title={video.title}
-//         url={video.url}
-//         thumbnail={video.thumbnail}
-//         onClick={() => this.navigateToVideoTab(video._id)}
-//       />
-//     </Col>
-//   ))}
-// </Row>
