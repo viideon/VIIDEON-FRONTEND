@@ -12,5 +12,5 @@ export const getVideoById = (state: any, id: string) => {
 }
 
 export const getVideosLength = (state: any) => {
-    return state.video.videos.length;
+    return state.video.videos ? state.video.videos.length : 0;
 }
