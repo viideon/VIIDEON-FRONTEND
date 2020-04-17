@@ -8,7 +8,6 @@ import { User } from "../../Redux/Types/register";
 import * as Constants from "../../constants/components/signUp";
 import Loading from "../../components/Loading";
 import { reg } from "../../constants/emailRegEx";
-import { Redirect } from "react-router-dom";
 import "./style.css";
 
 type IProps = {
@@ -33,7 +32,6 @@ type IState = {
   confirmPasswordError: boolean;
   next: boolean;
   showNext: boolean;
-  isSignup: boolean;
 };
 
 class Signup extends React.Component<IProps, IState> {
@@ -55,21 +53,18 @@ class Signup extends React.Component<IProps, IState> {
       userNameError: false,
       confirmPasswordError: false,
       next: false,
-      showNext: true,
-      isSignup: false
+      showNext: true
     };
   }
 
-  static componentWillRecieveProps(nextProps: any, state: any) {
+  componentWillReceiveProps(nextProps: any) {
     if (
-      nextProps.isSignupSuccess &&
-      nextProps.isSignupSuccess !== state.isSignup
+      nextProps.registerUser.isSignupSuccess &&
+      nextProps.registerUser.isSignupSuccess !==
+        this.props.registerUser.isSignupSuccess
     ) {
-      return {
-        isSignup: true
-      };
+      this.props.history.push("/");
     }
-    return null;
   }
   userNameHandler = (event: any) => {
     this.setState({
@@ -155,9 +150,7 @@ class Signup extends React.Component<IProps, IState> {
       invalidEmailError,
       userNameError
     } = this.state;
-    if (this.state.isSignup) {
-      return <Redirect to="/" />;
-    }
+
     return (
       <div>
         <Grid container>
@@ -181,8 +174,8 @@ class Signup extends React.Component<IProps, IState> {
           <Grid item xs={12} md={5} sm={12}>
             <div className="secondLayoutMainContainer">
               <p className="loginTwo">{Constants.REGISTER}</p>
-              <div className="createAccount">
-                <p className="account">{Constants.ALREADY_HAD_ACCOUNT}</p>
+              <div className="createAccountSignup">
+                <p className="accountSignup">{Constants.ALREADY_HAD_ACCOUNT}</p>
                 <div
                   onClick={() => {
                     this.props.history.push("/");
@@ -240,12 +233,11 @@ class Signup extends React.Component<IProps, IState> {
                 {this.state.next && (
                   <>
                     <FormGroup>
-                      <Label for="exampleEmail">{Constants.FIRSTNAME}</Label>
+                      <Label>{Constants.FIRSTNAME}</Label>
                       <div className="textInpu1">
                         <Input
                           type="email"
                           name="firstName"
-                          id="exampleEmail"
                           placeholder="First Name"
                           style={{
                             borderRadius: "10rem",
@@ -261,12 +253,11 @@ class Signup extends React.Component<IProps, IState> {
                       <Alert color="danger">{Constants.FIRSTNAME_ERROR}</Alert>
                     )}
                     <FormGroup>
-                      <Label for="exampleEmail">{Constants.LASTNAME}</Label>
+                      <Label>{Constants.LASTNAME}</Label>
                       <div className="textInpu1">
                         <Input
                           type="email"
                           name="lastName"
-                          id="exampleEmail"
                           placeholder="Last Name"
                           style={{
                             borderRadius: "10rem",
@@ -282,12 +273,11 @@ class Signup extends React.Component<IProps, IState> {
                       <Alert color="danger">{Constants.LASTNAME_ERROR}</Alert>
                     )}
                     <FormGroup>
-                      <Label for="exampleEmail">{Constants.USERNAME}</Label>
+                      <Label>{Constants.USERNAME}</Label>
                       <div className="textInpu1">
                         <Input
                           type="email"
                           name="userName"
-                          id="exampleEmail"
                           placeholder="UserName"
                           style={{
                             borderRadius: "10rem",

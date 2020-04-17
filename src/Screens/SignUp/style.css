@@ -25,10 +25,11 @@
   font-size: 60px;
 }
 .logo {
-  margin-top: 0em;
+  margin-top: -14px;
   color: white;
-  font-size: 50px;
+  font-size: 4rem;
   font-weight: 700 !important;
+  font-family: "Poppins", sans-serif;
 }
 .login {
   color: white;
@@ -43,17 +44,18 @@
   font-size: 55px;
   font-weight: 600;
 }
-.createAccount {
+.createAccountSignup {
   margin-top: 0em;
   display: flex;
+  font-family: "Poppins", sans-serif;
 }
-.account {
-  font-size: 20px;
+.accountSignup {
+  font-size: 16px;
   color: #646f79;
 }
 .create {
   padding-left: 10px;
-  font-size: 20px;
+  font-size: 16px;
   color: #9f55ff;
   font-weight: bold;
   cursor: pointer;

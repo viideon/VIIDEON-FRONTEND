@@ -28,15 +28,17 @@
 .logoSignin {
   margin-top: -14px;
   color: white;
-  font-size: 50px;
+  font-size: 4rem;
   font-weight: 700 !important;
+  font-family: "Poppins", sans-serif;
 }
 .login {
   color: white;
   font-size: 25px;
+  font-family: "Poppins", sans-serif;
 }
 .secondLayoutMainContainer {
-  padding-left: 5%;
+  padding-left: 10%;
 }
 .loginTwo {
   padding-top: 15%;
@@ -48,19 +50,22 @@
   margin-top: 0em;
   display: flex;
   margin-bottom: 1em;
+  font-family: "Poppins", sans-serif;
 }
 .account {
-  font-size: 20px;
+  font-size: 16px;
   color: #646f79;
-  margin-bottom: 10%;
+  margin-bottom: 6rem;
+  font-family: "Poppins", sans-serif;
 }
 
 .create {
   padding-left: 10px;
-  font-size: 20px;
+  font-size: 16px;
   color: #9f55ff;
   font-weight: bold;
   cursor: pointer;
+  vertical-align: bottom;
 }
 .textInput {
   display: flex;

@@ -10,3 +10,7 @@ export const getVideoById = (state: any, id: string) => {
         return state.video.videos.find((video: any) => video._id === id);
     }
 }
+
+export const getVideosLength = (state: any) => {
+    return state.video.videos.length;
+}
