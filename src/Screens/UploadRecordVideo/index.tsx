@@ -365,6 +365,7 @@ class UploadRecord extends Component<IProps, IState> {
                   showReplayControls
                   replayVideoAutoplayAndLoopOff
                   isReplayVideoInitiallyMuted={false}
+                  mimeType="video/webm"
                   onRecordingComplete={(videoBlob: any) => {
                     // Do something with the video...
                     this.props.toggleSendVariable();

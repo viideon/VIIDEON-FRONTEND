@@ -31,7 +31,7 @@ class Routes extends Component<IProps> {
         ) : (
           <Switch>
             <Route exact path="/signup" component={Signup} />
-            <Route path="/" component={SignIn} />
+            <Route exact path="/" component={SignIn} />
           </Switch>
         )}
       </Router>

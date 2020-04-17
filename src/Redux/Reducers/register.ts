@@ -9,20 +9,23 @@ const registerReducer = (state = initialState, action: any) => {
     case types.REGISTRATION_REQUEST:
       return {
         ...state,
-        loading: true
+        loading: true,
+        isSignupSuccess: false,
       };
     case types.REGISTRATION_SUCCESS:
       return {
         ...state,
         loading: false,
-        success: action.payload
+        success: action.payload,
+        isSignupSuccess: true,
       };
     case types.REGISTRATION_FAILURE:
       return {
         ...state,
         error: true,
         loading: false,
-        errorMessage: action.payload.message
+        errorMessage: action.payload.message,
+        isSignupSuccess: false,
       };
     default: {
       return state;

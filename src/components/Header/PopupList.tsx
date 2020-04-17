@@ -1,31 +1,30 @@
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Menu, { MenuProps } from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
-import userImage from '../../assets/profileImages/profileImg.png';
-import SettingsIcon from '@material-ui/icons/Settings';
+import React from "react";
+import { withStyles } from "@material-ui/core/styles";
+import Menu, { MenuProps } from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import DraftsIcon from "@material-ui/icons/Drafts";
+import SendIcon from "@material-ui/icons/Send";
+import userImage from "../../assets/profileImages/profileImg.png";
+import SettingsIcon from "@material-ui/icons/Settings";
 import { Link } from "react-router-dom";
 
 const StyledMenu = withStyles({
   paper: {
-    border: '1px solid #d3d4d5',
-  },
+    border: "1px solid #d3d4d5"
+  }
 })((props: MenuProps) => (
   <Menu
     elevation={0}
     getContentAnchorEl={null}
     anchorOrigin={{
-      vertical: 'bottom',
-      horizontal: 'center',
+      vertical: "bottom",
+      horizontal: "center"
     }}
     transformOrigin={{
-      vertical: 'top',
-      horizontal: 'center',
+      vertical: "top",
+      horizontal: "center"
     }}
     {...props}
   />
@@ -33,13 +32,13 @@ const StyledMenu = withStyles({
 
 const StyledMenuItem = withStyles(theme => ({
   root: {
-    '&:focus': {
+    "&:focus": {
       backgroundColor: theme.palette.primary.main,
-      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-        color: theme.palette.common.white,
-      },
-    },
-  },
+      "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
+        color: theme.palette.common.white
+      }
+    }
+  }
 }))(MenuItem);
 
 export default function CustomizedMenus() {
@@ -55,17 +54,27 @@ export default function CustomizedMenus() {
 
   return (
     <div>
-      <img src={userImage} alt="UserPopupImg"
+      <img
+        src={userImage}
+        alt="UserPopupImg"
         aria-controls="customized-menu"
         aria-haspopup="true"
         onClick={handleClick}
-        style={{ width: '30px', height: '30px', borderRadius: '50%', cursor: 'pointer', margin: '20px' }} />
+        style={{
+          width: "30px",
+          height: "30px",
+          borderRadius: "50%",
+          cursor: "pointer",
+          margin: "20px"
+        }}
+      />
       <StyledMenu
         id="customized-menu"
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
-        onClose={handleClose}>
+        onClose={handleClose}
+      >
         <StyledMenuItem>
           <ListItemIcon>
             <SendIcon fontSize="small" />
@@ -78,15 +87,8 @@ export default function CustomizedMenus() {
           </ListItemIcon>
           <ListItemText primary="Drafts" />
         </StyledMenuItem>
-        <Link to="/videotab">
-          <StyledMenuItem>
-            <ListItemIcon>
-              <InboxIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText primary="VideoTab" />
-          </StyledMenuItem>
-        </Link>
-        <Link to="/profile">
+
+        <Link to="/profile" style={{ textDecoration: "none", color: "#333" }}>
           <StyledMenuItem>
             <ListItemIcon>
               <SettingsIcon fontSize="small" />
@@ -94,8 +96,16 @@ export default function CustomizedMenus() {
             <ListItemText primary="Setting" />
           </StyledMenuItem>
         </Link>
-
       </StyledMenu>
     </div>
   );
 }
+
+/* <Link to="/videotab">
+          <StyledMenuItem>
+            <ListItemIcon>
+              <InboxIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary="VideoTab" />
+          </StyledMenuItem>
+        </Link>   */

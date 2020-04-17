@@ -70,7 +70,7 @@ class Signin extends React.Component<IProps, IState> {
             <div className="firstLayoutContainer">
               <div className="firstLayoutMainContainer">
                 <p className="signUp">{Constants.SIGNUP_TO}</p>
-                <p className="logoSignin">{Constants.VIDIONPRO}</p>
+                <h2 className="logoSignin">{Constants.VIDIONPRO}</h2>
                 <p className="login">{Constants.LOGIN_TO_ACCOUNT}</p>
               </div>
             </div>
@@ -100,7 +100,6 @@ class Signin extends React.Component<IProps, IState> {
                     <Input
                       type="text"
                       name="email"
-                      id="email"
                       placeholder="Email address"
                       onChange={this.usernameHandler}
                       style={inputStyle}
@@ -124,7 +123,6 @@ class Signin extends React.Component<IProps, IState> {
                     <Input
                       type="password"
                       name="password"
-                      id="password"
                       placeholder="Password"
                       onChange={this.passwordHandler}
                       style={inputStyle}

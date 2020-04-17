@@ -15,6 +15,6 @@ export const PASSWORD_MATCHING = 'Password Not Matched';
 export const REGISTER = 'Register';
 export const NEXT = 'Next';
 export const SIGNUP_TO = 'Signup to';
-export const VIDIONPRO = 'VIDIONPRO';
+export const VIDIONPRO = 'Vidion Pro';
 export const ALREADY_HAD_ACCOUNT = 'Already have an account?';
 export const LOGIN_HERE = 'Login here';

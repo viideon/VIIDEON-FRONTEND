@@ -70,11 +70,9 @@ class SideBar extends Component<IProps, IState> {
             <i className="fa fa-fw fa-feed" style={iconStyle} />
             <span className="IconNameStyling">Connections</span>
           </div>
-          <div className="OptionIcons">
+          <div className="OptionIcons" onClick={this.logout}>
             <i className="fa fa-user-circle-o" style={iconStyle} />
-            <span className="IconNameStyling" onClick={this.logout}>
-              Logout
-            </span>
+            <span className="IconNameStyling">Logout</span>
           </div>
         </div>
       </>

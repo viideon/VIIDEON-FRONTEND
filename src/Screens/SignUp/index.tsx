@@ -1,6 +1,6 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import { Button, Form, FormGroup, Label, Input, Alert } from "reactstrap";
+import { Button, FormGroup, Label, Input, Alert } from "reactstrap";
 import { connect } from "react-redux";
 import { registerUser } from "../../Redux/Actions/register";
 import { RegisterState } from "../../Redux/Types/register";
@@ -8,6 +8,7 @@ import { User } from "../../Redux/Types/register";
 import * as Constants from "../../constants/components/signUp";
 import Loading from "../../components/Loading";
 import { reg } from "../../constants/emailRegEx";
+import { Redirect } from "react-router-dom";
 import "./style.css";
 
 type IProps = {
@@ -32,6 +33,7 @@ type IState = {
   confirmPasswordError: boolean;
   next: boolean;
   showNext: boolean;
+  isSignup: boolean;
 };
 
 class Signup extends React.Component<IProps, IState> {
@@ -53,10 +55,22 @@ class Signup extends React.Component<IProps, IState> {
       userNameError: false,
       confirmPasswordError: false,
       next: false,
-      showNext: true
+      showNext: true,
+      isSignup: false
     };
   }
 
+  static componentWillRecieveProps(nextProps: any, state: any) {
+    if (
+      nextProps.isSignupSuccess &&
+      nextProps.isSignupSuccess !== state.isSignup
+    ) {
+      return {
+        isSignup: true
+      };
+    }
+    return null;
+  }
   userNameHandler = (event: any) => {
     this.setState({
       userName: event.target.value
@@ -73,6 +87,7 @@ class Signup extends React.Component<IProps, IState> {
     });
   };
   emailHandler = (event: any) => {
+    event.preventDefault();
     this.setState({
       email: event.target.value
     });
@@ -140,6 +155,9 @@ class Signup extends React.Component<IProps, IState> {
       invalidEmailError,
       userNameError
     } = this.state;
+    if (this.state.isSignup) {
+      return <Redirect to="/" />;
+    }
     return (
       <div>
         <Grid container>
@@ -148,7 +166,7 @@ class Signup extends React.Component<IProps, IState> {
               <div className="firstStateLayoutContainer">
                 <div className="firstLayoutMainContainer">
                   <p className="signUp">{Constants.SIGNUP_TO}</p>
-                  <p className="logo">{Constants.VIDIONPRO}</p>
+                  <h2 className="logo">{Constants.VIDIONPRO}</h2>
                 </div>
               </div>
             ) : (
@@ -174,7 +192,7 @@ class Signup extends React.Component<IProps, IState> {
                 </div>
               </div>
               <div className="loadingWrapper">{loading && <Loading />}</div>
-              <Form id="wrapperFormSignup">
+              <div id="wrapperFormSignup">
                 <FormGroup>
                   <Label for="exampleEmail" style={{ fontWeight: "bold" }}>
                     {Constants.EMAIL}
@@ -351,7 +369,7 @@ class Signup extends React.Component<IProps, IState> {
                     </div>
                   </>
                 )}
-              </Form>
+              </div>
             </div>
           </Grid>
         </Grid>

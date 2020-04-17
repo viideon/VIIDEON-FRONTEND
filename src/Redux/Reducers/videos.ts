@@ -1,4 +1,5 @@
 import { types, VideoState } from "../Types/videos";
+import { types as authTypes } from "../Types/auth"
 
 let initialState: VideoState = {
   videoSaved: null,
@@ -7,6 +8,8 @@ let initialState: VideoState = {
 };
 const videoReducer = (state = initialState, action: any) => {
   switch (action.type) {
+    case authTypes.LOUGOUT:
+      return { ...initialState, videos: [] }
     case types.VIDEO_SEND_REQUEST:
       return {
         ...state,
