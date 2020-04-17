@@ -1,0 +1,15 @@
+.itemsInfo {
+  padding-left: 1px;
+  padding-right: 1px;
+}
+.mainInfoContainer {
+  margin-left: 5px;
+  font-size: 12px;
+  color: #838383;
+  display: inline-block;
+}
+.firstInfoContainer {
+  font-size: 12px;
+  color: #838383;
+  display: inline-block;
+}

@@ -1,3 +1,22 @@
+.wrapperProfileSection {
+  padding-top: 6%;
+}
+@media only screen and (max-width: 768px) {
+  .wrapperProfileSection {
+    padding-top: 8%;
+  }
+}
+@media only screen and (max-width: 550px) {
+  .wrapperProfileSection {
+    padding-top: 8%;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .wrapperProfileSection {
+    padding-top: 10%;
+  }
+}
 #profilePhotoWrap {
   border-radius: 5px;
   padding-bottom: 10px;
@@ -30,70 +49,69 @@
   width: 160px;
   height: 160px;
 }
-#profileImgLabelWrap{
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+#profileImgLabelWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 #profileImgLabelStyle {
   padding: 5px;
   background-color: royalblue;
   color: #ffffff;
   cursor: pointer;
-
 }
-#profileSelectInput{
-position: absolute;
-display: none;
+#profileSelectInput {
+  position: absolute;
+  display: none;
 }
 
 /* --------------------------------Your Profile Style------------------------------------------------------------ */
 
-#yourProfileWrap{
+#yourProfileWrap {
   border-radius: 5px;
   padding-bottom: 10px;
   margin: 30px;
   box-shadow: 0px 0px 5px #cac6c6;
   padding: 20px;
 }
-#yourProfielHead{
+#yourProfielHead {
   color: blue;
 }
 
-#formInput Input{
+#formInput input {
   border-top: none;
   border-left: none;
   border-right: none;
   padding: 0%;
   border-radius: 0%;
 }
- #typeInput:focus {
+#typeInput:focus {
   color: #575756;
   background-color: #fff;
   border-color: #cac6c6;
   outline: 0;
   box-shadow: none;
 }
-#fromFields{
+#fromFields {
   padding: 0%;
 }
-#yourProfileUpdateBtn{
+#yourProfileUpdateBtn {
   background-color: rgb(48, 126, 156);
   border: none;
   border-radius: 0%;
 }
-#memberDubbPara{
+#memberDubbPara {
   font-size: small;
   font-weight: 200;
 }
-#typeSelectInput{
+#typeSelectInput {
   border-top: none;
   border-left: none;
   border-right: none;
   padding: 0%;
   border-radius: 0%;
 }
-#typeSelectInput:focus{
+#typeSelectInput:focus {
   color: #575756;
   background-color: #fff;
   border-color: #cac6c6;
@@ -102,17 +120,17 @@ display: none;
 }
 
 /* ------------------------------------------Link Dubb Account-------------------------------- */
-#linkAccountHead{
+#linkAccountHead {
   color: blue;
 }
-#linkAccountWrap{
+#linkAccountWrap {
   border-radius: 5px;
   padding-bottom: 10px;
   margin: 30px;
   box-shadow: 0px 0px 5px #cac6c6;
   padding: 20px;
 }
-#linkAccountSendBtn{
+#linkAccountSendBtn {
   background-color: rgb(48, 126, 156);
   border: none;
   border-radius: 0%;

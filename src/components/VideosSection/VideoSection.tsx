@@ -31,7 +31,7 @@ class VideoSection extends Component<IProps> {
             <span className="Header">MY VIDEOS</span>
             <RecordOption history={this.props.history} />
           </div>
-          <Grid container spacing={1}>
+          <Grid container spacing={2}>
             {userVideos &&
               userVideos.map((video: any) => (
                 <Grid item xs={12} sm={6} md={4} key={video._id}>

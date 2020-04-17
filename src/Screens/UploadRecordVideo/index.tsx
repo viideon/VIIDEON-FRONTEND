@@ -6,7 +6,6 @@ import { FaCamera, FaLaptop } from "react-icons/fa";
 import Dropzone from "react-dropzone";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
-// import Header from "../../components/Header/Header";
 import {
   sendVideoToEmail,
   saveVideo,
@@ -172,7 +171,6 @@ class UploadRecord extends Component<IProps, IState> {
     let { videoSaved, loading } = this.props.videoUser;
     return (
       <>
-        {/* <Header history={this.props.history} /> */}
         <div className="recordMainContainer">
           <p className="mainHeader">{Constants.CREATE_VIDEO}</p>
           <p className="titleHeader">{Constants.RECORD_AND_SHARE}</p>

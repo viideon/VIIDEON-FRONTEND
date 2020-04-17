@@ -14,3 +14,40 @@
 #videoCardBody {
   min-height: 75px;
 }
+.titleVideo {
+  font-weight: 700;
+  font-size: 13px;
+  word-break: break-all;
+}
+
+/* -------------new video card--------------- */
+.wrapperVideoCard {
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  margin-left: 0.5%;
+  margin-right: 0.5;
+  margin-bottom: 2%;
+  padding: 5px;
+}
+.videoPreview {
+  height: 140.625px;
+  max-width: 100%;
+  background: #ededed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#rowCardTitle {
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-top: 12px;
+}
+#rowCardInfo {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+.addedVideoInfo {
+  color: #838383;
+  font-size: 12px;
+}
