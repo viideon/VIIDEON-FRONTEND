@@ -4,8 +4,7 @@ import React, { FC } from "react";
 // import "../../../node_modules/video-react/dist/video-react.css";
 import "./styles.css";
 import VideoInfo from "../VideoInfo";
-const thumbnailDefault =
-  "https://dubb.sfo2.digitaloceanspaces.com/videos/2019-12-14/8cf4b1479cf7010087580d802818402b/1576283646_preview.png";
+import { thumbnailDefault } from "../../constants/constants";
 
 type IProps = {
   title: string;

@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { Card } from "reactstrap";
 import { Player } from "video-react";
+import { thumbnailDefault } from "../../constants/constants";
 import "../../../node_modules/video-react/dist/video-react.css";
 import "./style.css";
 
@@ -15,7 +16,7 @@ const VideoPlayer: FC<IProps> = ({ url, thumbnail }) => {
         <div>
           <Player
             playsInline
-            poster={thumbnail ? thumbnail : "/assests/poster"}
+            poster={thumbnail ? thumbnail : thumbnailDefault}
             src={url}
             fluid={false}
             height={230}

@@ -69,6 +69,10 @@
 .thumbnaillEditMsg {
   margin-bottom: 25px;
 }
+.progressEditing {
+  text-align: center;
+  margin-right: 10%;
+}
 
 /* -----------analtics tab----------- */
 .wrapperAnalytics {

@@ -7,13 +7,15 @@ import { config } from "../../config/aws";
 import { getVideoById } from "../../Redux/Selectors";
 import { Container, Row, Col } from "reactstrap";
 import ThemeButton from "../../components/ThemeButton";
-import VideoCard from "../../components/VideoCard/VideoCard";
+import VideoPlayer from "../../components/VideoPlayer/index";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { toast } from "react-toastify";
 import "./style.css";
 
 interface IState {
   file: File | null;
   url: string;
+  uploading: boolean;
 }
 interface Video {
   url: string;
@@ -25,13 +27,15 @@ interface IProps {
   isVideoUpdated: boolean;
   videoId?: string | null;
   video: Video;
+  isVideoUpdating: boolean;
 }
 
 class Editing extends React.Component<IProps, IState> {
   state = {
     file: null,
     url: "",
-    isUpdated: false
+    isUpdated: false,
+    uploading: false
   };
 
   upload: any;
@@ -44,13 +48,17 @@ class Editing extends React.Component<IProps, IState> {
   onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0] !== null) {
       let file = e.target.files![0];
+      this.setState({ uploading: true });
       S3FileUpload.uploadFile(file, config)
         .then((data: any) => {
-          this.setState({ url: data.location });
+          this.setState({ url: data.location, uploading: false });
           toast.success("Thumbnail Updated , Apply changes to update");
           return;
         })
-        .catch((err: any) => alert(err));
+        .catch((err: any) => {
+          this.setState({ uploading: false });
+          toast.error(err);
+        });
     } else {
       toast.error("No file selected");
     }
@@ -64,7 +72,7 @@ class Editing extends React.Component<IProps, IState> {
     this.props.updateVideo(video);
   };
   render() {
-    const { video } = this.props;
+    const { video, isVideoUpdating } = this.props;
     return (
       <div className="editingTabWrapper">
         <Container>
@@ -72,11 +80,7 @@ class Editing extends React.Component<IProps, IState> {
             <Col xs="1" md="2"></Col>
             <Col xs="10" md="8">
               {video && (
-                <VideoCard
-                  title={video.title}
-                  url={video.url}
-                  thumbnail={video.thumbnail}
-                />
+                <VideoPlayer url={video.url} thumbnail={video.thumbnail} />
               )}
             </Col>
             <Col xs="1" md="2"></Col>
@@ -93,6 +97,13 @@ class Editing extends React.Component<IProps, IState> {
                   accept="image/x-png,image/gif,image/jpeg"
                 />
                 <h4 className="thumbnaillEditMsg">Edit Thumbnail</h4>
+                <div className="progressEditing">
+                  {this.state.uploading && <CircularProgress />}
+                </div>
+                <div className="progressEditing">
+                  {isVideoUpdating && <CircularProgress />}
+                </div>
+
                 <div className="btnEditThumbnailWrapper">
                   <ThemeButton
                     name="Upload File"
@@ -117,7 +128,8 @@ class Editing extends React.Component<IProps, IState> {
 const mapStateToProps = (state: any, ownProps: any) => {
   const video = getVideoById(state, ownProps.videoId);
   return {
-    video: video
+    video: video,
+    isVideoUpdating: state.video.isVideoUpdating
   };
 };
 const mapDispatchToProps = (dispatch: any) => {

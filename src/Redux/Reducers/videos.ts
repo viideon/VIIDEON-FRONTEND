@@ -41,11 +41,11 @@ const videoReducer = (state = initialState, action: any) => {
         error: action.payload
       }
     case types.UPDATE_VIDEO:
-      return { ...state, isVideoUpdated: null }
+      return { ...state, isVideoUpdating: true }
     case types.UPDATE_VIDEO_SUCCESS:
-      return { ...state, videos: action.payload, isVideoUpdated: true }
+      return { ...state, videos: action.payload, isVideoUpdated: true, isVideoUpdating: false }
     case types.UPDATE_VIDEO_FAIL:
-      return { ...state, isVideoUpdated: false }
+      return { ...state, isVideoUpdated: false, isVideoUpdating: false }
     case types.VIDEO_SAVE:
       return { ...state, loading: true, videoSaved: null }
     case types.VIDEO_SAVE_SUCESS:
