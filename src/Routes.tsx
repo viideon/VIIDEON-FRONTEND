@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
-import Home from "../src/Screens/Home/Home";
+import Home from "./Screens/Home/Home";
 import VideoTab from "./Screens/VideoTab/VideoTab";
 import Profile from "./Screens/Profile/index";
 import { AuthState } from "../src/Redux/Types/auth";

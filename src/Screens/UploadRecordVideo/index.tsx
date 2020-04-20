@@ -359,7 +359,7 @@ class UploadRecord extends Component<IProps, IState> {
                   </Row>
                 </div>
               )}
-              <div style={styles.recorder}>
+              <div style={styles.recorder} className="recorderWrapper">
                 <VideoRecorder
                   isOnInitially={false}
                   showReplayControls
