@@ -35,15 +35,8 @@ class Signin extends React.Component<IProps, IState> {
     };
   }
 
-  usernameHandler = (event: any) => {
-    this.setState({
-      email: event.target.value
-    });
-  };
-  passwordHandler = (event: any) => {
-    this.setState({
-      password: event.target.value
-    });
+  onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ [e.target.name]: e.target.value } as Pick<IState, any>);
   };
   loginHandler = () => {
     const { email, password } = this.state;
@@ -101,7 +94,7 @@ class Signin extends React.Component<IProps, IState> {
                       type="text"
                       name="email"
                       placeholder="Email address"
-                      onChange={this.usernameHandler}
+                      onChange={this.onChange}
                       style={inputStyle}
                     />
                     <i className="w3-xxlarge fa fa-user" style={iconStyle}></i>
@@ -124,7 +117,7 @@ class Signin extends React.Component<IProps, IState> {
                       type="password"
                       name="password"
                       placeholder="Password"
-                      onChange={this.passwordHandler}
+                      onChange={this.onChange}
                       style={inputStyle}
                     />
                     <i className="w3-xxlarge fa fa-key" style={iconStyle}></i>

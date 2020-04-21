@@ -1,6 +1,8 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import { Button, FormGroup, Label, Input, Alert } from "reactstrap";
+import { Button, FormGroup, Label, Alert } from "reactstrap";
+import { toast } from "react-toastify";
+import InputRound from "../../components/InputRound";
 import { connect } from "react-redux";
 import { registerUser } from "../../Redux/Actions/register";
 import { RegisterState } from "../../Redux/Types/register";
@@ -10,12 +12,12 @@ import Loading from "../../components/Loading";
 import { reg } from "../../constants/emailRegEx";
 import "./style.css";
 
-type IProps = {
+interface IProps {
   registerUser: RegisterState;
   register: (user: User) => void;
   history: any;
-};
-type IState = {
+}
+interface IState {
   userName: string;
   email: string;
   password: string;
@@ -25,14 +27,14 @@ type IState = {
   emailError: boolean;
   passwordError: boolean;
   invalidEmailError: boolean;
-  c_passwordError: boolean;
+  c_passwordError: any;
   firstError: boolean;
   lastError: boolean;
   userNameError: boolean;
   confirmPasswordError: boolean;
   next: boolean;
   showNext: boolean;
-};
+}
 
 class Signup extends React.Component<IProps, IState> {
   constructor(props: any) {
@@ -66,38 +68,11 @@ class Signup extends React.Component<IProps, IState> {
       this.props.history.push("/");
     }
   }
-  userNameHandler = (event: any) => {
-    this.setState({
-      userName: event.target.value
-    });
-  };
-  firstNameHandler = (event: any) => {
-    this.setState({
-      firstName: event.target.value
-    });
-  };
-  lastNameHandler = (event: any) => {
-    this.setState({
-      lastName: event.target.value
-    });
-  };
-  emailHandler = (event: any) => {
-    event.preventDefault();
-    this.setState({
-      email: event.target.value
-    });
+
+  onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ [e.target.name]: e.target.value } as Pick<IState, any>);
   };
 
-  passwordHandler = (event: any) => {
-    this.setState({
-      password: event.target.value
-    });
-  };
-  confirmPasswordHandler = (event: any) => {
-    this.setState({
-      confirmPassword: event.target.value
-    });
-  };
   registerHandler = () => {
     const {
       firstName,
@@ -131,10 +106,9 @@ class Signup extends React.Component<IProps, IState> {
   };
   nextHandler = () => {
     if (this.state.email) {
-      this.setState({ showNext: false });
-      this.setState({ next: true });
+      this.setState({ showNext: false, next: true });
     } else {
-      alert("Please Add Email");
+      toast.error("Please Add Email");
     }
   };
 
@@ -148,7 +122,13 @@ class Signup extends React.Component<IProps, IState> {
       confirmPasswordError,
       c_passwordError,
       invalidEmailError,
-      userNameError
+      userNameError,
+      email,
+      userName,
+      firstName,
+      lastName,
+      password,
+      confirmPassword
     } = this.state;
 
     return (
@@ -190,21 +170,14 @@ class Signup extends React.Component<IProps, IState> {
                   <Label for="exampleEmail" style={{ fontWeight: "bold" }}>
                     {Constants.EMAIL_BUSINESS}
                   </Label>
-                  <div className="textInpu1">
-                    <Input
-                      type="text"
-                      name="email"
-                      id="typeInput"
-                      placeholder="Enter Your business e-mail"
-                      onChange={this.emailHandler}
-                      style={{
-                        borderRadius: "10rem",
-                        borderWidth: 0,
-                        borderColor: "white",
-                        boxShadow: "white"
-                      }}
-                    />
-                  </div>
+
+                  <InputRound
+                    type="email"
+                    name="email"
+                    placeholder="Enter Your business e-mail"
+                    onChange={this.onChangeHandler}
+                    value={email}
+                  />
                 </FormGroup>
                 {emailError && (
                   <Alert color="danger">{Constants.EMAIL_ERROR}</Alert>
@@ -217,14 +190,7 @@ class Signup extends React.Component<IProps, IState> {
                     <Button
                       color="#9F55FF"
                       onClick={this.nextHandler}
-                      style={{
-                        backgroundColor: "#9F55FF",
-                        width: "40%",
-                        float: "right",
-                        marginBottom: "10px",
-                        color: "white",
-                        borderRadius: "10rem"
-                      }}
+                      style={registerBtnStyle}
                     >
                       {Constants.NEXT}
                     </Button>
@@ -234,81 +200,56 @@ class Signup extends React.Component<IProps, IState> {
                   <>
                     <FormGroup>
                       <Label>{Constants.FIRSTNAME}</Label>
-                      <div className="textInpu1">
-                        <Input
-                          type="email"
-                          name="firstName"
-                          placeholder="First Name"
-                          style={{
-                            borderRadius: "10rem",
-                            borderWidth: 0,
-                            borderColor: "white",
-                            boxShadow: "white"
-                          }}
-                          onChange={this.firstNameHandler}
-                        />
-                      </div>
+
+                      <InputRound
+                        type="text"
+                        name="firstName"
+                        placeholder="First Name"
+                        onChange={this.onChangeHandler}
+                        value={firstName}
+                      />
                     </FormGroup>
                     {firstError && (
                       <Alert color="danger">{Constants.FIRSTNAME_ERROR}</Alert>
                     )}
                     <FormGroup>
                       <Label>{Constants.LASTNAME}</Label>
-                      <div className="textInpu1">
-                        <Input
-                          type="email"
-                          name="lastName"
-                          placeholder="Last Name"
-                          style={{
-                            borderRadius: "10rem",
-                            borderWidth: 0,
-                            borderColor: "white",
-                            boxShadow: "white"
-                          }}
-                          onChange={this.lastNameHandler}
-                        />
-                      </div>
+
+                      <InputRound
+                        type="text"
+                        name="lastName"
+                        placeholder="Last Name"
+                        onChange={this.onChangeHandler}
+                        value={lastName}
+                      />
                     </FormGroup>
                     {lastError && (
                       <Alert color="danger">{Constants.LASTNAME_ERROR}</Alert>
                     )}
                     <FormGroup>
                       <Label>{Constants.USERNAME}</Label>
-                      <div className="textInpu1">
-                        <Input
-                          type="email"
-                          name="userName"
-                          placeholder="UserName"
-                          style={{
-                            borderRadius: "10rem",
-                            borderWidth: 0,
-                            borderColor: "white",
-                            boxShadow: "white"
-                          }}
-                          onChange={this.userNameHandler}
-                        />
-                      </div>
+
+                      <InputRound
+                        type="text"
+                        name="userName"
+                        placeholder="User Name"
+                        onChange={this.onChangeHandler}
+                        value={userName}
+                      />
                     </FormGroup>
                     {userNameError && (
                       <Alert color="danger">{Constants.USERNAME_ERROR}</Alert>
                     )}
                     <FormGroup>
                       <Label for="examplePassword">{Constants.PASSWORD}</Label>
-                      <div className="textInpu1">
-                        <Input
-                          type="password"
-                          name="password"
-                          id="examplePassword"
-                          placeholder="Password"
-                          style={{
-                            borderRadius: "10rem",
-                            borderWidth: 0,
-                            borderColor: "white",
-                            boxShadow: "white"
-                          }}
-                          onChange={this.passwordHandler}
-                        />
-                      </div>
+
+                      <InputRound
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        onChange={this.onChangeHandler}
+                        value={password}
+                      />
                     </FormGroup>
                     {passwordError && (
                       <Alert color="danger">{Constants.PASSWORD_ERROR}</Alert>
@@ -317,21 +258,14 @@ class Signup extends React.Component<IProps, IState> {
                       <Label for="examplePassword">
                         {Constants.CONFIRM_PASSWORD}
                       </Label>
-                      <div className="textInpu1">
-                        <Input
-                          type="password"
-                          name="confirmPassword"
-                          id="examplePassword"
-                          placeholder="Confrim Password"
-                          style={{
-                            borderRadius: "10rem",
-                            borderWidth: 0,
-                            borderColor: "white",
-                            boxShadow: "white"
-                          }}
-                          onChange={this.confirmPasswordHandler}
-                        />
-                      </div>
+
+                      <InputRound
+                        type="password"
+                        name="confirmPassword"
+                        placeholder="Confirm Password"
+                        onChange={this.onChangeHandler}
+                        value={confirmPassword}
+                      />
                     </FormGroup>
                     {confirmPasswordError && (
                       <Alert color="danger">{Constants.CONFIRM_ERROR}</Alert>
@@ -345,14 +279,7 @@ class Signup extends React.Component<IProps, IState> {
                       <Button
                         color="#9F55FF"
                         onClick={this.registerHandler}
-                        style={{
-                          backgroundColor: "#9F55FF",
-                          width: "40%",
-                          float: "right",
-                          marginBottom: "10px",
-                          color: "white",
-                          borderRadius: "10rem"
-                        }}
+                        style={registerBtnStyle}
                       >
                         {Constants.REGISTER}
                       </Button>
@@ -367,6 +294,15 @@ class Signup extends React.Component<IProps, IState> {
     );
   }
 }
+
+const registerBtnStyle = {
+  backgroundColor: "#9F55FF",
+  width: "40%",
+  float: "right",
+  marginBottom: "10px",
+  color: "white",
+  borderRadius: "10rem"
+} as React.CSSProperties;
 
 const mapStateToProps = (state: any) => {
   return {
