@@ -1,7 +1,4 @@
 import React, { FC } from "react";
-// import { Card, CardBody } from "reactstrap";
-// import { Player } from "video-react";
-// import "../../../node_modules/video-react/dist/video-react.css";
 import "./styles.css";
 import VideoInfo from "../VideoInfo";
 import { thumbnailDefault } from "../../constants/constants";
@@ -38,21 +35,3 @@ const VideoCard: FC<IProps> = ({ title, thumbnail, onClick }) => {
   );
 };
 export default VideoCard;
-
-/* <div onClick={onClick}>
-<Card className="VideoMain">
-  <div>
-    <Player
-      playsInline
-      poster={thumbnail ? thumbnail : "/assests/poster"}
-      src={url}
-      fluid={false}
-      height={230}
-      width="100%"
-    />
-  </div>
-  <CardBody id="videoCardBody">
-    <h5 className="titleVideo">{title}</h5>
-  </CardBody>
-</Card>
-</div> */

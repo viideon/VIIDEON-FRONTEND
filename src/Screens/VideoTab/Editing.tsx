@@ -1,12 +1,12 @@
 import React from "react";
 import S3FileUpload from "react-s3";
+import { Container, Row, Col } from "reactstrap";
 // import { RdxVideo, Overlay, Controls } from "react-html5-video-editor";
 import { connect } from "react-redux";
 import { updateVideo } from "../../Redux/Actions/videos";
 import { VideoUpdate } from "../../Redux/Types/videos";
 import { config } from "../../config/aws";
 import { getVideoById } from "../../Redux/Selectors";
-import { Container, Row, Col } from "reactstrap";
 import ThemeButton from "../../components/ThemeButton";
 import VideoPlayer from "../../components/VideoPlayer/index";
 import CircularProgress from "@material-ui/core/CircularProgress";

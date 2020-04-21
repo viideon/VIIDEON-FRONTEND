@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import { Row, Col } from "reactstrap";
 import { connect } from "react-redux";
 import { getUserVideos } from "../../Redux/Actions/videos";
 import { Grid } from "@material-ui/core";

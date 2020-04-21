@@ -4,7 +4,7 @@ import { Tooltip } from "reactstrap";
 import { Images } from "../../config";
 import "./styles.css";
 import PopupMenu from "./PopupList";
-import * as Constants from "../../constants/components/home";
+import * as Constants from "../../constants/constants";
 type IProps = {
   history: any;
 };

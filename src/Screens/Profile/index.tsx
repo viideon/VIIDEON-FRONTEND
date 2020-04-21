@@ -10,7 +10,7 @@ import { ProfileState, UserProfile } from "../../Redux/Types/profile";
 import { AuthState } from "../../Redux/Types/auth";
 import profileImg from "../../assets/profileImages/profileImg.png";
 import TimeZone from "../../components/TimeZone/Data/timezone.json";
-import * as Constants from "../../constants/components/profile";
+import * as Constants from "../../constants/constants";
 import Loading from "../../components/Loading";
 
 type IProps = {

@@ -17,7 +17,7 @@ import styles from "../VideoTab/style";
 import { Button, LinearProgress } from "@material-ui/core";
 import { AuthState } from "../../Redux/Types/auth";
 import Loading from "../../components/Loading";
-import * as Constants from "../../constants/components/UploadRecord";
+import * as Constants from "../../constants/constants";
 import "../../../node_modules/react-tabs/style/react-tabs.css";
 import { reg } from "../../constants/emailRegEx";
 import { config } from "../../config/aws";
@@ -231,7 +231,7 @@ class UploadRecord extends Component<IProps, IState> {
                                     )}
                                     <FormGroup style={{ marginTop: "5px" }}>
                                       <Label className="labelUploadSection">
-                                        {Constants.TITLE}
+                                        {Constants.VIDEO_TITLE}
                                       </Label>
                                       <Input
                                         type="text"

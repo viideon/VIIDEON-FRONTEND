@@ -7,7 +7,7 @@ import {
 } from "react-icons/fa";
 import "./style.css";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
-import * as Constants from "../../constants/components/videotab";
+import * as Constants from "../../constants/constants";
 
 const VideoInfo: React.FC = () => {
   return (

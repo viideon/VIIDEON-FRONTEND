@@ -1,7 +1,7 @@
 import React from "react";
 import { FormGroup, Label, Input, Col, Form } from "reactstrap";
 import { GoInfo } from "react-icons/go";
-import * as Constants from "../../constants/components/videotab";
+import * as Constants from "../../constants/constants";
 
 function Detail() {
   return (

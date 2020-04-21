@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { registerUser } from "../../Redux/Actions/register";
 import { RegisterState } from "../../Redux/Types/register";
 import { User } from "../../Redux/Types/register";
-import * as Constants from "../../constants/components/signUp";
+import * as Constants from "../../constants/constants";
 import Loading from "../../components/Loading";
 import { reg } from "../../constants/emailRegEx";
 import "./style.css";
@@ -188,7 +188,7 @@ class Signup extends React.Component<IProps, IState> {
               <div id="wrapperFormSignup">
                 <FormGroup>
                   <Label for="exampleEmail" style={{ fontWeight: "bold" }}>
-                    {Constants.EMAIL}
+                    {Constants.EMAIL_BUSINESS}
                   </Label>
                   <div className="textInpu1">
                     <Input

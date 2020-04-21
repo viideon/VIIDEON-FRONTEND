@@ -21,7 +21,7 @@ import { FiExternalLink } from "react-icons/fi";
 import { connect } from "react-redux";
 import { getVideoById } from "../../Redux/Selectors";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
-import * as Constants from "../../constants/components/videotab";
+import * as Constants from "../../constants/constants";
 import VideoPlayer from "../../components/VideoPlayer";
 import styles from "./style";
 

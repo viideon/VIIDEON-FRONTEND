@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 // import styles from './style';
 import { FormGroup, Label, Col, Input } from "reactstrap";
-import * as Constants from "../../constants/components/videotab";
+import * as Constants from "../../constants/constants";
 
 type IProps = {};
 

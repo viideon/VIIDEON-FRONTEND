@@ -1,7 +1,7 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { Form, FormGroup, Label, Input, Alert } from "reactstrap";
-import * as Constants from "../../constants/components/SignIn";
+import * as Constants from "../../constants/constants";
 import { connect } from "react-redux";
 import { reg } from "../../constants/emailRegEx";
 import Loading from "../../components/Loading";
@@ -94,7 +94,7 @@ class Signin extends React.Component<IProps, IState> {
               <Form style={{ width: "80%" }}>
                 <FormGroup>
                   <Label for="exampleEmail" style={{ fontWeight: "bold" }}>
-                    {Constants.EMAIL}
+                    {Constants.EMAIL_ADDRESS}
                   </Label>
                   <div className="textInput">
                     <Input

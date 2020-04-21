@@ -23,7 +23,7 @@ import Design from "./Design";
 import Privacy from "./Privacy";
 import VideoReplies from "./VideoReplies";
 import Analytics from "./Analytics";
-import * as Constants from "../../constants/components/videotab";
+import * as Constants from "../../constants/constants";
 import "./style.css";
 
 const VideoTab = ({ match: { params }, history }: any) => {
