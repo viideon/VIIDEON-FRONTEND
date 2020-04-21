@@ -1,22 +1,21 @@
-import {put, takeLatest} from 'redux-saga/effects';
+import { put, takeLatest } from 'redux-saga/effects';
+import { toast } from 'react-toastify';
 import { types } from '../../Types/profile';
 import { profile } from './api';
 
 function* profileUser(action: any) {
     try {
         const result = yield profile(action.payload);
-        console.log('result Response',result)
         if (result.status === 201) {
-            console.log("result", result)
             yield put({ type: types.PROFILE_SUCCESS, payload: result.message });
-            alert("Update Profile Successfully")
+            toast.info("Update Profile Successfully");
         }
         else {
             yield put({ type: types.PROFILE_FAILURE, payload: result.message });
-            alert("Error")
+            toast.error("Errror updating");
         }
     } catch (error) {
-        console.log(error);
+        toast.error(error);
     }
 }
 export function* profileWatcher() {

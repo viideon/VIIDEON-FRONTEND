@@ -11,6 +11,7 @@ import { AuthState } from "../../Redux/Types/auth";
 import profileImg from "../../assets/profileImages/profileImg.png";
 import TimeZone from "../../components/TimeZone/Data/timezone.json";
 import * as Constants from "../../constants/constants";
+import { config } from "../../config/aws";
 import Loading from "../../components/Loading";
 
 type IProps = {
@@ -34,14 +35,6 @@ type IState = {
   affiliateId: string;
   url: string;
 };
-const config = {
-  bucketName: "paractice",
-  dirName: "nafeel",
-  region: "us-east-1",
-  ACL: "public-read",
-  accessKeyId: "AKIAIK4LMUMBSKO7CYAQ",
-  secretAccessKey: "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"
-};
 class Profile extends Component<IProps, IState> {
   constructor(props: any) {
     super(props);
@@ -59,57 +52,18 @@ class Profile extends Component<IProps, IState> {
       url: ""
     };
   }
-  userNameHandler = (event: any) => {
-    this.setState({
-      userName: event.target.value
-    });
+
+  onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ [e.target.name]: e.target.value } as Pick<IState, any>);
   };
-  firstNameHandler = (event: any) => {
-    this.setState({
-      firstName: event.target.value
-    });
-  };
-  lastNameHandler = (event: any) => {
-    this.setState({
-      lastName: event.target.value
-    });
-  };
-  emailHandler = (event: any) => {
-    this.setState({
-      email: event.target.value
-    });
-  };
-  mobileHandler = (event: any) => {
-    this.setState({
-      mobileNumber: event.target.value
-    });
-  };
+
   timeHandler = (event: any) => {
     console.log("The Value Picker: ", event.target.value);
     this.setState({
       timeZone: event.target.value
     });
   };
-  businessPhoneHandler = (event: any) => {
-    this.setState({
-      businessPhone: event.target.value
-    });
-  };
-  webHandler = (event: any) => {
-    this.setState({
-      webAddress: event.target.value
-    });
-  };
-  titleHandler = (event: any) => {
-    this.setState({
-      title: event.target.value
-    });
-  };
-  afiliateHandler = (event: any) => {
-    this.setState({
-      affiliateId: event.target.value
-    });
-  };
+
   update = () => {
     const {
       email,
@@ -210,7 +164,7 @@ class Profile extends Component<IProps, IState> {
                     id="typeInput"
                     placeholder=""
                     value={this.state.firstName}
-                    onChange={this.firstNameHandler}
+                    onChange={this.onChange}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -221,7 +175,7 @@ class Profile extends Component<IProps, IState> {
                     id="typeInput"
                     placeholder=""
                     value={this.state.lastName}
-                    onChange={this.lastNameHandler}
+                    onChange={this.onChange}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -232,7 +186,7 @@ class Profile extends Component<IProps, IState> {
                     id="typeInput"
                     placeholder=""
                     value={this.state.userName}
-                    onChange={this.userNameHandler}
+                    onChange={this.onChange}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -243,29 +197,29 @@ class Profile extends Component<IProps, IState> {
                     id="typeInput"
                     placeholder=""
                     value={this.state.email}
-                    onChange={this.emailHandler}
+                    onChange={this.onChange}
                   />
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleEmail">{Constants.MOBILE_NUMBER}</Label>
                   <Input
                     type="text"
-                    name="mobile"
+                    name="mobileNumber"
                     id="typeInput"
                     placeholder=""
                     value={this.state.mobileNumber}
-                    onChange={this.mobileHandler}
+                    onChange={this.onChange}
                   />
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleEmail">{Constants.TIMEZONE}</Label>
                   <Input
                     type="select"
-                    name="timezone"
+                    name="timeZone"
                     id="typeSelectInput"
                     placeholder=""
                     value={this.state.timeZone}
-                    onChange={this.timeHandler}
+                    onChange={this.onChange}
                   >
                     {Object.entries(TimeZone).map((key, value) => {
                       return <option value={key}>{key}</option>;
@@ -276,44 +230,44 @@ class Profile extends Component<IProps, IState> {
                   <Label for="exampleEmail">{Constants.BUSINESS_PHONE}</Label>
                   <Input
                     type="text"
-                    name="email"
+                    name="businessPhone"
                     id="typeInput"
                     placeholder=""
                     value={this.state.businessPhone}
-                    onChange={this.businessPhoneHandler}
+                    onChange={this.onChange}
                   />
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleEmail">{Constants.WEB_ADDRESS}</Label>
                   <Input
                     type="text"
-                    name="email"
+                    name="webAddress"
                     id="typeInput"
                     placeholder=""
                     value={this.state.webAddress}
-                    onChange={this.webHandler}
+                    onChange={this.onChange}
                   />
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleEmail">{Constants.TITLE}</Label>
                   <Input
                     type="text"
-                    name="email"
+                    name="title"
                     id="typeInput"
                     placeholder=""
                     value={this.state.title}
-                    onChange={this.titleHandler}
+                    onChange={this.onChange}
                   />
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleEmail">{Constants.AFFILIATE}</Label>
                   <Input
                     type="text"
-                    name="email"
+                    name="affiliateId"
                     id="typeInput"
                     placeholder=""
                     value={this.state.affiliateId}
-                    onChange={this.afiliateHandler}
+                    onChange={this.onChange}
                   />
                   <p id="memberDubbPara">
                     {Constants.PROFILE_DESCRIPTION}{" "}
