@@ -1,5 +1,6 @@
 import React from "react";
 import S3FileUpload from "react-s3";
+// import { RdxVideo, Overlay, Controls } from "react-html5-video-editor";
 import { connect } from "react-redux";
 import { updateVideo } from "../../Redux/Actions/videos";
 import { VideoUpdate } from "../../Redux/Types/videos";
@@ -82,6 +83,13 @@ class Editing extends React.Component<IProps, IState> {
               {video && (
                 <VideoPlayer url={video.url} thumbnail={video.thumbnail} />
               )}
+              {/* {video && (
+                <RdxVideo autoPlay loop muted>
+                  <Overlay type="video/webm" />
+                  <Controls type="video/webm" />
+                  <source src={video.url} type="video/webm" />
+                </RdxVideo>
+              )} */}
             </Col>
             <Col xs="1" md="2"></Col>
           </Row>

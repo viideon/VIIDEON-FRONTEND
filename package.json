@@ -36,6 +36,7 @@
     "react-color": "^2.18.0",
     "react-dom": "^16.13.0",
     "react-dropzone": "^10.2.1",
+    "react-html5-video-editor": "^1.2.0",
     "react-icons": "^3.9.0",
     "react-joi-validation": "^1.7.0",
     "react-loading": "^2.0.3",

@@ -123,6 +123,7 @@ class UploadRecord extends Component<IProps, IState> {
       return;
     }
     this.setState({ videoProgress: true, progressVideo: 0 });
+    // let blobConverted = new Blob([this.state.videoRecord], { type: "video/mp4" });
     let s3 = new AWS.S3(config);
     var options = {
       Bucket: config.bucketName,
@@ -365,7 +366,6 @@ class UploadRecord extends Component<IProps, IState> {
                   showReplayControls
                   replayVideoAutoplayAndLoopOff
                   isReplayVideoInitiallyMuted={false}
-                  mimeType="video/webm"
                   onRecordingComplete={(videoBlob: any) => {
                     // Do something with the video...
                     this.props.toggleSendVariable();

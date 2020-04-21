@@ -1,0 +1,1 @@
+declare module 'react-html5-video-editor';
