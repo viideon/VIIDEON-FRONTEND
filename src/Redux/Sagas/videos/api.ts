@@ -1,4 +1,4 @@
-import * as CONSTANTS from '../../../constants/components/baseUrl';
+import * as CONSTANTS from '../../../constants/baseUrl';
 import API from "../../../lib/Api"
 
 

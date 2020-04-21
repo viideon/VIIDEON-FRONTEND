@@ -1,4 +1,4 @@
-import * as CONSTANTS from '../../../constants/components/baseUrl';
+import * as CONSTANTS from '../../../constants/baseUrl';
 
 export function* login(user: any) {
    const opt = {
