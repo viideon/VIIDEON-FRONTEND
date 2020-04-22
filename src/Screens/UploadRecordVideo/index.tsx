@@ -30,6 +30,7 @@ type IProps = {
   sendVideoToEmail: (video: EmailVideo) => void;
   saveVideo: (video: VideoSave) => void;
   toggleSendVariable: () => void;
+  location: any;
 };
 type IState = {
   file: any;
@@ -176,7 +177,7 @@ class UploadRecord extends Component<IProps, IState> {
           <p className="mainHeader">{Constants.CREATE_VIDEO}</p>
           <p className="titleHeader">{Constants.RECORD_AND_SHARE}</p>
           <hr />
-          <Tabs>
+          <Tabs defaultIndex={this.props.location.show === "upload" ? 0 : 1}>
             <TabList>
               <Tab>
                 <FaLaptop id="videoTabIcon" style={iconStyle} />

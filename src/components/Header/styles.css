@@ -1,25 +1,34 @@
 .HeaderContainer {
-  background-color: #fff;
-  border-bottom: 1px solid #3598dc;
+  background-color: var(--blue-theme);
   position: fixed;
   top: 0;
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  height: 10vh;
   z-index: 1;
+}
+.startHeader {
+  width: 33%;
+}
+.endHeader {
+  width: 33%;
 }
 .HeaderComponent {
   display: flex;
   flex-direction: row;
   height: 10vh;
 }
-.HeaderStyling {
-  flex: 2;
+.centerHeader {
+  width: 33%;
 }
 .HeaderStyle {
-  padding: 20px;
-  margin-left: 5%;
-  font-size: 30px;
-  color: #3598dc;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 2.5rem;
+  color: #fff;
   cursor: pointer;
+  vertical-align: middle;
 }
 .IconComponents {
   display: flex;

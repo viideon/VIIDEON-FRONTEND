@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import avatar from "../../assets/profileImages/profileImg.png";
 import { AuthState, User } from "../../Redux/Types/auth";
 import { logout } from "../../Redux/Actions/auth";
 import "./style.css";
@@ -21,61 +22,80 @@ class SideBar extends Component<IProps, IState> {
   };
   render() {
     return (
-      <>
-        <div className="MainDrawer">
-          <div
-            className="OptionIcons"
-            onClick={() => {
-              this.props.history.push("/");
-            }}
-          >
-            <i className="fa fa-fw fa-home" style={iconStyle} />
-            <span className="IconNameStyling">Dashboard</span>
+      <div className="MainDrawer">
+        <div className="wrapperProfileSidebar">
+          <div className="wrapperDetails">
+            <img src={avatar} className="avatarSidebar" alt="avatar" />
+            <span className="infoProfile">
+              <span className="nameInfo">Dan Niera</span>
+              <span className="contactInfo">dan@burnmediagroup.com</span>
+            </span>
           </div>
-          <div
-            className="OptionIcons"
-            onClick={() => {
-              alert(
-                "Under Progress , click a recorded  video to move to video tab"
-              );
-            }}
-          >
-            <i className="fa fa-fw fa-video" style={iconStyle} />
-            <span className="IconNameStyling">Videos</span>
-          </div>
-          <div
-            className="OptionIcons"
-            onClick={() => {
-              this.props.history.push("/profile");
-            }}
-          >
-            <i className="fa fa-user-o" style={iconStyle} />
-            <span className="IconNameStyling">Profile</span>
-          </div>
-          <div
-            className="OptionIcons"
-            onClick={() => {
-              this.props.history.push("/video/create");
-            }}
-          >
-            <i className="fa fa-camera-retro fa-lg" style={iconStyle} />
-            <span className="IconNameStyling">Upload Video</span>
-          </div>
-          <div
-            className="OptionIcons"
-            onClick={() => {
-              alert("Feature not created yet");
-            }}
-          >
-            <i className="fa fa-fw fa-feed" style={iconStyle} />
-            <span className="IconNameStyling">Connections</span>
-          </div>
-          <div className="OptionIcons" onClick={this.logout}>
-            <i className="fa fa-user-circle-o" style={iconStyle} />
-            <span className="IconNameStyling">Logout</span>
+          <div className="searchSidebar">
+            <input placeholder="search" className="inputSearch" />
+            <div className="wrapperIconSearch">
+              <i className="fas fa-search iconSearch"></i>
+            </div>
           </div>
         </div>
-      </>
+        <div
+          className="OptionIcons"
+          onClick={() => {
+            this.props.history.push("/");
+          }}
+        >
+          <i className="fa fa-fw fa-home" style={iconStyle} />
+          <span className="IconNameStyling">Dashboard</span>
+          <i className="fas fa-angle-left" style={arrowIcon}></i>
+        </div>
+        <div
+          className="OptionIcons"
+          onClick={() => {
+            alert(
+              "Under Progress , click a recorded  video to move to video tab"
+            );
+          }}
+        >
+          <i className="fa fa-fw fa-video" style={iconStyle} />
+          <span className="IconNameStyling">Videos</span>
+          <i className="fas fa-angle-left" style={arrowIcon}></i>
+        </div>
+        <div
+          className="OptionIcons"
+          onClick={() => {
+            this.props.history.push("/profile");
+          }}
+        >
+          <i className="fa fa-user-o" style={iconStyle} />
+          <span className="IconNameStyling">Profile</span>
+          <i className="fas fa-angle-left" style={arrowIcon}></i>
+        </div>
+        <div
+          className="OptionIcons"
+          onClick={() => {
+            this.props.history.push("/video/create");
+          }}
+        >
+          <i className="fa fa-camera-retro fa-lg" style={iconStyle} />
+          <span className="IconNameStyling">Upload Video</span>
+          <i className="fas fa-angle-left" style={arrowIcon}></i>
+        </div>
+        <div
+          className="OptionIcons"
+          onClick={() => {
+            alert("Feature not created yet");
+          }}
+        >
+          <i className="fa fa-fw fa-feed" style={iconStyle} />
+          <span className="IconNameStyling">Connections</span>
+          <i className="fas fa-angle-left" style={arrowIcon}></i>
+        </div>
+        <div className="OptionIcons" onClick={this.logout}>
+          <i className="fa fa-user-circle-o" style={iconStyle} />
+          <span className="IconNameStyling">Logout</span>
+          <i className="fas fa-angle-left" style={arrowIcon}></i>
+        </div>
+      </div>
     );
   }
 }
@@ -84,6 +104,10 @@ const iconStyle = {
   width: "1.5em",
   display: "inline-block",
   color: "#b4bcc8"
+};
+const arrowIcon = {
+  marginLeft: "auto",
+  marginRight: "12px"
 };
 const mapStateToProps = (state: any) => {
   return {

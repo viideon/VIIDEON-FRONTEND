@@ -1,8 +1,5 @@
 #videoTabWrap {
   text-align: center;
-  /* flex-wrap: nowrap;  */
-  /* justify-content: center; */
-  /* overflow: hidden; */
 }
 #videoTabNavLink p {
   color: #22b9ff;
@@ -16,6 +13,7 @@
     font-size: large;
   }
 }
+
 #videoTabNavLink {
   padding: 0.5rem 3rem;
 }
@@ -81,4 +79,10 @@
 
 .wrapperVideoTab {
   padding-top: 5%;
+}
+
+@media screen and (max-width: 580px) {
+  .wrapperVideoTab {
+    padding-top: 12%;
+  }
 }

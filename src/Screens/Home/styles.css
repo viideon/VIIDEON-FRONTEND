@@ -16,7 +16,7 @@
   width: 80%;
 }
 .wrapperHomeContent {
-  margin-top: 5%;
+  margin-top: 4.86%;
   width: calc(100% - 235px);
   margin-left: 235px;
   padding: 10px;
@@ -40,4 +40,17 @@
     margin-top: 18%;
     width: 96vw;
   }
+}
+.actionsHomePage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.wrapperActivityHome {
+  background: #f3f7fa;
+  padding-top: 40px;
+  box-shadow: 1px 1px 3px #d3d3d3;
+  padding-bottom: 40px;
+  margin-top: 20px;
 }
