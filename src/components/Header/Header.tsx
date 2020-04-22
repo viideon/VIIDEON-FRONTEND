@@ -1,15 +1,15 @@
-import React, { FC, useState } from "react";
+import React from "react";
 import { withRouter } from "react-router-dom";
+import avatarImage from "../../assets/profileImages/profileImg.png";
+import "./styles.css";
 // import { Tooltip } from "reactstrap";
 // import { Images } from "../../config";
-import "./styles.css";
 // import PopupMenu from "./PopupList";
 type IProps = {
   history: any;
 };
-const Header: FC<IProps> = ({ history }) => {
+const Header: React.FC<IProps> = ({ history }) => {
   // const [tooltipOpen, setTooltipOpen] = useState(false);
-
   // const toggle = () => setTooltipOpen(!tooltipOpen);
   const navigateHome = () => {
     history.push("/");
@@ -22,15 +22,34 @@ const Header: FC<IProps> = ({ history }) => {
           vidionPRO
         </h3>
       </div>
-      <div className="endHeader"></div>
-      <div></div>
+      <div className="endHeader">
+        <div className="wrapperEnd">
+          <img src={avatarImage} className="avatarNav" />
+          <span>
+            <i className="fas fa-envelope" style={iconStyle}></i>
+          </span>
+          <span>
+            <i className="fas fa-bell" style={iconStyle}></i>
+          </span>
+          <span>
+            <i className="fas fa-flag" style={iconStyle}></i>
+          </span>
+          <span>
+            <i className="fas fa-cog" style={iconStyle}></i>
+          </span>
+        </div>
+      </div>
     </div>
   );
 };
+
+const iconStyle = {
+  color: "#fff",
+  cursor: "pointer"
+};
 export default withRouter(Header);
 
-{
-  /* <div className="HeaderComponent">
+/* <div className="HeaderComponent">
 <div className="HeaderStyling">
   <h3 className="HeaderStyle" onClick={navigateHome}>
     {Constants.HEADER}
@@ -38,9 +57,8 @@ export default withRouter(Header);
 </div>
 
 </div> */
-}
-{
-  /* <div className="IconComponents">
+
+/* <div className="IconComponents">
 <span
   style={{ textDecoration: "underline", color: "blue" }}
   id="TooltipExample"
@@ -69,4 +87,3 @@ export default withRouter(Header);
 />
 <PopupMenu />
 </div> */
-}

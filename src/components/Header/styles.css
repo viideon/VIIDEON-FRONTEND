@@ -13,7 +13,27 @@
 }
 .endHeader {
   width: 33%;
+  display: flex;
+  justify-content: flex-end;
 }
+
+.wrapperEnd {
+  display: flex;
+  justify-content: space-evenly;
+  width: 50%;
+  align-items: center;
+}
+@media only screen and (max-width: 768px) {
+  .wrapperEnd {
+    width: 90%;
+    margin-left: 10px;
+  }
+  .HeaderStyle {
+    font-size: 1.5rem !important;
+    margin-top: 20px !important;
+  }
+}
+
 .HeaderComponent {
   display: flex;
   flex-direction: row;
@@ -47,4 +67,9 @@
   width: 30px;
   cursor: pointer;
   height: 30px;
+}
+
+.avatarNav {
+  border-radius: 50%;
+  width: 35px;
 }

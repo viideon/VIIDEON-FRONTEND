@@ -70,26 +70,7 @@ class SideBar extends Component<IProps, IState> {
           <span className="IconNameStyling">Profile</span>
           <i className="fas fa-angle-left" style={arrowIcon}></i>
         </div>
-        <div
-          className="OptionIcons"
-          onClick={() => {
-            this.props.history.push("/video/create");
-          }}
-        >
-          <i className="fa fa-camera-retro fa-lg" style={iconStyle} />
-          <span className="IconNameStyling">Upload Video</span>
-          <i className="fas fa-angle-left" style={arrowIcon}></i>
-        </div>
-        <div
-          className="OptionIcons"
-          onClick={() => {
-            alert("Feature not created yet");
-          }}
-        >
-          <i className="fa fa-fw fa-feed" style={iconStyle} />
-          <span className="IconNameStyling">Connections</span>
-          <i className="fas fa-angle-left" style={arrowIcon}></i>
-        </div>
+
         <div className="OptionIcons" onClick={this.logout}>
           <i className="fa fa-user-circle-o" style={iconStyle} />
           <span className="IconNameStyling">Logout</span>
