@@ -1,11 +1,13 @@
-const PROFILE_REQUEST: string = "PROFILE_REQUEST";
-const PROFILE_SUCCESS: string = "PROFILE_SUCCESS";
-const PROFILE_FAILURE: string = "PROFILE_FAILURE";
+const PROFILE_UPDATE_REQUEST: string = "PROFILE_UPDATE_REQUEST";
+const PROFILE_UPDATE_SUCCESS: string = "PROFILE_UPDATE_SUCCESS";
+const PROFILE_UPDATE_FAILURE: string = "PROFILE_UPDATE_FAILURE";
+const ADD_PROFILE_DATA: string = "ADD_PROFILE_DATA";
 
 export const types = {
-  PROFILE_REQUEST,
-  PROFILE_SUCCESS,
-  PROFILE_FAILURE
+  PROFILE_UPDATE_REQUEST,
+  PROFILE_UPDATE_SUCCESS,
+  PROFILE_UPDATE_FAILURE,
+  ADD_PROFILE_DATA
 };
 export interface UserProfile {
   email: string;
@@ -18,6 +20,8 @@ export interface UserProfile {
   webAddress: string;
   title: string;
   affiliateId: string;
+  url?: string;
+  _id?: string;
 }
 export interface ProfileState {
   user?: UserProfile;
@@ -28,6 +32,6 @@ export interface ProfileState {
 }
 
 export interface ProfileAction {
-    type: typeof PROFILE_REQUEST,
-    payload: UserProfile
+  type: typeof PROFILE_UPDATE_REQUEST,
+  payload: UserProfile
 }

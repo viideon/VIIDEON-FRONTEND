@@ -10,7 +10,7 @@ import profileReducer from './profile';
 const rootPersistConfig = {
     key: 'root',
     storage: storage,
-    whitelist: ["auth"],
+    whitelist: ["auth", "profile"],
     blacklist: ["video"]
 };
 

@@ -8,7 +8,7 @@ export function* login(user: any) {
       },
       body: JSON.stringify(user)
    }
-   const response = yield fetch(`${CONSTANTS.BASE_URL}/user/login`, opt);
+   const response = yield fetch(`${CONSTANTS.DEV_URL}/user/login`, opt);
    const message = yield response.json();
    return yield ({ status: response.status, message })
 }

@@ -1,6 +1,6 @@
 import * as CONSTANTS from '../../../constants/baseUrl';
 
-export function* profile(userProfile: any) {
+export function* updateProfile(userProfile: any) {
    const new_user = {
       email: userProfile.email,
       firstName: userProfile.firstName,
@@ -21,7 +21,7 @@ export function* profile(userProfile: any) {
       },
       body: JSON.stringify(new_user)
    }
-   const response = yield fetch(`${CONSTANTS.BASE_URL}/user/update/${userProfile.userId}`, opt);
+   const response = yield fetch(`${CONSTANTS.DEV_URL}/user/update/${userProfile.userId}`, opt);
    const message = yield response.json();
    return yield ({ status: response.status, message })
 }

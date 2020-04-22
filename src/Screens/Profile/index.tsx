@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { FaInfoCircle } from "react-icons/fa";
 import AWS from "aws-sdk";
 import LinkAccount from "./LinkAccount";
-import { profileUser } from "../../Redux/Actions/profile";
+import { updateProfileUser } from "../../Redux/Actions/profile";
 import { ProfileState, UserProfile } from "../../Redux/Types/profile";
 import { AuthState } from "../../Redux/Types/auth";
 import profileImg from "../../assets/profileImages/profileImg.png";
@@ -18,8 +18,8 @@ type IProps = {
   history: any;
   auth: AuthState;
   navigation: any;
-  userProfile: ProfileState;
-  profile: (userProfile: UserProfile) => void;
+  profile: ProfileState;
+  updateProfile: (userProfile: UserProfile) => void;
 };
 
 type IState = {
@@ -39,29 +39,22 @@ class Profile extends Component<IProps, IState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      email: this.props.auth.user!.user!.email || "",
-      firstName: this.props.auth.user!.user!.firstName || "",
-      lastName: this.props.auth.user!.user!.lastName || "",
-      userName: this.props.auth.user!.user!.userName || "",
-      mobileNumber: this.props.auth.user!.user!.mobileNumber || "",
-      timeZone: this.props.auth.user!.user!.timeZone || "",
-      businessPhone: this.props.auth.user!.user!.businessPhone || "",
-      webAddress: this.props.auth.user!.user!.webAddress || "",
-      title: this.props.auth.user!.user!.title || "",
-      affiliateId: this.props.auth.user!.user!.affiliateId || "",
-      url: ""
+      email: this.props.profile!.user!.email || "",
+      firstName: this.props.profile!.user!.firstName || "",
+      lastName: this.props.profile!.user!.lastName || "",
+      userName: this.props.profile!.user!.userName || "",
+      mobileNumber: this.props.profile!.user!.mobileNumber || "",
+      timeZone: this.props.profile!.user!.timeZone || "",
+      businessPhone: this.props.profile!.user!.businessPhone || "",
+      webAddress: this.props.profile!.user!.webAddress || "",
+      title: this.props.profile!.user!.title || "",
+      affiliateId: this.props.profile!.user!.affiliateId || "",
+      url: this.props.profile!.user!.url || ""
     };
   }
 
   onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ [e.target.name]: e.target.value } as Pick<IState, any>);
-  };
-
-  timeHandler = (event: any) => {
-    console.log("The Value Picker: ", event.target.value);
-    this.setState({
-      timeZone: event.target.value
-    });
   };
 
   update = () => {
@@ -89,10 +82,11 @@ class Profile extends Component<IProps, IState> {
       webAddress,
       title,
       affiliateId,
-      userId: this.props.auth.user!.user!._id,
+      userId: this.props.profile!.user!._id,
       url
     };
-    this.props.profile(data);
+    console.log("data", data);
+    this.props.updateProfile(data);
   };
   fileHandler = (e: any) => {
     const that = this;
@@ -107,12 +101,11 @@ class Profile extends Component<IProps, IState> {
       if (err) {
         throw err;
       }
-      console.log(`File uploaded successfully. ${data.Location} ${err}`);
       that.setState({ url: data.Location });
     });
   };
   render() {
-    const { loading } = this.props.userProfile;
+    const { loading, user } = this.props.profile;
     return (
       <div className="wrapperProfileSection">
         <div id="profilePhotoWrap">
@@ -127,7 +120,7 @@ class Profile extends Component<IProps, IState> {
           <div id="profileImgWrap">
             {this.state.url === "" ? (
               <img
-                src={this.props.auth.user!.user!.url}
+                src={user!.url ? user!.url : profileImg}
                 alt="profileImg"
                 id="profileImgStyle"
               />
@@ -291,13 +284,13 @@ class Profile extends Component<IProps, IState> {
 }
 const mapStateToProps = (state: any) => {
   return {
-    auth: state.auth,
-    userProfile: state.profile
+    profile: state.profile
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    profile: (userProfile: UserProfile) => dispatch(profileUser(userProfile))
+    updateProfile: (userProfile: UserProfile) =>
+      dispatch(updateProfileUser(userProfile))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

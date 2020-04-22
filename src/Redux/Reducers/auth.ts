@@ -12,7 +12,6 @@ const authReducer = (state = initialState, action: any) => {
                 loginError: false
             };
         case types.LOGIN_SUCCESS:
-
             return {
                 ...state,
                 user: action.payload,
@@ -28,6 +27,8 @@ const authReducer = (state = initialState, action: any) => {
                 loading: false,
                 loginError: action.payload.message,
             };
+        case types.UPDATE_USER:
+            return { ...state, user: action.payload }
         case types.LOUGOUT:
             return {
                 ...state,

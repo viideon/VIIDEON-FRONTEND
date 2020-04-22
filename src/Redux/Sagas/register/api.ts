@@ -9,7 +9,7 @@ export function* register(user: any) {
       },
       body: JSON.stringify(user)
    }
-   const response = yield fetch(`${CONSTANTS.BASE_URL}/user/register`, opt);
+   const response = yield fetch(`${CONSTANTS.DEV_URL}/user/register`, opt);
    const message = yield response.json();
    return yield ({ status: response.status, message })
 }
