@@ -3,12 +3,14 @@ import { connect } from "react-redux";
 import SearchBar from "../SearchBar";
 import avatar from "../../assets/profileImages/profileImg.png";
 import { AuthState, User } from "../../Redux/Types/auth";
+import { UserProfile } from "../../Redux/Types/profile";
 import { logout } from "../../Redux/Actions/auth";
 import "./style.css";
 
 type IProps = {
   history: any;
   auth: AuthState;
+  user: UserProfile;
   logout: (user: object) => void;
 };
 type IState = {};
@@ -22,25 +24,30 @@ class SideBar extends Component<IProps, IState> {
     this.props.logout(this.props.auth);
   };
   render() {
+    const { email, userName, url } = this.props.user;
     return (
       <div className="MainDrawer">
         <div className="wrapperProfileSidebar">
           <div className="wrapperDetails">
-            <img src={avatar} className="avatarSidebar" alt="avatar" />
+            <img
+              src={url ? url : avatar}
+              className="avatarSidebar"
+              alt="avatar"
+            />
             <span className="infoProfile">
-              <span className="nameInfo">Dan Niera</span>
-              <span className="contactInfo">dan@burnmediagroup.com</span>
+              <span className="nameInfo">{userName}</span>
+              <span className="contactInfo">{email}</span>
             </span>
           </div>
           <SearchBar />
         </div>
         <div
-          className="OptionIcons"
+          className="OptionIcons dashboardOption"
           onClick={() => {
             this.props.history.push("/");
           }}
         >
-          <i className="fa fa-fw fa-home" style={iconStyle} />
+          <i className="fas fa-tachometer-alt dashboard" style={iconStyle} />
           <span className="IconNameStyling">Dashboard</span>
           <i className="fas fa-angle-left" style={arrowIcon}></i>
         </div>
@@ -52,18 +59,27 @@ class SideBar extends Component<IProps, IState> {
             );
           }}
         >
-          <i className="fa fa-fw fa-video" style={iconStyle} />
-          <span className="IconNameStyling">Videos</span>
+          <i className="fab fa-microsoft" style={iconStyle} />
+          <span className="IconNameStyling">My Videos</span>
           <i className="fas fa-angle-left" style={arrowIcon}></i>
         </div>
+        <div className="OptionIcons" onClick={() => alert("Under Progress")}>
+          <i className="fa fa-envelope" style={iconStyle} />
+          <span className="IconNameStyling">My Messages</span>
+          <i className="fas fa-angle-left" style={arrowIcon}></i>
+        </div>
+        <div className="OptionIcons" onClick={() => alert("Under Progress")}>
+          <i className="fas fa-chart-pie" style={iconStyle} />
+          <span className="IconNameStyling">My Stats</span>
+          <i className="fas fa-angle-left" style={arrowIcon}></i>
+        </div>
+
         <div
-          className="OptionIcons"
-          onClick={() => {
-            this.props.history.push("/profile");
-          }}
+          className="OptionIcons assetLibrary"
+          onClick={() => alert("Under Progress")}
         >
-          <i className="fa fa-user-o" style={iconStyle} />
-          <span className="IconNameStyling">Profile</span>
+          <i className="fas fa-folder" style={iconStyle} />
+          <span className="IconNameStyling">Asset Library</span>
           <i className="fas fa-angle-left" style={arrowIcon}></i>
         </div>
 
@@ -88,7 +104,8 @@ const arrowIcon = {
 };
 const mapStateToProps = (state: any) => {
   return {
-    auth: state.auth
+    auth: state.auth,
+    user: state.profile.user
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
