@@ -53,11 +53,7 @@ class SideBar extends Component<IProps, IState> {
         </div>
         <div
           className="OptionIcons"
-          onClick={() => {
-            alert(
-              "Under Progress , click a recorded  video to move to video tab"
-            );
-          }}
+          onClick={() => this.props.history.push("/videos")}
         >
           <i className="fab fa-microsoft" style={iconStyle} />
           <span className="IconNameStyling">My Videos</span>

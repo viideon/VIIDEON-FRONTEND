@@ -25,7 +25,7 @@ class Routes extends Component<IProps> {
               <Route exact path="/videotab/:id" component={VideoTab} />
               <Route exact path="/profile" component={Profile} />
               <Route exact path="/video/create" component={UploadRecord} />
-              <Route exact path="/" component={Home} />
+              <Route exact path="*" component={Home} />
             </Switch>
           </>
         ) : (

@@ -17,7 +17,6 @@ class VideoSection extends Component<IProps> {
   componentDidMount() {
     this.props.getUserVideos();
   }
-
   navigateToVideoTab = (id: string) => {
     this.props.history.push(`/videotab/${id}`);
   };
@@ -48,7 +47,6 @@ class VideoSection extends Component<IProps> {
     );
   }
 }
-
 const mapStateToProps = (state: any) => {
   return {
     userVideos: state.video.videos
