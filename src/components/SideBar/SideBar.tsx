@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import SearchBar from "../SearchBar";
 import avatar from "../../assets/profileImages/profileImg.png";
 import { AuthState, User } from "../../Redux/Types/auth";
 import { logout } from "../../Redux/Actions/auth";
@@ -31,12 +32,7 @@ class SideBar extends Component<IProps, IState> {
               <span className="contactInfo">dan@burnmediagroup.com</span>
             </span>
           </div>
-          <div className="searchSidebar">
-            <input placeholder="search" className="inputSearch" />
-            <div className="wrapperIconSearch">
-              <i className="fas fa-search iconSearch"></i>
-            </div>
-          </div>
+          <SearchBar />
         </div>
         <div
           className="OptionIcons"

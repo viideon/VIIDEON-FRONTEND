@@ -24,7 +24,7 @@ const Header: React.FC<IProps> = ({ history }) => {
       </div>
       <div className="endHeader">
         <div className="wrapperEnd">
-          <img src={avatarImage} className="avatarNav" />
+          <img src={avatarImage} className="avatarNav" alt="avatar" />
           <span>
             <i className="fas fa-envelope" style={iconStyle}></i>
           </span>
