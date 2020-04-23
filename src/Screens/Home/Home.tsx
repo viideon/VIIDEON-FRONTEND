@@ -5,7 +5,7 @@ import PublishIcon from "@material-ui/icons/Publish";
 import ImageSearchIcon from "@material-ui/icons/ImageSearch";
 import EditIcon from "@material-ui/icons/Edit";
 import SideBar from "../../components/SideBar/SideBar";
-import HeaderCard from "../../components/HeaderCards/Cards";
+import HeaderCard from "../../components/HeaderCards";
 import VideoSection from "../../components/VideosSection/VideoSection";
 import { connect } from "react-redux";
 import { getVideosLength } from "../../Redux/Selectors";
@@ -30,29 +30,33 @@ class Home extends Component<IProps> {
             <Grid item xs={6} md={3}>
               <HeaderCard
                 styles={Styles.headerCardOne}
-                Video={this.props.noOfVideos ? this.props.noOfVideos : "0"}
-                Title="Videos"
+                Number={this.props.noOfVideos ? this.props.noOfVideos : 0}
+                Title="VIDEOS"
+                iconBg="#368BC4"
               />
             </Grid>
             <Grid item xs={6} md={3}>
               <HeaderCard
                 styles={Styles.headerCardTwo}
-                Video="0"
-                Title="Total Video Views"
+                Number={0}
+                Title="VIEWS"
+                iconBg="#3A966F"
               />
             </Grid>
             <Grid item xs={6} md={3}>
               <HeaderCard
                 styles={Styles.headerCardThree}
-                Video="3"
-                Title="Call to Action"
+                Number={3}
+                Title="CAMPAIGNS"
+                iconBg="#7754B8"
               />
             </Grid>
             <Grid item xs={6} md={3}>
               <HeaderCard
                 styles={Styles.headerCardFour}
-                Video="1"
-                Title="Team Members"
+                Number={1}
+                Title="CONTACTS"
+                iconBg="#CC5551"
               />
             </Grid>
           </Grid>

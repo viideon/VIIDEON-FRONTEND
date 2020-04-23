@@ -4,19 +4,19 @@ const styles = {
   },
   headerCardOne: {
     padding: "15px",
-    backgroundColor: "#3598DC"
+    backgroundColor: "#46adf0"
   },
   headerCardTwo: {
     padding: "15px",
-    backgroundColor: "#e7505a"
+    backgroundColor: "#44be8b"
   },
   headerCardThree: {
     padding: "15px",
-    backgroundColor: "#32c5d2"
+    backgroundColor: "#936ee0"
   },
   headerCardFour: {
     padding: "15px",
-    backgroundColor: "#8e44ad"
+    backgroundColor: "#f9686b"
   }
 };
 export default styles;

@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       marginLeft: "auto",
       marginRight: "auto",
+      marginTop: "5px",
       padding: "0px 1px 0px 2px",
       border: "3px solid #5368FA",
       display: "flex",
