@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from "react-router-dom";
 import { connect } from "react-redux";
 import Home from "./Screens/Home/Home";
 import VideoTab from "./Screens/VideoTab/VideoTab";
@@ -32,6 +37,7 @@ class Routes extends Component<IProps> {
           <Switch>
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/" component={SignIn} />
+            <Route exact path="*" render={() => <Redirect to="/" />} />
           </Switch>
         )}
       </Router>

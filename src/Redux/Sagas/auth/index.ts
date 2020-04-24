@@ -21,6 +21,17 @@ function* loginUser(action: any) {
         toast.error("Invalid Credentials");
     }
 }
+
+function* logout() {
+    try {
+        yield put({ type: types.LOUGOUT_SUCCESS });
+        yield put(push('/'));
+
+    } catch (error) {
+        toast.error(error);
+    }
+}
 export function* authWatcher() {
     yield takeEvery(types.LOGIN_REQUEST, loginUser);
+    yield takeEvery(types.LOUGOUT, logout);
 }

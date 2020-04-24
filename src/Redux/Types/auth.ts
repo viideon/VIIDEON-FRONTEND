@@ -2,6 +2,7 @@ const LOGIN_REQUEST: string = "LOGIN_REQUEST";
 const LOGIN_SUCCESS: string = "LOGIN_SUCCESS";
 const LOGIN_FAILURE: string = "LOGIN_FAILURE";
 const LOUGOUT: string = "LOUGOUT";
+const LOUGOUT_SUCCESS: string = "LOUGOUT_SUCCESS";
 const UPDATE_USER: string = "UPDATE_USER";
 
 export const types = {
@@ -9,7 +10,8 @@ export const types = {
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
     LOUGOUT,
-    UPDATE_USER
+    UPDATE_USER,
+    LOUGOUT_SUCCESS
 }
 interface Us {
     _id: string

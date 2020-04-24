@@ -29,12 +29,11 @@ const authReducer = (state = initialState, action: any) => {
             };
         case types.UPDATE_USER:
             return { ...state, user: action.payload }
-        case types.LOUGOUT:
+        case types.LOUGOUT_SUCCESS:
             return {
                 ...state,
                 loggedInStatus: false,
-                loading: false,
-            };
+            }
         default: {
             return state;
         }
