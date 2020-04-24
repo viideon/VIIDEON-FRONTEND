@@ -5,7 +5,7 @@ const initialState: ProfileState = {};
 const profileReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case types.ADD_PROFILE_DATA:
-      return { ...state, user: action.payload }
+      return { ...state, user: action.payload.user }
     case types.PROFILE_UPDATE_REQUEST:
       return {
         ...state,

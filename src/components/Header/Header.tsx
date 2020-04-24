@@ -1,22 +1,42 @@
-import React from "react";
-import { withRouter } from "react-router-dom";
+import React, { useState } from "react";
+import { withRouter, useLocation } from "react-router-dom";
+import { connect } from "react-redux";
+import { toggleDrawer } from "../../Redux/Actions/drawer";
 import avatarImage from "../../assets/profileImages/profileImg.png";
+import TopDrawer from "../DrawerTop/index";
+import MenuIcon from "@material-ui/icons/Menu";
 import "./styles.css";
-// import { Tooltip } from "reactstrap";
-// import { Images } from "../../config";
-// import PopupMenu from "./PopupList";
 type IProps = {
   history: any;
+  toggleDrawer: () => void;
 };
-const Header: React.FC<IProps> = ({ history }) => {
-  // const [tooltipOpen, setTooltipOpen] = useState(false);
-  // const toggle = () => setTooltipOpen(!tooltipOpen);
+const Header: React.FC<IProps> = ({ history, toggleDrawer }) => {
+  const [drawerOpen, toggleTopDrawer] = useState(false);
+  const toggle = () => toggleTopDrawer(!drawerOpen);
   const navigateHome = () => {
     history.push("/");
   };
+  const location = useLocation();
   return (
     <div className="HeaderContainer">
-      <div className="startHeader"></div>
+      <div className="startHeader">
+        {(location.pathname === "/" || location.pathname === "/videos") && (
+          <MenuIcon
+            onClick={() => toggle()}
+            style={{ color: "#fff" }}
+            className="hamburgerTop"
+          />
+        )}
+        <TopDrawer open={drawerOpen} toggle={toggle} />
+
+        {(location.pathname === "/" || location.pathname === "/videos") && (
+          <MenuIcon
+            onClick={() => toggleDrawer()}
+            style={{ color: "#fff" }}
+            id="hamburgerSide"
+          />
+        )}
+      </div>
       <div className="centerHeader">
         <h3 className="HeaderStyle" onClick={navigateHome}>
           vidionPRO
@@ -47,43 +67,10 @@ const iconStyle = {
   color: "#fff",
   cursor: "pointer"
 };
-export default withRouter(Header);
 
-/* <div className="HeaderComponent">
-<div className="HeaderStyling">
-  <h3 className="HeaderStyle" onClick={navigateHome}>
-    {Constants.HEADER}
-  </h3>
-</div>
-
-</div> */
-
-/* <div className="IconComponents">
-<span
-  style={{ textDecoration: "underline", color: "blue" }}
-  id="TooltipExample"
->
-  <img
-    src={Images.plus}
-    className="ImagePlusTag"
-    alt="ImagePlusTag"
-    onClick={() => {
-      history.push("/video/create");
-    }}
-  />
-</span>
-<Tooltip
-  placement="bottom"
-  isOpen={tooltipOpen}
-  target="TooltipExample"
-  toggle={toggle}
->
-  Record and Upload a Video
-</Tooltip>
-<img
-  src={Images.gift}
-  className="ImageGiftTag"
-  alt="ImageGiftTag"
-/>
-<PopupMenu />
-</div> */
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    toggleDrawer: () => dispatch(toggleDrawer())
+  };
+};
+export default withRouter<any, any>(connect(null, mapDispatchToProps)(Header));

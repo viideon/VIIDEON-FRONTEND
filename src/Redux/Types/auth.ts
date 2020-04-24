@@ -34,7 +34,8 @@ export interface User {
 }
 
 export interface AuthState {
-    user?: User;
+    // user?: User;;
+    user?: Us
     loggedInStatus?: boolean;
     loading?: boolean;
     loginError?: string;

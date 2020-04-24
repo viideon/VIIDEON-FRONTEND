@@ -108,7 +108,7 @@ class UploadRecord extends Component<IProps, IState> {
       const video = {
         title: that.state.title,
         url,
-        userId: that.props.auth.user!.user!._id
+        userId: that.props.auth!.user!._id
       };
       that.setState({ fileProgress: false });
       that.props.saveVideo(video);
@@ -124,7 +124,6 @@ class UploadRecord extends Component<IProps, IState> {
       return;
     }
     this.setState({ videoProgress: true, progressVideo: 0 });
-    // let blobConverted = new Blob([this.state.videoRecord], { type: "video/mp4" });
     let s3 = new AWS.S3(config);
     var options = {
       Bucket: config.bucketName,
@@ -142,7 +141,7 @@ class UploadRecord extends Component<IProps, IState> {
       that.setState({ urlRecord: data.Location });
       const video = {
         url: that.state.urlRecord,
-        userId: that.props.auth.user!.user!._id,
+        userId: that.props.auth!.user!._id,
         title: that.state.title
       };
       that.setState({ videoProgress: false });

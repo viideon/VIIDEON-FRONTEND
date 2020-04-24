@@ -1,5 +1,6 @@
 export const selectID = (state: any) => {
-    return state.auth.user.user._id;
+    console.log("state", state.auth.user);
+    return state.auth.user._id;
 };
 
 export const selectVideos = (state: any) => {

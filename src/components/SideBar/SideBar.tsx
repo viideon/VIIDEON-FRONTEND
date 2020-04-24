@@ -10,6 +10,7 @@ import "./style.css";
 type IProps = {
   history: any;
   auth: AuthState;
+  drawer: boolean;
   user: UserProfile;
   logout: (user: object) => void;
 };
@@ -24,21 +25,27 @@ class SideBar extends Component<IProps, IState> {
     this.props.logout(this.props.auth);
   };
   render() {
-    const { email, userName, url } = this.props.user;
+    console.log("props", this.props);
+    const { user } = this.props;
+
+    const { drawer } = this.props;
+
     return (
-      <div className="MainDrawer">
+      <div className={drawer ? "MainDrawer" : "MainDrawerHide"}>
         <div className="wrapperProfileSidebar">
-          <div className="wrapperDetails">
-            <img
-              src={url ? url : avatar}
-              className="avatarSidebar"
-              alt="avatar"
-            />
-            <span className="infoProfile">
-              <span className="nameInfo">{userName}</span>
-              <span className="contactInfo">{email}</span>
-            </span>
-          </div>
+          {user && (
+            <div className="wrapperDetails">
+              <img
+                src={user.url ? user.url : avatar}
+                className="avatarSidebar"
+                alt="avatar"
+              />
+              <span className="infoProfile">
+                <span className="nameInfo">{user.userName}</span>
+                <span className="contactInfo">{user.email}</span>
+              </span>
+            </div>
+          )}
           <SearchBar />
         </div>
         <div
@@ -101,7 +108,8 @@ const arrowIcon = {
 const mapStateToProps = (state: any) => {
   return {
     auth: state.auth,
-    user: state.profile.user
+    user: state.profile.user,
+    drawer: state.drawer.drawer
   };
 };
 const mapDispatchToProps = (dispatch: any) => {

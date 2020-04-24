@@ -43,19 +43,18 @@
   font-weight: 400;
 }
 .iconCards {
-  font-size: 25px;
-  margin: 16px;
+  font-size: 20px;
 }
 .wrapperIconCard {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 30%;
+  width: 60px;
+  height: 60px;
+  padding: 2px;
+  vertical-align: middle;
+  text-align: center;
   border-radius: 50%;
+  line-height: 60px;
   margin-right: 8px;
   margin-left: -8px;
-  /* padding: 16px; */
-  min-width: 30%;
 }
 .detailsCard {
   width: 70%;

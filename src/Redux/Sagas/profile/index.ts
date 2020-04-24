@@ -9,7 +9,6 @@ function* updateProfileUser(action: any) {
         const result = yield updateProfile(action.payload);
         if (result.status === 201) {
             yield put({ type: types.PROFILE_UPDATE_SUCCESS, payload: result });
-            // yield put({ type: userTypes.UPDATE_USER, payload: result.user })
             toast.info("Update Profile Successfully");
         }
         else {

@@ -1,20 +1,25 @@
 import React, { Component } from "react";
 import SideBar from "../../components/SideBar/SideBar";
 import { Route } from "react-router-dom";
+import { connect } from "react-redux";
 import "./styles.css";
 import Dashboard from "./Dashboard";
 import Videos from "./Videos";
 
 type IProps = {
   history: any;
+  drawer: boolean;
 };
 
 class Home extends Component<IProps> {
   render() {
+    const { drawer } = this.props;
     return (
       <div>
         <SideBar history={this.props.history} />
-        <div className="wrapperHomeContent">
+        <div
+          className={drawer ? "wrapperHomeContent" : "wrapperHomeContentFull"}
+        >
           <Route exact path="/" component={Dashboard} />
           <Route exact path="/videos" component={Videos} />
         </div>
@@ -36,4 +41,10 @@ class Home extends Component<IProps> {
   }
 }
 
-export default Home;
+const mapStateToProps = (state: any) => {
+  return {
+    drawer: state.drawer.drawer
+  };
+};
+
+export default connect(mapStateToProps)(Home);

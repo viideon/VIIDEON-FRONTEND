@@ -3,6 +3,7 @@ import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
 import registerReducer from './register';
 import authReducer from './auth';
+import drawerReducer from "./drawer"
 import videoReducer from './videos';
 import profileReducer from './profile';
 
@@ -11,7 +12,7 @@ const rootPersistConfig = {
     key: 'root',
     storage: storage,
     whitelist: ["auth", "profile"],
-    blacklist: ["video"]
+    blacklist: ["video", "drawer"]
 };
 
 const videoPersistConfig = {
@@ -23,6 +24,7 @@ const videoPersistConfig = {
 
 const rootReducer = combineReducers({
     register: registerReducer,
+    drawer: drawerReducer,
     auth: authReducer,
     video: persistReducer(videoPersistConfig, videoReducer),
     profile: profileReducer,

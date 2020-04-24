@@ -9,7 +9,7 @@ function* loginUser(action: any) {
         const result = yield login(action.payload);
         if (result.status === 201) {
             yield put({ type: types.LOGIN_SUCCESS, payload: result.message });
-            yield put({ type: profileTypes.ADD_PROFILE_DATA, payload: result.message.user });
+            yield put({ type: profileTypes.ADD_PROFILE_DATA, payload: result.message });
             yield put(push('/'));
         }
         else {
@@ -17,6 +17,7 @@ function* loginUser(action: any) {
             toast.error("Please try again");
         }
     } catch (error) {
+        alert(error);
         yield put({ type: types.LOGIN_FAILURE, payload: error });
         toast.error("Invalid Credentials");
     }

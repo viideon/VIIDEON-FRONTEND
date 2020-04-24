@@ -30,7 +30,7 @@ if (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
   enhancer = compose(applyMiddleware(sagaMiddleware));
 }
 
-const store = createStore(persistedReducer, enhancer);
+const store = createStore(persistedReducer, {}, enhancer);
 const persistor = persistStore(store);
 
 class App extends Component {
