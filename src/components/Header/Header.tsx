@@ -38,7 +38,7 @@ const Header: React.FC<IProps> = ({ history, toggleDrawer }) => {
         )}
       </div>
       <div className="centerHeader">
-        <h3 className="HeaderStyle" onClick={navigateHome}>
+        <h3 className="headerStyle" onClick={navigateHome}>
           vidionPRO
         </h3>
       </div>

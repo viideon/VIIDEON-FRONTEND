@@ -10,13 +10,13 @@
   z-index: 1;
 }
 .startHeader {
-  width: 33%;
+  width: 36%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .endHeader {
-  width: 33%;
+  width: 36%;
   display: flex;
   justify-content: flex-end;
 }
@@ -32,35 +32,22 @@
 }
 #hamburgerSide {
   display: block !important;
+  cursor: pointer;
 }
-@media only screen and (max-width: 768px) {
-  .wrapperEnd {
-    width: 90%;
-    margin-left: 10px;
-  }
-  .HeaderStyle {
-    font-size: 1.5rem !important;
-    margin-top: 20px !important;
-  }
-  .hamburgerTop {
-    display: block !important;
-  }
-  #hamburgerSide {
-    display: none !important;
-  }
-}
+
 .HeaderComponent {
   display: flex;
   flex-direction: row;
   height: 10vh;
 }
 .centerHeader {
-  width: 33%;
+  width: 28%;
 }
-.HeaderStyle {
+.headerStyle {
   text-align: center;
   margin-top: 10px;
-  font-size: 2.5rem;
+  font-size: 2.2rem;
+  font-weight: 600;
   color: #fff;
   cursor: pointer;
   vertical-align: middle;
@@ -87,4 +74,41 @@
 .avatarNav {
   border-radius: 50%;
   width: 35px;
+}
+
+@media only screen and (max-width: 768px) {
+  .wrapperEnd {
+    width: 90%;
+    margin-left: 10px;
+  }
+  .headerStyle {
+    font-size: 1.5rem !important;
+    margin-top: 20px !important;
+    text-align: start !important;
+  }
+  .hamburgerTop {
+    display: block !important;
+  }
+  #hamburgerSide {
+    display: none !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .endHeader {
+    width: 50% !important;
+  }
+  .centerHeader {
+    width: 20% !important;
+  }
+  .startHeader {
+    width: 30% !important;
+  }
+  .wrapperEnd {
+    width: 100% !important;
+  }
+  .headerStyle {
+    font-size: 16px !important;
+    margin-top: 25px !important;
+  }
 }

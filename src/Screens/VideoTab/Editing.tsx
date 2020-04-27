@@ -53,7 +53,7 @@ class Editing extends React.Component<IProps, IState> {
       S3FileUpload.uploadFile(file, config)
         .then((data: any) => {
           this.setState({ url: data.location, uploading: false });
-          toast.success("Thumbnail Updated , Apply changes to update");
+          toast.info("Thumbnail Updated , Apply changes to update");
           return;
         })
         .catch((err: any) => {
@@ -66,11 +66,16 @@ class Editing extends React.Component<IProps, IState> {
   };
 
   saveChanges = () => {
+    if (this.state.url === "") {
+      toast.error("Please upload a thumbnail");
+      return;
+    }
     const video = {
       id: this.props.videoId,
       thumbnail: this.state.url
     };
     this.props.updateVideo(video);
+    this.setState({ url: "" });
   };
   render() {
     const { video, isVideoUpdating } = this.props;
@@ -83,13 +88,6 @@ class Editing extends React.Component<IProps, IState> {
               {video && (
                 <VideoPlayer url={video.url} thumbnail={video.thumbnail} />
               )}
-              {/* {video && (
-                <RdxVideo autoPlay loop muted>
-                  <Overlay type="video/webm" />
-                  <Controls type="video/webm" />
-                  <source src={video.url} type="video/webm" />
-                </RdxVideo>
-              )} */}
             </Col>
             <Col xs="1" md="2"></Col>
           </Row>

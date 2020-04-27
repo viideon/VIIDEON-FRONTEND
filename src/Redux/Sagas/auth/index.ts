@@ -17,9 +17,8 @@ function* loginUser(action: any) {
             toast.error("Please try again");
         }
     } catch (error) {
-        alert(error);
         yield put({ type: types.LOGIN_FAILURE, payload: error });
-        toast.error("Invalid Credentials");
+        toast.error("Invalid Email or Password");
     }
 }
 

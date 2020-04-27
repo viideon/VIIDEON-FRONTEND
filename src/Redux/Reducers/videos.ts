@@ -33,15 +33,23 @@ const videoReducer = (state = initialState, action: any) => {
       };
     case types.TOGGLE_SEND_VARIABLE:
       return { ...state, videoSaved: null }
+    case types.GET_USER_VIDEOS:
+      return {
+        ...state,
+        loadingVideos: true
+      }
     case types.GET_USER_VIDEOS_SUCCESS:
       return {
         ...state,
-        videos: action.payload
+        videos: action.payload,
+        loadingVideos: false
       }
+
     case types.GET_USER_VIDEOS_FAILED:
       return {
         ...state,
-        error: action.payload
+        error: action.payload,
+        loadingVideos: false
       }
     case types.UPDATE_VIDEO:
       return { ...state, isVideoUpdating: true }

@@ -96,6 +96,7 @@ class Signin extends React.Component<IProps, IState> {
                       placeholder="Email address"
                       onChange={this.onChange}
                       style={inputStyle}
+                      autoComplete="off"
                     />
                     <i className="w3-xxlarge fa fa-user" style={iconStyle}></i>
                   </div>

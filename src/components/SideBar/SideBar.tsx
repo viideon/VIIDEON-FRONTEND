@@ -25,11 +25,8 @@ class SideBar extends Component<IProps, IState> {
     this.props.logout(this.props.auth);
   };
   render() {
-    console.log("props", this.props);
     const { user } = this.props;
-
     const { drawer } = this.props;
-
     return (
       <div className={drawer ? "MainDrawer" : "MainDrawerHide"}>
         <div className="wrapperProfileSidebar">

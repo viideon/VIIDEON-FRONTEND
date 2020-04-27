@@ -6,33 +6,7 @@
   align-items: center;
   color: #fff;
 }
-@media only screen and (max-width: 1150px) {
-  .Title {
-    font-size: 1rem !important;
-    font-weight: 300 !important;
-  }
-  .iconCards {
-    font-size: 25px !important;
-    margin: 5px !important;
-  }
-}
-@media only screen and (max-width: 1022px) {
-  .Title {
-    font-size: 0.8rem !important;
-    font-weight: 300 !important;
-  }
-}
 
-@media only screen and (max-width: 960px) {
-  .Title {
-    font-size: 1.2rem !important;
-    font-weight: 500 !important;
-  }
-  .iconCards {
-    font-size: 25px !important;
-    margin: 16px !important;
-  }
-}
 .Title {
   font-size: 1.2rem;
   font-weight: 500;
@@ -67,4 +41,42 @@
 }
 .CardMain .MuiLinearProgress-root {
   height: 2px !important;
+}
+
+@media only screen and (max-width: 1150px) {
+  .Title {
+    font-size: 1rem !important;
+    font-weight: 300 !important;
+  }
+  .iconCards {
+    font-size: 25px !important;
+    margin: 5px !important;
+  }
+}
+@media only screen and (max-width: 1022px) {
+  .Title {
+    font-size: 0.8rem !important;
+    font-weight: 300 !important;
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  .Title {
+    font-size: 1.2rem !important;
+    font-weight: 500 !important;
+  }
+  .iconCards {
+    font-size: 25px !important;
+    margin: 16px !important;
+  }
+}
+@media (max-width: 400px) {
+  .Title {
+    font-size: 10px !important;
+    font-weight: 400 !important;
+  }
+  .iconCards {
+    font-size: 20px !important;
+    margin: 16px !important;
+  }
 }

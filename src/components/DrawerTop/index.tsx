@@ -1,6 +1,9 @@
 import React from "react";
+import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import Drawer from "@material-ui/core/Drawer";
+import { AuthState } from "../../Redux/Types/auth";
+import { logout } from "../../Redux/Actions/auth";
 import { makeStyles } from "@material-ui/core/styles";
 import "./style.css";
 
@@ -34,9 +37,20 @@ interface IProps {
   open?: boolean;
   toggle?: () => void;
   history?: any;
+  auth: AuthState;
+  logout: (user: any) => void;
 }
 
-const TopDrawer: React.FC<IProps> = ({ open, toggle, history }) => {
+const TopDrawer: React.FC<IProps> = ({
+  open,
+  toggle,
+  history,
+  logout,
+  auth
+}) => {
+  const logoutUser = () => {
+    logout(auth);
+  };
   const classes = useStyles();
   return (
     <Drawer open={open} anchor="top" className={classes.root} onClose={toggle}>
@@ -75,6 +89,11 @@ const TopDrawer: React.FC<IProps> = ({ open, toggle, history }) => {
           <span className="IconNameStyling">Asset Library</span>
           <i className="fas fa-angle-left" style={arrowIcon}></i>
         </div>
+        <div className="OptionIcons" onClick={logoutUser}>
+          <i className="fa fa-user-circle-o" style={iconStyle} />
+          <span className="IconNameStyling">Logout</span>
+          <i className="fas fa-angle-left" style={arrowIcon}></i>
+        </div>
       </div>
     </Drawer>
   );
@@ -91,4 +110,16 @@ const arrowIcon = {
   marginRight: "12px"
 };
 
-export default withRouter<any, any>(TopDrawer);
+const mapStateToProps = (state: any) => {
+  return {
+    auth: state.auth
+  };
+};
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    logout: (user: any) => dispatch(logout(user))
+  };
+};
+export default withRouter<any, any>(
+  connect(mapStateToProps, mapDispatchToProps)(TopDrawer)
+);
