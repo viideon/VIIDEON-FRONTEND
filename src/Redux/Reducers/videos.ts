@@ -4,7 +4,6 @@ import { types as authTypes } from "../Types/auth"
 let initialState: VideoState = {
   videoSaved: null,
   videoSend: null,
-  isVideoUpdated: null,
 };
 const videoReducer = (state = initialState, action: any) => {
   switch (action.type) {
@@ -54,15 +53,23 @@ const videoReducer = (state = initialState, action: any) => {
     case types.UPDATE_VIDEO:
       return { ...state, isVideoUpdating: true }
     case types.UPDATE_VIDEO_SUCCESS:
-      return { ...state, videos: action.payload, isVideoUpdated: true, isVideoUpdating: false }
+      return { ...state, videos: action.payload, isVideoUpdating: false }
     case types.UPDATE_VIDEO_FAIL:
-      return { ...state, isVideoUpdated: false, isVideoUpdating: false }
+      return { ...state, isVideoUpdating: false }
     case types.VIDEO_SAVE:
       return { ...state, loading: true, videoSaved: null }
     case types.VIDEO_SAVE_SUCESS:
-      return { ...state, videoSaved: true, loading: false };
+      return { ...state, loading: false, videoSaved: true };
     case types.VIDEO_SAVE_FAILURE:
-      return { ...state, videoSaved: false, loading: false };
+      return { ...state, loading: false, videoSaved: false };
+    case types.GET_VIDEO:
+      return { ...state, loadingVideo: true }
+    case types.GET_VIDEO_SUCCESS:
+      return { ...state, loadingVideo: false, singleVideo: action.payload }
+    case types.GET_VIDEO_FAILURE:
+      return { ...state, loadingVideo: false };
+    case types.GET_SAVED_VIDEO_ID:
+      return { ...state, savedVideoId: action.payload }
     default: {
       return state;
     }

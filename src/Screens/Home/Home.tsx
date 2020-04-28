@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import SideBar from "../../components/SideBar/SideBar";
-import { Route } from "react-router-dom";
+import { Route,Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import "./styles.css";
 import Dashboard from "./Dashboard";
@@ -22,6 +22,7 @@ class Home extends Component<IProps> {
         >
           <Route exact path="/" component={Dashboard} />
           <Route exact path="/videos" component={Videos} />
+          <Route exact path="*" render={() => <Redirect to="/" />} />
         </div>
         <div className="footerDashboard">
           <div className="navFooterIcons">

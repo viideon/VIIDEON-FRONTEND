@@ -1,6 +1,6 @@
 import { put, takeEvery, call, select } from 'redux-saga/effects';
 import { types } from '../../Types/videos';
-import { sendVideoToEmail, saveVideo, getVideosByUserId, updateUserVideo } from './api';
+import { sendVideoToEmail, saveVideo, getVideosByUserId, updateUserVideo, getSingleVideo } from './api';
 import { selectID, selectVideos } from "../../Selectors/index"
 import { toast } from 'react-toastify';
 
@@ -26,8 +26,8 @@ function* saveUserVideo(action: any) {
         const result = yield saveVideo(action.payload);
         if (result.status === 201) {
             yield put({ type: types.VIDEO_SAVE_SUCESS });
+            yield put({ type: types.GET_SAVED_VIDEO_ID, payload: result.data.video._id });
             toast.info("Video Saved Successfully");
-
         }
         else {
             yield put({ type: types.VIDEO_SAVE_FAILURE });
@@ -79,9 +79,26 @@ function* updateVideo(action: any) {
     }
 }
 
+function* getVideo(action: any) {
+    try {
+        const result = yield call(getSingleVideo, action.payload);
+        if (result.status === 200) {
+            yield put({ type: types.GET_VIDEO_SUCCESS, payload: result.data.video });
+        } else {
+            yield put({ type: types.GET_VIDEO_FAILURE });
+            toast.info("Not a valid video link");
+        }
+    }
+    catch (err) {
+        yield put({ type: types.GET_VIDEO_FAILURE });
+        toast.error(err);
+    }
+}
+
 export function* videoWatcher() {
     yield takeEvery(types.VIDEO_SEND_REQUEST, sendVideoOnEmail);
     yield takeEvery(types.VIDEO_SAVE, saveUserVideo);
     yield takeEvery(types.GET_USER_VIDEOS, getUserVideos);
     yield takeEvery(types.UPDATE_VIDEO, updateVideo);
+    yield takeEvery(types.GET_VIDEO, getVideo);
 }

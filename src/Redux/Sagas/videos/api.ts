@@ -1,7 +1,6 @@
 import * as CONSTANTS from '../../../constants/baseUrl';
 import API from "../../../lib/Api"
 
-
 export function* video(user: any) {
    const opt = {
       method: 'POST',
@@ -24,11 +23,12 @@ export async function sendVideoToEmail(video: any) {
 export async function getVideos() {
    return API.get('/video');
 }
-
 export async function getVideosByUserId(id: string) {
    return API.get('/video/user', { params: { id: id } });
 }
-
 export async function updateUserVideo(video: any) {
    return API.patch("/video", video);
+}
+export async function getSingleVideo(id: string) {
+   return API.get("/video/single", { params: { id } });
 }

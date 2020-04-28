@@ -33,3 +33,9 @@ export function toggleSendVariable() {
   }
 }
 
+export function getVideo(id: string) {
+  return {
+    type: types.GET_VIDEO,
+    payload: id
+  }
+}

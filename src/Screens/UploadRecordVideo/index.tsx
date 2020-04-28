@@ -27,6 +27,7 @@ type IProps = {
   auth: AuthState;
   history: any;
   videoUser: VideoState;
+  savedVideoId: string;
   sendVideoToEmail: (video: EmailVideo) => void;
   saveVideo: (video: VideoSave) => void;
   toggleSendVariable: () => void;
@@ -152,19 +153,20 @@ class UploadRecord extends Component<IProps, IState> {
     });
   };
   submitEmail = () => {
-    if (this.state.recieverEmail === "") {
+    if (this.props.savedVideoId === "") {
+      return toast.warn("Please save a video");
+    } else if (this.state.recieverEmail === "") {
       return toast.warn("Add an Email");
     } else if (reg.test(this.state.recieverEmail) === false) {
       return toast.warn("Invalid Email");
     } else {
-      const that = this;
-      const url = that.state.urlRecord;
-      const recieverEmail = that.state.recieverEmail;
+      // const url = that.state.urlRecord;
+      const recieverEmail = this.state.recieverEmail;
       const video = {
-        url,
+        id: this.props.savedVideoId,
         recieverEmail
       };
-      that.props.sendVideoToEmail(video);
+      this.props.sendVideoToEmail(video);
     }
   };
 
@@ -389,7 +391,8 @@ const iconStyle = {
 const mapStateToProps = (state: any) => {
   return {
     auth: state.auth,
-    videoUser: state.video
+    videoUser: state.video,
+    savedVideoId: state.video.savedVideoId
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
