@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import { Card } from "reactstrap";
 import { Player } from "video-react";
 import { thumbnailDefault } from "../../constants/constants";
 import "../../../node_modules/video-react/dist/video-react.css";
@@ -8,22 +7,19 @@ import "./style.css";
 type IProps = {
   url: string;
   thumbnail?: string;
+  height?: number;
 };
-const VideoPlayer: FC<IProps> = ({ url, thumbnail }) => {
+const VideoPlayer: FC<IProps> = ({ url, thumbnail, height }) => {
   return (
-    <div>
-      <Card className="VideoMain">
-        <div>
-          <Player
-            playsInline
-            poster={thumbnail ? thumbnail : thumbnailDefault}
-            src={url}
-            fluid={false}
-            height={230}
-            width="100%"
-          />
-        </div>
-      </Card>
+    <div className="playerWrapper">
+      <Player
+        playsInline
+        poster={thumbnail ? thumbnail : thumbnailDefault}
+        src={url}
+        fluid={false}
+        height={height ? height : 230}
+        width="100%"
+      />
     </div>
   );
 };

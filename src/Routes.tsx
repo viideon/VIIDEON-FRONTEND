@@ -14,6 +14,7 @@ import Signup from "./Screens/Signup/index";
 import SignIn from "./Screens/SignIn";
 import Header from "./components/Header/Header";
 import UploadRecord from "../src/Screens/UploadRecordVideo";
+import Watch from "./Screens/Watch";
 
 type IProps = {
   auth: AuthState;
@@ -30,6 +31,7 @@ class Routes extends Component<IProps> {
               <Route exact path="/videotab/:id" component={VideoTab} />
               <Route exact path="/profile" component={Profile} />
               <Route exact path="/video/create" component={UploadRecord} />
+              <Route exact path="/watch" component={Watch} />
               <Route exact path="*" component={Home} />
             </Switch>
           </>

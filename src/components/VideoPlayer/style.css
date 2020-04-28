@@ -1,4 +1,4 @@
-.VideoMain {
+.playerWrapper {
   width: 100%;
   height: 100%;
   margin-bottom: 10px;
@@ -6,11 +6,3 @@
 .video-react .video-react-big-play-button {
   width: 2em;
 }
-
-/* .VideoMain .card-title {
-  font-weight: bold;
-  font-size: 14px;
-} */
-/* #videoCardBody {
-  min-height: 75px;
-} */
