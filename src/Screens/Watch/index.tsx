@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import VideoPlayer from "../../components/VideoPlayer";
 import { getVideo } from "../../Redux/Actions/videos";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Grid from "@material-ui/core/Grid";
 
 interface IProps {
@@ -23,7 +24,7 @@ class Watch extends React.Component<IProps> {
             {video ? (
               <VideoPlayer url={video.url} height={300} />
             ) : (
-              <h3>No Video to display </h3>
+             <CircularProgress/>
             )}
           </Grid>
           <Grid item md={3} sm={2} xs={1}></Grid>

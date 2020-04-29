@@ -46,8 +46,8 @@
 .headerStyle {
   font-family: "Poppins", sans-serif;
   text-align: center;
-  margin-top: 10px;
-  font-size: 2.2rem;
+  margin-top: 12px;
+  font-size: 2rem;
   font-weight: 600;
   color: #fff;
   cursor: pointer;
@@ -111,5 +111,15 @@
   .headerStyle {
     font-size: 16px !important;
     margin-top: 25px !important;
+  }
+}
+
+@media (max-width: 320px) {
+  .wrapperEnd {
+    width: 100% !important;
+  }
+  .headerStyle {
+    font-size: 12px !important;
+    margin-top: 20px !important;
   }
 }

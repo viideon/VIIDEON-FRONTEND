@@ -115,6 +115,7 @@ class Editing extends React.Component<IProps, IState> {
                     name="Upload File"
                     onClick={this.triggerFileUploadBtn}
                   />
+                  <button>Upload File</button>
 
                   <ThemeButton
                     name="Apply Editing Changes"

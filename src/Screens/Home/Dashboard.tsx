@@ -8,12 +8,14 @@ import HeaderCard from "../../components/HeaderCards";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { getVideosLength } from "../../Redux/Selectors";
+import { getUserVideos } from "../../Redux/Actions/videos";
 import Styles from "./styles";
 import "./styles.css";
 
 type IProps = {
   history: any;
   noOfVideos: number;
+  getUserVideos: () => void;
 };
 
 class Dashboard extends Component<IProps> {
@@ -21,16 +23,31 @@ class Dashboard extends Component<IProps> {
     showDashboard: true,
     showVideos: false
   };
+  componentDidMount() {
+    this.props.getUserVideos();
+  }
   navigate = (show?: string) => {
     this.props.history.push({ pathname: "/video/create", show: show });
   };
   render() {
     return (
       <div className="wrapperDashboard">
-        <h4 className="dashboardTxt">
-          Dashboard <span className="cntrlText">Control panel</span>
-        </h4>
-        <Grid container spacing={1}>
+        <div className="dashboardTop">
+          <h3 className="dashboardTopLeft">
+            Dashboard <span className="cntrlText">Control panel</span>
+          </h3>
+          <div className="dashboardTopRight">
+            <span className="homeDashIcon">
+              <i className="fas fa-tachometer-alt dashboard" />
+            </span>
+            <span className="homeDashIcon">Home</span>
+            <span>
+              <i className="fas fa-angle-right"></i>
+            </span>
+            <span className="txtDash">Dashboard</span>
+          </div>
+        </div>
+        <Grid container spacing={2}>
           <Grid item xs={6} md={3}>
             <HeaderCard
               styles={Styles.headerCardOne}
@@ -117,5 +134,12 @@ const mapStateToProps = (state: any) => {
     noOfVideos: videoLength
   };
 };
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    getUserVideos: () => dispatch(getUserVideos())
+  };
+};
 
-export default withRouter(connect(mapStateToProps)(Dashboard));
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(Dashboard)
+);

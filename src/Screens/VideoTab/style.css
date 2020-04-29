@@ -6,13 +6,6 @@
   margin-top: 5px;
   font-size: large;
 }
-@media screen and (max-width: 580px) {
-  #videoTabNavLink p {
-    color: red;
-    margin-top: 5px;
-    font-size: large;
-  }
-}
 
 #videoTabNavLink {
   padding: 0.5rem 3rem;
@@ -28,6 +21,14 @@
 }
 #headerText {
   color: #646c9a;
+}
+
+@media screen and (max-width: 580px) {
+  #videoTabNavLink p {
+    color: red;
+    margin-top: 5px;
+    font-size: large;
+  }
 }
 
 /* ---------------------Editing------------ */
@@ -84,5 +85,21 @@
 @media screen and (max-width: 580px) {
   .wrapperVideoTab {
     padding-top: 12%;
+  }
+}
+
+/* --------Detail Tab  */
+.colDetailTab {
+  padding: 0px !important;
+}
+
+.dashboardTop {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width: 380px) {
+  #descriptionLabel {
+    font-size: 12px;
   }
 }
