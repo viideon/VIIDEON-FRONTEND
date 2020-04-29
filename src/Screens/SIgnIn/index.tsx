@@ -1,6 +1,6 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import { Form, FormGroup, Label, Input, Alert } from "reactstrap";
+import { Form, FormGroup, Label, Alert, Input } from "reactstrap";
 import * as Constants from "../../constants/constants";
 import { connect } from "react-redux";
 import { reg } from "../../constants/emailRegEx";
@@ -168,3 +168,18 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signin);
+
+// To be used later
+
+/* <Input
+type="password"
+name="password"
+placeholder="Password"
+onChange={this.onChange}
+id="input-with-icon-adornment"
+endAdornment={
+  <InputAdornment position="end">
+    <VpnKeyIcon />
+  </InputAdornment>
+}
+/> */

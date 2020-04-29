@@ -33,6 +33,9 @@
   justify-content: center;
   align-items: center;
 }
+.actionsHomePage h5 {
+  font-size: 1.2em;
+}
 .wrapperActivityHome {
   background: #f3f7fa;
   padding-top: 40px;
@@ -104,7 +107,7 @@
 @media only screen and (max-width: 768px) {
   .wrapperHomeContent {
     margin-left: 0px;
-    width: 100vw;
+    width: 97vw;
     margin-top: 6.8%;
   }
   .wrapperHomeContentFull {
@@ -142,5 +145,8 @@
   .dashboardTopLeft {
     font-weight: 400 !important;
     font-size: 14px !important;
+  }
+  .actionsHomePage h5 {
+    font-size: 1em !important;
   }
 }
