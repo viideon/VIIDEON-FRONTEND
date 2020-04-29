@@ -7,6 +7,7 @@ import Grid from "@material-ui/core/Grid";
 
 interface IProps {
   getVideo: (id: string) => void;
+  loadingVideo: boolean;
   video: any;
   match: any;
 }
@@ -15,16 +16,16 @@ class Watch extends React.Component<IProps> {
     this.props.getVideo(this.props.match.params.id);
   }
   render() {
-    const { video } = this.props;
+    const { video, loadingVideo } = this.props;
     return (
       <div style={container}>
         <Grid container>
           <Grid item md={3} sm={2} xs={1}></Grid>
           <Grid item md={6} sm={8} xs={10}>
-            {video ? (
-              <VideoPlayer url={video.url} height={300} />
-            ) : (
-             <CircularProgress/>
+            {loadingVideo && <CircularProgress style={{ marginLeft: "47%" }} />}
+            {video && <VideoPlayer url={video.url} height={300} />}
+            {!loadingVideo && !video && (
+              <h3 style={{ textAlign: "center" }}>No Video to display</h3>
             )}
           </Grid>
           <Grid item md={3} sm={2} xs={1}></Grid>
