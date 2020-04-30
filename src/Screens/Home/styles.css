@@ -77,8 +77,8 @@
   margin-top: 2px;
 }
 .footerDashboard {
+  height: 30px;
   position: fixed;
-  height: 5vh;
   bottom: 0;
   width: 100%;
   background: #f3f7fa;

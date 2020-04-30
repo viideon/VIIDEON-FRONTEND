@@ -2,6 +2,7 @@
   background-color: #222933;
   border-radius: 1px;
   height: 95vh;
+  min-height: 700px;
   opacity: 5px;
   box-shadow: 0 0 10px lightgrey;
   width: 235px;
@@ -16,7 +17,7 @@
 }
 .wrapperProfileSidebar {
   width: 100%;
-  height: 22%;
+  height: 20%;
   margin-bottom: 10px;
   background: var(--green-theme);
 }

@@ -5,8 +5,9 @@
   width: 100%;
   display: flex;
   flex-direction: row;
-  height: 10vh;
-  max-height: 10vh;
+  /* height: 10vh;
+  max-height: 10vh; */
+  height: 61px;
   z-index: 1;
 }
 .startHeader {

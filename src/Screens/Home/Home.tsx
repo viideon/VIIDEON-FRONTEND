@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import SideBar from "../../components/SideBar/SideBar";
-import { Route,Redirect } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import "./styles.css";
 import Dashboard from "./Dashboard";
