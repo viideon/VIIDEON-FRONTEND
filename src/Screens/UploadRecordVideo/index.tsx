@@ -24,7 +24,6 @@ import VideoRecorder from "react-video-recorder";
 import styles from "../VideoTab/style";
 import { Button, LinearProgress } from "@material-ui/core";
 import { AuthState } from "../../Redux/Types/auth";
-import Loading from "../../components/Loading";
 import * as Constants from "../../constants/constants";
 import "../../../node_modules/react-tabs/style/react-tabs.css";
 import { reg } from "../../constants/emailRegEx";
@@ -102,7 +101,6 @@ class UploadRecord extends Component<IProps, IState> {
       return;
     }
     this.setState({ emails: [...this.state.emails, email] });
-    console.log("emails", this.state.emails);
   };
   handleDeleteChip = (delEmail: any) => {
     this.setState({
@@ -122,6 +120,7 @@ class UploadRecord extends Component<IProps, IState> {
         videoId: this.props.savedVideoId
       };
       this.props.sendMultipleEmail(emailVideoObj);
+      this.setState({ emails: [] });
     }
   };
   fileHandler = () => {
@@ -316,6 +315,27 @@ class UploadRecord extends Component<IProps, IState> {
                                   >
                                     {Constants.SEND_THROUGH_EMAIL}
                                   </Button>
+                                  <FormGroup className="formGroupMultiple">
+                                    <Label className="labelUploadSection">
+                                      Broadcast
+                                    </Label>
+                                    <ChipInput
+                                      value={this.state.emails}
+                                      placeholder="Enter email and press enter"
+                                      fullWidth
+                                      onAdd={chips => this.handleChipAdd(chips)}
+                                      onDelete={chip =>
+                                        this.handleDeleteChip(chip)
+                                      }
+                                    />
+                                  </FormGroup>
+                                  <Button
+                                    color="secondary"
+                                    variant="contained"
+                                    onClick={this.sendMultipleEmail}
+                                  >
+                                    Broadcast
+                                  </Button>
                                 </div>
                               )}
                             </Form>
@@ -326,7 +346,8 @@ class UploadRecord extends Component<IProps, IState> {
                   )}
                 </Dropzone>
                 <div style={{ marginLeft: "50%" }}>
-                  {loading && <Loading />}
+                  {loading && <CircularProgress />}
+                  {this.props.progressEmail && <CircularProgress />}
                 </div>
               </div>
             </div>
@@ -337,7 +358,7 @@ class UploadRecord extends Component<IProps, IState> {
                 <Row>
                   <Col className="col-md-6 m-auto">
                     <div style={{ marginLeft: "50%" }}>
-                      {loading && <Loading height="15%" width="15%" />}
+                      {loading && <CircularProgress />}
                       {this.props.progressEmail && <CircularProgress />}
                     </div>
                     <Form id="formInput">
@@ -401,7 +422,7 @@ class UploadRecord extends Component<IProps, IState> {
                             </Label>
                             <ChipInput
                               value={this.state.emails}
-                              placeholder="Enter emails here"
+                              placeholder="Enter email and press enter"
                               fullWidth
                               onAdd={chips => this.handleChipAdd(chips)}
                               onDelete={chip => this.handleDeleteChip(chip)}

@@ -1,5 +1,4 @@
 export const selectID = (state: any) => {
-    console.log("state", state.auth.user);
     return state.auth.user._id;
 };
 

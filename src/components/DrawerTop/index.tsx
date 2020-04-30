@@ -56,7 +56,7 @@ const TopDrawer: React.FC<IProps> = ({
     <Drawer open={open} anchor="top" className={classes.root} onClose={toggle}>
       <div className="wrapperTopDrawer">
         <div
-          className="OptionIcons dashboardOption"
+          className="OptionIcons dashboardOptionTop"
           onClick={() => {
             history.push("/");
           }}
@@ -81,10 +81,7 @@ const TopDrawer: React.FC<IProps> = ({
           <i className="fas fa-angle-left" style={arrowIcon}></i>
         </div>
 
-        <div
-          className="OptionIcons assetLibrary"
-          onClick={() => alert("Under Progress")}
-        >
+        <div className="OptionIcons" onClick={() => alert("Under Progress")}>
           <i className="fas fa-folder" style={iconStyle} />
           <span className="IconNameStyling">Asset Library</span>
           <i className="fas fa-angle-left" style={arrowIcon}></i>

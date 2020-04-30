@@ -17,7 +17,7 @@ function* sendVideoOnEmail(action: any) {
         }
     } catch (error) {
         yield put({ type: types.VIDEO_SEND_FAILURE, payload: error });
-        toast.error(error);
+        toast.error(error.message);
     }
 }
 
@@ -35,7 +35,7 @@ function* saveUserVideo(action: any) {
         }
     } catch (error) {
         yield put({ type: types.VIDEO_SAVE_FAILURE, payload: error });
-        toast.error(error);
+        toast.error(error.message);
     }
 }
 
@@ -70,7 +70,6 @@ function* updateVideo(action: any) {
         else {
             toast.error("Update failed, please try again");
             yield put({ type: types.UPDATE_VIDEO_FAIL, payload: result.data.message })
-
         }
     }
     catch (error) {
@@ -109,7 +108,7 @@ function* sendMultipleEmail(action: any) {
     }
     catch (error) {
         yield put({ type: types.MULTIPLE_EMAIL_FAILED });
-        toast.error(error);
+        toast.error(error.message);
     }
 }
 

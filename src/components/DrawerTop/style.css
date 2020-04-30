@@ -24,12 +24,8 @@
   font-weight: 400;
   cursor: pointer;
 }
-.dashboardOption {
+.dashboardOptionTop,
+.dashboard,
+.IconNameStyling {
   color: #fff !important;
 }
-/* .dashboardOption .IconNameStyling {
-  color: #fff;
-}
-.dashboardOption .dashboard {
-  color: #fff !important;
-} */
