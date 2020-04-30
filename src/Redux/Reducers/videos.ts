@@ -70,6 +70,12 @@ const videoReducer = (state = initialState, action: any) => {
       return { ...state, loadingVideo: false };
     case types.GET_SAVED_VIDEO_ID:
       return { ...state, savedVideoId: action.payload }
+    case types.SEND_MULTIPLE_EMAIL:
+      return { ...state, progressEmail: true }
+    case types.MULTIPLE_EMAIL_SUCCESS:
+      return { ...state, progressEmail: false }
+    case types.MULTIPLE_EMAIL_FAILED:
+      return { ...state, progressEmail: false }
     default: {
       return state;
     }

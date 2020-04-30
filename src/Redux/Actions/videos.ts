@@ -39,3 +39,10 @@ export function getVideo(id: string) {
     payload: id
   }
 }
+
+export function sendMultipleEmails(emailVideoObj: any) {
+  return {
+    type: types.SEND_MULTIPLE_EMAIL,
+    payload: emailVideoObj
+  }
+}

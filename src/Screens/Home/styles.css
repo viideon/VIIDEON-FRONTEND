@@ -44,7 +44,7 @@
   margin-top: 20px;
 }
 .wrapperDashboard {
-  margin-top: 12px;
+  margin-top: 5px;
   margin-bottom: 20px;
 }
 .cntrlText {
@@ -53,9 +53,10 @@
 }
 .dashboardTop {
   display: flex;
+  padding-top: 10px;
+  justify-content: space-between;
+  padding-bottom: 10px;
   align-items: center;
-  padding-top: 5px;
-  padding-bottom: 5px;
 }
 .dashboardTopLeft {
   font-weight: 600;

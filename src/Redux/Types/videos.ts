@@ -15,6 +15,9 @@ const GET_VIDEO = "GET_VIDEO";
 const GET_VIDEO_SUCCESS = "GET_VIDEO_SUCCESS";
 const GET_VIDEO_FAILURE = "GET_VIDEO_FAILURE";
 const GET_SAVED_VIDEO_ID = "GET_SAVED_VIDEO_ID";
+const SEND_MULTIPLE_EMAIL = "SEND_MULTIPLE_EMAIL";
+const MULTIPLE_EMAIL_FAILED = "MULTIPLE_EMAIL_FAILED";
+const MULTIPLE_EMAIL_SUCCESS = "MULTIPLE_EMAIL_SUCCESS";
 
 export const types = {
   VIDEO_SEND_REQUEST,
@@ -33,7 +36,10 @@ export const types = {
   GET_VIDEO_SUCCESS,
   GET_VIDEO,
   GET_VIDEO_FAILURE,
-  GET_SAVED_VIDEO_ID
+  GET_SAVED_VIDEO_ID,
+  SEND_MULTIPLE_EMAIL,
+  MULTIPLE_EMAIL_SUCCESS,
+  MULTIPLE_EMAIL_FAILED
 }
 export interface EmailVideo {
   url?: string;
@@ -53,7 +59,10 @@ export interface VideoUpdate {
   userId?: string;
   recieverEmail?: string;
 }
-
+export interface MultiEmail {
+  emails: Array<string>;
+  videoId: string;
+}
 //Video State interface
 export interface VideoState {
   video?: EmailVideo;
@@ -89,4 +98,9 @@ export interface updateVideoAction {
 export interface getVideo {
   type: typeof GET_VIDEO
   payload: string
+}
+
+export interface sendMultipleEmails {
+  type: typeof SEND_MULTIPLE_EMAIL
+  payload: any
 }

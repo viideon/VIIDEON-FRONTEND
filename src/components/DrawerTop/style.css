@@ -25,15 +25,11 @@
   cursor: pointer;
 }
 .dashboardOption {
-  margin-bottom: 20px;
   color: #fff !important;
 }
-.dashboardOption .IconNameStyling {
+/* .dashboardOption .IconNameStyling {
   color: #fff;
 }
 .dashboardOption .dashboard {
   color: #fff !important;
-}
-.assetLibrary {
-  margin-top: 10px;
-}
+} */

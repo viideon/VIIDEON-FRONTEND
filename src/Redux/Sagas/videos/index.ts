@@ -1,6 +1,6 @@
 import { put, takeEvery, call, select } from 'redux-saga/effects';
 import { types } from '../../Types/videos';
-import { sendVideoToEmail, saveVideo, getVideosByUserId, updateUserVideo, getSingleVideo } from './api';
+import { sendVideoToEmail, saveVideo, getVideosByUserId, updateUserVideo, getSingleVideo, sendMultiEmails } from './api';
 import { selectID, selectVideos } from "../../Selectors/index"
 import { toast } from 'react-toastify';
 
@@ -95,10 +95,29 @@ function* getVideo(action: any) {
     }
 }
 
+function* sendMultipleEmail(action: any) {
+    try {
+        const result = yield call(sendMultiEmails, action.payload);
+        if (result.status === 200) {
+            yield put({ type: types.MULTIPLE_EMAIL_SUCCESS });
+            toast.info("Email's sent");
+        }
+        else {
+            yield put({ type: types.MULTIPLE_EMAIL_FAILED });
+            toast.error("Failed to send email's");
+        }
+    }
+    catch (error) {
+        yield put({ type: types.MULTIPLE_EMAIL_FAILED });
+        toast.error(error);
+    }
+}
+
 export function* videoWatcher() {
     yield takeEvery(types.VIDEO_SEND_REQUEST, sendVideoOnEmail);
     yield takeEvery(types.VIDEO_SAVE, saveUserVideo);
     yield takeEvery(types.GET_USER_VIDEOS, getUserVideos);
     yield takeEvery(types.UPDATE_VIDEO, updateVideo);
     yield takeEvery(types.GET_VIDEO, getVideo);
+    yield takeEvery(types.SEND_MULTIPLE_EMAIL, sendMultipleEmail);
 }

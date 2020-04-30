@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import AWS from "aws-sdk";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import ChipInput from "material-ui-chip-input";
 import { Input, Label, Row, Col, Form, FormGroup } from "reactstrap";
 import { FaCamera, FaLaptop } from "react-icons/fa";
 import Dropzone from "react-dropzone";
@@ -9,9 +11,15 @@ import { toast } from "react-toastify";
 import {
   sendVideoToEmail,
   saveVideo,
-  toggleSendVariable
+  toggleSendVariable,
+  sendMultipleEmails
 } from "../../Redux/Actions/videos";
-import { VideoState, EmailVideo, VideoSave } from "../../Redux/Types/videos";
+import {
+  VideoState,
+  EmailVideo,
+  VideoSave,
+  MultiEmail
+} from "../../Redux/Types/videos";
 import VideoRecorder from "react-video-recorder";
 import styles from "../VideoTab/style";
 import { Button, LinearProgress } from "@material-ui/core";
@@ -28,9 +36,11 @@ type IProps = {
   history: any;
   videoUser: VideoState;
   savedVideoId: string;
+  progressEmail: boolean;
   sendVideoToEmail: (video: EmailVideo) => void;
   saveVideo: (video: VideoSave) => void;
   toggleSendVariable: () => void;
+  sendMultipleEmail: (emailVideoObj: any) => void;
   location: any;
 };
 type IState = {
@@ -42,6 +52,7 @@ type IState = {
   title: string;
   urlRecord: string;
   recordFile: any;
+  emails: Array<string>;
   recieverEmail: string;
   fileProgress: boolean;
   videoProgress: boolean;
@@ -70,7 +81,8 @@ class UploadRecord extends Component<IProps, IState> {
       fileProgress: false,
       videoProgress: false,
       progressFile: 0,
-      progressVideo: 0
+      progressVideo: 0,
+      emails: []
     };
   }
   titleNameHandler = (event: any) => {
@@ -84,6 +96,34 @@ class UploadRecord extends Component<IProps, IState> {
     });
   };
 
+  handleChipAdd = (email: any) => {
+    if (reg.test(email) === false) {
+      toast.error("Not a valid email");
+      return;
+    }
+    this.setState({ emails: [...this.state.emails, email] });
+    console.log("emails", this.state.emails);
+  };
+  handleDeleteChip = (delEmail: any) => {
+    this.setState({
+      emails: this.state.emails.filter((email: string) => email !== delEmail)
+    });
+  };
+  sendMultipleEmail = () => {
+    if (this.state.emails.length === 0) {
+      toast.error("No email provided");
+      return;
+    } else if (!this.props.savedVideoId) {
+      toast.error("No video saved try again");
+      return;
+    } else {
+      const emailVideoObj = {
+        emails: this.state.emails,
+        videoId: this.props.savedVideoId
+      };
+      this.props.sendMultipleEmail(emailVideoObj);
+    }
+  };
   fileHandler = () => {
     if (this.state.title === "") {
       toast.warn("Enter a video title");
@@ -173,212 +213,230 @@ class UploadRecord extends Component<IProps, IState> {
   render() {
     let { videoSaved, loading } = this.props.videoUser;
     return (
-      <>
-        <div className="recordMainContainer">
-          <p className="mainHeader">{Constants.CREATE_VIDEO}</p>
-          <p className="titleHeader">{Constants.RECORD_AND_SHARE}</p>
-          <hr />
-          <Tabs defaultIndex={this.props.location.show === "upload" ? 0 : 1}>
-            <TabList>
-              <Tab>
-                <FaLaptop id="videoTabIcon" style={iconStyle} />
-                {Constants.UPLOAD_FROM_COMPUTER}
-              </Tab>
-              <Tab>
-                <FaCamera id="videoTabIcon" style={iconStyle} />
-                {Constants.RECORD_WITH_CAMERA}
-              </Tab>
-            </TabList>
+      <div className="recordMainContainer">
+        <p className="mainHeader">{Constants.CREATE_VIDEO}</p>
+        <p className="titleHeader">{Constants.RECORD_AND_SHARE}</p>
+        <hr />
+        <Tabs defaultIndex={this.props.location.show === "upload" ? 0 : 1}>
+          <TabList>
+            <Tab>
+              <FaLaptop id="videoTabIcon" style={iconStyle} />
+              {Constants.UPLOAD_FROM_COMPUTER}
+            </Tab>
+            <Tab>
+              <FaCamera id="videoTabIcon" style={iconStyle} />
+              {Constants.RECORD_WITH_CAMERA}
+            </Tab>
+          </TabList>
 
-            <TabPanel>
-              <div className="borderStyle">
-                <div style={{ marginTop: 20, marginBottom: 20 }}>
-                  <Dropzone onDrop={this.onDrop}>
-                    {({ getRootProps, getInputProps }) => (
-                      <section className="container">
-                        <div
-                          {...getRootProps({ className: "dropzone" })}
-                          style={{
-                            textAlign: "center",
-                            cursor: "pointer",
-                            margin: "auto",
-                            width: 100
-                          }}
-                        >
-                          <input {...getInputProps()} />
-                          <img
-                            src={require("../../assets/upload.png")}
-                            style={{ width: 80, margin: "auto" }}
-                            alt="upload"
-                          />
-                        </div>
-                        <aside>
-                          <p style={{ marginTop: 20, textAlign: "center" }}>
-                            {Constants.CLICK_AND_DRAG}
-                          </p>
-                          {this.state.files.map((file: any) => (
-                            <div key={file.name}>
-                              <div className="fileInformationDiv">
-                                <p>File Name: {file.name}</p>
-                                <p>Size: {file.size} bytes</p>
-                              </div>
-                              <Form id="formInput">
-                                {videoSaved === null && (
-                                  <div>
-                                    {this.state.fileProgress && (
-                                      <LinearProgress
-                                        variant="determinate"
-                                        value={this.state.progressFile}
-                                      />
-                                    )}
-                                    <FormGroup style={{ marginTop: "5px" }}>
-                                      <Label className="labelUploadSection">
-                                        {Constants.VIDEO_TITLE}
-                                      </Label>
-                                      <Input
-                                        type="text"
-                                        name="name"
-                                        id="typeInput"
-                                        placeholder=""
-                                        value={this.state.title}
-                                        onChange={this.titleNameHandler}
-                                      />
-                                    </FormGroup>
-                                    <Button
-                                      variant="contained"
-                                      style={{ marginBottom: "8px" }}
-                                      onClick={this.fileHandler}
-                                    >
-                                      {Constants.SAVE_VIDEO}
-                                    </Button>
-                                  </div>
-                                )}
-
-                                {videoSaved === true && (
-                                  <div>
-                                    <FormGroup>
-                                      <Label className="labelUploadSection">
-                                        {Constants.SENDER_ADDRESS}
-                                      </Label>
-                                      <Input
-                                        type="text"
-                                        name="recieverEmail"
-                                        id="typeInput"
-                                        placeholder="Enter email address"
-                                        value={this.state.recieverEmail}
-                                        onChange={this.emailHandler}
-                                        required
-                                      />
-                                    </FormGroup>
-                                    <Button
-                                      color="secondary"
-                                      variant="contained"
-                                      onClick={this.submitEmail}
-                                    >
-                                      {Constants.SEND_THROUGH_EMAIL}
-                                    </Button>
-                                  </div>
-                                )}
-                              </Form>
-                            </div>
-                          ))}
-                        </aside>
-                      </section>
-                    )}
-                  </Dropzone>
-                  <div style={{ marginLeft: "50%" }}>
-                    {loading && <Loading />}
-                  </div>
-                </div>
-              </div>
-            </TabPanel>
-            <TabPanel>
-              {this.state.videoRecord && (
-                <div style={{ marginTop: 20, marginBottom: 20 }}>
-                  <Row>
-                    <Col className="col-md-6 m-auto">
-                      <div style={{ marginLeft: "50%" }}>
-                        {loading && <Loading height="15%" width="15%" />}
+          <TabPanel>
+            <div className="borderStyle">
+              <div style={{ marginTop: 20, marginBottom: 20 }}>
+                <Dropzone onDrop={this.onDrop}>
+                  {({ getRootProps, getInputProps }) => (
+                    <section className="container">
+                      <div
+                        {...getRootProps({ className: "dropzone" })}
+                        style={{
+                          textAlign: "center",
+                          cursor: "pointer",
+                          margin: "auto",
+                          width: 100
+                        }}
+                      >
+                        <input {...getInputProps()} />
+                        <img
+                          src={require("../../assets/upload.png")}
+                          style={{ width: 80, margin: "auto" }}
+                          alt="upload"
+                        />
                       </div>
-                      <Form id="formInput">
-                        {videoSaved === null && (
-                          <div>
-                            {this.state.videoProgress && (
-                              <LinearProgress
-                                variant="determinate"
-                                value={this.state.progressVideo}
-                              />
-                            )}
-                            <FormGroup>
-                              <Label className="labelUploadSection">
-                                {Constants.TITLE}
-                              </Label>
-                              <Input
-                                type="text"
-                                name="name"
-                                id="typeInput"
-                                placeholder=""
-                                value={this.state.title}
-                                onChange={this.titleNameHandler}
-                              />
-                            </FormGroup>
-                            <Button
-                              variant="contained"
-                              style={{ marginBottom: "8px" }}
-                              onClick={this.saveVideo}
-                            >
-                              {Constants.SAVE_VIDEO}
-                            </Button>
-                          </div>
-                        )}
+                      <aside>
+                        <p style={{ marginTop: 20, textAlign: "center" }}>
+                          {Constants.CLICK_AND_DRAG}
+                        </p>
+                        {this.state.files.map((file: any) => (
+                          <div key={file.name}>
+                            <div className="fileInformationDiv">
+                              <p>File Name: {file.name}</p>
+                              <p>Size: {file.size} bytes</p>
+                            </div>
+                            <Form id="formInput">
+                              {videoSaved === null && (
+                                <div>
+                                  {this.state.fileProgress && (
+                                    <LinearProgress
+                                      variant="determinate"
+                                      value={this.state.progressFile}
+                                    />
+                                  )}
+                                  <FormGroup style={{ marginTop: "5px" }}>
+                                    <Label className="labelUploadSection">
+                                      {Constants.VIDEO_TITLE}
+                                    </Label>
+                                    <Input
+                                      type="text"
+                                      name="name"
+                                      id="typeInput"
+                                      placeholder=""
+                                      value={this.state.title}
+                                      onChange={this.titleNameHandler}
+                                    />
+                                  </FormGroup>
+                                  <Button
+                                    variant="contained"
+                                    style={{ marginBottom: "8px" }}
+                                    onClick={this.fileHandler}
+                                  >
+                                    {Constants.SAVE_VIDEO}
+                                  </Button>
+                                </div>
+                              )}
 
-                        {videoSaved === true && (
-                          <div>
-                            <FormGroup>
-                              <Label className="labelUploadSection">
-                                {Constants.SENDER_ADDRESS}
-                              </Label>
-                              <Input
-                                type="text"
-                                name="email"
-                                id="typeInput"
-                                placeholder=""
-                                value={this.state.recieverEmail}
-                                onChange={this.emailHandler}
-                              />
-                            </FormGroup>
-
-                            <Button
-                              color="secondary"
-                              variant="contained"
-                              onClick={this.submitEmail}
-                            >
-                              {Constants.SEND_THROUGH_EMAIL}
-                            </Button>
+                              {videoSaved === true && (
+                                <div>
+                                  <FormGroup>
+                                    <Label className="labelUploadSection">
+                                      {Constants.SENDER_ADDRESS}
+                                    </Label>
+                                    <Input
+                                      type="text"
+                                      name="recieverEmail"
+                                      id="typeInput"
+                                      placeholder="Enter email address"
+                                      value={this.state.recieverEmail}
+                                      onChange={this.emailHandler}
+                                      required
+                                    />
+                                  </FormGroup>
+                                  <Button
+                                    color="secondary"
+                                    variant="contained"
+                                    onClick={this.submitEmail}
+                                  >
+                                    {Constants.SEND_THROUGH_EMAIL}
+                                  </Button>
+                                </div>
+                              )}
+                            </Form>
                           </div>
-                        )}
-                      </Form>
-                    </Col>
-                  </Row>
+                        ))}
+                      </aside>
+                    </section>
+                  )}
+                </Dropzone>
+                <div style={{ marginLeft: "50%" }}>
+                  {loading && <Loading />}
                 </div>
-              )}
-              <div style={styles.recorder} className="recorderWrapper">
-                <VideoRecorder
-                  isOnInitially={false}
-                  showReplayControls
-                  replayVideoAutoplayAndLoopOff
-                  isReplayVideoInitiallyMuted={false}
-                  onRecordingComplete={(videoBlob: any) => {
-                    // Do something with the video...
-                    this.props.toggleSendVariable();
-                    this.setState({ videoRecord: videoBlob });
-                  }}
-                />
               </div>
-            </TabPanel>
-          </Tabs>
-        </div>
-      </>
+            </div>
+          </TabPanel>
+          <TabPanel>
+            {this.state.videoRecord && (
+              <div style={{ marginTop: 20, marginBottom: 20 }}>
+                <Row>
+                  <Col className="col-md-6 m-auto">
+                    <div style={{ marginLeft: "50%" }}>
+                      {loading && <Loading height="15%" width="15%" />}
+                      {this.props.progressEmail && <CircularProgress />}
+                    </div>
+                    <Form id="formInput">
+                      {videoSaved === null && (
+                        <div>
+                          {this.state.videoProgress && (
+                            <LinearProgress
+                              variant="determinate"
+                              value={this.state.progressVideo}
+                            />
+                          )}
+                          <FormGroup>
+                            <Label className="labelUploadSection">
+                              {Constants.TITLE}
+                            </Label>
+                            <Input
+                              type="text"
+                              name="name"
+                              id="typeInput"
+                              placeholder=""
+                              value={this.state.title}
+                              onChange={this.titleNameHandler}
+                            />
+                          </FormGroup>
+                          <Button
+                            variant="contained"
+                            style={{ marginBottom: "8px" }}
+                            onClick={this.saveVideo}
+                          >
+                            {Constants.SAVE_VIDEO}
+                          </Button>
+                        </div>
+                      )}
+
+                      {videoSaved === true && (
+                        <div>
+                          <FormGroup>
+                            <Label className="labelUploadSection">
+                              {Constants.SENDER_ADDRESS}
+                            </Label>
+                            <Input
+                              type="text"
+                              name="email"
+                              id="typeInput"
+                              placeholder=""
+                              value={this.state.recieverEmail}
+                              onChange={this.emailHandler}
+                            />
+                          </FormGroup>
+
+                          <Button
+                            color="secondary"
+                            variant="contained"
+                            onClick={this.submitEmail}
+                          >
+                            {Constants.SEND_THROUGH_EMAIL}
+                          </Button>
+                          <FormGroup className="formGroupMultiple">
+                            <Label className="labelUploadSection">
+                              Broadcast
+                            </Label>
+                            <ChipInput
+                              value={this.state.emails}
+                              placeholder="Enter emails here"
+                              fullWidth
+                              onAdd={chips => this.handleChipAdd(chips)}
+                              onDelete={chip => this.handleDeleteChip(chip)}
+                            />
+                          </FormGroup>
+                          <Button
+                            color="secondary"
+                            variant="contained"
+                            onClick={this.sendMultipleEmail}
+                          >
+                            Broadcast
+                          </Button>
+                        </div>
+                      )}
+                    </Form>
+                  </Col>
+                </Row>
+              </div>
+            )}
+            <div style={styles.recorder} className="recorderWrapper">
+              <VideoRecorder
+                isOnInitially={false}
+                showReplayControls
+                replayVideoAutoplayAndLoopOff
+                isReplayVideoInitiallyMuted={false}
+                onRecordingComplete={(videoBlob: any) => {
+                  // Do something with the video...
+                  this.props.toggleSendVariable();
+                  this.setState({ videoRecord: videoBlob });
+                }}
+              />
+            </div>
+          </TabPanel>
+        </Tabs>
+      </div>
     );
   }
 }
@@ -392,14 +450,17 @@ const mapStateToProps = (state: any) => {
   return {
     auth: state.auth,
     videoUser: state.video,
-    savedVideoId: state.video.savedVideoId
+    savedVideoId: state.video.savedVideoId,
+    progressEmail: state.video.progressEmail
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
     sendVideoToEmail: (video: EmailVideo) => dispatch(sendVideoToEmail(video)),
     saveVideo: (video: VideoSave) => dispatch(saveVideo(video)),
-    toggleSendVariable: () => dispatch(toggleSendVariable())
+    toggleSendVariable: () => dispatch(toggleSendVariable()),
+    sendMultipleEmail: (emailVideoObj: MultiEmail) =>
+      dispatch(sendMultipleEmails(emailVideoObj))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(UploadRecord);
