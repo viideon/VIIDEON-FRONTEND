@@ -1,10 +1,8 @@
 import React from "react";
 import { FormGroup, Label, Input, Col, Form } from "reactstrap";
-import { Button } from "@material-ui/core";
+import { Button, Grid, CircularProgress } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import Grid from "@material-ui/core/Grid";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import { toast } from "react-toastify";
 import ChipInput from "material-ui-chip-input";
 import { GoInfo } from "react-icons/go";

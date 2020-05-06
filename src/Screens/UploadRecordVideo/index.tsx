@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import AWS from "aws-sdk";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import { Button, LinearProgress, CircularProgress } from "@material-ui/core";
 import ChipInput from "material-ui-chip-input";
-import { Input, Label, Row, Col, Form, FormGroup } from "reactstrap";
+import { Input, Label, Row, Col, FormGroup } from "reactstrap";
 import { FaCamera, FaLaptop } from "react-icons/fa";
 import Dropzone from "react-dropzone";
 import { connect } from "react-redux";
@@ -22,7 +22,6 @@ import {
 } from "../../Redux/Types/videos";
 import VideoRecorder from "react-video-recorder";
 import styles from "../VideoTab/style";
-import { Button, LinearProgress } from "@material-ui/core";
 import { AuthState } from "../../Redux/Types/auth";
 import * as Constants from "../../constants/constants";
 import "../../../node_modules/react-tabs/style/react-tabs.css";
@@ -260,7 +259,7 @@ class UploadRecord extends Component<IProps, IState> {
                               <p>File Name: {file.name}</p>
                               <p>Size: {file.size} bytes</p>
                             </div>
-                            <Form id="formInput">
+                            <div id="formInput">
                               {videoSaved === null && (
                                 <div>
                                   {this.state.fileProgress && (
@@ -338,7 +337,7 @@ class UploadRecord extends Component<IProps, IState> {
                                   </Button>
                                 </div>
                               )}
-                            </Form>
+                            </div>
                           </div>
                         ))}
                       </aside>
@@ -361,7 +360,7 @@ class UploadRecord extends Component<IProps, IState> {
                       {loading && <CircularProgress />}
                       {this.props.progressEmail && <CircularProgress />}
                     </div>
-                    <Form id="formInput">
+                    <div id="formInput">
                       {videoSaved === null && (
                         <div>
                           {this.state.videoProgress && (
@@ -437,7 +436,7 @@ class UploadRecord extends Component<IProps, IState> {
                           </Button>
                         </div>
                       )}
-                    </Form>
+                    </div>
                   </Col>
                 </Row>
               </div>

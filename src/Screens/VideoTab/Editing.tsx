@@ -1,7 +1,6 @@
 import React from "react";
 import S3FileUpload from "react-s3";
 import { Container, Row, Col } from "reactstrap";
-// import { RdxVideo, Overlay, Controls } from "react-html5-video-editor";
 import { connect } from "react-redux";
 import { updateVideo } from "../../Redux/Actions/videos";
 import { VideoUpdate } from "../../Redux/Types/videos";
@@ -11,6 +10,7 @@ import ThemeButton from "../../components/ThemeButton";
 import VideoPlayer from "../../components/VideoPlayer/index";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { toast } from "react-toastify";
+import "react-video-trimmer/dist/style.css";
 import "./style.css";
 
 interface IState {
@@ -35,10 +35,8 @@ class Editing extends React.Component<IProps, IState> {
   state = {
     file: null,
     url: "",
-    isUpdated: false,
     uploading: false
   };
-
   upload: any;
   setInputRef = (ref: any) => {
     this.upload = ref;
@@ -46,6 +44,7 @@ class Editing extends React.Component<IProps, IState> {
   triggerFileUploadBtn = () => {
     this.upload.click();
   };
+
   onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0] !== null) {
       let file = e.target.files![0];
@@ -77,6 +76,7 @@ class Editing extends React.Component<IProps, IState> {
     this.props.updateVideo(video);
     this.setState({ url: "" });
   };
+
   render() {
     const { video, isVideoUpdating } = this.props;
     return (
@@ -90,6 +90,9 @@ class Editing extends React.Component<IProps, IState> {
               )}
             </Col>
             <Col xs="1" md="2"></Col>
+          </Row>
+          <Row>
+            <Col></Col>
           </Row>
           <Row>
             <Col xs="1" md="2"></Col>
