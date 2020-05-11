@@ -103,7 +103,7 @@ class Dashboard extends Component<IProps> {
           <Grid item xs={6} md={3}>
             <div
               className="actionsHomePage"
-              onClick={() => alert("Feature not created yet")}
+              onClick={() => this.props.history.push("/campaign")}
             >
               <ImageSearchIcon style={iconStyle} />
               <h5>Create a Campaign</h5>

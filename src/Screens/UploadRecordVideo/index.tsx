@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import AWS from "aws-sdk";
+import VideoRecorder from "react-video-recorder";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { Button, LinearProgress, CircularProgress } from "@material-ui/core";
 import ChipInput from "material-ui-chip-input";
@@ -20,7 +21,7 @@ import {
   VideoSave,
   MultiEmail
 } from "../../Redux/Types/videos";
-import VideoRecorder from "react-video-recorder";
+
 import styles from "../VideoTab/style";
 import { AuthState } from "../../Redux/Types/auth";
 import * as Constants from "../../constants/constants";

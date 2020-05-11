@@ -1653,6 +1653,11 @@
   dependencies:
     "@types/d3-path" "*"
 
+"@types/dom-mediacapture-record@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@types/dom-mediacapture-record/-/dom-mediacapture-record-1.0.5.tgz#63abc431b95e6af31d3c2c4392e1f31fd0b753c8"
+  integrity sha512-15z4KlDUIm1AZmfCw0qK5ejIRSAvRpsr27X7ybiD+6EQlBWCF7BueYI+PPwqK/1jXaNkFQoK2gTByN0V7X+FEg==
+
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@types/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"
@@ -4026,6 +4031,11 @@ concat-stream@^1.5.0:
     inherits "^2.0.3"
     readable-stream "^2.2.2"
     typedarray "^0.0.6"
+
+concatenateblobs@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/concatenateblobs/-/concatenateblobs-1.0.2.tgz#7a832910c911703fde869bed8291e0899c5f0532"
+  integrity sha1-eoMpEMkRcD/ehpvtgpHgiZxfBTI=
 
 confusing-browser-globals@^1.0.5, confusing-browser-globals@^1.0.9:
   version "1.0.9"
@@ -11558,6 +11568,11 @@ react-video-trimmer@^1.3.0-0:
     webpack-blocks "^2.0.1"
     webworker-file "^0.2.0"
     zero-fill "^2.2.3"
+
+react-whammy@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-whammy/-/react-whammy-1.0.2.tgz#3890a3a8fcf3aaa02b8016e3139f7e3118f9d7f2"
+  integrity sha512-0ZrsazAd5uir3UseGPSXNtqNEg20Jy5W6G7vxLYtN0uLR7DxSBRUlem1Dlw9RMsivuYkcCU84WRUa4GT03rjxg==
 
 react@^15.1.0:
   version "15.6.2"
