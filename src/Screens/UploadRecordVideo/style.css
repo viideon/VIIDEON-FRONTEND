@@ -88,3 +88,6 @@
 .formGroupMultiple {
   padding-top: 15px;
 }
+.recordMainContainer #formInput input {
+  padding: 8px !important;
+}

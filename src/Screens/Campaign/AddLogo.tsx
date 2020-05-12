@@ -12,8 +12,8 @@ interface IProps {
 }
 interface IState {
   img: any;
-  logoX: number;
-  logoY: number;
+  logoX: number | string;
+  logoY: number | string;
   text: string;
 }
 class AddLogo extends React.Component<IProps, IState> {
@@ -34,6 +34,8 @@ class AddLogo extends React.Component<IProps, IState> {
   mediaRecorder: any;
   sourceNode: any;
   recordedBlobs: any = [];
+  cwidth: any;
+  cheight: any;
 
   setInputRef = (ref: any) => {
     this.upload = ref;
@@ -67,9 +69,10 @@ class AddLogo extends React.Component<IProps, IState> {
     this.videoStream = this.canvas.captureStream(60);
     this.videoStream.addTrack(aStream.getAudioTracks()[0]);
     this.mediaRecorder = new MediaRecorder(this.videoStream);
-    let cw, ch;
+    let cw: any, ch: any;
     let that = this;
-
+    this.cwidth = video.clientWidth;
+    this.cheight = video.clientHeight;
     video.addEventListener(
       "play",
       function() {
@@ -132,18 +135,27 @@ class AddLogo extends React.Component<IProps, IState> {
     }, 0);
   }
   setIconPosition = (position: string) => {
+    let x, y: any;
     switch (position) {
       case "top-left":
-        this.setState({ logoX: 0, logoY: 0 });
+        x = (this.canvas.width / 100) * 1;
+        y = (this.canvas.height / 100) * 1;
+        this.setState({ logoX: x, logoY: y });
         return;
       case "bottom-left":
-        this.setState({ logoX: 0, logoY: 300 });
+        x = this.canvas.width / 100;
+        y = (this.canvas.height / 100) * 90;
+        this.setState({ logoX: x, logoY: y - 25 });
         return;
       case "bottom-right":
-        this.setState({ logoX: 420, logoY: 300 });
+        x = (this.canvas.width / 100) * 90;
+        y = (this.canvas.height / 100) * 90;
+        this.setState({ logoX: x - 20, logoY: y - 25 });
         return;
       case "top-right":
-        this.setState({ logoX: 420, logoY: 0 });
+        x = (this.canvas.width / 100) * 90;
+        y = this.canvas.height / 100;
+        this.setState({ logoX: x - 20, logoY: y });
         return;
       default:
         return;
@@ -158,9 +170,19 @@ class AddLogo extends React.Component<IProps, IState> {
         <Grid item xs={1} sm={1} md={1} lg={1}></Grid>
         <Grid item xs={10} sm={10} md={10} lg={10}>
           <h3 className="recordHeading">Add a Logo</h3>
-          <video ref="video" controls width="500" />
+          <Grid container>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              {" "}
+              <video ref="video" controls width="100%" />
+            </Grid>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              {" "}
+              <canvas ref="canvas" />
+            </Grid>
+          </Grid>
+
           <canvas ref="dummyCanvas" style={{ display: "none" }} />
-          <canvas ref="canvas" />
+
           <img
             alt="logo"
             src={this.state.img ? this.state.img : null}

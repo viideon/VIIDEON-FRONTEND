@@ -102,4 +102,15 @@
   #descriptionLabel {
     font-size: 12px;
   }
+  #videoTabNavLink p {
+    color: #22b9ff;
+    margin-top: 5px;
+    font-size: large;
+  }
+  #videoTabNavLink {
+    padding: 0.5rem 2rem;
+  }
+}
+#formInput input {
+  padding: auto;
 }

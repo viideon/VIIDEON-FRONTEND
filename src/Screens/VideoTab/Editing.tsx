@@ -10,7 +10,6 @@ import ThemeButton from "../../components/ThemeButton";
 import VideoPlayer from "../../components/VideoPlayer/index";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { toast } from "react-toastify";
-import "react-video-trimmer/dist/style.css";
 import "./style.css";
 
 interface IState {

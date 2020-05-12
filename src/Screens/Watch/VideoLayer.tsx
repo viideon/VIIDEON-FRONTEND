@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@material-ui/core";
 // import cheese from "../../assets/1.jpeg";
-import sample from "../../assets/sample.mp4";
+// import sample from "../../assets/sample.mp4";
 // import Whammy from "react-whammy";
 
 interface IState {
@@ -179,7 +179,7 @@ class VideoLayer extends React.Component<{}, IState> {
           alt="logo"
           style={{ display: "none" }}
         />
-        <video ref="video" src={sample} controls width={400} />
+        <video ref="video"  controls width={400} />
         <div>
           <h4 className="thumbnaillEditMsg">Add Logo</h4>
           <input

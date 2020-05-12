@@ -50,3 +50,6 @@
 .positionTxt {
   padding-top: 20px;
 }
+#formInput input {
+  padding: auto;
+}
