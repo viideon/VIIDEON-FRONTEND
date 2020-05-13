@@ -112,5 +112,5 @@
   }
 }
 #formInput input {
-  padding: auto;
+  padding: 8px !important;
 }

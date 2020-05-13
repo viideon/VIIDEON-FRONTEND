@@ -145,12 +145,12 @@ class AddLogo extends React.Component<IProps, IState> {
       case "bottom-left":
         x = this.canvas.width / 100;
         y = (this.canvas.height / 100) * 90;
-        this.setState({ logoX: x, logoY: y - 25 });
+        this.setState({ logoX: x, logoY: y - 30 });
         return;
       case "bottom-right":
         x = (this.canvas.width / 100) * 90;
         y = (this.canvas.height / 100) * 90;
-        this.setState({ logoX: x - 20, logoY: y - 25 });
+        this.setState({ logoX: x - 20, logoY: y - 30 });
         return;
       case "top-right":
         x = (this.canvas.width / 100) * 90;

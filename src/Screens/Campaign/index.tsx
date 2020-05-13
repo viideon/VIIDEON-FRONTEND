@@ -1,7 +1,9 @@
 import React from "react";
+import axios from "axios";
 import { toast } from "react-toastify";
 import RecordIntro from "./RecordIntro";
 import RecordMessage from "./RecordMessage";
+import MergeRecording from "./MergeRecording";
 import AddLogo from "./AddLogo";
 import SendEmail from "./SendEmail";
 
@@ -10,7 +12,8 @@ class Campaign extends React.Component {
     currentStep: 1,
     introRecord: "",
     messageRecord: "",
-    finalVideo: ""
+    finalVideo: "",
+    mergedVideo: ""
   };
 
   saveIntro = (blob: any) => {
@@ -24,7 +27,19 @@ class Campaign extends React.Component {
   saveFinalVideo = (finalBlob: any) => {
     this.setState({ finalVideo: finalBlob });
   };
-
+  mergeVideos = () => {
+    const formData = new FormData();
+    formData.append("one", this.state.introRecord);
+    formData.append("two", this.state.messageRecord);
+    axios
+      .post("http://localhost:3008/edit/merge", formData)
+      .then(res => {
+        // console.log("resposne", res);
+        const blob = new Blob([res.data], { type: "video/webm" });
+        this.setState({ mergedVideo: blob });
+      })
+      .catch(err => toast.error("error occured"));
+  };
   renderCampaignSteps = () => {
     switch (this.state.currentStep) {
       case 1:
@@ -45,6 +60,15 @@ class Campaign extends React.Component {
         );
       case 3:
         return (
+          <MergeRecording
+            mergeVideos={this.mergeVideos}
+            video={this.state.mergedVideo}
+            moveToNextStep={this.moveToNextStep}
+            moveToPreviousStep={this.moveToPreviousStep}
+          />
+        );
+      case 4:
+        return (
           <AddLogo
             moveToNextStep={this.moveToNextStep}
             moveToPreviousStep={this.moveToPreviousStep}
@@ -52,7 +76,7 @@ class Campaign extends React.Component {
             saveFinalVideo={this.saveFinalVideo}
           />
         );
-      case 4:
+      case 5:
         return (
           <SendEmail
             moveToNextStep={this.moveToNextStep}
