@@ -13,7 +13,8 @@ class Campaign extends React.Component {
     introRecord: "",
     messageRecord: "",
     finalVideo: "",
-    mergedVideo: ""
+    mergedVideo: "",
+    mergeError: false
   };
 
   saveIntro = (blob: any) => {
@@ -32,13 +33,16 @@ class Campaign extends React.Component {
     formData.append("one", this.state.introRecord);
     formData.append("two", this.state.messageRecord);
     axios
-      .post("http://localhost:3008/edit/merge", formData)
-      .then(res => {
-        // console.log("resposne", res);
-        const blob = new Blob([res.data], { type: "video/webm" });
-        this.setState({ mergedVideo: blob });
+      .post("http://localhost:3008/edit/merge", formData, {
+        responseType: "blob"
       })
-      .catch(err => toast.error("error occured"));
+      .then(res => {
+        this.setState({ mergedVideo: res.data });
+      })
+      .catch(err => {
+        this.setState({ mergeError: true });
+        toast.error("video merge failed ,Please try again");
+      });
   };
   renderCampaignSteps = () => {
     switch (this.state.currentStep) {
@@ -64,6 +68,7 @@ class Campaign extends React.Component {
             mergeVideos={this.mergeVideos}
             video={this.state.mergedVideo}
             moveToNextStep={this.moveToNextStep}
+            mergeError={this.state.mergeError}
             moveToPreviousStep={this.moveToPreviousStep}
           />
         );
@@ -72,7 +77,7 @@ class Campaign extends React.Component {
           <AddLogo
             moveToNextStep={this.moveToNextStep}
             moveToPreviousStep={this.moveToPreviousStep}
-            videoBlob={this.state.introRecord}
+            videoBlob={this.state.mergedVideo}
             saveFinalVideo={this.saveFinalVideo}
           />
         );
@@ -99,9 +104,11 @@ class Campaign extends React.Component {
     let nextStep = this.state.currentStep + 1;
     if (nextStep === 2 && this.state.introRecord === "") {
       toast.error("Please record a Intro first");
-    } else if (nextStep === 4 && this.state.finalVideo === "") {
+    } else if (nextStep === 3 && this.state.messageRecord === "") {
+      toast.error("Please record a Main Message");
+    } else if (nextStep === 5 && this.state.finalVideo === "") {
       this.setState({
-        finalVideo: this.state.introRecord,
+        finalVideo: this.state.mergedVideo,
         currentStep: nextStep
       });
       return;

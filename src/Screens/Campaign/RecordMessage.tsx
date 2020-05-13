@@ -26,15 +26,7 @@ class RecordMessage extends React.Component<IProps> {
               }
             />
           </div>
-          <div className="btnDoubleWrap">
-            <Button
-              variant="contained"
-              size="large"
-              color="secondary"
-              onClick={this.props.moveToPreviousStep}
-            >
-              Prev
-            </Button>
+          <div className="btnSingleWrap">
             <Button
               variant="contained"
               size="large"
