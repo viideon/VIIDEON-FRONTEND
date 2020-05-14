@@ -33,7 +33,7 @@ class Campaign extends React.Component {
     formData.append("one", this.state.introRecord);
     formData.append("two", this.state.messageRecord);
     axios
-      .post("http://localhost:3008/edit/merge", formData, {
+      .post(`${process.env.REACT_APP_APIURL}/edit/merge`, formData, {
         responseType: "blob"
       })
       .then(res => {
@@ -41,7 +41,7 @@ class Campaign extends React.Component {
       })
       .catch(err => {
         this.setState({ mergeError: true });
-        toast.error("video merge failed ,Please try again");
+        toast.error("Network Error ,Please try again");
       });
   };
   renderCampaignSteps = () => {

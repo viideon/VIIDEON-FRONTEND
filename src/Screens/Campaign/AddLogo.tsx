@@ -232,15 +232,7 @@ class AddLogo extends React.Component<IProps, IState> {
             </Grid>
           </Grid>
 
-          <div className="btnDoubleWrap">
-            <Button
-              variant="contained"
-              size="large"
-              color="secondary"
-              onClick={this.props.moveToPreviousStep}
-            >
-              Prev
-            </Button>
+          <div className="btnSingleWrap">
             <Button
               variant="contained"
               size="large"

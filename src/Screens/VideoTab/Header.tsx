@@ -28,6 +28,7 @@ import styles from "./style";
 interface Video {
   url: string;
   thumbnail?: string;
+  title?: string;
 }
 interface IProps {
   videoId?: string | null;
@@ -42,16 +43,16 @@ class VideoTabHeader extends React.Component<IProps> {
         <Row>
           <Col xs="12" sm="12" md="8" lg="8" xl="8">
             <Row>
-              <Col xs="12" sm="12" md="5">
+              <Col xs="12" sm="12" md="6">
                 <div id="headerVideo">
                   {video && (
                     <VideoPlayer url={video.url} thumbnail={video.thumbnail} />
                   )}
                 </div>
               </Col>
-              <Col xs="12" sm="12" md="7" id="headerText">
+              <Col xs="12" sm="12" md="6" id="headerText">
                 <h3>
-                  {Constants.SAMPLE_USE}
+                  {video.title}
                   <i>
                     <FaPencilAlt style={{ fontSize: "15px" }} />
                   </i>

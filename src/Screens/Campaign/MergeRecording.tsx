@@ -19,7 +19,7 @@ class MergeRecording extends React.Component<IProps> {
     }
     return (
       <div className="wrapperMerge">
-        <h5 className="recordHeading">Merge Recorded</h5>
+        <h5 className="recordHeading">Merge Video </h5>
         <div style={{ textAlign: "center" }}>
           {this.props.video ? (
             <video
@@ -29,20 +29,22 @@ class MergeRecording extends React.Component<IProps> {
             />
           ) : (
             <div>
-              <CircularProgress /> <h5>Merge in Progress ,Please wait</h5>
+              <CircularProgress /> <h5>In Progress ,Please wait</h5>
             </div>
           )}
         </div>
 
         <div className="btnSingleWrap">
-          <Button
-            variant="contained"
-            size="large"
-            color="primary"
-            onClick={this.props.moveToNextStep}
-          >
-            Next
-          </Button>
+          {this.props.video && (
+            <Button
+              variant="contained"
+              size="large"
+              color="primary"
+              onClick={this.props.moveToNextStep}
+            >
+              Next
+            </Button>
+          )}
         </div>
       </div>
     );

@@ -228,17 +228,6 @@ class SendEmail extends React.Component<IProps> {
               </div>
             )}
           </div>
-          {/* {videoSaved === false && (
-            <Button
-              variant="contained"
-              size="large"
-              color="secondary"
-              onClick={this.props.moveToPreviousStep}
-              style={{ paddingTop: "10px" }}
-            >
-              Previous
-            </Button>
-          )} */}
         </Grid>
         <Grid item xs={1} sm={1} md={3} lg={3}></Grid>
       </Grid>

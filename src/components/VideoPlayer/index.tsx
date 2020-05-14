@@ -19,6 +19,7 @@ const VideoPlayer: FC<IProps> = ({ url, thumbnail, height }) => {
         fluid={false}
         height={height ? height : 230}
         width="100%"
+        preload="auto"
       />
     </div>
   );
