@@ -5,16 +5,15 @@ import "./style.css";
 
 interface IProps {
   moveToNextStep: () => void;
-  moveToPreviousStep: () => void;
-  saveMessage: (blob: any) => void;
+  saveConclusion: (blob: any) => void;
 }
-class RecordMessage extends React.Component<IProps> {
+class RecordConclusion extends React.Component<IProps> {
   render() {
     return (
       <Grid container>
         <Grid item xs={1} sm={1} md={2} lg={2}></Grid>
         <Grid item xs={10} sm={10} md={8} lg={8}>
-          <h3 className="recordHeading">Record Main Message</h3>
+          <h3 className="recordHeading">Conclude your Message</h3>
           <div className="recorderWrapper">
             <VideoRecorder
               isOnInitially={false}
@@ -22,7 +21,7 @@ class RecordMessage extends React.Component<IProps> {
               replayVideoAutoplayAndLoopOff
               isReplayVideoInitiallyMuted={false}
               onRecordingComplete={(videoBlob: any) =>
-                this.props.saveMessage(videoBlob)
+                this.props.saveConclusion(videoBlob)
               }
             />
           </div>
@@ -33,7 +32,7 @@ class RecordMessage extends React.Component<IProps> {
               color="primary"
               onClick={this.props.moveToNextStep}
             >
-              Record Conclusion
+              Merge Clips
             </Button>
           </div>
         </Grid>
@@ -43,4 +42,4 @@ class RecordMessage extends React.Component<IProps> {
   }
 }
 
-export default RecordMessage;
+export default RecordConclusion;

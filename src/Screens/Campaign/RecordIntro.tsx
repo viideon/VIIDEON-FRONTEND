@@ -32,7 +32,6 @@ class RecordIntro extends React.Component<IProps> {
               showReplayControls
               replayVideoAutoplayAndLoopOff
               isReplayVideoInitiallyMuted={false}
-              timeLimit={3000}
               onRecordingComplete={(videoBlob: any) =>
                 this.props.saveIntro(videoBlob)
               }

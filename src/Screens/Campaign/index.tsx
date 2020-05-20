@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import RecordIntro from "./RecordIntro";
 import RecordMessage from "./RecordMessage";
+import RecordConclusion from "./RecordConclusion";
 import MergeRecording from "./MergeRecording";
 import AddLogo from "./AddLogo";
 import SendEmail from "./SendEmail";
@@ -12,6 +13,7 @@ class Campaign extends React.Component {
     currentStep: 1,
     introRecord: "",
     messageRecord: "",
+    conclusionRecord: "",
     finalVideo: "",
     mergedVideo: "",
     mergeError: false
@@ -24,6 +26,10 @@ class Campaign extends React.Component {
   saveMessage = (blob: any) => {
     this.setState({ messageRecord: blob });
     toast.info("Message recorded");
+  };
+  saveConclusion = (blob: any) => {
+    this.setState({ conclusionRecord: blob });
+    toast.info("Conclusion recorded");
   };
   saveFinalVideo = (finalBlob: any) => {
     this.setState({ finalVideo: finalBlob });
@@ -41,7 +47,7 @@ class Campaign extends React.Component {
       })
       .catch(err => {
         this.setState({ mergeError: true });
-        toast.error("Network Error ,Please try again");
+        toast.error("Failed to merge video");
       });
   };
   renderCampaignSteps = () => {
@@ -64,6 +70,13 @@ class Campaign extends React.Component {
         );
       case 3:
         return (
+          <RecordConclusion
+            moveToNextStep={this.moveToNextStep}
+            saveConclusion={this.saveConclusion}
+          />
+        );
+      case 4:
+        return (
           <MergeRecording
             mergeVideos={this.mergeVideos}
             video={this.state.mergedVideo}
@@ -72,7 +85,7 @@ class Campaign extends React.Component {
             moveToPreviousStep={this.moveToPreviousStep}
           />
         );
-      case 4:
+      case 5:
         return (
           <AddLogo
             moveToNextStep={this.moveToNextStep}
@@ -81,7 +94,7 @@ class Campaign extends React.Component {
             saveFinalVideo={this.saveFinalVideo}
           />
         );
-      case 5:
+      case 6:
         return (
           <SendEmail
             moveToNextStep={this.moveToNextStep}
@@ -106,7 +119,9 @@ class Campaign extends React.Component {
       toast.error("Please record a Intro first");
     } else if (nextStep === 3 && this.state.messageRecord === "") {
       toast.error("Please record a Main Message");
-    } else if (nextStep === 5 && this.state.finalVideo === "") {
+    } else if (nextStep === 4 && this.state.conclusionRecord === "") {
+      toast.error("Please record a conclusion");
+    } else if (nextStep === 6 && this.state.finalVideo === "") {
       this.setState({
         finalVideo: this.state.mergedVideo,
         currentStep: nextStep

@@ -1,11 +1,11 @@
 import React from "react";
 import { Button } from "@material-ui/core";
-// import cheese from "../../assets/1.jpeg";
-// import sample from "../../assets/sample.mp4";
-// import Whammy from "react-whammy";
+import sample from "../../assets/sample.mp4";
+import audio_sample from "../../assets/audio_sample.mp3";
 
 interface IState {
   img: any;
+  music: any;
   text: string;
   logoX: number;
   logoY: number;
@@ -15,6 +15,7 @@ class VideoLayer extends React.Component<{}, IState> {
     super(props);
     this.state = {
       img: null,
+      music: null,
       logoX: 0,
       logoY: 0,
       text: ""
@@ -22,20 +23,21 @@ class VideoLayer extends React.Component<{}, IState> {
     this.draw = this.draw.bind(this);
   }
   id: any;
-  upload: any;
+  uploadImageRef: any;
+  uploadMusicRef: any;
   canvas: any;
   canvas2: any;
   videoStream: any;
   mediaRecorder: any;
   sourceNode: any;
-  // encoder = new Whammy.Video(30);
+  sourceNode2: any;
   recordedBlobs: any = [];
 
   setInputRef = (ref: any) => {
-    this.upload = ref;
+    this.uploadImageRef = ref;
   };
   triggerFileUploadBtn = () => {
-    this.upload.click();
+    this.uploadImageRef.click();
   };
 
   onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,23 +47,52 @@ class VideoLayer extends React.Component<{}, IState> {
       alert("No file selected");
     }
   };
+  setInputMusicRef = (ref: any) => {
+    this.uploadMusicRef = ref;
+  };
+  triggerMusicUploadBtn = () => {
+    this.uploadMusicRef.click();
+  };
+  onFileMusicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files![0] !== null) {
+      this.setState({ music: URL.createObjectURL(e.target.files![0]) });
+      alert("Music file added");
+    } else {
+      alert("No file selected");
+    }
+  };
 
   componentDidMount() {
+    //getting refs
     this.canvas = this.refs.canvas;
     this.canvas2 = this.refs.canvas2;
     const video: any = this.refs.video;
+    const musicElementRef: any = this.refs.music;
     const img: any = this.refs.image;
+    //getting canvas context
     const ctx = this.canvas.getContext("2d");
     const ctx2 = this.canvas2.getContext("2d");
+    //audio part from video
     const audioCtx: any = new AudioContext();
     const dest: any = audioCtx.createMediaStreamDestination();
     const aStream: any = dest.stream;
     this.sourceNode = audioCtx.createMediaElementSource(video);
     this.sourceNode.connect(dest);
     this.sourceNode.connect(audioCtx.destination);
-    // this.canvas.addTrack(this.aStream.getAudioTracks()[0]);
-    this.videoStream = this.canvas.captureStream(60);
+
+    //audio part from music uploaded
+
+    const dest2 = audioCtx.createMediaStreamDestination();
+    const musicStream: any = dest2.stream;
+    this.sourceNode2 = audioCtx.createMediaElementSource(musicElementRef);
+    this.sourceNode2.connect(dest2);
+    this.sourceNode2.connect(audioCtx.destination);
+
+    //capturing stream and adding sound track
+    this.videoStream = this.canvas.captureStream();
     this.videoStream.addTrack(aStream.getAudioTracks()[0]);
+    this.videoStream.addTrack(musicStream.getAudioTracks()[0]);
+    console.log("audio track", musicStream.getAudioTracks()[0]);
     this.mediaRecorder = new MediaRecorder(this.videoStream);
     let cw, ch;
     let that = this;
@@ -72,9 +103,6 @@ class VideoLayer extends React.Component<{}, IState> {
         console.log("called");
         cw = video.clientWidth;
         ch = video.clientHeight;
-        // var aspect = video.videoHeight / video.videoWidth;
-        // var wantedWidth = 1280; // or use height
-        // var height = Math.round(wantedWidth * aspect);
         that.canvas.width = cw;
         that.canvas.height = ch;
         that.canvas2.width = cw;
@@ -117,6 +145,7 @@ class VideoLayer extends React.Component<{}, IState> {
   ): any {
     if (video.paused || video.ended) return false;
 
+    //draw image ,video or text on invisible canvas
     context2.drawImage(video, 0, 0, width, height);
     context2.drawImage(img, this.state.logoX, this.state.logoY, 70, 70);
     context2.font = "30px Arial";
@@ -134,9 +163,12 @@ class VideoLayer extends React.Component<{}, IState> {
     // }
     // idata.data.set(data);
     let that = this;
+
+    //copies data from invisible canvas and puts it into visible canvas context
     context.putImageData(idata, 0, 0);
+
+    //if data available pushed data into array
     this.mediaRecorder.ondataavailable = function(e: any) {
-      console.log("on data available called  called");
       e.data && that.recordedBlobs.push(e.data);
     };
 
@@ -167,19 +199,26 @@ class VideoLayer extends React.Component<{}, IState> {
     this.setState({ text: e.target.value });
   };
   render() {
+    console.log("state", this.state);
     return (
       <div
         style={{ marginTop: "70px", paddingLeft: "20px", paddingRight: "20px" }}
       >
-        <canvas ref="canvas" />
-        <canvas ref="canvas2" style={{ display: "none" }} />
         <img
           ref="image"
           src={this.state.img ? this.state.img : null}
           alt="logo"
           style={{ display: "none" }}
         />
-        <video ref="video"  controls width={400} />
+        <audio
+          ref="music"
+          src={audio_sample}
+          controls
+          style={{ display: "none" }}
+        />
+        <video ref="video" src={sample} controls width={400} />
+        <canvas ref="canvas" />
+        <canvas ref="canvas2" style={{ display: "none" }} />
         <div>
           <h4 className="thumbnaillEditMsg">Add Logo</h4>
           <input
@@ -194,6 +233,22 @@ class VideoLayer extends React.Component<{}, IState> {
             style={{ backgroundColor: "#d3d3d3", color: "#000" }}
           >
             Add Logo
+          </Button>
+        </div>
+        <div>
+          <h4 className="thumbnaillEditMsg">Add Logo</h4>
+          <input
+            id="uploadInput"
+            type="file"
+            onChange={this.onFileMusicChange}
+            ref={this.setInputMusicRef}
+            accept="audio/*"
+          />
+          <Button
+            onClick={this.triggerMusicUploadBtn}
+            style={{ backgroundColor: "#d3d3d3", color: "#000" }}
+          >
+            Add Music
           </Button>
         </div>
         <div style={{ marginTop: "10px" }}>

@@ -29,7 +29,7 @@ class MergeRecording extends React.Component<IProps> {
             />
           ) : (
             <div>
-              <CircularProgress /> <h5>In Progress ,Please wait</h5>
+              <CircularProgress /> <h5>In Progress , This may take a while </h5>
             </div>
           )}
         </div>

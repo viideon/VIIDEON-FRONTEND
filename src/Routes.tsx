@@ -15,7 +15,10 @@ import SignIn from "./Screens/SignIn";
 import Header from "./components/Header/Header";
 import UploadRecord from "../src/Screens/UploadRecordVideo";
 import Watch from "./Screens/Watch";
-import Campaign from "./Screens/Campaign";
+// import Campaign from "./Screens/Campaign";
+import Campaign from "./Screens/CampaignNew";
+import Recording from "./Screens/Watch/Recording";
+import VideoLayer from "./Screens/Watch/VideoLayer";
 
 type IProps = {
   auth: AuthState;
@@ -34,6 +37,8 @@ class Routes extends Component<IProps> {
               <Route exact path="/video/create" component={UploadRecord} />
               <Route exact path="/watch/:id" component={Watch} />
               <Route exact path="/campaign" component={Campaign} />
+              <Route exact path="/recording" component={Recording} />
+              <Route exact path="/layer" component={VideoLayer} />
               <Route exact path="*" component={Home} />
             </Switch>
           </>
