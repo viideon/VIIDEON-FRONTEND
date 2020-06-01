@@ -1,5 +1,6 @@
 import React from "react";
 import RecordRTC from "recordrtc";
+import DetectRTC from "detectrtc";
 import { toast } from "react-toastify";
 import { Grid, Button } from "@material-ui/core";
 import recordGif from "../../assets/video-record.gif";
@@ -13,7 +14,7 @@ interface IProps {
 }
 class Recording extends React.Component<IProps> {
   state = {
-    recordingStatus: null,
+    recordingStatus: false,
     showEditOption: false,
     showCountdown: false,
     isConnecting: false,
@@ -26,18 +27,22 @@ class Recording extends React.Component<IProps> {
   recordVideo: any;
   video: any;
   localStream: any;
-  introStream: any;
-  messageStream: any;
-  startTime: any;
 
   componentDidMount() {
-    this.setState({ isConnecting: true });
+    let that = this;
+    DetectRTC.load(function() {
+      if (DetectRTC.isWebsiteHasWebcamPermissions === false) {
+        console.log("No permissions");
+      } else if (!DetectRTC.hasWebcam && !DetectRTC.isWebRTCSupported) {
+        console.log("No webcam");
+      }
+    });
+    that.setState({ isConnecting: true });
     if (!hasGetUserMedia) {
       toast.info("Your browser cannot stream from your webcam.");
       return;
     }
     this.video = this.refs.video;
-
     this.requestUserMedia();
   }
   captureUserMedia = (callback: any) => {
@@ -49,7 +54,10 @@ class Recording extends React.Component<IProps> {
 
   requestUserMedia = () => {
     this.captureUserMedia((stream: any) => {
-      this.recordVideo = RecordRTC(stream, { type: "video" });
+      this.recordVideo = RecordRTC(stream, {
+        type: "video",
+        mimeType: "video/webm"
+      });
       this.localStream = stream;
       this.video.srcObject = this.localStream;
       this.setState({ isConnecting: false });
@@ -70,11 +78,7 @@ class Recording extends React.Component<IProps> {
     toast.info("Recording started");
     if (this.state.trackNo === 1) {
       this.recordVideo.startRecording();
-    } else if (this.state.trackNo === 2) {
-      this.localStream = this.introStream;
-      this.recordVideo.resumeRecording();
     } else {
-      this.localStream = this.messageStream;
       this.recordVideo.resumeRecording();
     }
     this.setState({
@@ -84,17 +88,17 @@ class Recording extends React.Component<IProps> {
 
   stopRecord = () => {
     clearInterval(this.state.timerTimeout);
-    this.setState({ showTimer: false });
+    this.setState({ showTimer: false, recordingStatus: false });
     this.recordVideo.pauseRecording();
-    this.setState({ recordingStatus: false });
     if (this.state.trackNo === 1) {
-      this.introStream = this.localStream.clone();
       toast.info("Intro recorded");
+      this.moveToNextTrack();
     } else if (this.state.trackNo === 2) {
-      this.messageStream = this.localStream.clone();
       toast.info("Message recorded");
+      this.moveToNextTrack();
     } else {
       toast.info("Conclusion recorded");
+      this.moveToNextTrack();
     }
   };
 
@@ -108,10 +112,9 @@ class Recording extends React.Component<IProps> {
       this.recordVideo.stopRecording(() => {
         this.props.saveVideo(this.recordVideo.blob);
         this.setState({
-          showNext: false,
-          recordingStatus: false,
-          showEditOption: true
+          recordingStatus: false
         });
+        this.props.moveToNextStep();
       });
     }
   };
@@ -135,18 +138,8 @@ class Recording extends React.Component<IProps> {
       this.localStream.getTracks().forEach(function(track: any) {
         track.stop();
       });
-    this.introStream &&
-      this.introStream.getTracks().forEach(function(track: any) {
-        track.stop();
-      });
-    this.messageStream &&
-      this.messageStream.getTracks().forEach(function(track: any) {
-        track.stop();
-      });
     this.video.srcObect = null;
     this.localStream = null;
-    this.introStream = null;
-    this.messageStream = null;
   };
   componentWillUnmount() {
     this.stopStream();
@@ -164,12 +157,16 @@ class Recording extends React.Component<IProps> {
             <h2 className="recordHeading">{this.nameTrack()}</h2>
             <div className="videoStreamWrapper">
               <video ref="video" muted autoPlay width="100%" />
+
               {this.state.recordingStatus && (
                 <img src={recordGif} className="iconRecording" alt="record" />
               )}
               {this.state.showCountdown && <Counter />}
               {this.state.showTimer && (
-                <span className="timerRecording">{`${hour}:${min}:${sec}`}</span>
+                <span className="timerRecording">
+                  {`${hour} `}:{min < 10 ? `0${min}` : min}:
+                  {sec < 10 ? `0${sec}` : sec}
+                </span>
               )}
               {this.state.isConnecting && (
                 <span className="loadingText">Loading ...</span>
@@ -182,6 +179,7 @@ class Recording extends React.Component<IProps> {
                 variant="contained"
                 size="large"
                 color="primary"
+                disabled={this.state.recordingStatus}
               >
                 {this.nameTrack()}
               </Button>
@@ -191,10 +189,10 @@ class Recording extends React.Component<IProps> {
                   variant="contained"
                   color="secondary"
                 >
-                  Stop
+                  Done
                 </Button>
               )}
-              {this.state.showEditOption && (
+              {/* {this.state.showEditOption && (
                 <Button
                   variant="contained"
                   size="large"
@@ -203,8 +201,8 @@ class Recording extends React.Component<IProps> {
                 >
                   Edit Recorded Video
                 </Button>
-              )}
-              {this.state.recordingStatus === false && this.state.showNext && (
+              )} */}
+              {/* {this.state.recordingStatus === false && this.state.showNext && (
                 <Button
                   variant="contained"
                   size="large"
@@ -213,7 +211,7 @@ class Recording extends React.Component<IProps> {
                 >
                   Next
                 </Button>
-              )}
+              )} */}
             </div>
           </div>
         </Grid>

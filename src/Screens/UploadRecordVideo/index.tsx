@@ -57,14 +57,19 @@ type IState = {
   videoProgress: boolean;
   progressFile: number;
   progressVideo: number;
+  thumbnail: any;
 };
 
 class UploadRecord extends Component<IProps, IState> {
   onDrop: (files: any) => void;
+  canvas: any;
+  video: any;
   constructor(props: any) {
     super(props);
     this.onDrop = files => {
       this.props.toggleSendVariable();
+      console.log("files", files);
+      this.getThumbnailfromFile(files[0]);
       this.setState({ files });
     };
     this.state = {
@@ -81,7 +86,8 @@ class UploadRecord extends Component<IProps, IState> {
       videoProgress: false,
       progressFile: 0,
       progressVideo: 0,
-      emails: []
+      emails: [],
+      thumbnail: ""
     };
   }
   titleNameHandler = (event: any) => {
@@ -137,6 +143,12 @@ class UploadRecord extends Component<IProps, IState> {
       Key: Date.now().toString() + this.state.files[0].name,
       Body: this.state.files[0]
     };
+    var thumbnailOptions = {
+      Bucket: config.bucketName,
+      ACL: config.ACL,
+      Key: Date.now().toString() + ".jpeg",
+      Body: this.state.thumbnail
+    };
     s3.upload(options, function(err: any, data: any) {
       if (err) {
         that.setState({ fileProgress: false });
@@ -144,14 +156,22 @@ class UploadRecord extends Component<IProps, IState> {
         return;
       }
       that.setState({ urlRecord: data.Location });
-      const url = that.state.urlRecord;
-      const video = {
-        title: that.state.title,
-        url,
-        userId: that.props.auth!.user!._id
-      };
-      that.setState({ fileProgress: false });
-      that.props.saveVideo(video);
+      s3.upload(thumbnailOptions, function(err: any, data: any) {
+        if (err) {
+          toast.error(err);
+          return;
+        }
+        // toast.info("thumbnail uploaded");
+        // const url = that.state.urlRecord;
+        const video = {
+          title: that.state.title,
+          url: that.state.urlRecord,
+          userId: that.props.auth!.user!._id,
+          thumbnail: data.Location
+        };
+        that.setState({ fileProgress: false });
+        that.props.saveVideo(video);
+      });
     }).on("httpUploadProgress", function(progress) {
       let uploaded: number = (progress.loaded * 100) / progress.total;
       that.setState({ progressFile: uploaded });
@@ -165,11 +185,17 @@ class UploadRecord extends Component<IProps, IState> {
     }
     this.setState({ videoProgress: true, progressVideo: 0 });
     let s3 = new AWS.S3(config);
-    var options = {
+    let options = {
       Bucket: config.bucketName,
       ACL: config.ACL,
       Key: Date.now().toString() + ".webm",
       Body: this.state.videoRecord
+    };
+    let thumbnailOptions = {
+      Bucket: config.bucketName,
+      ACL: config.ACL,
+      Key: Date.now().toString() + ".jpeg",
+      Body: this.state.thumbnail
     };
     const that = this;
     s3.upload(options, function(err: any, data: any) {
@@ -179,13 +205,20 @@ class UploadRecord extends Component<IProps, IState> {
         return;
       }
       that.setState({ urlRecord: data.Location });
-      const video = {
-        url: that.state.urlRecord,
-        userId: that.props.auth!.user!._id,
-        title: that.state.title
-      };
-      that.setState({ videoProgress: false });
-      that.props.saveVideo(video);
+      s3.upload(thumbnailOptions, function(err: any, data: any) {
+        if (err) {
+          toast.error(err);
+          return;
+        }
+        const video = {
+          url: that.state.urlRecord,
+          userId: that.props.auth!.user!._id,
+          title: that.state.title,
+          thumbnail: data.Location
+        };
+        that.setState({ videoProgress: false });
+        that.props.saveVideo(video);
+      });
     }).on("httpUploadProgress", function(progress) {
       let uploaded: number = (progress.loaded * 100) / progress.total;
       that.setState({ progressVideo: uploaded });
@@ -208,7 +241,57 @@ class UploadRecord extends Component<IProps, IState> {
       this.props.sendVideoToEmail(video);
     }
   };
+  getThumbnail = (blob: any) => {
+    this.video = this.refs.video;
+    this.canvas = this.refs.canvas;
+    this.video.src = URL.createObjectURL(blob);
+    this.video.currentTime = 3;
+    this.canvas.width = 1280;
+    this.canvas.height = 720;
+    const that = this;
 
+    this.video.addEventListener("loadeddata", (e: any) => {
+      //Video should now be loaded but we can add a second check
+      console.log("called");
+      console.log("video state", this.video);
+
+      console.log("read state called");
+      setTimeout(function() {
+        that.canvas.getContext("2d").drawImage(that.video, 0, 0, 1280, 720);
+        that.canvas.toBlob((blob: any) => {
+          that.setState({ thumbnail: blob });
+          // alert(window.URL.createObjectURL(blob));
+          // console.log("blob", blob);
+          // console.log(URL.createObjectURL(blob));
+        }, "image/jpeg");
+      }, 2000);
+    });
+  };
+  getThumbnailfromFile = (file: any) => {
+    this.video = this.refs.video;
+    this.canvas = this.refs.canvas;
+    this.video.src = URL.createObjectURL(file);
+    this.video.currentTime = 3;
+    this.canvas.width = 1280;
+    this.canvas.height = 720;
+    const that = this;
+    this.video.addEventListener("loadeddata", (e: any) => {
+      setTimeout(function() {
+        that.canvas.getContext("2d").drawImage(that.video, 0, 0, 1280, 720);
+        that.canvas.toBlob((blob: any) => {
+          // alert(URL.createObjectURL(blob));
+          that.setState({ thumbnail: blob });
+          // alert(URL.createObjectURL(blob));
+        }, "image/jpeg");
+      }, 2000);
+    });
+  };
+  getUrl = () => {
+    this.canvas.getContext("2d").drawImage(this.video, 0, 0, 1280, 720);
+    this.canvas.toBlob((blob: any) => {
+      alert(URL.createObjectURL(blob));
+    }, "image/jpeg");
+  };
   render() {
     let { videoSaved, loading } = this.props.videoUser;
     return (
@@ -451,12 +534,27 @@ class UploadRecord extends Component<IProps, IState> {
                 onRecordingComplete={(videoBlob: any) => {
                   // Do something with the video...
                   this.props.toggleSendVariable();
+                  this.getThumbnail(videoBlob);
                   this.setState({ videoRecord: videoBlob });
                 }}
               />
             </div>
           </TabPanel>
         </Tabs>
+
+        <canvas
+          ref="canvas"
+          style={{ position: "absolute", left: "-2000px" }}
+        />
+        <video
+          ref="video"
+          style={{
+            opacity: 0.00001,
+            // transform:"translate(-999px, 0px)"
+            position: "absolute",
+            left: "-999px"
+          }}
+        />
       </div>
     );
   }

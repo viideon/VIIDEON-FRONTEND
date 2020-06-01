@@ -1,5 +1,5 @@
 import React from "react";
-// import { toast } from "react-toastify";
+import VideoPreview from "./VideoPreview";
 import Recording from "./Recording";
 import SendSave from "./SendSave";
 import AddLogoText from "./AddLogoText";
@@ -30,13 +30,20 @@ class Campaign extends React.Component {
         );
       case 2:
         return (
+          <VideoPreview
+            moveToNextStep={this.moveToNextStep}
+            previewVideo={this.state.recordedVideo}
+          />
+        );
+      case 3:
+        return (
           <AddLogoText
             moveToNextStep={this.moveToNextStep}
             saveEditedVideo={this.saveEditedVideo}
             videoToEdit={this.state.recordedVideo}
           />
         );
-      case 3:
+      case 4:
         return (
           <SendSave
             previewVideo={

@@ -31,10 +31,10 @@ class VideoSection extends Component<IProps> {
           <RecordOption history={this.props.history} />
         </div>
         {loadingVideos && <CircularProgress style={{ marginLeft: "50%" }} />}
-        <Grid container spacing={2}>
+        <Grid container spacing={3}>
           {userVideos &&
             userVideos.map((video: any) => (
-              <Grid item xs={12} sm={6} md={4} key={video._id}>
+              <Grid item xs={12} sm={6} md={4} lg={4} key={video._id}>
                 <VideoCard
                   title={video.title}
                   url={video.url}

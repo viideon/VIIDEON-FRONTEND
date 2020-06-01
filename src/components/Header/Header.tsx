@@ -1,17 +1,30 @@
 import React, { useState } from "react";
+import MenuIcon from "@material-ui/icons/Menu";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 import { withRouter, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { toggleDrawer } from "../../Redux/Actions/drawer";
+import { logout } from "../../Redux/Actions/auth";
 import avatarImage from "../../assets/profileImages/profileImg.png";
 import TopDrawer from "../DrawerTop/index";
-import MenuIcon from "@material-ui/icons/Menu";
 import "./styles.css";
 type IProps = {
   history: any;
   toggleDrawer: () => void;
+  logout: () => void;
 };
-const Header: React.FC<IProps> = ({ history, toggleDrawer }) => {
+const Header: React.FC<IProps> = ({ history, toggleDrawer, logout }) => {
   const [drawerOpen, toggleTopDrawer] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const handleClickPopup = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClosePopup = () => {
+    setAnchorEl(null);
+  };
   const toggle = () => toggleTopDrawer(!drawerOpen);
   const navigateHome = () => {
     history.push("/");
@@ -55,7 +68,19 @@ const Header: React.FC<IProps> = ({ history, toggleDrawer }) => {
             <i className="fas fa-flag" style={iconStyle}></i>
           </span>
           <span>
-            <i className="fas fa-cog" style={iconStyle}></i>
+            <i
+              className="fas fa-cog"
+              style={iconStyle}
+              onClick={handleClickPopup}
+            ></i>
+            <Menu
+              keepMounted
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleClosePopup}
+            >
+              <MenuItem onClick={() => logout()}>Logout</MenuItem>
+            </Menu>
           </span>
         </div>
       </div>
@@ -70,7 +95,8 @@ const iconStyle = {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    toggleDrawer: () => dispatch(toggleDrawer())
+    toggleDrawer: () => dispatch(toggleDrawer()),
+    logout: () => dispatch(logout())
   };
 };
 export default withRouter<any, any>(connect(null, mapDispatchToProps)(Header));

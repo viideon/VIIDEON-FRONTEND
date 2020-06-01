@@ -19,6 +19,7 @@ import Watch from "./Screens/Watch";
 import Campaign from "./Screens/CampaignNew";
 import Recording from "./Screens/Watch/Recording";
 import VideoLayer from "./Screens/Watch/VideoLayer";
+import Capture from "./Screens/Watch/Capture";
 
 type IProps = {
   auth: AuthState;
@@ -39,6 +40,7 @@ class Routes extends Component<IProps> {
               <Route exact path="/campaign" component={Campaign} />
               <Route exact path="/recording" component={Recording} />
               <Route exact path="/layer" component={VideoLayer} />
+              <Route exact path="/capture" component={Capture} />
               <Route exact path="*" component={Home} />
             </Switch>
           </>

@@ -2,17 +2,15 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import SearchBar from "../SearchBar";
 import avatar from "../../assets/profileImages/profileImg.png";
-import { AuthState, User } from "../../Redux/Types/auth";
 import { UserProfile } from "../../Redux/Types/profile";
 import { logout } from "../../Redux/Actions/auth";
 import "./style.css";
 
 type IProps = {
   history: any;
-  auth: AuthState;
   drawer: boolean;
   user: UserProfile;
-  logout: (user: object) => void;
+  logout: () => void;
 };
 type IState = {};
 class SideBar extends Component<IProps, IState> {
@@ -22,7 +20,7 @@ class SideBar extends Component<IProps, IState> {
   }
 
   logout = () => {
-    this.props.logout(this.props.auth);
+    this.props.logout();
   };
   render() {
     const { user } = this.props;
@@ -104,14 +102,13 @@ const arrowIcon = {
 };
 const mapStateToProps = (state: any) => {
   return {
-    auth: state.auth,
     user: state.profile.user,
     drawer: state.drawer.drawer
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    logout: (user: User) => dispatch(logout(user))
+    logout: () => dispatch(logout())
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SideBar);

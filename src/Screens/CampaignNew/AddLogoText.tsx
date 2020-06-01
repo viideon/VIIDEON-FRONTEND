@@ -205,7 +205,7 @@ class AddLogo extends React.Component<IProps, IState> {
                 onClick={this.triggerFileUploadBtn}
                 style={{ backgroundColor: "rgb(249, 104, 107)", color: "#000" }}
               >
-                Add Logo
+                Upload
               </Button>
               <h5 className="positionTxt">Change Position</h5>
               <Button

@@ -38,7 +38,7 @@ class Dashboard extends Component<IProps> {
           </h3>
           <div className="dashboardTopRight">
             <span className="homeDashIcon">
-              <i className="fas fa-tachometer-alt dashboard" />
+              <i className="fas fa-tachometer-alt" />
             </span>
             <span className="homeDashIcon">Home</span>
             <span>
