@@ -14,7 +14,7 @@ const VideoCard: FC<IProps> = ({ title, thumbnail, onClick }) => {
     <div className="wrapperVideoCard">
       <div className="videoPreview" onClick={onClick}>
         <img
-          style={{ width: "100%", maxHeight: "126px" }}
+          style={{ objectFit: "contain", maxHeight: "100%", maxWidth: "100%" }}
           src={thumbnail ? thumbnail : thumbnailDefault}
           alt="preview"
         />

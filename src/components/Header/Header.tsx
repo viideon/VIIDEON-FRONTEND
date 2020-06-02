@@ -33,7 +33,9 @@ const Header: React.FC<IProps> = ({ history, toggleDrawer, logout }) => {
   return (
     <div className="HeaderContainer">
       <div className="startHeader">
-        {(location.pathname === "/" || location.pathname === "/videos") && (
+        {(location.pathname === "/" ||
+          location.pathname === "/videos" ||
+          location.pathname === "/contacts") && (
           <MenuIcon
             onClick={() => toggle()}
             style={{ color: "#fff" }}
@@ -42,7 +44,9 @@ const Header: React.FC<IProps> = ({ history, toggleDrawer, logout }) => {
         )}
         <TopDrawer open={drawerOpen} toggle={toggle} />
 
-        {(location.pathname === "/" || location.pathname === "/videos") && (
+        {(location.pathname === "/" ||
+          location.pathname === "/videos" ||
+          location.pathname === "/contacts") && (
           <MenuIcon
             onClick={() => toggleDrawer()}
             style={{ color: "#fff" }}
