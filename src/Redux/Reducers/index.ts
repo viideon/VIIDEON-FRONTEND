@@ -19,18 +19,19 @@ const rootPersistConfig = {
     transforms: [expireIn(expireTime, expirationKey, {})]
 };
 
-const videoPersistConfig = {
-    key: 'video',
-    storage: storage,
-    whitelist: ['videos'],
-    blacklist: ["isVideoUpdated", "videoSaved"]
-}
+// const videoPersistConfig = {
+//     key: 'video',
+//     storage: storage,
+//     // whitelist: [],
+//     blacklist: ["isVideoUpdated", "videoSaved", "videos"]
+// }
 
 const rootReducer = combineReducers({
     register: registerReducer,
     drawer: drawerReducer,
     auth: authReducer,
-    video: persistReducer(videoPersistConfig, videoReducer),
+    // video: persistReducer(videoPersistConfig, videoReducer),
+    video: videoReducer,
     profile: profileReducer,
 });
 

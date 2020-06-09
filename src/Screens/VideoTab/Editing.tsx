@@ -85,7 +85,11 @@ class Editing extends React.Component<IProps, IState> {
             <Col xs="1" md="2"></Col>
             <Col xs="10" md="8">
               {video && (
-                <VideoPlayer url={video.url} thumbnail={video.thumbnail} />
+                <VideoPlayer
+                  url={video.url}
+                  thumbnail={video.thumbnail}
+                  height={250}
+                />
               )}
             </Col>
             <Col xs="1" md="2"></Col>

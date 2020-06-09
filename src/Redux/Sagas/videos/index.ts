@@ -1,7 +1,7 @@
-import { put, takeEvery, call, select } from 'redux-saga/effects';
+import { put, takeEvery, takeLatest, call, select } from 'redux-saga/effects';
 import { types } from '../../Types/videos';
-import { sendVideoToEmail, saveVideo, getVideosByUserId, updateUserVideo, getSingleVideo, sendMultiEmails } from './api';
-import { selectID, selectVideos } from "../../Selectors/index"
+import { sendVideoToEmail, saveVideo, getVideosByUserId, getVideosByTitle, updateUserVideo, deleteVideoById, getSingleVideo, sendMultiEmails } from './api';
+import { selectID, selectVideos, getPageNo, isLoadMore } from "../../Selectors/index"
 import { toast } from 'react-toastify';
 
 function* sendVideoOnEmail(action: any) {
@@ -41,11 +41,44 @@ function* saveUserVideo(action: any) {
 
 function* getUserVideos() {
     let userId = yield select(selectID);
-
+    let pageNo = yield select(getPageNo);
+    const queryObj = {
+        userId: userId,
+        page: pageNo
+    }
     try {
-        const result = yield call(getVideosByUserId, userId);
-        if (result.status === 200) {
+        const result = yield call(getVideosByUserId, queryObj);
+        // yield put({ type: "LOADMORE_TRUE" });
+        if (result.status === 200 && result.data.message.length < 9) {
+            yield put({ type: types.GET_USER_VIDEOS_SUCCESS, payload: result.data.message });
+            yield put({ type: types.DISABLE_LOADMORE });
+        } else if (result.status === 200) {
+            yield put({ type: "LOADMORE_TRUE" });
             yield put({ type: types.GET_USER_VIDEOS_SUCCESS, payload: result.data.message })
+        }
+        else {
+            yield put({ type: types.GET_USER_VIDEOS_FAILED, payload: result.data.message })
+        }
+    }
+    catch (error) {
+        toast.error("Failed to fetch user videos please try again");
+        yield put({ type: types.GET_USER_VIDEOS_FAILED, payload: error })
+    }
+}
+function* searchUserVideos(action: any) {
+    console.log("saga for search called");
+    let userId = yield select(selectID);
+    let pageNo = yield select(getPageNo);
+    const queryObj = {
+        userId: userId,
+        page: pageNo,
+        title: action.payload
+    }
+    try {
+        const result = yield call(getVideosByTitle, queryObj);
+        yield put({ type: types.DISABLE_LOADMORE });
+        if (result.status === 200) {
+            yield put({ type: types.SEARCH_VIDEOS_SUCCESS, payload: result.data.message });
         }
         else {
             yield put({ type: types.GET_USER_VIDEOS_FAILED, payload: result.data.message })
@@ -112,11 +145,47 @@ function* sendMultipleEmail(action: any) {
     }
 }
 
+export function* deleteVideo(action: any) {
+    let videoId = action.payload;
+    let pageNo = yield select(getPageNo);
+    let loadNew = yield select(isLoadMore);
+    console.log("loadnew", loadNew);
+    const callObj = {
+        videoId: videoId,
+        pageNo: pageNo
+    }
+
+    try {
+        const result = yield call(deleteVideoById, callObj);
+        console.log("result", result);
+        if (result.status === 200) {
+            yield put({ type: types.DELETE_VIDEO_SUCCESS });
+            const videos = yield select(selectVideos);
+            const updatedVideos = videos.filter((video: any) => video._id !== videoId);
+            if (result.data.nextVideo && loadNew) {
+                updatedVideos.push(result.data.nextVideo);
+            }
+            yield put({ type: types.UPDATE_VIDEO_SUCCESS, payload: updatedVideos })
+            toast.info("Video deleted");
+        } else {
+            yield put({ type: types.DELETE_VIDEO_FAILURE });
+            toast.error("Failed to delete video");
+        }
+    }
+    catch (err) {
+        yield put({ type: types.DELETE_VIDEO_FAILURE });
+        toast.error(err.message);
+    }
+}
+
+
 export function* videoWatcher() {
     yield takeEvery(types.VIDEO_SEND_REQUEST, sendVideoOnEmail);
     yield takeEvery(types.VIDEO_SAVE, saveUserVideo);
     yield takeEvery(types.GET_USER_VIDEOS, getUserVideos);
+    yield takeLatest(types.SEARCH_USER_VIDEOS, searchUserVideos);
     yield takeEvery(types.UPDATE_VIDEO, updateVideo);
+    yield takeEvery(types.DELETE_VIDEO, deleteVideo);
     yield takeEvery(types.GET_VIDEO, getVideo);
     yield takeEvery(types.SEND_MULTIPLE_EMAIL, sendMultipleEmail);
 }

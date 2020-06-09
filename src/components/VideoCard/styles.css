@@ -35,3 +35,12 @@
   color: #838383;
   font-size: 12px;
 }
+.vertIcon {
+  cursor: pointer;
+  display: inline-block;
+}
+#menuVideoCard .MuiMenuItem-root {
+  font-size: 0.9rem !important;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}

@@ -3,9 +3,6 @@
   margin-top: 5%;
   opacity: 5px;
   padding: 15px;
-  /* margin-left: 8px;
-  margin-right: 8px; */
-  /* box-shadow: 0 0 10px lightgrey; */
   border: 1px solid #e7ecf1 !important;
 }
 .Header {
@@ -16,12 +13,101 @@
   font-weight: 700 !important;
   padding-left: 3px;
   line-height: 18px;
+  margin-right: 20px;
 }
 .mainHeadingWrapper {
   display: flex;
   justify-content: space-between;
-  padding-bottom: 4px;
+  padding-bottom: 10px;
   border-bottom: 1px solid #eef1f5;
   margin-bottom: 13px;
   align-items: center;
+}
+.loadMore {
+  padding: 4px 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.18);
+  color: #fff;
+  background-color: #3598dc;
+  outline: none !important;
+  border-color: #3598dc;
+  white-space: nowrap;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  text-align: center;
+}
+.loadMore:hover {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.26);
+}
+.loadMoreWrapper {
+  width: 100%;
+  padding: 10px 0px;
+  display: flex;
+  justify-content: center;
+}
+.ovalBtn {
+  margin-left: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.18);
+  border-radius: 25px !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 4px 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  border: none;
+}
+.listWrapper {
+  min-height: 0.01%;
+  overflow-x: auto;
+}
+.tableList {
+  background-color: transparent;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+.tableList th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  line-height: 1.42857;
+  vertical-align: top;
+}
+.tableList td,
+tr {
+  border: 1px solid #ddd;
+  padding: 8px;
+  line-height: 1.42857;
+  vertical-align: top;
+}
+.centerContent {
+  text-align: center;
+}
+.previewList {
+  width: 100px;
+  vertical-align: middle;
+}
+.ovalBtnWrap {
+  display: flex;
+  flex-wrap: nowrap;
+}
+.squareBtn {
+  background: #1bbc9b;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.18);
+  text-align: center;
+  padding: 3px 7px;
+  border: none;
+}
+.red {
+  background: #e7505a !important;
+  margin-left: 5px;
 }

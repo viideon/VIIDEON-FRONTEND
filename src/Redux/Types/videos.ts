@@ -18,8 +18,16 @@ const GET_SAVED_VIDEO_ID = "GET_SAVED_VIDEO_ID";
 const SEND_MULTIPLE_EMAIL = "SEND_MULTIPLE_EMAIL";
 const MULTIPLE_EMAIL_FAILED = "MULTIPLE_EMAIL_FAILED";
 const MULTIPLE_EMAIL_SUCCESS = "MULTIPLE_EMAIL_SUCCESS";
+const RESET_VIDEO_PAGE = "RESET_VIDEO_PAGE";
+const DISABLE_LOADMORE = "DISABLE_LOADMORE";
+const DELETE_VIDEO = "DELETE_VIDEO";
+const DELETE_VIDEO_SUCCESS = "DELETE_VIDEO_SUCCESS";
+const DELETE_VIDEO_FAILURE = "DELETE_VIDEO_FAILURE";
+const SEARCH_USER_VIDEOS = "SEARCH_USER_VIDEOS";
+const SEARCH_VIDEOS_SUCCESS = "SEARCH_VIDEOS_SUCCESS";
 
 export const types = {
+  SEARCH_USER_VIDEOS,
   VIDEO_SEND_REQUEST,
   VIDEO_SEND_SUCCESS,
   VIDEO_SEND_FAILURE,
@@ -39,7 +47,13 @@ export const types = {
   GET_SAVED_VIDEO_ID,
   SEND_MULTIPLE_EMAIL,
   MULTIPLE_EMAIL_SUCCESS,
-  MULTIPLE_EMAIL_FAILED
+  MULTIPLE_EMAIL_FAILED,
+  RESET_VIDEO_PAGE,
+  DISABLE_LOADMORE,
+  DELETE_VIDEO,
+  DELETE_VIDEO_SUCCESS,
+  DELETE_VIDEO_FAILURE,
+  SEARCH_VIDEOS_SUCCESS
 }
 export interface EmailVideo {
   url?: string;
@@ -73,7 +87,9 @@ export interface VideoState {
   videoSaved?: boolean | null;
   videoSend?: boolean | null;
   isVideoUpdated?: boolean | null;
-
+  page: number;
+  videos?: any;
+  loadMore: boolean;
 }
 // Action interfaces 
 export interface VideoEmailAction {
@@ -87,7 +103,7 @@ export interface VideoSaveAction {
 }
 
 export interface getUserVideoAction {
-  type: typeof GET_USER_VIDEOS
+  type: typeof GET_USER_VIDEOS,
 }
 
 export interface updateVideoAction {
@@ -99,7 +115,10 @@ export interface getVideo {
   type: typeof GET_VIDEO
   payload: string
 }
-
+export interface deleteVideo {
+  type: typeof DELETE_VIDEO,
+  payload: string
+}
 export interface sendMultipleEmails {
   type: typeof SEND_MULTIPLE_EMAIL
   payload: any

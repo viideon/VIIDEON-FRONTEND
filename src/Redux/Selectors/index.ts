@@ -10,7 +10,13 @@ export const getVideoById = (state: any, id: string) => {
         return state.video.videos.find((video: any) => video._id === id);
     }
 }
+export const getPageNo = (state: any) => {
+    return state.video.page ? state.video.page : 1;
+}
 
 export const getVideosLength = (state: any) => {
     return state.video.videos ? state.video.videos.length : 0;
+}
+export const isLoadMore = (state: any) => {
+    return state.video.loadMore;
 }

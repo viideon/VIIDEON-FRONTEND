@@ -23,7 +23,13 @@ class Watch extends React.Component<IProps> {
           <Grid item md={3} sm={2} xs={1}></Grid>
           <Grid item md={6} sm={8} xs={10}>
             {loadingVideo && <CircularProgress style={{ marginLeft: "47%" }} />}
-            {video && <VideoPlayer url={video.url} height={300} />}
+            {video && (
+              <VideoPlayer
+                url={video.url}
+                thumbnail={video.thumbnail}
+                height={300}
+              />
+            )}
             {!loadingVideo && !video && (
               <h3 style={{ textAlign: "center" }}>No Video to display</h3>
             )}

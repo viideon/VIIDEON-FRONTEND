@@ -20,6 +20,17 @@ export function getUserVideos(): getUserVideoAction {
   }
 }
 
+export function searchUserVideos(title: any) {
+  return {
+    type: types.SEARCH_USER_VIDEOS,
+    payload: title
+  }
+}
+export function emptyPage() {
+  return {
+    type: "EMPTY_PAGE"
+  }
+}
 export function updateVideo(video: VideoUpdate): updateVideoAction {
   return {
     type: types.UPDATE_VIDEO,
@@ -40,9 +51,21 @@ export function getVideo(id: string) {
   }
 }
 
+export function deleteVideo(id: string) {
+  return {
+    type: types.DELETE_VIDEO,
+    payload: id
+  }
+}
 export function sendMultipleEmails(emailVideoObj: any) {
   return {
     type: types.SEND_MULTIPLE_EMAIL,
     payload: emailVideoObj
+  }
+}
+
+export function resetPage() {
+  return {
+    type: types.RESET_VIDEO_PAGE
   }
 }

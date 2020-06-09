@@ -61,7 +61,9 @@ const Header: React.FC<IProps> = ({ history, toggleDrawer, logout }) => {
       </div>
       <div className="endHeader">
         <div className="wrapperEnd">
-          <img src={avatarImage} className="avatarNav" alt="avatar" />
+          <span onClick={handleClickPopup} style={{ cursor: "pointer" }}>
+            <img src={avatarImage} className="avatarNav" alt="avatar" />
+          </span>
           <span>
             <i className="fas fa-envelope" style={iconStyle}></i>
           </span>
@@ -72,17 +74,14 @@ const Header: React.FC<IProps> = ({ history, toggleDrawer, logout }) => {
             <i className="fas fa-flag" style={iconStyle}></i>
           </span>
           <span>
-            <i
-              className="fas fa-cog"
-              style={iconStyle}
-              onClick={handleClickPopup}
-            ></i>
+            <i className="fas fa-cog" style={iconStyle}></i>
             <Menu
               keepMounted
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}
               onClose={handleClosePopup}
             >
+              <MenuItem>Profile</MenuItem>
               <MenuItem onClick={() => logout()}>Logout</MenuItem>
             </Menu>
           </span>

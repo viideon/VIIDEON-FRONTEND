@@ -4,6 +4,9 @@ import { types as authTypes } from "../Types/auth"
 let initialState: VideoState = {
   videoSaved: null,
   videoSend: null,
+  videos: [],
+  page: 0,
+  loadMore: true,
 };
 const videoReducer = (state = initialState, action: any) => {
   switch (action.type) {
@@ -35,9 +38,38 @@ const videoReducer = (state = initialState, action: any) => {
     case types.GET_USER_VIDEOS:
       return {
         ...state,
-        loadingVideos: true
+        loadingVideos: true,
+        page: state.page + 1,
+      }
+    case "LOADMORE_TRUE":
+      return {
+        ...state,
+        loadMore: true
+      }
+    case types.DISABLE_LOADMORE:
+      return {
+        ...state,
+        loadMore: false
+      }
+    case types.RESET_VIDEO_PAGE:
+      return { ...state, page: 0, videos: [], loadMore: true }
+    case types.SEARCH_USER_VIDEOS:
+      return {
+        ...state, loadingVideos: true, page: 1
       }
     case types.GET_USER_VIDEOS_SUCCESS:
+      return {
+        ...state,
+        videos: [...state.videos, ...action.payload],
+        loadingVideos: false
+      }
+    case "EMPTY_PAGE":
+      return {
+        ...state,
+        page: 0,
+        videos: []
+      }
+    case types.SEARCH_VIDEOS_SUCCESS:
       return {
         ...state,
         videos: action.payload,
@@ -76,6 +108,12 @@ const videoReducer = (state = initialState, action: any) => {
       return { ...state, progressEmail: false }
     case types.MULTIPLE_EMAIL_FAILED:
       return { ...state, progressEmail: false }
+    case types.DELETE_VIDEO:
+      return { ...state, deletingVideo: true }
+    case types.DELETE_VIDEO_FAILURE:
+      return { ...state, deletingVideo: false }
+    case types.DELETE_VIDEO_SUCCESS:
+      return { ...state, deletingVideo: false }
     default: {
       return state;
     }

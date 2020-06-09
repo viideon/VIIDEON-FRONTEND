@@ -44,11 +44,10 @@ class VideoTabHeader extends React.Component<IProps> {
           <Col xs="12" sm="12" md="8" lg="8" xl="8">
             <Row>
               <Col xs="12" sm="12" md="6">
-                <div id="headerVideo">
-                  {video && (
-                    <VideoPlayer url={video.url} thumbnail={video.thumbnail} />
-                  )}
-                </div>
+                {/* <div id="headerVideo"> */}
+                {video && (
+                  <VideoPlayer url={video.url} thumbnail={video.thumbnail} />
+                )}
               </Col>
               <Col xs="12" sm="12" md="6" id="headerText">
                 <h3>
@@ -99,7 +98,7 @@ class VideoTabHeader extends React.Component<IProps> {
             <br />
             <br />
             <InputGroup>
-              <Input placeholder="https://dubb.com/v/TpvPri" />
+              <Input placeholder="https://vidionpro.com" />
               <InputGroupAddon addonType="append">
                 <InputGroupText style={styles.inputContainer}>
                   <FaMailBulk style={styles.inputwrapper} />

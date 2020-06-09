@@ -24,7 +24,7 @@ class Dashboard extends Component<IProps> {
     showVideos: false
   };
   componentDidMount() {
-    this.props.getUserVideos();
+    // this.props.getUserVideos(1);
   }
   navigate = (show?: string) => {
     this.props.history.push({ pathname: "/video/create", show: show });
@@ -51,7 +51,7 @@ class Dashboard extends Component<IProps> {
           <Grid item xs={6} md={3}>
             <HeaderCard
               styles={Styles.headerCardOne}
-              Number={this.props.noOfVideos ? this.props.noOfVideos : 0}
+              Number={this.props.noOfVideos ? 0 : 0}
               Title="VIDEOS"
               iconBg="#368BC4"
             />
