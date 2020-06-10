@@ -69,3 +69,14 @@ export function resetPage() {
     type: types.RESET_VIDEO_PAGE
   }
 }
+export function getVideoCount() {
+  return {
+    type: types.COUNT_VIDEO
+  }
+}
+
+export function cleanSingleVideo() {
+  return {
+    type: types.CLEAN_SINGLEVIDEO
+  }
+}

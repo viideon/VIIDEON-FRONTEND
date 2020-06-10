@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { updateVideo } from "../../Redux/Actions/videos";
 import { VideoUpdate } from "../../Redux/Types/videos";
 import { config } from "../../config/aws";
-import { getVideoById } from "../../Redux/Selectors";
+// import { getVideoById } from "../../Redux/Selectors";
 import ThemeButton from "../../components/ThemeButton";
 import VideoPlayer from "../../components/VideoPlayer/index";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -138,9 +138,9 @@ class Editing extends React.Component<IProps, IState> {
 }
 
 const mapStateToProps = (state: any, ownProps: any) => {
-  const video = getVideoById(state, ownProps.videoId);
+  // const video = getVideoById(state, ownProps.videoId);
   return {
-    video: video,
+    video: state.video.singleVideo,
     isVideoUpdating: state.video.isVideoUpdating
   };
 };

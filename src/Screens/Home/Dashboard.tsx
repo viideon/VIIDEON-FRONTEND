@@ -7,15 +7,14 @@ import EditIcon from "@material-ui/icons/Edit";
 import HeaderCard from "../../components/HeaderCards";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { getVideosLength } from "../../Redux/Selectors";
-import { getUserVideos } from "../../Redux/Actions/videos";
+import { getVideoCount } from "../../Redux/Actions/videos";
 import Styles from "./styles";
 import "./styles.css";
 
 type IProps = {
   history: any;
-  noOfVideos: number;
-  getUserVideos: () => void;
+  videoCount: number;
+  getVideoCount: () => void;
 };
 
 class Dashboard extends Component<IProps> {
@@ -24,7 +23,7 @@ class Dashboard extends Component<IProps> {
     showVideos: false
   };
   componentDidMount() {
-    // this.props.getUserVideos(1);
+    this.props.getVideoCount();
   }
   navigate = (show?: string) => {
     this.props.history.push({ pathname: "/video/create", show: show });
@@ -51,7 +50,7 @@ class Dashboard extends Component<IProps> {
           <Grid item xs={6} md={3}>
             <HeaderCard
               styles={Styles.headerCardOne}
-              Number={this.props.noOfVideos ? 0 : 0}
+              Number={this.props.videoCount}
               Title="VIDEOS"
               iconBg="#368BC4"
             />
@@ -129,14 +128,13 @@ const iconStyle = {
   cursor: "pointer"
 };
 const mapStateToProps = (state: any) => {
-  let videoLength = getVideosLength(state);
   return {
-    noOfVideos: videoLength
+    videoCount: state.video.videoCount
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    getUserVideos: () => dispatch(getUserVideos())
+    getVideoCount: () => dispatch(getVideoCount())
   };
 };
 

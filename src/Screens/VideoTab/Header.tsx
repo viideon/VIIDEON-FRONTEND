@@ -19,7 +19,8 @@ import {
 } from "react-icons/fa";
 import { FiExternalLink } from "react-icons/fi";
 import { connect } from "react-redux";
-import { getVideoById } from "../../Redux/Selectors";
+// import { getVideoById } from "../../Redux/Selectors";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import * as Constants from "../../constants/constants";
 import VideoPlayer from "../../components/VideoPlayer";
@@ -44,14 +45,23 @@ class VideoTabHeader extends React.Component<IProps> {
           <Col xs="12" sm="12" md="8" lg="8" xl="8">
             <Row>
               <Col xs="12" sm="12" md="6">
-                {/* <div id="headerVideo"> */}
-                {video && (
+                {video ? (
                   <VideoPlayer url={video.url} thumbnail={video.thumbnail} />
+                ) : (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      textAlign: "center"
+                    }}
+                  >
+                    <CircularProgress color="secondary" />
+                  </div>
                 )}
               </Col>
               <Col xs="12" sm="12" md="6" id="headerText">
                 <h3>
-                  {video.title}
+                  {video && video.title}
                   <i>
                     <FaPencilAlt style={{ fontSize: "15px" }} />
                   </i>
@@ -116,9 +126,9 @@ class VideoTabHeader extends React.Component<IProps> {
 }
 
 const mapStateToProps = (state: any, ownProps: any) => {
-  const video = getVideoById(state, ownProps.videoId);
+  // const video = getVideoById(state, ownProps.videoId);
   return {
-    video: video
+    video: state.video.singleVideo
   };
 };
 

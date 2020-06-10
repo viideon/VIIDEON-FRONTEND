@@ -25,6 +25,10 @@ const DELETE_VIDEO_SUCCESS = "DELETE_VIDEO_SUCCESS";
 const DELETE_VIDEO_FAILURE = "DELETE_VIDEO_FAILURE";
 const SEARCH_USER_VIDEOS = "SEARCH_USER_VIDEOS";
 const SEARCH_VIDEOS_SUCCESS = "SEARCH_VIDEOS_SUCCESS";
+const COUNT_VIDEO = "GET_VIDEO_COUNT";
+const COUNT_VIDEO_SUCCESS = "COUNT_VIDEO_SUCCESS";
+const COUNT_VIDEO_FAIL = "COUNT_VIDEO_FAIL";
+const CLEAN_SINGLEVIDEO = "CLEAN_SINGLEVIDEO";
 
 export const types = {
   SEARCH_USER_VIDEOS,
@@ -53,7 +57,11 @@ export const types = {
   DELETE_VIDEO,
   DELETE_VIDEO_SUCCESS,
   DELETE_VIDEO_FAILURE,
-  SEARCH_VIDEOS_SUCCESS
+  SEARCH_VIDEOS_SUCCESS,
+  COUNT_VIDEO,
+  COUNT_VIDEO_SUCCESS,
+  COUNT_VIDEO_FAIL,
+  CLEAN_SINGLEVIDEO
 }
 export interface EmailVideo {
   url?: string;
@@ -90,6 +98,7 @@ export interface VideoState {
   page: number;
   videos?: any;
   loadMore: boolean;
+  videoCount: number;
 }
 // Action interfaces 
 export interface VideoEmailAction {

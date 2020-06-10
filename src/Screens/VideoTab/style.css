@@ -80,6 +80,7 @@
 
 .wrapperVideoTab {
   padding-top: 5%;
+  position: relative;
 }
 
 @media screen and (max-width: 580px) {

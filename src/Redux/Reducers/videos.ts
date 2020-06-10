@@ -7,6 +7,7 @@ let initialState: VideoState = {
   videos: [],
   page: 0,
   loadMore: true,
+  videoCount: 0
 };
 const videoReducer = (state = initialState, action: any) => {
   switch (action.type) {
@@ -82,6 +83,11 @@ const videoReducer = (state = initialState, action: any) => {
         error: action.payload,
         loadingVideos: false
       }
+    case types.COUNT_VIDEO_SUCCESS:
+      return {
+        ...state,
+        videoCount: action.payload
+      }
     case types.UPDATE_VIDEO:
       return { ...state, isVideoUpdating: true }
     case types.UPDATE_VIDEO_SUCCESS:
@@ -114,6 +120,8 @@ const videoReducer = (state = initialState, action: any) => {
       return { ...state, deletingVideo: false }
     case types.DELETE_VIDEO_SUCCESS:
       return { ...state, deletingVideo: false }
+    case types.CLEAN_SINGLEVIDEO:
+      return { ...state, singleVideo: null }
     default: {
       return state;
     }

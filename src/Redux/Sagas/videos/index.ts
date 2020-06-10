@@ -1,6 +1,6 @@
 import { put, takeEvery, takeLatest, call, select } from 'redux-saga/effects';
 import { types } from '../../Types/videos';
-import { sendVideoToEmail, saveVideo, getVideosByUserId, getVideosByTitle, updateUserVideo, deleteVideoById, getSingleVideo, sendMultiEmails } from './api';
+import { sendVideoToEmail, saveVideo, getVideosByUserId, videoCount, getVideosByTitle, updateUserVideo, deleteVideoById, getSingleVideo, sendMultiEmails, deleteDataAws } from './api';
 import { selectID, selectVideos, getPageNo, isLoadMore } from "../../Selectors/index"
 import { toast } from 'react-toastify';
 
@@ -149,12 +149,10 @@ export function* deleteVideo(action: any) {
     let videoId = action.payload;
     let pageNo = yield select(getPageNo);
     let loadNew = yield select(isLoadMore);
-    console.log("loadnew", loadNew);
     const callObj = {
         videoId: videoId,
         pageNo: pageNo
     }
-
     try {
         const result = yield call(deleteVideoById, callObj);
         console.log("result", result);
@@ -162,8 +160,13 @@ export function* deleteVideo(action: any) {
             yield put({ type: types.DELETE_VIDEO_SUCCESS });
             const videos = yield select(selectVideos);
             const updatedVideos = videos.filter((video: any) => video._id !== videoId);
+            const removedVideo = videos.find((video: any) => video._id === videoId);
             if (result.data.nextVideo && loadNew) {
                 updatedVideos.push(result.data.nextVideo);
+            }
+            deleteDataAws(removedVideo.url);
+            if (removedVideo.thumbnail) {
+                deleteDataAws(removedVideo.thumbnail);
             }
             yield put({ type: types.UPDATE_VIDEO_SUCCESS, payload: updatedVideos })
             toast.info("Video deleted");
@@ -178,6 +181,22 @@ export function* deleteVideo(action: any) {
     }
 }
 
+export function* getVideoCount() {
+    try {
+        const userId = yield select(selectID);
+        const result = yield call(videoCount, userId);
+        if (result.status === 200) {
+            yield put({ type: types.COUNT_VIDEO_SUCCESS, payload: result.data.count });
+        } else {
+            yield put({ type: types.COUNT_VIDEO_FAIL });
+        }
+
+    }
+    catch (error) {
+        toast.error("Failed to connect ,refresh");
+        yield put({ type: types.COUNT_VIDEO_FAIL });
+    }
+}
 
 export function* videoWatcher() {
     yield takeEvery(types.VIDEO_SEND_REQUEST, sendVideoOnEmail);
@@ -188,4 +207,5 @@ export function* videoWatcher() {
     yield takeEvery(types.DELETE_VIDEO, deleteVideo);
     yield takeEvery(types.GET_VIDEO, getVideo);
     yield takeEvery(types.SEND_MULTIPLE_EMAIL, sendMultipleEmail);
+    yield takeEvery(types.COUNT_VIDEO, getVideoCount);
 }

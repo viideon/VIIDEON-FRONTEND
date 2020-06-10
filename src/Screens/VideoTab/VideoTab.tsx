@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { getVideo, cleanSingleVideo } from "../../Redux/Actions/videos";
 import {
   TabContent,
   TabPane,
@@ -26,12 +28,19 @@ import Analytics from "./Analytics";
 import * as Constants from "../../constants/constants";
 import "./style.css";
 
-const VideoTab = ({ match: { params }, history }: any) => {
+const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
   const [activeTab, setActiveTab] = useState("1");
 
   const toggle = (tab: any) => {
     if (activeTab !== tab) setActiveTab(tab);
   };
+
+  useEffect(() => {
+    getVideo(params.id);
+    return () => {
+      cleanSingleVideo();
+    };
+  }, []);
 
   return (
     <div className="wrapperVideoTab">
@@ -165,4 +174,15 @@ const VideoTab = ({ match: { params }, history }: any) => {
     </div>
   );
 };
-export default VideoTab;
+const mapStateToProps = (state: any) => {
+  return {
+    loadingVideo: state.video.loadingVideo
+  };
+};
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    getVideo: (id: any) => dispatch(getVideo(id)),
+    cleanSingleVideo: () => dispatch(cleanSingleVideo())
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(VideoTab);

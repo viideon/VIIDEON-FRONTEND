@@ -1,5 +1,7 @@
 import * as CONSTANTS from '../../../constants/baseUrl';
-import API from "../../../lib/Api"
+import API from "../../../lib/Api";
+import AWS from "aws-sdk";
+import { config } from "../../../config/aws";
 
 export function* video(user: any) {
    const opt = {
@@ -42,4 +44,26 @@ export async function deleteVideoById(callObj: any) {
 }
 export async function getSingleVideo(id: string) {
    return API.get("/video/single", { params: { id } });
+}
+export async function videoCount(id: string) {
+   return API.get("/video/count", { params: { id: id } });
+}
+
+export async function deleteDataAws(imageUrl: any) {
+   if (imageUrl) {
+      try {
+         const s3 = new AWS.S3(config);
+         const index = imageUrl.indexOf('.com/')
+         imageUrl = imageUrl.substring(index + 5)
+         const options = {
+            Bucket: config.bucketName,
+            Key: imageUrl
+         };
+         s3.deleteObject(options, function (err, data) {
+            console.log('Image deleted', err, data)
+         })
+      } catch (e) {
+         console.log("Exceptionis ", e)
+      }
+   }
 }
