@@ -1,6 +1,8 @@
 import React, { FC, useState } from "react";
 import { connect } from "react-redux";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+// import "react-aspect-ratio/aspect-ratio.css";
+// import AspectRatio from "react-aspect-ratio";
 import VideoInfo from "../VideoInfo";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -106,3 +108,15 @@ const mapStateToProps = (state: any) => {
   };
 };
 export default connect(mapStateToProps)(VideoCard);
+
+/* <AspectRatio ratio="16/9">
+          {/* <img
+            src={thumbnail ? thumbnail : thumbnailDefault}
+            alt="preview"
+            style={{
+              objectFit: "contain",
+              maxHeight: "100%"
+              // maxWidth: "100%"
+            }}
+          />
+        </AspectRatio> */

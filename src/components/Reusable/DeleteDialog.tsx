@@ -35,9 +35,11 @@ const DeleteDialog: React.FC<IProps> = ({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={closeDeleteDialog} color="default">
-          Cancel
-        </Button>
+        {!deletingVideo && (
+          <Button onClick={closeDeleteDialog} color="default">
+            Cancel
+          </Button>
+        )}
 
         {deletingVideo ? (
           <span style={{ paddingLeft: "10px", paddingRight: "10px" }}>

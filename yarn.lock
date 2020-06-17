@@ -3135,6 +3135,11 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001035, can
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001050.tgz#11218af4b6b85dc1089536f31e10e3181e849e71"
   integrity sha512-OvGZqalCwmapci76ISq5q4kuAskb1ebqF3FEQBv1LE1kWht0pojlDDqzFlmk5jgYkuZN7MNZ1n+ULwe/7MaDNQ==
 
+canvas-txt@^2.0.9:
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/canvas-txt/-/canvas-txt-2.0.9.tgz#ac217cea1a89d060bd5df72755fdff24d7d43249"
+  integrity sha512-CIFOmfKVux11IT+fQEwWQe/oInMytocYe+FVhCtjybcBh7DzuBaXChxAlizveS7LesE4a/9Z8oRv4OFZFm0Vkg==
+
 capture-exit@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/capture-exit/-/capture-exit-2.0.0.tgz#fb953bfaebeb781f62898239dabb426d08a509a4"
@@ -9708,6 +9713,11 @@ react-app-polyfill@^1.0.6:
     raf "^3.4.1"
     regenerator-runtime "^0.13.3"
     whatwg-fetch "^3.0.0"
+
+react-aspect-ratio@^1.0.42:
+  version "1.0.42"
+  resolved "https://registry.yarnpkg.com/react-aspect-ratio/-/react-aspect-ratio-1.0.42.tgz#04bf3e4d11c484bc5638ef5b22b84fb428ebc809"
+  integrity sha512-TlDS7GZ6Fot6yMo1OYWrcxI/cggGsU4xsfXLastv6FfcZq0e99LeMq+OUbrlEjtOzi00QzNvkoj5T2vDqJNAmw==
 
 react-circular-progressbar@^2.0.3:
   version "2.0.3"

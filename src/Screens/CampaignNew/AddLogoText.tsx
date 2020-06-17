@@ -1,7 +1,9 @@
 import React from "react";
 import { Grid, Button } from "@material-ui/core";
-import { toast } from "react-toastify";
 import { Input } from "reactstrap";
+import canvasTxt from "canvas-txt";
+import { CompactPicker } from "react-color";
+import { toast } from "react-toastify";
 import "./style.css";
 
 interface IProps {
@@ -15,6 +17,12 @@ interface IState {
   logoY: number | string;
   text: string;
   btnText: string;
+  textColor: string;
+  textX: number | string;
+  textY: number | string;
+  fontSize: number;
+  vAlign: string;
+  align: string;
 }
 class AddLogo extends React.Component<IProps, IState> {
   constructor(props: any) {
@@ -24,7 +32,13 @@ class AddLogo extends React.Component<IProps, IState> {
       logoX: 0,
       logoY: 0,
       text: "",
-      btnText: "Skip"
+      textX: 5,
+      textY: 5,
+      btnText: "Skip",
+      textColor: "#fff",
+      fontSize: 40,
+      vAlign: "top",
+      align: "left"
     };
     this.draw = this.draw.bind(this);
   }
@@ -105,7 +119,6 @@ class AddLogo extends React.Component<IProps, IState> {
     this.mediaRecorder.onstop = function(e: any) {
       let blob = new Blob(that.recordedBlobs, { type: "video/mp4" });
       that.recordedBlobs = [];
-      // let videoURL = URL.createObjectURL(blob);
       that.props.saveEditedVideo(blob);
       that.setState({ btnText: "Finalize" });
       toast.success("video edited click finalize to upload and send");
@@ -120,11 +133,28 @@ class AddLogo extends React.Component<IProps, IState> {
     height: any
   ): any {
     if (video.paused || video.ended) return false;
-
     context2.drawImage(video, 0, 0, width, height);
     context2.drawImage(img, this.state.logoX, this.state.logoY, 70, 70);
-    context2.font = "30px Arial";
-    context2.fillText(this.state.text, 200, 200);
+    // context2.font = `${this.state.fontSize}px Arial`;
+    // context2.font = this.state.fontSize;
+    // context2.fillStyle = this.state.textColor;
+    // context2.fillText(this.state.text, this.state.textX, this.state.textY);
+    // context2.strokeStyle = this.state.textColor;
+    context2.fillStyle = this.state.textColor;
+    // canvasTxt.font = "Verdana";
+    canvasTxt.fontSize = this.state.fontSize;
+    canvasTxt.vAlign = this.state.vAlign;
+    canvasTxt.align = this.state.align;
+    canvasTxt.lineHeight = 20;
+    // canvasTxt.debug = true; //shows debug info
+    canvasTxt.drawText(
+      context2,
+      this.state.text,
+      this.state.textX,
+      this.state.textY,
+      width - 10,
+      height - 10
+    );
     let idata = context2.getImageData(0, 0, width, height);
     let that = this;
     context.putImageData(idata, 0, 0);
@@ -163,22 +193,58 @@ class AddLogo extends React.Component<IProps, IState> {
         return;
     }
   };
+  setTextPosition = (position: string) => {
+    // let x, y: any;
+    switch (position) {
+      case "top-left":
+        // x = (this.canvas.width / 100) * 1;
+        // y = (this.canvas.height / 100) * 1;
+        this.setState({ align: "left", vAlign: "top" });
+        return;
+      case "bottom-left":
+        // x = this.canvas.width / 100;
+        // y = (this.canvas.height / 100) * 90;
+        this.setState({ align: "left", vAlign: "bottom" });
+        return;
+      case "bottom-right":
+        // x = (this.canvas.width / 100) * 90;
+        // y = (this.canvas.height / 100) * 90;
+        this.setState({ align: "right", vAlign: "bottom" });
+        return;
+      case "top-right":
+        // x = (this.canvas.width / 100) * 90;
+        // y = this.canvas.height / 100;
+        this.setState({ align: "right", vAlign: "top" });
+        return;
+      case "center":
+        // x = this.canvas.width / 2;
+        // y = this.canvas.height / 2;
+        this.setState({ align: "center", vAlign: "middle" });
+        return;
+      default:
+        return;
+    }
+  };
   changeText = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ text: e.target.value });
+  };
+  handleChangeColor = (color: any) => {
+    this.setState({ textColor: color.hex });
+  };
+  changeFontSize = (e: any) => {
+    this.setState({ fontSize: e.target.value });
   };
   render() {
     return (
       <Grid container>
         <Grid item xs={1} sm={1} md={1} lg={1}></Grid>
         <Grid item xs={10} sm={10} md={10} lg={10}>
-          <h3 className="recordHeading">Add a Logo</h3>
+          <h3 className="recordHeading">Add Logo and Text to Video</h3>
           <Grid container>
             <Grid item xs={12} sm={12} md={6} lg={6}>
-              {" "}
               <video ref="video" controls width="100%" />
             </Grid>
             <Grid item xs={12} sm={12} md={6} lg={6}>
-              {" "}
               <canvas ref="canvas" />
             </Grid>
           </Grid>
@@ -207,7 +273,7 @@ class AddLogo extends React.Component<IProps, IState> {
               >
                 Upload
               </Button>
-              <h5 className="positionTxt">Change Position</h5>
+              <h5 className="positionTxt">Change Logo Position</h5>
               <Button
                 style={logoPositionBtn}
                 onClick={() => this.setIconPosition("top-left")}
@@ -242,6 +308,62 @@ class AddLogo extends React.Component<IProps, IState> {
                 value={this.state.text}
                 onChange={this.changeText}
                 style={{ width: "80%" }}
+              />
+              <h5 className="positionTxt">Change Text Position</h5>
+              <Button
+                style={logoPositionBtn}
+                onClick={() => this.setTextPosition("center")}
+              >
+                Center
+              </Button>
+              <Button
+                style={logoPositionBtn}
+                onClick={() => this.setTextPosition("top-left")}
+              >
+                Top Left
+              </Button>
+              <Button
+                style={logoPositionBtn}
+                onClick={() => this.setTextPosition("top-right")}
+              >
+                Top Right
+              </Button>
+              <Button
+                style={logoPositionBtn}
+                onClick={() => this.setTextPosition("bottom-left")}
+              >
+                Bottom Left
+              </Button>
+              <Button
+                style={logoPositionBtn}
+                onClick={() => this.setTextPosition("bottom-right")}
+              >
+                Bottom Right
+              </Button>
+              <h5 className="positionTxt">Select Font Size</h5>
+              <div style={{ display: "flex", flexWrap: "nowrap" }}>
+                <input
+                  type="range"
+                  id="font"
+                  name="font"
+                  min="10"
+                  max="100"
+                  style={{ width: "80%" }}
+                  value={this.state.fontSize}
+                  onChange={this.changeFontSize}
+                ></input>
+                <span style={{ width: "10%", padding: "10px" }}>
+                  {this.state.fontSize}px
+                </span>
+              </div>
+
+              <h4 className="addLogoMessage">
+                Choose Text Color
+                <span className="optionalText">(optional)</span>
+              </h4>
+              <CompactPicker
+                color={this.state.textColor}
+                onChangeComplete={this.handleChangeColor}
               />
             </Grid>
           </Grid>

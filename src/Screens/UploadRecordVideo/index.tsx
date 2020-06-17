@@ -68,7 +68,6 @@ class UploadRecord extends Component<IProps, IState> {
     super(props);
     this.onDrop = files => {
       this.props.toggleSendVariable();
-      console.log("files", files);
       this.getThumbnailfromFile(files[0]);
       this.setState({ files });
     };
@@ -161,8 +160,6 @@ class UploadRecord extends Component<IProps, IState> {
           toast.error(err);
           return;
         }
-        // toast.info("thumbnail uploaded");
-        // const url = that.state.urlRecord;
         const video = {
           title: that.state.title,
           url: that.state.urlRecord,
@@ -232,7 +229,6 @@ class UploadRecord extends Component<IProps, IState> {
     } else if (reg.test(this.state.recieverEmail) === false) {
       return toast.warn("Invalid Email");
     } else {
-      // const url = that.state.urlRecord;
       const recieverEmail = this.state.recieverEmail;
       const video = {
         id: this.props.savedVideoId,
@@ -251,18 +247,10 @@ class UploadRecord extends Component<IProps, IState> {
     const that = this;
 
     this.video.addEventListener("loadeddata", (e: any) => {
-      //Video should now be loaded but we can add a second check
-      console.log("called");
-      console.log("video state", this.video);
-
-      console.log("read state called");
       setTimeout(function() {
         that.canvas.getContext("2d").drawImage(that.video, 0, 0, 1280, 720);
         that.canvas.toBlob((blob: any) => {
           that.setState({ thumbnail: blob });
-          // alert(window.URL.createObjectURL(blob));
-          // console.log("blob", blob);
-          // console.log(URL.createObjectURL(blob));
         }, "image/jpeg");
       }, 2000);
     });

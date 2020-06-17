@@ -34,6 +34,7 @@ type IProps = {
   deleteVideo: (id: any) => void;
   emptyPage: () => void;
   deletingVideo: boolean;
+  showDeleteDialog: boolean;
 };
 
 class VideoSection extends Component<IProps> {
@@ -45,8 +46,16 @@ class VideoSection extends Component<IProps> {
   componentDidMount() {
     this.props.getUserVideos();
   }
-  UNSAFE_componentWillMount() {
+  // UNSAFE_componentWillMount() {
+  //   this.props.resetPage();
+  // }
+  componentWillUnmount() {
     this.props.resetPage();
+  }
+  static getDerivedStateFromProps(nextProps: any) {
+    if (nextProps.showDeleteDialog === false) {
+      return { deleteDialog: false };
+    } else return null;
   }
   loadMore = () => {
     this.props.getUserVideos();
@@ -87,6 +96,9 @@ class VideoSection extends Component<IProps> {
   render() {
     const { userVideos, loadingVideos } = this.props;
     const { gridView } = this.state;
+    // if (showDeleteDialog === false) {
+    //   this.closeDeleteDialog();
+    // }
     return (
       <div className="VideoComponent">
         <div className="mainHeadingWrapper">
@@ -185,7 +197,8 @@ const mapStateToProps = (state: any) => {
     userVideos: state.video.videos,
     loadingVideos: state.video.loadingVideos,
     loadMore: state.video.loadMore,
-    deletingVideo: state.video.deletingVideo
+    deletingVideo: state.video.deletingVideo,
+    showDeleteDialog: state.video.showDeleteDialog
   };
 };
 const mapDispatchToProps = (dispatch: any) => {

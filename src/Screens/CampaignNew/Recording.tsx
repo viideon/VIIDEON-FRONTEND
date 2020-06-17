@@ -8,10 +8,12 @@ import Counter from "./Counter";
 import "./style.css";
 
 const hasGetUserMedia = !!navigator.getUserMedia;
+
 interface IProps {
   moveToNextStep: () => void;
   saveVideo: (blob: any) => void;
 }
+declare var getSeekableBlob: any;
 class Recording extends React.Component<IProps> {
   state = {
     recordingStatus: false,
@@ -22,7 +24,8 @@ class Recording extends React.Component<IProps> {
     trackNo: 1,
     showTimer: false,
     count: 0,
-    timerTimeout: 0
+    timerTimeout: 0,
+    disableRecordBtn: false
   };
   recordVideo: any;
   video: any;
@@ -56,7 +59,7 @@ class Recording extends React.Component<IProps> {
     this.captureUserMedia((stream: any) => {
       this.recordVideo = RecordRTC(stream, {
         type: "video",
-        mimeType: "video/webm"
+        mimeType: "video/webm;codecs=h264"
       });
       this.localStream = stream;
       this.video.srcObject = this.localStream;
@@ -65,7 +68,7 @@ class Recording extends React.Component<IProps> {
   };
 
   handleRecording = () => {
-    this.setState({ showCountdown: true });
+    this.setState({ showCountdown: true, disableRecordBtn: true });
     setTimeout(() => this.startRecord(), 3000);
   };
   startRecord = () => {
@@ -88,7 +91,11 @@ class Recording extends React.Component<IProps> {
 
   stopRecord = () => {
     clearInterval(this.state.timerTimeout);
-    this.setState({ showTimer: false, recordingStatus: false });
+    this.setState({
+      showTimer: false,
+      recordingStatus: false,
+      disableRecordBtn: false
+    });
     this.recordVideo.pauseRecording();
     if (this.state.trackNo === 1) {
       toast.info("Intro recorded");
@@ -109,6 +116,12 @@ class Recording extends React.Component<IProps> {
       this.setState({ trackNo: 3 });
     } else {
       this.stopStream();
+      //for fixing seekable blob
+      // RecordRTC.getSeekableBlob(this.recordVideo.getBlob(), function(
+      //   seekableBlob: any
+      // ) {
+      //   console.log("seekable Blob", URL.createObjectURL(seekableBlob));
+      // });
       this.recordVideo.stopRecording(() => {
         this.props.saveVideo(this.recordVideo.blob);
         this.setState({
@@ -179,7 +192,7 @@ class Recording extends React.Component<IProps> {
                 variant="contained"
                 size="large"
                 color="primary"
-                disabled={this.state.recordingStatus}
+                disabled={this.state.disableRecordBtn}
               >
                 {this.nameTrack()}
               </Button>

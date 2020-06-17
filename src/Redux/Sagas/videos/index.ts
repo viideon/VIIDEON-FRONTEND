@@ -48,7 +48,7 @@ function* getUserVideos() {
     }
     try {
         const result = yield call(getVideosByUserId, queryObj);
-        // yield put({ type: "LOADMORE_TRUE" });
+        yield put({ type: "LOADMORE_TRUE" });
         if (result.status === 200 && result.data.message.length < 9) {
             yield put({ type: types.GET_USER_VIDEOS_SUCCESS, payload: result.data.message });
             yield put({ type: types.DISABLE_LOADMORE });
@@ -94,10 +94,10 @@ function* updateVideo(action: any) {
         const result = yield call(updateUserVideo, action.payload);
 
         if (result.status === 200) {
-            const videos = yield select(selectVideos);
+            // const videos = yield select(selectVideos);
             const responseVideo = result.data.video;
-            const updatedVideos = videos.map((video: any) => ((video._id === responseVideo._id ? responseVideo : video)));
-            yield put({ type: types.UPDATE_VIDEO_SUCCESS, payload: updatedVideos })
+            // const updatedVideos = videos.map((video: any) => ((video._id === responseVideo._id ? responseVideo : video)));
+            yield put({ type: types.UPDATE_VIDEO_SUCCESS, payload: responseVideo })
             toast.success("Updated");
         }
         else {
@@ -168,10 +168,12 @@ export function* deleteVideo(action: any) {
             if (removedVideo.thumbnail) {
                 deleteDataAws(removedVideo.thumbnail);
             }
-            yield put({ type: types.UPDATE_VIDEO_SUCCESS, payload: updatedVideos })
+            yield put({ type: types.UPDATE_VIDEOS_AFTEREDELETE, payload: updatedVideos });
+            yield put({ type: "ENABLE_DELETEDIALOG" });
             toast.info("Video deleted");
         } else {
             yield put({ type: types.DELETE_VIDEO_FAILURE });
+            yield put({ type: "ENABLE_DELETEDIALOG" });
             toast.error("Failed to delete video");
         }
     }

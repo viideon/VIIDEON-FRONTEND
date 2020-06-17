@@ -29,6 +29,8 @@ const COUNT_VIDEO = "GET_VIDEO_COUNT";
 const COUNT_VIDEO_SUCCESS = "COUNT_VIDEO_SUCCESS";
 const COUNT_VIDEO_FAIL = "COUNT_VIDEO_FAIL";
 const CLEAN_SINGLEVIDEO = "CLEAN_SINGLEVIDEO";
+const ENABLE_SAVEBTN = "ENABLE_SAVEBTN";
+const UPDATE_VIDEOS_AFTEREDELETE = "UPDATE_VIDEOS_AFTEREDELETE";
 
 export const types = {
   SEARCH_USER_VIDEOS,
@@ -61,7 +63,9 @@ export const types = {
   COUNT_VIDEO,
   COUNT_VIDEO_SUCCESS,
   COUNT_VIDEO_FAIL,
-  CLEAN_SINGLEVIDEO
+  CLEAN_SINGLEVIDEO,
+  ENABLE_SAVEBTN,
+  UPDATE_VIDEOS_AFTEREDELETE
 }
 export interface EmailVideo {
   url?: string;
@@ -99,6 +103,7 @@ export interface VideoState {
   videos?: any;
   loadMore: boolean;
   videoCount: number;
+  addSearched: boolean,
 }
 // Action interfaces 
 export interface VideoEmailAction {

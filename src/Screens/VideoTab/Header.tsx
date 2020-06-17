@@ -19,7 +19,6 @@ import {
 } from "react-icons/fa";
 import { FiExternalLink } from "react-icons/fi";
 import { connect } from "react-redux";
-// import { getVideoById } from "../../Redux/Selectors";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import * as Constants from "../../constants/constants";

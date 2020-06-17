@@ -13,7 +13,8 @@ import { toast } from "react-toastify";
 import {
   sendVideoToEmail,
   saveVideo,
-  sendMultipleEmails
+  sendMultipleEmails,
+  toggleSendVariable
 } from "../../Redux/Actions/videos";
 import {
   VideoState,
@@ -36,6 +37,7 @@ interface IProps {
   sendMultipleEmail: (emailVideoObj: any) => void;
   savedVideoId: string;
   progressEmail: boolean;
+  toggleSendVariable: () => void;
 }
 
 class SendSave extends React.Component<IProps> {
@@ -45,11 +47,28 @@ class SendSave extends React.Component<IProps> {
     emails: [],
     recieverEmail: "",
     videoProgress: false,
-    progressVideo: 0
+    progressVideo: 0,
+    thumbnail: ""
   };
+  canvas: any;
   componentDidMount() {
+    this.props.toggleSendVariable();
     const video: any = this.refs.video;
     video.src = URL.createObjectURL(this.props.previewVideo);
+    this.canvas = this.refs.canvas;
+    this.canvas.width = 1280;
+    this.canvas.height = 720;
+    const that = this;
+
+    video.addEventListener("loadeddata", (e: any) => {
+      setTimeout(function() {
+        that.canvas.getContext("2d").drawImage(video, 0, 0, 1280, 720);
+        that.canvas.toBlob((blob: any) => {
+          console.log("blob", blob);
+          that.setState({ thumbnail: blob });
+        }, "image/jpeg");
+      }, 2000);
+    });
   }
   saveVideo = () => {
     if (this.state.title === "") {
@@ -64,6 +83,12 @@ class SendSave extends React.Component<IProps> {
       Key: Date.now().toString() + ".webm",
       Body: this.props.previewVideo
     };
+    var thumbnailOptions = {
+      Bucket: config.bucketName,
+      ACL: config.ACL,
+      Key: Date.now().toString() + ".jpeg",
+      Body: this.state.thumbnail
+    };
     const that = this;
     s3.upload(options, function(err: any, data: any) {
       if (err) {
@@ -72,13 +97,20 @@ class SendSave extends React.Component<IProps> {
         return;
       }
       that.setState({ urlRecord: data.Location });
-      const video = {
-        url: that.state.urlRecord,
-        userId: that.props.auth!.user!._id,
-        title: that.state.title
-      };
-      that.setState({ videoProgress: false });
-      that.props.saveVideo(video);
+      s3.upload(thumbnailOptions, function(err: any, data: any) {
+        if (err) {
+          toast.error(err);
+          return;
+        }
+        const video = {
+          title: that.state.title,
+          url: that.state.urlRecord,
+          userId: that.props.auth!.user!._id,
+          thumbnail: data.Location
+        };
+        that.setState({ videoProgress: false });
+        that.props.saveVideo(video);
+      });
     }).on("httpUploadProgress", function(progress) {
       let uploaded: number = (progress.loaded * 100) / progress.total;
       that.setState({ progressVideo: uploaded });
@@ -139,6 +171,7 @@ class SendSave extends React.Component<IProps> {
       emails: this.state.emails.filter((email: string) => email !== delEmail)
     });
   };
+
   render() {
     let { videoSaved, loading } = this.props.videoUser;
     return (
@@ -154,7 +187,7 @@ class SendSave extends React.Component<IProps> {
             {this.props.progressEmail && <CircularProgress />}
           </div>
           <div id="formInput">
-            {videoSaved === null && (
+            {videoSaved !== true && (
               <div>
                 {this.state.videoProgress && (
                   <LinearProgress
@@ -182,7 +215,6 @@ class SendSave extends React.Component<IProps> {
                 </Button>
               </div>
             )}
-
             {videoSaved === true && (
               <div>
                 <FormGroup>
@@ -226,6 +258,10 @@ class SendSave extends React.Component<IProps> {
               </div>
             )}
           </div>
+          <canvas
+            ref="canvas"
+            style={{ position: "absolute", left: "-2000px" }}
+          />
         </Grid>
         <Grid item xs={1} sm={1} md={3} lg={3}></Grid>
       </Grid>
@@ -245,6 +281,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     sendVideoToEmail: (video: EmailVideo) => dispatch(sendVideoToEmail(video)),
     saveVideo: (video: VideoSave) => dispatch(saveVideo(video)),
+    toggleSendVariable: () => dispatch(toggleSendVariable()),
     sendMultipleEmail: (emailVideoObj: MultiEmail) =>
       dispatch(sendMultipleEmails(emailVideoObj))
   };

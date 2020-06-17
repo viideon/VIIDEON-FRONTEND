@@ -11,6 +11,7 @@ class VideoPreview extends React.Component<IProps> {
     const video: any = this.refs.videoPreview;
     video.src = URL.createObjectURL(this.props.previewVideo);
   }
+
   render() {
     return (
       <Grid container>

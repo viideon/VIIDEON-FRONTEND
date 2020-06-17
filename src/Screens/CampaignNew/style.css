@@ -94,7 +94,11 @@
 #formInput input {
   padding: 8px !important;
 }
-
+.optionalText {
+  font-size: 10px;
+  color: #636363;
+  font-weight: 400;
+}
 @media (max-width: 500px) {
   .btnDoubleWrap {
     display: flex;

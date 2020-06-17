@@ -7,7 +7,8 @@ let initialState: VideoState = {
   videos: [],
   page: 0,
   loadMore: true,
-  videoCount: 0
+  videoCount: 0,
+  addSearched: true,
 };
 const videoReducer = (state = initialState, action: any) => {
   switch (action.type) {
@@ -56,26 +57,31 @@ const videoReducer = (state = initialState, action: any) => {
       return { ...state, page: 0, videos: [], loadMore: true }
     case types.SEARCH_USER_VIDEOS:
       return {
-        ...state, loadingVideos: true, page: 1
+        ...state, loadingVideos: true, page: 1, addSearched: true
       }
     case types.GET_USER_VIDEOS_SUCCESS:
       return {
         ...state,
         videos: [...state.videos, ...action.payload],
-        loadingVideos: false
+        loadingVideos: false,
       }
     case "EMPTY_PAGE":
       return {
         ...state,
         page: 0,
-        videos: []
+        videos: [],
+        addSearched: false
       }
+
     case types.SEARCH_VIDEOS_SUCCESS:
-      return {
-        ...state,
-        videos: action.payload,
-        loadingVideos: false
+      if (state.addSearched) {
+        return {
+          ...state,
+          videos: action.payload,
+          loadingVideos: false
+        }
       }
+      return state;
 
     case types.GET_USER_VIDEOS_FAILED:
       return {
@@ -91,15 +97,17 @@ const videoReducer = (state = initialState, action: any) => {
     case types.UPDATE_VIDEO:
       return { ...state, isVideoUpdating: true }
     case types.UPDATE_VIDEO_SUCCESS:
-      return { ...state, videos: action.payload, isVideoUpdating: false }
+      return { ...state, singleVideo: action.payload, isVideoUpdating: false }
     case types.UPDATE_VIDEO_FAIL:
       return { ...state, isVideoUpdating: false }
+    case types.ENABLE_SAVEBTN:
+      return { ...state, disableBtn: false }
     case types.VIDEO_SAVE:
-      return { ...state, loading: true, videoSaved: null }
+      return { ...state, loading: true, videoSaved: null, disableBtn: true }
     case types.VIDEO_SAVE_SUCESS:
       return { ...state, loading: false, videoSaved: true };
     case types.VIDEO_SAVE_FAILURE:
-      return { ...state, loading: false, videoSaved: false };
+      return { ...state, loading: false, videoSaved: false, disableBtn: false };
     case types.GET_VIDEO:
       return { ...state, loadingVideo: true }
     case types.GET_VIDEO_SUCCESS:
@@ -115,11 +123,15 @@ const videoReducer = (state = initialState, action: any) => {
     case types.MULTIPLE_EMAIL_FAILED:
       return { ...state, progressEmail: false }
     case types.DELETE_VIDEO:
-      return { ...state, deletingVideo: true }
+      return { ...state, deletingVideo: true, }
     case types.DELETE_VIDEO_FAILURE:
-      return { ...state, deletingVideo: false }
+      return { ...state, deletingVideo: false, showDeleteDialog: false }
     case types.DELETE_VIDEO_SUCCESS:
-      return { ...state, deletingVideo: false }
+      return { ...state, deletingVideo: false, showDeleteDialog: false }
+    case "ENABLE_DELETEDIALOG":
+      return { ...state, showDeleteDialog: true }
+    case types.UPDATE_VIDEOS_AFTEREDELETE:
+      return { ...state, videos: action.payload }
     case types.CLEAN_SINGLEVIDEO:
       return { ...state, singleVideo: null }
     default: {
