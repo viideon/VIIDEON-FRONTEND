@@ -13,7 +13,7 @@ interface IProps {
   moveToNextStep: () => void;
   saveVideo: (blob: any) => void;
 }
-declare var getSeekableBlob: any;
+
 class Recording extends React.Component<IProps> {
   state = {
     recordingStatus: false,
@@ -58,8 +58,8 @@ class Recording extends React.Component<IProps> {
   requestUserMedia = () => {
     this.captureUserMedia((stream: any) => {
       this.recordVideo = RecordRTC(stream, {
-        type: "video",
-        mimeType: "video/webm;codecs=h264"
+        type: "video/webm",
+        mimeType: "video/webm;codecs=vp9"
       });
       this.localStream = stream;
       this.video.srcObject = this.localStream;
@@ -117,13 +117,15 @@ class Recording extends React.Component<IProps> {
     } else {
       this.stopStream();
       //for fixing seekable blob
-      // RecordRTC.getSeekableBlob(this.recordVideo.getBlob(), function(
-      //   seekableBlob: any
-      // ) {
-      //   console.log("seekable Blob", URL.createObjectURL(seekableBlob));
-      // });
+      let that = this;
       this.recordVideo.stopRecording(() => {
-        this.props.saveVideo(this.recordVideo.blob);
+        window.getSeekableBlob(this.recordVideo.getBlob(), function(
+          seekableBlob: any
+        ) {
+          // console.log("seekable Blob", URL.createObjectURL(seekableBlob));
+          that.props.saveVideo(seekableBlob);
+        });
+
         this.setState({
           recordingStatus: false
         });

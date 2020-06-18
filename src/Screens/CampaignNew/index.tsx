@@ -9,7 +9,9 @@ class Campaign extends React.Component {
     currentStep: 1,
     recordedVideo: "",
     editedVideo: "",
-    finalVideo: ""
+    finalVideo: "",
+    logoProps: {},
+    textProps: {}
   };
 
   saveVideo = (finalBlob: any) => {
@@ -18,7 +20,9 @@ class Campaign extends React.Component {
   saveEditedVideo = (editedVideoBlob: any) => {
     this.setState({ editedVideo: editedVideoBlob });
   };
-
+  saveTextLogoProps = (logoProps: any, textProps: any) => {
+    this.setState({ logoProps: logoProps, textProps: textProps });
+  };
   renderCampaignSteps = () => {
     switch (this.state.currentStep) {
       case 1:
@@ -41,11 +45,14 @@ class Campaign extends React.Component {
             moveToNextStep={this.moveToNextStep}
             saveEditedVideo={this.saveEditedVideo}
             videoToEdit={this.state.recordedVideo}
+            saveTextLogoProps={this.saveTextLogoProps}
           />
         );
       case 4:
         return (
           <SendSave
+            logoProps={this.state.logoProps}
+            textProps={this.state.textProps}
             previewVideo={
               this.state.editedVideo
                 ? this.state.editedVideo

@@ -10,7 +10,9 @@ declare module "recordrtc";
 declare module "redux-persist-expire";
 declare module "detectrtc";
 declare module "react-aspect-ratio";
-declare var getSeekableBlob: any;
+declare function getSeekableBlob(arg1: any, arg2: any) {
+
+};
 declare module "*.mp3" {
     const src: string;
     export default src;

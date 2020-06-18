@@ -91,6 +91,7 @@ class Player extends React.Component<IProps, IState> {
     this.video.style.top = "-1000%";
     this.video.width = this.props.width;
     this.video.src = this.props.src;
+    console.log("persistRectWidth,height", this.props.width, this.props.height);
     this.video.crossOrigin = "Anonymous";
     document.body.appendChild(this.video);
     this.canvasContext = this.canvas.getContext("2d");
@@ -102,20 +103,25 @@ class Player extends React.Component<IProps, IState> {
   setupListeners(remove?: any) {
     if (remove || this.unmounted) {
       this.video.removeEventListener("ended", this.handleEnded);
-      this.video.removeEventListener(
-        "loadedmetadata",
-        this.handleLoadedMetaData
-      );
+      // this.video.removeEventListener(
+      //   "loadedmetadata",
+      //   this.handleLoadedMetaData
+      // );
       this.seek.removeEventListener("mousemove", this.updateSeekTooltip);
       this.video.removeEventListener("timeupdate", this.updateProgress);
       this.video.removeEventListener("volumechange", this.updateVolumeIcon);
+      this.video.removeEventListener(
+        "durationchange",
+        this.handleLoadedMetaData
+      );
       window.removeEventListener("resize", this.handleWindowResize);
     } else {
       this.video.addEventListener("ended", this.handleEnded);
-      this.video.addEventListener("loadedmetadata", this.handleLoadedMetaData);
+      // this.video.addEventListener("loadedmetadata", this.handleLoadedMetaData);
       window.addEventListener("resize", this.handleWindowResize);
       this.video.addEventListener("timeupdate", this.updateProgress);
       this.video.addEventListener("volumechange", this.updateVolumeIcon);
+      this.video.addEventListener("durationchange", this.handleLoadedMetaData);
       this.seek.addEventListener("mousemove", this.updateSeekTooltip);
     }
   }
@@ -179,16 +185,16 @@ class Player extends React.Component<IProps, IState> {
       //   50,
       //   50
       // );
-      this.canvasTmpCtx.drawImage(
-        this.logo,
-        this.canvas.width - this.logo.width - 10,
-        this.canvas.height - this.logo.height - 10
-      );
       // this.canvasTmpCtx.drawImage(
       //   this.logo,
       //   this.canvas.width - this.logo.width - 10,
-      //   10
+      //   this.canvas.height - this.logo.height - 10
       // );
+      this.canvasTmpCtx.drawImage(
+        this.logo,
+        this.canvas.width - this.logo.width - 10,
+        10
+      );
       // this.canvasTmpCtx.drawImage(
       //   this.logo,
       //   10,

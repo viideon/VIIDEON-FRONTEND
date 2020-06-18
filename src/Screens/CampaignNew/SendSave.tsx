@@ -6,6 +6,7 @@ import {
   CircularProgress
 } from "@material-ui/core";
 import { Input, Label, FormGroup } from "reactstrap";
+import CanvasPlayer from "../../components/CanvasPlayer";
 import ChipInput from "material-ui-chip-input";
 import AWS from "aws-sdk";
 import { connect } from "react-redux";
@@ -37,6 +38,8 @@ interface IProps {
   sendMultipleEmail: (emailVideoObj: any) => void;
   savedVideoId: string;
   progressEmail: boolean;
+  logoProps: any;
+  textProps: any;
   toggleSendVariable: () => void;
 }
 
@@ -48,27 +51,46 @@ class SendSave extends React.Component<IProps> {
     recieverEmail: "",
     videoProgress: false,
     progressVideo: 0,
-    thumbnail: ""
+    thumbnail: "",
+    url: "",
+    width: 0,
+    height: 0
   };
   canvas: any;
   componentDidMount() {
     this.props.toggleSendVariable();
-    const video: any = this.refs.video;
-    video.src = URL.createObjectURL(this.props.previewVideo);
+    let container: any = this.refs.container;
+    const persistRect = JSON.parse(
+      JSON.stringify(container.getBoundingClientRect())
+    );
+    // const video: any = this.refs.video;
+    console.log("preview Video", this.props.previewVideo);
+    // let url = URL.createObjectURL(this.props.previewVideo);
+    alert(URL.createObjectURL(this.props.previewVideo));
+    // video.src = URL.createObjectURL(this.props.previewVideo);
     this.canvas = this.refs.canvas;
     this.canvas.width = 1280;
     this.canvas.height = 720;
     const that = this;
-
-    video.addEventListener("loadeddata", (e: any) => {
-      setTimeout(function() {
-        that.canvas.getContext("2d").drawImage(video, 0, 0, 1280, 720);
-        that.canvas.toBlob((blob: any) => {
-          console.log("blob", blob);
-          that.setState({ thumbnail: blob });
-        }, "image/jpeg");
-      }, 2000);
+    console.log(
+      "persistRectWidth,height",
+      persistRect.width,
+      persistRect.height
+    );
+    this.setState({
+      width: persistRect.width,
+      height: persistRect.height
     });
+
+    // video.addEventListener("loadeddata", (e: any) => {
+    //   setTimeout(function() {
+    //     that.canvas.getContext("2d").drawImage(video, 0, 0, 1280, 720);
+    //     that.canvas.toBlob((blob: any) => {
+    //       console.log("blob", blob);
+    //       that.setState({ thumbnail: blob });
+    //     }, "image/jpeg");
+    //   }, 2000);
+    // });
   }
   saveVideo = () => {
     if (this.state.title === "") {
@@ -179,8 +201,32 @@ class SendSave extends React.Component<IProps> {
         <Grid item xs={1} sm={1} md={3} lg={3}></Grid>
         <Grid item xs={10} sm={10} md={6} lg={6}>
           <h3 className="recordHeading">Save and Email Video</h3>
-          <div>
-            <video width="100%" ref="video" controls />
+          <div style={{ width: "100%", height: "300px" }} ref="container">
+            {/* <video width="100%" ref="video" controls /> */}
+            {this.props.previewVideo && (
+              <CanvasPlayer
+                width={this.state.width}
+                height={this.state.height}
+                autoPlay={false}
+                muted={false}
+                loop={false}
+                src={URL.createObjectURL(this.props.previewVideo)}
+                textProps={{
+                  text: "Hello world",
+                  textColor: "#fff",
+                  fontSize: 30,
+                  vAlign: "top",
+                  align: "left"
+                }}
+                logoProps={{
+                  url:
+                    "https://upload.wikimedia.org/wikipedia/en/thumb/5/56/Real_Madrid_CF.svg/195px-Real_Madrid_CF.svg.png",
+                  position: "topRight",
+                  width: 30,
+                  height: 30
+                }}
+              />
+            )}
           </div>
           <div style={{ marginLeft: "50%" }}>
             {loading && <CircularProgress />}

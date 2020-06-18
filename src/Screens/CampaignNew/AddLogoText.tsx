@@ -8,6 +8,7 @@ import "./style.css";
 
 interface IProps {
   moveToNextStep: () => void;
+  saveTextLogoProps: (logoProps: any, textProps: any) => void;
   videoToEdit: any;
   saveEditedVideo: (finalBlob: any) => void;
 }
@@ -23,6 +24,7 @@ interface IState {
   fontSize: number;
   vAlign: string;
   align: string;
+  iconPos: string;
 }
 class AddLogo extends React.Component<IProps, IState> {
   constructor(props: any) {
@@ -38,11 +40,13 @@ class AddLogo extends React.Component<IProps, IState> {
       textColor: "#fff",
       fontSize: 40,
       vAlign: "top",
-      align: "left"
+      align: "left",
+      iconPos: "topLeft"
     };
     this.draw = this.draw.bind(this);
   }
   upload: any;
+  img: any;
   canvas: any;
   canvas2: any;
   videoStream: any;
@@ -72,7 +76,7 @@ class AddLogo extends React.Component<IProps, IState> {
     video.src = URL.createObjectURL(this.props.videoToEdit);
     this.canvas = this.refs.canvas;
     this.canvas2 = this.refs.dummyCanvas;
-    const img: any = this.refs.image;
+    this.img = this.refs.image;
     const ctx = this.canvas.getContext("2d");
     const ctx2 = this.canvas2.getContext("2d");
     const audioCtx: any = new AudioContext();
@@ -98,7 +102,7 @@ class AddLogo extends React.Component<IProps, IState> {
         that.canvas2.width = cw;
         that.canvas2.height = ch;
         audioCtx.resume();
-        that.draw(video, img, ctx, ctx2, cw, ch);
+        that.draw(video, that.img, ctx, ctx2, cw, ch);
 
         if (
           that.mediaRecorder.state === "paused" &&
@@ -117,7 +121,7 @@ class AddLogo extends React.Component<IProps, IState> {
       that.mediaRecorder.pause();
     });
     this.mediaRecorder.onstop = function(e: any) {
-      let blob = new Blob(that.recordedBlobs, { type: "video/mp4" });
+      let blob = new Blob(that.recordedBlobs, { type: "video/webm" });
       that.recordedBlobs = [];
       that.props.saveEditedVideo(blob);
       that.setState({ btnText: "Finalize" });
@@ -167,26 +171,27 @@ class AddLogo extends React.Component<IProps, IState> {
     }, 0);
   }
   setIconPosition = (position: string) => {
+    console.log("canvas img dimensions", this.canvas.width, this.img.width);
     let x, y: any;
     switch (position) {
       case "top-left":
-        x = (this.canvas.width / 100) * 1;
-        y = (this.canvas.height / 100) * 1;
-        this.setState({ logoX: x, logoY: y });
+        this.setState({ logoX: 10, logoY: 10 });
         return;
       case "bottom-left":
-        x = this.canvas.width / 100;
-        y = (this.canvas.height / 100) * 90;
-        this.setState({ logoX: x, logoY: y - 30 });
+        x = 10;
+        y = this.canvas.height - this.img.height - 10;
+        this.setState({ logoX: x, logoY: y });
         return;
       case "bottom-right":
-        x = (this.canvas.width / 100) * 90;
-        y = (this.canvas.height / 100) * 90;
-        this.setState({ logoX: x - 20, logoY: y - 30 });
+        x = this.canvas.width - this.img.width - 10;
+        y = this.canvas.height - this.img.height - 10;
+        console.log("x , y", x, y);
+        this.setState({ logoX: x, logoY: y });
         return;
+
       case "top-right":
-        x = (this.canvas.width / 100) * 90;
-        y = this.canvas.height / 100;
+        x = this.canvas.width - this.img.width - 10;
+        y = 10;
         this.setState({ logoX: x - 20, logoY: y });
         return;
       default:
@@ -194,31 +199,21 @@ class AddLogo extends React.Component<IProps, IState> {
     }
   };
   setTextPosition = (position: string) => {
-    // let x, y: any;
+    this.setState({ iconPos: position });
     switch (position) {
       case "top-left":
-        // x = (this.canvas.width / 100) * 1;
-        // y = (this.canvas.height / 100) * 1;
         this.setState({ align: "left", vAlign: "top" });
         return;
       case "bottom-left":
-        // x = this.canvas.width / 100;
-        // y = (this.canvas.height / 100) * 90;
         this.setState({ align: "left", vAlign: "bottom" });
         return;
       case "bottom-right":
-        // x = (this.canvas.width / 100) * 90;
-        // y = (this.canvas.height / 100) * 90;
         this.setState({ align: "right", vAlign: "bottom" });
         return;
       case "top-right":
-        // x = (this.canvas.width / 100) * 90;
-        // y = this.canvas.height / 100;
         this.setState({ align: "right", vAlign: "top" });
         return;
       case "center":
-        // x = this.canvas.width / 2;
-        // y = this.canvas.height / 2;
         this.setState({ align: "center", vAlign: "middle" });
         return;
       default:
@@ -233,6 +228,27 @@ class AddLogo extends React.Component<IProps, IState> {
   };
   changeFontSize = (e: any) => {
     this.setState({ fontSize: e.target.value });
+  };
+  moveToNextStep = () => {
+    if (this.state.btnText === "Skip") {
+      this.props.moveToNextStep();
+    } else {
+      const textProps = {
+        text: this.state.text,
+        textColor: this.state.textColor,
+        fontSize: this.state.fontSize,
+        vAlign: this.state.vAlign,
+        align: this.state.align
+      };
+      const logoProps = {
+        url: this.state.img,
+        position: this.state.iconPos,
+        width: 50,
+        height: 50
+      };
+      this.props.saveTextLogoProps(logoProps, textProps);
+      this.props.moveToNextStep();
+    }
   };
   render() {
     return (
@@ -254,7 +270,7 @@ class AddLogo extends React.Component<IProps, IState> {
           <img
             alt="logo"
             src={this.state.img ? this.state.img : null}
-            style={{ display: "none" }}
+            style={{ display: "none", maxWidth: "200px", maxHeight: "200px" }}
             ref="image"
           />
           <Grid container>
@@ -373,7 +389,7 @@ class AddLogo extends React.Component<IProps, IState> {
               variant="contained"
               size="large"
               color="primary"
-              onClick={this.props.moveToNextStep}
+              onClick={this.moveToNextStep}
             >
               {this.state.btnText}
             </Button>
@@ -388,5 +404,5 @@ class AddLogo extends React.Component<IProps, IState> {
 const logoPositionBtn = {
   backgroundColor: "#d3d3d3",
   marginLeft: "2px"
-};
+};    
 export default AddLogo;
