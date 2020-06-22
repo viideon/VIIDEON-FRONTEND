@@ -2,6 +2,8 @@
   position: relative;
   background-color: #000;
   width: 100%;
+  padding-top: 56.25%;
+  height: 0px;
 }
 .videoStreamWrapper .loadingText {
   color: #fff;
@@ -98,6 +100,13 @@
   font-size: 10px;
   color: #636363;
   font-weight: 400;
+}
+.wrapperPreviewVideo {
+  position: relative;
+  background-color: #000;
+  width: 100%;
+  padding-top: 56.25%;
+  height: 0px;
 }
 @media (max-width: 500px) {
   .btnDoubleWrap {

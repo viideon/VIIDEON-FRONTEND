@@ -41,6 +41,8 @@ interface IProps {
   logoProps: any;
   textProps: any;
   toggleSendVariable: () => void;
+  logoBlob: any;
+  thumbnailBlob: any;
 }
 
 class SendSave extends React.Component<IProps> {
@@ -54,34 +56,28 @@ class SendSave extends React.Component<IProps> {
     thumbnail: "",
     url: "",
     width: 0,
-    height: 0
+    height: 0,
+    logoUrl: ""
   };
   canvas: any;
+  container: any;
   componentDidMount() {
     this.props.toggleSendVariable();
-    let container: any = this.refs.container;
+    this.container = this.refs.container;
     const persistRect = JSON.parse(
-      JSON.stringify(container.getBoundingClientRect())
+      JSON.stringify(this.container.getBoundingClientRect())
     );
     // const video: any = this.refs.video;
-    console.log("preview Video", this.props.previewVideo);
-    // let url = URL.createObjectURL(this.props.previewVideo);
-    alert(URL.createObjectURL(this.props.previewVideo));
     // video.src = URL.createObjectURL(this.props.previewVideo);
     this.canvas = this.refs.canvas;
     this.canvas.width = 1280;
     this.canvas.height = 720;
-    const that = this;
-    console.log(
-      "persistRectWidth,height",
-      persistRect.width,
-      persistRect.height
-    );
+    // const that = this;
     this.setState({
       width: persistRect.width,
       height: persistRect.height
     });
-
+    window.addEventListener("resize", this.onWindowResize);
     // video.addEventListener("loadeddata", (e: any) => {
     //   setTimeout(function() {
     //     that.canvas.getContext("2d").drawImage(video, 0, 0, 1280, 720);
@@ -92,6 +88,15 @@ class SendSave extends React.Component<IProps> {
     //   }, 2000);
     // });
   }
+  onWindowResize = () => {
+    const persistRect = JSON.parse(
+      JSON.stringify(this.container.getBoundingClientRect())
+    );
+    this.setState({
+      width: persistRect.width,
+      height: persistRect.height
+    });
+  };
   saveVideo = () => {
     if (this.state.title === "") {
       toast.warn("Enter a title to save video");
@@ -99,19 +104,36 @@ class SendSave extends React.Component<IProps> {
     }
     this.setState({ videoProgress: true, progressVideo: 0 });
     let s3 = new AWS.S3(config);
-    var options = {
+    const options = {
       Bucket: config.bucketName,
       ACL: config.ACL,
       Key: Date.now().toString() + ".webm",
       Body: this.props.previewVideo
     };
-    var thumbnailOptions = {
+    const thumbnailOptions = {
       Bucket: config.bucketName,
       ACL: config.ACL,
       Key: Date.now().toString() + ".jpeg",
-      Body: this.state.thumbnail
+      Body: this.props.thumbnailBlob
     };
     const that = this;
+    if (this.props.logoBlob) {
+      const logoOptions = {
+        Bucket: config.bucketName,
+        ACL: config.ACL,
+        Key: Date.now().toString() + ".jpeg",
+        Body: this.props.logoBlob
+      };
+      s3.upload(logoOptions, function(err: any, data: any) {
+        if (err) {
+          that.setState({ fileProgress: false });
+          toast.error(err);
+          return;
+        }
+        that.setState({ logoUrl: data.Location });
+      });
+    }
+    //uploading video and thumbnail to aws and db
     s3.upload(options, function(err: any, data: any) {
       if (err) {
         that.setState({ fileProgress: false });
@@ -124,11 +146,21 @@ class SendSave extends React.Component<IProps> {
           toast.error(err);
           return;
         }
+        const logoProps = that.props.logoProps;
+        if (that.props.logoBlob) {
+          logoProps.url = that.state.logoUrl;
+        } else {
+          logoProps.url = "";
+        }
+
         const video = {
           title: that.state.title,
           url: that.state.urlRecord,
           userId: that.props.auth!.user!._id,
-          thumbnail: data.Location
+          thumbnail: data.Location,
+          textProps: that.props.textProps,
+          logoProps: logoProps,
+          campaign: true
         };
         that.setState({ videoProgress: false });
         that.props.saveVideo(video);
@@ -201,7 +233,7 @@ class SendSave extends React.Component<IProps> {
         <Grid item xs={1} sm={1} md={3} lg={3}></Grid>
         <Grid item xs={10} sm={10} md={6} lg={6}>
           <h3 className="recordHeading">Save and Email Video</h3>
-          <div style={{ width: "100%", height: "300px" }} ref="container">
+          <div style={{ width: "100%", height: "350px" }} ref="container">
             {/* <video width="100%" ref="video" controls /> */}
             {this.props.previewVideo && (
               <CanvasPlayer
@@ -211,20 +243,8 @@ class SendSave extends React.Component<IProps> {
                 muted={false}
                 loop={false}
                 src={URL.createObjectURL(this.props.previewVideo)}
-                textProps={{
-                  text: "Hello world",
-                  textColor: "#fff",
-                  fontSize: 30,
-                  vAlign: "top",
-                  align: "left"
-                }}
-                logoProps={{
-                  url:
-                    "https://upload.wikimedia.org/wikipedia/en/thumb/5/56/Real_Madrid_CF.svg/195px-Real_Madrid_CF.svg.png",
-                  position: "topRight",
-                  width: 30,
-                  height: 30
-                }}
+                textProps={this.props.textProps}
+                logoProps={this.props.logoProps}
               />
             )}
           </div>
@@ -247,7 +267,7 @@ class SendSave extends React.Component<IProps> {
                     type="text"
                     name="name"
                     id="typeInput"
-                    placeholder=""
+                    placeholder="Give your campaign an amazing title"
                     value={this.state.title}
                     onChange={this.titleNameHandler}
                   />
@@ -271,7 +291,7 @@ class SendSave extends React.Component<IProps> {
                     type="text"
                     name="email"
                     id="typeInput"
-                    placeholder=""
+                    placeholder="Enter Email Address"
                     value={this.state.recieverEmail}
                     onChange={this.emailHandler}
                   />

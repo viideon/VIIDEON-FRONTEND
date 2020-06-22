@@ -49,6 +49,7 @@ class Player extends React.Component<IProps, IState> {
   unmounted: any;
   timeElapsed: any;
   duration: any;
+  logoPosition: any;
   constructor(props: any) {
     super(props);
     this.state = {
@@ -64,6 +65,32 @@ class Player extends React.Component<IProps, IState> {
     this.canvasContext = null;
     this.canvasTmpCtx = null;
     this.frameRate = 60;
+    this.logoPosition = {
+      "top-left": () => {
+        this.canvasTmpCtx.drawImage(this.logo, 10, 10);
+      },
+      "top-right": () => {
+        this.canvasTmpCtx.drawImage(
+          this.logo,
+          this.canvas.width - this.logo.width - 10,
+          10
+        );
+      },
+      "bottom-right": () => {
+        this.canvasTmpCtx.drawImage(
+          this.logo,
+          this.canvas.width - this.logo.width - 10,
+          this.canvas.height - this.logo.height - 10
+        );
+      },
+      "bottom-left": () => {
+        this.canvasTmpCtx.drawImage(
+          this.logo,
+          10,
+          this.canvas.height - this.logo.height - 10
+        );
+      }
+    };
     this.handleAnimationFrame = this.onAnimationFrame.bind(this);
     this.handleEnded = this.onEnded.bind(this);
     this.handleLoadedMetaData = this.onLoadedMetaData.bind(this);
@@ -91,7 +118,7 @@ class Player extends React.Component<IProps, IState> {
     this.video.style.top = "-1000%";
     this.video.width = this.props.width;
     this.video.src = this.props.src;
-    console.log("persistRectWidth,height", this.props.width, this.props.height);
+    // console.log("persistRectWidth,height", this.props.width, this.props.height);
     this.video.crossOrigin = "Anonymous";
     document.body.appendChild(this.video);
     this.canvasContext = this.canvas.getContext("2d");
@@ -103,10 +130,10 @@ class Player extends React.Component<IProps, IState> {
   setupListeners(remove?: any) {
     if (remove || this.unmounted) {
       this.video.removeEventListener("ended", this.handleEnded);
-      // this.video.removeEventListener(
-      //   "loadedmetadata",
-      //   this.handleLoadedMetaData
-      // );
+      this.video.removeEventListener(
+        "loadedmetadata",
+        this.handleLoadedMetaData
+      );
       this.seek.removeEventListener("mousemove", this.updateSeekTooltip);
       this.video.removeEventListener("timeupdate", this.updateProgress);
       this.video.removeEventListener("volumechange", this.updateVolumeIcon);
@@ -114,11 +141,11 @@ class Player extends React.Component<IProps, IState> {
         "durationchange",
         this.handleLoadedMetaData
       );
-      window.removeEventListener("resize", this.handleWindowResize);
+      // window.removeEventListener("resize", this.handleWindowResize);
     } else {
       this.video.addEventListener("ended", this.handleEnded);
-      // this.video.addEventListener("loadedmetadata", this.handleLoadedMetaData);
-      window.addEventListener("resize", this.handleWindowResize);
+      this.video.addEventListener("loadedmetadata", this.handleLoadedMetaData);
+      // window.addEventListener("resize", this.handleWindowResize);
       this.video.addEventListener("timeupdate", this.updateProgress);
       this.video.addEventListener("volumechange", this.updateVolumeIcon);
       this.video.addEventListener("durationchange", this.handleLoadedMetaData);
@@ -174,33 +201,16 @@ class Player extends React.Component<IProps, IState> {
     }
   };
   onAnimationFrame() {
-    const { mobile } = this.state;
+    // const { mobile } = this.state;
     const render = () => {
-      let { width, height, textProps } = this.props;
+      let { width, height, textProps, logoProps } = this.props;
       this.canvasTmpCtx.drawImage(this.video, 0, 0, width, height);
-      // this.canvasTmpCtx.drawImage(
-      //   this.logo,
-      //   this.canvas.width / 2 - this.logo.width / 2,
-      //   this.canvas.height / 2 - this.logo.height / 2,
-      //   50,
-      //   50
-      // );
-      // this.canvasTmpCtx.drawImage(
-      //   this.logo,
-      //   this.canvas.width - this.logo.width - 10,
-      //   this.canvas.height - this.logo.height - 10
-      // );
-      this.canvasTmpCtx.drawImage(
-        this.logo,
-        this.canvas.width - this.logo.width - 10,
-        10
-      );
-      // this.canvasTmpCtx.drawImage(
-      //   this.logo,
-      //   10,
-      //   this.canvas.height - this.logo.height - 10
-      // );
+
+      // if (logoProps.url !== "" && logoProps.url !== undefined) {
+      this.logoPosition[logoProps.position].call();
+      // }
       //Draw text using canvas-txt
+      // if (textProps.text !== "" && textProps.text !== undefined) {
       this.canvasTmpCtx.fillStyle = textProps.textColor;
       canvasTxt.fontSize = textProps.fontSize;
       canvasTxt.vAlign = textProps.vAlign;
@@ -214,34 +224,37 @@ class Player extends React.Component<IProps, IState> {
         width - 10,
         height - 10
       );
+      // }
+
       let idata = this.canvasTmpCtx.getImageData(0, 0, width, height);
       this.canvasContext.putImageData(idata, 0, 0);
     };
     if (this.video) {
-      if (mobile) {
-        let timestamp = Date.now();
-        let elapsed = (timestamp - this.timestamp) / 1000;
-        this.timestamp = timestamp;
-        if (elapsed >= 1 / this.frameRate) {
-          if (this.video.currentTime >= this.video.duration) {
-            if (this.props.loop) {
-              this.video.currentTime = 0;
-            } else {
-              this.pause();
-            }
-          } else {
-            this.video.currentTime = Math.min(
-              this.video.currentTime + elapsed,
-              this.video.duration
-            );
-          }
-          render();
-        }
-      } else {
-        render();
-      }
+      // if (mobile) {
+      //   //   let timestamp = Date.now();
+      //   //   let elapsed = (timestamp - this.timestamp) / 1000;
+      //   //   this.timestamp = timestamp;
+      //   //   if (elapsed >= 1 / this.frameRate) {
+      //   //     if (this.video.currentTime >= this.video.duration) {
+      //   //       if (this.props.loop) {
+      //   //         this.video.currentTime = 0;
+      //   //       } else {
+      //   //         this.pause();
+      //   //       }
+      //   //     } else {
+      //   //       this.video.currentTime = Math.min(
+      //   //         this.video.currentTime + elapsed,
+      //   //         this.video.duration
+      //   //       );
+      //   //     }
+      //   render();
+      // } else {
+      //   render();
+      // }
+      render();
       if (this.state.playing) {
-        this.requestAnimationFrame();
+        window.requestAnimationFrame(this.handleAnimationFrame);
+        // this.requestAnimationFrame();
       }
     }
   }
@@ -275,9 +288,7 @@ class Player extends React.Component<IProps, IState> {
   }
   onWindowResize(e: any) {
     const mobile = this.isMobile();
-    // If going mobile, make sure the video is muted; otherwise
-    // if we are coming back from mobile video reset the muted
-    // to the original value.
+
     if (mobile && !this.state.mobile) {
       this.video.muted = "muted";
     } else if (!mobile && this.state.mobile) {
@@ -429,7 +440,7 @@ class Player extends React.Component<IProps, IState> {
         />
         <img
           alt="logo"
-          src={logoProps.url}
+          src={logoProps.url ? logoProps.url : null}
           style={{ display: "none" }}
           ref="logo"
         />

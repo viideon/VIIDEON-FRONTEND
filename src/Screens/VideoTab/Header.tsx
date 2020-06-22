@@ -23,19 +23,48 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import * as Constants from "../../constants/constants";
 import VideoPlayer from "../../components/VideoPlayer";
+import CanvasPlayer from "../../components/CanvasPlayer";
 import styles from "./style";
 
 interface Video {
   url: string;
   thumbnail?: string;
   title?: string;
+  campaign?: boolean;
+  logoProps?: any;
+  textProps?: any;
 }
 interface IProps {
-  videoId?: string | null;
-  video: Video;
+  video?: Video;
 }
 
 class VideoTabHeader extends React.Component<IProps> {
+  state = {
+    width: 0,
+    height: 0,
+    hideWrapperCanvas: false
+  };
+  container: any;
+
+  componentDidMount() {
+    this.container = this.refs.container;
+    const persistRect = JSON.parse(
+      JSON.stringify(this.container.getBoundingClientRect())
+    );
+    this.setState({
+      width: persistRect.width,
+      height: persistRect.height
+    });
+  }
+  componentWillReceiveProps(nextProps: any) {
+    if (
+      (nextProps.video && nextProps.video.campaign === false) ||
+      (nextProps.video && nextProps.video.campaign === undefined)
+    ) {
+      this.container.style.display = "none";
+    }
+  }
+
   render() {
     const { video } = this.props;
     return (
@@ -44,9 +73,7 @@ class VideoTabHeader extends React.Component<IProps> {
           <Col xs="12" sm="12" md="8" lg="8" xl="8">
             <Row>
               <Col xs="12" sm="12" md="6">
-                {video ? (
-                  <VideoPlayer url={video.url} thumbnail={video.thumbnail} />
-                ) : (
+                {!video && (
                   <div
                     style={{
                       display: "flex",
@@ -54,10 +81,29 @@ class VideoTabHeader extends React.Component<IProps> {
                       textAlign: "center"
                     }}
                   >
-                    <CircularProgress color="secondary" />
+                    <CircularProgress color="primary" />
                   </div>
                 )}
+                {video && !video.campaign && (
+                  <VideoPlayer url={video.url} thumbnail={video.thumbnail} />
+                )}
+                <div ref="container" style={{ height: "220px", width: "100%" }}>
+                  {video && video.campaign && (
+                    <CanvasPlayer
+                      width={this.state.width}
+                      height={this.state.height}
+                      muted={false}
+                      autoPlay={false}
+                      loop={false}
+                      src={video.url}
+                      logoProps={video.logoProps}
+                      textProps={video.textProps}
+                      thumbnail={video.thumbnail}
+                    />
+                  )}
+                </div>
               </Col>
+
               <Col xs="12" sm="12" md="6" id="headerText">
                 <h3>
                   {video && video.title}
@@ -124,11 +170,11 @@ class VideoTabHeader extends React.Component<IProps> {
   }
 }
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  // const video = getVideoById(state, ownProps.videoId);
+const mapStateToProps = (state: any) => {
   return {
     video: state.video.singleVideo
   };
+  // const video = getVideoById(state, ownProps.videoId);
 };
 
 export default connect(mapStateToProps, null)(VideoTabHeader);

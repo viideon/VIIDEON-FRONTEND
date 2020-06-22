@@ -1,6 +1,7 @@
 import React from "react";
 import RecordRTC from "recordrtc";
 import DetectRTC from "detectrtc";
+import { withRouter } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Grid, Button } from "@material-ui/core";
 import recordGif from "../../assets/video-record.gif";
@@ -12,6 +13,7 @@ const hasGetUserMedia = !!navigator.getUserMedia;
 interface IProps {
   moveToNextStep: () => void;
   saveVideo: (blob: any) => void;
+  history: any;
 }
 
 class Recording extends React.Component<IProps> {
@@ -49,9 +51,17 @@ class Recording extends React.Component<IProps> {
     this.requestUserMedia();
   }
   captureUserMedia = (callback: any) => {
-    var params = { audio: true, video: true };
+    var params: any = {
+      video: true,
+      audio: true
+    };
     navigator.getUserMedia(params, callback, error => {
-      alert(JSON.stringify(error));
+      if (error.name === "NotAllowedError") {
+        toast.info(
+          "You have denied permission for recording, Please enable them in your browser to record a video"
+        );
+        this.props.history.push("/");
+      }
     });
   };
 
@@ -78,7 +88,7 @@ class Recording extends React.Component<IProps> {
       showTimer: true,
       count: 0
     });
-    toast.info("Recording started");
+    // toast.info("Recording started");
     if (this.state.trackNo === 1) {
       this.recordVideo.startRecording();
     } else {
@@ -116,13 +126,11 @@ class Recording extends React.Component<IProps> {
       this.setState({ trackNo: 3 });
     } else {
       this.stopStream();
-      //for fixing seekable blob
       let that = this;
       this.recordVideo.stopRecording(() => {
         window.getSeekableBlob(this.recordVideo.getBlob(), function(
           seekableBlob: any
         ) {
-          // console.log("seekable Blob", URL.createObjectURL(seekableBlob));
           that.props.saveVideo(seekableBlob);
         });
 
@@ -171,7 +179,18 @@ class Recording extends React.Component<IProps> {
           <div className="recorderWrapper">
             <h2 className="recordHeading">{this.nameTrack()}</h2>
             <div className="videoStreamWrapper">
-              <video ref="video" muted autoPlay width="100%" />
+              <video
+                ref="video"
+                muted
+                autoPlay
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  position: "absolute",
+                  top: 0,
+                  left: 0
+                }}
+              />
 
               {this.state.recordingStatus && (
                 <img src={recordGif} className="iconRecording" alt="record" />
@@ -207,26 +226,6 @@ class Recording extends React.Component<IProps> {
                   Done
                 </Button>
               )}
-              {/* {this.state.showEditOption && (
-                <Button
-                  variant="contained"
-                  size="large"
-                  color="secondary"
-                  onClick={() => this.props.moveToNextStep()}
-                >
-                  Edit Recorded Video
-                </Button>
-              )} */}
-              {/* {this.state.recordingStatus === false && this.state.showNext && (
-                <Button
-                  variant="contained"
-                  size="large"
-                  color="secondary"
-                  onClick={() => this.moveToNextTrack()}
-                >
-                  Next
-                </Button>
-              )} */}
             </div>
           </div>
         </Grid>
@@ -236,4 +235,4 @@ class Recording extends React.Component<IProps> {
   }
 }
 
-export default Recording;
+export default withRouter<any, any>(Recording);

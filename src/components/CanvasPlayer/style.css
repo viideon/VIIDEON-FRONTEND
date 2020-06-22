@@ -144,19 +144,25 @@ progress::-moz-progress-bar {
 }
 
 /* range related  */
-input[type="range"] {
+input[type="range"].seek {
   -webkit-appearance: none;
   -moz-appearance: none;
   height: 5px;
   background: transparent;
   cursor: pointer;
 }
-
-input[type="range"]:focus {
+input[type="range"].volume {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  height: 5px;
+  background: transparent;
+  cursor: pointer;
+}
+input[type="range"].seek:focus {
   outline: none;
 }
 
-input[type="range"]::-webkit-slider-runnable-track {
+input[type="range"].seek::-webkit-slider-runnable-track {
   width: 100%;
   cursor: pointer;
   border-radius: 1.3px;
@@ -164,7 +170,7 @@ input[type="range"]::-webkit-slider-runnable-track {
   transition: all 0.4s ease;
 }
 
-input[type="range"]::-webkit-slider-thumb {
+input[type="range"].seek::-webkit-slider-thumb {
   height: 10px;
   width: 10px;
   border-radius: 11px;
@@ -174,7 +180,7 @@ input[type="range"]::-webkit-slider-thumb {
   margin-left: -1px;
 }
 
-input[type="range"]:focus::-webkit-slider-runnable-track {
+input[type="range"].seek:focus::-webkit-slider-runnable-track {
   background: transparent;
 }
 /* volume related */

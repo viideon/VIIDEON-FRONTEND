@@ -11,7 +11,9 @@ class Campaign extends React.Component {
     editedVideo: "",
     finalVideo: "",
     logoProps: {},
-    textProps: {}
+    textProps: {},
+    logoBlob: "",
+    thumbnailBlob: ""
   };
 
   saveVideo = (finalBlob: any) => {
@@ -22,6 +24,12 @@ class Campaign extends React.Component {
   };
   saveTextLogoProps = (logoProps: any, textProps: any) => {
     this.setState({ logoProps: logoProps, textProps: textProps });
+  };
+  saveLogoBlob = (blob: any) => {
+    this.setState({ logoBlob: blob });
+  };
+  saveThumbnailBlob = (blob: any) => {
+    this.setState({ thumbnailBlob: blob });
   };
   renderCampaignSteps = () => {
     switch (this.state.currentStep) {
@@ -46,13 +54,17 @@ class Campaign extends React.Component {
             saveEditedVideo={this.saveEditedVideo}
             videoToEdit={this.state.recordedVideo}
             saveTextLogoProps={this.saveTextLogoProps}
+            saveLogoBlob={this.saveLogoBlob}
+            saveThumbnailBlob={this.saveThumbnailBlob}
           />
         );
       case 4:
         return (
           <SendSave
             logoProps={this.state.logoProps}
+            thumbnailBlob={this.state.thumbnailBlob}
             textProps={this.state.textProps}
+            logoBlob={this.state.logoBlob}
             previewVideo={
               this.state.editedVideo
                 ? this.state.editedVideo

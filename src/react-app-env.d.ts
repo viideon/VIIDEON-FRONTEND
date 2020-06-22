@@ -10,6 +10,7 @@ declare module "recordrtc";
 declare module "redux-persist-expire";
 declare module "detectrtc";
 declare module "react-aspect-ratio";
+declare const PERMISSION_DENIED;
 declare function getSeekableBlob(arg1: any, arg2: any) {
 
 };

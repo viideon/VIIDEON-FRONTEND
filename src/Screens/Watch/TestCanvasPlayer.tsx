@@ -33,7 +33,7 @@ class TestCanvas extends React.Component {
             logoProps={{
               url:
                 "https://upload.wikimedia.org/wikipedia/en/thumb/5/56/Real_Madrid_CF.svg/195px-Real_Madrid_CF.svg.png",
-              position: "topRight",
+              position: "top-right",
               width: 30,
               height: 30
             }}

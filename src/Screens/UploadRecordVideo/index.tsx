@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import AWS from "aws-sdk";
+import * as ebml from "ts-ebml";
 import VideoRecorder from "react-video-recorder";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { Button, LinearProgress, CircularProgress } from "@material-ui/core";
@@ -280,6 +281,16 @@ class UploadRecord extends Component<IProps, IState> {
       alert(URL.createObjectURL(blob));
     }, "image/jpeg");
   };
+  getSeekableBlob = (inputBlob: any) => {
+    // EBML.js copyrights goes to: https://github.com/legokichi/ts-ebml
+    const decoder = new ebml.Decoder();
+    fetch(URL.createObjectURL(inputBlob))
+      .then(res => res.arrayBuffer())
+      .then(buf => {
+        const ebmlElms = decoder.decode(buf);
+        console.log(ebmlElms);
+      });
+  };
   render() {
     let { videoSaved, loading } = this.props.videoUser;
     return (
@@ -348,7 +359,7 @@ class UploadRecord extends Component<IProps, IState> {
                                       type="text"
                                       name="name"
                                       id="typeInput"
-                                      placeholder=""
+                                      placeholder="Give your video an amazing title"
                                       value={this.state.title}
                                       onChange={this.titleNameHandler}
                                     />
@@ -524,6 +535,7 @@ class UploadRecord extends Component<IProps, IState> {
                   this.props.toggleSendVariable();
                   this.getThumbnail(videoBlob);
                   this.setState({ videoRecord: videoBlob });
+                  // this.getSeekableBlob(videoBlob);
                 }}
               />
             </div>

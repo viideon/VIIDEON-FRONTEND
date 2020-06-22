@@ -7,10 +7,12 @@ import { toast } from "react-toastify";
 import "./style.css";
 
 interface IProps {
+  saveLogoBlob: (blob: any) => void;
   moveToNextStep: () => void;
   saveTextLogoProps: (logoProps: any, textProps: any) => void;
   videoToEdit: any;
   saveEditedVideo: (finalBlob: any) => void;
+  saveThumbnailBlob: (blob: any) => void;
 }
 interface IState {
   img: any;
@@ -19,8 +21,6 @@ interface IState {
   text: string;
   btnText: string;
   textColor: string;
-  textX: number | string;
-  textY: number | string;
   fontSize: number;
   vAlign: string;
   align: string;
@@ -31,20 +31,19 @@ class AddLogo extends React.Component<IProps, IState> {
     super(props);
     this.state = {
       img: null,
-      logoX: 0,
-      logoY: 0,
+      logoX: 10,
+      logoY: 10,
       text: "",
-      textX: 5,
-      textY: 5,
       btnText: "Skip",
       textColor: "#fff",
       fontSize: 40,
       vAlign: "top",
       align: "left",
-      iconPos: "topLeft"
+      iconPos: "top-left"
     };
     this.draw = this.draw.bind(this);
   }
+  video: any;
   upload: any;
   img: any;
   canvas: any;
@@ -62,9 +61,10 @@ class AddLogo extends React.Component<IProps, IState> {
   triggerFileUploadBtn = () => {
     this.upload.click();
   };
-  onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0] !== null) {
-      this.setState({ img: URL.createObjectURL(e.target.files![0]) });
+      await this.compress(e);
+      // alert(URL.createObjectURL(blob));
       toast.info("Logo selected play the video to see the logo");
     } else {
       toast.error("error in selecting file");
@@ -72,8 +72,8 @@ class AddLogo extends React.Component<IProps, IState> {
   };
 
   componentDidMount() {
-    const video: any = this.refs.video;
-    video.src = URL.createObjectURL(this.props.videoToEdit);
+    this.video = this.refs.video;
+    this.video.src = URL.createObjectURL(this.props.videoToEdit);
     this.canvas = this.refs.canvas;
     this.canvas2 = this.refs.dummyCanvas;
     this.img = this.refs.image;
@@ -82,7 +82,7 @@ class AddLogo extends React.Component<IProps, IState> {
     const audioCtx: any = new AudioContext();
     const dest: any = audioCtx.createMediaStreamDestination();
     const aStream: any = dest.stream;
-    this.sourceNode = audioCtx.createMediaElementSource(video);
+    this.sourceNode = audioCtx.createMediaElementSource(this.video);
     this.sourceNode.connect(dest);
     this.sourceNode.connect(audioCtx.destination);
     this.videoStream = this.canvas.captureStream(60);
@@ -90,19 +90,19 @@ class AddLogo extends React.Component<IProps, IState> {
     this.mediaRecorder = new MediaRecorder(this.videoStream);
     let cw: any, ch: any;
     let that = this;
-    this.cwidth = video.clientWidth;
-    this.cheight = video.clientHeight;
-    video.addEventListener(
+    this.cwidth = this.video.clientWidth;
+    this.cheight = this.video.clientHeight;
+    this.video.addEventListener(
       "play",
       function() {
-        cw = video.clientWidth;
-        ch = video.clientHeight;
+        cw = that.video.clientWidth;
+        ch = that.video.clientHeight;
         that.canvas.width = cw;
         that.canvas.height = ch;
         that.canvas2.width = cw;
         that.canvas2.height = ch;
         audioCtx.resume();
-        that.draw(video, that.img, ctx, ctx2, cw, ch);
+        that.draw(that.video, that.img, ctx, ctx2, cw, ch);
 
         if (
           that.mediaRecorder.state === "paused" &&
@@ -114,20 +114,21 @@ class AddLogo extends React.Component<IProps, IState> {
       },
       false
     );
-    video.addEventListener("ended", function() {
+    this.video.addEventListener("ended", function() {
       that.mediaRecorder.stop();
     });
-    video.addEventListener("pause", function() {
+    this.video.addEventListener("pause", function() {
       that.mediaRecorder.pause();
     });
     this.mediaRecorder.onstop = function(e: any) {
-      let blob = new Blob(that.recordedBlobs, { type: "video/webm" });
-      that.recordedBlobs = [];
-      that.props.saveEditedVideo(blob);
-      that.setState({ btnText: "Finalize" });
-      toast.success("video edited click finalize to upload and send");
+      // let blob = new Blob(that.recordedBlobs, { type: "video/webm" });
+      // that.recordedBlobs = [];
+      // that.props.saveEditedVideo(blob);
+      // that.setState({ btnText: "Finalize" });
+      // toast.success("video edited click finalize to upload and send");
     };
   }
+
   draw(
     video: any,
     img: any,
@@ -138,24 +139,18 @@ class AddLogo extends React.Component<IProps, IState> {
   ): any {
     if (video.paused || video.ended) return false;
     context2.drawImage(video, 0, 0, width, height);
-    context2.drawImage(img, this.state.logoX, this.state.logoY, 70, 70);
-    // context2.font = `${this.state.fontSize}px Arial`;
-    // context2.font = this.state.fontSize;
-    // context2.fillStyle = this.state.textColor;
-    // context2.fillText(this.state.text, this.state.textX, this.state.textY);
-    // context2.strokeStyle = this.state.textColor;
+    context2.drawImage(img, this.state.logoX, this.state.logoY);
     context2.fillStyle = this.state.textColor;
-    // canvasTxt.font = "Verdana";
     canvasTxt.fontSize = this.state.fontSize;
     canvasTxt.vAlign = this.state.vAlign;
     canvasTxt.align = this.state.align;
     canvasTxt.lineHeight = 20;
-    // canvasTxt.debug = true; //shows debug info
+    // canvasTxt.debug = true;
     canvasTxt.drawText(
       context2,
       this.state.text,
-      this.state.textX,
-      this.state.textY,
+      0,
+      0,
       width - 10,
       height - 10
     );
@@ -170,8 +165,39 @@ class AddLogo extends React.Component<IProps, IState> {
       that.draw(video, img, context, context2, width, height);
     }, 0);
   }
+  compress(e: any) {
+    const width = 100;
+    const height = 100;
+    const reader = new FileReader();
+    reader.readAsDataURL(e.target.files[0]);
+    reader.onload = (event: any) => {
+      const img = new Image();
+      img.src = event.target.result;
+      img.onload = () => {
+        const elem = document.createElement("canvas");
+        elem.width = width;
+        elem.height = height;
+        const ctx: any = elem.getContext("2d");
+        // img.width and img.height will contain the original dimensions
+        ctx.drawImage(img, 0, 0, width, height);
+        ctx.canvas.toBlob(
+          (blob: any) => {
+            this.setState({ img: URL.createObjectURL(blob) });
+            this.props.saveLogoBlob(blob);
+          },
+          "image/jpeg",
+          1
+        );
+      };
+      // (reader.onerror = error => console.log(error));
+    };
+  }
   setIconPosition = (position: string) => {
-    console.log("canvas img dimensions", this.canvas.width, this.img.width);
+    if (this.state.img === null) {
+      toast.info("Please upload a logo");
+      return;
+    }
+    this.setState({ iconPos: position });
     let x, y: any;
     switch (position) {
       case "top-left":
@@ -185,7 +211,7 @@ class AddLogo extends React.Component<IProps, IState> {
       case "bottom-right":
         x = this.canvas.width - this.img.width - 10;
         y = this.canvas.height - this.img.height - 10;
-        console.log("x , y", x, y);
+
         this.setState({ logoX: x, logoY: y });
         return;
 
@@ -199,7 +225,6 @@ class AddLogo extends React.Component<IProps, IState> {
     }
   };
   setTextPosition = (position: string) => {
-    this.setState({ iconPos: position });
     switch (position) {
       case "top-left":
         this.setState({ align: "left", vAlign: "top" });
@@ -230,25 +255,49 @@ class AddLogo extends React.Component<IProps, IState> {
     this.setState({ fontSize: e.target.value });
   };
   moveToNextStep = () => {
-    if (this.state.btnText === "Skip") {
-      this.props.moveToNextStep();
+    this.getThumbnail(false);
+    this.props.moveToNextStep();
+  };
+  getThumbnail = (edited: boolean) => {
+    if (edited) {
+      this.canvas.getContext("2d").drawImage(this.video, 0, 0, 1280, 720);
+      this.canvas.toBlob((blob: any) => {
+        console.log("Url thumbnail edited", URL.createObjectURL(blob));
+        this.props.saveThumbnailBlob(blob);
+      }, "image/jpeg");
     } else {
-      const textProps = {
-        text: this.state.text,
-        textColor: this.state.textColor,
-        fontSize: this.state.fontSize,
-        vAlign: this.state.vAlign,
-        align: this.state.align
-      };
-      const logoProps = {
-        url: this.state.img,
-        position: this.state.iconPos,
-        width: 50,
-        height: 50
-      };
-      this.props.saveTextLogoProps(logoProps, textProps);
-      this.props.moveToNextStep();
+      const elem = document.createElement("canvas");
+      elem.width = 1280;
+      elem.height = 720;
+      const ctx: any = elem.getContext("2d");
+      ctx.drawImage(this.video, 0, 0, 1280, 720);
+      ctx.canvas.toBlob(
+        (blob: any) => {
+          console.log("Url thumbnail", URL.createObjectURL(blob));
+          this.props.saveThumbnailBlob(blob);
+        },
+        "image/jpeg",
+        1
+      );
     }
+  };
+  finalize = () => {
+    this.getThumbnail(true);
+    const textProps = {
+      text: this.state.text,
+      textColor: this.state.textColor,
+      fontSize: this.state.fontSize,
+      vAlign: this.state.vAlign,
+      align: this.state.align
+    };
+    const logoProps = {
+      url: this.state.img,
+      position: this.state.iconPos,
+      width: 50,
+      height: 50
+    };
+    this.props.saveTextLogoProps(logoProps, textProps);
+    this.props.moveToNextStep();
   };
   render() {
     return (
@@ -391,7 +440,15 @@ class AddLogo extends React.Component<IProps, IState> {
               color="primary"
               onClick={this.moveToNextStep}
             >
-              {this.state.btnText}
+              Skip
+            </Button>
+            <Button
+              variant="contained"
+              size="large"
+              color="primary"
+              onClick={this.finalize}
+            >
+              Finalize
             </Button>
           </div>
         </Grid>
@@ -404,5 +461,5 @@ class AddLogo extends React.Component<IProps, IState> {
 const logoPositionBtn = {
   backgroundColor: "#d3d3d3",
   marginLeft: "2px"
-};    
+};
 export default AddLogo;

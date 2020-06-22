@@ -14,12 +14,20 @@ class VideoPreview extends React.Component<IProps> {
         <Grid item xs={10} sm={10} md={6} lg={6}>
           <h3 className="recordHeading">Video Preview</h3>
           {this.props.previewVideo && (
-            <video
-              ref="videoPreview"
-              width="100%"
-              controls
-              src={URL.createObjectURL(this.props.previewVideo)}
-            />
+            <div className="wrapperPreviewVideo">
+              <video
+                ref="videoPreview"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  position: "absolute",
+                  top: 0,
+                  left: 0
+                }}
+                controls
+                src={URL.createObjectURL(this.props.previewVideo)}
+              />
+            </div>
           )}
           <div className="btnSingleWrap">
             <Button
