@@ -113,7 +113,7 @@ class SendSave extends React.Component<IProps> {
     const thumbnailOptions = {
       Bucket: config.bucketName,
       ACL: config.ACL,
-      Key: Date.now().toString() + ".jpeg",
+      Key: Date.now().toString() + "thumbnail" + ".jpeg",
       Body: this.props.thumbnailBlob
     };
     const that = this;
@@ -121,7 +121,7 @@ class SendSave extends React.Component<IProps> {
       const logoOptions = {
         Bucket: config.bucketName,
         ACL: config.ACL,
-        Key: Date.now().toString() + ".jpeg",
+        Key: Date.now().toString() + "logo" + ".jpeg",
         Body: this.props.logoBlob
       };
       s3.upload(logoOptions, function(err: any, data: any) {
@@ -248,11 +248,11 @@ class SendSave extends React.Component<IProps> {
               />
             )}
           </div>
-          <div style={{ marginLeft: "50%" }}>
+          <div style={{ marginLeft: "50%", marginTop: "5px" }}>
             {loading && <CircularProgress />}
             {this.props.progressEmail && <CircularProgress />}
           </div>
-          <div id="formInput">
+          <div id="formInput" style={{ marginTop: "15px" }}>
             {videoSaved !== true && (
               <div>
                 {this.state.videoProgress && (

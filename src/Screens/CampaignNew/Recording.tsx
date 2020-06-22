@@ -1,10 +1,13 @@
 import React from "react";
+import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
+import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
+import StopIcon from "@material-ui/icons/Stop";
 import RecordRTC from "recordrtc";
 import DetectRTC from "detectrtc";
 import { withRouter } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Grid, Button } from "@material-ui/core";
-import recordGif from "../../assets/video-record.gif";
+// import recordGif from "../../assets/video-record.gif";
 import Counter from "./Counter";
 import "./style.css";
 
@@ -192,14 +195,24 @@ class Recording extends React.Component<IProps> {
                 }}
               />
 
-              {this.state.recordingStatus && (
+              {/* {this.state.recordingStatus && (
                 <img src={recordGif} className="iconRecording" alt="record" />
-              )}
+              )} */}
               {this.state.showCountdown && <Counter />}
               {this.state.showTimer && (
                 <span className="timerRecording">
-                  {`${hour} `}:{min < 10 ? `0${min}` : min}:
-                  {sec < 10 ? `0${sec}` : sec}
+                  <span
+                    style={{
+                      color: "#ff0000",
+                      marginRight: "2px"
+                    }}
+                  >
+                    <FiberManualRecordIcon />
+                  </span>
+                  <span>
+                    {`${hour}`}:{min < 10 ? `0${min}` : min}:
+                    {sec < 10 ? `0${sec}` : sec}
+                  </span>
                 </span>
               )}
               {this.state.isConnecting && (
@@ -212,17 +225,19 @@ class Recording extends React.Component<IProps> {
                 onClick={() => this.handleRecording()}
                 variant="contained"
                 size="large"
-                color="primary"
+                style={{ color: "#008000" }}
                 disabled={this.state.disableRecordBtn}
               >
+                <KeyboardArrowRightIcon />
                 {this.nameTrack()}
               </Button>
               {this.state.recordingStatus && (
                 <Button
                   onClick={() => this.stopRecord()}
                   variant="contained"
-                  color="secondary"
+                  style={{ color: "#ff0040" }}
                 >
+                  <StopIcon />
                   Done
                 </Button>
               )}

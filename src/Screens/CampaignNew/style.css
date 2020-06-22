@@ -36,8 +36,11 @@
   position: absolute;
   top: 10px;
   left: 20px;
-  border-radius: 10px;
-  padding: 5px 10px 5px 10px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  /* border-radius: 10px; */
+  padding: 5px 5px 5px 5px;
 }
 .containerCampaign {
   margin-top: 100px;
@@ -107,6 +110,11 @@
   width: 100%;
   padding-top: 56.25%;
   height: 0px;
+}
+.btnEditVideo {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 5px;
 }
 @media (max-width: 500px) {
   .btnDoubleWrap {

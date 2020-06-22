@@ -183,6 +183,7 @@ class AddLogo extends React.Component<IProps, IState> {
         ctx.canvas.toBlob(
           (blob: any) => {
             this.setState({ img: URL.createObjectURL(blob) });
+            alert(URL.createObjectURL(blob));
             this.props.saveLogoBlob(blob);
           },
           "image/jpeg",
@@ -433,12 +434,13 @@ class AddLogo extends React.Component<IProps, IState> {
             </Grid>
           </Grid>
 
-          <div className="btnSingleWrap">
+          <div className="btnEditVideo">
             <Button
               variant="contained"
               size="large"
-              color="primary"
+              color="default"
               onClick={this.moveToNextStep}
+              style={{ marginRight: "10px" }}
             >
               Skip
             </Button>

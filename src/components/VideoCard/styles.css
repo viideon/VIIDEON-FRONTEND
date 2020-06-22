@@ -26,6 +26,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 #rowCardTitle {
   margin-left: 0px;

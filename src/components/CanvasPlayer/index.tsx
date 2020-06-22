@@ -7,6 +7,7 @@ import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 import VolumeOffIcon from "@material-ui/icons/VolumeOff";
 // import VolumeMuteIcon from "@material-ui/icons/VolumeMute";
 import VolumeDownIcon from "@material-ui/icons/VolumeDown";
+import axios from "axios";
 import canvasTxt from "canvas-txt";
 import "./style.css";
 
@@ -112,17 +113,24 @@ class Player extends React.Component<IProps, IState> {
     this.logo = this.refs.logo;
     this.logo.crossOrigin = "Anonymous";
     //setting height /width and hiding video element
-    this.video.height = this.props.height;
-    this.video.style.left = "-1000%";
-    this.video.style.position = "absolute";
-    this.video.style.top = "-1000%";
-    this.video.width = this.props.width;
-    this.video.src = this.props.src;
-    // console.log("persistRectWidth,height", this.props.width, this.props.height);
-    this.video.crossOrigin = "Anonymous";
-    document.body.appendChild(this.video);
-    this.canvasContext = this.canvas.getContext("2d");
-    this.canvasTmpCtx = tmpCanvas.getContext("2d");
+    axios({
+      url: this.props.src,
+      method: "GET",
+      responseType: "blob" // important
+    }).then(response => {
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      this.video.height = this.props.height;
+      this.video.style.left = "-1000%";
+      this.video.style.position = "absolute";
+      this.video.style.top = "-1000%";
+      this.video.width = this.props.width;
+      this.video.src = url;
+      this.video.crossOrigin = "Anonymous";
+      document.body.appendChild(this.video);
+      this.canvasContext = this.canvas.getContext("2d");
+      this.canvasTmpCtx = tmpCanvas.getContext("2d");
+    });
+
     setTimeout(() => {
       this.setupListeners();
     }, 0);
@@ -206,25 +214,25 @@ class Player extends React.Component<IProps, IState> {
       let { width, height, textProps, logoProps } = this.props;
       this.canvasTmpCtx.drawImage(this.video, 0, 0, width, height);
 
-      // if (logoProps.url !== "" && logoProps.url !== undefined) {
-      this.logoPosition[logoProps.position].call();
-      // }
+      if (logoProps.url !== "" && logoProps.url !== undefined) {
+        this.logoPosition[logoProps.position].call();
+      }
       //Draw text using canvas-txt
-      // if (textProps.text !== "" && textProps.text !== undefined) {
-      this.canvasTmpCtx.fillStyle = textProps.textColor;
-      canvasTxt.fontSize = textProps.fontSize;
-      canvasTxt.vAlign = textProps.vAlign;
-      canvasTxt.align = textProps.align;
-      canvasTxt.lineHeight = 20;
-      canvasTxt.drawText(
-        this.canvasTmpCtx,
-        textProps.text,
-        5,
-        5,
-        width - 10,
-        height - 10
-      );
-      // }
+      if (textProps.text !== "" && textProps.text !== undefined) {
+        this.canvasTmpCtx.fillStyle = textProps.textColor;
+        canvasTxt.fontSize = textProps.fontSize;
+        canvasTxt.vAlign = textProps.vAlign;
+        canvasTxt.align = textProps.align;
+        canvasTxt.lineHeight = 20;
+        canvasTxt.drawText(
+          this.canvasTmpCtx,
+          textProps.text,
+          5,
+          5,
+          width - 10,
+          height - 10
+        );
+      }
 
       let idata = this.canvasTmpCtx.getImageData(0, 0, width, height);
       this.canvasContext.putImageData(idata, 0, 0);

@@ -31,21 +31,20 @@ class TestCanvas extends React.Component {
             muted={false}
             loop={false}
             logoProps={{
-              url:
-                "https://upload.wikimedia.org/wikipedia/en/thumb/5/56/Real_Madrid_CF.svg/195px-Real_Madrid_CF.svg.png",
-              position: "top-right",
-              width: 30,
-              height: 30
+              url: "https://paractice.s3.amazonaws.com/1592831724504.jpeg",
+              position: "top-left",
+              width: "50",
+              height: "50"
             }}
-            src="https://paractice.s3.amazonaws.com/1591959514483sample.mp4"
+            src="https://paractice.s3.amazonaws.com/1592831724504.webm"
             textProps={{
               text: "Hello world",
-              textColor: "#fff",
-              fontSize: 30,
-              vAlign: "top",
-              align: "left"
+              textColor: "#d33115",
+              fontSize: 49,
+              vAlign: "middle",
+              align: "center"
             }}
-            thumbnail="https://learn.zoner.com/wp-content/uploads/2017/03/minolta_g400.jpg?fidl=2019-06-mag-en"
+            thumbnail="https://paractice.s3.amazonaws.com/1592831724504.jpeg"
           />
         </div>
       </div>
