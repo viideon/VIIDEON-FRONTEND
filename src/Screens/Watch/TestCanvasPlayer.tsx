@@ -31,12 +31,12 @@ class TestCanvas extends React.Component {
             muted={false}
             loop={false}
             logoProps={{
-              url: "https://paractice.s3.amazonaws.com/1592831724504.jpeg",
+              url: "https://paractice.s3.amazonaws.com/1592908675160logo.jpeg",
               position: "top-left",
               width: "50",
               height: "50"
             }}
-            src="https://paractice.s3.amazonaws.com/1592831724504.webm"
+            src="https://paractice.s3.amazonaws.com/1592908675159.webm"
             textProps={{
               text: "Hello world",
               textColor: "#d33115",

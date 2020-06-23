@@ -67,17 +67,18 @@ class SendSave extends React.Component<IProps> {
     const persistRect = JSON.parse(
       JSON.stringify(this.container.getBoundingClientRect())
     );
-    // const video: any = this.refs.video;
-    // video.src = URL.createObjectURL(this.props.previewVideo);
-    this.canvas = this.refs.canvas;
-    this.canvas.width = 1280;
-    this.canvas.height = 720;
-    // const that = this;
     this.setState({
       width: persistRect.width,
       height: persistRect.height
     });
     window.addEventListener("resize", this.onWindowResize);
+    // const video: any = this.refs.video;
+    // video.src = URL.createObjectURL(this.props.previewVideo);
+    // this.canvas = this.refs.canvas;
+    // this.canvas.width = 1280;
+    // this.canvas.height = 720;
+    // const that = this;
+
     // video.addEventListener("loadeddata", (e: any) => {
     //   setTimeout(function() {
     //     that.canvas.getContext("2d").drawImage(video, 0, 0, 1280, 720);
@@ -113,7 +114,7 @@ class SendSave extends React.Component<IProps> {
     const thumbnailOptions = {
       Bucket: config.bucketName,
       ACL: config.ACL,
-      Key: Date.now().toString() + "thumbnail" + ".jpeg",
+      Key: Date.now().toString() + "thumbnail.jpeg",
       Body: this.props.thumbnailBlob
     };
     const that = this;
@@ -121,7 +122,7 @@ class SendSave extends React.Component<IProps> {
       const logoOptions = {
         Bucket: config.bucketName,
         ACL: config.ACL,
-        Key: Date.now().toString() + "logo" + ".jpeg",
+        Key: Date.now().toString() + "logo.jpeg",
         Body: this.props.logoBlob
       };
       s3.upload(logoOptions, function(err: any, data: any) {
@@ -245,6 +246,7 @@ class SendSave extends React.Component<IProps> {
                 src={URL.createObjectURL(this.props.previewVideo)}
                 textProps={this.props.textProps}
                 logoProps={this.props.logoProps}
+                local={true}
               />
             )}
           </div>
@@ -326,7 +328,7 @@ class SendSave extends React.Component<IProps> {
           </div>
           <canvas
             ref="canvas"
-            style={{ position: "absolute", left: "-2000px" }}
+            style={{ position: "absolute", left: "-2000px", display: "none" }}
           />
         </Grid>
         <Grid item xs={1} sm={1} md={3} lg={3}></Grid>

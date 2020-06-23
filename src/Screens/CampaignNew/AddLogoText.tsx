@@ -27,6 +27,17 @@ interface IState {
   iconPos: string;
 }
 class AddLogo extends React.Component<IProps, IState> {
+  video: any;
+  upload: any;
+  img: any;
+  canvas: any;
+  canvas2: any;
+  videoStream: any;
+  mediaRecorder: any;
+  sourceNode: any;
+  recordedBlobs: any = [];
+  cwidth: any;
+  cheight: any;
   constructor(props: any) {
     super(props);
     this.state = {
@@ -43,34 +54,6 @@ class AddLogo extends React.Component<IProps, IState> {
     };
     this.draw = this.draw.bind(this);
   }
-  video: any;
-  upload: any;
-  img: any;
-  canvas: any;
-  canvas2: any;
-  videoStream: any;
-  mediaRecorder: any;
-  sourceNode: any;
-  recordedBlobs: any = [];
-  cwidth: any;
-  cheight: any;
-
-  setInputRef = (ref: any) => {
-    this.upload = ref;
-  };
-  triggerFileUploadBtn = () => {
-    this.upload.click();
-  };
-  onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files![0] !== null) {
-      await this.compress(e);
-      // alert(URL.createObjectURL(blob));
-      toast.info("Logo selected play the video to see the logo");
-    } else {
-      toast.error("error in selecting file");
-    }
-  };
-
   componentDidMount() {
     this.video = this.refs.video;
     this.video.src = URL.createObjectURL(this.props.videoToEdit);
@@ -129,6 +112,28 @@ class AddLogo extends React.Component<IProps, IState> {
     };
   }
 
+  setInputRef = (ref: any) => {
+    this.upload = ref;
+  };
+  triggerFileUploadBtn = () => {
+    this.upload.click();
+  };
+  onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files![0] !== null) {
+      if (!e.target.files![0].name.match(/\.(jpg|jpeg|png)$/)) {
+        toast.error("Please add valid image");
+        return;
+      }
+      await this.compress(e.target.files![0]);
+      // if (this.video.paused) {
+      //   this.video.play();
+      // }
+      toast.info("Logo selected play the video to see the logo");
+    } else {
+      toast.error("error in selecting file");
+    }
+  };
+
   draw(
     video: any,
     img: any,
@@ -165,11 +170,11 @@ class AddLogo extends React.Component<IProps, IState> {
       that.draw(video, img, context, context2, width, height);
     }, 0);
   }
-  compress(e: any) {
+  compress(file: any) {
     const width = 100;
     const height = 100;
     const reader = new FileReader();
-    reader.readAsDataURL(e.target.files[0]);
+    reader.readAsDataURL(file);
     reader.onload = (event: any) => {
       const img = new Image();
       img.src = event.target.result;
@@ -182,11 +187,11 @@ class AddLogo extends React.Component<IProps, IState> {
         ctx.drawImage(img, 0, 0, width, height);
         ctx.canvas.toBlob(
           (blob: any) => {
+            console.log("blob of image", blob);
             this.setState({ img: URL.createObjectURL(blob) });
-            alert(URL.createObjectURL(blob));
             this.props.saveLogoBlob(blob);
           },
-          "image/jpeg",
+          `${file.type}`,
           1
         );
       };
@@ -263,7 +268,6 @@ class AddLogo extends React.Component<IProps, IState> {
     if (edited) {
       this.canvas.getContext("2d").drawImage(this.video, 0, 0, 1280, 720);
       this.canvas.toBlob((blob: any) => {
-        console.log("Url thumbnail edited", URL.createObjectURL(blob));
         this.props.saveThumbnailBlob(blob);
       }, "image/jpeg");
     } else {

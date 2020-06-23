@@ -43,11 +43,15 @@ class VideoSection extends Component<IProps> {
     gridView: true,
     deleteDialog: false
   };
+  constructor(props: any) {
+    super(props);
+    this.props.resetPage();
+  }
   componentDidMount() {
     this.props.getUserVideos();
   }
   // UNSAFE_componentWillMount() {
-  //   this.props.resetPage();
+  //   console.log("called");
   // }
   componentWillUnmount() {
     this.props.resetPage();

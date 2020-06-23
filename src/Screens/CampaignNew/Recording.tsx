@@ -1,12 +1,12 @@
 import React from "react";
-import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
-import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
-import StopIcon from "@material-ui/icons/Stop";
 import RecordRTC from "recordrtc";
 import DetectRTC from "detectrtc";
 import { withRouter } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Grid, Button } from "@material-ui/core";
+import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
+import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
+import StopIcon from "@material-ui/icons/Stop";
 // import recordGif from "../../assets/video-record.gif";
 import Counter from "./Counter";
 import "./style.css";
@@ -55,7 +55,14 @@ class Recording extends React.Component<IProps> {
   }
   captureUserMedia = (callback: any) => {
     var params: any = {
-      video: true,
+      video: {
+        width: {
+          min: 1080
+        },
+        height: {
+          min: 720
+        }
+      },
       audio: true
     };
     navigator.getUserMedia(params, callback, error => {

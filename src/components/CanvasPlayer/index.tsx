@@ -1,4 +1,7 @@
 import React from "react";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import axios from "axios";
+import canvasTxt from "canvas-txt";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import PauseIcon from "@material-ui/icons/Pause";
 import FullscreenIcon from "@material-ui/icons/Fullscreen";
@@ -7,8 +10,6 @@ import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 import VolumeOffIcon from "@material-ui/icons/VolumeOff";
 // import VolumeMuteIcon from "@material-ui/icons/VolumeMute";
 import VolumeDownIcon from "@material-ui/icons/VolumeDown";
-import axios from "axios";
-import canvasTxt from "canvas-txt";
 import "./style.css";
 
 interface IProps {
@@ -21,6 +22,7 @@ interface IProps {
   logoProps: any;
   textProps: any;
   thumbnail?: string;
+  local?: boolean;
 }
 interface IState {
   playing: boolean;
@@ -29,6 +31,8 @@ interface IState {
   mute: boolean;
   volumeState: string;
   showThumbnail: boolean;
+  videoLoaded: boolean;
+  fullScreen: boolean;
 }
 class Player extends React.Component<IProps, IState> {
   canvasContext: any;
@@ -59,7 +63,9 @@ class Player extends React.Component<IProps, IState> {
       mobile: this.isMobile(),
       mute: false,
       volumeState: "up",
-      showThumbnail: true
+      showThumbnail: true,
+      videoLoaded: false,
+      fullScreen: false
     };
     this.timestamp = null;
     this.unmounted = false;
@@ -113,23 +119,38 @@ class Player extends React.Component<IProps, IState> {
     this.logo = this.refs.logo;
     this.logo.crossOrigin = "Anonymous";
     //setting height /width and hiding video element
-    axios({
-      url: this.props.src,
-      method: "GET",
-      responseType: "blob" // important
-    }).then(response => {
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+    if (this.props.local && this.props.local === true) {
       this.video.height = this.props.height;
       this.video.style.left = "-1000%";
       this.video.style.position = "absolute";
       this.video.style.top = "-1000%";
       this.video.width = this.props.width;
-      this.video.src = url;
+      this.video.src = this.props.src;
       this.video.crossOrigin = "Anonymous";
       document.body.appendChild(this.video);
       this.canvasContext = this.canvas.getContext("2d");
       this.canvasTmpCtx = tmpCanvas.getContext("2d");
-    });
+      this.setState({ videoLoaded: true });
+    } else {
+      axios({
+        url: this.props.src,
+        method: "GET",
+        responseType: "blob" // important
+      }).then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        this.video.height = this.props.height;
+        this.video.style.left = "-1000%";
+        this.video.style.position = "absolute";
+        this.video.style.top = "-1000%";
+        this.video.width = this.props.width;
+        this.video.src = url;
+        this.video.crossOrigin = "Anonymous";
+        document.body.appendChild(this.video);
+        this.canvasContext = this.canvas.getContext("2d");
+        this.canvasTmpCtx = tmpCanvas.getContext("2d");
+        this.setState({ videoLoaded: true });
+      });
+    }
 
     setTimeout(() => {
       this.setupListeners();
@@ -203,8 +224,14 @@ class Player extends React.Component<IProps, IState> {
   };
   toggleFullScreen = () => {
     if (document.fullscreenElement) {
+      this.setState({ fullScreen: false });
+      this.video.height = window.innerHeight;
+      this.video.width = window.innerWidth;
       document.exitFullscreen();
     } else {
+      this.setState({ fullScreen: true });
+      this.video.height = window.innerHeight;
+      this.video.width = window.innerWidth;
       this.container.requestFullscreen();
     }
   };
@@ -212,7 +239,13 @@ class Player extends React.Component<IProps, IState> {
     // const { mobile } = this.state;
     const render = () => {
       let { width, height, textProps, logoProps } = this.props;
-      this.canvasTmpCtx.drawImage(this.video, 0, 0, width, height);
+      this.canvasTmpCtx.drawImage(
+        this.video,
+        0,
+        0,
+        !this.state.fullScreen ? width : window.innerWidth,
+        !this.state.fullScreen ? height : window.innerHeight
+      );
 
       if (logoProps.url !== "" && logoProps.url !== undefined) {
         this.logoPosition[logoProps.position].call();
@@ -260,7 +293,7 @@ class Player extends React.Component<IProps, IState> {
       //   render();
       // }
       render();
-      if (this.state.playing) {
+      if (this.state.playing && this.video.readyState === 4) {
         window.requestAnimationFrame(this.handleAnimationFrame);
         // this.requestAnimationFrame();
       }
@@ -296,7 +329,6 @@ class Player extends React.Component<IProps, IState> {
   }
   onWindowResize(e: any) {
     const mobile = this.isMobile();
-
     if (mobile && !this.state.mobile) {
       this.video.muted = "muted";
     } else if (!mobile && this.state.mobile) {
@@ -368,14 +400,14 @@ class Player extends React.Component<IProps, IState> {
   };
   render() {
     const { playing, showThumbnail } = this.state;
-    const { thumbnail, logoProps } = this.props;
+    const { thumbnail, logoProps, width, height } = this.props;
     return (
       <div ref="container">
-        <div className="wrapperCanvas" style={{ width: this.props.width }}>
+        <div className="wrapperCanvas">
           <canvas
-            height={this.props.height}
+            height={!this.state.fullScreen ? height : window.innerHeight}
             ref="canvas"
-            width={this.props.width}
+            width={!this.state.fullScreen ? width : window.innerWidth}
           />
           {showThumbnail && (
             <div className="thumbnailWrapper">
@@ -392,11 +424,25 @@ class Player extends React.Component<IProps, IState> {
               )}
             </div>
           )}
+          {this.state.videoLoaded === false && (
+            <div className="videoLoadingIcon">
+              <CircularProgress color="primary" />
+            </div>
+          )}
+
           <div className="wrapperControls">
-            <button onClick={this.playpause} className="canvasBtn">
+            <button
+              onClick={this.playpause}
+              className="canvasBtn"
+              disabled={!this.state.videoLoaded}
+            >
               {playing ? <PauseIcon /> : <PlayArrowIcon />}
             </button>
-            <button className="canvasBtn" onClick={this.toggleMute}>
+            <button
+              className="canvasBtn"
+              onClick={this.toggleMute}
+              disabled={!this.state.videoLoaded}
+            >
               {this.renderVolumeBtn()}
             </button>
             <input
@@ -407,6 +453,7 @@ class Player extends React.Component<IProps, IState> {
               max="100"
               step="1"
               onChange={this.setVolume}
+              disabled={!this.state.videoLoaded}
             ></input>
 
             <div className="time">
@@ -422,6 +469,7 @@ class Player extends React.Component<IProps, IState> {
               ></progress>
               <input
                 className="seek"
+                disabled={!this.state.videoLoaded}
                 id="seek"
                 ref="seek"
                 value="0"
@@ -434,7 +482,11 @@ class Player extends React.Component<IProps, IState> {
                 00:00
               </div>
             </div>
-            <button className="canvasBtn" onClick={this.toggleFullScreen}>
+            <button
+              className="canvasBtn"
+              onClick={this.toggleFullScreen}
+              disabled={!this.state.videoLoaded}
+            >
               <FullscreenIcon />
             </button>
           </div>
@@ -442,8 +494,8 @@ class Player extends React.Component<IProps, IState> {
 
         <canvas
           ref="tempCanvas"
-          height={this.props.height}
-          width={this.props.width}
+          height={!this.state.fullScreen ? height : window.innerHeight}
+          width={!this.state.fullScreen ? width : window.innerWidth}
           style={{ display: "none" }}
         />
         <img
