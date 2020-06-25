@@ -119,6 +119,11 @@
 .MuiLinearProgress-root {
   height: 14px !important;
 }
+.recordQualityInput {
+  width: 272px;
+  margin-top: 15px;
+  text-align: start;
+}
 @media (max-width: 500px) {
   .btnDoubleWrap {
     display: flex;

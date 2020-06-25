@@ -3,7 +3,7 @@ import RecordRTC from "recordrtc";
 import DetectRTC from "detectrtc";
 import { withRouter } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Grid, Button } from "@material-ui/core";
+import { Grid, Button, Select, MenuItem, InputLabel } from "@material-ui/core";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import StopIcon from "@material-ui/icons/Stop";
@@ -30,13 +30,22 @@ class Recording extends React.Component<IProps> {
     showTimer: false,
     count: 0,
     timerTimeout: 0,
-    disableRecordBtn: false
+    disableRecordBtn: false,
+    width: 1280,
+    height: 720,
+    selectValue: 1,
+    showQualityInput: true
   };
   recordVideo: any;
   video: any;
   localStream: any;
 
   componentDidMount() {
+    this.setupMedia();
+  }
+
+  setupMedia = () => {
+    console.log("called");
     let that = this;
     DetectRTC.load(function() {
       if (DetectRTC.isWebsiteHasWebcamPermissions === false) {
@@ -52,19 +61,20 @@ class Recording extends React.Component<IProps> {
     }
     this.video = this.refs.video;
     this.requestUserMedia();
-  }
+  };
   captureUserMedia = (callback: any) => {
-    var params: any = {
+    const params: any = {
       video: {
         width: {
-          min: 1080
+          min: this.state.width
         },
         height: {
-          min: 720
+          min: this.state.height
         }
       },
       audio: true
     };
+
     navigator.getUserMedia(params, callback, error => {
       if (error.name === "NotAllowedError") {
         toast.info(
@@ -88,7 +98,11 @@ class Recording extends React.Component<IProps> {
   };
 
   handleRecording = () => {
-    this.setState({ showCountdown: true, disableRecordBtn: true });
+    this.setState({
+      showCountdown: true,
+      disableRecordBtn: true,
+      showQualityInput: false
+    });
     setTimeout(() => this.startRecord(), 3000);
   };
   startRecord = () => {
@@ -174,6 +188,25 @@ class Recording extends React.Component<IProps> {
     this.video.srcObect = null;
     this.localStream = null;
   };
+  setQuality = (e: any) => {
+    let value = e.target.value;
+    if (value === 1) {
+      this.setState({ width: 1280, height: 720, selectValue: 1 }, () => {
+        this.stopStream();
+        this.setupMedia();
+      });
+    } else if (value === 2) {
+      this.setState({ width: 800, height: 600, selectValue: 2 }, () => {
+        this.stopStream();
+        this.setupMedia();
+      });
+    } else if (value === 3) {
+      this.setState({ width: 640, height: 480, selectValue: 3 }, () => {
+        this.stopStream();
+        this.setupMedia();
+      });
+    }
+  };
   componentWillUnmount() {
     this.stopStream();
   }
@@ -226,7 +259,21 @@ class Recording extends React.Component<IProps> {
                 <span className="loadingText">Loading ...</span>
               )}
             </div>
-
+            {this.state.showQualityInput && (
+              <div className="recordQualityInput">
+                <InputLabel>Quality</InputLabel>
+                <Select
+                  labelId="demo-simple-select-filled-label"
+                  id="demo-simple-select-filled"
+                  onChange={this.setQuality}
+                  value={this.state.selectValue}
+                >
+                  <MenuItem value={1}> 1280 x 720 (High defination)</MenuItem>
+                  <MenuItem value={2}>800 x 600 (Standard defination)</MenuItem>
+                  <MenuItem value={3}>640 x 480 (Normal defination)</MenuItem>
+                </Select>
+              </div>
+            )}
             <div className="btnDoubleWrap">
               <Button
                 onClick={() => this.handleRecording()}

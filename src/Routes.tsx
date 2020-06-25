@@ -21,6 +21,7 @@ import Recording from "./Screens/Watch/Recording";
 import VideoLayer from "./Screens/Watch/VideoLayer";
 import Capture from "./Screens/Watch/Capture";
 import TestCanvas from "./Screens/Watch/TestCanvasPlayer";
+import EmailConfiguration from "./Screens/EmailConfiguration";
 
 type IProps = {
   auth: AuthState;
@@ -43,6 +44,7 @@ class Routes extends Component<IProps> {
               <Route exact path="/layer" component={VideoLayer} />
               <Route exact path="/capture" component={Capture} />
               <Route exact path="/canvastest" component={TestCanvas} />
+              <Route exact path="/emailconfig" component={EmailConfiguration} />
               <Route exact path="*" component={Home} />
             </Switch>
           </>

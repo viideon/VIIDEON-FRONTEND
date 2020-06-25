@@ -1,0 +1,12 @@
+.emailConfigWrapper {
+  width: 100%;
+  margin-top: 100px;
+  /* height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center; */
+}
+.btnConnectGoogle {
+  display: flex;
+  justify-content: center;
+}

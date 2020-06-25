@@ -11,6 +11,8 @@ declare module "redux-persist-expire";
 declare module "detectrtc";
 declare module "react-aspect-ratio";
 declare module "browser-image-resizer";
+declare module "react-google-login";
+declare module "react-gmail";
 declare const PERMISSION_DENIED;
 declare function getSeekableBlob(arg1: any, arg2: any) {
 
