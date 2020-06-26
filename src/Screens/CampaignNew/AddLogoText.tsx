@@ -50,7 +50,7 @@ class AddLogo extends React.Component<IProps, IState> {
       fontSize: 40,
       vAlign: "top",
       align: "left",
-      iconPos: "top-left"
+      iconPos: "top-right"
     };
     this.draw = this.draw.bind(this);
   }
@@ -159,6 +159,7 @@ class AddLogo extends React.Component<IProps, IState> {
       width - 10,
       height - 10
     );
+
     let idata = context2.getImageData(0, 0, width, height);
     let that = this;
     context.putImageData(idata, 0, 0);
