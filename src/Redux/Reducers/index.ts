@@ -7,6 +7,7 @@ import authReducer from './auth';
 import drawerReducer from "./drawer"
 import videoReducer from './videos';
 import profileReducer from './profile';
+import emailReducer from './email';
 const expireTime = 24 * 60 * 60 * 1000;
 const expirationKey = "expirationKey";
 
@@ -14,7 +15,7 @@ const expirationKey = "expirationKey";
 const rootPersistConfig = {
     key: 'root',
     storage: storage,
-    whitelist: ["auth", "profile"],
+    whitelist: ["auth", "profile", "email"],
     blacklist: ["video", "drawer"],
     transforms: [expireIn(expireTime, expirationKey, {})]
 };
@@ -33,6 +34,7 @@ const rootReducer = combineReducers({
     // video: persistReducer(videoPersistConfig, videoReducer),
     video: videoReducer,
     profile: profileReducer,
+    email: emailReducer
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);

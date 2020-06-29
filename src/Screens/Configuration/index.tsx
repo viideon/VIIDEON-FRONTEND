@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Tooltip } from "@material-ui/core";
+import { toast } from "react-toastify";
 import GoogleLogin from "react-google-login";
 import HelpIcon from "@material-ui/icons/Help";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -8,6 +9,11 @@ import "./style.css";
 class Configuration extends React.Component {
   responseGoogle = (response: any) => {
     console.log("response from  google", response);
+    if (response.code) {
+      console.log("response", response.code);
+    } else {
+      toast.error("Authorziation failed try again");
+    }
   };
   render() {
     return (

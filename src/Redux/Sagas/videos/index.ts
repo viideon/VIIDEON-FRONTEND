@@ -66,7 +66,7 @@ function* getUserVideos() {
     }
 }
 function* searchUserVideos(action: any) {
-    console.log("saga for search called");
+
     let userId = yield select(selectID);
     let pageNo = yield select(getPageNo);
     const queryObj = {

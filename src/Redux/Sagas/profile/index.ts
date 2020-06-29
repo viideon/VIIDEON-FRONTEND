@@ -1,7 +1,6 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
 import { types } from '../../Types/profile';
-// import { types as userTypes } from "../../Types/auth"
 import { updateProfile } from './api';
 
 function* updateProfileUser(action: any) {
