@@ -42,7 +42,7 @@ function* getUserEmailConfig() {
         toast.error("Failed to get your configuration");
     }
 }
-export function* authWatcher() {
+export function* emailWatcher() {
     yield takeEvery(types.ADD_EMAIL_CONFIGURATION, saveUserEmailConfig);
     yield takeEvery(types.GET_USER_EMAIL_CONFIG, getUserEmailConfig);
 }
