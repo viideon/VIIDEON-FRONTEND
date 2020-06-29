@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
-import { Grid, Input, InputAdornment, Checkbox } from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
-import AddIcon from "@material-ui/icons/Add";
-import ListIcon from "@material-ui/icons/List";
-import AppsIcon from "@material-ui/icons/Apps";
-import CreateIcon from "@material-ui/icons/Create";
-import DeleteIcon from "@material-ui/icons/Delete";
-import Tooltip from "@material-ui/core/Tooltip";
+import {
+  Grid,
+  Input,
+  InputAdornment,
+  Checkbox,
+  Tooltip
+} from "@material-ui/core";
 import DeleteDialog from "../Reusable/DeleteDialog";
 import {
   getUserVideos,
@@ -21,6 +20,12 @@ import { thumbnailDefault } from "../../constants/constants";
 import VideoCard from "../VideoCard/VideoCard";
 import "../../../node_modules/video-react/dist/video-react.css";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import SearchIcon from "@material-ui/icons/Search";
+import AddIcon from "@material-ui/icons/Add";
+import ListIcon from "@material-ui/icons/List";
+import AppsIcon from "@material-ui/icons/Apps";
+import CreateIcon from "@material-ui/icons/Create";
+import DeleteIcon from "@material-ui/icons/Delete";
 import "./styles.css";
 
 type IProps = {
@@ -50,9 +55,7 @@ class VideoSection extends Component<IProps> {
   componentDidMount() {
     this.props.getUserVideos();
   }
-  // UNSAFE_componentWillMount() {
-  //   console.log("called");
-  // }
+
   componentWillUnmount() {
     this.props.resetPage();
   }
@@ -73,9 +76,7 @@ class VideoSection extends Component<IProps> {
   searchVideos = (e: any) => {
     if (e.target.value) {
       this.props.searchUserVideos(e.target.value);
-      console.log("search", e.target.value);
     } else {
-      console.log("not seacrh", e.target.value);
       this.props.emptyPage();
       this.props.getUserVideos();
     }
@@ -100,9 +101,7 @@ class VideoSection extends Component<IProps> {
   render() {
     const { userVideos, loadingVideos } = this.props;
     const { gridView } = this.state;
-    // if (showDeleteDialog === false) {
-    //   this.closeDeleteDialog();
-    // }
+
     return (
       <div className="VideoComponent">
         <div className="mainHeadingWrapper">

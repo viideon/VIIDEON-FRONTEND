@@ -74,6 +74,15 @@ class SideBar extends Component<IProps, IState> {
           <span className="IconNameStyling">Connections</span>
           <i className="fas fa-angle-left" style={arrowIcon}></i>
         </div>
+        <div
+          className="OptionIcons"
+          onClick={() => this.props.history.push("/configuration")}
+        >
+          <i className="fas fa-users-cog" style={iconStyle} />
+          <span className="IconNameStyling">Configuration</span>
+          <i className="fas fa-angle-left" style={arrowIcon}></i>
+        </div>
+
         <div className="OptionIcons" onClick={() => alert("Under Progress")}>
           <i className="fas fa-chart-pie" style={iconStyle} />
           <span className="IconNameStyling">My Stats</span>
