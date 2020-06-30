@@ -56,7 +56,7 @@ class Detail extends React.Component<IProps> {
     } else {
       const recieverEmail = this.state.recieverEmail;
       const video = {
-        id: id,
+        videoId: id,
         recieverEmail
       };
       this.props.sendVideoToEmail(video);

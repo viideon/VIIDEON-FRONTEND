@@ -21,7 +21,6 @@ import Recording from "./Screens/Watch/Recording";
 import VideoLayer from "./Screens/Watch/VideoLayer";
 import Capture from "./Screens/Watch/Capture";
 import TestCanvas from "./Screens/Watch/TestCanvasPlayer";
-import Configuration from "./Screens/Configuration";
 
 type IProps = {
   auth: AuthState;

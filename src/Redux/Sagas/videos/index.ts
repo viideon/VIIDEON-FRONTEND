@@ -1,12 +1,21 @@
 import { put, takeEvery, takeLatest, call, select } from 'redux-saga/effects';
 import { types } from '../../Types/videos';
 import { sendVideoToEmail, saveVideo, getVideosByUserId, videoCount, getVideosByTitle, updateUserVideo, deleteVideoById, getSingleVideo, sendMultiEmails, deleteDataAws } from './api';
-import { selectID, selectVideos, getPageNo, isLoadMore } from "../../Selectors/index"
+import { selectID, selectVideos, getPageNo, isLoadMore, isEmailConfigPresent } from "../../Selectors/index"
 import { toast } from 'react-toastify';
 
 function* sendVideoOnEmail(action: any) {
     try {
-        const result = yield sendVideoToEmail(action.payload);
+        let isConfig = yield select(isEmailConfigPresent);
+        if (!isConfig) {
+            return toast.error("Please add an email configuration to send email's on your behalf")
+        }
+        let userId = yield select(selectID);
+        const payload = action.payload;
+        payload.userId = userId;
+        console.log("payload", payload);
+        const result = yield sendVideoToEmail(payload);
+        console.log("result", result);
         if (result.status === 200) {
             yield put({ type: types.VIDEO_SEND_SUCCESS, payload: result.message });
             toast.info("Email Sent Successfully");

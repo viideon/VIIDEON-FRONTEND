@@ -11,7 +11,8 @@ const emailReducer = (state = initialState, action: any) => {
         case types.ADD_EMAIL_CONFIG_SUCCESS:
             return {
                 ...state,
-                userEmail: action.payload,
+                emailConfig: action.payload,
+                emailConfigurations: [...state.emailConfigurations, action.payload],
                 loading: false
             };
         case types.ADD_EMAIL_CONFIG_FAILURE:

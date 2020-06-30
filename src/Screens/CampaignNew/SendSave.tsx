@@ -191,7 +191,7 @@ class SendSave extends React.Component<IProps> {
     } else {
       const recieverEmail = this.state.recieverEmail;
       const video = {
-        id: this.props.savedVideoId,
+        videoId: this.props.savedVideoId,
         recieverEmail
       };
       this.props.sendVideoToEmail(video);

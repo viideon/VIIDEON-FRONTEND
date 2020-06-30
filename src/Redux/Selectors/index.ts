@@ -20,3 +20,6 @@ export const getVideosLength = (state: any) => {
 export const isLoadMore = (state: any) => {
     return state.video.loadMore;
 }
+export const isEmailConfigPresent = (state: any) => {
+    return state.email.emailConfigurations.length;
+}

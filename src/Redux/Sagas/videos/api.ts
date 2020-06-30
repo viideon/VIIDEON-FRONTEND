@@ -20,7 +20,7 @@ export async function saveVideo(video: any) {
    return API.post("/video", video);
 }
 export async function sendVideoToEmail(video: any) {
-   return API.post('/video/email', video);
+   return API.post('/email/send', video);
 }
 
 export async function sendMultiEmails(emailVideoObj: any) {

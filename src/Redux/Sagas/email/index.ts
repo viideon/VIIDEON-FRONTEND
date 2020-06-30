@@ -13,14 +13,14 @@ function* saveUserEmailConfig(action: any) {
     try {
         const result = yield saveEmailConfig(configObj);
         if (result.status === 201) {
-            yield put({ type: types.ADD_EMAIL_CONFIG_SUCCESS, payload: result.userEmail });
+            yield put({ type: types.ADD_EMAIL_CONFIG_SUCCESS, payload: result.data.emailConfig });
         }
         else {
             yield put({ type: types.ADD_EMAIL_CONFIG_FAILURE });
             toast.error("Failed to add your configuration");
         }
     } catch (error) {
-        yield put({ type: types.ADD_EMAIL_CONFIG_FAILURE, payload: error });
+        yield put({ type: types.ADD_EMAIL_CONFIG_FAILURE });
         toast.error("Failed to add your configuration");
     }
 }
@@ -30,15 +30,15 @@ function* getUserEmailConfig() {
     try {
         const result = yield getUserConfig(userId);
         if (result.status === 200) {
-            yield put({ type: types.GET_USER_EMAIL_CONFIG_SUCCESS, payload: result.configurations });
+            yield put({ type: types.GET_USER_EMAIL_CONFIG_SUCCESS, payload: result.data.configurations });
         }
         else {
-            yield put({ type: types.ADD_EMAIL_CONFIG_FAILURE });
+            yield put({ type: types.GET_USER_EMAIL_CONFIG_FAILURE });
             toast.error("Failed to get your configuration");
         }
 
     } catch (error) {
-        yield put({ type: types.ADD_EMAIL_CONFIG_FAILURE });
+        yield put({ type: types.GET_USER_EMAIL_CONFIG_FAILURE });
         toast.error("Failed to get your configuration");
     }
 }
