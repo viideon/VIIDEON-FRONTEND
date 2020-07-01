@@ -72,22 +72,6 @@ class SendSave extends React.Component<IProps> {
       height: persistRect.height
     });
     window.addEventListener("resize", this.onWindowResize);
-    // const video: any = this.refs.video;
-    // video.src = URL.createObjectURL(this.props.previewVideo);
-    // this.canvas = this.refs.canvas;
-    // this.canvas.width = 1280;
-    // this.canvas.height = 720;
-    // const that = this;
-
-    // video.addEventListener("loadeddata", (e: any) => {
-    //   setTimeout(function() {
-    //     that.canvas.getContext("2d").drawImage(video, 0, 0, 1280, 720);
-    //     that.canvas.toBlob((blob: any) => {
-    //       console.log("blob", blob);
-    //       that.setState({ thumbnail: blob });
-    //     }, "image/jpeg");
-    //   }, 2000);
-    // });
   }
   onWindowResize = () => {
     const persistRect = JSON.parse(
@@ -205,8 +189,9 @@ class SendSave extends React.Component<IProps> {
       toast.error("No video saved try again");
       return;
     } else {
+      const emails = this.state.emails.join();
       const emailVideoObj = {
-        emails: this.state.emails,
+        emails: emails,
         videoId: this.props.savedVideoId
       };
       this.props.sendMultipleEmail(emailVideoObj);

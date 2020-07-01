@@ -71,8 +71,9 @@ class Detail extends React.Component<IProps> {
       toast.error("No video saved try again");
       return;
     } else {
+      const emails = this.state.emails.join();
       const emailVideoObj = {
-        emails: this.state.emails,
+        recieverEmail: emails,
         videoId: id
       };
       this.props.sendMultipleEmail(emailVideoObj);

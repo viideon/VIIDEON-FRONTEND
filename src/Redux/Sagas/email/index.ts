@@ -1,7 +1,7 @@
-import { put, takeEvery, select } from 'redux-saga/effects';
+import { put, takeEvery, select, call } from 'redux-saga/effects';
 import { types } from '../../Types/email';
-import { saveEmailConfig, getUserConfig } from './api';
-import { selectID, } from "../../Selectors/index"
+import { saveEmailConfig, getUserConfig, deleteConfig } from './api';
+import { selectID, selectEmailConfigs } from "../../Selectors/index"
 import { toast } from 'react-toastify';
 
 function* saveUserEmailConfig(action: any) {
@@ -42,7 +42,36 @@ function* getUserEmailConfig() {
         toast.error("Failed to get your configuration");
     }
 }
+function* deleteUserEmailConfig(action: any) {
+
+    try {
+        let configId = action.payload;
+        const result = yield call(deleteConfig, configId);
+        if (result.status === 200) {
+            const emailConfigs = yield select(selectEmailConfigs);
+            const updatedConfigs = emailConfigs.filter((config: any) => config._id !== configId);
+            yield put({ type: types.DELETE_USER_CONFIG_SUCCESS, payload: updatedConfigs });
+            toast.info("Email Config deleted successfully");
+        } else {
+            yield put({ type: types.DELETE_USER_CONFIG_FAILURE });
+            toast.info("Failed to delete try again");
+        }
+
+    }
+    catch (error) {
+        if (error.message) {
+            yield put({ type: types.DELETE_USER_CONFIG_FAILURE });
+            toast.info(error.message);
+        } else {
+            yield put({ type: types.DELETE_USER_CONFIG_FAILURE });
+            toast.info("Failed to delete try again");
+        }
+
+
+    }
+}
 export function* emailWatcher() {
     yield takeEvery(types.ADD_EMAIL_CONFIGURATION, saveUserEmailConfig);
     yield takeEvery(types.GET_USER_EMAIL_CONFIG, getUserEmailConfig);
+    yield takeEvery(types.DELETE_USER_CONFIG, deleteUserEmailConfig);
 }

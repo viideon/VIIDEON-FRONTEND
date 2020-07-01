@@ -138,7 +138,14 @@ function* getVideo(action: any) {
 
 function* sendMultipleEmail(action: any) {
     try {
-        const result = yield call(sendMultiEmails, action.payload);
+        let isConfig = yield select(isEmailConfigPresent);
+        if (!isConfig) {
+            return toast.error("Please add an email configuration to send email's on your behalf")
+        }
+        let userId = yield select(selectID);
+        const payload = action.payload;
+        payload.userId = userId;
+        const result = yield call(sendMultiEmails, payload);
         if (result.status === 200) {
             yield put({ type: types.MULTIPLE_EMAIL_SUCCESS });
             toast.info("Email's sent");
@@ -164,7 +171,7 @@ export function* deleteVideo(action: any) {
     }
     try {
         const result = yield call(deleteVideoById, callObj);
-        console.log("result", result);
+
         if (result.status === 200) {
             yield put({ type: types.DELETE_VIDEO_SUCCESS });
             const videos = yield select(selectVideos);

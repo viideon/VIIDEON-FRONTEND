@@ -7,3 +7,6 @@ export async function saveEmailConfig(configObj: any) {
 export async function getUserConfig(userId: any) {
     return API.get("/email/config", { params: { userId } })
 }
+export async function deleteConfig(id: any) {
+    return API.delete("/email/config", { params: { id: id } });
+}

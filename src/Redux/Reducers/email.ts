@@ -36,6 +36,23 @@ const emailReducer = (state = initialState, action: any) => {
                 ...state,
                 loading: false
             }
+        case types.DELETE_USER_CONFIG:
+            return {
+                ...state,
+                isDeleting: true,
+            }
+        case types.DELETE_USER_CONFIG_SUCCESS:
+            return {
+                ...state,
+                isDeleting: false,
+                emailConfigurations: action.payload
+            }
+        case types.DELETE_USER_CONFIG_FAILURE:
+            return {
+                ...state,
+                isDeleting: false,
+
+            }
         default: {
             return state;
         }

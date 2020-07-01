@@ -23,3 +23,6 @@ export const isLoadMore = (state: any) => {
 export const isEmailConfigPresent = (state: any) => {
     return state.email.emailConfigurations.length;
 }
+export const selectEmailConfigs = (state: any) => {
+    return state.email.emailConfigurations;
+}
