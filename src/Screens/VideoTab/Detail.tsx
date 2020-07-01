@@ -1,6 +1,7 @@
 import React from "react";
 import { FormGroup, Label, Input, Col, Form } from "reactstrap";
-import { Button, Grid, CircularProgress } from "@material-ui/core";
+import { Button, Grid, CircularProgress, Tooltip } from "@material-ui/core";
+import HelpIcon from "@material-ui/icons/Help";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
@@ -95,8 +96,18 @@ class Detail extends React.Component<IProps> {
               </div>
               <FormGroup>
                 <Label className="labelUploadSection">
-                  {Constants.SENDER_ADDRESS}
+                  {Constants.SENDER_ADDRESS}{" "}
+                  <span>
+                    <Tooltip
+                      title="connect your gmail account in confguration to send email's on your behalf"
+                      placement="top"
+                      arrow
+                    >
+                      <HelpIcon />
+                    </Tooltip>
+                  </span>
                 </Label>
+
                 <Input
                   type="text"
                   name="recieverEmail"
@@ -115,7 +126,18 @@ class Detail extends React.Component<IProps> {
                 {Constants.SEND_THROUGH_EMAIL}
               </Button>
               <FormGroup className="formGroupMultiple">
-                <Label className="labelUploadSection">Broadcast</Label>
+                <Label className="labelUploadSection">
+                  Broadcast{" "}
+                  <span>
+                    <Tooltip
+                      title="connect your gmail account in confguration to send email's on your behalf"
+                      placement="top"
+                      arrow
+                    >
+                      <HelpIcon />
+                    </Tooltip>
+                  </span>
+                </Label>
                 <ChipInput
                   value={this.state.emails}
                   placeholder="Enter email and press enter"

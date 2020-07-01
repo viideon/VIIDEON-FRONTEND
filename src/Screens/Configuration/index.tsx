@@ -2,10 +2,12 @@ import React from "react";
 import { Button, Tooltip, CircularProgress } from "@material-ui/core";
 import {
   getEmailConfigurations,
-  addEmailConfiguration
+  addEmailConfiguration,
+  deleteEmailConfig
 } from "../../Redux/Actions/email";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
+import DeleteDialog from "../../components/Reusable/DeleteDialogGeneric";
 import GoogleLogin from "react-google-login";
 import HelpIcon from "@material-ui/icons/Help";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -14,12 +16,23 @@ import "./style.css";
 interface IProps {
   getEmailConfigurations: () => void;
   addEmailConfiguration: (code: any) => void;
+  deleteEmailConfig: (id: any) => void;
+  showDeleteDialog: boolean;
+  isDeleting: boolean;
   emailConfigs: any;
-  loading: true;
+  loading: boolean;
 }
 class Configuration extends React.Component<IProps> {
+  state = {
+    deleteDialog: false
+  };
   componentDidMount() {
     this.props.getEmailConfigurations();
+  }
+  static getDerivedStateFromProps(nextProps: any) {
+    if (nextProps.showDeleteDialog === false) {
+      return { deleteDialog: false };
+    } else return null;
   }
   responseGoogle = (response: any) => {
     if (response.code) {
@@ -28,8 +41,18 @@ class Configuration extends React.Component<IProps> {
       toast.error("Authorziation failed try again");
     }
   };
+  openDeleteDialog = () => {
+    this.setState({ deleteDialog: true });
+  };
+  closeDeleteDialog = () => {
+    this.setState({ deleteDialog: false });
+  };
+  deleteUserConfig = (id: any) => {
+    this.props.deleteEmailConfig(id);
+    // console.log("deleted", id);
+  };
   render() {
-    const { emailConfigs, loading } = this.props;
+    const { emailConfigs, loading, isDeleting } = this.props;
     return (
       <div className="emailConfigWrapper">
         <div className="titleContacts">
@@ -46,33 +69,32 @@ class Configuration extends React.Component<IProps> {
             </span>
           </div>
           <div className="connectAccount">
-            {emailConfigs && emailConfigs.length === 0 && (
-              <GoogleLogin
-                clientId={`${process.env.REACT_APP_OAUTH_ID}`}
-                render={(renderProps: any) => (
-                  <Button
-                    onClick={renderProps.onClick}
-                    disabled={renderProps.disabled}
-                    variant="contained"
-                    style={{
-                      backgroundColor: "#e7505a",
-                      color: "#fff"
-                    }}
-                  >
-                    Connect to Gmail
-                  </Button>
-                )}
-                buttonText="Connect to Gmail"
-                onSuccess={this.responseGoogle}
-                onFailure={this.responseGoogle}
-                scope={"https://www.googleapis.com/auth/gmail.send"}
-                accessType="offline"
-                responseType="code"
-                prompt="consent"
-              />
-            )}
+            <GoogleLogin
+              clientId={`${process.env.REACT_APP_OAUTH_ID}`}
+              render={(renderProps: any) => (
+                <Button
+                  onClick={renderProps.onClick}
+                  // disabled={renderProps.disabled}
+                  variant="contained"
+                  style={{
+                    backgroundColor: "#e7505a",
+                    color: "#fff"
+                  }}
+                >
+                  Connect to Gmail
+                </Button>
+              )}
+              buttonText="Connect to Gmail"
+              onSuccess={this.responseGoogle}
+              onFailure={this.responseGoogle}
+              scope={"https://www.googleapis.com/auth/gmail.send"}
+              accessType="offline"
+              responseType="code"
+              prompt="consent"
+            />
           </div>
         </div>
+
         <div className="tableConfigWrapper">
           <table className="tableConfig">
             <thead>
@@ -86,13 +108,21 @@ class Configuration extends React.Component<IProps> {
             <tbody>
               {emailConfigs &&
                 emailConfigs.map((config: any) => (
-                  <tr id={config._id}>
+                  <tr key={config._id}>
+                    <DeleteDialog
+                      id={config._id}
+                      open={this.state.deleteDialog}
+                      closeDeleteDialog={this.closeDeleteDialog}
+                      isDeleting={isDeleting}
+                      actionDelete={this.deleteUserConfig}
+                      textContent="Are you sure you want to delete this configuration ?"
+                    />
                     <td>Gmail Api</td>
                     <td>{config.userEmail}</td>
                     <td>
                       <button
                         className="squareBtn red"
-                        onClick={() => alert("under progress")}
+                        onClick={this.openDeleteDialog}
                       >
                         <DeleteIcon fontSize="small" htmlColor="#fff" />
                       </button>
@@ -112,13 +142,16 @@ class Configuration extends React.Component<IProps> {
 const mapStateToProps = (state: any) => {
   return {
     emailConfigs: state.email.emailConfigurations,
-    loading: state.email.loading
+    loading: state.email.loading,
+    isDeleting: state.email.isDeleting,
+    showDeleteDialog: state.email.showDeleteDialog
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getEmailConfigurations: () => dispatch(getEmailConfigurations()),
-    addEmailConfiguration: (code: any) => dispatch(addEmailConfiguration(code))
+    addEmailConfiguration: (code: any) => dispatch(addEmailConfiguration(code)),
+    deleteEmailConfig: (id: any) => dispatch(deleteEmailConfig(id))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Configuration);

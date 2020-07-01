@@ -3,7 +3,8 @@ import {
   Grid,
   Button,
   LinearProgress,
-  CircularProgress
+  CircularProgress,
+  Tooltip
 } from "@material-ui/core";
 import { Input, Label, FormGroup } from "reactstrap";
 import CanvasPlayer from "../../components/CanvasPlayer";
@@ -27,6 +28,7 @@ import { AuthState } from "../../Redux/Types/auth";
 import * as Constants from "../../constants/constants";
 import { reg } from "../../constants/emailRegEx";
 import { config } from "../../config/aws";
+import HelpIcon from "@material-ui/icons/Help";
 import "./style.css";
 
 interface IProps {
@@ -272,7 +274,16 @@ class SendSave extends React.Component<IProps> {
               <div>
                 <FormGroup>
                   <Label className="labelUploadSection">
-                    {Constants.SENDER_ADDRESS}
+                    {Constants.SENDER_ADDRESS}{" "}
+                    <span>
+                      <Tooltip
+                        title="connect your gmail account in confguration to send email's on your behalf"
+                        placement="top"
+                        arrow
+                      >
+                        <HelpIcon />
+                      </Tooltip>
+                    </span>
                   </Label>
                   <Input
                     type="text"
@@ -292,7 +303,18 @@ class SendSave extends React.Component<IProps> {
                   {Constants.SEND_THROUGH_EMAIL}
                 </Button>
                 <FormGroup className="formGroupMultiple">
-                  <Label className="labelUploadSection">Broadcast</Label>
+                  <Label className="labelUploadSection">
+                    Broadcast{" "}
+                    <span>
+                      <Tooltip
+                        title="connect your gmail account in confguration to send email's on your behalf"
+                        placement="top"
+                        arrow
+                      >
+                        <HelpIcon />
+                      </Tooltip>
+                    </span>
+                  </Label>
                   <ChipInput
                     value={this.state.emails}
                     placeholder="Enter email and press enter"

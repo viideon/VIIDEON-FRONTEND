@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import AWS from "aws-sdk";
 import * as ebml from "ts-ebml";
 import VideoRecorder from "react-video-recorder";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { Button, LinearProgress, CircularProgress } from "@material-ui/core";
+import { Tab, Tabs, TabList, TabPanel,  } from "react-tabs";
+import HelpIcon from "@material-ui/icons/Help";
+import { Button, LinearProgress, CircularProgress ,Tooltip} from "@material-ui/core";
 import ChipInput from "material-ui-chip-input";
 import { Input, Label, Row, Col, FormGroup } from "reactstrap";
 import { FaCamera, FaLaptop } from "react-icons/fa";
@@ -121,8 +122,9 @@ class UploadRecord extends Component<IProps, IState> {
       toast.error("No video saved try again");
       return;
     } else {
+      const emails = this.state.emails.join();
       const emailVideoObj = {
-        emails: this.state.emails,
+        emails: emails,
         videoId: this.props.savedVideoId
       };
       this.props.sendMultipleEmail(emailVideoObj);
@@ -378,7 +380,16 @@ class UploadRecord extends Component<IProps, IState> {
                                 <div>
                                   <FormGroup>
                                     <Label className="labelUploadSection">
-                                      {Constants.SENDER_ADDRESS}
+                                      {Constants.SENDER_ADDRESS}{" "}
+                                      <span>
+                                        <Tooltip
+                                          title="connect your gmail account in confguration to send email's on your behalf"
+                                          placement="top"
+                                          arrow
+                                        >
+                                          <HelpIcon />
+                                        </Tooltip>
+                                      </span>
                                     </Label>
                                     <Input
                                       type="text"
@@ -399,7 +410,16 @@ class UploadRecord extends Component<IProps, IState> {
                                   </Button>
                                   <FormGroup className="formGroupMultiple">
                                     <Label className="labelUploadSection">
-                                      Broadcast
+                                      Broadcast{" "}
+                                      <span>
+                                        <Tooltip
+                                          title="connect your gmail account in confguration to send email's on your behalf"
+                                          placement="top"
+                                          arrow
+                                        >
+                                          <HelpIcon />
+                                        </Tooltip>
+                                      </span>
                                     </Label>
                                     <ChipInput
                                       value={this.state.emails}
@@ -479,7 +499,16 @@ class UploadRecord extends Component<IProps, IState> {
                         <div>
                           <FormGroup>
                             <Label className="labelUploadSection">
-                              {Constants.SENDER_ADDRESS}
+                              {Constants.SENDER_ADDRESS}{" "}
+                              <span>
+                                <Tooltip
+                                  title="connect your gmail account in confguration to send email's on your behalf"
+                                  placement="top"
+                                  arrow
+                                >
+                                  <HelpIcon />
+                                </Tooltip>
+                              </span>
                             </Label>
                             <Input
                               type="text"
@@ -500,7 +529,16 @@ class UploadRecord extends Component<IProps, IState> {
                           </Button>
                           <FormGroup className="formGroupMultiple">
                             <Label className="labelUploadSection">
-                              Broadcast
+                              Broadcast{" "}
+                              <span>
+                                <Tooltip
+                                  title="connect your gmail account in confguration to send email's on your behalf"
+                                  placement="top"
+                                  arrow
+                                >
+                                  <HelpIcon />
+                                </Tooltip>
+                              </span>
                             </Label>
                             <ChipInput
                               value={this.state.emails}

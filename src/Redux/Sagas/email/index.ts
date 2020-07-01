@@ -51,9 +51,11 @@ function* deleteUserEmailConfig(action: any) {
             const emailConfigs = yield select(selectEmailConfigs);
             const updatedConfigs = emailConfigs.filter((config: any) => config._id !== configId);
             yield put({ type: types.DELETE_USER_CONFIG_SUCCESS, payload: updatedConfigs });
+            yield put({ type: types.ENABLE_DELETE_DIALOG });
             toast.info("Email Config deleted successfully");
         } else {
             yield put({ type: types.DELETE_USER_CONFIG_FAILURE });
+            yield put({ type: types.ENABLE_DELETE_DIALOG });
             toast.info("Failed to delete try again");
         }
 

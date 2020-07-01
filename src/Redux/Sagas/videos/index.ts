@@ -8,24 +8,26 @@ function* sendVideoOnEmail(action: any) {
     try {
         let isConfig = yield select(isEmailConfigPresent);
         if (!isConfig) {
-            return toast.error("Please add an email configuration to send email's on your behalf")
+            yield put({ type: types.VIDEO_SEND_FAILURE });
+            toast.info("Please add an email configuration to send email's on your behalf");
+            return;
         }
         let userId = yield select(selectID);
         const payload = action.payload;
         payload.userId = userId;
-        console.log("payload", payload);
+
         const result = yield sendVideoToEmail(payload);
-        console.log("result", result);
+
         if (result.status === 200) {
             yield put({ type: types.VIDEO_SEND_SUCCESS, payload: result.message });
             toast.info("Email Sent Successfully");
         }
         else {
-            yield put({ type: types.VIDEO_SEND_FAILURE, payload: result.message });
+            yield put({ type: types.VIDEO_SEND_FAILURE });
             toast.error("Something Went Wrong");
         }
     } catch (error) {
-        yield put({ type: types.VIDEO_SEND_FAILURE, payload: error });
+        yield put({ type: types.VIDEO_SEND_FAILURE });
         toast.error(error.message);
     }
 }
@@ -140,7 +142,9 @@ function* sendMultipleEmail(action: any) {
     try {
         let isConfig = yield select(isEmailConfigPresent);
         if (!isConfig) {
-            return toast.error("Please add an email configuration to send email's on your behalf")
+            yield put({ type: types.VIDEO_SEND_FAILURE });
+            toast.info("Please add an email configuration to send email's on your behalf");
+            return;
         }
         let userId = yield select(selectID);
         const payload = action.payload;

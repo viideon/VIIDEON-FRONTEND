@@ -45,12 +45,18 @@ const emailReducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 isDeleting: false,
-                emailConfigurations: action.payload
+                emailConfigurations: action.payload,
+                showDeleteDialog: false
+            }
+        case types.ENABLE_DELETE_DIALOG:
+            return {
+                showDeleteDialog: true
             }
         case types.DELETE_USER_CONFIG_FAILURE:
             return {
                 ...state,
                 isDeleting: false,
+                showDeleteDialog: false
 
             }
         default: {

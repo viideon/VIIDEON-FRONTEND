@@ -73,8 +73,7 @@ class AddLogo extends React.Component<IProps, IState> {
     this.mediaRecorder = new MediaRecorder(this.videoStream);
     let cw: any, ch: any;
     let that = this;
-    this.cwidth = this.video.clientWidth;
-    this.cheight = this.video.clientHeight;
+    this.video.addEventListener("loadedmetadata", this.handleLoadedMetaData);
     this.video.addEventListener(
       "play",
       function() {
@@ -111,6 +110,12 @@ class AddLogo extends React.Component<IProps, IState> {
       // toast.success("video edited click finalize to upload and send");
     };
   }
+  handleLoadedMetaData = () => {
+    this.cwidth = this.video.clientWidth;
+    this.cheight = this.video.clientHeight;
+    this.canvas.width = this.cwidth;
+    this.canvas.height = this.cheight;
+  };
 
   setInputRef = (ref: any) => {
     this.upload = ref;
@@ -144,7 +149,7 @@ class AddLogo extends React.Component<IProps, IState> {
   ): any {
     if (video.paused || video.ended) return false;
     context2.drawImage(video, 0, 0, width, height);
-    context2.drawImage(img, this.state.logoX, this.state.logoY);
+
     context2.fillStyle = this.state.textColor;
     canvasTxt.fontSize = this.state.fontSize;
     canvasTxt.vAlign = this.state.vAlign;
@@ -159,7 +164,7 @@ class AddLogo extends React.Component<IProps, IState> {
       width - 10,
       height - 10
     );
-
+    context2.drawImage(img, this.state.logoX, this.state.logoY);
     let idata = context2.getImageData(0, 0, width, height);
     let that = this;
     context.putImageData(idata, 0, 0);
@@ -188,7 +193,6 @@ class AddLogo extends React.Component<IProps, IState> {
         ctx.drawImage(img, 0, 0, width, height);
         ctx.canvas.toBlob(
           (blob: any) => {
-            console.log("blob of image", blob);
             this.setState({ img: URL.createObjectURL(blob) });
             this.props.saveLogoBlob(blob);
           },
@@ -196,7 +200,6 @@ class AddLogo extends React.Component<IProps, IState> {
           1
         );
       };
-      // (reader.onerror = error => console.log(error));
     };
   }
   setIconPosition = (position: string) => {

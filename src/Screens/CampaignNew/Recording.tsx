@@ -208,6 +208,7 @@ class Recording extends React.Component<IProps> {
     }
   };
   componentWillUnmount() {
+    console.log("component will unmount  called");
     this.stopStream();
   }
   render() {
@@ -217,8 +218,8 @@ class Recording extends React.Component<IProps> {
     const sec = Math.floor(count % 60);
     return (
       <Grid container>
-        <Grid item xs={1} sm={1} md={3} lg={3}></Grid>
-        <Grid item xs={10} sm={10} md={6} lg={6}>
+        <Grid item xs={1} sm={1} md={2} lg={2}></Grid>
+        <Grid item xs={10} sm={10} md={8} lg={8}>
           <div className="recorderWrapper">
             <h2 className="recordHeading">{this.nameTrack()}</h2>
             <div className="videoStreamWrapper">
@@ -298,7 +299,7 @@ class Recording extends React.Component<IProps> {
             </div>
           </div>
         </Grid>
-        <Grid item xs={1} sm={1} md={3} lg={3}></Grid>
+        <Grid item xs={1} sm={1} md={2} lg={2}></Grid>
       </Grid>
     );
   }

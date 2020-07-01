@@ -25,7 +25,7 @@ const videoReducer = (state = initialState, action: any) => {
         ...state,
         loading: false,
         videoSend: true,
-        success: action.payload
+
       };
     case types.VIDEO_SEND_FAILURE:
       return {
@@ -33,7 +33,6 @@ const videoReducer = (state = initialState, action: any) => {
         error: true,
         videoSend: false,
         loading: false,
-        errorMessage: action.payload.message
       };
     case types.TOGGLE_SEND_VARIABLE:
       return { ...state, videoSaved: null }

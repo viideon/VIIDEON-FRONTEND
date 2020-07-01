@@ -485,7 +485,7 @@ class Player extends React.Component<IProps, IState> {
             <button
               className="canvasBtn"
               onClick={this.toggleFullScreen}
-              disabled={!this.state.videoLoaded}
+              disabled={true}
             >
               <FullscreenIcon />
             </button>
