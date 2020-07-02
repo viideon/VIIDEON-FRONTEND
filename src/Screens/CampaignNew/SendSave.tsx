@@ -193,7 +193,7 @@ class SendSave extends React.Component<IProps> {
     } else {
       const emails = this.state.emails.join();
       const emailVideoObj = {
-        emails: emails,
+        recieverEmail: emails,
         videoId: this.props.savedVideoId
       };
       this.props.sendMultipleEmail(emailVideoObj);

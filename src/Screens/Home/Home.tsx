@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { getEmailConfigurations } from "../../Redux/Actions/email";
 import SideBar from "../../components/SideBar/SideBar";
 import Dashboard from "./Dashboard";
 import Videos from "./Videos";
@@ -11,9 +12,13 @@ import "./styles.css";
 type IProps = {
   history: any;
   drawer: boolean;
+  getEmailConfigurations: () => void;
 };
 
 class Home extends Component<IProps> {
+  componentDidMount() {
+    this.props.getEmailConfigurations();
+  }
   render() {
     const { drawer } = this.props;
     return (
@@ -51,5 +56,10 @@ const mapStateToProps = (state: any) => {
     drawer: state.drawer.drawer
   };
 };
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    getEmailConfigurations: () => dispatch(getEmailConfigurations())
+  };
+};
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

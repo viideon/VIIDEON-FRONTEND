@@ -142,13 +142,14 @@ function* sendMultipleEmail(action: any) {
     try {
         let isConfig = yield select(isEmailConfigPresent);
         if (!isConfig) {
-            yield put({ type: types.VIDEO_SEND_FAILURE });
+            yield put({ type: types.MULTIPLE_EMAIL_FAILED });
             toast.info("Please add an email configuration to send email's on your behalf");
             return;
         }
         let userId = yield select(selectID);
         const payload = action.payload;
         payload.userId = userId;
+        console.log("payload", payload);
         const result = yield call(sendMultiEmails, payload);
         if (result.status === 200) {
             yield put({ type: types.MULTIPLE_EMAIL_SUCCESS });

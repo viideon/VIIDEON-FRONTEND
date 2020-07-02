@@ -14,7 +14,7 @@ const emailReducer = (state = initialState, action: any) => {
                 emailConfig: action.payload,
                 emailConfigurations: [...state.emailConfigurations, action.payload],
                 loading: false
-            };
+            }
         case types.ADD_EMAIL_CONFIG_FAILURE:
             return {
                 ...state,
@@ -50,6 +50,7 @@ const emailReducer = (state = initialState, action: any) => {
             }
         case types.ENABLE_DELETE_DIALOG:
             return {
+                ...state,
                 showDeleteDialog: true
             }
         case types.DELETE_USER_CONFIG_FAILURE:

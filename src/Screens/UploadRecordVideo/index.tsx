@@ -124,7 +124,7 @@ class UploadRecord extends Component<IProps, IState> {
     } else {
       const emails = this.state.emails.join();
       const emailVideoObj = {
-        emails: emails,
+        recieverEmail: emails,
         videoId: this.props.savedVideoId
       };
       this.props.sendMultipleEmail(emailVideoObj);

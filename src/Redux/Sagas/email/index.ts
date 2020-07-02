@@ -14,12 +14,14 @@ function* saveUserEmailConfig(action: any) {
         const result = yield saveEmailConfig(configObj);
         if (result.status === 201) {
             yield put({ type: types.ADD_EMAIL_CONFIG_SUCCESS, payload: result.data.emailConfig });
+            toast.info("Configuration added");
         }
         else {
             yield put({ type: types.ADD_EMAIL_CONFIG_FAILURE });
-            toast.error("Failed to add your configuration");
+            toast.error("Failed to add your configuration try again");
         }
     } catch (error) {
+
         yield put({ type: types.ADD_EMAIL_CONFIG_FAILURE });
         toast.error("Failed to add your configuration");
     }
