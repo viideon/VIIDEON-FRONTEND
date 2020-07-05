@@ -4,6 +4,7 @@ import { Container, Row, Col } from "reactstrap";
 import { connect } from "react-redux";
 import { updateVideo } from "../../Redux/Actions/videos";
 import { VideoUpdate } from "../../Redux/Types/videos";
+import CanvasPlayer from "../../components/CanvasPlayer";
 import { config } from "../../config/aws";
 // import { getVideoById } from "../../Redux/Selectors";
 import ThemeButton from "../../components/ThemeButton";
@@ -16,11 +17,16 @@ interface IState {
   file: File | null;
   url: string;
   uploading: boolean;
+  width: number;
+  height: number;
 }
 interface Video {
   url: string;
   title: string;
   thumbnail?: string;
+  campaign?: boolean;
+  logoProps?: any;
+  textProps?: any;
 }
 interface IProps {
   updateVideo: (video: VideoUpdate) => void;
@@ -34,8 +40,30 @@ class Editing extends React.Component<IProps, IState> {
   state = {
     file: null,
     url: "",
-    uploading: false
+    uploading: false,
+    width: 0,
+    height: 0
   };
+  container: any;
+  componentDidMount() {
+    this.container = this.refs.container;
+    const persistRect = JSON.parse(
+      JSON.stringify(this.container.getBoundingClientRect())
+    );
+    this.setState({
+      width: persistRect.width,
+      height: persistRect.height
+    });
+  }
+  componentWillReceiveProps(nextProps: any) {
+    console.log("called");
+    if (
+      (nextProps.video && nextProps.video.campaign === false) ||
+      (nextProps.video && nextProps.video.campaign === undefined)
+    ) {
+      this.container.style.display = "none";
+    }
+  }
   upload: any;
   setInputRef = (ref: any) => {
     this.upload = ref;
@@ -84,13 +112,28 @@ class Editing extends React.Component<IProps, IState> {
           <Row>
             <Col xs="1" md="2"></Col>
             <Col xs="10" md="8">
-              {video && (
+              {video && !video.campaign && (
                 <VideoPlayer
                   url={video.url}
                   thumbnail={video.thumbnail}
                   height={250}
                 />
               )}
+              <div ref="container" style={{ height: "400px", width: "100%" }}>
+                {video && video.campaign && (
+                  <CanvasPlayer
+                    width={this.state.width}
+                    height={this.state.height}
+                    muted={false}
+                    autoPlay={false}
+                    loop={false}
+                    src={video.url}
+                    logoProps={video.logoProps}
+                    textProps={video.textProps}
+                    thumbnail={video.thumbnail}
+                  />
+                )}
+              </div>
             </Col>
             <Col xs="1" md="2"></Col>
           </Row>

@@ -105,10 +105,12 @@ class Signup extends React.Component<IProps, IState> {
     }
   };
   nextHandler = () => {
-    if (this.state.email) {
-      this.setState({ showNext: false, next: true });
+    if (this.state.email === "") {
+      toast.error("Please add an email address");
+    } else if (reg.test(this.state.email) === false) {
+      toast.error("Please add a valid Email Address");
     } else {
-      toast.error("Please Add Email");
+      this.setState({ showNext: false, next: true });
     }
   };
 

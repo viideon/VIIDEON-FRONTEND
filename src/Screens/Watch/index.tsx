@@ -21,6 +21,11 @@ class Watch extends React.Component<IProps> {
   componentDidMount() {
     this.props.getVideo(this.props.match.params.id);
     this.container = this.refs.container;
+  }
+  fullScreen = () => {
+    this.setState({ width: window.screen.width, height: window.screen.height });
+  };
+  exitFullScreen = () => {
     const persistRect = JSON.parse(
       JSON.stringify(this.container.getBoundingClientRect())
     );
@@ -28,7 +33,7 @@ class Watch extends React.Component<IProps> {
       width: persistRect.width,
       height: persistRect.height
     });
-  }
+  };
   componentWillReceiveProps(nextProps: any) {
     if (
       (nextProps.video && nextProps.video.campaign === false) ||
@@ -64,6 +69,8 @@ class Watch extends React.Component<IProps> {
                   logoProps={video.logoProps}
                   textProps={video.textProps}
                   thumbnail={video.thumbnail}
+                  fullScreen={this.fullScreen}
+                  exitFullScreen={this.exitFullScreen}
                 />
               )}
             </div>
