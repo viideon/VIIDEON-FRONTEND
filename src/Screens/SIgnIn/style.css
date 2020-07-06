@@ -88,24 +88,6 @@
   box-shadow: none !important;
 }
 
-@media only screen and (max-width: 400px) {
-  .firstLayoutMainContainer {
-    padding-left: 2%;
-  }
-}
-
-@media only screen and (max-width: 360px) {
-  .firstLayoutMainContainer {
-    padding-left: 10%;
-  }
-  .signUp {
-    font-size: 30px;
-  }
-  .logoSignin {
-    font-size: 3rem;
-  }
-}
-
 .emailLogin .MuiInputBase-root {
   border-radius: 10rem;
   border: 1px solid #9f55ff;
@@ -126,4 +108,44 @@
 }
 .emailLogin .MuiInput-underline:hover:not(.Mui-disabled):before {
   border-bottom: none;
+}
+
+@media only screen and (max-width: 400px) {
+  .firstLayoutMainContainer {
+    padding-left: 4%;
+  }
+  .firstLayoutContainer {
+    height: 60vh;
+  }
+  .createAccount {
+    display: flex;
+    flex-wrap: wrap;
+    font-family: "Poppins", sans-serif;
+  }
+  .account {
+    margin-bottom: 0rem;
+  }
+
+  .create {
+    padding-left: 0px;
+  }
+  .forgotPassword {
+    padding-top: 18px;
+    font-size: 13px;
+  }
+  .secondLayoutMainContainer {
+    padding-bottom: 20px;
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  .firstLayoutMainContainer {
+    padding-left: 10%;
+  }
+  .signUp {
+    font-size: 30px;
+  }
+  .logoSignin {
+    font-size: 3rem;
+  }
 }

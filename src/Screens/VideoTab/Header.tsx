@@ -39,22 +39,9 @@ interface IProps {
 }
 
 class VideoTabHeader extends React.Component<IProps> {
-  state = {
-    width: 0,
-    height: 0,
-    hideWrapperCanvas: false
-  };
   container: any;
-
   componentDidMount() {
     this.container = this.refs.container;
-    const persistRect = JSON.parse(
-      JSON.stringify(this.container.getBoundingClientRect())
-    );
-    this.setState({
-      width: persistRect.width,
-      height: persistRect.height
-    });
   }
   componentWillReceiveProps(nextProps: any) {
     if (
@@ -68,7 +55,7 @@ class VideoTabHeader extends React.Component<IProps> {
   render() {
     const { video } = this.props;
     return (
-      <div>
+      <div className="headerTab">
         <Row>
           <Col xs="12" sm="12" md="8" lg="8" xl="8">
             <Row>
@@ -90,8 +77,6 @@ class VideoTabHeader extends React.Component<IProps> {
                 <div ref="container" style={{ height: "220px", width: "100%" }}>
                   {video && video.campaign && (
                     <CanvasPlayer
-                      width={this.state.width}
-                      height={this.state.height}
                       muted={false}
                       autoPlay={false}
                       loop={false}
@@ -174,7 +159,6 @@ const mapStateToProps = (state: any) => {
   return {
     video: state.video.singleVideo
   };
-  // const video = getVideoById(state, ownProps.videoId);
 };
 
 export default connect(mapStateToProps, null)(VideoTabHeader);

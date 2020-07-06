@@ -13,27 +13,12 @@ interface IProps {
   match: any;
 }
 class Watch extends React.Component<IProps> {
-  state = {
-    width: 0,
-    height: 0
-  };
   container: any;
   componentDidMount() {
-    this.props.getVideo(this.props.match.params.id);
     this.container = this.refs.container;
+    this.props.getVideo(this.props.match.params.id);
   }
-  fullScreen = () => {
-    this.setState({ width: window.screen.width, height: window.screen.height });
-  };
-  exitFullScreen = () => {
-    const persistRect = JSON.parse(
-      JSON.stringify(this.container.getBoundingClientRect())
-    );
-    this.setState({
-      width: persistRect.width,
-      height: persistRect.height
-    });
-  };
+
   componentWillReceiveProps(nextProps: any) {
     if (
       (nextProps.video && nextProps.video.campaign === false) ||
@@ -60,8 +45,6 @@ class Watch extends React.Component<IProps> {
             <div ref="container" style={{ height: "400px", width: "100%" }}>
               {video && video.campaign && (
                 <CanvasPlayer
-                  width={this.state.width}
-                  height={this.state.height}
                   muted={false}
                   autoPlay={false}
                   loop={false}
@@ -69,8 +52,6 @@ class Watch extends React.Component<IProps> {
                   logoProps={video.logoProps}
                   textProps={video.textProps}
                   thumbnail={video.thumbnail}
-                  fullScreen={this.fullScreen}
-                  exitFullScreen={this.exitFullScreen}
                 />
               )}
             </div>

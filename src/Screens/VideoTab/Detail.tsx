@@ -96,7 +96,7 @@ class Detail extends React.Component<IProps> {
               </div>
               <FormGroup>
                 <Label className="labelUploadSection">
-                  {Constants.SENDER_ADDRESS}{" "}
+                  {Constants.SENDER_ADDRESS}
                   <span>
                     <Tooltip
                       title="connect your gmail account in confguration to send email's on your behalf"
@@ -119,7 +119,7 @@ class Detail extends React.Component<IProps> {
                 />
               </FormGroup>
               <Button
-                color="secondary"
+                color="primary"
                 variant="contained"
                 onClick={this.submitEmail}
               >
@@ -147,7 +147,7 @@ class Detail extends React.Component<IProps> {
                 />
               </FormGroup>
               <Button
-                color="secondary"
+                color="primary"
                 variant="contained"
                 onClick={this.sendMultipleEmail}
               >

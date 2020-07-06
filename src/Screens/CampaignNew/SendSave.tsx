@@ -65,25 +65,8 @@ class SendSave extends React.Component<IProps> {
   container: any;
   componentDidMount() {
     this.props.toggleSendVariable();
-    this.container = this.refs.container;
-    const persistRect = JSON.parse(
-      JSON.stringify(this.container.getBoundingClientRect())
-    );
-    this.setState({
-      width: persistRect.width,
-      height: persistRect.height
-    });
-    window.addEventListener("resize", this.onWindowResize);
   }
-  onWindowResize = () => {
-    const persistRect = JSON.parse(
-      JSON.stringify(this.container.getBoundingClientRect())
-    );
-    this.setState({
-      width: persistRect.width,
-      height: persistRect.height
-    });
-  };
+
   saveVideo = () => {
     if (this.state.title === "") {
       toast.warn("Enter a title to save video");
@@ -221,12 +204,9 @@ class SendSave extends React.Component<IProps> {
         <Grid item xs={1} sm={1} md={3} lg={3}></Grid>
         <Grid item xs={10} sm={10} md={6} lg={6}>
           <h3 className="recordHeading">Save and Email Video</h3>
-          <div style={{ width: "100%", height: "350px" }} ref="container">
-            {/* <video width="100%" ref="video" controls /> */}
+          <div style={{ width: "100%", height: "400px" }} ref="container">
             {this.props.previewVideo && (
               <CanvasPlayer
-                width={this.state.width}
-                height={this.state.height}
                 autoPlay={false}
                 muted={false}
                 loop={false}
@@ -263,6 +243,7 @@ class SendSave extends React.Component<IProps> {
                 </FormGroup>
                 <Button
                   variant="contained"
+                  color="primary"
                   style={{ marginBottom: "8px" }}
                   onClick={this.saveVideo}
                 >
@@ -296,7 +277,7 @@ class SendSave extends React.Component<IProps> {
                 </FormGroup>
 
                 <Button
-                  color="secondary"
+                  color="primary"
                   variant="contained"
                   onClick={this.submitEmail}
                 >
@@ -324,7 +305,7 @@ class SendSave extends React.Component<IProps> {
                   />
                 </FormGroup>
                 <Button
-                  color="secondary"
+                  color="primary"
                   variant="contained"
                   onClick={this.sendMultipleEmail}
                 >

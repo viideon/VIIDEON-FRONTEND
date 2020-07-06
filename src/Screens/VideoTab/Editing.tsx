@@ -1,15 +1,15 @@
 import React from "react";
 import S3FileUpload from "react-s3";
 import { Container, Row, Col } from "reactstrap";
+import { Tooltip, CircularProgress } from "@material-ui/core";
+import HelpIcon from "@material-ui/icons/Help";
 import { connect } from "react-redux";
 import { updateVideo } from "../../Redux/Actions/videos";
 import { VideoUpdate } from "../../Redux/Types/videos";
-import CanvasPlayer from "../../components/CanvasPlayer";
+import CanvasPlayer from "../../components/CanvasPlayer/EditingCanvas";
 import { config } from "../../config/aws";
-// import { getVideoById } from "../../Redux/Selectors";
 import ThemeButton from "../../components/ThemeButton";
 import VideoPlayer from "../../components/VideoPlayer/index";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import { toast } from "react-toastify";
 import "./style.css";
 
@@ -17,8 +17,7 @@ interface IState {
   file: File | null;
   url: string;
   uploading: boolean;
-  width: number;
-  height: number;
+  showVideo: boolean;
 }
 interface Video {
   url: string;
@@ -41,22 +40,14 @@ class Editing extends React.Component<IProps, IState> {
     file: null,
     url: "",
     uploading: false,
-    width: 0,
-    height: 0
+    showVideo: false
   };
   container: any;
   componentDidMount() {
     this.container = this.refs.container;
-    const persistRect = JSON.parse(
-      JSON.stringify(this.container.getBoundingClientRect())
-    );
-    this.setState({
-      width: persistRect.width,
-      height: persistRect.height
-    });
+    setTimeout(() => this.setState({ showVideo: true }), 10000);
   }
   componentWillReceiveProps(nextProps: any) {
-    console.log("called");
     if (
       (nextProps.video && nextProps.video.campaign === false) ||
       (nextProps.video && nextProps.video.campaign === undefined)
@@ -106,6 +97,7 @@ class Editing extends React.Component<IProps, IState> {
 
   render() {
     const { video, isVideoUpdating } = this.props;
+    const { showVideo } = this.state;
     return (
       <div className="editingTabWrapper">
         <Container>
@@ -116,14 +108,19 @@ class Editing extends React.Component<IProps, IState> {
                 <VideoPlayer
                   url={video.url}
                   thumbnail={video.thumbnail}
-                  height={250}
+                  height={300}
                 />
               )}
-              <div ref="container" style={{ height: "400px", width: "100%" }}>
+              <div
+                ref="container"
+                style={{
+                  height: "400px",
+                  width: "100%",
+                  visibility: showVideo ? "visible" : "hidden"
+                }}
+              >
                 {video && video.campaign && (
                   <CanvasPlayer
-                    width={this.state.width}
-                    height={this.state.height}
                     muted={false}
                     autoPlay={false}
                     loop={false}
@@ -134,6 +131,11 @@ class Editing extends React.Component<IProps, IState> {
                   />
                 )}
               </div>
+              {showVideo === false && (
+                <div style={{ position: "absolute", left: "48%", top: "40%" }}>
+                  <CircularProgress />
+                </div>
+              )}
             </Col>
             <Col xs="1" md="2"></Col>
           </Row>
@@ -151,7 +153,17 @@ class Editing extends React.Component<IProps, IState> {
                   ref={this.setInputRef}
                   accept="image/x-png,image/gif,image/jpeg"
                 />
-                <h4 className="thumbnaillEditMsg">Edit Thumbnail</h4>
+                <h4 className="thumbnaillEditMsg">
+                  Customize Thumbnail
+                  <Tooltip
+                    title="upload a thumbnail for your video"
+                    placement="top"
+                    arrow
+                    style={{ marginLeft: "3px" }}
+                  >
+                    <HelpIcon />
+                  </Tooltip>
+                </h4>
                 <div className="progressEditing">
                   {this.state.uploading && <CircularProgress />}
                 </div>
@@ -163,11 +175,13 @@ class Editing extends React.Component<IProps, IState> {
                   <ThemeButton
                     name="Upload File"
                     onClick={this.triggerFileUploadBtn}
+                    style={{ border: "2px solid #22B9FF", marginBottom: "2px" }}
                   />
 
                   <ThemeButton
                     name="Apply Editing Changes"
                     onClick={this.saveChanges}
+                    style={{ border: "2px solid #22B9FF" }}
                   />
                 </div>
               </div>

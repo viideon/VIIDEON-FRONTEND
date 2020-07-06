@@ -4,6 +4,7 @@ import { makeStyles, Button } from "@material-ui/core";
 interface IProps {
   name?: string;
   onClick?: () => void;
+  style?: any;
 }
 const useStyles = makeStyles(theme => ({
   button: {
@@ -12,10 +13,15 @@ const useStyles = makeStyles(theme => ({
     }
   }
 }));
-const ThemeButton: React.FC<IProps> = ({ name, onClick }) => {
+const ThemeButton: React.FC<IProps> = ({ name, onClick, style }) => {
   const classes = useStyles();
   return (
-    <Button onClick={onClick} className={classes.button} variant="outlined">
+    <Button
+      onClick={onClick}
+      className={classes.button}
+      style={style}
+      variant="outlined"
+    >
       {name}
     </Button>
   );

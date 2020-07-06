@@ -81,3 +81,14 @@
 #wrapperFormSignup {
   width: 80%;
 }
+@media only screen and (max-width: 400px) {
+  .firstLayoutMainContainer {
+    padding-left: 4%;
+  }
+  .firstStateLayoutContainer {
+    height: 60vh;
+  }
+  .buttonWrapper1 {
+    padding-bottom: 60px;
+  }
+}

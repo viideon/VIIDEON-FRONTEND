@@ -13,8 +13,6 @@ import VolumeDownIcon from "@material-ui/icons/VolumeDown";
 import "./style.css";
 
 interface IProps {
-  width?: any;
-  height?: any;
   muted: boolean;
   autoPlay: boolean;
   loop: boolean;
@@ -23,8 +21,6 @@ interface IProps {
   textProps: any;
   thumbnail?: string;
   local?: boolean;
-  fullScreen?: () => void;
-  exitFullScreen?: () => void;
 }
 interface IState {
   playing: boolean;
@@ -38,11 +34,11 @@ interface IState {
   width: number;
   height: number;
 }
-class Player extends React.Component<IProps, IState> {
+class EditingPlayer extends React.Component<IProps, IState> {
   canvasContext: any;
-  container: any;
+  edContainer: any;
   wrapperCanvas: any;
-  canvas: any;
+  edCanvas: any;
   tmpCanvas: any;
   volume: any;
   seek: any;
@@ -87,22 +83,22 @@ class Player extends React.Component<IProps, IState> {
       "top-right": () => {
         this.canvasTmpCtx.drawImage(
           this.logo,
-          this.canvas.width - this.logo.width - 10,
+          this.edCanvas.width - this.logo.width - 10,
           10
         );
       },
       "bottom-right": () => {
         this.canvasTmpCtx.drawImage(
           this.logo,
-          this.canvas.width - this.logo.width - 10,
-          this.canvas.height - this.logo.height - 10
+          this.edCanvas.width - this.logo.width - 10,
+          this.edCanvas.height - this.logo.height - 10
         );
       },
       "bottom-left": () => {
         this.canvasTmpCtx.drawImage(
           this.logo,
           10,
-          this.canvas.height - this.logo.height - 10
+          this.edCanvas.height - this.logo.height - 10
         );
       }
     };
@@ -114,10 +110,9 @@ class Player extends React.Component<IProps, IState> {
     this.play = this.play.bind(this);
   }
   componentDidMount() {
-    this.container = this.refs.container;
-    this.setCanvasDimensions();
+    this.edContainer = this.refs.edContainer;
     this.video = document.createElement("video");
-    this.canvas = this.refs.canvas;
+    this.edCanvas = this.refs.edCanvas;
     this.tmpCanvas = this.refs.tempCanvas;
     this.wrapperCanvas = this.refs.wrapperCanvas;
     this.volume = this.refs.volume;
@@ -138,7 +133,7 @@ class Player extends React.Component<IProps, IState> {
       this.video.src = this.props.src;
       this.video.crossOrigin = "Anonymous";
       document.body.appendChild(this.video);
-      this.canvasContext = this.canvas.getContext("2d");
+      this.canvasContext = this.edCanvas.getContext("2d");
       this.canvasTmpCtx = this.tmpCanvas.getContext("2d");
       this.setState({ videoLoaded: true });
     } else {
@@ -157,7 +152,7 @@ class Player extends React.Component<IProps, IState> {
         this.video.src = url;
         this.video.crossOrigin = "Anonymous";
         document.body.appendChild(this.video);
-        this.canvasContext = this.canvas.getContext("2d");
+        this.canvasContext = this.edCanvas.getContext("2d");
         this.canvasTmpCtx = this.tmpCanvas.getContext("2d");
         this.setState({ videoLoaded: true });
       });
@@ -166,6 +161,9 @@ class Player extends React.Component<IProps, IState> {
     setTimeout(() => {
       this.setupListeners();
     }, 0);
+    setTimeout(() => {
+      this.setCanvasDimensions();
+    }, 9000);
   }
 
   setupListeners(remove?: any) {
@@ -182,7 +180,6 @@ class Player extends React.Component<IProps, IState> {
         "durationchange",
         this.handleLoadedMetaData
       );
-      // window.removeEventListener("resize", this.handleWindowResize);
     } else {
       this.video.addEventListener("ended", this.handleEnded);
       this.video.addEventListener("loadedmetadata", this.handleLoadedMetaData);
@@ -279,7 +276,6 @@ class Player extends React.Component<IProps, IState> {
       this.canvasContext.putImageData(idata, 0, 0);
     };
     if (this.video) {
- 
       render();
       // && this.video.readyState === 4
       if (this.state.playing) {
@@ -316,7 +312,7 @@ class Player extends React.Component<IProps, IState> {
     }
   }
   onWindowResize(e: any) {
-    // this.setCanvasDimensions();
+    console.log("window resize called");
   }
   playpause = () => {
     if (this.state.playing) {
@@ -343,7 +339,17 @@ class Player extends React.Component<IProps, IState> {
   }
   setCanvasDimensions = () => {
     const persistRect = JSON.parse(
-      JSON.stringify(this.container.getBoundingClientRect())
+      JSON.stringify(this.edContainer.getBoundingClientRect())
+    );
+    console.log(
+      "width height dimensions",
+      persistRect.width,
+      persistRect.height
+    );
+    console.log(
+      "canvas wrapper width height",
+      this.edContainer.clientWidth,
+      this.edContainer.clientHeight
     );
     this.setState({
       width: persistRect.width,
@@ -391,11 +397,10 @@ class Player extends React.Component<IProps, IState> {
   render() {
     const { playing, showThumbnail, videoLoaded, width, height } = this.state;
     const { thumbnail, logoProps } = this.props;
-
     return (
-      <div ref="container" style={{ width: "100%", height: "100%" }}>
+      <div ref="edContainer" style={{ width: "100%", height: "100%" }}>
         <div className="wrapperCanvas" ref="wrapperCanvas">
-          <canvas height={height} ref="canvas" width={width} />
+          <canvas height={height} ref="edCanvas" width={width} />
           {showThumbnail && (
             <div className="thumbnailWrapper">
               {thumbnail && (
@@ -496,4 +501,4 @@ class Player extends React.Component<IProps, IState> {
     );
   }
 }
-export default Player;
+export default EditingPlayer;

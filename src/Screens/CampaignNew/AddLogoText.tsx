@@ -111,10 +111,8 @@ class AddLogo extends React.Component<IProps, IState> {
     };
   }
   handleLoadedMetaData = () => {
-    this.cwidth = this.video.clientWidth;
-    this.cheight = this.video.clientHeight;
-    this.canvas.width = this.cwidth;
-    this.canvas.height = this.cheight;
+    this.canvas.width = this.video.clientWidth;
+    this.canvas.height = this.video.clientHeight;
   };
 
   setInputRef = (ref: any) => {
@@ -265,33 +263,23 @@ class AddLogo extends React.Component<IProps, IState> {
     this.setState({ fontSize: e.target.value });
   };
   moveToNextStep = () => {
-    this.getThumbnail(false);
+    this.getThumbnail();
     this.props.moveToNextStep();
   };
-  getThumbnail = (edited: boolean) => {
-    if (edited) {
-      this.canvas.getContext("2d").drawImage(this.video, 0, 0, 1280, 720);
-      this.canvas.toBlob((blob: any) => {
-        this.props.saveThumbnailBlob(blob);
-      }, "image/jpeg");
-    } else {
-      const elem = document.createElement("canvas");
-      elem.width = 1280;
-      elem.height = 720;
-      const ctx: any = elem.getContext("2d");
-      ctx.drawImage(this.video, 0, 0, 1280, 720);
-      ctx.canvas.toBlob(
-        (blob: any) => {
-          console.log("Url thumbnail", URL.createObjectURL(blob));
-          this.props.saveThumbnailBlob(blob);
-        },
-        "image/jpeg",
-        1
-      );
-    }
+  getThumbnail = () => {
+    const thumbCanvas: any = this.refs.thumbCanvas;
+    this.video.currenTime = 3;
+    thumbCanvas
+      .getContext("2d")
+      .drawImage(this.video, 0, 0, thumbCanvas.width, thumbCanvas.height);
+
+    thumbCanvas.toBlob((blob: any) => {
+      console.log("Url thumbnail", URL.createObjectURL(blob));
+      this.props.saveThumbnailBlob(blob);
+    }, "image/jpeg");
   };
   finalize = () => {
-    this.getThumbnail(true);
+    this.getThumbnail();
     const textProps = {
       text: this.state.text,
       textColor: this.state.textColor,
@@ -460,6 +448,12 @@ class AddLogo extends React.Component<IProps, IState> {
             >
               Finalize
             </Button>
+            <canvas
+              ref="thumbCanvas"
+              height={720}
+              width={1280}
+              style={{ display: "none" }}
+            />
           </div>
         </Grid>
         <Grid item xs={1} sm={1} md={10} lg={10}></Grid>

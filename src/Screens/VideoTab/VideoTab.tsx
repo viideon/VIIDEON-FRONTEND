@@ -48,8 +48,7 @@ const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
         <br />
         <br />
         <VideoTabHeader />
-        <br />
-        <br />
+
         <Nav tabs id="videoTabWrap">
           <NavItem>
             <NavLink

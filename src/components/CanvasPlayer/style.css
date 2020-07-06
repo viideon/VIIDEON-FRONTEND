@@ -64,7 +64,7 @@ progress::-moz-progress-bar {
 .wrapperControls {
   width: 100%;
   position: absolute;
-  bottom: 4px;
+  bottom: 0px;
   left: 0;
   right: 0;
   height: 2.2em;
@@ -75,6 +75,7 @@ progress::-moz-progress-bar {
 .wrapperCanvas {
   /* width: 600px; */
   position: relative;
+  background: #000;
 }
 .thumbnailWrapper {
   width: 100%;

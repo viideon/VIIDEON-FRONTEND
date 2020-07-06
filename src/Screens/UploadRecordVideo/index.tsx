@@ -2,9 +2,14 @@ import React, { Component } from "react";
 import AWS from "aws-sdk";
 import * as ebml from "ts-ebml";
 import VideoRecorder from "react-video-recorder";
-import { Tab, Tabs, TabList, TabPanel,  } from "react-tabs";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import HelpIcon from "@material-ui/icons/Help";
-import { Button, LinearProgress, CircularProgress ,Tooltip} from "@material-ui/core";
+import {
+  Button,
+  LinearProgress,
+  CircularProgress,
+  Tooltip
+} from "@material-ui/core";
 import ChipInput from "material-ui-chip-input";
 import { Input, Label, Row, Col, FormGroup } from "reactstrap";
 import { FaCamera, FaLaptop } from "react-icons/fa";
@@ -368,6 +373,7 @@ class UploadRecord extends Component<IProps, IState> {
                                   </FormGroup>
                                   <Button
                                     variant="contained"
+                                    color="primary"
                                     style={{ marginBottom: "8px" }}
                                     onClick={this.fileHandler}
                                   >
@@ -402,9 +408,9 @@ class UploadRecord extends Component<IProps, IState> {
                                     />
                                   </FormGroup>
                                   <Button
-                                    color="secondary"
                                     variant="contained"
                                     onClick={this.submitEmail}
+                                    color="primary"
                                   >
                                     {Constants.SEND_THROUGH_EMAIL}
                                   </Button>
@@ -432,7 +438,7 @@ class UploadRecord extends Component<IProps, IState> {
                                     />
                                   </FormGroup>
                                   <Button
-                                    color="secondary"
+                                    color="primary"
                                     variant="contained"
                                     onClick={this.sendMultipleEmail}
                                   >
@@ -487,6 +493,7 @@ class UploadRecord extends Component<IProps, IState> {
                           </FormGroup>
                           <Button
                             variant="contained"
+                            color="primary"
                             style={{ marginBottom: "8px" }}
                             onClick={this.saveVideo}
                           >
@@ -521,7 +528,7 @@ class UploadRecord extends Component<IProps, IState> {
                           </FormGroup>
 
                           <Button
-                            color="secondary"
+                            color="primary"
                             variant="contained"
                             onClick={this.submitEmail}
                           >
@@ -549,7 +556,7 @@ class UploadRecord extends Component<IProps, IState> {
                             />
                           </FormGroup>
                           <Button
-                            color="secondary"
+                            color="primary"
                             variant="contained"
                             onClick={this.sendMultipleEmail}
                           >

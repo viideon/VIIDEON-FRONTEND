@@ -76,6 +76,7 @@ const Header: React.FC<IProps> = ({ history, toggleDrawer, logout }) => {
           <span>
             <i className="fas fa-cog" style={iconStyle}></i>
             <Menu
+             disableScrollLock={true}
               keepMounted
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}
