@@ -72,6 +72,7 @@ const VideoCard: FC<IProps> = ({
             <MoreVertIcon />
           </span>
           <Menu
+            disableScrollLock={true}
             id="menuVideoCard"
             anchorEl={anchorEl}
             keepMounted
