@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import MenuIcon from "@material-ui/icons/Menu";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import Tooltip from "@material-ui/core/Tooltip";
 import { withRouter, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { toggleDrawer } from "../../Redux/Actions/drawer";
@@ -55,28 +56,45 @@ const Header: React.FC<IProps> = ({ history, toggleDrawer, logout }) => {
         )}
       </div>
       <div className="centerHeader">
-        <h3 className="headerStyle" onClick={navigateHome}>
-          vidionPRO
-        </h3>
+        {location.pathname !== "/" ? (
+          <Tooltip title="Redirect to Dashboard">
+            <h3 className="headerStyle" onClick={navigateHome}>
+              vidionPRO
+            </h3>
+          </Tooltip>
+        ) : (
+          <h3 className="headerStyle" onClick={navigateHome}>
+            vidionPRO
+          </h3>
+        )}
       </div>
       <div className="endHeader">
         <div className="wrapperEnd">
           <span onClick={handleClickPopup} style={{ cursor: "pointer" }}>
             <img src={avatarImage} className="avatarNav" alt="avatar" />
           </span>
+          <Tooltip title="Under Progress">
+            <span>
+              <i className="fas fa-envelope" style={iconStyle}></i>
+            </span>
+          </Tooltip>
+          <Tooltip title="Under Progress">
+            <span>
+              <i className="fas fa-bell" style={iconStyle}></i>
+            </span>
+          </Tooltip>
+          <Tooltip title="Under Progress">
+            <span>
+              <i className="fas fa-flag" style={iconStyle}></i>
+            </span>
+          </Tooltip>
+
           <span>
-            <i className="fas fa-envelope" style={iconStyle}></i>
-          </span>
-          <span>
-            <i className="fas fa-bell" style={iconStyle}></i>
-          </span>
-          <span>
-            <i className="fas fa-flag" style={iconStyle}></i>
-          </span>
-          <span>
-            <i className="fas fa-cog" style={iconStyle}></i>
+            <Tooltip title="Under Progress">
+              <i className="fas fa-cog" style={iconStyle}></i>
+            </Tooltip>
             <Menu
-             disableScrollLock={true}
+              disableScrollLock={true}
               keepMounted
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}
@@ -94,13 +112,13 @@ const Header: React.FC<IProps> = ({ history, toggleDrawer, logout }) => {
 
 const iconStyle = {
   color: "#fff",
-  cursor: "pointer"
+  cursor: "pointer",
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     toggleDrawer: () => dispatch(toggleDrawer()),
-    logout: () => dispatch(logout())
+    logout: () => dispatch(logout()),
   };
 };
 export default withRouter<any, any>(connect(null, mapDispatchToProps)(Header));

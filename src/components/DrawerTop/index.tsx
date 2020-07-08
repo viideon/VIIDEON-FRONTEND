@@ -10,27 +10,27 @@ const useStyles = makeStyles({
   root: {
     "& .MuiDrawer-paper": {
       width: "0vw",
-      display: "none"
+      display: "none",
     },
     "& .MuiDrawer-root .MuiDrawer-modal .makeStyles-root-10 .MuiBackdrop-root": {
-      display: "none !important"
+      display: "none !important",
     },
     "& .MuiBackdrop-root": {
-      display: "none !important"
+      display: "none !important",
     },
     "@media (max-width:768px)": {
       "& .MuiDrawer-paper": {
         width: "100vw",
-        display: "block"
+        display: "block",
       },
       "& .MuiDrawer-root .MuiDrawer-modal .makeStyles-root-10": {
-        display: "block !important"
+        display: "block !important",
       },
       "& .MuiBackdrop-root": {
-        display: "block !important"
-      }
-    }
-  }
+        display: "block !important",
+      },
+    },
+  },
 });
 interface IProps {
   open?: boolean;
@@ -92,16 +92,16 @@ const iconStyle = {
   fontSize: "14px",
   width: "1.5em",
   display: "inline-block",
-  color: "#b4bcc8"
+  color: "#b4bcc8",
 };
 const arrowIcon = {
   marginLeft: "auto",
-  marginRight: "12px"
+  marginRight: "12px",
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    logout: () => dispatch(logout())
+    logout: () => dispatch(logout()),
   };
 };
 export default withRouter<any, any>(

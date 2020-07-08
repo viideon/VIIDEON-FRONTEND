@@ -48,6 +48,7 @@
   margin-bottom: 20px;
 }
 .cntrlText {
+  color: #9eacb4;
   font-size: 0.9rem;
   font-weight: 400 !important;
 }
@@ -59,6 +60,7 @@
   align-items: center;
 }
 .dashboardTopLeft {
+  color: #368bc4;
   font-weight: 600;
 }
 .dashboardTopRight {
@@ -150,4 +152,13 @@
   .actionsHomePage h5 {
     font-size: 1em !important;
   }
+}
+
+.link-style {
+  text-decoration: none;
+  color: none;
+}
+.link-style:hover {
+  text-decoration: none;
+  color: none;
 }

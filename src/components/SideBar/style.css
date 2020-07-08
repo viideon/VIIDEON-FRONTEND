@@ -55,8 +55,7 @@
   font-family: "Poppins", sans-serif;
   color: #b4bcc8;
   margin-left: 20px;
-  font-size: 1rem;
-  font-weight: 400;
+  font-weight: 300 !important;
   cursor: pointer;
 }
 .dashboardOption {
