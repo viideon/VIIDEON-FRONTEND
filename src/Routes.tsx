@@ -15,13 +15,14 @@ import SignIn from "./Screens/SIgnIn";
 import Header from "./components/Header/Header";
 import UploadRecord from "../src/Screens/UploadRecordVideo";
 import Watch from "./Screens/Watch";
+import ForgotPassword from "./Screens/ForgotPassword";
 // import Campaign from "./Screens/Campaign";
 import Campaign from "./Screens/CampaignNew";
 import Recording from "./Screens/Watch/Recording";
 import VideoLayer from "./Screens/Watch/VideoLayer";
 import Capture from "./Screens/Watch/Capture";
 import TestCanvas from "./Screens/Watch/TestCanvasPlayer";
-
+import ResetPassword from "./Screens/ResetPassword";
 type IProps = {
   auth: AuthState;
 };
@@ -49,9 +50,11 @@ class Routes extends Component<IProps> {
         ) : (
           <Switch>
             <Route exact path="/signup" component={Signup} />
-            <Route exact path="/" component={SignIn} />
+            <Route exact path="/forgotPassword" component={ForgotPassword} />
+            <Route exact path="/resetPassword" component={ResetPassword} />
+            <Route exact path="/login*" component={SignIn} />
             <Route exact path="/watch/:id" component={Watch} />
-            <Route exact path="*" render={() => <Redirect to="/" />} />
+            <Route exact path="*" render={() => <Redirect to="/login" />} />
           </Switch>
         )}
       </Router>

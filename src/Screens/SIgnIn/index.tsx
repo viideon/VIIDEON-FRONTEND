@@ -5,16 +5,19 @@ import * as Constants from "../../constants/constants";
 import { connect } from "react-redux";
 import { reg } from "../../constants/emailRegEx";
 import Loading from "../../components/Loading";
-import { loginUser } from "../../Redux/Actions/auth";
+import { loginUser, verifyUser } from "../../Redux/Actions/auth";
 import { AuthState, User } from "../../Redux/Types/auth";
 import ActionButton from "../../components/Reusable/ActionButton";
 import "./style.css";
-
+import VerifySuccessModal from "../../components/Modals/verifySuccessModal";
 type IProps = {
   navigation: any;
-  auth: AuthState;
+  auth: any;
   login: (user: object) => void;
   history: any;
+  location?: any;
+  verifyState?: any;
+  verifyUser: any;
 };
 type IState = {
   email: string;
@@ -22,6 +25,7 @@ type IState = {
   emailError: boolean;
   passwordError: boolean;
   invalidEmailError: boolean;
+  verifySuccessModals: boolean;
 };
 class Signin extends React.Component<IProps, IState> {
   constructor(props: any) {
@@ -31,10 +35,34 @@ class Signin extends React.Component<IProps, IState> {
       password: "",
       emailError: false,
       passwordError: false,
-      invalidEmailError: false
+      invalidEmailError: false,
+      verifySuccessModals: false,
     };
   }
+  componentDidMount() {
+    const search = this.props.location.search;
 
+    const params = new URLSearchParams(search);
+    const code = params.get("code");
+    if (code) {
+      this.props.verifyUser({ token: code });
+    }
+  }
+
+  componentDidUpdate(prevProps: any) {
+    if (
+      this.props.verifyState &&
+      JSON.stringify(prevProps.verifyState) !==
+        JSON.stringify(this.props.verifyState) &&
+      this.props.verifyState.VerifySuccess
+    ) {
+      this.setState({ verifySuccessModals: true });
+    }
+  }
+  toggleVerifyModal = () => {
+    this.setState({ verifySuccessModals: false });
+    this.props.history.push("/login");
+  };
   onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ [e.target.name]: e.target.value } as Pick<IState, any>);
   };
@@ -47,7 +75,7 @@ class Signin extends React.Component<IProps, IState> {
     else {
       const user = {
         email,
-        password
+        password,
       };
 
       this.props.login(user);
@@ -58,6 +86,10 @@ class Signin extends React.Component<IProps, IState> {
     const { emailError, passwordError, invalidEmailError } = this.state;
     return (
       <div>
+        <VerifySuccessModal
+          open={this.state.verifySuccessModals}
+          toggle={this.toggleVerifyModal}
+        />
         <Grid container>
           <Grid item xs={12} md={7} sm={12}>
             <div className="firstLayoutContainer">
@@ -130,7 +162,12 @@ class Signin extends React.Component<IProps, IState> {
                   )}
                 </div>
                 <div className="mainWrapperLayout">
-                  <p className="forgotPassword">Forget your Password</p>
+                  <p
+                    className="forgotPassword"
+                    onClick={() => this.props.history.push("/forgotpassword")}
+                  >
+                    Forget your Password
+                  </p>
 
                   <ActionButton
                     text={Constants.LOGIN}
@@ -153,17 +190,19 @@ const inputStyle = {
   borderRadius: "10rem",
   borderWidth: 0,
   borderColor: "white",
-  boxShadow: "white"
+  boxShadow: "white",
 };
 const iconStyle = { width: "5%", margin: 10 };
 const mapStateToProps = (state: any) => {
   return {
-    auth: state.auth
+    auth: state.auth,
+    verifyState: state.auth.verify,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    login: (user: User) => dispatch(loginUser(user))
+    login: (user: User) => dispatch(loginUser(user)),
+    verifyUser: (token: any) => dispatch(verifyUser(token)),
   };
 };
 

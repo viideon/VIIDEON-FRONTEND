@@ -24,6 +24,7 @@
     "@types/reactstrap": "^8.4.1",
     "@types/recharts": "^1.8.9",
     "@types/redux": "^3.6.0",
+    "@types/yup": "^0.29.3",
     "aws-s3": "^2.0.5",
     "aws-sdk": "^2.640.0",
     "axios": "^0.19.2",
@@ -31,6 +32,7 @@
     "canvas-txt": "^2.0.9",
     "contentful": "^7.14.0",
     "detectrtc": "^1.4.0",
+    "formik": "^2.1.4",
     "material-ui-chip-input": "^1.1.0",
     "moment": "2.24.0",
     "react": "^16.13.0",
@@ -65,7 +67,8 @@
     "styled-components": "^5.1.0",
     "ts-ebml": "^2.0.2",
     "typescript": "~3.7.2",
-    "video-react": "^0.14.1"
+    "video-react": "^0.14.1",
+    "yup": "^0.29.1"
   },
   "scripts": {
     "start": "react-scripts start",
