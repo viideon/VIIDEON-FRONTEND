@@ -6,11 +6,11 @@ import ImageSearchIcon from "@material-ui/icons/ImageSearch";
 import EditIcon from "@material-ui/icons/Edit";
 import HeaderCard from "../../components/HeaderCards";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { getVideoCount } from "../../Redux/Actions/videos";
 import Styles from "./styles";
 import "./styles.css";
-
+import Tooltip from "@material-ui/core/Tooltip";
 type IProps = {
   history: any;
   videoCount: number;
@@ -20,7 +20,7 @@ type IProps = {
 class Dashboard extends Component<IProps> {
   state = {
     showDashboard: true,
-    showVideos: false
+    showVideos: false,
   };
   componentDidMount() {
     this.props.getVideoCount();
@@ -48,12 +48,14 @@ class Dashboard extends Component<IProps> {
         </div>
         <Grid container spacing={2}>
           <Grid item xs={6} md={3}>
-            <HeaderCard
-              styles={Styles.headerCardOne}
-              Number={this.props.videoCount}
-              Title="VIDEOS"
-              iconBg="#368BC4"
-            />
+            <Link to="/videos" className="link-style">
+              <HeaderCard
+                styles={Styles.headerCardOne}
+                Number={this.props.videoCount}
+                Title="VIDEOS"
+                iconBg="#368BC4"
+              />
+            </Link>
           </Grid>
           <Grid item xs={6} md={3}>
             <HeaderCard
@@ -64,12 +66,14 @@ class Dashboard extends Component<IProps> {
             />
           </Grid>
           <Grid item xs={6} md={3}>
-            <HeaderCard
-              styles={Styles.headerCardThree}
-              Number={3}
-              Title="CAMPAIGNS"
-              iconBg="#7754B8"
-            />
+            <Link to="/campaign" className="link-style">
+              <HeaderCard
+                styles={Styles.headerCardThree}
+                Number={3}
+                Title="CAMPAIGNS"
+                iconBg="#7754B8"
+              />
+            </Link>
           </Grid>
           <Grid item xs={6} md={3}>
             <HeaderCard
@@ -109,13 +113,15 @@ class Dashboard extends Component<IProps> {
             </div>
           </Grid>
           <Grid item xs={6} md={3}>
-            <div
-              className="actionsHomePage"
-              onClick={() => alert("Feature not created yet")}
-            >
-              <EditIcon style={iconStyle} />
-              <h5>Edit My Message</h5>
-            </div>
+            <Tooltip title="Under Progress">
+              <div
+                className="actionsHomePage"
+                onClick={() => alert("Feature not created yet")}
+              >
+                <EditIcon style={iconStyle} />
+                <h5>Edit My Message</h5>
+              </div>
+            </Tooltip>
           </Grid>
         </Grid>
       </div>
@@ -125,16 +131,16 @@ class Dashboard extends Component<IProps> {
 
 const iconStyle = {
   fontSize: "100px",
-  cursor: "pointer"
+  cursor: "pointer",
 };
 const mapStateToProps = (state: any) => {
   return {
-    videoCount: state.video.videoCount
+    videoCount: state.video.videoCount,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    getVideoCount: () => dispatch(getVideoCount())
+    getVideoCount: () => dispatch(getVideoCount()),
   };
 };
 

@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Redirect, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getEmailConfigurations } from "../../Redux/Actions/email";
+import { logout } from "../../Redux/Actions/auth";
 import SideBar from "../../components/SideBar/SideBar";
 import Dashboard from "./Dashboard";
+import Tooltip from "@material-ui/core/Tooltip";
 import Videos from "./Videos";
 import Contacts from "../Connections/Contacts";
 import Configuration from "../Configuration";
@@ -13,6 +15,7 @@ type IProps = {
   history: any;
   drawer: boolean;
   getEmailConfigurations: () => void;
+  logout: () => void;
 };
 
 class Home extends Component<IProps> {
@@ -20,7 +23,7 @@ class Home extends Component<IProps> {
     this.props.getEmailConfigurations();
   }
   render() {
-    const { drawer } = this.props;
+    const { drawer, logout } = this.props;
     return (
       <div>
         <SideBar history={this.props.history} />
@@ -35,30 +38,45 @@ class Home extends Component<IProps> {
         </div>
         <div className="footerDashboard">
           <div className="navFooterIcons">
-            <span>
-              <i className="fas fa-cog" />
-            </span>
-            <span>
-              <i className="fas fa-envelope" />
-            </span>
-            <span>
-              <i className="fas fa-power-off" />
-            </span>
+            <Link
+              to="/profile"
+              className="link-style"
+              style={{ color: "black" }}
+            >
+              <Tooltip title="Profile">
+                <span>
+                  <i className="fas fa-cog" style={iconStyle}></i>
+                </span>
+              </Tooltip>
+            </Link>
+            <Tooltip title="Under Progress">
+              <span>
+                <i className="fas fa-envelope" style={iconStyle}></i>
+              </span>
+            </Tooltip>
+            <Tooltip title="Log out">
+              <span onClick={() => logout()}>
+                <i className="fas fa-power-off" style={iconStyle}></i>
+              </span>
+            </Tooltip>
           </div>
         </div>
       </div>
     );
   }
 }
-
+const iconStyle = {
+  cursor: "pointer",
+};
 const mapStateToProps = (state: any) => {
   return {
-    drawer: state.drawer.drawer
+    drawer: state.drawer.drawer,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    getEmailConfigurations: () => dispatch(getEmailConfigurations())
+    getEmailConfigurations: () => dispatch(getEmailConfigurations()),
+    logout: () => dispatch(logout()),
   };
 };
 
