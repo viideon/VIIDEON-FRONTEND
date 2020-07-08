@@ -14,6 +14,15 @@
   transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
 }
+.showNotSupported {
+  color: #fff;
+  transition: all 0.5ms ease-in;
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+}
 .iconRecording {
   position: absolute;
   top: 10px;
@@ -51,10 +60,9 @@
   justify-content: center;
 }
 /* -----recording screen wrapper */
-.recorderWrapper {
+.customeRecWrapper {
   text-align: center;
-  box-shadow: 0 0 5px lightgray;
-  padding: 10px 20px 10px 20px;
+  padding: 5px;
 }
 .introHeading {
   padding-top: 40px !important;
@@ -122,6 +130,49 @@
   width: 272px;
   margin-top: 15px;
   text-align: start;
+}
+.recordingBtn {
+  border: 8px solid #d3d3d3;
+  color: black;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  background: rgba(227, 73, 28, 0.8);
+  outline: none;
+  /* border: none; */
+  position: absolute;
+  left: 50%;
+  top: 83%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+}
+.recordingBtn:hover {
+  background: #fb6d42;
+}
+.stopBtnWrapper {
+  background: rgba(255, 255, 255, 0.4);
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 85%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+}
+.stopBtn {
+  color: black;
+  border-radius: 4px;
+  width: 40px;
+  height: 40px;
+  background: rgba(227, 73, 28, 0.8);
+  outline: none;
+  border: none;
+  cursor: pointer;
+  margin: 20px;
+}
+.stopBtn:hover {
+  background: #fb6d42;
 }
 @media (max-width: 500px) {
   .btnDoubleWrap {

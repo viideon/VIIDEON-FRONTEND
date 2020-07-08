@@ -9,6 +9,7 @@ import {
   InputGroup
 } from "reactstrap";
 import { FaMailBulk, FaPencilAlt, FaDownload } from "react-icons/fa";
+import { toast } from "react-toastify";
 import VideoInfo from "../../components/VideoInfo";
 import { FiExternalLink } from "react-icons/fi";
 import { connect } from "react-redux";
@@ -25,6 +26,7 @@ interface Video {
   campaign?: boolean;
   logoProps?: any;
   textProps?: any;
+  _id: string;
 }
 interface IProps {
   video?: Video;
@@ -43,6 +45,13 @@ class VideoTabHeader extends React.Component<IProps> {
       this.container.style.display = "none";
     }
   }
+  copyUrl = () => {
+    const { video } = this.props;
+    navigator.clipboard.writeText(
+      `https://vidionpro.000webhostapp.com/watch/${video && video._id}`
+    );
+    toast.info("Url copied to clipboard");
+  };
 
   render() {
     const { video } = this.props;
@@ -104,14 +113,19 @@ class VideoTabHeader extends React.Component<IProps> {
             <Button
               size="lg"
               style={styles.buttonWrapper}
-              onClick={() => alert("This is not functional yet")}
+              onClick={this.copyUrl}
             >
-              {Constants.SEND_SHARE}
+              Copy Url
             </Button>
             <br />
             <br />
             <InputGroup>
-              <Input placeholder="https://vidionpro.com" />
+              <Input
+                ref="urlInput"
+                value={`https://vidionpro.000webhostapp.com/watch/${video &&
+                  video._id}`}
+                disabled={true}
+              />
               <InputGroupAddon addonType="append">
                 <InputGroupText style={styles.inputContainer}>
                   <FaMailBulk style={styles.inputwrapper} />

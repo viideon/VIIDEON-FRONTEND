@@ -3,24 +3,21 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
+  Redirect
 } from "react-router-dom";
 import { connect } from "react-redux";
 import Home from "./Screens/Home/Home";
 import VideoTab from "./Screens/VideoTab/VideoTab";
 import Profile from "./Screens/Profile/index";
 import { AuthState } from "../src/Redux/Types/auth";
-import Signup from "./Screens/SignUp";
-import SignIn from "./Screens/SIgnIn";
+import Signup from "./Screens/Signup";
+import Signin from "./Screens/SignIn";
 import Header from "./components/Header/Header";
 import UploadRecord from "../src/Screens/UploadRecordVideo";
 import Watch from "./Screens/Watch";
-// import Campaign from "./Screens/Campaign";
 import Campaign from "./Screens/CampaignNew";
 import Recording from "./Screens/Watch/Recording";
-import VideoLayer from "./Screens/Watch/VideoLayer";
-import Capture from "./Screens/Watch/Capture";
-import TestCanvas from "./Screens/Watch/TestCanvasPlayer";
+import TestRecorder from "./Screens/Watch/TestRecorder";
 
 type IProps = {
   auth: AuthState;
@@ -40,16 +37,14 @@ class Routes extends Component<IProps> {
               <Route exact path="/watch/:id" component={Watch} />
               <Route exact path="/campaign" component={Campaign} />
               <Route exact path="/recording" component={Recording} />
-              <Route exact path="/layer" component={VideoLayer} />
-              <Route exact path="/capture" component={Capture} />
-              <Route exact path="/canvastest" component={TestCanvas} />
+              <Route exact path="/recorder" component={TestRecorder} />
               <Route exact path="*" component={Home} />
             </Switch>
           </>
         ) : (
           <Switch>
             <Route exact path="/signup" component={Signup} />
-            <Route exact path="/" component={SignIn} />
+            <Route exact path="/" component={Signin} />
             <Route exact path="/watch/:id" component={Watch} />
             <Route exact path="*" render={() => <Redirect to="/" />} />
           </Switch>
@@ -60,7 +55,7 @@ class Routes extends Component<IProps> {
 }
 const mapStateToProps = (state: any) => {
   return {
-    auth: state.auth,
+    auth: state.auth
   };
 };
 export default connect(mapStateToProps)(Routes);

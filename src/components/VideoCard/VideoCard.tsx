@@ -1,6 +1,7 @@
 import React, { FC, useState } from "react";
 import { connect } from "react-redux";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { toast } from "react-toastify";
 import VideoInfo from "../VideoInfo";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -52,6 +53,12 @@ const VideoCard: FC<IProps> = ({
   const deleteAction = () => {
     deleteVideo(id);
   };
+  const copyUrl = () => {
+    navigator.clipboard.writeText(
+      `https://vidionpro.000webhostapp.com/watch/${id}`
+    );
+    toast.info("Url copied to clipboard");
+  };
   return (
     <div className="wrapperVideoCard">
       <div className="videoPreview" onClick={onClick}>
@@ -79,6 +86,7 @@ const VideoCard: FC<IProps> = ({
           >
             <MenuItem onClick={onClick}>View</MenuItem>
             <MenuItem onClick={onClick}>Edit</MenuItem>
+            <MenuItem onClick={copyUrl}>Copy url</MenuItem>
             <MenuItem onClick={openDeleteDialog}>Delete</MenuItem>
           </Menu>
           <DeleteDialog

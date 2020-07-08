@@ -200,7 +200,7 @@ class SendSave extends React.Component<IProps> {
         <Grid item xs={10} sm={10} md={6} lg={6}>
           <h3 className="recordHeading">Save and Email Video</h3>
           <div style={{ width: "100%", height: "400px" }} ref="container">
-            {this.props.previewVideo && (
+            {this.props.previewVideo && this.props.thumbnailBlob && (
               <CanvasPlayer
                 autoPlay={false}
                 muted={false}
@@ -209,6 +209,7 @@ class SendSave extends React.Component<IProps> {
                 textProps={this.props.textProps}
                 logoProps={this.props.logoProps}
                 local={true}
+                thumbnail={URL.createObjectURL(this.props.thumbnailBlob)}
               />
             )}
           </div>

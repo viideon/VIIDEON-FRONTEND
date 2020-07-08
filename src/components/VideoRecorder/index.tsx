@@ -1,20 +1,15 @@
 import React from "react";
 import RecordRTC from "recordrtc";
-import { withRouter } from "react-router-dom";
-import { toast } from "react-toastify";
-import { Button, Select, MenuItem, InputLabel } from "@material-ui/core";
-import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
+import { Tooltip } from "@material-ui/core";
+import { Select, MenuItem, InputLabel } from "@material-ui/core";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
-import StopIcon from "@material-ui/icons/Stop";
 import Counter from "./Counter";
 import "./style.css";
 
 const hasGetUserMedia = !!navigator.getUserMedia;
 
 interface IProps {
-  moveToNextStep: () => void;
-  saveVideo: (blob: any) => void;
-  history: any;
+  getBlob: (blob: any) => void;
 }
 
 class Recording extends React.Component<IProps> {
@@ -23,8 +18,6 @@ class Recording extends React.Component<IProps> {
     showEditOption: false,
     showCountdown: false,
     isConnecting: false,
-    showNext: true,
-    trackNo: 1,
     showTimer: false,
     count: 0,
     timerTimeout: 0,
@@ -32,21 +25,32 @@ class Recording extends React.Component<IProps> {
     width: 1280,
     height: 720,
     selectValue: 1,
-    showQualityInput: true
+    showQualityInput: true,
+    showResult: false,
+    showRecordBtn: true,
+    showStopBtn: false,
+    showNotSupported: false,
+    deniedPermission: false
   };
   recordVideo: any;
   video: any;
   localStream: any;
+  resultVideo: any;
 
   componentDidMount() {
     this.setupMedia();
+    this.resultVideo = this.refs.resultVideo;
   }
 
   setupMedia = () => {
     let that = this;
     that.setState({ isConnecting: true });
     if (!hasGetUserMedia) {
-      toast.info("Your browser cannot stream from your webcam.");
+      this.setState({
+        showNotSupported: true,
+        isConnecting: false,
+        showRecordBtn: false
+      });
       return;
     }
     this.video = this.refs.video;
@@ -67,10 +71,11 @@ class Recording extends React.Component<IProps> {
 
     navigator.getUserMedia(params, callback, error => {
       if (error.name === "NotAllowedError") {
-        toast.info(
-          "You have denied permission for recording, Please enable them in your browser to record a video"
-        );
-        this.props.history.push("/");
+        this.setState({
+          deniedPermission: true,
+          isConnecting: false,
+          showRecordBtn: false
+        });
       }
     });
   };
@@ -90,7 +95,7 @@ class Recording extends React.Component<IProps> {
   handleRecording = () => {
     this.setState({
       showCountdown: true,
-      disableRecordBtn: true,
+      showRecordBtn: false,
       showQualityInput: false
     });
     setTimeout(() => this.startRecord(), 3000);
@@ -100,14 +105,10 @@ class Recording extends React.Component<IProps> {
       showCountdown: false,
       recordingStatus: true,
       showTimer: true,
+      showStopBtn: true,
       count: 0
     });
-    // toast.info("Recording started");
-    if (this.state.trackNo === 1) {
-      this.recordVideo.startRecording();
-    } else {
-      this.recordVideo.resumeRecording();
-    }
+    this.recordVideo.startRecording();
     this.setState({
       timerTimeout: setInterval(this.trackTime, 1000)
     });
@@ -118,58 +119,36 @@ class Recording extends React.Component<IProps> {
     this.setState({
       showTimer: false,
       recordingStatus: false,
-      disableRecordBtn: false
+      disableRecordBtn: false,
+      showStopBtn: false
     });
-    this.recordVideo.pauseRecording();
-    if (this.state.trackNo === 1) {
-      toast.info("Intro recorded");
-      this.moveToNextTrack();
-    } else if (this.state.trackNo === 2) {
-      toast.info("Message recorded");
-      this.moveToNextTrack();
-    } else {
-      toast.info("Conclusion recorded");
-      this.moveToNextTrack();
-    }
+    // this.recordVideo.pauseRecording();
+    this.stopAndGetBlob();
   };
 
-  moveToNextTrack = () => {
-    if (this.state.trackNo === 1) {
-      this.setState({ trackNo: 2 });
-    } else if (this.state.trackNo === 2) {
-      this.setState({ trackNo: 3 });
-    } else {
-      this.stopStream();
-      let that = this;
-      this.recordVideo.stopRecording(() => {
-        window.getSeekableBlob(this.recordVideo.getBlob(), function(
-          seekableBlob: any
-        ) {
-          that.props.saveVideo(seekableBlob);
-        });
-
-        this.setState({
-          recordingStatus: false
-        });
-        this.props.moveToNextStep();
+  stopAndGetBlob = () => {
+    let that = this;
+    this.recordVideo.stopRecording(() => {
+      window.getSeekableBlob(this.recordVideo.getBlob(), function(
+        seekableBlob: any
+      ) {
+        that.stopStream();
+        that.props.getBlob(seekableBlob);
+        that.resultVideo.src = URL.createObjectURL(seekableBlob);
+        that.setState({ showResult: true });
       });
-    }
+      this.setState({
+        recordingStatus: false
+      });
+    });
   };
+
   trackTime = () => {
     this.setState({
       count: this.state.count + 1
     });
   };
 
-  nameTrack = () => {
-    if (this.state.trackNo === 1) {
-      return "Record Intro";
-    } else if (this.state.trackNo === 2) {
-      return "Record Message";
-    } else {
-      return "Record Conclusion";
-    }
-  };
   stopStream = () => {
     this.localStream &&
       this.localStream.getTracks().forEach(function(track: any) {
@@ -202,19 +181,30 @@ class Recording extends React.Component<IProps> {
     this.stopStream();
   }
   render() {
-    const { count } = this.state;
+    const {
+      count,
+      showRecordBtn,
+      showStopBtn,
+      showResult,
+      showCountdown,
+      showTimer,
+      showQualityInput,
+      isConnecting,
+      showNotSupported,
+      deniedPermission
+    } = this.state;
     const min = Math.floor(count / 60) % 60;
     const hour = Math.floor(count / 3600);
     const sec = Math.floor(count % 60);
     return (
-      <div className="recorderWrapper">
-        <h2 className="recordHeading">{this.nameTrack()}</h2>
+      <div className="customeRecWrapper">
         <div className="videoStreamWrapper">
           <video
             ref="video"
             muted
             autoPlay
             style={{
+              visibility: showResult ? "hidden" : "visible",
               width: "100%",
               height: "100%",
               position: "absolute",
@@ -223,8 +213,22 @@ class Recording extends React.Component<IProps> {
             }}
           />
 
-          {this.state.showCountdown && <Counter />}
-          {this.state.showTimer && (
+          <video
+            ref="resultVideo"
+            muted
+            controls
+            style={{
+              visibility: showResult ? "visible" : "hidden",
+              width: "100%",
+              height: "100%",
+              position: "absolute",
+              top: 0,
+              left: 0
+            }}
+          />
+
+          {showCountdown && <Counter />}
+          {showTimer && (
             <span className="timerRecording">
               <span
                 style={{
@@ -240,11 +244,36 @@ class Recording extends React.Component<IProps> {
               </span>
             </span>
           )}
-          {this.state.isConnecting && (
-            <span className="loadingText">Loading ...</span>
+          {isConnecting && <span className="loadingText">Loading ...</span>}
+          {showNotSupported && (
+            <span className="showNotSupported">
+              Your browser cannot stream from your webcam.
+            </span>
+          )}
+          {deniedPermission && (
+            <span className="showNotSupported">
+              You have denied permissions for recording, Please restart the
+              browser and try again
+            </span>
+          )}
+          {showRecordBtn && !isConnecting && (
+            <Tooltip title="Record" placement="top" arrow>
+              <button
+                className="recordingBtn"
+                onClick={() => this.handleRecording()}
+              />
+            </Tooltip>
+          )}
+          {showStopBtn && (
+            <div className="stopBtnWrapper">
+              <button
+                className="stopBtn"
+                onClick={() => this.stopRecord()}
+              ></button>
+            </div>
           )}
         </div>
-        {this.state.showQualityInput && (
+        {showQualityInput && (
           <div className="recordQualityInput">
             <InputLabel>Quality</InputLabel>
             <Select
@@ -259,31 +288,9 @@ class Recording extends React.Component<IProps> {
             </Select>
           </div>
         )}
-        <div className="btnDoubleWrap">
-          <Button
-            onClick={() => this.handleRecording()}
-            variant="contained"
-            size="large"
-            style={{ color: "#008000" }}
-            disabled={this.state.disableRecordBtn}
-          >
-            <KeyboardArrowRightIcon />
-            {this.nameTrack()}
-          </Button>
-          {this.state.recordingStatus && (
-            <Button
-              onClick={() => this.stopRecord()}
-              variant="contained"
-              style={{ color: "#ff0040" }}
-            >
-              <StopIcon />
-              Done
-            </Button>
-          )}
-        </div>
       </div>
     );
   }
 }
 
-export default withRouter<any, any>(Recording);
+export default Recording;

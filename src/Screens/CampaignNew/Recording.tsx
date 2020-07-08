@@ -1,6 +1,5 @@
 import React from "react";
 import RecordRTC from "recordrtc";
-import DetectRTC from "detectrtc";
 import { withRouter } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Grid, Button, Select, MenuItem, InputLabel } from "@material-ui/core";
@@ -39,22 +38,14 @@ class Recording extends React.Component<IProps> {
   recordVideo: any;
   video: any;
   localStream: any;
+  toastOptions: any = { autoClose: 2000 };
 
   componentDidMount() {
     this.setupMedia();
   }
 
   setupMedia = () => {
-    console.log("called");
-    let that = this;
-    DetectRTC.load(function() {
-      if (DetectRTC.isWebsiteHasWebcamPermissions === false) {
-        console.log("No permissions");
-      } else if (!DetectRTC.hasWebcam && !DetectRTC.isWebRTCSupported) {
-        console.log("No webcam");
-      }
-    });
-    that.setState({ isConnecting: true });
+    this.setState({ isConnecting: true });
     if (!hasGetUserMedia) {
       toast.info("Your browser cannot stream from your webcam.");
       return;
@@ -132,13 +123,13 @@ class Recording extends React.Component<IProps> {
     });
     this.recordVideo.pauseRecording();
     if (this.state.trackNo === 1) {
-      toast.info("Intro recorded");
+      toast("Intro recorded", this.toastOptions);
       this.moveToNextTrack();
     } else if (this.state.trackNo === 2) {
-      toast.info("Message recorded");
+      toast("Message recorded", this.toastOptions);
       this.moveToNextTrack();
     } else {
-      toast.info("Conclusion recorded");
+      toast("Conclusion recorded", this.toastOptions);
       this.moveToNextTrack();
     }
   };

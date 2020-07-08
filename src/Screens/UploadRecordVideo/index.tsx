@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import AWS from "aws-sdk";
 import * as ebml from "ts-ebml";
-import VideoRecorder from "react-video-recorder";
+// import VideoRecorder from "react-video-recorder";
+import VideoRecorder from "../../components/VideoRecorder";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import HelpIcon from "@material-ui/icons/Help";
 import {
@@ -536,7 +537,7 @@ class UploadRecord extends Component<IProps, IState> {
                           </Button>
                           <FormGroup className="formGroupMultiple">
                             <Label className="labelUploadSection">
-                              Broadcast{" "}
+                              Broadcast
                               <span>
                                 <Tooltip
                                   title="connect your gmail account in confguration to send email's on your behalf"
@@ -570,7 +571,7 @@ class UploadRecord extends Component<IProps, IState> {
               </div>
             )}
             <div style={styles.recorder} className="recorderWrapper">
-              <VideoRecorder
+              {/* <VideoRecorder
                 isOnInitially={false}
                 showReplayControls
                 replayVideoAutoplayAndLoopOff
@@ -582,7 +583,12 @@ class UploadRecord extends Component<IProps, IState> {
                   this.setState({ videoRecord: videoBlob });
                   // this.getSeekableBlob(videoBlob);
                 }}
-              />
+              /> */}
+              <VideoRecorder getBlob={(blob:any)=>{
+                 this.props.toggleSendVariable();
+                 this.getThumbnail(blob);
+                 this.setState({ videoRecord: blob });
+              }}/>
             </div>
           </TabPanel>
         </Tabs>

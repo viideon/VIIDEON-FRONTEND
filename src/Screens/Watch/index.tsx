@@ -44,7 +44,7 @@ class Watch extends React.Component<IProps> {
               <VideoPlayer
                 url={video.url}
                 thumbnail={video.thumbnail}
-                height={300}
+                height={350}
               />
             )}
             <div
@@ -72,6 +72,10 @@ class Watch extends React.Component<IProps> {
           </Grid>
           <Grid item md={3} sm={2} xs={1}></Grid>
         </Grid>
+        <div className="footerWatch">
+          <span>Powered By </span>
+          <a href="https://vidionpro.000webhostapp.com">vidionPro</a>
+        </div>
       </div>
     );
   }
