@@ -6,10 +6,10 @@ type IProps = {
 };
 const Loading: FC<IProps> = ({ height, width }) => (
   <ReactLoading
-    type={"spin"}
-    color={"red"}
-    height={height ? height : "10%"}
-    width={width ? width : "10%"}
+    type={"spinningBubbles"}
+    color={"#696969"}
+    height={50}
+    width={50}
   />
 );
 

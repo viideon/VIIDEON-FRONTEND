@@ -3,8 +3,9 @@ import { connect } from "react-redux";
 import VideoPlayer from "../../components/VideoPlayer";
 import CanvasPlayer from "../../components/CanvasPlayer";
 import { getVideo } from "../../Redux/Actions/videos";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import "./style.css";
 import Grid from "@material-ui/core/Grid";
+import Loading from "../../components/Loading";
 
 interface IProps {
   getVideo: (id: string) => void;
@@ -30,11 +31,15 @@ class Watch extends React.Component<IProps> {
   render() {
     const { video, loadingVideo } = this.props;
     return (
-      <div style={container}>
+      <div className="containerWatch">
         <Grid container>
           <Grid item md={3} sm={2} xs={1}></Grid>
           <Grid item md={6} sm={8} xs={10}>
-            {loadingVideo && <CircularProgress style={{ marginLeft: "47%" }} />}
+            {loadingVideo && (
+              <div style={{ marginLeft: "45%", marginTop: "20%" }}>
+                <Loading />
+              </div>
+            )}
             {video && !video.campaign && (
               <VideoPlayer
                 url={video.url}
@@ -42,7 +47,13 @@ class Watch extends React.Component<IProps> {
                 height={300}
               />
             )}
-            <div ref="container" style={{ height: "400px", width: "100%" }}>
+            <div
+              ref="container"
+              style={{
+                height: "400px",
+                width: "100%"
+              }}
+            >
               {video && video.campaign && (
                 <CanvasPlayer
                   muted={false}
@@ -65,11 +76,6 @@ class Watch extends React.Component<IProps> {
     );
   }
 }
-
-const container = {
-  marginTop: "100px"
-};
-
 const mapStateToProps = (state: any) => {
   return {
     video: state.video.singleVideo,

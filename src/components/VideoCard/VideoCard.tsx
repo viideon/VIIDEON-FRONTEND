@@ -1,8 +1,6 @@
 import React, { FC, useState } from "react";
 import { connect } from "react-redux";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-// import "react-aspect-ratio/aspect-ratio.css";
-// import AspectRatio from "react-aspect-ratio";
 import VideoInfo from "../VideoInfo";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -79,9 +77,8 @@ const VideoCard: FC<IProps> = ({
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem>Info</MenuItem>
-            <MenuItem>View</MenuItem>
-            <MenuItem>Edit</MenuItem>
+            <MenuItem onClick={onClick}>View</MenuItem>
+            <MenuItem onClick={onClick}>Edit</MenuItem>
             <MenuItem onClick={openDeleteDialog}>Delete</MenuItem>
           </Menu>
           <DeleteDialog
@@ -109,15 +106,3 @@ const mapStateToProps = (state: any) => {
   };
 };
 export default connect(mapStateToProps)(VideoCard);
-
-/* <AspectRatio ratio="16/9">
-          {/* <img
-            src={thumbnail ? thumbnail : thumbnailDefault}
-            alt="preview"
-            style={{
-              objectFit: "contain",
-              maxHeight: "100%"
-              // maxWidth: "100%"
-            }}
-          />
-        </AspectRatio> */

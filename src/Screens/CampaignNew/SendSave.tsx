@@ -1,11 +1,6 @@
 import React from "react";
-import {
-  Grid,
-  Button,
-  LinearProgress,
-  CircularProgress,
-  Tooltip
-} from "@material-ui/core";
+import { Grid, Button, LinearProgress, Tooltip } from "@material-ui/core";
+import Loading from "../../components/Loading";
 import { Input, Label, FormGroup } from "reactstrap";
 import CanvasPlayer from "../../components/CanvasPlayer";
 import ChipInput from "material-ui-chip-input";
@@ -218,8 +213,8 @@ class SendSave extends React.Component<IProps> {
             )}
           </div>
           <div style={{ marginLeft: "50%", marginTop: "5px" }}>
-            {loading && <CircularProgress />}
-            {this.props.progressEmail && <CircularProgress />}
+            {loading && <Loading />}
+            {this.props.progressEmail && <Loading />}
           </div>
           <div id="formInput" style={{ marginTop: "15px" }}>
             {videoSaved !== true && (
@@ -285,7 +280,7 @@ class SendSave extends React.Component<IProps> {
                 </Button>
                 <FormGroup className="formGroupMultiple">
                   <Label className="labelUploadSection">
-                    Broadcast{" "}
+                    Broadcast
                     <span>
                       <Tooltip
                         title="connect your gmail account in confguration to send email's on your behalf"

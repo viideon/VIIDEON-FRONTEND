@@ -5,6 +5,7 @@ import {
   FaEye,
   FaVideo
 } from "react-icons/fa";
+import { Tooltip } from "@material-ui/core";
 import "./style.css";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import * as Constants from "../../constants/constants";
@@ -12,40 +13,50 @@ import * as Constants from "../../constants/constants";
 const VideoInfo: React.FC = () => {
   return (
     <div>
-      <span className="firstInfoContainer">
-        <span className="itemsInfo">{Constants.ZERO} </span>
-        <span className="itemsInfo">
-          <FaRegEnvelopeOpen />
+      <Tooltip title="Email opens" placement="top" arrow>
+        <span className="firstInfoContainer">
+          <span className="itemsInfo">{Constants.ZERO} </span>
+          <span className="itemsInfo">
+            <FaRegEnvelopeOpen />
+          </span>
         </span>
-      </span>
-      <span className="mainInfoContainer">
-        {Constants.DASH}
-        <span className="itemsInfo">{Constants.ZERO} </span>
-        <span className="itemsInfo">
-          <FaHandPointUp />
+      </Tooltip>
+      <Tooltip title="Email clicks" placement="top" arrow>
+        <span className="mainInfoContainer">
+          {Constants.DASH}
+          <span className="itemsInfo">{Constants.ZERO} </span>
+          <span className="itemsInfo">
+            <FaHandPointUp />
+          </span>
         </span>
-      </span>
-      <span className="mainInfoContainer">
-        {Constants.DASH}
-        <span className="itemsInfo">{Constants.ZERO} </span>
-        <span className="itemsInfo">
-          <FaEye />
+      </Tooltip>
+      <Tooltip title="Views" placement="top" arrow>
+        <span className="mainInfoContainer">
+          {Constants.DASH}
+          <span className="itemsInfo">{Constants.ZERO} </span>
+          <span className="itemsInfo">
+            <FaEye />
+          </span>
         </span>
-      </span>
-      <span className="mainInfoContainer">
-        {Constants.DASH}
-        <span className="itemsInfo">{Constants.ZERO} </span>
-        <span className="itemsInfo">
-          <FaVideo />
+      </Tooltip>
+      <Tooltip title="Watches" placement="top" arrow>
+        <span className="mainInfoContainer">
+          {Constants.DASH}
+          <span className="itemsInfo">{Constants.ZERO} </span>
+          <span className="itemsInfo">
+            <FaVideo />
+          </span>
         </span>
-      </span>
-      <span className="mainInfoContainer">
-        {Constants.DASH}
-        <span className="itemsInfo">{Constants.ZERO} </span>
-        <span className="itemsInfo">
-          <MdCheckBoxOutlineBlank />
+      </Tooltip>
+      <Tooltip title="CTA clicks" placement="top" arrow>
+        <span className="mainInfoContainer">
+          {Constants.DASH}
+          <span className="itemsInfo">{Constants.ZERO} </span>
+          <span className="itemsInfo">
+            <MdCheckBoxOutlineBlank />
+          </span>
         </span>
-      </span>
+      </Tooltip>
     </div>
   );
 };

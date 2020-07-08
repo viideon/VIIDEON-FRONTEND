@@ -163,7 +163,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
     }, 0);
     setTimeout(() => {
       this.setCanvasDimensions();
-    }, 9000);
+    }, 11000);
   }
 
   setupListeners(remove?: any) {
@@ -477,7 +477,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
             <button
               className="canvasBtn"
               onClick={this.toggleFullScreen}
-              disabled={!videoLoaded}
+              disabled={true}
               style={{ marginLeft: "auto" }}
             >
               <FullscreenIcon />

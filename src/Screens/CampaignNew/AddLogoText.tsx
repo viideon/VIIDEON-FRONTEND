@@ -47,7 +47,7 @@ class AddLogo extends React.Component<IProps, IState> {
       text: "",
       btnText: "Skip",
       textColor: "#fff",
-      fontSize: 40,
+      fontSize: 30,
       vAlign: "top",
       align: "left",
       iconPos: "top-right"

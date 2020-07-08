@@ -1,7 +1,8 @@
 import React from "react";
 import S3FileUpload from "react-s3";
 import { Container, Row, Col } from "reactstrap";
-import { Tooltip, CircularProgress } from "@material-ui/core";
+import { Tooltip } from "@material-ui/core";
+import Loading from "../../components/Loading";
 import HelpIcon from "@material-ui/icons/Help";
 import { connect } from "react-redux";
 import { updateVideo } from "../../Redux/Actions/videos";
@@ -45,7 +46,7 @@ class Editing extends React.Component<IProps, IState> {
   container: any;
   componentDidMount() {
     this.container = this.refs.container;
-    setTimeout(() => this.setState({ showVideo: true }), 10000);
+    setTimeout(() => this.setState({ showVideo: true }), 12000);
   }
   componentWillReceiveProps(nextProps: any) {
     if (
@@ -133,7 +134,7 @@ class Editing extends React.Component<IProps, IState> {
               </div>
               {showVideo === false && (
                 <div style={{ position: "absolute", left: "48%", top: "40%" }}>
-                  <CircularProgress />
+                  <Loading />
                 </div>
               )}
             </Col>
@@ -165,10 +166,10 @@ class Editing extends React.Component<IProps, IState> {
                   </Tooltip>
                 </h4>
                 <div className="progressEditing">
-                  {this.state.uploading && <CircularProgress />}
+                  {this.state.uploading && <Loading />}
                 </div>
                 <div className="progressEditing">
-                  {isVideoUpdating && <CircularProgress />}
+                  {isVideoUpdating && <Loading />}
                 </div>
 
                 <div className="btnEditThumbnailWrapper">

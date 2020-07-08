@@ -128,7 +128,6 @@ class Player extends React.Component<IProps, IState> {
     this.progressBar = this.refs.progressBar;
     this.logo = this.refs.logo;
     this.logo.crossOrigin = "Anonymous";
-    //setting height /width and hiding video element
     if (this.props.local && this.props.local === true) {
       this.video.height = this.state.height;
       this.video.style.left = "-1000%";
@@ -249,15 +248,11 @@ class Player extends React.Component<IProps, IState> {
   };
 
   onAnimationFrame() {
-    // const { mobile } = this.state;
     const render = () => {
       const { textProps, logoProps } = this.props;
       const { width, height } = this.state;
       this.canvasTmpCtx.drawImage(this.video, 0, 0, width, height);
 
-      if (logoProps.url !== "" && logoProps.url !== undefined) {
-        this.logoPosition[logoProps.position].call();
-      }
       //Draw text using canvas-txt
       if (textProps.text !== "" && textProps.text !== undefined) {
         this.canvasTmpCtx.fillStyle = textProps.textColor;
@@ -268,18 +263,20 @@ class Player extends React.Component<IProps, IState> {
         canvasTxt.drawText(
           this.canvasTmpCtx,
           textProps.text,
-          5,
-          5,
-          width - 10,
-          height - 10
+          0,
+          0,
+          width,
+          height
         );
+      }
+      if (logoProps.url !== "" && logoProps.url !== undefined) {
+        this.logoPosition[logoProps.position].call();
       }
 
       let idata = this.canvasTmpCtx.getImageData(0, 0, width, height);
       this.canvasContext.putImageData(idata, 0, 0);
     };
     if (this.video) {
- 
       render();
       // && this.video.readyState === 4
       if (this.state.playing) {
@@ -472,7 +469,7 @@ class Player extends React.Component<IProps, IState> {
             <button
               className="canvasBtn"
               onClick={this.toggleFullScreen}
-              disabled={!videoLoaded}
+              disabled={true}
               style={{ marginLeft: "auto" }}
             >
               <FullscreenIcon />

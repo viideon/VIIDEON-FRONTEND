@@ -18,8 +18,7 @@ import {
 } from "../../Redux/Actions/videos";
 import { thumbnailDefault } from "../../constants/constants";
 import VideoCard from "../VideoCard/VideoCard";
-import "../../../node_modules/video-react/dist/video-react.css";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import Loading from "../Loading";
 import SearchIcon from "@material-ui/icons/Search";
 import AddIcon from "@material-ui/icons/Add";
 import ListIcon from "@material-ui/icons/List";
@@ -181,9 +180,7 @@ class VideoSection extends Component<IProps> {
             </table>
           </div>
         )}
-        <div className="loadMoreWrapper">
-          {loadingVideos && <CircularProgress />}
-        </div>
+        <div className="loadMoreWrapper">{loadingVideos && <Loading />}</div>
         <div className="loadMoreWrapper">
           {this.props.loadMore && (
             <button className="loadMore" onClick={this.loadMore}>

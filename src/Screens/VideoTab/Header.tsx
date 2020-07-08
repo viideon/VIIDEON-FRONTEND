@@ -8,19 +8,11 @@ import {
   InputGroupText,
   InputGroup
 } from "reactstrap";
-import {
-  FaMailBulk,
-  FaPencilAlt,
-  FaRegEnvelopeOpen,
-  FaHandPointUp,
-  FaEye,
-  FaVideo,
-  FaDownload
-} from "react-icons/fa";
+import { FaMailBulk, FaPencilAlt, FaDownload } from "react-icons/fa";
+import VideoInfo from "../../components/VideoInfo";
 import { FiExternalLink } from "react-icons/fi";
 import { connect } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import * as Constants from "../../constants/constants";
 import VideoPlayer from "../../components/VideoPlayer";
 import CanvasPlayer from "../../components/CanvasPlayer";
@@ -93,32 +85,13 @@ class VideoTabHeader extends React.Component<IProps> {
                 <h3>
                   {video && video.title}
                   <i>
-                    <FaPencilAlt style={{ fontSize: "15px" }} />
+                    <FaPencilAlt
+                      style={{ fontSize: "15px", marginLeft: "4px" }}
+                    />
                   </i>
                 </h3>
-                <span>
-                  {Constants.ZERO} <FaRegEnvelopeOpen />
-                </span>
-                <span style={styles.maincontainer}>
-                  {Constants.DASH}
-                  {Constants.ZERO}
-                  <FaHandPointUp />
-                </span>
-                <span style={styles.maincontainer}>
-                  {Constants.DASH}
-                  {Constants.ZERO}
-                  <FaEye />
-                </span>
-                <span style={styles.maincontainer}>
-                  {Constants.DASH}
-                  {Constants.ZERO}
-                  <FaVideo />
-                </span>
-                <span style={styles.maincontainer}>
-                  {Constants.DASH}
-                  {Constants.ZERO}
-                  <MdCheckBoxOutlineBlank />
-                </span>
+                <VideoInfo />
+
                 <div style={styles.wrapper}>
                   <span>
                     <FaDownload /> {Constants.MP4}
