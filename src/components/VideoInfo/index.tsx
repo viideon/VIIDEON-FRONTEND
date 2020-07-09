@@ -3,49 +3,76 @@ import {
   FaRegEnvelopeOpen,
   FaHandPointUp,
   FaEye,
-  FaVideo
+  FaVideo,
 } from "react-icons/fa";
 import "./style.css";
+import Tooltip from "@material-ui/core/Tooltip";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import * as Constants from "../../constants/constants";
-
-const VideoInfo: React.FC = () => {
+interface Video {
+  url: string;
+  thumbnail?: string;
+  title?: string;
+  campaign?: boolean;
+  logoProps?: any;
+  textProps?: any;
+  views?: number;
+  watch?: number;
+  emailShareCount?: number;
+}
+interface IProps {
+  video?: Video;
+}
+const VideoInfo: React.FC<IProps> = ({ video }) => {
   return (
     <div>
-      <span className="firstInfoContainer">
-        <span className="itemsInfo">{Constants.ZERO} </span>
-        <span className="itemsInfo">
-          <FaRegEnvelopeOpen />
+      <Tooltip title="Email Opens" enterDelay={0}>
+        <span className="firstInfoContainer">
+          <span className="itemsInfo">{Constants.ZERO} </span>
+          <span className="itemsInfo">
+            <FaRegEnvelopeOpen />
+          </span>
         </span>
-      </span>
-      <span className="mainInfoContainer">
-        {Constants.DASH}
-        <span className="itemsInfo">{Constants.ZERO} </span>
-        <span className="itemsInfo">
-          <FaHandPointUp />
+      </Tooltip>
+      <Tooltip title="Email Clicks" enterDelay={0}>
+        <span className="mainInfoContainer">
+          {Constants.DASH}
+          <span className="itemsInfo">
+            {video?.emailShareCount ? video.emailShareCount : "0"}{" "}
+          </span>
+
+          <span className="itemsInfo">
+            <FaHandPointUp />
+          </span>
         </span>
-      </span>
-      <span className="mainInfoContainer">
-        {Constants.DASH}
-        <span className="itemsInfo">{Constants.ZERO} </span>
-        <span className="itemsInfo">
-          <FaEye />
+      </Tooltip>
+      <Tooltip title="Views" enterDelay={0}>
+        <span className="mainInfoContainer">
+          {Constants.DASH}
+          <span className="itemsInfo">{video?.views ? video.views : "0"} </span>
+          <span className="itemsInfo">
+            <FaEye />
+          </span>
         </span>
-      </span>
-      <span className="mainInfoContainer">
-        {Constants.DASH}
-        <span className="itemsInfo">{Constants.ZERO} </span>
-        <span className="itemsInfo">
-          <FaVideo />
+      </Tooltip>
+      <Tooltip title="Watches" enterDelay={0}>
+        <span className="mainInfoContainer">
+          {Constants.DASH}
+          <span className="itemsInfo">{video?.watch ? video.watch : "0"} </span>
+          <span className="itemsInfo">
+            <FaVideo />
+          </span>
         </span>
-      </span>
-      <span className="mainInfoContainer">
-        {Constants.DASH}
-        <span className="itemsInfo">{Constants.ZERO} </span>
-        <span className="itemsInfo">
-          <MdCheckBoxOutlineBlank />
+      </Tooltip>
+      <Tooltip title="CTA Clicks" enterDelay={0}>
+        <span className="mainInfoContainer">
+          {Constants.DASH}
+          <span className="itemsInfo">{Constants.ZERO} </span>
+          <span className="itemsInfo">
+            <MdCheckBoxOutlineBlank />
+          </span>
         </span>
-      </span>
+      </Tooltip>
     </div>
   );
 };

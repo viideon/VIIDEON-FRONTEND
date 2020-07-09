@@ -2,8 +2,17 @@ import React from "react";
 import { FormControl, InputLabel, Select, Grid } from "@material-ui/core";
 import ProgressBar from "../CircularProgressBar";
 import "./style.css";
-
-const GeneralStats: React.FC = () => {
+interface IProps {
+  singleVideo?: any;
+}
+const GeneralStats: React.FC<IProps> = ({ singleVideo }) => {
+  let watch = singleVideo && singleVideo.watch ? singleVideo.watch : 1;
+  watch = Math.round((watch * 100) / 15);
+  let emailShare =
+    singleVideo && singleVideo.emailShareCount
+      ? singleVideo.emailShareCount
+      : 1;
+  emailShare = Math.round((emailShare * 100) / 15);
   return (
     <div className="wrapperGeneralStats">
       <div className="headGeneralStats">
@@ -24,7 +33,11 @@ const GeneralStats: React.FC = () => {
         <Grid container>
           <Grid item xs={6} md={6}>
             <div className="wrapperProgress">
-              <ProgressBar width="25%" value={1} heading="Email Click Rates" />
+              <ProgressBar
+                width="25%"
+                value={emailShare}
+                heading="Email Click Rates"
+              />
             </div>
           </Grid>
           <Grid item xs={6} md={6}>
@@ -34,7 +47,7 @@ const GeneralStats: React.FC = () => {
           </Grid>
           <Grid item xs={6} md={6}>
             <div className="wrapperProgress">
-              <ProgressBar width="25%" value={1} heading="Watch Rates" />
+              <ProgressBar width="25%" value={watch} heading="Watch Rates" />
             </div>
           </Grid>
           <Grid item xs={6} md={6}>
@@ -51,7 +64,7 @@ const GeneralStats: React.FC = () => {
           <Grid item xs={6} md={6}>
             {" "}
             <div className="wrapperProgress">
-              <ProgressBar width="25%" value={1} heading="Email Rates" />
+              <ProgressBar width="25%" value={watch} heading="Email Rates" />
             </div>
           </Grid>
         </Grid>

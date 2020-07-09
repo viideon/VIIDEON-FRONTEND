@@ -7,7 +7,7 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Container
+  Container,
 } from "reactstrap";
 import classnames from "classnames";
 import {
@@ -16,7 +16,7 @@ import {
   FaCut,
   FaPalette,
   FaRegEye,
-  FaReply
+  FaReply,
 } from "react-icons/fa";
 import VideoTabHeader from "./Header";
 import Detail from "./Detail";
@@ -28,7 +28,12 @@ import Analytics from "./Analytics";
 import * as Constants from "../../constants/constants";
 import "./style.css";
 
-const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
+const VideoTab = ({
+  match: { params },
+  getVideo,
+  singleVideo,
+  cleanSingleVideo,
+}: any) => {
   const [activeTab, setActiveTab] = useState("1");
 
   const toggle = (tab: any) => {
@@ -154,7 +159,7 @@ const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
             </Container>
           </TabPane>
           <TabPane tabId="2">
-            <Analytics />
+            <Analytics singleVideo={singleVideo} />
           </TabPane>
           <TabPane tabId="3">
             <Editing videoId={params.id} />
@@ -175,13 +180,14 @@ const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
 };
 const mapStateToProps = (state: any) => {
   return {
-    loadingVideo: state.video.loadingVideo
+    loadingVideo: state.video.loadingVideo,
+    singleVideo: state.video.singleVideo,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getVideo: (id: any) => dispatch(getVideo(id)),
-    cleanSingleVideo: () => dispatch(cleanSingleVideo())
+    cleanSingleVideo: () => dispatch(cleanSingleVideo()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(VideoTab);

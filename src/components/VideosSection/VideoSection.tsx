@@ -6,7 +6,7 @@ import {
   Input,
   InputAdornment,
   Checkbox,
-  Tooltip
+  Tooltip,
 } from "@material-ui/core";
 import DeleteDialog from "../Reusable/DeleteDialog";
 import {
@@ -14,7 +14,7 @@ import {
   resetPage,
   searchUserVideos,
   deleteVideo,
-  emptyPage
+  emptyPage,
 } from "../../Redux/Actions/videos";
 import { thumbnailDefault } from "../../constants/constants";
 import VideoCard from "../VideoCard/VideoCard";
@@ -30,7 +30,7 @@ import "./styles.css";
 
 type IProps = {
   history: any;
-  getUserVideos: () => void;
+  getUserVideos?: any;
   searchUserVideos: (title: any) => void;
   resetPage: () => void;
   userVideos: object[];
@@ -40,20 +40,21 @@ type IProps = {
   emptyPage: () => void;
   deletingVideo: boolean;
   showDeleteDialog: boolean;
+  videoType: string;
 };
 
 class VideoSection extends Component<IProps> {
   state = {
     searchText: "",
     gridView: true,
-    deleteDialog: false
+    deleteDialog: false,
   };
   constructor(props: any) {
     super(props);
     this.props.resetPage();
   }
   componentDidMount() {
-    this.props.getUserVideos();
+    this.props.getUserVideos(this.props.videoType);
   }
 
   componentWillUnmount() {
@@ -65,7 +66,7 @@ class VideoSection extends Component<IProps> {
     } else return null;
   }
   loadMore = () => {
-    this.props.getUserVideos();
+    this.props.getUserVideos(this.props.videoType);
   };
   navigateToVideoTab = (id: string) => {
     this.props.history.push(`/videotab/${id}`);
@@ -85,7 +86,11 @@ class VideoSection extends Component<IProps> {
     this.setState({ gridView: !this.state.gridView });
   };
   createVideo = () => {
-    this.props.history.push("/video/create");
+    if (this.props.videoType === "allVideos") {
+      this.props.history.push("/video/create");
+    } else {
+      this.props.history.push("/campaign/new");
+    }
   };
   calculateDays = (date: any) => {
     let currentTime = moment(moment().toDate());
@@ -101,12 +106,17 @@ class VideoSection extends Component<IProps> {
   render() {
     const { userVideos, loadingVideos } = this.props;
     const { gridView } = this.state;
-
+    let videoTitle;
+    if (this.props.videoType === "allVideos") {
+      videoTitle = "MY VIDEOS";
+    } else {
+      videoTitle = "CAMPAIGN";
+    }
     return (
       <div className="VideoComponent">
         <div className="mainHeadingWrapper">
           <div>
-            <span className="Header">MY VIDEOS</span>
+            <span className="Header">{videoTitle}</span>
             <Input
               placeholder="Search"
               onChange={this.searchVideos}
@@ -143,6 +153,7 @@ class VideoSection extends Component<IProps> {
                     id={video._id}
                     deleteVideo={this.deleteVideo}
                     date={video.date}
+                    video={video}
                     onClick={() => this.navigateToVideoTab(video._id)}
                   />
                 </Grid>
@@ -201,16 +212,16 @@ const mapStateToProps = (state: any) => {
     loadingVideos: state.video.loadingVideos,
     loadMore: state.video.loadMore,
     deletingVideo: state.video.deletingVideo,
-    showDeleteDialog: state.video.showDeleteDialog
+    showDeleteDialog: state.video.showDeleteDialog,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    getUserVideos: () => dispatch(getUserVideos()),
+    getUserVideos: (videoType: any) => dispatch(getUserVideos(videoType)),
     resetPage: () => dispatch(resetPage()),
     deleteVideo: (id: any) => dispatch(deleteVideo(id)),
     searchUserVideos: (title: any) => dispatch(searchUserVideos(title)),
-    emptyPage: () => dispatch(emptyPage())
+    emptyPage: () => dispatch(emptyPage()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(VideoSection);
@@ -232,7 +243,7 @@ const ListViewCard: React.FC<IPropsListCard> = ({
   id,
   date,
   deletingVideo,
-  navigateToVideo
+  navigateToVideo,
 }) => {
   const [open, setOpen] = React.useState(false);
   const deleteAction = () => {

@@ -6,7 +6,7 @@ import {
   Input,
   InputGroupAddon,
   InputGroupText,
-  InputGroup
+  InputGroup,
 } from "reactstrap";
 import {
   FaMailBulk,
@@ -15,10 +15,11 @@ import {
   FaHandPointUp,
   FaEye,
   FaVideo,
-  FaDownload
+  FaDownload,
 } from "react-icons/fa";
 import { FiExternalLink } from "react-icons/fi";
 import { connect } from "react-redux";
+import Tooltip from "@material-ui/core/Tooltip";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import * as Constants from "../../constants/constants";
@@ -33,6 +34,9 @@ interface Video {
   campaign?: boolean;
   logoProps?: any;
   textProps?: any;
+  views?: number;
+  watch?: number;
+  emailShareCount?: number;
 }
 interface IProps {
   video?: Video;
@@ -65,7 +69,7 @@ class VideoTabHeader extends React.Component<IProps> {
                     style={{
                       display: "flex",
                       justifyContent: "center",
-                      textAlign: "center"
+                      textAlign: "center",
                     }}
                   >
                     <CircularProgress color="primary" />
@@ -96,29 +100,39 @@ class VideoTabHeader extends React.Component<IProps> {
                     <FaPencilAlt style={{ fontSize: "15px" }} />
                   </i>
                 </h3>
-                <span>
-                  {Constants.ZERO} <FaRegEnvelopeOpen />
-                </span>
-                <span style={styles.maincontainer}>
-                  {Constants.DASH}
-                  {Constants.ZERO}
-                  <FaHandPointUp />
-                </span>
-                <span style={styles.maincontainer}>
-                  {Constants.DASH}
-                  {Constants.ZERO}
-                  <FaEye />
-                </span>
-                <span style={styles.maincontainer}>
-                  {Constants.DASH}
-                  {Constants.ZERO}
-                  <FaVideo />
-                </span>
-                <span style={styles.maincontainer}>
-                  {Constants.DASH}
-                  {Constants.ZERO}
-                  <MdCheckBoxOutlineBlank />
-                </span>
+                <Tooltip title="Email Opens" enterDelay={0}>
+                  <span>
+                    {Constants.ZERO} <FaRegEnvelopeOpen />
+                  </span>
+                </Tooltip>
+                <Tooltip title="Email Clicks" enterDelay={0}>
+                  <span style={styles.maincontainer}>
+                    {Constants.DASH}
+                    {video?.emailShareCount ? video.emailShareCount : "0"}
+                    <FaHandPointUp />
+                  </span>
+                </Tooltip>
+                <Tooltip title="Views" enterDelay={0}>
+                  <span style={styles.maincontainer}>
+                    {Constants.DASH}
+                    {video?.views ? video.views : "0"}
+                    <FaEye />
+                  </span>
+                </Tooltip>
+                <Tooltip title="Watches" enterDelay={0}>
+                  <span style={styles.maincontainer}>
+                    {Constants.DASH}
+                    {video?.watch ? video.watch : "0"}
+                    <FaVideo />
+                  </span>
+                </Tooltip>
+                <Tooltip title="CTA Clicks" enterDelay={0}>
+                  <span style={styles.maincontainer}>
+                    {Constants.DASH}
+                    {Constants.ZERO}
+                    <MdCheckBoxOutlineBlank />
+                  </span>
+                </Tooltip>
                 <div style={styles.wrapper}>
                   <span>
                     <FaDownload /> {Constants.MP4}
@@ -157,7 +171,7 @@ class VideoTabHeader extends React.Component<IProps> {
 
 const mapStateToProps = (state: any) => {
   return {
-    video: state.video.singleVideo
+    video: state.video.singleVideo,
   };
 };
 

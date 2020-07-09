@@ -86,7 +86,7 @@ function* resetPassword(action: any) {
     const result = yield reset(action.payload);
     console.log(result);
     if (result.status === 201 || result.status === 200) {
-      toast.success("Password reset completed");
+      toast.success("Password changed successfully");
       yield put({
         type: types.RESET_SUCCESS,
         payload: result.data,

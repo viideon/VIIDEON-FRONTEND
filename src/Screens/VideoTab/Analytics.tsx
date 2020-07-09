@@ -4,18 +4,20 @@ import GeneralStats from "../../components/GeneralStats";
 import VideoViews from "../../components/VideoViews";
 import ActivityAnalytics from "../../components/ActivityAnalytics";
 import "./style.css";
-
-class Analytics extends React.Component {
+interface IProps {
+  singleVideo?: any;
+}
+class Analytics extends React.Component<IProps> {
   render() {
     return (
       <div className="wrapperAnalytics">
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
-            <GeneralStats />
+            <GeneralStats singleVideo={this.props.singleVideo} />
           </Grid>
-          <Grid item xs={12} md={6}>
+          {/* <Grid item xs={12} md={6}>
             <VideoViews />
-          </Grid>
+          </Grid> */}
           <Grid item xs={12} md={12}>
             <ActivityAnalytics />
           </Grid>

@@ -11,7 +11,8 @@ import * as Constants from "../../constants/constants";
 import { reg } from "../../constants/emailRegEx";
 import {
   sendVideoToEmail,
-  sendMultipleEmails
+  sendMultipleEmails,
+  updateEmailShare,
 } from "../../Redux/Actions/videos";
 import { EmailVideo, MultiEmail } from "../../Redux/Types/videos";
 
@@ -21,15 +22,16 @@ interface IProps {
   progressEmail: boolean;
   loading: boolean;
   match: any;
+  updateEmailShare?: any;
 }
 class Detail extends React.Component<IProps> {
   state = {
     recieverEmail: "",
-    emails: []
+    emails: [],
   };
   emailHandler = (event: any) => {
     this.setState({
-      recieverEmail: event.target.value
+      recieverEmail: event.target.value,
     });
   };
 
@@ -43,7 +45,7 @@ class Detail extends React.Component<IProps> {
 
   handleDeleteChip = (delEmail: any) => {
     this.setState({
-      emails: this.state.emails.filter((email: string) => email !== delEmail)
+      emails: this.state.emails.filter((email: string) => email !== delEmail),
     });
   };
   submitEmail = () => {
@@ -58,9 +60,11 @@ class Detail extends React.Component<IProps> {
       const recieverEmail = this.state.recieverEmail;
       const video = {
         videoId: id,
-        recieverEmail
+        recieverEmail,
       };
       this.props.sendVideoToEmail(video);
+      const _id = { id };
+      this.props.updateEmailShare(_id);
     }
   };
   sendMultipleEmail = () => {
@@ -75,7 +79,7 @@ class Detail extends React.Component<IProps> {
       const emails = this.state.emails.join();
       const emailVideoObj = {
         recieverEmail: emails,
-        videoId: id
+        videoId: id,
       };
       this.props.sendMultipleEmail(emailVideoObj);
       this.setState({ emails: [] });
@@ -142,8 +146,8 @@ class Detail extends React.Component<IProps> {
                   value={this.state.emails}
                   placeholder="Enter email and press enter"
                   fullWidth
-                  onAdd={chips => this.handleChipAdd(chips)}
-                  onDelete={chip => this.handleDeleteChip(chip)}
+                  onAdd={(chips) => this.handleChipAdd(chips)}
+                  onDelete={(chip) => this.handleDeleteChip(chip)}
                 />
               </FormGroup>
               <Button
@@ -203,14 +207,16 @@ class Detail extends React.Component<IProps> {
 const mapStateToProps = (state: any) => {
   return {
     progressEmail: state.video.progressEmail,
-    loading: state.video.loading
+    loading: state.video.loading,
   };
 };
+
 const mapDispatchToProps = (dispatch: any) => {
   return {
     sendVideoToEmail: (video: EmailVideo) => dispatch(sendVideoToEmail(video)),
+    updateEmailShare: (id: any) => dispatch(updateEmailShare(id)),
     sendMultipleEmail: (emailVideoObj: MultiEmail) =>
-      dispatch(sendMultipleEmails(emailVideoObj))
+      dispatch(sendMultipleEmails(emailVideoObj)),
   };
 };
 export default withRouter<any, any>(

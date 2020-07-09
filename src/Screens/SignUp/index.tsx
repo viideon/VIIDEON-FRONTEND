@@ -55,7 +55,7 @@ class Signup extends React.Component<IProps, IState> {
       userNameError: false,
       confirmPasswordError: false,
       next: false,
-      showNext: true
+      showNext: true,
     };
   }
 
@@ -80,7 +80,7 @@ class Signup extends React.Component<IProps, IState> {
       userName,
       email,
       password,
-      confirmPassword
+      confirmPassword,
     } = this.state;
     if (firstName === "") this.setState({ firstError: true });
     else if (lastName === "") this.setState({ lastError: true });
@@ -99,7 +99,7 @@ class Signup extends React.Component<IProps, IState> {
         firstName,
         lastName,
         userName,
-        password
+        password,
       };
       this.props.register(user);
     }
@@ -130,7 +130,7 @@ class Signup extends React.Component<IProps, IState> {
       firstName,
       lastName,
       password,
-      confirmPassword
+      confirmPassword,
     } = this.state;
 
     return (
@@ -158,12 +158,15 @@ class Signup extends React.Component<IProps, IState> {
               <p className="loginTwo">{Constants.REGISTER}</p>
               <div className="createAccountSignup">
                 <p className="accountSignup">{Constants.ALREADY_HAD_ACCOUNT}</p>
-                <div
-                  onClick={() => {
-                    this.props.history.push("/");
-                  }}
-                >
-                  <p className="create">{Constants.LOGIN_HERE}</p>
+                <div>
+                  <p
+                    className="create"
+                    onClick={() => {
+                      this.props.history.push("/login");
+                    }}
+                  >
+                    Login here
+                  </p>
                 </div>
               </div>
               <div className="loadingWrapper">{loading && <Loading />}</div>
@@ -303,17 +306,17 @@ const registerBtnStyle = {
   float: "right",
   marginBottom: "10px",
   color: "white",
-  borderRadius: "10rem"
+  borderRadius: "10rem",
 } as React.CSSProperties;
 
 const mapStateToProps = (state: any) => {
   return {
-    registerUser: state.register
+    registerUser: state.register,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    register: (user: User) => dispatch(registerUser(user))
+    register: (user: User) => dispatch(registerUser(user)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);
