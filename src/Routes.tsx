@@ -11,14 +11,15 @@ import VideoTab from "./Screens/VideoTab/VideoTab";
 import Profile from "./Screens/Profile/index";
 import { AuthState } from "../src/Redux/Types/auth";
 import Signup from "./Screens/Signup";
-import Signin from "./Screens/SignIn";
+import SignIn from "./Screens/SignIn";
 import Header from "./components/Header/Header";
 import UploadRecord from "../src/Screens/UploadRecordVideo";
 import Watch from "./Screens/Watch";
 import Campaign from "./Screens/CampaignNew";
 import Recording from "./Screens/Watch/Recording";
 import TestRecorder from "./Screens/Watch/TestRecorder";
-
+import ForgotPassword from "./Screens/ForgotPassword";
+import ResetPassword from "./Screens/ResetPassword";
 type IProps = {
   auth: AuthState;
 };
@@ -44,9 +45,11 @@ class Routes extends Component<IProps> {
         ) : (
           <Switch>
             <Route exact path="/signup" component={Signup} />
-            <Route exact path="/" component={Signin} />
+            <Route exact path="/forgotPassword" component={ForgotPassword} />
+            <Route exact path="/resetPassword" component={ResetPassword} />
+            <Route exact path="/login*" component={SignIn} />
             <Route exact path="/watch/:id" component={Watch} />
-            <Route exact path="*" render={() => <Redirect to="/" />} />
+            <Route exact path="*" render={() => <Redirect to="/login" />} />
           </Switch>
         )}
       </Router>
