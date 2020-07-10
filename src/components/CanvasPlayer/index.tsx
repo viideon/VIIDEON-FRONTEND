@@ -25,6 +25,7 @@ interface IProps {
   local?: boolean;
   fullScreen?: () => void;
   exitFullScreen?: () => void;
+  watched?: () => void;
 }
 interface IState {
   playing: boolean;
@@ -37,6 +38,7 @@ interface IState {
   fullScreen: boolean;
   width: number;
   height: number;
+  watched: boolean;
 }
 class Player extends React.Component<IProps, IState> {
   canvasContext: any;
@@ -73,7 +75,8 @@ class Player extends React.Component<IProps, IState> {
       videoLoaded: false,
       fullScreen: false,
       width: 0,
-      height: 0
+      height: 0,
+      watched: false
     };
     this.timestamp = null;
     this.unmounted = false;
@@ -214,6 +217,11 @@ class Player extends React.Component<IProps, IState> {
     );
     this.seek.value = Math.floor(this.video.currentTime);
     this.progressBar.value = Math.floor(this.video.currentTime);
+    if (this.video.currentTime >= 3 && this.state.watched === false) {
+      this.props.watched && this.props.watched();
+      this.setState({ watched: true });
+      console.log("watched");
+    }
   };
   updateVolumeIcon = () => {
     if (this.video.muted || this.video.volume === 0) {

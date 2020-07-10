@@ -25,7 +25,6 @@ class Watch extends React.Component<IProps> {
     this.props.getVideo(this.props.match.params.id);
     const _id = { id: this.props.match.params.id };
     this.props.updateVideoViews(_id);
-    this.props.updateVideoWatch(_id);
   }
 
   componentWillReceiveProps(nextProps: any) {
@@ -36,6 +35,10 @@ class Watch extends React.Component<IProps> {
       this.container.style.display = "none";
     }
   }
+  watched = () => {
+    const _id = { id: this.props.match.params.id };
+    this.props.updateVideoWatch(_id);
+  };
   render() {
     const { video, loadingVideo } = this.props;
     return (
@@ -53,6 +56,7 @@ class Watch extends React.Component<IProps> {
                 url={video.url}
                 thumbnail={video.thumbnail}
                 height={350}
+                watched={this.watched}
               />
             )}
             <div
@@ -71,6 +75,7 @@ class Watch extends React.Component<IProps> {
                   logoProps={video.logoProps}
                   textProps={video.textProps}
                   thumbnail={video.thumbnail}
+                  watched={this.watched}
                 />
               )}
             </div>
