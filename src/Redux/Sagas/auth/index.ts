@@ -2,23 +2,34 @@ import { put, takeEvery } from "redux-saga/effects";
 import { push } from "react-router-redux";
 import { types } from "../../Types/auth";
 import { types as profileTypes } from "../../Types/profile";
-import { login, verify, forgot, reset } from "./api";
+import { login, verify, forgot, reset, resendEmail } from "./api";
 import { toast } from "react-toastify";
 function* loginUser(action: any) {
   try {
     const result = yield login(action.payload);
     if (result.status === 201) {
-      yield put({ type: types.LOGIN_SUCCESS, payload: result.message });
+      yield put({ type: types.LOGIN_SUCCESS, payload: result.data.message });
       yield put({
         type: profileTypes.ADD_PROFILE_DATA,
-        payload: result.message,
+        payload: result.data,
       });
       yield put(push("/"));
+    } else if (result.status === 410) {
+      console.log(result.data.message);
+      yield put({
+        type: types.LOGIN_FAILURE,
+        payload: { message: result.data.message, isEmailNotVerified: true },
+      });
+      toast.error(result.data.message);
     } else {
-      yield put({ type: types.LOGIN_FAILURE, payload: result.message });
-      toast.error("Please try again");
+      yield put({
+        type: types.LOGIN_FAILURE,
+        payload: { message: result.data.message, isEmailNotVerified: false },
+      });
+      toast.error(result.data.message);
     }
   } catch (error) {
+    console.log(error);
     yield put({ type: types.LOGIN_FAILURE, payload: error });
     toast.error("Invalid Email or Password");
   }
@@ -80,6 +91,34 @@ function* forgotPassword(action: any) {
     }
   }
 }
+function* resendEmailSagas(action: any) {
+  console.log("resend");
+  try {
+    const result = yield resendEmail(action.payload);
+    console.log(result);
+    if (result.status === 201) {
+      toast.success("Verification link sent on given email");
+      yield put({
+        type: types.RESEND_EMAIL_SUCCESS,
+        payload: result.data,
+      });
+    } else {
+      yield put({
+        type: types.RESEND_EMAIL_FAILURE,
+        payload: result.data.message,
+      });
+      toast.error(result.data.message);
+    }
+  } catch (error) {
+    if (error.message) {
+      toast.error(error.message);
+      yield put({ type: types.RESEND_EMAIL_FAILURE, payload: error });
+    } else {
+      toast.error("Server error, Try again");
+      yield put({ type: types.RESEND_EMAIL_FAILURE, payload: error });
+    }
+  }
+}
 function* resetPassword(action: any) {
   console.log("reset");
   try {
@@ -124,4 +163,5 @@ export function* authWatcher() {
   yield takeEvery(types.VERIFY_REQUEST, VerifyUser);
   yield takeEvery(types.FORGOT_REQUEST, forgotPassword);
   yield takeEvery(types.RESET_REQUEST, resetPassword);
+  yield takeEvery(types.RESEND_EMAIL_REQUEST, resendEmailSagas);
 }

@@ -29,6 +29,13 @@ export function resetPassword(pass: any) {
     payload: pass,
   };
 }
+export function resendEmail(email: any) {
+  console.log("resend email ac", email);
+  return {
+    type: types.RESEND_EMAIL_REQUEST,
+    payload: email,
+  };
+}
 
 export function logout() {
   return {

@@ -6,7 +6,8 @@ import {
   Input,
   InputGroupAddon,
   InputGroupText,
-  InputGroup
+  InputGroup,
+  Tooltip as StrapTooltip,
 } from "reactstrap";
 import { FaMailBulk, FaPencilAlt, FaDownload } from "react-icons/fa";
 import { toast } from "react-toastify";
@@ -57,6 +58,12 @@ class VideoTabHeader extends React.Component<IProps> {
     toast.info("Url copied to clipboard");
   };
 
+  state = {
+    tooltipOpen: false,
+  };
+  toggle = () => {
+    this.setState({ tooltipOpen: !this.state.tooltipOpen });
+  };
   render() {
     const { video } = this.props;
     return (
@@ -70,7 +77,7 @@ class VideoTabHeader extends React.Component<IProps> {
                     style={{
                       display: "flex",
                       justifyContent: "center",
-                      textAlign: "center"
+                      textAlign: "center",
                     }}
                   >
                     <CircularProgress color="primary" />
@@ -130,12 +137,32 @@ class VideoTabHeader extends React.Component<IProps> {
                 disabled={true}
               />
               <InputGroupAddon addonType="append">
-                <InputGroupText style={styles.inputContainer}>
+                <InputGroupText
+                  style={styles.inputContainer}
+                  className="share-icons"
+                  id="TooltipExample" //here i am using react starp tooltip because  material tooltip not working with reactstrap component
+                  onClick={() => alert("This is not functional yet")}
+                >
                   <FaMailBulk style={styles.inputwrapper} />
                 </InputGroupText>
-                <InputGroupText style={styles.inputContainer}>
+
+                <InputGroupText
+                  style={styles.inputContainer}
+                  className="share-icons"
+                  id="TooltipExample"
+                  onClick={() => alert("This is not functional yet")}
+                >
                   <FiExternalLink style={styles.inputwrapper} />
                 </InputGroupText>
+
+                <StrapTooltip
+                  placement="bottom"
+                  isOpen={this.state.tooltipOpen}
+                  target="TooltipExample"
+                  toggle={this.toggle}
+                >
+                  Under Progress
+                </StrapTooltip>
               </InputGroupAddon>
             </InputGroup>
           </Col>
@@ -147,7 +174,7 @@ class VideoTabHeader extends React.Component<IProps> {
 
 const mapStateToProps = (state: any) => {
   return {
-    video: state.video.singleVideo
+    video: state.video.singleVideo,
   };
 };
 

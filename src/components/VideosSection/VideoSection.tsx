@@ -7,6 +7,7 @@ import {
   InputAdornment,
   Checkbox,
   Tooltip,
+  OutlinedInput,
 } from "@material-ui/core";
 import DeleteDialog from "../Reusable/DeleteDialog";
 import {
@@ -128,7 +129,10 @@ class VideoSection extends Component<IProps> {
           </div>
           <div className="ovalBtnWrap">
             <Tooltip title="Create new  Video">
-              <button className="ovalBtn" onClick={this.createVideo}>
+              <button
+                className="ovalBtn over-add-btn "
+                onClick={this.createVideo}
+              >
                 <AddIcon />
               </button>
             </Tooltip>

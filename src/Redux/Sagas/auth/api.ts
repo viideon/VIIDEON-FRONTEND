@@ -10,7 +10,7 @@ export function* login(user: any) {
   };
   const response = yield fetch(`${CONSTANTS.BASE_URL}/user/login`, opt);
   const message = yield response.json();
-  return yield { status: response.status, message };
+  return yield { status: response.status, data: message };
 }
 export function* verify(token: any) {
   const opt = {
@@ -21,6 +21,18 @@ export function* verify(token: any) {
     body: JSON.stringify(token),
   };
   const response = yield fetch(`${CONSTANTS.BASE_URL}/user/verify`, opt);
+  const message = yield response.json();
+  return yield { status: response.status, data: message };
+}
+export function* resendEmail(email: any) {
+  const opt = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(email),
+  };
+  const response = yield fetch(`${CONSTANTS.BASE_URL}/user/resendVerify`, opt);
   const message = yield response.json();
   return yield { status: response.status, data: message };
 }

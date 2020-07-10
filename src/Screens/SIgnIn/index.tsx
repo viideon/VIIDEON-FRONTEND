@@ -5,8 +5,8 @@ import * as Constants from "../../constants/constants";
 import { connect } from "react-redux";
 import { reg } from "../../constants/emailRegEx";
 import Loading from "../../components/Loading";
-import { loginUser, verifyUser } from "../../Redux/Actions/auth";
-import { User } from "../../Redux/Types/auth";
+import { loginUser, verifyUser, resendEmail } from "../../Redux/Actions/auth";
+import { AuthState, User } from "../../Redux/Types/auth";
 import ActionButton from "../../components/Reusable/ActionButton";
 import "./style.css";
 import VerifySuccessModal from "../../components/Modals/verifySuccessModal";
@@ -17,6 +17,7 @@ type IProps = {
   history: any;
   location?: any;
   verifyState?: any;
+  resendEmail?: any;
   verifyUser: any;
 };
 type IState = {
@@ -26,6 +27,7 @@ type IState = {
   passwordError: boolean;
   invalidEmailError: boolean;
   verifySuccessModals: boolean;
+  resendVerificationEmail: boolean;
 };
 class Signin extends React.Component<IProps, IState> {
   constructor(props: any) {
@@ -36,7 +38,8 @@ class Signin extends React.Component<IProps, IState> {
       emailError: false,
       passwordError: false,
       invalidEmailError: false,
-      verifySuccessModals: false
+      verifySuccessModals: false,
+      resendVerificationEmail: false,
     };
   }
   componentDidMount() {
@@ -58,6 +61,17 @@ class Signin extends React.Component<IProps, IState> {
     ) {
       this.setState({ verifySuccessModals: true });
     }
+    if (
+      this.props.auth.loginError &&
+      JSON.stringify(prevProps.auth) !== JSON.stringify(this.props.auth) &&
+      this.props.auth.loginError.isEmailNotVerified
+    ) {
+      this.setState({ resendVerificationEmail: true });
+      setTimeout(
+        () => this.setState({ resendVerificationEmail: false }),
+        10000
+      ); // wait 5 seconds, then reset to false
+    }
   }
   toggleVerifyModal = () => {
     this.setState({ verifySuccessModals: false });
@@ -75,7 +89,7 @@ class Signin extends React.Component<IProps, IState> {
     else {
       const user = {
         email,
-        password
+        password,
       };
 
       this.props.login(user);
@@ -120,6 +134,21 @@ class Signin extends React.Component<IProps, IState> {
                 {loading && <Loading />}
               </div>
               <Form style={{ width: "80%" }}>
+                {this.state.resendVerificationEmail && (
+                  <Alert color="danger">
+                    Email not verified Please Verify your Email. If you didn't
+                    received Email{" "}
+                    <a
+                      onClick={() =>
+                        this.props.resendEmail({ email: this.state.email })
+                      }
+                      style={{ textDecoration: "underline", cursor: "pointer" }}
+                    >
+                      Click here
+                    </a>{" "}
+                    to resend
+                  </Alert>
+                )}
                 <FormGroup>
                   <Label for="exampleEmail" style={{ fontWeight: "bold" }}>
                     {Constants.EMAIL_ADDRESS}
@@ -193,19 +222,20 @@ const inputStyle = {
   borderRadius: "10rem",
   borderWidth: 0,
   borderColor: "white",
-  boxShadow: "white"
+  boxShadow: "white",
 };
 const iconStyle = { width: "5%", margin: 10 };
 const mapStateToProps = (state: any) => {
   return {
     auth: state.auth,
-    verifyState: state.auth.verify
+    verifyState: state.auth.verify,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
     login: (user: User) => dispatch(loginUser(user)),
-    verifyUser: (token: any) => dispatch(verifyUser(token))
+    verifyUser: (token: any) => dispatch(verifyUser(token)),
+    resendEmail: (email: any) => dispatch(resendEmail(email)),
   };
 };
 

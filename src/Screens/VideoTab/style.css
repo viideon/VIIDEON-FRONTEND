@@ -125,3 +125,7 @@
 #formInput input {
   padding: 8px !important;
 }
+
+.share-icons {
+  cursor: pointer;
+}

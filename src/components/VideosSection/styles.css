@@ -61,6 +61,13 @@
   line-height: 1.5;
   border: none;
 }
+.ovalBtn:hover {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.26);
+}
+.over-add-btn {
+  background-color: #fff;
+  color: #3598dc;
+}
 .listWrapper {
   min-height: 0.01%;
   overflow-x: auto;
