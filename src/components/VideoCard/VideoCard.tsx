@@ -39,7 +39,7 @@ const VideoCard: FC<IProps> = ({
   id,
   date,
   deletingVideo,
-  video,
+  video
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = useState(false);
@@ -89,7 +89,6 @@ const VideoCard: FC<IProps> = ({
             <MoreVertIcon />
           </span>
           <Menu
-            disableScrollLock={true}
             id="menuVideoCard"
             anchorEl={anchorEl}
             keepMounted
@@ -122,7 +121,7 @@ const VideoCard: FC<IProps> = ({
 };
 const mapStateToProps = (state: any) => {
   return {
-    deletingVideo: state.video.deletingVideo,
+    deletingVideo: state.video.deletingVideo
   };
 };
 export default connect(mapStateToProps)(VideoCard);

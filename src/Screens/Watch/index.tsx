@@ -84,6 +84,7 @@ class Watch extends React.Component<IProps> {
             )}
             {video && video.description && (
               <div className="descriptionWatch">
+                <h3>{video.title}</h3>
                 <p>{video.description}</p>
               </div>
             )}

@@ -7,14 +7,16 @@ import EditIcon from "@material-ui/icons/Edit";
 import HeaderCard from "../../components/HeaderCards";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
-import { getVideoCount } from "../../Redux/Actions/videos";
+import { getVideoCount, getCampaignCount } from "../../Redux/Actions/videos";
 import Styles from "./styles";
 import "./styles.css";
 import Tooltip from "@material-ui/core/Tooltip";
 type IProps = {
   history: any;
   videoCount: number;
+  campaignCount: number;
   getVideoCount: () => void;
+  getCampaignCount: () => void;
 };
 
 class Dashboard extends Component<IProps> {
@@ -24,6 +26,7 @@ class Dashboard extends Component<IProps> {
   };
   componentDidMount() {
     this.props.getVideoCount();
+    this.props.getCampaignCount();
   }
   navigate = (show?: string) => {
     this.props.history.push({ pathname: "/video/create", show: show });
@@ -69,7 +72,7 @@ class Dashboard extends Component<IProps> {
             <Link to="/campaign" className="link-style">
               <HeaderCard
                 styles={Styles.headerCardThree}
-                Number={3}
+                Number={this.props.campaignCount}
                 Title="CAMPAIGNS"
                 iconBg="#7754B8"
               />
@@ -78,7 +81,7 @@ class Dashboard extends Component<IProps> {
           <Grid item xs={6} md={3}>
             <HeaderCard
               styles={Styles.headerCardFour}
-              Number={1}
+              Number={0}
               Title="CONTACTS"
               iconBg="#CC5551"
             />
@@ -135,12 +138,14 @@ const iconStyle = {
 };
 const mapStateToProps = (state: any) => {
   return {
-    videoCount: state.video.videoCount
+    videoCount: state.video.videoCount,
+    campaignCount: state.video.campaignCount
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    getVideoCount: () => dispatch(getVideoCount())
+    getVideoCount: () => dispatch(getVideoCount()),
+    getCampaignCount: () => dispatch(getCampaignCount())
   };
 };
 

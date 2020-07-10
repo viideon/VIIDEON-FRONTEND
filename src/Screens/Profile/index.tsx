@@ -3,8 +3,9 @@ import { Input, Label, Row, Col, Form, FormGroup, Button } from "reactstrap";
 import "./style.css";
 import { connect } from "react-redux";
 import { FaInfoCircle } from "react-icons/fa";
+import { toast } from "react-toastify";
 import AWS from "aws-sdk";
-import LinkAccount from "./LinkAccount";
+// import LinkAccount from "./LinkAccount";
 import { updateProfileUser } from "../../Redux/Actions/profile";
 import { ProfileState, UserProfile } from "../../Redux/Types/profile";
 import { AuthState } from "../../Redux/Types/auth";
@@ -89,6 +90,7 @@ class Profile extends Component<IProps, IState> {
     this.props.updateProfile(data);
   };
   fileHandler = (e: any) => {
+    toast("Uploading please wait");
     const that = this;
     let s3 = new AWS.S3(config);
     var options = {
@@ -99,9 +101,12 @@ class Profile extends Component<IProps, IState> {
     };
     s3.upload(options, function(err: any, data: any) {
       if (err) {
-        throw err;
+        // throw err;
+        toast.error("Failed to upload profile image ,try again");
+        return;
       }
       that.setState({ url: data.Location });
+      toast("Click update button below to save changes");
     });
   };
   render() {
@@ -252,7 +257,7 @@ class Profile extends Component<IProps, IState> {
                     onChange={this.onChange}
                   />
                 </FormGroup>
-                <FormGroup>
+                {/* <FormGroup>
                   <Label for="exampleEmail">{Constants.AFFILIATE}</Label>
                   <Input
                     type="text"
@@ -266,7 +271,7 @@ class Profile extends Component<IProps, IState> {
                     {Constants.PROFILE_DESCRIPTION}{" "}
                     <a href="/profile"> {Constants.PROFILE_URL}</a>
                   </p>
-                </FormGroup>
+                </FormGroup> */}
                 <Button id="yourProfileUpdateBtn" onClick={() => this.update()}>
                   {Constants.UPDATE}
                 </Button>
@@ -277,7 +282,7 @@ class Profile extends Component<IProps, IState> {
             </Col>
           </Row>
         </div>
-        <LinkAccount />
+        {/* <LinkAccount /> */}
       </div>
     );
   }

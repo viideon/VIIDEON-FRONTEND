@@ -9,6 +9,7 @@ let initialState: VideoState = {
   loadMore: true,
   videoCount: 0,
   addSearched: true,
+  campaignCount: 0
 };
 const videoReducer = (state = initialState, action: any) => {
   switch (action.type) {
@@ -121,6 +122,11 @@ const videoReducer = (state = initialState, action: any) => {
       return {
         ...state,
         videoCount: action.payload,
+      };
+    case types.COUNT_CAMPAIGN_SUCCESS:
+      return {
+        ...state,
+        campaignCount: action.payload
       };
     case types.UPDATE_VIDEO:
       return { ...state, isVideoUpdating: true };

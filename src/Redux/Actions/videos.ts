@@ -85,6 +85,12 @@ export function getVideoCount() {
   };
 }
 
+export function getCampaignCount() {
+  return {
+    type: types.COUNT_CAMPAIGN
+  }
+}
+
 export function cleanSingleVideo() {
   return {
     type: types.CLEAN_SINGLEVIDEO,

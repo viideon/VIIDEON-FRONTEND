@@ -7,9 +7,8 @@
   right: 20px;
 }
 .containerWatch {
-  padding-top: 140px;
+  padding-top: 85px;
   height: 100vh;
-
   background: #c9d6ff;
   background: -webkit-linear-gradient(to bottom, #e2e2e2, #c9d6ff);
   background: linear-gradient(to bottom, #e2e2e2, #c9d6ff);
@@ -27,14 +26,17 @@
   margin-right: 3px;
 }
 .descriptionWatch {
-  display: flex;
-  justify-content: center;
+  margin-top: 25px;
   padding: 20px;
+  background: #fafafa;
   margin-top: 10px;
+  box-shadow: 0 0 17px #cdcdcd;
 }
 .descriptionWatch p {
-  font-family: Georgia, serif;
   font-size: 18px;
   word-spacing: 1px;
   color: #000000;
+}
+.descriptionWatch h3 {
+  text-align: center;
 }

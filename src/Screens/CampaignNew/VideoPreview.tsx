@@ -1,5 +1,6 @@
 import React from "react";
-import { Grid, Button } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
+import { Button } from "reactstrap";
 import "./style.css";
 
 interface IProps {
@@ -12,7 +13,7 @@ class VideoPreview extends React.Component<IProps> {
       <Grid container>
         <Grid item xs={1} sm={1} md={3} lg={3}></Grid>
         <Grid item xs={10} sm={10} md={6} lg={6}>
-          <h3 className="recordHeading">Video Preview</h3>
+          <h3 className="recordHeading">Preview Video</h3>
           {this.props.previewVideo && (
             <div className="wrapperPreviewVideo">
               <video
@@ -31,9 +32,14 @@ class VideoPreview extends React.Component<IProps> {
           )}
           <div className="btnSingleWrap">
             <Button
-              variant="contained"
-              size="large"
-              color="primary"
+              style={{
+                border: "none",
+                background: "rgb(34, 185, 255)",
+                color: "rgb(255, 255, 255)",
+                width: "150px",
+                marginTop: "30px"
+              }}
+              size="lg"
               onClick={this.props.moveToNextStep}
             >
               Next

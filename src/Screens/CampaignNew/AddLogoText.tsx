@@ -50,7 +50,7 @@ class AddLogo extends React.Component<IProps, IState> {
       fontSize: 30,
       vAlign: "top",
       align: "left",
-      iconPos: "top-right"
+      iconPos: "top-left"
     };
     this.draw = this.draw.bind(this);
   }
@@ -297,205 +297,233 @@ class AddLogo extends React.Component<IProps, IState> {
     return (
       <Grid container>
         <Grid item xs={1} sm={1} md={1} lg={1}></Grid>
-        <Grid
-          item
-          xs={10}
-          sm={10}
-          md={10}
-          lg={10}
-          style={{
-            borderRadius: "4px",
-            padding: "10px 30px 10px 30px",
-            background: "#fff",
-            boxShadow: "0px 0px 3px #d3d3d3"
-          }}
-        >
-          <h2 className="addLogoHeading">Add Logo and Text to Video</h2>
-          <Grid container>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <video ref="video" controls width="100%" />
+        <Grid item xs={10} sm={10} md={10} lg={10}>
+          <div
+            style={{
+              borderRadius: "4px",
+              padding: "10px 30px 10px 30px",
+              background: "#fff",
+              boxShadow: "0px 0px 3px #d3d3d3"
+            }}
+          >
+            <h2 className="addLogoHeading">Add Logo and Text to Video</h2>
+            <Grid container>
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                md={6}
+                lg={6}
+                style={{ paddingRight: "5px" }}
+              >
+                <video ref="video" controls width="100%" />
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                md={6}
+                lg={6}
+                style={{ paddingLeft: "5px" }}
+              >
+                <canvas ref="canvas" />
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <canvas ref="canvas" />
-            </Grid>
-          </Grid>
 
-          <canvas ref="dummyCanvas" style={{ display: "none" }} />
+            <canvas ref="dummyCanvas" style={{ display: "none" }} />
 
-          <img
-            alt="logo"
-            src={this.state.img ? this.state.img : null}
-            style={{ display: "none", maxWidth: "200px", maxHeight: "200px" }}
-            ref="image"
-          />
-          <Grid container>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <h3 className="addLogoMessage">
-                Add Logo
-                <Tooltip
-                  title="upload a logo and play the video to see it"
-                  placement="top"
-                >
-                  <span style={iconStyle}>
-                    <i className="fas fa-info"></i>
-                  </span>
-                </Tooltip>
-              </h3>
-              <input
-                id="uploadInput"
-                type="file"
-                onChange={this.onFileChange}
-                ref={this.setInputRef}
-                accept="image/x-png,image/gif,image/jpeg"
-              />
-              <Button
-                onClick={this.triggerFileUploadBtn}
-                style={{
-                  color: "#fff",
-                  width: "135px",
-                  backgroundColor: "#ff4301"
-                }}
-              >
-                Upload
-              </Button>
-              <h5 className="positionTxt">Change Logo Position</h5>
-              <Button
-                style={logoPositionBtn}
-                onClick={() => this.setIconPosition("top-left")}
-              >
-                Top Left
-              </Button>
-              <Button
-                style={logoPositionBtn}
-                onClick={() => this.setIconPosition("top-right")}
-              >
-                Top Right
-              </Button>
-              <Button
-                style={logoPositionBtn}
-                onClick={() => this.setIconPosition("bottom-left")}
-              >
-                Bottom Left
-              </Button>
-              <Button
-                style={logoPositionBtn}
-                onClick={() => this.setIconPosition("bottom-right")}
-              >
-                Bottom Right
-              </Button>
-            </Grid>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <h4 className="addLogoMessage">
-                Add Text
-                <Tooltip
-                  title="enter text and play the video to see it"
-                  placement="top"
-                >
-                  <span style={iconStyle}>
-                    <i className="fas fa-info"></i>
-                  </span>
-                </Tooltip>
-              </h4>
-              <Input
-                type="text"
-                placeholder="Add Text"
-                name="text"
-                value={this.state.text}
-                onChange={this.changeText}
-                style={{ width: "80%" }}
-              />
-              <h5 className="positionTxt">Change Text Position</h5>
-              <Button
-                style={logoPositionBtn}
-                onClick={() => this.setTextPosition("center")}
-              >
-                Center
-              </Button>
-              <Button
-                style={logoPositionBtn}
-                onClick={() => this.setTextPosition("top-left")}
-              >
-                Top Left
-              </Button>
-              <Button
-                style={logoPositionBtn}
-                onClick={() => this.setTextPosition("top-right")}
-              >
-                Top Right
-              </Button>
-              <Button
-                style={logoPositionBtn}
-                onClick={() => this.setTextPosition("bottom-left")}
-              >
-                Bottom Left
-              </Button>
-              <Button
-                style={logoPositionBtn}
-                onClick={() => this.setTextPosition("bottom-right")}
-              >
-                Bottom Right
-              </Button>
-              <h5 className="positionTxt">Select Font Size</h5>
-              <div style={{ display: "flex", flexWrap: "nowrap" }}>
-                <input
-                  type="range"
-                  id="font"
-                  name="font"
-                  min="10"
-                  max="100"
-                  style={{ width: "80%" }}
-                  value={this.state.fontSize}
-                  onChange={this.changeFontSize}
-                ></input>
-                <span style={{ width: "10%", padding: "10px" }}>
-                  {this.state.fontSize}px
-                </span>
-              </div>
-
-              <h5 className="positionTxt">
-                Choose Text Color
-                <span className="optionalText">(optional)</span>
-              </h5>
-              <CompactPicker
-                color={this.state.textColor}
-                onChangeComplete={this.handleChangeColor}
-              />
-            </Grid>
-          </Grid>
-
-          <div className="btnEditVideo">
-            <StrapButton
-              style={{
-                border: "none",
-                background: "#d3d3d3",
-                color: "rgb(255, 255, 255)",
-                width: "120px",
-                marginRight: "20px"
-              }}
-              size="lg"
-              onClick={this.moveToNextStep}
-            >
-              Skip
-            </StrapButton>
-            <StrapButton
-              style={{
-                border: "none",
-                background: "rgb(34, 185, 255)",
-                color: "rgb(255, 255, 255)",
-                width: "120px"
-              }}
-              size="lg"
-              onClick={this.finalize}
-            >
-              Finalize
-            </StrapButton>
-
-            <canvas
-              ref="thumbCanvas"
-              height={720}
-              width={1280}
-              style={{ display: "none" }}
+            <img
+              alt="logo"
+              src={this.state.img ? this.state.img : null}
+              style={{ display: "none", maxWidth: "200px", maxHeight: "200px" }}
+              ref="image"
             />
+            <Grid container>
+              <Grid item xs={12} sm={12} md={6} lg={6}>
+                <div
+                  style={{
+                    boxShadow: "0 0 10px #cdcdcd",
+                    padding: "31px",
+                    marginTop: "51px",
+                    marginRight: "30px"
+                  }}
+                >
+                  <h3 className="addLogoMessage">
+                    Add Logo
+                    <Tooltip
+                      title="upload a logo and play the video to see it"
+                      placement="top"
+                    >
+                      <span style={iconStyle}>
+                        <i className="fas fa-info"></i>
+                      </span>
+                    </Tooltip>
+                  </h3>
+                  <input
+                    id="uploadInput"
+                    type="file"
+                    onChange={this.onFileChange}
+                    ref={this.setInputRef}
+                    accept="image/x-png,image/gif,image/jpeg"
+                  />
+                  <Button
+                    onClick={this.triggerFileUploadBtn}
+                    style={{
+                      color: "#fff",
+                      width: "135px",
+                      backgroundColor: "#ff4301"
+                    }}
+                  >
+                    Upload
+                  </Button>
+                  <h5 className="positionTxt">Change Logo Position</h5>
+                  <Button
+                    style={logoPositionBtn}
+                    onClick={() => this.setIconPosition("top-left")}
+                  >
+                    Top Left
+                  </Button>
+                  <Button
+                    style={logoPositionBtn}
+                    onClick={() => this.setIconPosition("top-right")}
+                  >
+                    Top Right
+                  </Button>
+                  <Button
+                    style={logoPositionBtn}
+                    onClick={() => this.setIconPosition("bottom-left")}
+                  >
+                    Bottom Left
+                  </Button>
+                  <Button
+                    style={logoPositionBtn}
+                    onClick={() => this.setIconPosition("bottom-right")}
+                  >
+                    Bottom Right
+                  </Button>
+                </div>
+              </Grid>
+              <Grid item xs={12} sm={12} md={6} lg={6}>
+                <div
+                  style={{
+                    boxShadow: "0 0 10px #cdcdcd",
+                    padding: "31px",
+                    marginTop: "51px",
+                    marginLeft: "25px"
+                  }}
+                >
+                  <h4 className="addLogoMessage">
+                    Add Text
+                    <Tooltip
+                      title="enter text and play the video to see it"
+                      placement="top"
+                    >
+                      <span style={iconStyle}>
+                        <i className="fas fa-info"></i>
+                      </span>
+                    </Tooltip>
+                  </h4>
+                  <Input
+                    type="text"
+                    placeholder="Add Text"
+                    name="text"
+                    value={this.state.text}
+                    onChange={this.changeText}
+                    style={{ width: "80%" }}
+                  />
+                  <h5 className="positionTxt">Change Text Position</h5>
+                  <Button
+                    style={logoPositionBtn}
+                    onClick={() => this.setTextPosition("center")}
+                  >
+                    Center
+                  </Button>
+                  <Button
+                    style={logoPositionBtn}
+                    onClick={() => this.setTextPosition("top-left")}
+                  >
+                    Top Left
+                  </Button>
+                  <Button
+                    style={logoPositionBtn}
+                    onClick={() => this.setTextPosition("top-right")}
+                  >
+                    Top Right
+                  </Button>
+                  <Button
+                    style={logoPositionBtn}
+                    onClick={() => this.setTextPosition("bottom-left")}
+                  >
+                    Bottom Left
+                  </Button>
+                  <Button
+                    style={logoPositionBtn}
+                    onClick={() => this.setTextPosition("bottom-right")}
+                  >
+                    Bottom Right
+                  </Button>
+                  <h5 className="positionTxt">Select Font Size</h5>
+                  <div style={{ display: "flex", flexWrap: "nowrap" }}>
+                    <input
+                      type="range"
+                      id="font"
+                      name="font"
+                      min="10"
+                      max="100"
+                      style={{ width: "80%" }}
+                      value={this.state.fontSize}
+                      onChange={this.changeFontSize}
+                    ></input>
+                    <span style={{ width: "10%", padding: "10px" }}>
+                      {this.state.fontSize}px
+                    </span>
+                  </div>
+                  <h5 className="positionTxt">
+                    Choose Text Color
+                    <span className="optionalText">(optional)</span>
+                  </h5>
+                  <CompactPicker
+                    color={this.state.textColor}
+                    onChangeComplete={this.handleChangeColor}
+                  />
+                </div>
+              </Grid>
+            </Grid>
+
+            <div className="btnEditVideo">
+              <StrapButton
+                style={{
+                  border: "none",
+                  background: "#d3d3d3",
+                  color: "rgb(255, 255, 255)",
+                  width: "150px",
+                  marginRight: "20px"
+                }}
+                size="lg"
+                onClick={this.moveToNextStep}
+              >
+                Skip
+              </StrapButton>
+              <StrapButton
+                style={{
+                  border: "none",
+                  background: "rgb(34, 185, 255)",
+                  color: "rgb(255, 255, 255)",
+                  width: "150px"
+                }}
+                size="lg"
+                onClick={this.finalize}
+              >
+                Finalize
+              </StrapButton>
+
+              <canvas
+                ref="thumbCanvas"
+                height={720}
+                width={1280}
+                style={{ display: "none" }}
+              />
+            </div>
           </div>
         </Grid>
         <Grid item xs={1} sm={1} md={10} lg={10}></Grid>
@@ -510,7 +538,8 @@ const iconStyle = {
   cursor: "pointer"
 };
 const logoPositionBtn = {
-  backgroundColor: "#d3d3d3",
-  marginLeft: "2px"
+  marginLeft: "2px",
+  fontSize: "11px",
+  border: "1px solid #696969"
 };
 export default AddLogo;

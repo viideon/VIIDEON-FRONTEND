@@ -1,8 +1,8 @@
 import React from "react";
-import { Grid, Button, LinearProgress, Tooltip } from "@material-ui/core";
+import { Grid, LinearProgress, Tooltip } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import Loading from "../../components/Loading";
-import { Input, Label, FormGroup, Button as StrapButton } from "reactstrap";
+import { Input, Label, FormGroup, Button } from "reactstrap";
 import CanvasPlayer from "../../components/CanvasPlayer";
 import ChipInput from "material-ui-chip-input";
 import AWS from "aws-sdk";
@@ -217,11 +217,11 @@ class SendSave extends React.Component<IProps> {
               />
             )}
           </div>
-          <div style={{ marginLeft: "50%", marginTop: "5px" }}>
+          <div style={{ marginLeft: "50%", marginTop: "15px" }}>
             {loading && <Loading />}
             {this.props.progressEmail && <Loading />}
           </div>
-          <div id="formInput" style={{ marginTop: "15px" }}>
+          <div id="formInput" style={{ marginTop: "40px" }}>
             {videoSaved !== true && (
               <div>
                 {this.state.videoProgress && (
@@ -242,9 +242,12 @@ class SendSave extends React.Component<IProps> {
                   />
                 </FormGroup>
                 <Button
-                  variant="contained"
-                  color="primary"
-                  style={{ marginBottom: "8px" }}
+                  style={{
+                    border: "none",
+                    background: "rgb(34, 185, 255)",
+                    color: "rgb(255, 255, 255)"
+                  }}
+                  size="lg"
                   onClick={this.saveVideo}
                 >
                   {Constants.SAVE_VIDEO}
@@ -277,8 +280,12 @@ class SendSave extends React.Component<IProps> {
                 </FormGroup>
 
                 <Button
-                  color="primary"
-                  variant="contained"
+                  style={{
+                    border: "none",
+                    background: "#16B272",
+                    color: "rgb(255, 255, 255)"
+                  }}
+                  size="lg"
                   onClick={this.submitEmail}
                 >
                   {Constants.SEND_THROUGH_EMAIL}
@@ -305,26 +312,29 @@ class SendSave extends React.Component<IProps> {
                   />
                 </FormGroup>
                 <Button
-                  color="primary"
-                  variant="contained"
+                  style={{
+                    border: "none",
+                    background: "#16B272",
+                    color: "#fff"
+                  }}
+                  size="lg"
                   onClick={this.sendMultipleEmail}
                 >
                   Broadcast
                 </Button>
-                <FormGroup>
-                  <StrapButton
+                <FormGroup style={{ textAlign: "end" }}>
+                  <Button
                     style={{
                       border: "none",
                       background: "rgb(34, 185, 255)",
                       color: "rgb(255, 255, 255)",
-                      marginTop: "30px",
                       width: "120px"
                     }}
                     size="lg"
                     onClick={this.navigateToVideos}
                   >
                     Done
-                  </StrapButton>
+                  </Button>
                 </FormGroup>
               </div>
             )}
@@ -339,7 +349,6 @@ class SendSave extends React.Component<IProps> {
     );
   }
 }
-
 const mapStateToProps = (state: any) => {
   return {
     auth: state.auth,

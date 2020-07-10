@@ -43,6 +43,10 @@ const UPDATE_VIDEO_WATCH_FAILURE: string = "UPDATE_VIDEO_WATCH_FAILURE";
 const GET_CAMPAIGN_VIDEOS_REQUEST: string = "GET_CAMPAIGN_VIDEOS_REQUEST";
 const GET_CAMPAIGN_VIDEOS_SUCCESS: string = "GET_CAMPAIGN_VIDEOS_SUCCESS";
 const GET_CAMPAIGN_VIDEOS_FAILURE: string = "GET_CAMPAIGN_VIDEOS_FAILURE";
+const COUNT_CAMPAIGN: string = "COUNT_CAMPAIGN";
+const COUNT_CAMPAIGN_SUCCESS: string = "COUNT_CAMPAIGN_SUCCESS";
+const COUNT_CAMPAIGN_FAILURE: string = "COUNT_CAMPAIGN_FAILURE";
+
 export const types = {
   SEARCH_USER_VIDEOS,
   VIDEO_SEND_REQUEST,
@@ -89,6 +93,10 @@ export const types = {
   GET_CAMPAIGN_VIDEOS_FAILURE,
   GET_CAMPAIGN_VIDEOS_REQUEST,
   GET_CAMPAIGN_VIDEOS_SUCCESS,
+  COUNT_CAMPAIGN,
+  COUNT_CAMPAIGN_SUCCESS,
+  COUNT_CAMPAIGN_FAILURE,
+
 };
 export interface EmailVideo {
   url?: string;
@@ -126,6 +134,7 @@ export interface VideoState {
   videos?: any;
   loadMore: boolean;
   videoCount: number;
+  campaignCount: number;
   addSearched: boolean;
 }
 // Action interfaces

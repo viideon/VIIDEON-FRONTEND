@@ -15,6 +15,7 @@ import {
   updateVideoWatch,
   updateEmailShare,
   getCampaignVideos,
+  campaignCount
 } from "./api";
 import {
   selectID,
@@ -326,6 +327,24 @@ export function* getVideoCount() {
   }
 }
 
+export function* getCampaignCount() {
+  try {
+    const userId = yield select(selectID);
+    const result = yield call(campaignCount, userId);
+    if (result.status === 200) {
+      yield put({
+        type: types.COUNT_CAMPAIGN_SUCCESS,
+        payload: result.data.count,
+      });
+    } else {
+      yield put({ type: types.COUNT_CAMPAIGN_FAILURE });
+    }
+  } catch (error) {
+    yield put({ type: types.COUNT_CAMPAIGN_FAILURE });
+  }
+}
+
+
 export function* videoWatcher() {
   yield takeEvery(types.VIDEO_SEND_REQUEST, sendVideoOnEmail);
   yield takeEvery(types.VIDEO_SAVE, saveUserVideo);
@@ -336,6 +355,7 @@ export function* videoWatcher() {
   yield takeEvery(types.GET_VIDEO, getVideo);
   yield takeEvery(types.SEND_MULTIPLE_EMAIL, sendMultipleEmail);
   yield takeEvery(types.COUNT_VIDEO, getVideoCount);
+  yield takeLatest(types.COUNT_CAMPAIGN, getCampaignCount);
   yield takeEvery(types.UPDATE_VIEW_REQUEST, updateView);
   yield takeEvery(types.UPDATE_VIDEO_WATCH_REQUEST, updateWatch);
   yield takeEvery(types.UPDATE_EMAIL_SHARE_REQUEST, updateEmailShareSagas);

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import SearchBar from "../SearchBar";
+// import SearchBar from "../SearchBar";
 import avatar from "../../assets/profileImages/profileImg.png";
 import { UserProfile } from "../../Redux/Types/profile";
 import Tooltip from "@material-ui/core/Tooltip";

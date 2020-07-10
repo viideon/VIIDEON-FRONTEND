@@ -70,7 +70,9 @@ export async function getSingleVideo(id: string) {
 export async function videoCount(id: string) {
   return API.get("/video/count", { params: { id: id } });
 }
-
+export async function campaignCount(id: string) {
+  return API.get("/video/campaign/count", { params: { id: id } });
+}
 export async function deleteDataAws(imageUrl: any) {
   if (imageUrl) {
     try {
@@ -81,7 +83,7 @@ export async function deleteDataAws(imageUrl: any) {
         Bucket: config.bucketName,
         Key: imageUrl,
       };
-      s3.deleteObject(options, function(err, data) {
+      s3.deleteObject(options, function (err, data) {
         console.log("Image deleted", err, data);
       });
     } catch (e) {
