@@ -1,18 +1,19 @@
 import React, { Component } from "react";
 import AWS from "aws-sdk";
-import * as ebml from "ts-ebml";
-// import VideoRecorder from "react-video-recorder";
 import VideoRecorder from "../../components/VideoRecorder";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import HelpIcon from "@material-ui/icons/Help";
-import {
-  Button,
-  LinearProgress,
-  CircularProgress,
-  Tooltip
-} from "@material-ui/core";
+import { Button, LinearProgress, Tooltip } from "@material-ui/core";
+import Loading from "../../components/Loading";
 import ChipInput from "material-ui-chip-input";
-import { Input, Label, Row, Col, FormGroup } from "reactstrap";
+import {
+  Input,
+  Label,
+  Row,
+  Col,
+  FormGroup,
+  Button as StrapButton
+} from "reactstrap";
 import { FaCamera, FaLaptop } from "react-icons/fa";
 import Dropzone from "react-dropzone";
 import { connect } from "react-redux";
@@ -29,7 +30,6 @@ import {
   VideoSave,
   MultiEmail
 } from "../../Redux/Types/videos";
-
 import styles from "../VideoTab/style";
 import { AuthState } from "../../Redux/Types/auth";
 import * as Constants from "../../constants/constants";
@@ -289,15 +289,8 @@ class UploadRecord extends Component<IProps, IState> {
       alert(URL.createObjectURL(blob));
     }, "image/jpeg");
   };
-  getSeekableBlob = (inputBlob: any) => {
-    // EBML.js copyrights goes to: https://github.com/legokichi/ts-ebml
-    const decoder = new ebml.Decoder();
-    fetch(URL.createObjectURL(inputBlob))
-      .then(res => res.arrayBuffer())
-      .then(buf => {
-        const ebmlElms = decoder.decode(buf);
-        console.log(ebmlElms);
-      });
+  navigateToVideos = () => {
+    this.props.history.push("/videos");
   };
   render() {
     let { videoSaved, loading } = this.props.videoUser;
@@ -387,7 +380,7 @@ class UploadRecord extends Component<IProps, IState> {
                                 <div>
                                   <FormGroup>
                                     <Label className="labelUploadSection">
-                                      {Constants.SENDER_ADDRESS}{" "}
+                                      {Constants.SENDER_ADDRESS}
                                       <span>
                                         <Tooltip
                                           title="connect your gmail account in confguration to send email's on your behalf"
@@ -417,7 +410,7 @@ class UploadRecord extends Component<IProps, IState> {
                                   </Button>
                                   <FormGroup className="formGroupMultiple">
                                     <Label className="labelUploadSection">
-                                      Broadcast{" "}
+                                      Broadcast
                                       <span>
                                         <Tooltip
                                           title="connect your gmail account in confguration to send email's on your behalf"
@@ -445,6 +438,21 @@ class UploadRecord extends Component<IProps, IState> {
                                   >
                                     Broadcast
                                   </Button>
+                                  <FormGroup>
+                                    <StrapButton
+                                      style={{
+                                        border: "none",
+                                        background: "rgb(34, 185, 255)",
+                                        color: "rgb(255, 255, 255)",
+                                        marginTop: "30px",
+                                        width: "120px"
+                                      }}
+                                      size="lg"
+                                      onClick={this.navigateToVideos}
+                                    >
+                                      Done
+                                    </StrapButton>
+                                  </FormGroup>
                                 </div>
                               )}
                             </div>
@@ -455,8 +463,8 @@ class UploadRecord extends Component<IProps, IState> {
                   )}
                 </Dropzone>
                 <div style={{ marginLeft: "50%" }}>
-                  {loading && <CircularProgress />}
-                  {this.props.progressEmail && <CircularProgress />}
+                  {loading && <Loading />}
+                  {this.props.progressEmail && <Loading />}
                 </div>
               </div>
             </div>
@@ -467,8 +475,8 @@ class UploadRecord extends Component<IProps, IState> {
                 <Row>
                   <Col className="col-md-6 m-auto">
                     <div style={{ marginLeft: "50%" }}>
-                      {loading && <CircularProgress />}
-                      {this.props.progressEmail && <CircularProgress />}
+                      {loading && <Loading />}
+                      {this.props.progressEmail && <Loading />}
                     </div>
                     <div id="formInput">
                       {videoSaved === null && (
@@ -563,6 +571,21 @@ class UploadRecord extends Component<IProps, IState> {
                           >
                             Broadcast
                           </Button>
+                          <FormGroup>
+                            <StrapButton
+                              style={{
+                                border: "none",
+                                background: "rgb(34, 185, 255)",
+                                color: "rgb(255, 255, 255)",
+                                marginTop: "30px",
+                                width: "120px"
+                              }}
+                              size="lg"
+                              onClick={this.navigateToVideos}
+                            >
+                              Done
+                            </StrapButton>
+                          </FormGroup>
                         </div>
                       )}
                     </div>
@@ -584,11 +607,13 @@ class UploadRecord extends Component<IProps, IState> {
                   // this.getSeekableBlob(videoBlob);
                 }}
               /> */}
-              <VideoRecorder getBlob={(blob:any)=>{
-                 this.props.toggleSendVariable();
-                 this.getThumbnail(blob);
-                 this.setState({ videoRecord: blob });
-              }}/>
+              <VideoRecorder
+                getBlob={(blob: any) => {
+                  this.props.toggleSendVariable();
+                  this.getThumbnail(blob);
+                  this.setState({ videoRecord: blob });
+                }}
+              />
             </div>
           </TabPanel>
         </Tabs>

@@ -69,6 +69,11 @@ class Watch extends React.Component<IProps> {
             {!loadingVideo && !video && (
               <h3 style={{ textAlign: "center" }}>No Video to display</h3>
             )}
+            {video && video.description && (
+              <div className="descriptionWatch">
+                <p>{video.description}</p>
+              </div>
+            )}
           </Grid>
           <Grid item md={3} sm={2} xs={1}></Grid>
         </Grid>

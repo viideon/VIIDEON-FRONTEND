@@ -103,13 +103,10 @@ function* searchUserVideos(action: any) {
 function* updateVideo(action: any) {
     try {
         const result = yield call(updateUserVideo, action.payload);
-
         if (result.status === 200) {
-            // const videos = yield select(selectVideos);
             const responseVideo = result.data.video;
-            // const updatedVideos = videos.map((video: any) => ((video._id === responseVideo._id ? responseVideo : video)));
             yield put({ type: types.UPDATE_VIDEO_SUCCESS, payload: responseVideo })
-            toast.success("Updated");
+            toast("Updated");
         }
         else {
             toast.error("Update failed, please try again");
@@ -226,7 +223,7 @@ export function* videoWatcher() {
     yield takeEvery(types.VIDEO_SAVE, saveUserVideo);
     yield takeEvery(types.GET_USER_VIDEOS, getUserVideos);
     yield takeLatest(types.SEARCH_USER_VIDEOS, searchUserVideos);
-    yield takeEvery(types.UPDATE_VIDEO, updateVideo);
+    yield takeLatest(types.UPDATE_VIDEO, updateVideo);
     yield takeEvery(types.DELETE_VIDEO, deleteVideo);
     yield takeEvery(types.GET_VIDEO, getVideo);
     yield takeEvery(types.SEND_MULTIPLE_EMAIL, sendMultipleEmail);

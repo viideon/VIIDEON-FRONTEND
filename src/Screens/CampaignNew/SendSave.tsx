@@ -1,7 +1,8 @@
 import React from "react";
 import { Grid, Button, LinearProgress, Tooltip } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 import Loading from "../../components/Loading";
-import { Input, Label, FormGroup } from "reactstrap";
+import { Input, Label, FormGroup, Button as StrapButton } from "reactstrap";
 import CanvasPlayer from "../../components/CanvasPlayer";
 import ChipInput from "material-ui-chip-input";
 import AWS from "aws-sdk";
@@ -27,6 +28,7 @@ import HelpIcon from "@material-ui/icons/Help";
 import "./style.css";
 
 interface IProps {
+  history: any;
   auth: AuthState;
   videoUser: VideoState;
   previewVideo: any;
@@ -191,7 +193,9 @@ class SendSave extends React.Component<IProps> {
       emails: this.state.emails.filter((email: string) => email !== delEmail)
     });
   };
-
+  navigateToVideos = () => {
+    this.props.history.push("/videos");
+  };
   render() {
     let { videoSaved, loading } = this.props.videoUser;
     return (
@@ -307,6 +311,21 @@ class SendSave extends React.Component<IProps> {
                 >
                   Broadcast
                 </Button>
+                <FormGroup>
+                  <StrapButton
+                    style={{
+                      border: "none",
+                      background: "rgb(34, 185, 255)",
+                      color: "rgb(255, 255, 255)",
+                      marginTop: "30px",
+                      width: "120px"
+                    }}
+                    size="lg"
+                    onClick={this.navigateToVideos}
+                  >
+                    Done
+                  </StrapButton>
+                </FormGroup>
               </div>
             )}
           </div>
@@ -338,4 +357,6 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(sendMultipleEmails(emailVideoObj))
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(SendSave);
+export default withRouter<any, any>(
+  connect(mapStateToProps, mapDispatchToProps)(SendSave)
+);

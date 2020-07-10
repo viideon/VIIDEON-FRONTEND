@@ -1,6 +1,7 @@
 import React from "react";
 import { FormGroup, Label, Input, Col, Form } from "reactstrap";
-import { Button, Grid, CircularProgress, Tooltip } from "@material-ui/core";
+import { Button, Grid, Tooltip } from "@material-ui/core";
+import Loading from "../../components/Loading";
 import HelpIcon from "@material-ui/icons/Help";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -11,22 +12,44 @@ import * as Constants from "../../constants/constants";
 import { reg } from "../../constants/emailRegEx";
 import {
   sendVideoToEmail,
-  sendMultipleEmails
+  sendMultipleEmails,
+  updateVideo
 } from "../../Redux/Actions/videos";
 import { EmailVideo, MultiEmail } from "../../Redux/Types/videos";
 
 interface IProps {
   sendMultipleEmail: (emailVideoOnj: any) => void;
   sendVideoToEmail: (email: any) => void;
+  updateVideo: (video: any) => void;
+  isVideoUpdating: boolean;
   progressEmail: boolean;
   loading: boolean;
   match: any;
+  video: any;
 }
+
 class Detail extends React.Component<IProps> {
   state = {
     recieverEmail: "",
-    emails: []
+    emails: [],
+    description: "",
+    typingTimeout: 0,
+    descriptionLoaded: false
   };
+
+  componentDidUpdate() {
+    if (
+      this.props.video &&
+      this.props.video.description &&
+      this.state.descriptionLoaded === false
+    ) {
+      this.setState({
+        description: this.props.video.description,
+        descriptionLoaded: true
+      });
+    }
+  }
+
   emailHandler = (event: any) => {
     this.setState({
       recieverEmail: event.target.value
@@ -81,8 +104,26 @@ class Detail extends React.Component<IProps> {
       this.setState({ emails: [] });
     }
   };
-
+  updateDescription = (e: any) => {
+    let that = this;
+    clearTimeout(this.state.typingTimeout);
+    this.setState({
+      description: e.target.value,
+      typingTimeout: setTimeout(function() {
+        that.triggerUpdate(that.state.description);
+      }, 2000)
+    });
+  };
+  triggerUpdate = (value: any) => {
+    const { id } = this.props.match.params;
+    const video = {
+      id: id,
+      description: value
+    };
+    this.props.updateVideo(video);
+  };
   render() {
+    const { loading, progressEmail } = this.props;
     return (
       <div>
         <Grid container>
@@ -91,8 +132,8 @@ class Detail extends React.Component<IProps> {
           <Grid item xs={10} sm={10} md={6}>
             <div style={{ marginTop: "30px" }}>
               <div style={{ marginLeft: "48%" }}>
-                {this.props.loading && <CircularProgress />}
-                {this.props.progressEmail && <CircularProgress />}
+                {loading && <Loading />}
+                {progressEmail && <Loading />}
               </div>
               <FormGroup>
                 <Label className="labelUploadSection">
@@ -127,7 +168,7 @@ class Detail extends React.Component<IProps> {
               </Button>
               <FormGroup className="formGroupMultiple">
                 <Label className="labelUploadSection">
-                  Broadcast{" "}
+                  Broadcast
                   <span>
                     <Tooltip
                       title="connect your gmail account in confguration to send email's on your behalf"
@@ -168,13 +209,17 @@ class Detail extends React.Component<IProps> {
               <Input
                 type="textarea"
                 name="text"
-                id="exampleTextAdd"
+                value={this.state.description}
                 style={{ minHeight: "150px" }}
+                onChange={this.updateDescription}
               />
+
               <p>
-                {Constants.ADD_TEXT}{" "}
+                {Constants.ADD_TEXT}
                 <i>
-                  <GoInfo />
+                  <Tooltip title="Appears on video page" placement="top" arrow>
+                    <GoInfo />
+                  </Tooltip>
                 </i>
               </p>
             </Col>
@@ -203,14 +248,17 @@ class Detail extends React.Component<IProps> {
 const mapStateToProps = (state: any) => {
   return {
     progressEmail: state.video.progressEmail,
-    loading: state.video.loading
+    loading: state.video.loading,
+    isVideoUpdating: state.video.isVideoUpdating,
+    video: state.video.singleVideo
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
     sendVideoToEmail: (video: EmailVideo) => dispatch(sendVideoToEmail(video)),
     sendMultipleEmail: (emailVideoObj: MultiEmail) =>
-      dispatch(sendMultipleEmails(emailVideoObj))
+      dispatch(sendMultipleEmails(emailVideoObj)),
+    updateVideo: (video: any) => dispatch(updateVideo(video))
   };
 };
 export default withRouter<any, any>(

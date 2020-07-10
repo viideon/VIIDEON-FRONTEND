@@ -1,6 +1,6 @@
 import React from "react";
-import { Grid, Button } from "@material-ui/core";
-import { Input } from "reactstrap";
+import { Grid, Button, Tooltip } from "@material-ui/core";
+import { Input, Button as StrapButton } from "reactstrap";
 import canvasTxt from "canvas-txt";
 import { CompactPicker } from "react-color";
 import { toast } from "react-toastify";
@@ -128,10 +128,7 @@ class AddLogo extends React.Component<IProps, IState> {
         return;
       }
       await this.compress(e.target.files![0]);
-      // if (this.video.paused) {
-      //   this.video.play();
-      // }
-      toast.info("Logo selected play the video to see the logo");
+      toast("Logo selected play the video to see the logo");
     } else {
       toast.error("error in selecting file");
     }
@@ -202,7 +199,7 @@ class AddLogo extends React.Component<IProps, IState> {
   }
   setIconPosition = (position: string) => {
     if (this.state.img === null) {
-      toast.info("Please upload a logo");
+      toast("Please upload a logo");
       return;
     }
     this.setState({ iconPos: position });
@@ -300,8 +297,20 @@ class AddLogo extends React.Component<IProps, IState> {
     return (
       <Grid container>
         <Grid item xs={1} sm={1} md={1} lg={1}></Grid>
-        <Grid item xs={10} sm={10} md={10} lg={10}>
-          <h3 className="recordHeading">Add Logo and Text to Video</h3>
+        <Grid
+          item
+          xs={10}
+          sm={10}
+          md={10}
+          lg={10}
+          style={{
+            borderRadius: "4px",
+            padding: "10px 30px 10px 30px",
+            background: "#fff",
+            boxShadow: "0px 0px 3px #d3d3d3"
+          }}
+        >
+          <h2 className="addLogoHeading">Add Logo and Text to Video</h2>
           <Grid container>
             <Grid item xs={12} sm={12} md={6} lg={6}>
               <video ref="video" controls width="100%" />
@@ -321,7 +330,17 @@ class AddLogo extends React.Component<IProps, IState> {
           />
           <Grid container>
             <Grid item xs={12} sm={12} md={6} lg={6}>
-              <h4 className="addLogoMessage">Add Logo</h4>
+              <h3 className="addLogoMessage">
+                Add Logo
+                <Tooltip
+                  title="upload a logo and play the video to see it"
+                  placement="top"
+                >
+                  <span style={iconStyle}>
+                    <i className="fas fa-info"></i>
+                  </span>
+                </Tooltip>
+              </h3>
               <input
                 id="uploadInput"
                 type="file"
@@ -331,7 +350,11 @@ class AddLogo extends React.Component<IProps, IState> {
               />
               <Button
                 onClick={this.triggerFileUploadBtn}
-                style={{ backgroundColor: "rgb(249, 104, 107)", color: "#000" }}
+                style={{
+                  color: "#fff",
+                  width: "135px",
+                  backgroundColor: "#ff4301"
+                }}
               >
                 Upload
               </Button>
@@ -362,7 +385,17 @@ class AddLogo extends React.Component<IProps, IState> {
               </Button>
             </Grid>
             <Grid item xs={12} sm={12} md={6} lg={6}>
-              <h4 className="addLogoMessage">Add Text</h4>
+              <h4 className="addLogoMessage">
+                Add Text
+                <Tooltip
+                  title="enter text and play the video to see it"
+                  placement="top"
+                >
+                  <span style={iconStyle}>
+                    <i className="fas fa-info"></i>
+                  </span>
+                </Tooltip>
+              </h4>
               <Input
                 type="text"
                 placeholder="Add Text"
@@ -419,10 +452,10 @@ class AddLogo extends React.Component<IProps, IState> {
                 </span>
               </div>
 
-              <h4 className="addLogoMessage">
+              <h5 className="positionTxt">
                 Choose Text Color
                 <span className="optionalText">(optional)</span>
-              </h4>
+              </h5>
               <CompactPicker
                 color={this.state.textColor}
                 onChangeComplete={this.handleChangeColor}
@@ -431,23 +464,32 @@ class AddLogo extends React.Component<IProps, IState> {
           </Grid>
 
           <div className="btnEditVideo">
-            <Button
-              variant="contained"
-              size="large"
-              color="default"
+            <StrapButton
+              style={{
+                border: "none",
+                background: "#d3d3d3",
+                color: "rgb(255, 255, 255)",
+                width: "120px",
+                marginRight: "20px"
+              }}
+              size="lg"
               onClick={this.moveToNextStep}
-              style={{ marginRight: "10px" }}
             >
               Skip
-            </Button>
-            <Button
-              variant="contained"
-              size="large"
-              color="primary"
+            </StrapButton>
+            <StrapButton
+              style={{
+                border: "none",
+                background: "rgb(34, 185, 255)",
+                color: "rgb(255, 255, 255)",
+                width: "120px"
+              }}
+              size="lg"
               onClick={this.finalize}
             >
               Finalize
-            </Button>
+            </StrapButton>
+
             <canvas
               ref="thumbCanvas"
               height={720}
@@ -461,7 +503,12 @@ class AddLogo extends React.Component<IProps, IState> {
     );
   }
 }
-
+const iconStyle = {
+  fontSize: "15px",
+  color: "#a9a9a9",
+  marginLeft: "7px",
+  cursor: "pointer"
+};
 const logoPositionBtn = {
   backgroundColor: "#d3d3d3",
   marginLeft: "2px"

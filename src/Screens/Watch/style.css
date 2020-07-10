@@ -26,3 +26,15 @@
 .footerWatch span {
   margin-right: 3px;
 }
+.descriptionWatch {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  margin-top: 10px;
+}
+.descriptionWatch p {
+  font-family: Georgia, serif;
+  font-size: 18px;
+  word-spacing: 1px;
+  color: #000000;
+}
