@@ -8,7 +8,7 @@ function* loginUser(action: any) {
   try {
     const result = yield login(action.payload);
     if (result.status === 201) {
-      yield put({ type: types.LOGIN_SUCCESS, payload: result.data.message });
+      yield put({ type: types.LOGIN_SUCCESS, payload: result.data });
       yield put({
         type: profileTypes.ADD_PROFILE_DATA,
         payload: result.data,
