@@ -25,7 +25,7 @@ const authReducer = (state = initialState, action: any) => {
         ...state,
         loggedInStatus: false,
         loading: false,
-        loginError: action.payload.message,
+        loginError: action.payload,
       };
     case types.FORGOT_REQUEST:
       return {

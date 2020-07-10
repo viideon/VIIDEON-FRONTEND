@@ -7,6 +7,7 @@ import {
   InputGroupAddon,
   InputGroupText,
   InputGroup,
+  Tooltip as StrapTooltip,
 } from "reactstrap";
 import {
   FaMailBulk,
@@ -55,7 +56,12 @@ class VideoTabHeader extends React.Component<IProps> {
       this.container.style.display = "none";
     }
   }
-
+  state = {
+    tooltipOpen: false,
+  };
+  toggle = () => {
+    this.setState({ tooltipOpen: !this.state.tooltipOpen });
+  };
   render() {
     const { video } = this.props;
     return (
@@ -154,12 +160,32 @@ class VideoTabHeader extends React.Component<IProps> {
             <InputGroup>
               <Input placeholder="https://vidionpro.com" />
               <InputGroupAddon addonType="append">
-                <InputGroupText style={styles.inputContainer}>
+                <InputGroupText
+                  style={styles.inputContainer}
+                  className="share-icons"
+                  id="TooltipExample" //here i am using react starp tooltip because  material tooltip not working with reactstrap component
+                  onClick={() => alert("This is not functional yet")}
+                >
                   <FaMailBulk style={styles.inputwrapper} />
                 </InputGroupText>
-                <InputGroupText style={styles.inputContainer}>
+
+                <InputGroupText
+                  style={styles.inputContainer}
+                  className="share-icons"
+                  id="TooltipExample"
+                  onClick={() => alert("This is not functional yet")}
+                >
                   <FiExternalLink style={styles.inputwrapper} />
                 </InputGroupText>
+
+                <StrapTooltip
+                  placement="bottom"
+                  isOpen={this.state.tooltipOpen}
+                  target="TooltipExample"
+                  toggle={this.toggle}
+                >
+                  Under Progress
+                </StrapTooltip>
               </InputGroupAddon>
             </InputGroup>
           </Col>

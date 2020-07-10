@@ -4,7 +4,7 @@ import "./style.css";
 
 class Contacts extends React.Component {
   state = {
-    openModal: false
+    openModal: false,
   };
   toggleModal = () => {
     this.setState({ openModal: !this.state.openModal });
@@ -38,8 +38,8 @@ class Contacts extends React.Component {
           <table className="table">
             <thead>
               <tr>
-                <th></th>
-                <th></th>
+                {/* <th></th>
+                <th></th> */}
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Email</th>
@@ -59,8 +59,8 @@ class Contacts extends React.Component {
 
             <tbody>
               <tr>
-                <td></td>
-                <td></td>
+                {/* <td></td>
+                <td></td> */}
                 <td>Basit</td>
                 <td>Sattar</td>
                 <td>basitdev850@gmail.com</td>

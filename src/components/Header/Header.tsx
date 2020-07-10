@@ -14,8 +14,16 @@ type IProps = {
   history: any;
   toggleDrawer: () => void;
   logout: () => void;
+  loggedInStatus?: any;
+  profile?: any;
 };
-const Header: React.FC<IProps> = ({ history, toggleDrawer, logout }) => {
+const Header: React.FC<IProps> = ({
+  history,
+  toggleDrawer,
+  logout,
+  profile,
+  loggedInStatus,
+}) => {
   const [drawerOpen, toggleTopDrawer] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -31,6 +39,10 @@ const Header: React.FC<IProps> = ({ history, toggleDrawer, logout }) => {
     history.push("/");
   };
   const location = useLocation();
+  var image =
+    loggedInStatus && profile && profile.user && profile.user.url
+      ? profile.user.url
+      : avatarImage;
   return (
     <div className="HeaderContainer">
       <div className="startHeader">
@@ -71,7 +83,7 @@ const Header: React.FC<IProps> = ({ history, toggleDrawer, logout }) => {
       <div className="endHeader">
         <div className="wrapperEnd">
           <span onClick={handleClickPopup} style={{ cursor: "pointer" }}>
-            <img src={avatarImage} className="avatarNav" alt="avatar" />
+            <img src={image} className="avatarNav" alt="avatar" />
           </span>
           <Tooltip title="Under Progress">
             <span>
@@ -100,7 +112,9 @@ const Header: React.FC<IProps> = ({ history, toggleDrawer, logout }) => {
               open={Boolean(anchorEl)}
               onClose={handleClosePopup}
             >
-              <MenuItem>Profile</MenuItem>
+              <MenuItem onClick={() => history.push("/profile")}>
+                Profile
+              </MenuItem>
               <MenuItem onClick={() => logout()}>Logout</MenuItem>
             </Menu>
           </span>
@@ -114,11 +128,18 @@ const iconStyle = {
   color: "#fff",
   cursor: "pointer",
 };
-
+const mapStateToProps = (state: any) => {
+  return {
+    loggedInStatus: state.auth.loggedInStatus,
+    profile: state.profile,
+  };
+};
 const mapDispatchToProps = (dispatch: any) => {
   return {
     toggleDrawer: () => dispatch(toggleDrawer()),
     logout: () => dispatch(logout()),
   };
 };
-export default withRouter<any, any>(connect(null, mapDispatchToProps)(Header));
+export default withRouter<any, any>(
+  connect(mapStateToProps, mapDispatchToProps)(Header)
+);
