@@ -13,7 +13,8 @@ import { reg } from "../../constants/emailRegEx";
 import {
   sendVideoToEmail,
   sendMultipleEmails,
-  updateVideo
+  updateVideo,
+  updateEmailShare
 } from "../../Redux/Actions/videos";
 import { EmailVideo, MultiEmail } from "../../Redux/Types/videos";
 
@@ -26,6 +27,7 @@ interface IProps {
   loading: boolean;
   match: any;
   video: any;
+  updateEmailShare?: any;
 }
 
 class Detail extends React.Component<IProps> {
@@ -84,6 +86,8 @@ class Detail extends React.Component<IProps> {
         recieverEmail
       };
       this.props.sendVideoToEmail(video);
+      const _id = { id };
+      this.props.updateEmailShare(_id);
     }
   };
   sendMultipleEmail = () => {
@@ -253,9 +257,11 @@ const mapStateToProps = (state: any) => {
     video: state.video.singleVideo
   };
 };
+
 const mapDispatchToProps = (dispatch: any) => {
   return {
     sendVideoToEmail: (video: EmailVideo) => dispatch(sendVideoToEmail(video)),
+    updateEmailShare: (id: any) => dispatch(updateEmailShare(id)),
     sendMultipleEmail: (emailVideoObj: MultiEmail) =>
       dispatch(sendMultipleEmails(emailVideoObj)),
     updateVideo: (video: any) => dispatch(updateVideo(video))

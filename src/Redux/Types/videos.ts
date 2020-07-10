@@ -31,7 +31,18 @@ const COUNT_VIDEO_FAIL = "COUNT_VIDEO_FAIL";
 const CLEAN_SINGLEVIDEO = "CLEAN_SINGLEVIDEO";
 const ENABLE_SAVEBTN = "ENABLE_SAVEBTN";
 const UPDATE_VIDEOS_AFTEREDELETE = "UPDATE_VIDEOS_AFTEREDELETE";
-
+const UPDATE_VIEW_REQUEST: string = "UPDATE_VIEW_REQUEST";
+const UPDATE_VIEW_SUCCESS: string = "UPDATE_VIEW_SUCCESS";
+const UPDATE_VIEW_FAILURE: string = "UPDATE_VIEW_FAILURE";
+const UPDATE_EMAIL_SHARE_REQUEST: string = "UPDATE_EMAIL_SHARE_REQUEST";
+const UPDATE_EMAIL_SHARE_SUCCESS: string = "UPDATE_EMAIL_SHARE_SUCCESS";
+const UPDATE_EMAIL_SHARE_FAILURE: string = "UPDATE_EMAIL_SHARE_FAILURE";
+const UPDATE_VIDEO_WATCH_REQUEST: string = "UPDATE_VIDEO_WATCH_REQUEST";
+const UPDATE_VIDEO_WATCH_SUCCESS: string = "UPDATE_VIDEO_WATCH_SUCCESS";
+const UPDATE_VIDEO_WATCH_FAILURE: string = "UPDATE_VIDEO_WATCH_FAILURE";
+const GET_CAMPAIGN_VIDEOS_REQUEST: string = "GET_CAMPAIGN_VIDEOS_REQUEST";
+const GET_CAMPAIGN_VIDEOS_SUCCESS: string = "GET_CAMPAIGN_VIDEOS_SUCCESS";
+const GET_CAMPAIGN_VIDEOS_FAILURE: string = "GET_CAMPAIGN_VIDEOS_FAILURE";
 export const types = {
   SEARCH_USER_VIDEOS,
   VIDEO_SEND_REQUEST,
@@ -65,8 +76,20 @@ export const types = {
   COUNT_VIDEO_FAIL,
   CLEAN_SINGLEVIDEO,
   ENABLE_SAVEBTN,
-  UPDATE_VIDEOS_AFTEREDELETE
-}
+  UPDATE_VIDEOS_AFTEREDELETE,
+  UPDATE_VIEW_REQUEST,
+  UPDATE_VIEW_SUCCESS,
+  UPDATE_VIEW_FAILURE,
+  UPDATE_EMAIL_SHARE_FAILURE,
+  UPDATE_EMAIL_SHARE_SUCCESS,
+  UPDATE_EMAIL_SHARE_REQUEST,
+  UPDATE_VIDEO_WATCH_FAILURE,
+  UPDATE_VIDEO_WATCH_REQUEST,
+  UPDATE_VIDEO_WATCH_SUCCESS,
+  GET_CAMPAIGN_VIDEOS_FAILURE,
+  GET_CAMPAIGN_VIDEOS_REQUEST,
+  GET_CAMPAIGN_VIDEOS_SUCCESS,
+};
 export interface EmailVideo {
   url?: string;
   id?: string;
@@ -103,37 +126,38 @@ export interface VideoState {
   videos?: any;
   loadMore: boolean;
   videoCount: number;
-  addSearched: boolean,
+  addSearched: boolean;
 }
-// Action interfaces 
+// Action interfaces
 export interface VideoEmailAction {
-  type: typeof VIDEO_SEND_REQUEST
-  payload: EmailVideo
+  type: typeof VIDEO_SEND_REQUEST;
+  payload: EmailVideo;
 }
 
 export interface VideoSaveAction {
-  type: typeof VIDEO_SAVE
-  payload: VideoSave
+  type: typeof VIDEO_SAVE;
+  payload: VideoSave;
 }
 
 export interface getUserVideoAction {
-  type: typeof GET_USER_VIDEOS,
+  type: typeof GET_USER_VIDEOS;
+  payload: any;
 }
 
 export interface updateVideoAction {
-  type: typeof UPDATE_VIDEO
-  payload: VideoUpdate
+  type: typeof UPDATE_VIDEO;
+  payload: VideoUpdate;
 }
 
 export interface getVideo {
-  type: typeof GET_VIDEO
-  payload: string
+  type: typeof GET_VIDEO;
+  payload: string;
 }
 export interface deleteVideo {
-  type: typeof DELETE_VIDEO,
-  payload: string
+  type: typeof DELETE_VIDEO;
+  payload: string;
 }
 export interface sendMultipleEmails {
-  type: typeof SEND_MULTIPLE_EMAIL
-  payload: any
+  type: typeof SEND_MULTIPLE_EMAIL;
+  payload: any;
 }

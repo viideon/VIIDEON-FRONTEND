@@ -7,15 +7,15 @@ import "./styles.css";
 type IProps = {
   history: any;
 };
-class Videos extends Component<IProps> {
+class CampaignList extends Component<IProps> {
   render() {
     return (
       <Grid container className="wrapperDashVideos">
         <Grid item xs={12}>
-          <VideoSection history={this.props.history} videoType="allVideos" />
+          <VideoSection history={this.props.history} videoType="campaign" />
         </Grid>
       </Grid>
     );
   }
 }
-export default withRouter<any, any>(Videos);
+export default withRouter<any, any>(CampaignList);

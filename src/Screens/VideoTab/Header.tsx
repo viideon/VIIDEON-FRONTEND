@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import VideoInfo from "../../components/VideoInfo";
 import { FiExternalLink } from "react-icons/fi";
 import { connect } from "react-redux";
+import Tooltip from "@material-ui/core/Tooltip";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import * as Constants from "../../constants/constants";
 import VideoPlayer from "../../components/VideoPlayer";
@@ -27,6 +28,9 @@ interface Video {
   logoProps?: any;
   textProps?: any;
   _id: string;
+  views?: number;
+  watch?: number;
+  emailShareCount?: number;
 }
 interface IProps {
   video?: Video;
@@ -99,8 +103,7 @@ class VideoTabHeader extends React.Component<IProps> {
                     />
                   </i>
                 </h3>
-                <VideoInfo />
-
+                <VideoInfo video={video} />
                 <div style={styles.wrapper}>
                   <span>
                     <FaDownload /> {Constants.MP4}

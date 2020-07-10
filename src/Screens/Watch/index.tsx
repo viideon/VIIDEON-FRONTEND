@@ -2,8 +2,11 @@ import React from "react";
 import { connect } from "react-redux";
 import VideoPlayer from "../../components/VideoPlayer";
 import CanvasPlayer from "../../components/CanvasPlayer";
-import { getVideo } from "../../Redux/Actions/videos";
-import "./style.css";
+import {
+  getVideo,
+  updateVideoViews,
+  updateVideoWatch
+} from "../../Redux/Actions/videos";
 import Grid from "@material-ui/core/Grid";
 import Loading from "../../components/Loading";
 
@@ -12,12 +15,17 @@ interface IProps {
   loadingVideo: boolean;
   video: any;
   match: any;
+  updateVideoViews?: any;
+  updateVideoWatch?: any;
 }
 class Watch extends React.Component<IProps> {
   container: any;
   componentDidMount() {
     this.container = this.refs.container;
     this.props.getVideo(this.props.match.params.id);
+    const _id = { id: this.props.match.params.id };
+    this.props.updateVideoViews(_id);
+    this.props.updateVideoWatch(_id);
   }
 
   componentWillReceiveProps(nextProps: any) {
@@ -85,6 +93,7 @@ class Watch extends React.Component<IProps> {
     );
   }
 }
+
 const mapStateToProps = (state: any) => {
   return {
     video: state.video.singleVideo,
@@ -93,7 +102,9 @@ const mapStateToProps = (state: any) => {
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    getVideo: (id: string) => dispatch(getVideo(id))
+    getVideo: (id: string) => dispatch(getVideo(id)),
+    updateVideoViews: (id: any) => dispatch(updateVideoViews(id)),
+    updateVideoWatch: (id: any) => dispatch(updateVideoWatch(id))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Watch);

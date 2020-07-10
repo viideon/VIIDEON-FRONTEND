@@ -36,7 +36,8 @@ class Routes extends Component<IProps> {
               <Route exact path="/profile" component={Profile} />
               <Route exact path="/video/create" component={UploadRecord} />
               <Route exact path="/watch/:id" component={Watch} />
-              <Route exact path="/campaign" component={Campaign} />
+              {/* <Route exact path="/campaign" component={CampaignList} /> */}
+              <Route exact path="/campaign/new" component={Campaign} />
               <Route exact path="/recording" component={Recording} />
               <Route exact path="/recorder" component={TestRecorder} />
               <Route exact path="*" component={Home} />

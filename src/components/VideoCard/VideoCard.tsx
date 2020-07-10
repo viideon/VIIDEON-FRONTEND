@@ -9,7 +9,17 @@ import DeleteDialog from "../Reusable/DeleteDialog";
 import { thumbnailDefault } from "../../constants/constants";
 import moment from "moment";
 import "./styles.css";
-
+interface Video {
+  url: string;
+  thumbnail?: string;
+  title?: string;
+  campaign?: boolean;
+  logoProps?: any;
+  textProps?: any;
+  views?: number;
+  watch?: number;
+  emailShareCount?: number;
+}
 type IProps = {
   title: string;
   url?: string;
@@ -19,6 +29,7 @@ type IProps = {
   deleteVideo: (id: string) => void;
   date: any;
   deletingVideo: boolean;
+  video?: Video;
 };
 const VideoCard: FC<IProps> = ({
   title,
@@ -27,7 +38,8 @@ const VideoCard: FC<IProps> = ({
   deleteVideo,
   id,
   date,
-  deletingVideo
+  deletingVideo,
+  video,
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = useState(false);
@@ -99,7 +111,7 @@ const VideoCard: FC<IProps> = ({
       </div>
       <div className="row" id="rowCardInfo">
         <div className="col-xs-12">
-          <VideoInfo />
+          <VideoInfo video={video} />
           <span className="addedVideoInfo">
             added {calculateDays()} days ago
           </span>
@@ -110,7 +122,7 @@ const VideoCard: FC<IProps> = ({
 };
 const mapStateToProps = (state: any) => {
   return {
-    deletingVideo: state.video.deletingVideo
+    deletingVideo: state.video.deletingVideo,
   };
 };
 export default connect(mapStateToProps)(VideoCard);

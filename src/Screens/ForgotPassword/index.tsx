@@ -78,12 +78,15 @@ class ForgotPassword extends React.Component<IProps, IState> {
               <p className="loginTwo">Reset Password</p>
               <div className="createAccount">
                 <p className="account">{Constants.DONT_HAVE_ACCOUNT_YET}</p>
-                <div
-                  onClick={() => {
-                    this.props.history.push("/signup");
-                  }}
-                >
-                  <p className="create">{Constants.CREATE_NEW}</p>
+                <div>
+                  <p
+                    className="create"
+                    onClick={() => {
+                      this.props.history.push("/signup");
+                    }}
+                  >
+                    {Constants.CREATE_NEW}
+                  </p>
                 </div>
               </div>
               <div style={{ marginLeft: "35%", opacity: 0.5 }}>

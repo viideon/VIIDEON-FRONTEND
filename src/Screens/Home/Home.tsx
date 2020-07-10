@@ -7,6 +7,7 @@ import SideBar from "../../components/SideBar/SideBar";
 import Dashboard from "./Dashboard";
 import Tooltip from "@material-ui/core/Tooltip";
 import Videos from "./Videos";
+import CampaignList from "./campaign";
 import Contacts from "../Connections/Contacts";
 import Configuration from "../Configuration";
 import "./styles.css";
@@ -33,6 +34,7 @@ class Home extends Component<IProps> {
           <Route exact path="/" component={Dashboard} />
           <Route exact path="/videos" component={Videos} />
           <Route exact path="/contacts" component={Contacts} />
+          <Route exact path="/campaign" component={CampaignList} />
           <Route exact path="/configuration" component={Configuration} />
           <Route exact path="*" render={() => <Redirect to="/" />} />
         </div>
