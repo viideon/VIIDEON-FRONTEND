@@ -20,7 +20,7 @@ type IProps = {
 class Dashboard extends Component<IProps> {
   state = {
     showDashboard: true,
-    showVideos: false,
+    showVideos: false
   };
   componentDidMount() {
     this.props.getVideoCount();
@@ -106,7 +106,7 @@ class Dashboard extends Component<IProps> {
           <Grid item xs={6} md={3}>
             <div
               className="actionsHomePage"
-              onClick={() => this.props.history.push("/campaign")}
+              onClick={() => this.props.history.push("/campaign/new")}
             >
               <ImageSearchIcon style={iconStyle} />
               <h5>Create a Campaign</h5>
@@ -131,16 +131,16 @@ class Dashboard extends Component<IProps> {
 
 const iconStyle = {
   fontSize: "100px",
-  cursor: "pointer",
+  cursor: "pointer"
 };
 const mapStateToProps = (state: any) => {
   return {
-    videoCount: state.video.videoCount,
+    videoCount: state.video.videoCount
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    getVideoCount: () => dispatch(getVideoCount()),
+    getVideoCount: () => dispatch(getVideoCount())
   };
 };
 

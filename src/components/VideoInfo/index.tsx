@@ -34,7 +34,7 @@ const VideoInfo: React.FC<IProps> = ({ video }) => {
           </span>
         </span>
       </Tooltip>
-      <Tooltip title="Email Clicks" enterDelay={0}>
+      <Tooltip title="Email Shared" enterDelay={0}>
         <span className="mainInfoContainer">
           {Constants.DASH}
           <span className="itemsInfo">

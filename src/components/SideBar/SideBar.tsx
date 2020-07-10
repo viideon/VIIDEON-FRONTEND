@@ -42,12 +42,12 @@ class SideBar extends Component<IProps, IState> {
                 alt="avatar"
               />
               <span className="infoProfile">
-                <span className="nameInfo">{user.userName}</span>
+                <span className="nameInfo">{`${user.firstName} ${user.lastName}`}</span>
                 <span className="contactInfo">{user.email}</span>
               </span>
             </div>
           )}
-          <SearchBar />
+          {/* <SearchBar /> */}
         </div>
         <div
           className="OptionIcons dashboardOption"
@@ -58,7 +58,7 @@ class SideBar extends Component<IProps, IState> {
             backgroundColor:
               this.state.activeTab === "dashboard"
                 ? "rgb(34, 185, 255) "
-                : undefined,
+                : undefined
           }}
         >
           <i className="fas fa-tachometer-alt dashboard" style={iconStyle} />
@@ -72,7 +72,7 @@ class SideBar extends Component<IProps, IState> {
             backgroundColor:
               this.state.activeTab === "myVideos"
                 ? "rgb(34, 185, 255) "
-                : undefined,
+                : undefined
           }}
         >
           <i className="fab fa-microsoft" style={iconStyle} />
@@ -93,7 +93,7 @@ class SideBar extends Component<IProps, IState> {
             backgroundColor:
               this.state.activeTab === "contacts"
                 ? "rgb(34, 185, 255) "
-                : undefined,
+                : undefined
           }}
         >
           <i className="far fa-address-book" style={iconStyle} />
@@ -107,7 +107,7 @@ class SideBar extends Component<IProps, IState> {
             backgroundColor:
               this.state.activeTab === "campaign"
                 ? "rgb(34, 185, 255) "
-                : undefined,
+                : undefined
           }}
         >
           <i className="far fa-flag" style={iconStyle} />
@@ -123,7 +123,7 @@ class SideBar extends Component<IProps, IState> {
             backgroundColor:
               this.state.activeTab === "configuration"
                 ? "rgb(34, 185, 255) "
-                : undefined,
+                : undefined
           }}
         >
           <i className="fas fa-users-cog" style={iconStyle} />
@@ -161,21 +161,21 @@ const iconStyle = {
   fontSize: "14px",
   width: "1.5em",
   display: "inline-block",
-  color: "#b4bcc8",
+  color: "#b4bcc8"
 };
 const arrowIcon = {
   marginLeft: "auto",
-  marginRight: "12px",
+  marginRight: "12px"
 };
 const mapStateToProps = (state: any) => {
   return {
     user: state.profile.user,
-    drawer: state.drawer.drawer,
+    drawer: state.drawer.drawer
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    logout: () => dispatch(logout()),
+    logout: () => dispatch(logout())
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SideBar);

@@ -36,6 +36,8 @@ const Header: React.FC<IProps> = ({ history, toggleDrawer, logout }) => {
       <div className="startHeader">
         {(location.pathname === "/" ||
           location.pathname === "/videos" ||
+          location.pathname === "/configuration" ||
+          location.pathname === "/campaign" ||
           location.pathname === "/contacts") && (
           <MenuIcon
             onClick={() => toggle()}
@@ -47,6 +49,8 @@ const Header: React.FC<IProps> = ({ history, toggleDrawer, logout }) => {
 
         {(location.pathname === "/" ||
           location.pathname === "/videos" ||
+          location.pathname === "/configuration" ||
+          location.pathname === "/campaign" ||
           location.pathname === "/contacts") && (
           <MenuIcon
             onClick={() => toggleDrawer()}
@@ -112,13 +116,13 @@ const Header: React.FC<IProps> = ({ history, toggleDrawer, logout }) => {
 
 const iconStyle = {
   color: "#fff",
-  cursor: "pointer",
+  cursor: "pointer"
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     toggleDrawer: () => dispatch(toggleDrawer()),
-    logout: () => dispatch(logout()),
+    logout: () => dispatch(logout())
   };
 };
 export default withRouter<any, any>(connect(null, mapDispatchToProps)(Header));

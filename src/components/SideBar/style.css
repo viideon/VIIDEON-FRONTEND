@@ -4,7 +4,7 @@
   height: 95vh;
   min-height: 700px;
   opacity: 5px;
-  box-shadow: 0 0 10px lightgrey;
+  /* box-shadow: 0 0 10px lightgrey; */
   width: 235px;
   position: fixed !important;
   margin-left: 0;
@@ -17,9 +17,10 @@
 }
 .wrapperProfileSidebar {
   width: 100%;
-  height: 20%;
+  height: 15%;
   margin-bottom: 10px;
-  background: var(--green-theme);
+  /* background: var(--green-theme); */
+  background: #f3f7fa;
 }
 .avatarSidebar {
   width: 40px;
@@ -34,9 +35,10 @@
 }
 .wrapperDetails {
   display: flex;
-  padding: 20px 10px 20px 10px;
+  padding: 30px 10px 20px 10px;
   font-size: 0.8rem;
-  color: #fff;
+  /* color: #fff; */
+  color: #202020;
 }
 
 .OptionIcons {
