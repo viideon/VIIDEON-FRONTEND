@@ -3,7 +3,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Tooltip from "@material-ui/core/Tooltip";
-import { withRouter, useLocation } from "react-router-dom";
+import { withRouter, useLocation, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { toggleDrawer } from "../../Redux/Actions/drawer";
 import { logout } from "../../Redux/Actions/auth";
@@ -99,11 +99,11 @@ const Header: React.FC<IProps> = ({
               <i className="fas fa-bell" style={iconStyle}></i>
             </span>
           </Tooltip>
-          <Tooltip title="Under Progress">
+          <Link to="/campaign">
             <span>
               <i className="fas fa-flag" style={iconStyle}></i>
             </span>
-          </Tooltip>
+          </Link>
 
           <span>
             <Tooltip title="Under Progress">
@@ -130,7 +130,7 @@ const Header: React.FC<IProps> = ({
 
 const iconStyle = {
   color: "#fff",
-  cursor: "pointer"
+  cursor: "pointer",
 };
 const mapStateToProps = (state: any) => {
   return {
@@ -141,7 +141,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     toggleDrawer: () => dispatch(toggleDrawer()),
-    logout: () => dispatch(logout())
+    logout: () => dispatch(logout()),
   };
 };
 export default withRouter<any, any>(

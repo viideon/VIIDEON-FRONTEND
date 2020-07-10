@@ -115,9 +115,9 @@ class VideoSection extends Component<IProps> {
     return (
       <div className="VideoComponent">
         <div className="mainHeadingWrapper">
-          <div>
+          <div style={{ display: "flex" }}>
             <span className="Header">{videoTitle}</span>
-            <Input
+            {/* <Input
               placeholder="Search"
               onChange={this.searchVideos}
               endAdornment={
@@ -125,7 +125,17 @@ class VideoSection extends Component<IProps> {
                   <SearchIcon />
                 </InputAdornment>
               }
-            />
+            /> */}
+            <div className="sb-example-3">
+              <div className="search__container">
+                <input
+                  className="search__input"
+                  type="text"
+                  onChange={this.searchVideos}
+                  placeholder="Search"
+                />
+              </div>
+            </div>
           </div>
           <div className="ovalBtnWrap">
             <Tooltip title="Create new  Video">
