@@ -20,7 +20,7 @@ type IProps = {
 class Dashboard extends Component<IProps> {
   state = {
     showDashboard: true,
-    showVideos: false
+    showVideos: false,
   };
   componentDidMount() {
     this.props.getVideoCount();
@@ -75,13 +75,16 @@ class Dashboard extends Component<IProps> {
               />
             </Link>
           </Grid>
+
           <Grid item xs={6} md={3}>
-            <HeaderCard
-              styles={Styles.headerCardFour}
-              Number={1}
-              Title="CONTACTS"
-              iconBg="#CC5551"
-            />
+            <Link to="/contacts" className="link-style">
+              <HeaderCard
+                styles={Styles.headerCardFour}
+                Number={1}
+                Title="CONTACTS"
+                iconBg="#CC5551"
+              />
+            </Link>
           </Grid>
         </Grid>
         <Grid container className="wrapperActivityHome">
@@ -131,16 +134,16 @@ class Dashboard extends Component<IProps> {
 
 const iconStyle = {
   fontSize: "100px",
-  cursor: "pointer"
+  cursor: "pointer",
 };
 const mapStateToProps = (state: any) => {
   return {
-    videoCount: state.video.videoCount
+    videoCount: state.video.videoCount,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    getVideoCount: () => dispatch(getVideoCount())
+    getVideoCount: () => dispatch(getVideoCount()),
   };
 };
 

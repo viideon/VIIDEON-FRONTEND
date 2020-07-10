@@ -76,10 +76,13 @@ class VideoSection extends Component<IProps> {
   };
   searchVideos = (e: any) => {
     if (e.target.value) {
-      this.props.searchUserVideos(e.target.value);
+      this.props.searchUserVideos({
+        title: e.target.value,
+        videoType: this.props.videoType,
+      });
     } else {
       this.props.emptyPage();
-      this.props.getUserVideos();
+      this.props.getUserVideos(this.props.videoType);
     }
   };
   toggleView = () => {

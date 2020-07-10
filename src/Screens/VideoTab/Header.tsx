@@ -104,18 +104,18 @@ class VideoTabHeader extends React.Component<IProps> {
               <Col xs="12" sm="12" md="6" id="headerText">
                 <h3>
                   {video && video.title}
-                  <i>
+                  {/* <i>
                     <FaPencilAlt
                       style={{ fontSize: "15px", marginLeft: "4px" }}
                     />
-                  </i>
+                  </i> */}
                 </h3>
                 <VideoInfo video={video} />
-                <div style={styles.wrapper}>
+                {/* <div style={styles.wrapper}>
                   <span>
                     <FaDownload /> {Constants.MP4}
                   </span>
-                </div>
+                </div> */}
               </Col>
             </Row>
           </Col>
@@ -136,7 +136,7 @@ class VideoTabHeader extends React.Component<IProps> {
                   video._id}`}
                 disabled={true}
               />
-              <InputGroupAddon addonType="append">
+              {/* <InputGroupAddon addonType="append">
                 <InputGroupText
                   style={styles.inputContainer}
                   className="share-icons"
@@ -164,6 +164,7 @@ class VideoTabHeader extends React.Component<IProps> {
                   Under Progress
                 </StrapTooltip>
               </InputGroupAddon>
+             */}
             </InputGroup>
           </Col>
         </Row>

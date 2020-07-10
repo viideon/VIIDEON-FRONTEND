@@ -17,6 +17,7 @@ type IProps = {
   drawer: boolean;
   getEmailConfigurations: () => void;
   logout: () => void;
+  location: any;
 };
 
 class Home extends Component<IProps> {
@@ -27,7 +28,7 @@ class Home extends Component<IProps> {
     const { drawer, logout } = this.props;
     return (
       <div>
-        <SideBar history={this.props.history} />
+        <SideBar history={this.props.history} location={this.props.location} />
         <div
           className={drawer ? "wrapperHomeContent" : "wrapperHomeContentFull"}
         >

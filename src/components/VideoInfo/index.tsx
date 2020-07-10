@@ -3,7 +3,7 @@ import {
   FaRegEnvelopeOpen,
   FaHandPointUp,
   FaEye,
-  FaVideo
+  FaVideo,
 } from "react-icons/fa";
 import { Tooltip } from "@material-ui/core";
 import "./style.css";
@@ -26,17 +26,17 @@ interface IProps {
 const VideoInfo: React.FC<IProps> = ({ video }) => {
   return (
     <div>
-      <Tooltip title="Email Opens" enterDelay={0}>
+      {/* <Tooltip title="Email Opens" enterDelay={0}>
         <span className="firstInfoContainer">
           <span className="itemsInfo">{Constants.ZERO} </span>
           <span className="itemsInfo">
             <FaRegEnvelopeOpen />
           </span>
         </span>
-      </Tooltip>
+      </Tooltip> */}
       <Tooltip title="Email Shared" enterDelay={0}>
         <span className="mainInfoContainer">
-          {Constants.DASH}
+          {/* {Constants.DASH} */}
           <span className="itemsInfo">
             {video && video.emailShareCount ? video.emailShareCount : "0"}{" "}
           </span>
@@ -68,7 +68,7 @@ const VideoInfo: React.FC<IProps> = ({ video }) => {
           </span>
         </span>
       </Tooltip>
-      <Tooltip title="CTA Clicks" enterDelay={0}>
+      {/* <Tooltip title="CTA Clicks" enterDelay={0}>
         <span className="mainInfoContainer">
           {Constants.DASH}
           <span className="itemsInfo">{Constants.ZERO} </span>
@@ -76,7 +76,7 @@ const VideoInfo: React.FC<IProps> = ({ video }) => {
             <MdCheckBoxOutlineBlank />
           </span>
         </span>
-      </Tooltip>
+      </Tooltip> */}
     </div>
   );
 };

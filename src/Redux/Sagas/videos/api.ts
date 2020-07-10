@@ -31,11 +31,11 @@ export async function updateEmailShare(id: any) {
 }
 
 export async function sendVideoToEmail(video: any) {
-  return API.post("/email/send", video);
+  return DEVAPI.post("/email/send", video);
 }
 
 export async function sendMultiEmails(video: any) {
-  return API.post("/email/send", video);
+  return DEVAPI.post("/email/send", video);
 }
 
 export async function getVideos() {
@@ -53,6 +53,11 @@ export async function getCampaignVideos(queryObj: any) {
 }
 export async function getVideosByTitle(queryObj: any) {
   return API.get("/video/user", {
+    params: { id: queryObj.userId, page: queryObj.page, title: queryObj.title },
+  });
+}
+export async function getCampaignVideosByTitle(queryObj: any) {
+  return API.get("/video/campaignVideos", {
     params: { id: queryObj.userId, page: queryObj.page, title: queryObj.title },
   });
 }

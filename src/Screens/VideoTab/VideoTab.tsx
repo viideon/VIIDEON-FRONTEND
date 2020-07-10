@@ -55,7 +55,7 @@ const VideoTab = ({
         <VideoTabHeader />
 
         <Nav tabs id="videoTabWrap">
-          <NavItem>
+          <NavItem className="video-tabs">
             <NavLink
               id="videoTabNavLink"
               className={classnames({ active: activeTab === "1" })}
@@ -71,7 +71,7 @@ const VideoTab = ({
               <p>{Constants.DETAILS}</p>
             </NavLink>
           </NavItem>
-          <NavItem>
+          <NavItem className="video-tabs">
             <NavLink
               id="videoTabNavLink"
               className={classnames({ active: activeTab === "2" })}
@@ -87,7 +87,7 @@ const VideoTab = ({
               <p>{Constants.ANALYTICS}</p>
             </NavLink>
           </NavItem>
-          <NavItem>
+          <NavItem className="video-tabs">
             <NavLink
               id="videoTabNavLink"
               className={classnames({ active: activeTab === "3" })}
@@ -103,7 +103,7 @@ const VideoTab = ({
               <p>{Constants.EDITING}</p>
             </NavLink>
           </NavItem>
-          <NavItem>
+          {/* <NavItem>
             <NavLink
               id="videoTabNavLink"
               className={classnames({ active: activeTab === "4" })}
@@ -150,7 +150,7 @@ const VideoTab = ({
               </span>
               <p>{Constants.VIDEO_REPLIES}</p>
             </NavLink>
-          </NavItem>
+          </NavItem> */}
         </Nav>
         <TabContent activeTab={activeTab}>
           <TabPane tabId="1">

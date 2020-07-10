@@ -157,6 +157,7 @@
 .link-style {
   text-decoration: none;
   color: none;
+  cursor: pointer;
 }
 .link-style:hover {
   text-decoration: none;
