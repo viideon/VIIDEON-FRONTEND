@@ -15,7 +15,8 @@ import {
   updateVideoWatch,
   updateEmailShare,
   getCampaignVideos,
-  campaignCount
+  campaignCount,
+  getCampaignVideosByTitle,
 } from "./api";
 import {
   selectID,
@@ -180,10 +181,15 @@ function* searchUserVideos(action: any) {
   const queryObj = {
     userId: userId,
     page: pageNo,
-    title: action.payload,
+    title: action.payload.title,
   };
   try {
-    const result = yield call(getVideosByTitle, queryObj);
+    let result;
+    if (action.payload.videoType === "allVideos") {
+      result = yield call(getVideosByTitle, queryObj);
+    } else {
+      result = yield call(getCampaignVideosByTitle, queryObj);
+    }
     yield put({ type: types.DISABLE_LOADMORE });
     if (result.status === 200) {
       yield put({

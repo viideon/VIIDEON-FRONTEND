@@ -1,6 +1,6 @@
 import * as CONSTANTS from "../../../constants/baseUrl";
 import API from "../../../lib/Api";
-import DEVAPI from "../../../lib/devApi";
+// import DEVAPI from "../../../lib/devApi";
 import AWS from "aws-sdk";
 import { config } from "../../../config/aws";
 
@@ -53,6 +53,11 @@ export async function getCampaignVideos(queryObj: any) {
 }
 export async function getVideosByTitle(queryObj: any) {
   return API.get("/video/user", {
+    params: { id: queryObj.userId, page: queryObj.page, title: queryObj.title },
+  });
+}
+export async function getCampaignVideosByTitle(queryObj: any) {
+  return API.get("/video/campaignVideos", {
     params: { id: queryObj.userId, page: queryObj.page, title: queryObj.title },
   });
 }

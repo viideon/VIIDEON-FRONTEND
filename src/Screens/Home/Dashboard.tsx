@@ -78,13 +78,16 @@ class Dashboard extends Component<IProps> {
               />
             </Link>
           </Grid>
+
           <Grid item xs={6} md={3}>
-            <HeaderCard
-              styles={Styles.headerCardFour}
-              Number={0}
-              Title="CONTACTS"
-              iconBg="#CC5551"
-            />
+            <Link to="/contacts" className="link-style">
+              <HeaderCard
+                styles={Styles.headerCardFour}
+                Number={0}
+                Title="CONTACTS"
+                iconBg="#CC5551"
+              />
+            </Link>
           </Grid>
         </Grid>
         <Grid container className="wrapperActivityHome">

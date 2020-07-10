@@ -9,6 +9,7 @@ import "./style.css";
 
 type IProps = {
   history: any;
+  location: any;
   drawer: boolean;
   user: UserProfile;
   logout: () => void;
@@ -17,20 +18,24 @@ type IState = { activeTab: string };
 class SideBar extends Component<IProps, IState> {
   constructor(props: any) {
     super(props);
-    this.state = { activeTab: "dashboard" };
+    this.state = { activeTab: "/" };
   }
 
   logout = () => {
     this.props.logout();
   };
-  handleChangeTab = (path: string, title: string) => {
-    this.setState({ activeTab: title });
+  componentDidMount() {}
+  handleChangeTab = (path: string) => {
+    this.setState({ activeTab: path });
     this.props.history.push(path);
   };
   render() {
     const { user } = this.props;
     const { drawer } = this.props;
-
+    var activeSideBar = this.state.activeTab;
+    if (this.props.location.pathname !== activeSideBar) {
+      activeSideBar = this.props.location.pathname;
+    }
     return (
       <div className={drawer ? "MainDrawer" : "MainDrawerHide"}>
         <div className="wrapperProfileSidebar">
@@ -52,13 +57,11 @@ class SideBar extends Component<IProps, IState> {
         <div
           className="OptionIcons dashboardOption"
           onClick={() => {
-            this.handleChangeTab("/", "dashboard");
+            this.handleChangeTab("/");
           }}
           style={{
             backgroundColor:
-              this.state.activeTab === "dashboard"
-                ? "rgb(34, 185, 255) "
-                : undefined
+              activeSideBar === "/" ? "rgb(34, 185, 255) " : undefined,
           }}
         >
           <i className="fas fa-tachometer-alt dashboard" style={iconStyle} />
@@ -67,12 +70,10 @@ class SideBar extends Component<IProps, IState> {
         </div>
         <div
           className="OptionIcons"
-          onClick={() => this.handleChangeTab("/videos", "myVideos")}
+          onClick={() => this.handleChangeTab("/videos")}
           style={{
             backgroundColor:
-              this.state.activeTab === "myVideos"
-                ? "rgb(34, 185, 255) "
-                : undefined
+              activeSideBar === "/videos" ? "rgb(34, 185, 255) " : undefined,
           }}
         >
           <i className="fab fa-microsoft" style={iconStyle} />
@@ -88,12 +89,10 @@ class SideBar extends Component<IProps, IState> {
         </Tooltip>
         <div
           className="OptionIcons"
-          onClick={() => this.handleChangeTab("/contacts", "contacts")}
+          onClick={() => this.handleChangeTab("/contacts")}
           style={{
             backgroundColor:
-              this.state.activeTab === "contacts"
-                ? "rgb(34, 185, 255) "
-                : undefined
+              activeSideBar === "/contacts" ? "rgb(34, 185, 255) " : undefined,
           }}
         >
           <i className="far fa-address-book" style={iconStyle} />
@@ -102,12 +101,10 @@ class SideBar extends Component<IProps, IState> {
         </div>
         <div
           className="OptionIcons"
-          onClick={() => this.handleChangeTab("/campaign", "campaign")}
+          onClick={() => this.handleChangeTab("/campaign")}
           style={{
             backgroundColor:
-              this.state.activeTab === "campaign"
-                ? "rgb(34, 185, 255) "
-                : undefined
+              activeSideBar === "/campaign" ? "rgb(34, 185, 255) " : undefined,
           }}
         >
           <i className="far fa-flag" style={iconStyle} />
@@ -116,14 +113,12 @@ class SideBar extends Component<IProps, IState> {
         </div>
         <div
           className="OptionIcons"
-          onClick={() =>
-            this.handleChangeTab("/configuration", "configuration")
-          }
+          onClick={() => this.handleChangeTab("/configuration")}
           style={{
             backgroundColor:
-              this.state.activeTab === "configuration"
+              activeSideBar === "/configuration"
                 ? "rgb(34, 185, 255) "
-                : undefined
+                : undefined,
           }}
         >
           <i className="fas fa-users-cog" style={iconStyle} />
@@ -161,21 +156,21 @@ const iconStyle = {
   fontSize: "14px",
   width: "1.5em",
   display: "inline-block",
-  color: "#b4bcc8"
+  color: "#b4bcc8",
 };
 const arrowIcon = {
   marginLeft: "auto",
-  marginRight: "12px"
+  marginRight: "12px",
 };
 const mapStateToProps = (state: any) => {
   return {
     user: state.profile.user,
-    drawer: state.drawer.drawer
+    drawer: state.drawer.drawer,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    logout: () => dispatch(logout())
+    logout: () => dispatch(logout()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SideBar);

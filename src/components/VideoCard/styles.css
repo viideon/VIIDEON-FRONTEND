@@ -18,9 +18,11 @@
   -ms-animation: fadein 2s; /* Internet Explorer */
   -o-animation: fadein 2s; /* Opera < 12.1 */
   animation: fadein 2s;
+  box-shadow: 0 0 15px #ccc;
+  border-radius: 3px;
 }
 .videoPreview {
-  height: 140.625px;
+  height: 210px;
   max-width: 100%;
   background: #ededed;
   display: flex;
