@@ -138,7 +138,7 @@ class Profile extends Component<IProps, IState> {
             )}
           </div>
           <div id="profileImgLabelWrap">
-            <Label id="profileImgLabelStyle">
+            <Label id="profileImgLabelStyle" className="profileBtn">
               {Constants.SELECT_NEW_PHOTO}
               <Input
                 type="file"

@@ -245,7 +245,15 @@ class Detail extends React.Component<IProps> {
               <p>
                 {Constants.ADD_TAGS}
                 <i>
-                  <GoInfo />
+                  <Tooltip
+                    title="Organize your videos with tags to enable videos to be filtered in dashboard"
+                    placement="top"
+                    arrow
+                  >
+                    <span>
+                      <GoInfo />
+                    </span>
+                  </Tooltip>
                 </i>
               </p>
             </Col>
