@@ -220,7 +220,7 @@ class Player extends React.Component<IProps, IState> {
     if (this.video.currentTime >= 3 && this.state.watched === false) {
       this.props.watched && this.props.watched();
       this.setState({ watched: true });
-      console.log("watched");
+   
     }
   };
   updateVolumeIcon = () => {
@@ -474,14 +474,14 @@ class Player extends React.Component<IProps, IState> {
                 00:00
               </div>
             </div>
-            <button
+            {/* <button
               className="canvasBtn"
               onClick={this.toggleFullScreen}
               disabled={true}
               style={{ marginLeft: "auto" }}
             >
               <FullscreenIcon />
-            </button>
+            </button> */}
           </div>
         </div>
 
