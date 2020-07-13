@@ -33,6 +33,7 @@ const VideoTab = ({
   getVideo,
   singleVideo,
   cleanSingleVideo,
+  videoCount,
 }: any) => {
   const [activeTab, setActiveTab] = useState("1");
 
@@ -159,7 +160,7 @@ const VideoTab = ({
             </Container>
           </TabPane>
           <TabPane tabId="2">
-            <Analytics singleVideo={singleVideo} />
+            <Analytics singleVideo={singleVideo} videoCount={videoCount} />
           </TabPane>
           <TabPane tabId="3">
             <Editing videoId={params.id} />
@@ -182,6 +183,7 @@ const mapStateToProps = (state: any) => {
   return {
     loadingVideo: state.video.loadingVideo,
     singleVideo: state.video.singleVideo,
+    videoCount: state.video.videoCount,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {

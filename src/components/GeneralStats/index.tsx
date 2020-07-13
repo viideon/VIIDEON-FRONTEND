@@ -4,15 +4,16 @@ import ProgressBar from "../CircularProgressBar";
 import "./style.css";
 interface IProps {
   singleVideo?: any;
+  videoCount: number;
 }
-const GeneralStats: React.FC<IProps> = ({ singleVideo }) => {
-  let watch = singleVideo && singleVideo.watch ? singleVideo.watch : 1;
-  watch = Math.round((watch * 100) / 15);
+const GeneralStats: React.FC<IProps> = ({ singleVideo, videoCount }) => {
+  let watch = singleVideo && singleVideo.watch ? singleVideo.watch : 0;
+  watch = Math.round((watch * 100) / videoCount);
   let emailShare =
     singleVideo && singleVideo.emailShareCount
       ? singleVideo.emailShareCount
-      : 1;
-  emailShare = Math.round((emailShare * 100) / 15);
+      : 0;
+  emailShare = Math.round((emailShare * 100) / videoCount);
   return (
     <div className="wrapperGeneralStats">
       <div className="headGeneralStats">
