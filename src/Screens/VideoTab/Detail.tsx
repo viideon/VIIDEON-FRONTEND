@@ -13,7 +13,7 @@ import { reg } from "../../constants/emailRegEx";
 import {
   sendVideoToEmail,
   sendMultipleEmails,
-  updateVideo
+  updateVideo,
 } from "../../Redux/Actions/videos";
 import { EmailVideo, MultiEmail } from "../../Redux/Types/videos";
 
@@ -34,7 +34,7 @@ class Detail extends React.Component<IProps> {
     emails: [],
     description: "",
     typingTimeout: 0,
-    descriptionLoaded: false
+    descriptionLoaded: false,
   };
 
   componentDidUpdate() {
@@ -45,14 +45,14 @@ class Detail extends React.Component<IProps> {
     ) {
       this.setState({
         description: this.props.video.description,
-        descriptionLoaded: true
+        descriptionLoaded: true,
       });
     }
   }
 
   emailHandler = (event: any) => {
     this.setState({
-      recieverEmail: event.target.value
+      recieverEmail: event.target.value,
     });
   };
 
@@ -66,7 +66,7 @@ class Detail extends React.Component<IProps> {
 
   handleDeleteChip = (delEmail: any) => {
     this.setState({
-      emails: this.state.emails.filter((email: string) => email !== delEmail)
+      emails: this.state.emails.filter((email: string) => email !== delEmail),
     });
   };
   submitEmail = () => {
@@ -81,7 +81,7 @@ class Detail extends React.Component<IProps> {
       const recieverEmail = this.state.recieverEmail;
       const video = {
         videoId: id,
-        recieverEmail
+        recieverEmail,
       };
       this.props.sendVideoToEmail(video);
     }
@@ -98,7 +98,7 @@ class Detail extends React.Component<IProps> {
       const emails = this.state.emails.join();
       const emailVideoObj = {
         recieverEmail: emails,
-        videoId: id
+        videoId: id,
       };
       this.props.sendMultipleEmail(emailVideoObj);
       this.setState({ emails: [] });
@@ -111,14 +111,14 @@ class Detail extends React.Component<IProps> {
       description: e.target.value,
       typingTimeout: setTimeout(function() {
         that.triggerUpdate(that.state.description);
-      }, 2000)
+      }, 2000),
     });
   };
   triggerUpdate = (value: any) => {
     const { id } = this.props.match.params;
     const video = {
       id: id,
-      description: value
+      description: value,
     };
     this.props.updateVideo(video);
   };
@@ -160,7 +160,7 @@ class Detail extends React.Component<IProps> {
                 />
               </FormGroup>
               <Button
-                color="primary"
+                style={{ backgroundColor: "#3598dc", color: "white" }}
                 variant="contained"
                 onClick={this.submitEmail}
               >
@@ -183,12 +183,12 @@ class Detail extends React.Component<IProps> {
                   value={this.state.emails}
                   placeholder="Enter email and press enter"
                   fullWidth
-                  onAdd={chips => this.handleChipAdd(chips)}
-                  onDelete={chip => this.handleDeleteChip(chip)}
+                  onAdd={(chips) => this.handleChipAdd(chips)}
+                  onDelete={(chip) => this.handleDeleteChip(chip)}
                 />
               </FormGroup>
               <Button
-                color="primary"
+                style={{ backgroundColor: "#3598dc", color: "white" }}
                 variant="contained"
                 onClick={this.sendMultipleEmail}
               >
@@ -237,7 +237,15 @@ class Detail extends React.Component<IProps> {
               <p>
                 {Constants.ADD_TAGS}
                 <i>
-                  <GoInfo />
+                  <Tooltip
+                    title="Organize your videos with tags to enable videos to be filtered in dashboard"
+                    placement="top"
+                    arrow
+                  >
+                    <span>
+                      <GoInfo />
+                    </span>
+                  </Tooltip>
                 </i>
               </p>
             </Col>
@@ -252,7 +260,7 @@ const mapStateToProps = (state: any) => {
     progressEmail: state.video.progressEmail,
     loading: state.video.loading,
     isVideoUpdating: state.video.isVideoUpdating,
-    video: state.video.singleVideo
+    video: state.video.singleVideo,
   };
 };
 
@@ -261,7 +269,7 @@ const mapDispatchToProps = (dispatch: any) => {
     sendVideoToEmail: (video: EmailVideo) => dispatch(sendVideoToEmail(video)),
     sendMultipleEmail: (emailVideoObj: MultiEmail) =>
       dispatch(sendMultipleEmails(emailVideoObj)),
-    updateVideo: (video: any) => dispatch(updateVideo(video))
+    updateVideo: (video: any) => dispatch(updateVideo(video)),
   };
 };
 export default withRouter<any, any>(
