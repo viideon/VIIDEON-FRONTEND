@@ -99,11 +99,13 @@ const Header: React.FC<IProps> = ({
               <i className="fas fa-bell" style={iconStyle}></i>
             </span>
           </Tooltip>
-          <Link to="/campaign">
-            <span>
-              <i className="fas fa-flag" style={iconStyle}></i>
-            </span>
-          </Link>
+          <Tooltip title="Campaign">
+            <Link to="/campaign">
+              <span>
+                <i className="fas fa-flag" style={iconStyle}></i>
+              </span>
+            </Link>
+          </Tooltip>
 
           <span>
             <Tooltip title="Under Progress">

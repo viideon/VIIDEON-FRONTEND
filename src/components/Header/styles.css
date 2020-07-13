@@ -76,6 +76,7 @@
 .avatarNav {
   border-radius: 50%;
   width: 35px;
+  height: 35px;
 }
 
 @media only screen and (max-width: 768px) {

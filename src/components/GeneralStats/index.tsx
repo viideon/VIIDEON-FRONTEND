@@ -17,7 +17,7 @@ const GeneralStats: React.FC<IProps> = ({ singleVideo }) => {
     <div className="wrapperGeneralStats">
       <div className="headGeneralStats">
         <h6>General Stats</h6>
-        <FormControl variant="outlined" id="formSelectInput">
+        {/* <FormControl variant="outlined" id="formSelectInput">
           <InputLabel htmlFor="outlined-age-native-simple">
             Filter Range
           </InputLabel>
@@ -27,7 +27,7 @@ const GeneralStats: React.FC<IProps> = ({ singleVideo }) => {
             <option value={20}>Today</option>
             <option value={30}>Yesterday</option>
           </Select>
-        </FormControl>
+        </FormControl> */}
       </div>
       <div className="bodyGeneralStats">
         <Grid container>
@@ -40,17 +40,17 @@ const GeneralStats: React.FC<IProps> = ({ singleVideo }) => {
               />
             </div>
           </Grid>
-          <Grid item xs={6} md={6}>
+          {/* <Grid item xs={6} md={6}>
             <div className="wrapperProgress">
               <ProgressBar width="25%" value={1} heading="CTA Click Rates" />
             </div>
-          </Grid>
+          </Grid> */}
           <Grid item xs={6} md={6}>
             <div className="wrapperProgress">
               <ProgressBar width="25%" value={watch} heading="Watch Rates" />
             </div>
           </Grid>
-          <Grid item xs={6} md={6}>
+          {/* <Grid item xs={6} md={6}>
             <div className="wrapperProgress">
               <ProgressBar width="25%" value={1} heading="Reaction Rates" />
             </div>
@@ -66,7 +66,7 @@ const GeneralStats: React.FC<IProps> = ({ singleVideo }) => {
             <div className="wrapperProgress">
               <ProgressBar width="25%" value={watch} heading="Email Rates" />
             </div>
-          </Grid>
+          </Grid> */}
         </Grid>
       </div>
     </div>
