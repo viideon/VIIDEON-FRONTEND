@@ -58,12 +58,16 @@ class Dashboard extends Component<IProps> {
             </Link>
           </Grid>
           <Grid item xs={6} md={3}>
-            <HeaderCard
-              styles={Styles.headerCardTwo}
-              Number={0}
-              Title="VIEWS"
-              iconBg="#3A966F"
-            />
+            <Tooltip title="Under Progress">
+              <div onClick={() => alert("Feature not created yet")}>
+                <HeaderCard
+                  styles={Styles.headerCardTwo}
+                  Number={0}
+                  Title="VIEWS"
+                  iconBg="#3A966F"
+                />
+              </div>
+            </Tooltip>
           </Grid>
           <Grid item xs={6} md={3}>
             <Link to="/campaign" className="link-style">
@@ -77,14 +81,16 @@ class Dashboard extends Component<IProps> {
           </Grid>
 
           <Grid item xs={6} md={3}>
-            <Link to="/contacts" className="link-style">
-              <HeaderCard
-                styles={Styles.headerCardFour}
-                Number={1}
-                Title="CONTACTS"
-                iconBg="#CC5551"
-              />
-            </Link>
+            <Tooltip title="Under Progress">
+              <div onClick={() => alert("Feature not created yet")}>
+                <HeaderCard
+                  styles={Styles.headerCardFour}
+                  Number={1}
+                  Title="CONTACTS"
+                  iconBg="#CC5551"
+                />
+              </div>
+            </Tooltip>
           </Grid>
         </Grid>
         <Grid container className="wrapperActivityHome">
