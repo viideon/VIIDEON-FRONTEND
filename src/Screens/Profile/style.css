@@ -28,7 +28,7 @@
   display: flex;
   padding-top: 5px;
   padding-bottom: 0%;
-  color: blue;
+  color: #0071bc;
 }
 #infoCircleStyle {
   margin-top: 5px;
@@ -75,7 +75,7 @@
   padding: 20px;
 }
 #yourProfielHead {
-  color: blue;
+  color: #0071bc;
 }
 
 #formInput input {
@@ -121,7 +121,7 @@
 
 /* ------------------------------------------Link Dubb Account-------------------------------- */
 #linkAccountHead {
-  color: blue;
+  color: #0071bc;
 }
 #linkAccountWrap {
   border-radius: 5px;
@@ -134,4 +134,13 @@
   background-color: rgb(48, 126, 156);
   border: none;
   border-radius: 0%;
+}
+.profileBtn {
+  color: #fff;
+  background-color: #3598dc !important;
+  border-color: #3598dc !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+.profileBtn:hover {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.26);
 }

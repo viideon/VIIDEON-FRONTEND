@@ -49,7 +49,7 @@ class Profile extends Component<IProps, IState> {
       webAddress: this.props.profile!.user!.webAddress || "",
       title: this.props.profile!.user!.title || "",
       affiliateId: this.props.profile!.user!.affiliateId || "",
-      url: this.props.profile!.user!.url || ""
+      url: this.props.profile!.user!.url || "",
     };
   }
 
@@ -69,7 +69,7 @@ class Profile extends Component<IProps, IState> {
       webAddress,
       title,
       affiliateId,
-      url
+      url,
     } = this.state;
     const data = {
       email,
@@ -83,7 +83,7 @@ class Profile extends Component<IProps, IState> {
       title,
       affiliateId,
       userId: this.props.profile!.user!._id,
-      url
+      url,
     };
     console.log("data", data);
     this.props.updateProfile(data);
@@ -95,7 +95,7 @@ class Profile extends Component<IProps, IState> {
       Bucket: config.bucketName,
       ACL: config.ACL,
       Key: Date.now().toString(),
-      Body: e.target.files[0]
+      Body: e.target.files[0],
     };
     s3.upload(options, function(err: any, data: any) {
       if (err) {
@@ -133,7 +133,7 @@ class Profile extends Component<IProps, IState> {
             )}
           </div>
           <div id="profileImgLabelWrap">
-            <Label id="profileImgLabelStyle">
+            <Label id="profileImgLabelStyle" className="profileBtn">
               {Constants.SELECT_NEW_PHOTO}
               <Input
                 type="file"
@@ -267,7 +267,11 @@ class Profile extends Component<IProps, IState> {
                     <a href="/profile"> {Constants.PROFILE_URL}</a>
                   </p>
                 </FormGroup>
-                <Button id="yourProfileUpdateBtn" onClick={() => this.update()}>
+                <Button
+                  id="yourProfileUpdateBtn"
+                  className="profileBtn"
+                  onClick={() => this.update()}
+                >
                   {Constants.UPDATE}
                 </Button>
               </Form>
@@ -284,13 +288,13 @@ class Profile extends Component<IProps, IState> {
 }
 const mapStateToProps = (state: any) => {
   return {
-    profile: state.profile
+    profile: state.profile,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
     updateProfile: (userProfile: UserProfile) =>
-      dispatch(updateProfileUser(userProfile))
+      dispatch(updateProfileUser(userProfile)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
