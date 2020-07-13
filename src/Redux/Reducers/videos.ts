@@ -146,8 +146,6 @@ const videoReducer = (state = initialState, action: any) => {
       return { ...state, loadingVideo: true };
     case types.GET_VIDEO_SUCCESS:
       return { ...state, loadingVideo: false, singleVideo: action.payload };
-    case types.GET_VIDEO_FAILURE:
-      return { ...state, loadingVideo: false };
     case types.GET_SAVED_VIDEO_ID:
       return { ...state, savedVideoId: action.payload };
     case types.SEND_MULTIPLE_EMAIL:

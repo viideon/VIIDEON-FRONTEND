@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { reg } from "../../constants/emailRegEx";
 import Loading from "../../components/Loading";
 import { loginUser, verifyUser, resendEmail } from "../../Redux/Actions/auth";
-import { AuthState, User } from "../../Redux/Types/auth";
+import { User } from "../../Redux/Types/auth";
 import ActionButton from "../../components/Reusable/ActionButton";
 import "./style.css";
 import VerifySuccessModal from "../../components/Modals/verifySuccessModal";
@@ -39,7 +39,7 @@ class Signin extends React.Component<IProps, IState> {
       passwordError: false,
       invalidEmailError: false,
       verifySuccessModals: false,
-      resendVerificationEmail: false,
+      resendVerificationEmail: false
     };
   }
   componentDidMount() {
@@ -89,7 +89,7 @@ class Signin extends React.Component<IProps, IState> {
     else {
       const user = {
         email,
-        password,
+        password
       };
 
       this.props.login(user);
@@ -222,20 +222,20 @@ const inputStyle = {
   borderRadius: "10rem",
   borderWidth: 0,
   borderColor: "white",
-  boxShadow: "white",
+  boxShadow: "white"
 };
 const iconStyle = { width: "5%", margin: 10 };
 const mapStateToProps = (state: any) => {
   return {
     auth: state.auth,
-    verifyState: state.auth.verify,
+    verifyState: state.auth.verify
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
     login: (user: User) => dispatch(loginUser(user)),
     verifyUser: (token: any) => dispatch(verifyUser(token)),
-    resendEmail: (email: any) => dispatch(resendEmail(email)),
+    resendEmail: (email: any) => dispatch(resendEmail(email))
   };
 };
 

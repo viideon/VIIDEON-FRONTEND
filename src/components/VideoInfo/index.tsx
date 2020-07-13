@@ -1,13 +1,13 @@
 import React from "react";
 import {
-  FaRegEnvelopeOpen,
+  // FaRegEnvelopeOpen,
   FaHandPointUp,
   FaEye,
-  FaVideo,
+  FaVideo
 } from "react-icons/fa";
 import { Tooltip } from "@material-ui/core";
 import "./style.css";
-import { MdCheckBoxOutlineBlank } from "react-icons/md";
+// import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import * as Constants from "../../constants/constants";
 interface Video {
   url: string;

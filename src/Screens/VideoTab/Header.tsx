@@ -4,19 +4,19 @@ import {
   Col,
   Button,
   Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
-  Tooltip as StrapTooltip,
+  // InputGroupAddon,
+  // InputGroupText,
+  InputGroup
+  // Tooltip as StrapTooltip
 } from "reactstrap";
-import { FaMailBulk, FaPencilAlt, FaDownload } from "react-icons/fa";
+// import { FaMailBulk, FaPencilAlt, FaDownload } from "react-icons/fa";
 import { toast } from "react-toastify";
 import VideoInfo from "../../components/VideoInfo";
-import { FiExternalLink } from "react-icons/fi";
+// import { FiExternalLink } from "react-icons/fi";
 import { connect } from "react-redux";
-import Tooltip from "@material-ui/core/Tooltip";
+// import Tooltip from "@material-ui/core/Tooltip";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import * as Constants from "../../constants/constants";
+// import * as Constants from "../../constants/constants";
 import VideoPlayer from "../../components/VideoPlayer";
 import CanvasPlayer from "../../components/CanvasPlayer";
 import styles from "./style";
@@ -59,7 +59,7 @@ class VideoTabHeader extends React.Component<IProps> {
   };
 
   state = {
-    tooltipOpen: false,
+    tooltipOpen: false
   };
   toggle = () => {
     this.setState({ tooltipOpen: !this.state.tooltipOpen });
@@ -77,7 +77,7 @@ class VideoTabHeader extends React.Component<IProps> {
                     style={{
                       display: "flex",
                       justifyContent: "center",
-                      textAlign: "center",
+                      textAlign: "center"
                     }}
                   >
                     <CircularProgress color="primary" />
@@ -175,7 +175,7 @@ class VideoTabHeader extends React.Component<IProps> {
 
 const mapStateToProps = (state: any) => {
   return {
-    video: state.video.singleVideo,
+    video: state.video.singleVideo
   };
 };
 

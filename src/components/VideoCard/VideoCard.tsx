@@ -71,7 +71,7 @@ const VideoCard: FC<IProps> = ({
     );
     toast.info("Url copied to clipboard");
   };
-  var backImage = thumbnail ? thumbnail : thumbnailDefault;
+
   return (
     <div className="wrapperVideoCard">
       <div className="videoPreview" onClick={onClick}>

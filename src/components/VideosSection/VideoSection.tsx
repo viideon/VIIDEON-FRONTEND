@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import moment from "moment";
 import {
   Grid,
-  Input,
-  InputAdornment,
-  Checkbox,
-  Tooltip,
-  OutlinedInput,
+  // Input,
+  // InputAdornment,
+  // Checkbox,
+  Tooltip
+  // OutlinedInput,
 } from "@material-ui/core";
 import DeleteDialog from "../Reusable/DeleteDialog";
 import {
@@ -15,12 +15,12 @@ import {
   resetPage,
   searchUserVideos,
   deleteVideo,
-  emptyPage,
+  emptyPage
 } from "../../Redux/Actions/videos";
 import { thumbnailDefault } from "../../constants/constants";
 import VideoCard from "../VideoCard/VideoCard";
 import Loading from "../Loading";
-import SearchIcon from "@material-ui/icons/Search";
+// import SearchIcon from "@material-ui/icons/Search";
 import AddIcon from "@material-ui/icons/Add";
 import ListIcon from "@material-ui/icons/List";
 import AppsIcon from "@material-ui/icons/Apps";
@@ -47,7 +47,7 @@ class VideoSection extends Component<IProps> {
   state = {
     searchText: "",
     gridView: true,
-    deleteDialog: false,
+    deleteDialog: false
   };
   constructor(props: any) {
     super(props);
@@ -78,7 +78,7 @@ class VideoSection extends Component<IProps> {
     if (e.target.value) {
       this.props.searchUserVideos({
         title: e.target.value,
-        videoType: this.props.videoType,
+        videoType: this.props.videoType
       });
     } else {
       this.props.emptyPage();
@@ -180,9 +180,9 @@ class VideoSection extends Component<IProps> {
             <table className="tableList">
               <thead>
                 <tr>
-                  <th>
+                  {/* <th>
                     <Checkbox color="primary" />
-                  </th>
+                  </th> */}
                   <th>Video</th>
                   <th>Title</th>
                   <th>Tags</th>
@@ -226,7 +226,7 @@ const mapStateToProps = (state: any) => {
     loadingVideos: state.video.loadingVideos,
     loadMore: state.video.loadMore,
     deletingVideo: state.video.deletingVideo,
-    showDeleteDialog: state.video.showDeleteDialog,
+    showDeleteDialog: state.video.showDeleteDialog
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
@@ -235,7 +235,7 @@ const mapDispatchToProps = (dispatch: any) => {
     resetPage: () => dispatch(resetPage()),
     deleteVideo: (id: any) => dispatch(deleteVideo(id)),
     searchUserVideos: (title: any) => dispatch(searchUserVideos(title)),
-    emptyPage: () => dispatch(emptyPage()),
+    emptyPage: () => dispatch(emptyPage())
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(VideoSection);
@@ -257,7 +257,7 @@ const ListViewCard: React.FC<IPropsListCard> = ({
   id,
   date,
   deletingVideo,
-  navigateToVideo,
+  navigateToVideo
 }) => {
   const [open, setOpen] = React.useState(false);
   const deleteAction = () => {
@@ -284,9 +284,9 @@ const ListViewCard: React.FC<IPropsListCard> = ({
         deleteVideo={deleteAction}
       />
 
-      <td>
+      {/* <td>
         <Checkbox color="primary" />
-      </td>
+      </td> */}
       <td className="centerContent">
         <img
           className="previewList"

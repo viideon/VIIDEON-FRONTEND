@@ -7,16 +7,16 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Container,
+  Container
 } from "reactstrap";
 import classnames from "classnames";
 import {
   FaInfo,
   FaChartLine,
-  FaCut,
-  FaPalette,
-  FaRegEye,
-  FaReply,
+  FaCut
+  // FaPalette,
+  // FaRegEye,
+  // FaReply,
 } from "react-icons/fa";
 import VideoTabHeader from "./Header";
 import Detail from "./Detail";
@@ -32,7 +32,7 @@ const VideoTab = ({
   match: { params },
   getVideo,
   singleVideo,
-  cleanSingleVideo,
+  cleanSingleVideo
 }: any) => {
   const [activeTab, setActiveTab] = useState("1");
 
@@ -181,13 +181,13 @@ const VideoTab = ({
 const mapStateToProps = (state: any) => {
   return {
     loadingVideo: state.video.loadingVideo,
-    singleVideo: state.video.singleVideo,
+    singleVideo: state.video.singleVideo
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getVideo: (id: any) => dispatch(getVideo(id)),
-    cleanSingleVideo: () => dispatch(cleanSingleVideo()),
+    cleanSingleVideo: () => dispatch(cleanSingleVideo())
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(VideoTab);

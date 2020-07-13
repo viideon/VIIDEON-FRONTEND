@@ -3,19 +3,16 @@ import Grid from "@material-ui/core/Grid";
 import { Form, FormGroup, Label, Alert, Input } from "reactstrap";
 import * as Constants from "../../constants/constants";
 import { connect } from "react-redux";
-import { reg } from "../../constants/emailRegEx";
 import Loading from "../../components/Loading";
 import { forgotPassword } from "../../Redux/Actions/auth";
-import { AuthState, User } from "../../Redux/Types/auth";
 import ActionButton from "../../components/Reusable/ActionButton";
 import "./style.css";
-import VerifySuccessModal from "../../components/Modals/verifySuccessModal";
 import * as Yup from "yup";
 import { Formik } from "formik";
 const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email("Enter Correct Email")
-    .required("Enter Email"),
+    .required("Enter Email")
 });
 type IProps = {
   navigation: any;
@@ -41,7 +38,7 @@ class ForgotPassword extends React.Component<IProps, IState> {
       emailError: false,
       passwordError: false,
       invalidEmailError: false,
-      verifySuccessModals: false,
+      verifySuccessModals: false
     };
   }
   componentDidUpdate(prevProps: any) {
@@ -60,7 +57,6 @@ class ForgotPassword extends React.Component<IProps, IState> {
 
   render() {
     const { loading } = this.props.auth;
-    const { emailError, passwordError, invalidEmailError } = this.state;
     return (
       <div>
         <Grid container>
@@ -93,16 +89,16 @@ class ForgotPassword extends React.Component<IProps, IState> {
                 {loading && <Loading />}
               </div>
               <Formik
-                onSubmit={(values) => {
+                onSubmit={values => {
                   console.log(values);
                   this.props.forgotPassword({ email: values.email });
                 }}
                 initialValues={{
-                  email: "",
+                  email: ""
                 }}
                 validationSchema={validationSchema}
               >
-                {(formik) => (
+                {formik => (
                   <Form style={{ width: "80%" }}>
                     <FormGroup>
                       <Label for="exampleEmail" style={{ fontWeight: "bold" }}>
@@ -156,17 +152,17 @@ const inputStyle = {
   borderRadius: "10rem",
   borderWidth: 0,
   borderColor: "white",
-  boxShadow: "white",
+  boxShadow: "white"
 };
 const iconStyle = { width: "5%", margin: 10 };
 const mapStateToProps = (state: any) => {
   return {
-    auth: state.auth,
+    auth: state.auth
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    forgotPassword: (email: any) => dispatch(forgotPassword(email)),
+    forgotPassword: (email: any) => dispatch(forgotPassword(email))
   };
 };
 
