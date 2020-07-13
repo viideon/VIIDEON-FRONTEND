@@ -1,6 +1,6 @@
 import React from "react";
-import { FormGroup, Label, Input, Col, Form } from "reactstrap";
-import { Button, Grid, Tooltip } from "@material-ui/core";
+import { FormGroup, Label, Input, Col, Form, Button } from "reactstrap";
+import { Grid, Tooltip } from "@material-ui/core";
 import Loading from "../../components/Loading";
 import HelpIcon from "@material-ui/icons/Help";
 import { withRouter } from "react-router-dom";
@@ -160,8 +160,12 @@ class Detail extends React.Component<IProps> {
                 />
               </FormGroup>
               <Button
-                color="primary"
-                variant="contained"
+                style={{
+                  border: "none",
+                  background: "#16B272",
+                  color: "rgb(255, 255, 255)"
+                }}
+                size="lg"
                 onClick={this.submitEmail}
               >
                 {Constants.SEND_THROUGH_EMAIL}
@@ -188,8 +192,12 @@ class Detail extends React.Component<IProps> {
                 />
               </FormGroup>
               <Button
-                color="primary"
-                variant="contained"
+                style={{
+                  border: "none",
+                  background: "#16B272",
+                  color: "#fff"
+                }}
+                size="lg"
                 onClick={this.sendMultipleEmail}
               >
                 Broadcast
@@ -226,7 +234,7 @@ class Detail extends React.Component<IProps> {
               </p>
             </Col>
           </FormGroup>
-          <FormGroup row style={{ margin: "30px" }}>
+          {/* <FormGroup row style={{ margin: "30px" }}>
             <Col xs={3} md={2} className="colDetailTab">
               <Label for="exampleText" id="descriptionLabel">
                 {Constants.TAG}
@@ -241,7 +249,7 @@ class Detail extends React.Component<IProps> {
                 </i>
               </p>
             </Col>
-          </FormGroup>
+          </FormGroup> */}
         </Form>
       </div>
     );

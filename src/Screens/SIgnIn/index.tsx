@@ -145,7 +145,7 @@ class Signin extends React.Component<IProps, IState> {
                       style={{ textDecoration: "underline", cursor: "pointer" }}
                     >
                       Click here
-                    </a>{" "}
+                    </a>
                     to resend
                   </Alert>
                 )}
@@ -184,6 +184,7 @@ class Signin extends React.Component<IProps, IState> {
                       placeholder="Password"
                       onChange={this.onChange}
                       style={inputStyle}
+                      autoComplete="new-password"
                     />
                     <i className="w3-xxlarge fa fa-key" style={iconStyle}></i>
                   </div>

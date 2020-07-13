@@ -3,8 +3,6 @@ import { connect } from "react-redux";
 import moment from "moment";
 import {
   Grid,
-  // Input,
-  // InputAdornment,
   // Checkbox,
   Tooltip
   // OutlinedInput,
@@ -20,7 +18,6 @@ import {
 import { thumbnailDefault } from "../../constants/constants";
 import VideoCard from "../VideoCard/VideoCard";
 import Loading from "../Loading";
-// import SearchIcon from "@material-ui/icons/Search";
 import AddIcon from "@material-ui/icons/Add";
 import ListIcon from "@material-ui/icons/List";
 import AppsIcon from "@material-ui/icons/Apps";
@@ -120,15 +117,7 @@ class VideoSection extends Component<IProps> {
         <div className="mainHeadingWrapper">
           <div style={{ display: "flex" }}>
             <span className="Header">{videoTitle}</span>
-            {/* <Input
-              placeholder="Search"
-              onChange={this.searchVideos}
-              endAdornment={
-                <InputAdornment position="end">
-                  <SearchIcon />
-                </InputAdornment>
-              }
-            /> */}
+
             <div className="sb-example-3">
               <div className="search__container">
                 <input

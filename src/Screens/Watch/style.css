@@ -6,21 +6,21 @@
   top: 10px;
   right: 20px;
 }
-.containerWatch {
-  padding-top: 85px;
-  height: 100vh;
+.contentWatch {
   background: #c9d6ff;
   background: -webkit-linear-gradient(to bottom, #e2e2e2, #c9d6ff);
   background: linear-gradient(to bottom, #e2e2e2, #c9d6ff);
 }
+.containerWatch {
+  padding-top: 85px;
+  min-height: calc(100vh - 40px);
+}
 .footerWatch {
-  position: fixed;
-  bottom: 0;
   width: 100%;
-  height: 38px;
+  height: 40px;
   display: flex;
-  /* font-variant: jis04; */
   justify-content: center;
+  align-items: center;
 }
 .footerWatch span {
   margin-right: 3px;
@@ -33,10 +33,6 @@
   box-shadow: 0 0 17px #cdcdcd;
 }
 .descriptionWatch p {
-  font-size: 18px;
   word-spacing: 1px;
   color: #000000;
-}
-.descriptionWatch h3 {
-  text-align: center;
 }

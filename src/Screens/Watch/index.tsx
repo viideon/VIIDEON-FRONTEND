@@ -42,55 +42,57 @@ class Watch extends React.Component<IProps> {
   render() {
     const { video, loadingVideo } = this.props;
     return (
-      <div className="containerWatch">
-        <Grid container>
-          <Grid item md={3} sm={2} xs={1}></Grid>
-          <Grid item md={6} sm={8} xs={10}>
-            {loadingVideo && (
-              <div style={{ marginLeft: "45%", marginTop: "20%" }}>
-                <Loading />
-              </div>
-            )}
-            {video && !video.campaign && (
-              <VideoPlayer
-                url={video.url}
-                thumbnail={video.thumbnail}
-                height={350}
-                watched={this.watched}
-              />
-            )}
-            <div
-              ref="container"
-              style={{
-                height: "400px",
-                width: "100%"
-              }}
-            >
-              {video && video.campaign && (
-                <CanvasPlayer
-                  muted={false}
-                  autoPlay={false}
-                  loop={false}
-                  src={video.url}
-                  logoProps={video.logoProps}
-                  textProps={video.textProps}
+      <div className="contentWatch">
+        <div className="containerWatch">
+          <Grid container>
+            <Grid item md={3} sm={2} xs={1}></Grid>
+            <Grid item md={6} sm={8} xs={10}>
+              {loadingVideo && (
+                <div style={{ marginLeft: "45%", marginTop: "20%" }}>
+                  <Loading />
+                </div>
+              )}
+              {video && !video.campaign && (
+                <VideoPlayer
+                  url={video.url}
                   thumbnail={video.thumbnail}
+                  height={350}
                   watched={this.watched}
                 />
               )}
-            </div>
-            {!loadingVideo && !video && (
-              <h3 style={{ textAlign: "center" }}>No Video to display</h3>
-            )}
-            {video && video.description && (
-              <div className="descriptionWatch">
-                <h3>{video.title}</h3>
-                <p>{video.description}</p>
+              <div
+                ref="container"
+                style={{
+                  height: "400px",
+                  width: "100%"
+                }}
+              >
+                {video && video.campaign && (
+                  <CanvasPlayer
+                    muted={false}
+                    autoPlay={false}
+                    loop={false}
+                    src={video.url}
+                    logoProps={video.logoProps}
+                    textProps={video.textProps}
+                    thumbnail={video.thumbnail}
+                    watched={this.watched}
+                  />
+                )}
               </div>
-            )}
+              {!loadingVideo && !video && (
+                <h3 style={{ textAlign: "center" }}>No Video to display</h3>
+              )}
+              {video && (
+                <div className="descriptionWatch">
+                  <h3>{video.title}</h3>
+                  {video.description && <p>{video.description}</p>}
+                </div>
+              )}
+            </Grid>
+            <Grid item md={3} sm={2} xs={1}></Grid>
           </Grid>
-          <Grid item md={3} sm={2} xs={1}></Grid>
-        </Grid>
+        </div>
         <div className="footerWatch">
           <span>Powered By </span>
           <a href="https://vidionpro.000webhostapp.com">vidionPro</a>

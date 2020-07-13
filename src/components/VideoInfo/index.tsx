@@ -1,13 +1,12 @@
 import React from "react";
 import {
-  // FaRegEnvelopeOpen,
-  FaHandPointUp,
+  FaRegEnvelopeOpen,
+  // FaHandPointUp,
   FaEye,
   FaVideo
 } from "react-icons/fa";
 import { Tooltip } from "@material-ui/core";
 import "./style.css";
-// import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import * as Constants from "../../constants/constants";
 interface Video {
   url: string;
@@ -42,7 +41,7 @@ const VideoInfo: React.FC<IProps> = ({ video }) => {
           </span>
 
           <span className="itemsInfo">
-            <FaHandPointUp />
+            <FaRegEnvelopeOpen />
           </span>
         </span>
       </Tooltip>

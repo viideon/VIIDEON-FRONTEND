@@ -365,14 +365,19 @@ class UploadRecord extends Component<IProps, IState> {
                                       onChange={this.titleNameHandler}
                                     />
                                   </FormGroup>
-                                  <Button
-                                    variant="contained"
-                                    color="primary"
-                                    style={{ marginBottom: "8px" }}
-                                    onClick={this.fileHandler}
-                                  >
-                                    {Constants.SAVE_VIDEO}
-                                  </Button>
+                                  <StrapButton
+                  style={{
+                    border: "none",
+                    background: "rgb(34, 185, 255)",
+                    color: "rgb(255, 255, 255)"
+                  }}
+                  disabled={this.state.videoProgress || loading}
+                  size="lg"
+                  onClick={this.fileHandler}
+                >
+                  Save Video
+                </StrapButton>
+                               
                                 </div>
                               )}
 
@@ -431,13 +436,17 @@ class UploadRecord extends Component<IProps, IState> {
                                       }
                                     />
                                   </FormGroup>
-                                  <Button
-                                    color="primary"
-                                    variant="contained"
+                                  <StrapButton
+                                    style={{
+                                      border: "none",
+                                      background: "#16B272",
+                                      color: "#fff"
+                                    }}
+                                    size="lg"
                                     onClick={this.sendMultipleEmail}
                                   >
                                     Broadcast
-                                  </Button>
+                                  </StrapButton>
                                   <FormGroup>
                                     <StrapButton
                                       style={{
@@ -500,14 +509,19 @@ class UploadRecord extends Component<IProps, IState> {
                               onChange={this.titleNameHandler}
                             />
                           </FormGroup>
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            style={{ marginBottom: "8px" }}
-                            onClick={this.saveVideo}
-                          >
-                            {Constants.SAVE_VIDEO}
-                          </Button>
+                          <StrapButton
+                  style={{
+                    border: "none",
+                    background: "rgb(34, 185, 255)",
+                    color: "rgb(255, 255, 255)"
+                  }}
+                  disabled={this.state.videoProgress || loading}
+                  size="lg"
+                  onClick={this.saveVideo}
+                >
+                  Save Video
+                </StrapButton>
+                         
                         </div>
                       )}
 
@@ -536,13 +550,17 @@ class UploadRecord extends Component<IProps, IState> {
                             />
                           </FormGroup>
 
-                          <Button
-                            color="primary"
-                            variant="contained"
+                          <StrapButton
+                            style={{
+                              border: "none",
+                              background: "#16B272",
+                              color: "rgb(255, 255, 255)"
+                            }}
+                            size="lg"
                             onClick={this.submitEmail}
                           >
                             {Constants.SEND_THROUGH_EMAIL}
-                          </Button>
+                          </StrapButton>
                           <FormGroup className="formGroupMultiple">
                             <Label className="labelUploadSection">
                               Broadcast
@@ -564,13 +582,17 @@ class UploadRecord extends Component<IProps, IState> {
                               onDelete={chip => this.handleDeleteChip(chip)}
                             />
                           </FormGroup>
-                          <Button
-                            color="primary"
-                            variant="contained"
+                          <StrapButton
+                            style={{
+                              border: "none",
+                              background: "#16B272",
+                              color: "#fff"
+                            }}
+                            size="lg"
                             onClick={this.sendMultipleEmail}
                           >
                             Broadcast
-                          </Button>
+                          </StrapButton>
                           <FormGroup>
                             <StrapButton
                               style={{
@@ -594,19 +616,7 @@ class UploadRecord extends Component<IProps, IState> {
               </div>
             )}
             <div style={styles.recorder} className="recorderWrapper">
-              {/* <VideoRecorder
-                isOnInitially={false}
-                showReplayControls
-                replayVideoAutoplayAndLoopOff
-                isReplayVideoInitiallyMuted={false}
-                onRecordingComplete={(videoBlob: any) => {
-                  // Do something with the video...
-                  this.props.toggleSendVariable();
-                  this.getThumbnail(videoBlob);
-                  this.setState({ videoRecord: videoBlob });
-                  // this.getSeekableBlob(videoBlob);
-                }}
-              /> */}
+       
               <VideoRecorder
                 getBlob={(blob: any) => {
                   this.props.toggleSendVariable();

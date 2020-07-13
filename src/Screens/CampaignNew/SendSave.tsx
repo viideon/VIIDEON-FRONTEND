@@ -247,10 +247,11 @@ class SendSave extends React.Component<IProps> {
                     background: "rgb(34, 185, 255)",
                     color: "rgb(255, 255, 255)"
                   }}
+                  disabled={this.state.videoProgress || loading}
                   size="lg"
                   onClick={this.saveVideo}
                 >
-                  {Constants.SAVE_VIDEO}
+                  Save Campaign
                 </Button>
               </div>
             )}

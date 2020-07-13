@@ -61,7 +61,7 @@ class SideBar extends Component<IProps, IState> {
           }}
           style={{
             backgroundColor:
-              activeSideBar === "/" ? "rgb(34, 185, 255) " : undefined,
+              activeSideBar === "/" ? "rgb(34, 185, 255) " : undefined
           }}
         >
           <i className="fas fa-tachometer-alt dashboard" style={iconStyle} />
@@ -73,38 +73,38 @@ class SideBar extends Component<IProps, IState> {
           onClick={() => this.handleChangeTab("/videos")}
           style={{
             backgroundColor:
-              activeSideBar === "/videos" ? "rgb(34, 185, 255) " : undefined,
+              activeSideBar === "/videos" ? "rgb(34, 185, 255) " : undefined
           }}
         >
           <i className="fab fa-microsoft" style={iconStyle} />
           <span className="IconNameStyling">My Videos</span>
           <i className="fas fa-angle-left" style={arrowIcon}></i>
         </div>
-        <Tooltip title="Under Progress" enterDelay={0}>
+        {/* <Tooltip title="Under Progress" enterDelay={0}>
           <div className="OptionIcons" onClick={() => alert("Under Progress")}>
             <i className="fa fa-envelope" style={iconStyle} />
             <span className="IconNameStyling">My Messages</span>
             <i className="fas fa-angle-left" style={arrowIcon}></i>
           </div>
-        </Tooltip>
-        <div
+        </Tooltip> */}
+        {/* <div
           className="OptionIcons"
           onClick={() => this.handleChangeTab("/contacts")}
           style={{
             backgroundColor:
-              activeSideBar === "/contacts" ? "rgb(34, 185, 255) " : undefined,
+              activeSideBar === "/contacts" ? "rgb(34, 185, 255) " : undefined
           }}
         >
           <i className="far fa-address-book" style={iconStyle} />
           <span className="IconNameStyling">Connections</span>
           <i className="fas fa-angle-left" style={arrowIcon}></i>
-        </div>
+        </div> */}
         <div
           className="OptionIcons"
           onClick={() => this.handleChangeTab("/campaign")}
           style={{
             backgroundColor:
-              activeSideBar === "/campaign" ? "rgb(34, 185, 255) " : undefined,
+              activeSideBar === "/campaign" ? "rgb(34, 185, 255) " : undefined
           }}
         >
           <i className="far fa-flag" style={iconStyle} />
@@ -118,21 +118,21 @@ class SideBar extends Component<IProps, IState> {
             backgroundColor:
               activeSideBar === "/configuration"
                 ? "rgb(34, 185, 255) "
-                : undefined,
+                : undefined
           }}
         >
           <i className="fas fa-users-cog" style={iconStyle} />
           <span className="IconNameStyling">Configuration</span>
           <i className="fas fa-angle-left" style={arrowIcon}></i>
         </div>
-        <Tooltip title="Under Progress" enterDelay={0}>
+        {/* <Tooltip title="Under Progress" enterDelay={0}>
           <div className="OptionIcons" onClick={() => alert("Under Progress")}>
             <i className="fas fa-chart-pie" style={iconStyle} />
             <span className="IconNameStyling">My Stats</span>
             <i className="fas fa-angle-left" style={arrowIcon}></i>
           </div>
-        </Tooltip>
-        <Tooltip title="Under Progress" enterDelay={0}>
+        </Tooltip> */}
+        {/* <Tooltip title="Under Progress" enterDelay={0}>
           <div
             className="OptionIcons assetLibrary"
             onClick={() => alert("Under Progress")}
@@ -141,7 +141,7 @@ class SideBar extends Component<IProps, IState> {
             <span className="IconNameStyling">Asset Library</span>
             <i className="fas fa-angle-left" style={arrowIcon}></i>
           </div>
-        </Tooltip>
+        </Tooltip> */}
 
         <div className="OptionIcons" onClick={this.logout}>
           <i className="fa fa-user-circle-o" style={iconStyle} />
@@ -156,21 +156,21 @@ const iconStyle = {
   fontSize: "14px",
   width: "1.5em",
   display: "inline-block",
-  color: "#b4bcc8",
+  color: "#b4bcc8"
 };
 const arrowIcon = {
   marginLeft: "auto",
-  marginRight: "12px",
+  marginRight: "12px"
 };
 const mapStateToProps = (state: any) => {
   return {
     user: state.profile.user,
-    drawer: state.drawer.drawer,
+    drawer: state.drawer.drawer
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    logout: () => dispatch(logout()),
+    logout: () => dispatch(logout())
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SideBar);

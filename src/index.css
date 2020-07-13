@@ -4,7 +4,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+body > #root > div {
+  height: 100vh;
+}
 code {
   font-family: "Courier New", "Lato", Menlo, Monaco, Consolas, "Courier New",
     monospace;
