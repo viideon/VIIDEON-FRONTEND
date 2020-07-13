@@ -18,9 +18,9 @@ class Analytics extends React.Component<IProps> {
           {/* <Grid item xs={12} md={6}>
             <VideoViews />
           </Grid> */}
-          <Grid item xs={12} md={12}>
+          {/* <Grid item xs={12} md={12}>
             <ActivityAnalytics />
-          </Grid>
+          </Grid> */}
         </Grid>
       </div>
     );
