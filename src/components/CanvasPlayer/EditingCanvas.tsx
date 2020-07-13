@@ -163,7 +163,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
     }, 0);
     setTimeout(() => {
       this.setCanvasDimensions();
-    }, 11000);
+    }, 4000);
   }
 
   setupListeners(remove?: any) {

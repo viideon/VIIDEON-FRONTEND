@@ -65,7 +65,7 @@ function* saveUserVideo(action: any) {
         type: types.GET_SAVED_VIDEO_ID,
         payload: result.data.video._id,
       });
-      toast.info("Video Saved Successfully");
+      toast.info("Saved Successfully");
     } else {
       yield put({ type: types.VIDEO_SAVE_FAILURE });
       toast.error("Something Went Wrong");

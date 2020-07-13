@@ -65,10 +65,10 @@ const VideoTab = ({
             >
               <span>
                 <i>
-                  <FaInfo id="videoTabIcon" />
+                  <FaCut id="videoTabIcon" />
                 </i>
               </span>
-              <p>{Constants.DETAILS}</p>
+              <p>{Constants.EDITING}</p>
             </NavLink>
           </NavItem>
           <NavItem className="video-tabs">
@@ -81,10 +81,10 @@ const VideoTab = ({
             >
               <span>
                 <i>
-                  <FaChartLine id="videoTabIcon" />
+                  <FaInfo id="videoTabIcon" />
                 </i>
               </span>
-              <p>{Constants.ANALYTICS}</p>
+              <p>{Constants.DETAILS}</p>
             </NavLink>
           </NavItem>
           <NavItem className="video-tabs">
@@ -97,10 +97,10 @@ const VideoTab = ({
             >
               <span>
                 <i>
-                  <FaCut id="videoTabIcon" />
+                  <FaChartLine id="videoTabIcon" />
                 </i>
               </span>
-              <p>{Constants.EDITING}</p>
+              <p>{Constants.ANALYTICS}</p>
             </NavLink>
           </NavItem>
           {/* <NavItem>
@@ -153,15 +153,15 @@ const VideoTab = ({
           </NavItem> */}
         </Nav>
         <TabContent activeTab={activeTab}>
-          <TabPane tabId="1">
+          <TabPane tabId="2">
             <Container>
               <Detail />
             </Container>
           </TabPane>
-          <TabPane tabId="2">
+          <TabPane tabId="3">
             <Analytics singleVideo={singleVideo} />
           </TabPane>
-          <TabPane tabId="3">
+          <TabPane tabId="1">
             <Editing videoId={params.id} />
           </TabPane>
           <TabPane tabId="4">

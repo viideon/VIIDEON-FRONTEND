@@ -46,7 +46,7 @@ class Editing extends React.Component<IProps, IState> {
   container: any;
   componentDidMount() {
     this.container = this.refs.container;
-    setTimeout(() => this.setState({ showVideo: true }), 12000);
+    setTimeout(() => this.setState({ showVideo: true }), 5000);
   }
   componentWillReceiveProps(nextProps: any) {
     if (

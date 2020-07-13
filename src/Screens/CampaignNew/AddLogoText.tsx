@@ -178,7 +178,7 @@ class AddLogo extends React.Component<IProps, IState> {
         return;
       case "top-right":
         x = this.canvas.width - this.img.width - 10;
-        this.setState({ logoX: x, logoY: 0 });
+        this.setState({ logoX: x, logoY: 10 });
         return;
       default:
         return;
