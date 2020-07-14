@@ -3,6 +3,7 @@ import { Input } from "reactstrap";
 
 interface IProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   placeholder?: string;
   name?: string;
   type: any;
@@ -13,7 +14,8 @@ const InputRound: React.FC<IProps> = ({
   placeholder,
   name,
   type,
-  value
+  value,
+  onBlur,
 }) => {
   return (
     <div style={inputWrapper}>
@@ -22,6 +24,7 @@ const InputRound: React.FC<IProps> = ({
         name={name}
         placeholder={placeholder}
         onChange={onChange}
+        onBlur={onBlur}
         style={inputStyle}
         value={value}
       />
@@ -33,7 +36,7 @@ const inputStyle = {
   borderRadius: "10rem",
   borderWidth: 0,
   borderColor: "white",
-  boxShadow: "white"
+  boxShadow: "white",
 };
 const inputWrapper = {
   display: "flex",
@@ -42,6 +45,6 @@ const inputWrapper = {
   borderWidth: "2px",
   borderColor: "#9f55ff",
   borderRadius: "10rem",
-  justifyContent: "space-between"
+  justifyContent: "space-between",
 };
 export default InputRound;

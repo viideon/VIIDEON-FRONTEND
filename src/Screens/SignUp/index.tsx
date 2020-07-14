@@ -11,7 +11,22 @@ import * as Constants from "../../constants/constants";
 import Loading from "../../components/Loading";
 import { reg } from "../../constants/emailRegEx";
 import "./style.css";
-
+import * as Yup from "yup";
+import { Formik } from "formik";
+const validationSchema = Yup.object().shape({
+  password: Yup.string()
+    .required("Enter Password")
+    .min(6, "Password must be 6 characters long"),
+  email: Yup.string()
+    .required("Enter Email")
+    .email("Enter Correct Email"),
+  passwordConfirmation: Yup.string()
+    .required("Enter Confirm Password ")
+    .oneOf([Yup.ref("password")], "Passwords must match"),
+  firstName: Yup.string().required("Enter First Name"),
+  lastName: Yup.string().required("Enter Last Name"),
+  userName: Yup.string().required("Enter User Name"),
+});
 interface IProps {
   registerUser: RegisterState;
   register: (user: User) => void;
@@ -55,7 +70,7 @@ class Signup extends React.Component<IProps, IState> {
       userNameError: false,
       confirmPasswordError: false,
       next: false,
-      showNext: true
+      showNext: true,
     };
   }
 
@@ -80,7 +95,7 @@ class Signup extends React.Component<IProps, IState> {
       userName,
       email,
       password,
-      confirmPassword
+      confirmPassword,
     } = this.state;
     if (firstName === "") this.setState({ firstError: true });
     else if (lastName === "") this.setState({ lastError: true });
@@ -99,16 +114,14 @@ class Signup extends React.Component<IProps, IState> {
         firstName,
         lastName,
         userName,
-        password
+        password,
       };
       this.props.register(user);
     }
   };
-  nextHandler = () => {
-    if (this.state.email === "") {
-      toast.error("Please add an email address");
-    } else if (reg.test(this.state.email) === false) {
-      toast.error("Please add a valid Email Address");
+  nextHandler = (email: any, error: any, touched: any) => {
+    if (error && touched) {
+      toast.error(error);
     } else {
       this.setState({ showNext: false, next: true });
     }
@@ -130,7 +143,7 @@ class Signup extends React.Component<IProps, IState> {
       firstName,
       lastName,
       password,
-      confirmPassword
+      confirmPassword,
     } = this.state;
 
     return (
@@ -170,136 +183,190 @@ class Signup extends React.Component<IProps, IState> {
                 </div>
               </div>
               <div className="loadingWrapper">{loading && <Loading />}</div>
-              <div id="wrapperFormSignup">
-                <FormGroup>
-                  <Label for="exampleEmail" style={{ fontWeight: "bold" }}>
-                    {Constants.EMAIL_BUSINESS}
-                  </Label>
-
-                  <InputRound
-                    type="email"
-                    name="email"
-                    placeholder="Enter your business e-mail"
-                    onChange={this.onChangeHandler}
-                    value={email}
-                  />
-                </FormGroup>
-                {emailError && (
-                  <Alert color="danger">The email field is required</Alert>
-                )}
-                {invalidEmailError && (
-                  <Alert color="danger">{Constants.EMAIL_INVALID}</Alert>
-                )}
-                {this.state.showNext && (
-                  <div className="buttonWrapper">
-                    <Button
-                      color="#9F55FF"
-                      onClick={this.nextHandler}
-                      style={registerBtnStyle}
-                    >
-                      {Constants.NEXT}
-                    </Button>
-                  </div>
-                )}
-                {this.state.next && (
-                  <>
+              <Formik
+                onSubmit={(values) => {
+                  console.log(values);
+                  // const user = {
+                  //   email: values.email,
+                  //   password: values.password,
+                  // };
+                  // this.props.login(user);
+                  const user = {
+                    email: values.email,
+                    firstName: values.firstName,
+                    lastName: values.lastName,
+                    userName: values.userName,
+                    password: values.password,
+                  };
+                  this.props.register(user);
+                }}
+                initialValues={{
+                  password: "",
+                  firstName: "",
+                  lastName: "",
+                  userName: "",
+                  passwordConfirmation: "",
+                  email: "",
+                }}
+                validationSchema={validationSchema}
+              >
+                {(formik) => (
+                  <div id="wrapperFormSignup">
                     <FormGroup>
-                      <Label>{Constants.FIRSTNAME}</Label>
-
-                      <InputRound
-                        type="text"
-                        name="firstName"
-                        placeholder="First Name"
-                        onChange={this.onChangeHandler}
-                        value={firstName}
-                      />
-                    </FormGroup>
-                    {firstError && (
-                      <Alert color="danger">
-                        The first name field is required
-                      </Alert>
-                    )}
-                    <FormGroup>
-                      <Label>{Constants.LASTNAME}</Label>
-
-                      <InputRound
-                        type="text"
-                        name="lastName"
-                        placeholder="Last Name"
-                        onChange={this.onChangeHandler}
-                        value={lastName}
-                      />
-                    </FormGroup>
-                    {lastError && (
-                      <Alert color="danger">
-                        The last name field is required
-                      </Alert>
-                    )}
-                    <FormGroup>
-                      <Label>{Constants.USERNAME}</Label>
-
-                      <InputRound
-                        type="text"
-                        name="userName"
-                        placeholder="User Name"
-                        onChange={this.onChangeHandler}
-                        value={userName}
-                      />
-                    </FormGroup>
-                    {userNameError && (
-                      <Alert color="danger">
-                        The user name field is required
-                      </Alert>
-                    )}
-                    <FormGroup>
-                      <Label for="examplePassword">Password</Label>
-
-                      <InputRound
-                        type="password"
-                        name="password"
-                        placeholder="Password"
-                        onChange={this.onChangeHandler}
-                        value={password}
-                      />
-                    </FormGroup>
-                    {passwordError && (
-                      <Alert color="danger">
-                        The password field is required{" "}
-                      </Alert>
-                    )}
-                    <FormGroup>
-                      <Label for="examplePassword">
-                        {Constants.CONFIRM_PASSWORD}
+                      <Label for="exampleEmail" style={{ fontWeight: "bold" }}>
+                        {Constants.EMAIL_BUSINESS}
                       </Label>
 
                       <InputRound
-                        type="password"
-                        name="confirmPassword"
-                        placeholder="Confirm Password"
-                        onChange={this.onChangeHandler}
-                        value={confirmPassword}
+                        type="email"
+                        name="email"
+                        placeholder="Enter your business e-mail"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.email}
                       />
                     </FormGroup>
-                    {confirmPasswordError && (
-                      <Alert color="danger">Please confirm your password</Alert>
-                    )}
-                    {c_passwordError && (
-                      <Alert color="danger">
-                        Password and confirmation password do not match
-                      </Alert>
-                    )}
-                    <div className="buttonWrapper1">
-                      <Button
-                        color="#9F55FF"
-                        onClick={this.registerHandler}
-                        style={registerBtnStyle}
-                      >
-                        {Constants.REGISTER}
-                      </Button>
+                    <div style={{ width: "69%" }}>
+                      {formik.errors.email && formik.touched.email && (
+                        <Alert color="danger">{formik.errors.email}</Alert>
+                      )}
                     </div>
-                  </>
+                    {this.state.showNext && (
+                      <div className="buttonWrapper">
+                        <Button
+                          color="#9F55FF"
+                          onClick={() =>
+                            this.nextHandler(
+                              formik.values.email,
+                              formik.errors.email,
+                              formik.touched.email
+                            )
+                          }
+                          style={registerBtnStyle}
+                        >
+                          {Constants.NEXT}
+                        </Button>
+                      </div>
+                    )}
+                    {this.state.next && (
+                      <>
+                        <FormGroup>
+                          <Label>{Constants.FIRSTNAME}</Label>
+
+                          <InputRound
+                            type="text"
+                            name="firstName"
+                            placeholder="First Name"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.firstName}
+                          />
+                        </FormGroup>
+                        <div style={{ width: "69%" }}>
+                          {formik.errors.firstName &&
+                            formik.touched.firstName && (
+                              <Alert color="danger">
+                                {formik.errors.firstName}
+                              </Alert>
+                            )}
+                        </div>
+                        <FormGroup>
+                          <Label>{Constants.LASTNAME}</Label>
+
+                          <InputRound
+                            type="text"
+                            name="lastName"
+                            placeholder="Last Name"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.lastName}
+                          />
+                        </FormGroup>
+                        <div style={{ width: "69%" }}>
+                          {formik.errors.lastName &&
+                            formik.touched.lastName && (
+                              <Alert color="danger">
+                                {formik.errors.lastName}
+                              </Alert>
+                            )}
+                        </div>
+                        <FormGroup>
+                          <Label>{Constants.USERNAME}</Label>
+
+                          <InputRound
+                            type="text"
+                            name="userName"
+                            placeholder="User Name"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.userName}
+                          />
+                        </FormGroup>
+                        <div style={{ width: "69%" }}>
+                          {formik.errors.userName &&
+                            formik.touched.userName && (
+                              <Alert color="danger">
+                                {formik.errors.userName}
+                              </Alert>
+                            )}
+                        </div>
+                        <FormGroup>
+                          <Label for="examplePassword">Password</Label>
+
+                          <InputRound
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.password}
+                          />
+                        </FormGroup>
+                        <div style={{ width: "69%" }}>
+                          {formik.errors.password &&
+                            formik.touched.password && (
+                              <Alert color="danger">
+                                {formik.errors.password}
+                              </Alert>
+                            )}
+                        </div>
+                        <FormGroup>
+                          <Label for="examplePassword">
+                            {Constants.CONFIRM_PASSWORD}
+                          </Label>
+
+                          <InputRound
+                            type="password"
+                            name="passwordConfirmation"
+                            placeholder="Confirm Password"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.passwordConfirmation}
+                          />
+                        </FormGroup>
+                        <div style={{ width: "69%" }}>
+                          {formik.errors.passwordConfirmation &&
+                            formik.touched.passwordConfirmation && (
+                              <Alert color="danger">
+                                {formik.errors.passwordConfirmation}
+                              </Alert>
+                            )}
+                        </div>
+
+                        <div className="buttonWrapper1">
+                          <Button
+                            color="#9F55FF"
+                            onClick={formik.handleSubmit}
+                            style={registerBtnStyle}
+                          >
+                            {Constants.REGISTER}
+                          </Button>
+                        </div>
+                      </>
+                    )}
+                  </div>
                 )}
-              </div>
+              </Formik>
             </div>
           </Grid>
         </Grid>
@@ -314,17 +381,17 @@ const registerBtnStyle = {
   float: "right",
   marginBottom: "10px",
   color: "white",
-  borderRadius: "10rem"
+  borderRadius: "10rem",
 } as React.CSSProperties;
 
 const mapStateToProps = (state: any) => {
   return {
-    registerUser: state.register
+    registerUser: state.register,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    register: (user: User) => dispatch(registerUser(user))
+    register: (user: User) => dispatch(registerUser(user)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);
