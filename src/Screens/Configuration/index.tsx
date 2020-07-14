@@ -37,9 +37,10 @@ class Configuration extends React.Component<IProps> {
   responseGoogle = (response: any) => {
     if (response.code) {
       this.props.addEmailConfiguration(response.code);
-    } else {
-      toast.error("Authorziation failed try again");
     }
+  };
+  handleLoginFailure = (response: any) => {
+    toast.error("Failed to authorize , please try again");
   };
   openDeleteDialog = () => {
     this.setState({ deleteDialog: true });
@@ -86,7 +87,7 @@ class Configuration extends React.Component<IProps> {
               )}
               buttonText="Connect to Gmail"
               onSuccess={this.responseGoogle}
-              onFailure={this.responseGoogle}
+              onFailure={this.handleLoginFailure}
               scope={"https://www.googleapis.com/auth/gmail.send"}
               accessType="offline"
               responseType="code"

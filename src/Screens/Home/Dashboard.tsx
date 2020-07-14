@@ -89,7 +89,7 @@ class Dashboard extends Component<IProps> {
               <div onClick={() => alert("Feature not created yet")}>
                 <HeaderCard
                   styles={Styles.headerCardFour}
-                  Number={1}
+                  Number={0}
                   Title="CONTACTS"
                   iconBg="#CC5551"
                 />

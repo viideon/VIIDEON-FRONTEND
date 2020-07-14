@@ -37,16 +37,27 @@ interface IProps {
 }
 
 class Editing extends React.Component<IProps, IState> {
-  state = {
-    file: null,
-    url: "",
-    uploading: false,
-    showVideo: false
-  };
+  _isMounted: any;
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      file: null,
+      url: "",
+      uploading: false,
+      showVideo: false
+    };
+    this._isMounted = false;
+  }
   container: any;
   componentDidMount() {
+    console.log("mounted");
+    this._isMounted = true;
     this.container = this.refs.container;
-    setTimeout(() => this.setState({ showVideo: true }), 5000);
+    this._isMounted &&
+      setTimeout(() => this.setState({ showVideo: true }), 5000);
+  }
+  componentWillUnmount() {
+    this._isMounted = false;
   }
   componentWillReceiveProps(nextProps: any) {
     if (
@@ -110,7 +121,7 @@ class Editing extends React.Component<IProps, IState> {
                 <VideoPlayer
                   url={video.url}
                   thumbnail={video.thumbnail}
-                  height={300}
+                  height={370}
                 />
               )}
               <div

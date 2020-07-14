@@ -141,7 +141,7 @@ class Signin extends React.Component<IProps, IState> {
                     style={{ textDecoration: "underline", cursor: "pointer" }}
                   >
                     Click here
-                  </a>{" "}
+                  </a>
                   &nbsp;to resend .
                 </div>
               )}
@@ -153,7 +153,6 @@ class Signin extends React.Component<IProps, IState> {
                   padding: "20px"
                 }}
               >
-                >
                 {loading && (
                   <span style={{ position: "absolute", top: 0 }}>
                     <Loading />

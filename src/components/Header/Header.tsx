@@ -44,6 +44,10 @@ const Header: React.FC<IProps> = ({
     handleClosePopup();
     setlogoutModal(!logoutModal);
   };
+  const navigateTo = (to: string) => {
+    history.push(`/${to}`);
+    handleClosePopup();
+  };
   const location = useLocation();
   var image =
     loggedInStatus && profile && profile.user && profile.user.url
@@ -129,9 +133,7 @@ const Header: React.FC<IProps> = ({
               open={Boolean(anchorEl)}
               onClose={handleClosePopup}
             >
-              <MenuItem onClick={() => history.push("/profile")}>
-                Profile
-              </MenuItem>
+              <MenuItem onClick={() => navigateTo("profile")}>Profile</MenuItem>
               <MenuItem onClick={() => toggleLogoutModal()}>Logout</MenuItem>
             </Menu>
           </span>
