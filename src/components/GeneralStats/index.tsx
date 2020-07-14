@@ -7,13 +7,17 @@ interface IProps {
   videoCount: number;
 }
 const GeneralStats: React.FC<IProps> = ({ singleVideo, videoCount }) => {
+  console.log(videoCount);
   let watch = singleVideo && singleVideo.watch ? singleVideo.watch : 0;
-  watch = Math.round((watch * 100) / videoCount);
+  watch = videoCount && watch > 0 ? Math.round((watch * 100) / videoCount) : 0;
   let emailShare =
     singleVideo && singleVideo.emailShareCount
       ? singleVideo.emailShareCount
       : 0;
-  emailShare = Math.round((emailShare * 100) / videoCount);
+  emailShare =
+    videoCount && emailShare > 0
+      ? Math.round((emailShare * 100) / videoCount)
+      : 0;
   return (
     <div className="wrapperGeneralStats">
       <div className="headGeneralStats">

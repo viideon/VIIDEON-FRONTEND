@@ -47,7 +47,7 @@ const VideoTab = ({
       cleanSingleVideo();
     };
   }, []);
-
+  console.log(videoCount, "tab");
   return (
     <div className="wrapperVideoTab">
       <Container>
