@@ -14,13 +14,14 @@ import Tooltip from "@material-ui/core/Tooltip";
 type IProps = {
   history: any;
   videoCount: number;
+  viewCount?: number;
   getVideoCount: () => void;
 };
 
 class Dashboard extends Component<IProps> {
   state = {
     showDashboard: true,
-    showVideos: false,
+    showVideos: false
   };
   componentDidMount() {
     this.props.getVideoCount();
@@ -62,7 +63,7 @@ class Dashboard extends Component<IProps> {
               <div onClick={() => alert("Feature not created yet")}>
                 <HeaderCard
                   styles={Styles.headerCardTwo}
-                  Number={0}
+                  Number={this.props.viewCount ? this.props.viewCount : 0}
                   Title="VIEWS"
                   iconBg="#3A966F"
                 />
@@ -140,16 +141,17 @@ class Dashboard extends Component<IProps> {
 
 const iconStyle = {
   fontSize: "100px",
-  cursor: "pointer",
+  cursor: "pointer"
 };
 const mapStateToProps = (state: any) => {
   return {
     videoCount: state.video.videoCount,
+    viewCount: state.video.viewCount
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    getVideoCount: () => dispatch(getVideoCount()),
+    getVideoCount: () => dispatch(getVideoCount())
   };
 };
 

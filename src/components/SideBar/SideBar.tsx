@@ -4,6 +4,7 @@ import SearchBar from "../SearchBar";
 import avatar from "../../assets/profileImages/profileImg.png";
 import { UserProfile } from "../../Redux/Types/profile";
 import Tooltip from "@material-ui/core/Tooltip";
+import LogoutModal from "../Modals/logout";
 import { logout } from "../../Redux/Actions/auth";
 import "./style.css";
 
@@ -14,15 +15,18 @@ type IProps = {
   user: UserProfile;
   logout: () => void;
 };
-type IState = { activeTab: string };
+type IState = { activeTab: string; logoutModal: boolean };
 class SideBar extends Component<IProps, IState> {
   constructor(props: any) {
     super(props);
-    this.state = { activeTab: "/" };
+    this.state = { activeTab: "/", logoutModal: false };
   }
 
   logout = () => {
     this.props.logout();
+  };
+  toggleLogoutModal = () => {
+    this.setState({ logoutModal: !this.state.logoutModal });
   };
   componentDidMount() {}
   handleChangeTab = (path: string) => {
@@ -38,6 +42,11 @@ class SideBar extends Component<IProps, IState> {
     }
     return (
       <div className={drawer ? "MainDrawer" : "MainDrawerHide"}>
+        <LogoutModal
+          open={this.state.logoutModal}
+          toggle={this.toggleLogoutModal}
+          logout={this.logout}
+        />
         <div className="wrapperProfileSidebar">
           {user && (
             <div className="wrapperDetails">
@@ -61,7 +70,7 @@ class SideBar extends Component<IProps, IState> {
           }}
           style={{
             backgroundColor:
-              activeSideBar === "/" ? "rgb(34, 185, 255) " : undefined,
+              activeSideBar === "/" ? "rgb(34, 185, 255) " : undefined
           }}
         >
           <i className="fas fa-tachometer-alt dashboard" style={iconStyle} />
@@ -73,7 +82,7 @@ class SideBar extends Component<IProps, IState> {
           onClick={() => this.handleChangeTab("/videos")}
           style={{
             backgroundColor:
-              activeSideBar === "/videos" ? "rgb(34, 185, 255) " : undefined,
+              activeSideBar === "/videos" ? "rgb(34, 185, 255) " : undefined
           }}
         >
           <i className="fab fa-microsoft" style={iconStyle} />
@@ -92,7 +101,7 @@ class SideBar extends Component<IProps, IState> {
           onClick={() => this.handleChangeTab("/contacts")}
           style={{
             backgroundColor:
-              activeSideBar === "/contacts" ? "rgb(34, 185, 255) " : undefined,
+              activeSideBar === "/contacts" ? "rgb(34, 185, 255) " : undefined
           }}
         >
           <i className="far fa-address-book" style={iconStyle} />
@@ -104,7 +113,7 @@ class SideBar extends Component<IProps, IState> {
           onClick={() => this.handleChangeTab("/campaign")}
           style={{
             backgroundColor:
-              activeSideBar === "/campaign" ? "rgb(34, 185, 255) " : undefined,
+              activeSideBar === "/campaign" ? "rgb(34, 185, 255) " : undefined
           }}
         >
           <i className="far fa-flag" style={iconStyle} />
@@ -118,7 +127,7 @@ class SideBar extends Component<IProps, IState> {
             backgroundColor:
               activeSideBar === "/configuration"
                 ? "rgb(34, 185, 255) "
-                : undefined,
+                : undefined
           }}
         >
           <i className="fas fa-users-cog" style={iconStyle} />
@@ -143,11 +152,11 @@ class SideBar extends Component<IProps, IState> {
           </div>
         </Tooltip>
 
-        <div className="OptionIcons" onClick={this.logout}>
+        {/* <div className="OptionIcons" onClick={this.toggleLogoutModal}>
           <i className="fa fa-user-circle-o" style={iconStyle} />
           <span className="IconNameStyling">Logout</span>
           <i className="fas fa-angle-left" style={arrowIcon}></i>
-        </div>
+        </div> */}
       </div>
     );
   }
@@ -156,21 +165,21 @@ const iconStyle = {
   fontSize: "14px",
   width: "1.5em",
   display: "inline-block",
-  color: "#b4bcc8",
+  color: "#b4bcc8"
 };
 const arrowIcon = {
   marginLeft: "auto",
-  marginRight: "12px",
+  marginRight: "12px"
 };
 const mapStateToProps = (state: any) => {
   return {
     user: state.profile.user,
-    drawer: state.drawer.drawer,
+    drawer: state.drawer.drawer
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    logout: () => dispatch(logout()),
+    logout: () => dispatch(logout())
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SideBar);

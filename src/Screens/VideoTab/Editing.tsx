@@ -71,7 +71,8 @@ class Editing extends React.Component<IProps, IState> {
       S3FileUpload.uploadFile(file, config)
         .then((data: any) => {
           this.setState({ url: data.location, uploading: false });
-          toast.info("Thumbnail Updated , Apply changes to update");
+          this.saveChanges();
+
           return;
         })
         .catch((err: any) => {
@@ -177,12 +178,6 @@ class Editing extends React.Component<IProps, IState> {
                     name="Upload File"
                     onClick={this.triggerFileUploadBtn}
                     style={{ border: "2px solid #22B9FF", marginBottom: "2px" }}
-                  />
-
-                  <ThemeButton
-                    name="Apply Editing Changes"
-                    onClick={this.saveChanges}
-                    style={{ border: "2px solid #22B9FF" }}
                   />
                 </div>
               </div>
