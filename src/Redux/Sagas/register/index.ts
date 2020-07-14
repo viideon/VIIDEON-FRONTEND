@@ -9,14 +9,14 @@ function* registerUser(action: any) {
     if (result.status === 201) {
       yield put({ type: types.REGISTRATION_SUCCESS, payload: result.message });
       yield put(push("/"));
-      toast.info("Signup successfully,Please Verify your email");
+      toast.info("Signup was successfull, Please Verify your email");
     } else {
       yield put({ type: types.REGISTRATION_FAILURE, payload: result.message });
       toast.error("Error , Please try again");
     }
   } catch (error) {
     yield put({ type: types.REGISTRATION_FAILURE, payload: error });
-    toast.error("Already Registered with this Email or UserName");
+    toast.error("Already registered with this email or user name");
   }
 }
 export function* registerhWatcher() {

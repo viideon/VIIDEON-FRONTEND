@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, LinearProgress, Tooltip } from "@material-ui/core";
+import { Grid, LinearProgress, Tooltip, TextField } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import Loading from "../../components/Loading";
 import { Input, Label, FormGroup, Button } from "reactstrap";
@@ -270,12 +270,15 @@ class SendSave extends React.Component<IProps> {
                       </Tooltip>
                     </span>
                   </Label>
-                  <Input
+                  <TextField
+                    placeholder="Enter email address"
+                    fullWidth
                     type="text"
-                    name="email"
-                    id="typeInput"
-                    placeholder="Enter Email Address"
                     value={this.state.recieverEmail}
+                    name="recieverEmail"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
                     onChange={this.emailHandler}
                   />
                 </FormGroup>

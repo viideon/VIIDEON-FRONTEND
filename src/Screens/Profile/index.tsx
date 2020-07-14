@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Input, Label, Row, Col, Form, FormGroup, Button } from "reactstrap";
 import "./style.css";
 import { connect } from "react-redux";
-import { FaInfoCircle } from "react-icons/fa";
+// import { FaInfoCircle } from "react-icons/fa";
 import { toast } from "react-toastify";
 import AWS from "aws-sdk";
 // import LinkAccount from "./LinkAccount";
@@ -86,7 +86,6 @@ class Profile extends Component<IProps, IState> {
       userId: this.props.profile!.user!._id,
       url
     };
-    console.log("data", data);
     this.props.updateProfile(data);
   };
   fileHandler = (e: any) => {
@@ -116,9 +115,9 @@ class Profile extends Component<IProps, IState> {
         <div id="profilePhotoWrap">
           <div id="profilePhotoHead">
             <h4>{Constants.PROFILE_PHOTO} </h4>
-            <i>
+            {/* <i>
               <FaInfoCircle id="infoCircleStyle" />
-            </i>
+            </i> */}
             <p id="uploadProfilePara">{Constants.UPLOAD_DESCRIPTION}</p>
           </div>
           <hr />
@@ -139,7 +138,7 @@ class Profile extends Component<IProps, IState> {
           </div>
           <div id="profileImgLabelWrap">
             <Label id="profileImgLabelStyle" className="profileBtn">
-              {Constants.SELECT_NEW_PHOTO}
+              SELECT NEW PHOTO
               <Input
                 type="file"
                 id="profileSelectInput"

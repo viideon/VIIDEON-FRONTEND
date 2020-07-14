@@ -91,7 +91,6 @@ class Signin extends React.Component<IProps, IState> {
         email,
         password
       };
-
       this.props.login(user);
     }
   };
@@ -130,14 +129,24 @@ class Signin extends React.Component<IProps, IState> {
                   </p>
                 </div>
               </div>
-              <div style={{ marginLeft: "35%", opacity: 0.5 }}>
-                {loading && <Loading />}
+              <div
+                style={{
+                  marginLeft: "35%",
+                  position: "relative",
+                  padding: "20px"
+                }}
+              >
+                {loading && (
+                  <span style={{ position: "absolute", top: 0 }}>
+                    <Loading />
+                  </span>
+                )}
               </div>
               <Form style={{ width: "80%" }}>
                 {this.state.resendVerificationEmail && (
                   <Alert color="danger">
                     Email not verified Please Verify your Email. If you didn't
-                    received Email{" "}
+                    received Email
                     <a
                       onClick={() =>
                         this.props.resendEmail({ email: this.state.email })
@@ -167,7 +176,7 @@ class Signin extends React.Component<IProps, IState> {
                 </FormGroup>
                 <div style={{ width: "69%" }}>
                   {emailError && (
-                    <Alert color="danger">{Constants.EMAIL_ERROR}</Alert>
+                    <Alert color="danger">The email field is empty</Alert>
                   )}
                   {invalidEmailError && (
                     <Alert color="danger">{Constants.EMAIL_INVALID}</Alert>
@@ -191,7 +200,7 @@ class Signin extends React.Component<IProps, IState> {
                 </FormGroup>
                 <div style={{ width: "69%" }}>
                   {passwordError && (
-                    <Alert color="danger">{Constants.PASSWORD_ERROR}</Alert>
+                    <Alert color="danger">The Password field is empty</Alert>
                   )}
                 </div>
                 <div className="mainWrapperLayout">
@@ -199,7 +208,7 @@ class Signin extends React.Component<IProps, IState> {
                     className="forgotPassword"
                     onClick={() => this.props.history.push("/forgotpassword")}
                   >
-                    Forget your Password
+                    Forgot your password ?
                   </p>
 
                   <ActionButton

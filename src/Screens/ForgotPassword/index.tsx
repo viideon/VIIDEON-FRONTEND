@@ -85,8 +85,18 @@ class ForgotPassword extends React.Component<IProps, IState> {
                   </p>
                 </div>
               </div>
-              <div style={{ marginLeft: "35%", opacity: 0.5 }}>
-                {loading && <Loading />}
+              <div
+                style={{
+                  marginLeft: "35%",
+                  padding: "20px",
+                  position: "relative"
+                }}
+              >
+                {loading && (
+                  <span style={{ position: "absolute" }}>
+                    <Loading />
+                  </span>
+                )}
               </div>
               <Formik
                 onSubmit={values => {

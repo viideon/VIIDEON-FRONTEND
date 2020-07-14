@@ -125,18 +125,18 @@ class VideoTabHeader extends React.Component<IProps> {
               style={styles.buttonWrapper}
               onClick={this.copyUrl}
             >
-              Copy Url
+              Copy URL
             </Button>
             <br />
             <br />
-            <InputGroup>
+            {/* <InputGroup>
               <Input
                 ref="urlInput"
                 value={`https://vidionpro.000webhostapp.com/watch/${video &&
                   video._id}`}
                 disabled={true}
-              />
-              {/* <InputGroupAddon addonType="append">
+              /> */}
+            {/* <InputGroupAddon addonType="append">
                 <InputGroupText
                   style={styles.inputContainer}
                   className="share-icons"
@@ -165,7 +165,7 @@ class VideoTabHeader extends React.Component<IProps> {
                 </StrapTooltip>
               </InputGroupAddon>
              */}
-            </InputGroup>
+            {/* </InputGroup> */}
           </Col>
         </Row>
       </div>

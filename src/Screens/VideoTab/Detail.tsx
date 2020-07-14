@@ -1,13 +1,12 @@
 import React from "react";
 import { FormGroup, Label, Input, Col, Form, Button } from "reactstrap";
-import { Grid, Tooltip } from "@material-ui/core";
+import { Grid, Tooltip, TextField } from "@material-ui/core";
 import Loading from "../../components/Loading";
 import HelpIcon from "@material-ui/icons/Help";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import ChipInput from "material-ui-chip-input";
-import { GoInfo } from "react-icons/go";
 import * as Constants from "../../constants/constants";
 import { reg } from "../../constants/emailRegEx";
 import {
@@ -148,15 +147,16 @@ class Detail extends React.Component<IProps> {
                     </Tooltip>
                   </span>
                 </Label>
-
-                <Input
-                  type="text"
-                  name="recieverEmail"
-                  id="typeInput"
+                <TextField
                   placeholder="Enter email address"
+                  fullWidth
+                  type="text"
                   value={this.state.recieverEmail}
+                  name="recieverEmail"
+                  InputLabelProps={{
+                    shrink: true
+                  }}
                   onChange={this.emailHandler}
-                  required
                 />
               </FormGroup>
               <Button
@@ -227,7 +227,7 @@ class Detail extends React.Component<IProps> {
                 <i>
                   <Tooltip title="Appears on video page" placement="top" arrow>
                     <span>
-                      <GoInfo />
+                      <HelpIcon />
                     </span>
                   </Tooltip>
                 </i>

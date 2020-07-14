@@ -3,7 +3,7 @@ import AWS from "aws-sdk";
 import VideoRecorder from "../../components/VideoRecorder";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import HelpIcon from "@material-ui/icons/Help";
-import { Button, LinearProgress, Tooltip } from "@material-ui/core";
+import { Button, LinearProgress, Tooltip, TextField } from "@material-ui/core";
 import Loading from "../../components/Loading";
 import ChipInput from "material-ui-chip-input";
 import {
@@ -366,18 +366,19 @@ class UploadRecord extends Component<IProps, IState> {
                                     />
                                   </FormGroup>
                                   <StrapButton
-                  style={{
-                    border: "none",
-                    background: "rgb(34, 185, 255)",
-                    color: "rgb(255, 255, 255)"
-                  }}
-                  disabled={this.state.videoProgress || loading}
-                  size="lg"
-                  onClick={this.fileHandler}
-                >
-                  Save Video
-                </StrapButton>
-                               
+                                    style={{
+                                      border: "none",
+                                      background: "rgb(34, 185, 255)",
+                                      color: "rgb(255, 255, 255)"
+                                    }}
+                                    disabled={
+                                      this.state.videoProgress || loading
+                                    }
+                                    size="lg"
+                                    onClick={this.fileHandler}
+                                  >
+                                    Save Video
+                                  </StrapButton>
                                 </div>
                               )}
 
@@ -396,14 +397,16 @@ class UploadRecord extends Component<IProps, IState> {
                                         </Tooltip>
                                       </span>
                                     </Label>
-                                    <Input
-                                      type="text"
-                                      name="recieverEmail"
-                                      id="typeInput"
+                                    <TextField
                                       placeholder="Enter email address"
+                                      fullWidth
+                                      type="text"
                                       value={this.state.recieverEmail}
+                                      name="recieverEmail"
+                                      InputLabelProps={{
+                                        shrink: true
+                                      }}
                                       onChange={this.emailHandler}
-                                      required
                                     />
                                   </FormGroup>
                                   <Button
@@ -510,18 +513,17 @@ class UploadRecord extends Component<IProps, IState> {
                             />
                           </FormGroup>
                           <StrapButton
-                  style={{
-                    border: "none",
-                    background: "rgb(34, 185, 255)",
-                    color: "rgb(255, 255, 255)"
-                  }}
-                  disabled={this.state.videoProgress || loading}
-                  size="lg"
-                  onClick={this.saveVideo}
-                >
-                  Save Video
-                </StrapButton>
-                         
+                            style={{
+                              border: "none",
+                              background: "rgb(34, 185, 255)",
+                              color: "rgb(255, 255, 255)"
+                            }}
+                            disabled={this.state.videoProgress || loading}
+                            size="lg"
+                            onClick={this.saveVideo}
+                          >
+                            Save Video
+                          </StrapButton>
                         </div>
                       )}
 
@@ -540,12 +542,15 @@ class UploadRecord extends Component<IProps, IState> {
                                 </Tooltip>
                               </span>
                             </Label>
-                            <Input
+                            <TextField
+                              placeholder="Enter email address"
+                              fullWidth
                               type="text"
-                              name="email"
-                              id="typeInput"
-                              placeholder=""
                               value={this.state.recieverEmail}
+                              name="recieverEmail"
+                              InputLabelProps={{
+                                shrink: true
+                              }}
                               onChange={this.emailHandler}
                             />
                           </FormGroup>
@@ -616,7 +621,6 @@ class UploadRecord extends Component<IProps, IState> {
               </div>
             )}
             <div style={styles.recorder} className="recorderWrapper">
-       
               <VideoRecorder
                 getBlob={(blob: any) => {
                   this.props.toggleSendVariable();
