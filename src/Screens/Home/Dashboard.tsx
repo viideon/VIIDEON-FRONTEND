@@ -15,6 +15,7 @@ type IProps = {
   history: any;
   videoCount: number;
   campaignCount: number;
+  viewCount?: number;
   getVideoCount: () => void;
   getCampaignCount: () => void;
 };
@@ -65,7 +66,7 @@ class Dashboard extends Component<IProps> {
               <div onClick={() => alert("Feature not created yet")}>
                 <HeaderCard
                   styles={Styles.headerCardTwo}
-                  Number={0}
+                  Number={this.props.viewCount ? this.props.viewCount : 0}
                   Title="VIEWS"
                   iconBg="#3A966F"
                 />
@@ -148,7 +149,8 @@ const iconStyle = {
 const mapStateToProps = (state: any) => {
   return {
     videoCount: state.video.videoCount,
-    campaignCount: state.video.campaignCount
+    campaignCount: state.video.campaignCount,
+    viewCount: state.video.viewCount
   };
 };
 const mapDispatchToProps = (dispatch: any) => {

@@ -10,6 +10,7 @@ import { logout } from "../../Redux/Actions/auth";
 import avatarImage from "../../assets/profileImages/profileImg.png";
 import TopDrawer from "../DrawerTop/index";
 import "./styles.css";
+import LogoutModal from "../Modals/logout";
 type IProps = {
   history: any;
   toggleDrawer: () => void;
@@ -22,9 +23,10 @@ const Header: React.FC<IProps> = ({
   toggleDrawer,
   logout,
   profile,
-  loggedInStatus,
+  loggedInStatus
 }) => {
   const [drawerOpen, toggleTopDrawer] = useState(false);
+  const [logoutModal, setlogoutModal] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleClickPopup = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -38,6 +40,10 @@ const Header: React.FC<IProps> = ({
   const navigateHome = () => {
     history.push("/");
   };
+  const toggleLogoutModal = () => {
+    handleClosePopup();
+    setlogoutModal(!logoutModal);
+  };
   const location = useLocation();
   var image =
     loggedInStatus && profile && profile.user && profile.user.url
@@ -45,6 +51,11 @@ const Header: React.FC<IProps> = ({
       : avatarImage;
   return (
     <div className="HeaderContainer">
+      <LogoutModal
+        open={logoutModal}
+        toggle={toggleLogoutModal}
+        logout={logout}
+      />
       <div className="startHeader">
         {(location.pathname === "/" ||
           location.pathname === "/videos" ||
@@ -121,7 +132,7 @@ const Header: React.FC<IProps> = ({
               <MenuItem onClick={() => history.push("/profile")}>
                 Profile
               </MenuItem>
-              <MenuItem onClick={() => logout()}>Logout</MenuItem>
+              <MenuItem onClick={() => toggleLogoutModal()}>Logout</MenuItem>
             </Menu>
           </span>
         </div>
@@ -132,18 +143,18 @@ const Header: React.FC<IProps> = ({
 
 const iconStyle = {
   color: "#fff",
-  cursor: "pointer",
+  cursor: "pointer"
 };
 const mapStateToProps = (state: any) => {
   return {
     loggedInStatus: state.auth.loggedInStatus,
-    profile: state.profile,
+    profile: state.profile
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
     toggleDrawer: () => dispatch(toggleDrawer()),
-    logout: () => dispatch(logout()),
+    logout: () => dispatch(logout())
   };
 };
 export default withRouter<any, any>(

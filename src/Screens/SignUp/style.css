@@ -95,3 +95,20 @@
     padding-bottom: 60px;
   }
 }
+
+.alert-warning {
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+  width: 80%;
+}
+.alert {
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
+.fade {
+  transition: opacity 0.15s linear;
+}

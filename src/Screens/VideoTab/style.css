@@ -83,8 +83,8 @@
   align-items: center;
 }
 .progressEditing {
-  text-align: center;
-  margin-right: 10%;
+  display: flex;
+  justify-content: center;
 }
 
 /* -----------analtics tab----------- */

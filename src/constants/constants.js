@@ -65,6 +65,7 @@ export const LOGIN = "Login";
 export const DONT_HAVE_ACCOUNT = "Don't Have Account?";
 export const REGISTER = "Register";
 export const SIGNUP_TO = "Signup to";
+export const SIGNIN_TO = "Login to";
 export const VIDIONPRO = "vidionPRO";
 export const LOGIN_TO_ACCOUNT = "Login to your account";
 export const DONT_HAVE_ACCOUNT_YET = "Don't have an account yet?";

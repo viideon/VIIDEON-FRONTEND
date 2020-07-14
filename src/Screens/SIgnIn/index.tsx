@@ -33,7 +33,7 @@ class Signin extends React.Component<IProps, IState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      email: "",
+      email: "johari9292@gmail.com",
       password: "",
       emailError: false,
       passwordError: false,
@@ -107,7 +107,7 @@ class Signin extends React.Component<IProps, IState> {
           <Grid item xs={12} md={7} sm={12}>
             <div className="firstLayoutContainer">
               <div className="firstLayoutMainContainer">
-                <p className="signUp">{Constants.SIGNUP_TO}</p>
+                <p className="signUp">{Constants.SIGNIN_TO}</p>
                 <h2 className="logoSignin">{Constants.VIDIONPRO}</h2>
                 <p className="login">{Constants.LOGIN_TO_ACCOUNT}</p>
               </div>
@@ -129,6 +129,23 @@ class Signin extends React.Component<IProps, IState> {
                   </p>
                 </div>
               </div>
+              {this.state.resendVerificationEmail && (
+                <div className="alert alert-warning fade show">
+                  We have sent you a verification email. Please verify your
+                  account from the link given in email. If you did not receive
+                  verification email yet, you may &nbsp;
+                  <a
+                    onClick={() =>
+                      this.props.resendEmail({ email: this.state.email })
+                    }
+                    style={{ textDecoration: "underline", cursor: "pointer" }}
+                  >
+                    Click here
+                  </a>{" "}
+                  &nbsp;to resend .
+                </div>
+              )}
+
               <div
                 style={{
                   marginLeft: "35%",
@@ -136,6 +153,7 @@ class Signin extends React.Component<IProps, IState> {
                   padding: "20px"
                 }}
               >
+                >
                 {loading && (
                   <span style={{ position: "absolute", top: 0 }}>
                     <Loading />
@@ -143,21 +161,6 @@ class Signin extends React.Component<IProps, IState> {
                 )}
               </div>
               <Form style={{ width: "80%" }}>
-                {this.state.resendVerificationEmail && (
-                  <Alert color="danger">
-                    Email not verified Please Verify your Email. If you didn't
-                    received Email
-                    <a
-                      onClick={() =>
-                        this.props.resendEmail({ email: this.state.email })
-                      }
-                      style={{ textDecoration: "underline", cursor: "pointer" }}
-                    >
-                      Click here
-                    </a>
-                    to resend
-                  </Alert>
-                )}
                 <FormGroup>
                   <Label for="exampleEmail" style={{ fontWeight: "bold" }}>
                     {Constants.EMAIL_ADDRESS}
