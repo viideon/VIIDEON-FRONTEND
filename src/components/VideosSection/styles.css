@@ -124,12 +124,14 @@ tr {
   text-align: center;
   color: #ff8b88;
 }
-
+.sb-example-3 {
+  outline: none !important;
+}
 .sb-example-3 .search__input {
   width: 100%;
   height: 35px;
   padding: 12px 24px;
-  outline: none;
+  outline: none !important;
   background-color: transparent;
   font-size: 14px;
   line-height: 18px;
