@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import SearchBar from "../SearchBar";
+// import SearchBar from "../SearchBar";
 import avatar from "../../assets/profileImages/profileImg.png";
 import { UserProfile } from "../../Redux/Types/profile";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -89,14 +89,14 @@ class SideBar extends Component<IProps, IState> {
           <span className="IconNameStyling">My Videos</span>
           <i className="fas fa-angle-left" style={arrowIcon}></i>
         </div>
-        <Tooltip title="Under Progress" enterDelay={0}>
+        {/* <Tooltip title="Under Progress" enterDelay={0}>
           <div className="OptionIcons" onClick={() => alert("Under Progress")}>
             <i className="fa fa-envelope" style={iconStyle} />
             <span className="IconNameStyling">My Messages</span>
             <i className="fas fa-angle-left" style={arrowIcon}></i>
           </div>
-        </Tooltip>
-        <div
+        </Tooltip> */}
+        {/* <div
           className="OptionIcons"
           onClick={() => this.handleChangeTab("/contacts")}
           style={{
@@ -107,7 +107,7 @@ class SideBar extends Component<IProps, IState> {
           <i className="far fa-address-book" style={iconStyle} />
           <span className="IconNameStyling">Connections</span>
           <i className="fas fa-angle-left" style={arrowIcon}></i>
-        </div>
+        </div> */}
         <div
           className="OptionIcons"
           onClick={() => this.handleChangeTab("/campaign")}
@@ -134,14 +134,14 @@ class SideBar extends Component<IProps, IState> {
           <span className="IconNameStyling">Configuration</span>
           <i className="fas fa-angle-left" style={arrowIcon}></i>
         </div>
-        <Tooltip title="Under Progress" enterDelay={0}>
+        {/* <Tooltip title="Under Progress" enterDelay={0}>
           <div className="OptionIcons" onClick={() => alert("Under Progress")}>
             <i className="fas fa-chart-pie" style={iconStyle} />
             <span className="IconNameStyling">My Stats</span>
             <i className="fas fa-angle-left" style={arrowIcon}></i>
           </div>
-        </Tooltip>
-        <Tooltip title="Under Progress" enterDelay={0}>
+        </Tooltip> */}
+        {/* <Tooltip title="Under Progress" enterDelay={0}>
           <div
             className="OptionIcons assetLibrary"
             onClick={() => alert("Under Progress")}
@@ -150,7 +150,7 @@ class SideBar extends Component<IProps, IState> {
             <span className="IconNameStyling">Asset Library</span>
             <i className="fas fa-angle-left" style={arrowIcon}></i>
           </div>
-        </Tooltip>
+        </Tooltip> */}
 
         {/* <div className="OptionIcons" onClick={this.toggleLogoutModal}>
           <i className="fa fa-user-circle-o" style={iconStyle} />

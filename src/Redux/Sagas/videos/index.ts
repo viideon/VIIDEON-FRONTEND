@@ -15,14 +15,15 @@ import {
   updateVideoWatch,
   updateEmailShare,
   getCampaignVideos,
-  getCampaignVideosByTitle
+  campaignCount,
+  getCampaignVideosByTitle,
 } from "./api";
 import {
   selectID,
   selectVideos,
   getPageNo,
   isLoadMore,
-  isEmailConfigPresent
+  isEmailConfigPresent,
 } from "../../Selectors/index";
 import { toast } from "react-toastify";
 
@@ -62,9 +63,9 @@ function* saveUserVideo(action: any) {
       yield put({ type: types.VIDEO_SAVE_SUCESS });
       yield put({
         type: types.GET_SAVED_VIDEO_ID,
-        payload: result.data.video._id
+        payload: result.data.video._id,
       });
-      toast.info("Video Saved Successfully");
+      toast.info("Saved Successfully");
     } else {
       yield put({ type: types.VIDEO_SAVE_FAILURE });
       toast.error("Something Went Wrong");
@@ -108,7 +109,7 @@ function* getCampaignVideoSagas(action: any) {
     if (result.status === 200) {
       yield put({
         type: types.GET_CAMPAIGN_VIDEOS_SUCCESS,
-        payload: result.data
+        payload: result.data,
       });
     } else {
       yield put({ type: types.GET_CAMPAIGN_VIDEOS_FAILURE });
@@ -139,7 +140,7 @@ function* getUserVideos(action: any) {
   let pageNo = yield select(getPageNo);
   const queryObj = {
     userId: userId,
-    page: pageNo
+    page: pageNo,
   };
   try {
     var result;
@@ -154,19 +155,19 @@ function* getUserVideos(action: any) {
     if (result.status === 200 && result.data.message.length < 9) {
       yield put({
         type: types.GET_USER_VIDEOS_SUCCESS,
-        payload: result.data.message
+        payload: result.data.message,
       });
       yield put({ type: types.DISABLE_LOADMORE });
     } else if (result.status === 200) {
       yield put({ type: "LOADMORE_TRUE" });
       yield put({
         type: types.GET_USER_VIDEOS_SUCCESS,
-        payload: result.data.message
+        payload: result.data.message,
       });
     } else {
       yield put({
         type: types.GET_USER_VIDEOS_FAILED,
-        payload: result.data.message
+        payload: result.data.message,
       });
     }
   } catch (error) {
@@ -180,7 +181,7 @@ function* searchUserVideos(action: any) {
   const queryObj = {
     userId: userId,
     page: pageNo,
-    title: action.payload.title
+    title: action.payload.title,
   };
   try {
     let result;
@@ -193,12 +194,12 @@ function* searchUserVideos(action: any) {
     if (result.status === 200) {
       yield put({
         type: types.SEARCH_VIDEOS_SUCCESS,
-        payload: result.data.message
+        payload: result.data.message,
       });
     } else {
       yield put({
         type: types.GET_USER_VIDEOS_FAILED,
-        payload: result.data.message
+        payload: result.data.message,
       });
     }
   } catch (error) {
@@ -220,7 +221,7 @@ function* updateVideo(action: any) {
       toast.error("Update failed, please try again");
       yield put({
         type: types.UPDATE_VIDEO_FAIL,
-        payload: result.data.message
+        payload: result.data.message,
       });
     }
   } catch (error) {
@@ -278,7 +279,7 @@ export function* deleteVideo(action: any) {
   let loadNew = yield select(isLoadMore);
   const callObj = {
     videoId: videoId,
-    pageNo: pageNo
+    pageNo: pageNo,
   };
   try {
     const result = yield call(deleteVideoById, callObj);
@@ -299,7 +300,7 @@ export function* deleteVideo(action: any) {
       }
       yield put({
         type: types.UPDATE_VIDEOS_AFTEREDELETE,
-        payload: updatedVideos
+        payload: updatedVideos,
       });
       yield put({ type: "ENABLE_DELETEDIALOG" });
       toast.info("Video deleted");
@@ -321,7 +322,7 @@ export function* getVideoCount() {
     if (result.status === 200) {
       yield put({
         type: types.COUNT_VIDEO_SUCCESS,
-        payload: result.data
+        payload: result.data,
       });
     } else {
       yield put({ type: types.COUNT_VIDEO_FAIL });
@@ -329,6 +330,23 @@ export function* getVideoCount() {
   } catch (error) {
     toast.error("Failed to connect ,refresh");
     yield put({ type: types.COUNT_VIDEO_FAIL });
+  }
+}
+
+export function* getCampaignCount() {
+  try {
+    const userId = yield select(selectID);
+    const result = yield call(campaignCount, userId);
+    if (result.status === 200) {
+      yield put({
+        type: types.COUNT_CAMPAIGN_SUCCESS,
+        payload: result.data.count,
+      });
+    } else {
+      yield put({ type: types.COUNT_CAMPAIGN_FAILURE });
+    }
+  } catch (error) {
+    yield put({ type: types.COUNT_CAMPAIGN_FAILURE });
   }
 }
 
@@ -342,6 +360,7 @@ export function* videoWatcher() {
   yield takeEvery(types.GET_VIDEO, getVideo);
   yield takeEvery(types.SEND_MULTIPLE_EMAIL, sendMultipleEmail);
   yield takeEvery(types.COUNT_VIDEO, getVideoCount);
+  yield takeLatest(types.COUNT_CAMPAIGN, getCampaignCount);
   yield takeEvery(types.UPDATE_VIEW_REQUEST, updateView);
   yield takeEvery(types.UPDATE_VIDEO_WATCH_REQUEST, updateWatch);
   yield takeEvery(types.UPDATE_EMAIL_SHARE_REQUEST, updateEmailShareSagas);

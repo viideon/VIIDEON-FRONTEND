@@ -8,7 +8,8 @@ let initialState: VideoState = {
   page: 0,
   loadMore: true,
   videoCount: 0,
-  addSearched: true
+  addSearched: true,
+  campaignCount: 0,
 };
 const videoReducer = (state = initialState, action: any) => {
   switch (action.type) {
@@ -18,20 +19,20 @@ const videoReducer = (state = initialState, action: any) => {
       return {
         ...state,
         loading: true,
-        videoSend: null
+        videoSend: null,
       };
     case types.VIDEO_SEND_SUCCESS:
       return {
         ...state,
         loading: false,
-        videoSend: true
+        videoSend: true,
       };
     case types.VIDEO_SEND_FAILURE:
       return {
         ...state,
         error: true,
         videoSend: false,
-        loading: false
+        loading: false,
       };
     case types.TOGGLE_SEND_VARIABLE:
       return { ...state, videoSaved: null };
@@ -39,17 +40,17 @@ const videoReducer = (state = initialState, action: any) => {
       return {
         ...state,
         loadingVideos: true,
-        page: state.page + 1
+        page: state.page + 1,
       };
     case "LOADMORE_TRUE":
       return {
         ...state,
-        loadMore: true
+        loadMore: true,
       };
     case types.DISABLE_LOADMORE:
       return {
         ...state,
-        loadMore: false
+        loadMore: false,
       };
     case types.RESET_VIDEO_PAGE:
       return { ...state, page: 0, videos: [], loadMore: true };
@@ -58,20 +59,20 @@ const videoReducer = (state = initialState, action: any) => {
         ...state,
         loadingVideos: true,
         page: 1,
-        addSearched: true
+        addSearched: true,
       };
     case types.GET_USER_VIDEOS_SUCCESS:
       return {
         ...state,
         videos: [...state.videos, ...action.payload],
-        loadingVideos: false
+        loadingVideos: false,
       };
     case "EMPTY_PAGE":
       return {
         ...state,
         page: 0,
         videos: [],
-        addSearched: false
+        addSearched: false,
       };
 
     case types.SEARCH_VIDEOS_SUCCESS:
@@ -79,7 +80,7 @@ const videoReducer = (state = initialState, action: any) => {
         return {
           ...state,
           videos: action.payload,
-          loadingVideos: false
+          loadingVideos: false,
         };
       }
       return state;
@@ -88,7 +89,7 @@ const videoReducer = (state = initialState, action: any) => {
       return {
         ...state,
         error: action.payload,
-        loadingVideos: false
+        loadingVideos: false,
       };
     case types.GET_CAMPAIGN_VIDEOS_SUCCESS:
       console.log("red", action.payload.video);
@@ -96,32 +97,37 @@ const videoReducer = (state = initialState, action: any) => {
         ...state,
         error: false,
         loadingVideos: false,
-        campaignVideos: action.payload.video
+        campaignVideos: action.payload.video,
       };
     case types.GET_CAMPAIGN_VIDEOS_FAILURE:
       return {
         ...state,
         error: action.payload,
         loadingVideos: false,
-        campaignVideos: undefined
+        campaignVideos: undefined,
       };
     case types.GET_CAMPAIGN_VIDEOS_REQUEST:
       return {
         ...state,
         error: false,
-        loadingVideos: true
+        loadingVideos: true,
       };
     case types.GET_VIDEO_FAILURE:
       return {
         ...state,
         error: action.payload,
-        loadingVideos: false
+        loadingVideos: false,
       };
     case types.COUNT_VIDEO_SUCCESS:
       return {
         ...state,
         videoCount: action.payload.count,
-        viewCount: action.payload.viewCount
+        viewCount: action.payload.viewCount,
+      };
+    case types.COUNT_CAMPAIGN_SUCCESS:
+      return {
+        ...state,
+        campaignCount: action.payload,
       };
     case types.UPDATE_VIDEO:
       return { ...state, isVideoUpdating: true };
@@ -141,8 +147,6 @@ const videoReducer = (state = initialState, action: any) => {
       return { ...state, loadingVideo: true };
     case types.GET_VIDEO_SUCCESS:
       return { ...state, loadingVideo: false, singleVideo: action.payload };
-    case types.GET_VIDEO_FAILURE:
-      return { ...state, loadingVideo: false };
     case types.GET_SAVED_VIDEO_ID:
       return { ...state, savedVideoId: action.payload };
     case types.SEND_MULTIPLE_EMAIL:

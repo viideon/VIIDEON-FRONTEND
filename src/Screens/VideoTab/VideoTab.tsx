@@ -7,16 +7,16 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Container,
+  Container
 } from "reactstrap";
 import classnames from "classnames";
 import {
   FaInfo,
   FaChartLine,
-  FaCut,
-  FaPalette,
-  FaRegEye,
-  FaReply,
+  FaCut
+  // FaPalette,
+  // FaRegEye,
+  // FaReply,
 } from "react-icons/fa";
 import VideoTabHeader from "./Header";
 import Detail from "./Detail";
@@ -33,7 +33,7 @@ const VideoTab = ({
   getVideo,
   singleVideo,
   cleanSingleVideo,
-  videoCount,
+  videoCount
 }: any) => {
   const [activeTab, setActiveTab] = useState("1");
 
@@ -66,10 +66,10 @@ const VideoTab = ({
             >
               <span>
                 <i>
-                  <FaInfo id="videoTabIcon" />
+                  <FaCut id="videoTabIcon" />
                 </i>
               </span>
-              <p>{Constants.DETAILS}</p>
+              <p>{Constants.EDITING}</p>
             </NavLink>
           </NavItem>
           <NavItem className="video-tabs">
@@ -82,10 +82,10 @@ const VideoTab = ({
             >
               <span>
                 <i>
-                  <FaChartLine id="videoTabIcon" />
+                  <FaInfo id="videoTabIcon" />
                 </i>
               </span>
-              <p>{Constants.ANALYTICS}</p>
+              <p>{Constants.DETAILS}</p>
             </NavLink>
           </NavItem>
           <NavItem className="video-tabs">
@@ -98,10 +98,10 @@ const VideoTab = ({
             >
               <span>
                 <i>
-                  <FaCut id="videoTabIcon" />
+                  <FaChartLine id="videoTabIcon" />
                 </i>
               </span>
-              <p>{Constants.EDITING}</p>
+              <p>{Constants.ANALYTICS}</p>
             </NavLink>
           </NavItem>
           {/* <NavItem>
@@ -154,15 +154,15 @@ const VideoTab = ({
           </NavItem> */}
         </Nav>
         <TabContent activeTab={activeTab}>
-          <TabPane tabId="1">
+          <TabPane tabId="2">
             <Container>
               <Detail />
             </Container>
           </TabPane>
-          <TabPane tabId="2">
+          <TabPane tabId="3">
             <Analytics singleVideo={singleVideo} videoCount={videoCount} />
           </TabPane>
-          <TabPane tabId="3">
+          <TabPane tabId="1">
             <Editing videoId={params.id} />
           </TabPane>
           <TabPane tabId="4">
@@ -183,13 +183,13 @@ const mapStateToProps = (state: any) => {
   return {
     loadingVideo: state.video.loadingVideo,
     singleVideo: state.video.singleVideo,
-    videoCount: state.video.videoCount,
+    videoCount: state.video.videoCount
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getVideo: (id: any) => dispatch(getVideo(id)),
-    cleanSingleVideo: () => dispatch(cleanSingleVideo()),
+    cleanSingleVideo: () => dispatch(cleanSingleVideo())
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(VideoTab);

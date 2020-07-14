@@ -11,48 +11,44 @@ function* loginUser(action: any) {
       yield put({ type: types.LOGIN_SUCCESS, payload: result.data });
       yield put({
         type: profileTypes.ADD_PROFILE_DATA,
-        payload: result.data
+        payload: result.data,
       });
       yield put(push("/"));
     } else if (result.status === 410) {
-      console.log(result.data.message);
       yield put({
         type: types.LOGIN_FAILURE,
-        payload: { message: result.data.message, isEmailNotVerified: true }
+        payload: { message: result.data.message, isEmailNotVerified: true },
       });
       toast.error(result.data.message);
     } else {
       yield put({
         type: types.LOGIN_FAILURE,
-        payload: { message: result.data.message, isEmailNotVerified: false }
+        payload: { message: result.data.message, isEmailNotVerified: false },
       });
       toast.error(result.data.message);
     }
   } catch (error) {
-    console.log(error);
     yield put({ type: types.LOGIN_FAILURE, payload: error });
     toast.error("Invalid Email or Password");
   }
 }
 function* VerifyUser(action: any) {
-  console.log("verify");
   try {
     const result = yield verify(action.payload);
-    console.log(result);
+
     if (result.status === 201) {
       yield put({
         type: types.VERIFY_SUCCESS,
-        payload: result.data.message
+        payload: result.data.message,
       });
     } else {
       yield put({
         type: types.VERIFY_FAILURE,
-        payload: result.data.message
+        payload: result.data.message,
       });
       toast.error(result.data.message);
     }
   } catch (error) {
-    console.log("errrrrr", error);
     if (error.message) {
       toast.error(error.message);
       yield put({ type: types.VERIFY_FAILURE, payload: error });
@@ -63,25 +59,23 @@ function* VerifyUser(action: any) {
   }
 }
 function* forgotPassword(action: any) {
-  console.log("forgot");
   try {
     const result = yield forgot(action.payload);
-    console.log(result);
+
     if (result.status === 201) {
       toast.success("Reset Password link sent on given email");
       yield put({
         type: types.FORGOT_SUCCESS,
-        payload: result.data
+        payload: result.data,
       });
     } else {
       yield put({
         type: types.FORGOT_FAILURE,
-        payload: result.data.message
+        payload: result.data.message,
       });
       toast.error(result.data.message);
     }
   } catch (error) {
-    console.log("errrrrr", error);
     if (error.message) {
       toast.error(error.message);
       yield put({ type: types.FORGOT_FAILURE, payload: error });
@@ -92,20 +86,19 @@ function* forgotPassword(action: any) {
   }
 }
 function* resendEmailSagas(action: any) {
-  console.log("resend");
   try {
     const result = yield resendEmail(action.payload);
-    console.log(result);
+
     if (result.status === 201) {
-      toast.success("Verification email have sent");
+      toast.info("Verification link has been sent");
       yield put({
         type: types.RESEND_EMAIL_SUCCESS,
-        payload: result.data
+        payload: result.data,
       });
     } else {
       yield put({
         type: types.RESEND_EMAIL_FAILURE,
-        payload: result.data.message
+        payload: result.data.message,
       });
       toast.error(result.data.message);
     }
@@ -120,25 +113,22 @@ function* resendEmailSagas(action: any) {
   }
 }
 function* resetPassword(action: any) {
-  console.log("reset");
   try {
     const result = yield reset(action.payload);
-    console.log(result);
     if (result.status === 201 || result.status === 200) {
       toast.success("Password changed successfully");
       yield put({
         type: types.RESET_SUCCESS,
-        payload: result.data
+        payload: result.data,
       });
     } else {
       yield put({
         type: types.RESET_FAILURE,
-        payload: result.data.message
+        payload: result.data.message,
       });
       toast.error(result.data.message);
     }
   } catch (error) {
-    console.log("errrrrr", error);
     if (error.message) {
       toast.error(error.message);
       yield put({ type: types.RESET_FAILURE, payload: error });
@@ -154,7 +144,10 @@ function* logout() {
     yield put({ type: types.LOUGOUT_SUCCESS });
     yield put(push("/"));
   } catch (error) {
-    toast.error(error);
+    if (error.message) {
+      toast.error(error.message);
+    }
+    toast("Failed to logout");
   }
 }
 export function* authWatcher() {

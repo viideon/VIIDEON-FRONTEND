@@ -1,6 +1,6 @@
 import React from "react";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { TextField } from "@material-ui/core";
+import { Modal, ModalHeader, ModalBody } from "reactstrap";
+// import { TextField } from "@material-ui/core";
 import "./style.css";
 
 interface IProps {

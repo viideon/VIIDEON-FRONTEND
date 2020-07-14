@@ -3,6 +3,10 @@
   border-bottom: 1px solid #ecf0f3;
   margin-bottom: 20px;
 }
+#descriptionLabel {
+  font-weight: 600;
+  letter-spacing: 1px;
+}
 #videoTabWrap {
   text-align: center;
 }

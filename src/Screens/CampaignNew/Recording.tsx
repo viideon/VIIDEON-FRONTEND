@@ -6,7 +6,6 @@ import { Grid, Button, Select, MenuItem, InputLabel } from "@material-ui/core";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import StopIcon from "@material-ui/icons/Stop";
-// import recordGif from "../../assets/video-record.gif";
 import Counter from "./Counter";
 import "./style.css";
 
@@ -123,13 +122,13 @@ class Recording extends React.Component<IProps> {
     });
     this.recordVideo.pauseRecording();
     if (this.state.trackNo === 1) {
-      toast("Intro recorded", this.toastOptions);
+      toast.info("Intro recorded", this.toastOptions);
       this.moveToNextTrack();
     } else if (this.state.trackNo === 2) {
-      toast("Message recorded", this.toastOptions);
+      toast.info("Message recorded", this.toastOptions);
       this.moveToNextTrack();
     } else {
-      toast("Conclusion recorded", this.toastOptions);
+      toast.info("Conclusion recorded", this.toastOptions);
       this.moveToNextTrack();
     }
   };

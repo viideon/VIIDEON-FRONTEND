@@ -194,7 +194,7 @@ input[type="range"].seek:focus::-webkit-slider-runnable-track {
 /* volume related */
 
 input[type="range"].volume {
-  height: 5px;
+  height: 4px;
   background-color: rgba(115, 133, 159, 0.75);
 }
 

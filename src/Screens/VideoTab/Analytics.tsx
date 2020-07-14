@@ -1,8 +1,8 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
 import GeneralStats from "../../components/GeneralStats";
-import VideoViews from "../../components/VideoViews";
-import ActivityAnalytics from "../../components/ActivityAnalytics";
+// import VideoViews from "../../components/VideoViews";
+// import ActivityAnalytics from "../../components/ActivityAnalytics";
 import "./style.css";
 interface IProps {
   singleVideo?: any;

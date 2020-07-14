@@ -34,7 +34,7 @@ const HeaderCard: React.FC<IProps> = ({ styles, Title, Number, iconBg }) => {
           <span className="title-text"> {Title}</span>
         </h4>
         <LinearProgress variant="determinate" value={34} />
-        <h4 className="Description">45% Increase in 28 days</h4>
+        {/* <h4 className="Description">45% Increase in 28 days</h4> */}
       </div>
     </div>
   );

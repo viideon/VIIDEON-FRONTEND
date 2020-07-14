@@ -1,5 +1,5 @@
 import React from "react";
-import { FormControl, InputLabel, Select, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import ProgressBar from "../CircularProgressBar";
 import "./style.css";
 interface IProps {

@@ -3,10 +3,8 @@ import Grid from "@material-ui/core/Grid";
 import { Form, FormGroup, Label, Alert, Input } from "reactstrap";
 import * as Constants from "../../constants/constants";
 import { connect } from "react-redux";
-import { reg } from "../../constants/emailRegEx";
 import Loading from "../../components/Loading";
 import { resetPassword } from "../../Redux/Actions/auth";
-import { AuthState, User } from "../../Redux/Types/auth";
 import ActionButton from "../../components/Reusable/ActionButton";
 import "./style.css";
 import VerifySuccessModal from "../../components/Modals/verifySuccessModal";
@@ -69,7 +67,6 @@ class ResetPassword extends React.Component<IProps, IState> {
   };
   componentDidMount() {
     const search = this.props.location.search;
-    console.log(search);
     const params = new URLSearchParams(search);
     const code = params.get("code");
     if (code) {
@@ -78,7 +75,6 @@ class ResetPassword extends React.Component<IProps, IState> {
   }
   render() {
     const { loading } = this.props.auth;
-    const { emailError, passwordError, invalidEmailError } = this.state;
     return (
       <div>
         <VerifySuccessModal
@@ -111,8 +107,18 @@ class ResetPassword extends React.Component<IProps, IState> {
                   </p>
                 </div>
               </div>
-              <div style={{ marginLeft: "35%", opacity: 0.5 }}>
-                {loading && <Loading />}
+              <div
+                style={{
+                  marginLeft: "35%",
+                  padding: "20px",
+                  position: "relative"
+                }}
+              >
+                {loading && (
+                  <span style={{ position: "absolute" }}>
+                    <Loading />
+                  </span>
+                )}
               </div>
               <Formik
                 onSubmit={values => {

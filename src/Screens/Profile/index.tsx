@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import { Input, Label, Row, Col, Form, FormGroup, Button } from "reactstrap";
 import "./style.css";
 import { connect } from "react-redux";
-import { FaInfoCircle } from "react-icons/fa";
+// import { FaInfoCircle } from "react-icons/fa";
+import { toast } from "react-toastify";
 import AWS from "aws-sdk";
-import LinkAccount from "./LinkAccount";
+// import LinkAccount from "./LinkAccount";
 import { updateProfileUser } from "../../Redux/Actions/profile";
 import { ProfileState, UserProfile } from "../../Redux/Types/profile";
 import { AuthState } from "../../Redux/Types/auth";
@@ -49,7 +50,7 @@ class Profile extends Component<IProps, IState> {
       webAddress: this.props.profile!.user!.webAddress || "",
       title: this.props.profile!.user!.title || "",
       affiliateId: this.props.profile!.user!.affiliateId || "",
-      url: this.props.profile!.user!.url || "",
+      url: this.props.profile!.user!.url || ""
     };
   }
 
@@ -69,7 +70,7 @@ class Profile extends Component<IProps, IState> {
       webAddress,
       title,
       affiliateId,
-      url,
+      url
     } = this.state;
     const data = {
       email,
@@ -83,25 +84,28 @@ class Profile extends Component<IProps, IState> {
       title,
       affiliateId,
       userId: this.props.profile!.user!._id,
-      url,
+      url
     };
-    console.log("data", data);
     this.props.updateProfile(data);
   };
   fileHandler = (e: any) => {
+    toast("Uploading please wait");
     const that = this;
     let s3 = new AWS.S3(config);
     var options = {
       Bucket: config.bucketName,
       ACL: config.ACL,
       Key: Date.now().toString(),
-      Body: e.target.files[0],
+      Body: e.target.files[0]
     };
     s3.upload(options, function(err: any, data: any) {
       if (err) {
-        throw err;
+        // throw err;
+        toast.error("Failed to upload profile image ,try again");
+        return;
       }
       that.setState({ url: data.Location });
+      toast("Click update button below to save changes");
     });
   };
   render() {
@@ -111,9 +115,9 @@ class Profile extends Component<IProps, IState> {
         <div id="profilePhotoWrap">
           <div id="profilePhotoHead">
             <h4>{Constants.PROFILE_PHOTO} </h4>
-            <i>
+            {/* <i>
               <FaInfoCircle id="infoCircleStyle" />
-            </i>
+            </i> */}
             <p id="uploadProfilePara">{Constants.UPLOAD_DESCRIPTION}</p>
           </div>
           <hr />
@@ -134,7 +138,7 @@ class Profile extends Component<IProps, IState> {
           </div>
           <div id="profileImgLabelWrap">
             <Label id="profileImgLabelStyle" className="profileBtn">
-              {Constants.SELECT_NEW_PHOTO}
+              SELECT NEW PHOTO
               <Input
                 type="file"
                 id="profileSelectInput"
@@ -252,7 +256,7 @@ class Profile extends Component<IProps, IState> {
                     onChange={this.onChange}
                   />
                 </FormGroup>
-                <FormGroup>
+                {/* <FormGroup>
                   <Label for="exampleEmail">{Constants.AFFILIATE}</Label>
                   <Input
                     type="text"
@@ -266,12 +270,8 @@ class Profile extends Component<IProps, IState> {
                     {Constants.PROFILE_DESCRIPTION}{" "}
                     <a href="/profile"> {Constants.PROFILE_URL}</a>
                   </p>
-                </FormGroup>
-                <Button
-                  id="yourProfileUpdateBtn"
-                  className="profileBtn"
-                  onClick={() => this.update()}
-                >
+                </FormGroup> */}
+                <Button id="yourProfileUpdateBtn" onClick={() => this.update()}>
                   {Constants.UPDATE}
                 </Button>
               </Form>
@@ -281,20 +281,20 @@ class Profile extends Component<IProps, IState> {
             </Col>
           </Row>
         </div>
-        <LinkAccount />
+        {/* <LinkAccount /> */}
       </div>
     );
   }
 }
 const mapStateToProps = (state: any) => {
   return {
-    profile: state.profile,
+    profile: state.profile
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
     updateProfile: (userProfile: UserProfile) =>
-      dispatch(updateProfileUser(userProfile)),
+      dispatch(updateProfileUser(userProfile))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

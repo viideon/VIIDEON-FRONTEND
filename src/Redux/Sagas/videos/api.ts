@@ -1,6 +1,6 @@
 import * as CONSTANTS from "../../../constants/baseUrl";
 import API from "../../../lib/Api";
-import DEVAPI from "../../../lib/devApi";
+// import DEVAPI from "../../../lib/devApi";
 import AWS from "aws-sdk";
 import { config } from "../../../config/aws";
 
@@ -31,11 +31,11 @@ export async function updateEmailShare(id: any) {
 }
 
 export async function sendVideoToEmail(video: any) {
-  return DEVAPI.post("/email/send", video);
+  return API.post("/email/send", video);
 }
 
 export async function sendMultiEmails(video: any) {
-  return DEVAPI.post("/email/send", video);
+  return API.post("/email/send", video);
 }
 
 export async function getVideos() {
@@ -75,7 +75,9 @@ export async function getSingleVideo(id: string) {
 export async function videoCount(id: string) {
   return API.get("/video/count", { params: { id: id } });
 }
-
+export async function campaignCount(id: string) {
+  return API.get("/video/campaign/count", { params: { id: id } });
+}
 export async function deleteDataAws(imageUrl: any) {
   if (imageUrl) {
     try {
@@ -86,7 +88,7 @@ export async function deleteDataAws(imageUrl: any) {
         Bucket: config.bucketName,
         Key: imageUrl,
       };
-      s3.deleteObject(options, function(err, data) {
+      s3.deleteObject(options, function (err, data) {
         console.log("Image deleted", err, data);
       });
     } catch (e) {

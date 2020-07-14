@@ -65,6 +65,7 @@
   padding: 10px 0px 5px 0px;
   color: #0071bc;
   margin-bottom: 15px;
+  text-transform: uppercase;
 }
 
 .addLogoHeading {
@@ -73,6 +74,7 @@
   margin-bottom: 15px;
   font-weight: 700;
   padding: 10px 0px 5px 0px;
+  text-transform: uppercase;
 }
 
 /* ------prev newxt buttons wrappers */
@@ -98,13 +100,15 @@
   letter-spacing: 1px;
 }
 .addLogoMessage {
-  padding: 30px 0 10px 0px;
-  font-size: 30px;
+  padding-bottom: 10px;
+  font-size: 25px;
+  text-transform: uppercase;
   color: #2f2519;
 }
 .positionTxt {
   color: #2f2519;
   padding-top: 20px;
+  font-size: 16px;
 }
 #formInput input {
   padding: 8px !important;

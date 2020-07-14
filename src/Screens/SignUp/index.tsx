@@ -55,7 +55,7 @@ class Signup extends React.Component<IProps, IState> {
       userNameError: false,
       confirmPasswordError: false,
       next: false,
-      showNext: true,
+      showNext: true
     };
   }
 
@@ -80,7 +80,7 @@ class Signup extends React.Component<IProps, IState> {
       userName,
       email,
       password,
-      confirmPassword,
+      confirmPassword
     } = this.state;
     if (firstName === "") this.setState({ firstError: true });
     else if (lastName === "") this.setState({ lastError: true });
@@ -99,7 +99,7 @@ class Signup extends React.Component<IProps, IState> {
         firstName,
         lastName,
         userName,
-        password,
+        password
       };
       this.props.register(user);
     }
@@ -130,7 +130,7 @@ class Signup extends React.Component<IProps, IState> {
       firstName,
       lastName,
       password,
-      confirmPassword,
+      confirmPassword
     } = this.state;
 
     return (
@@ -179,13 +179,13 @@ class Signup extends React.Component<IProps, IState> {
                   <InputRound
                     type="email"
                     name="email"
-                    placeholder="Enter Your business e-mail"
+                    placeholder="Enter your business e-mail"
                     onChange={this.onChangeHandler}
                     value={email}
                   />
                 </FormGroup>
                 {emailError && (
-                  <Alert color="danger">{Constants.EMAIL_ERROR}</Alert>
+                  <Alert color="danger">The email field is required</Alert>
                 )}
                 {invalidEmailError && (
                   <Alert color="danger">{Constants.EMAIL_INVALID}</Alert>
@@ -215,7 +215,9 @@ class Signup extends React.Component<IProps, IState> {
                       />
                     </FormGroup>
                     {firstError && (
-                      <Alert color="danger">{Constants.FIRSTNAME_ERROR}</Alert>
+                      <Alert color="danger">
+                        The first name field is required
+                      </Alert>
                     )}
                     <FormGroup>
                       <Label>{Constants.LASTNAME}</Label>
@@ -229,7 +231,9 @@ class Signup extends React.Component<IProps, IState> {
                       />
                     </FormGroup>
                     {lastError && (
-                      <Alert color="danger">{Constants.LASTNAME_ERROR}</Alert>
+                      <Alert color="danger">
+                        The last name field is required
+                      </Alert>
                     )}
                     <FormGroup>
                       <Label>{Constants.USERNAME}</Label>
@@ -243,10 +247,12 @@ class Signup extends React.Component<IProps, IState> {
                       />
                     </FormGroup>
                     {userNameError && (
-                      <Alert color="danger">{Constants.USERNAME_ERROR}</Alert>
+                      <Alert color="danger">
+                        The user name field is required
+                      </Alert>
                     )}
                     <FormGroup>
-                      <Label for="examplePassword">{Constants.PASSWORD}</Label>
+                      <Label for="examplePassword">Password</Label>
 
                       <InputRound
                         type="password"
@@ -257,7 +263,9 @@ class Signup extends React.Component<IProps, IState> {
                       />
                     </FormGroup>
                     {passwordError && (
-                      <Alert color="danger">{Constants.PASSWORD_ERROR}</Alert>
+                      <Alert color="danger">
+                        The password field is required{" "}
+                      </Alert>
                     )}
                     <FormGroup>
                       <Label for="examplePassword">
@@ -273,11 +281,11 @@ class Signup extends React.Component<IProps, IState> {
                       />
                     </FormGroup>
                     {confirmPasswordError && (
-                      <Alert color="danger">{Constants.CONFIRM_ERROR}</Alert>
+                      <Alert color="danger">Please confirm your password</Alert>
                     )}
                     {c_passwordError && (
                       <Alert color="danger">
-                        {Constants.PASSWORD_MATCHING}
+                        Password and confirmation password do not match
                       </Alert>
                     )}
                     <div className="buttonWrapper1">
@@ -306,17 +314,17 @@ const registerBtnStyle = {
   float: "right",
   marginBottom: "10px",
   color: "white",
-  borderRadius: "10rem",
+  borderRadius: "10rem"
 } as React.CSSProperties;
 
 const mapStateToProps = (state: any) => {
   return {
-    registerUser: state.register,
+    registerUser: state.register
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    register: (user: User) => dispatch(registerUser(user)),
+    register: (user: User) => dispatch(registerUser(user))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);
