@@ -93,7 +93,7 @@ class AddLogo extends React.Component<IProps, IState> {
         return;
       }
       await this.compress(e.target.files![0]);
-      toast("Logo selected play the video to see the logo");
+      toast.info("Logo selected play the video to see the logo");
     } else {
       toast.error("error in selecting file");
     }
@@ -157,7 +157,7 @@ class AddLogo extends React.Component<IProps, IState> {
   }
   setIconPosition = (position: string) => {
     if (this.state.img === null) {
-      toast("Please upload a logo");
+      toast.info("Please upload a logo");
       return;
     }
     this.setState({ iconPos: position });
