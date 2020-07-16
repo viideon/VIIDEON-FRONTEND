@@ -10,6 +10,16 @@ import { User } from "../../Redux/Types/auth";
 import ActionButton from "../../components/Reusable/ActionButton";
 import "./style.css";
 import VerifySuccessModal from "../../components/Modals/verifySuccessModal";
+import * as Yup from "yup";
+import { Formik } from "formik";
+const validationSchema = Yup.object().shape({
+  password: Yup.string()
+    .required("Enter Password")
+    .min(6, "Password must be 6 characters long"),
+  email: Yup.string()
+    .required("Enter Email")
+    .email("Enter Correct Email")
+});
 type IProps = {
   navigation: any;
   auth: any;
@@ -94,9 +104,10 @@ class Signin extends React.Component<IProps, IState> {
       this.props.login(user);
     }
   };
+
   render() {
     const { loading } = this.props.auth;
-    const { emailError, passwordError, invalidEmailError } = this.state;
+
     return (
       <div>
         <VerifySuccessModal
@@ -141,8 +152,8 @@ class Signin extends React.Component<IProps, IState> {
                     style={{ textDecoration: "underline", cursor: "pointer" }}
                   >
                     Click here
-                  </a>
-                  &nbsp;to resend .
+                  </a>{" "}
+                  to resend .
                 </div>
               )}
 
@@ -159,69 +170,99 @@ class Signin extends React.Component<IProps, IState> {
                   </span>
                 )}
               </div>
-              <Form style={{ width: "80%" }}>
-                <FormGroup>
-                  <Label for="exampleEmail" style={{ fontWeight: "bold" }}>
-                    {Constants.EMAIL_ADDRESS}
-                  </Label>
-                  <div className="textInput">
-                    <Input
-                      type="text"
-                      name="email"
-                      placeholder="Email address"
-                      onChange={this.onChange}
-                      style={inputStyle}
-                      autoComplete="off"
-                    />
-                    <i className="w3-xxlarge fa fa-user" style={iconStyle}></i>
-                  </div>
-                </FormGroup>
-                <div style={{ width: "69%" }}>
-                  {emailError && (
-                    <Alert color="danger">The email field is empty</Alert>
-                  )}
-                  {invalidEmailError && (
-                    <Alert color="danger">{Constants.EMAIL_INVALID}</Alert>
-                  )}
-                </div>
-                <FormGroup>
-                  <Label for="examplePassword" style={{ fontWeight: "bold" }}>
-                    {Constants.PASSWORD}
-                  </Label>
-                  <div className="textInput">
-                    <Input
-                      type="password"
-                      name="password"
-                      placeholder="Password"
-                      onChange={this.onChange}
-                      style={inputStyle}
-                      autoComplete="new-password"
-                    />
-                    <i className="w3-xxlarge fa fa-key" style={iconStyle}></i>
-                  </div>
-                </FormGroup>
-                <div style={{ width: "69%" }}>
-                  {passwordError && (
-                    <Alert color="danger">The Password field is empty</Alert>
-                  )}
-                </div>
-                <div className="mainWrapperLayout">
-                  <p
-                    className="forgotPassword"
-                    onClick={() => this.props.history.push("/forgotpassword")}
-                  >
-                    Forgot your password ?
-                  </p>
+              <Formik
+                onSubmit={values => {
+                  console.log(values);
+                  const user = {
+                    email: values.email,
+                    password: values.password
+                  };
+                  this.props.login(user);
+                }}
+                initialValues={{
+                  password: "",
+                  email: ""
+                }}
+                validationSchema={validationSchema}
+              >
+                {formik => (
+                  <Form style={{ width: "80%" }}>
+                    <FormGroup>
+                      <Label for="exampleEmail" style={{ fontWeight: "bold" }}>
+                        {Constants.EMAIL_ADDRESS}
+                      </Label>
+                      <div className="textInput">
+                        <Input
+                          type="text"
+                          name="email"
+                          placeholder="Email address"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.email}
+                          style={inputStyle}
+                          autoComplete="off"
+                        />
+                        <i
+                          className="w3-xxlarge fa fa-user"
+                          style={iconStyle}
+                        ></i>
+                      </div>
+                    </FormGroup>
+                    <div style={{ width: "69%" }}>
+                      {formik.errors.email && formik.touched.email && (
+                        <Alert color="danger">{formik.errors.email}</Alert>
+                      )}
+                    </div>
+                    <FormGroup>
+                      <Label
+                        for="examplePassword"
+                        style={{ fontWeight: "bold" }}
+                      >
+                        {Constants.PASSWORD}
+                      </Label>
+                      <div className="textInput">
+                        <Input
+                          type="password"
+                          name="password"
+                          placeholder="Password"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.password}
+                          style={inputStyle}
+                          autoComplete="new-password"
+                        />
+                        <i
+                          className="w3-xxlarge fa fa-key"
+                          style={iconStyle}
+                        ></i>
+                      </div>
+                    </FormGroup>
+                    <div style={{ width: "69%" }}>
+                      {formik.errors.password && formik.touched.password && (
+                        <Alert color="danger">{formik.errors.password}</Alert>
+                      )}
+                    </div>
+                    <div className="mainWrapperLayout">
+                      <p
+                        className="forgotPassword"
+                        onClick={() =>
+                          this.props.history.push("/forgotpassword")
+                        }
+                      >
+                        Forgot your password ?
+                      </p>
 
-                  <ActionButton
-                    text={Constants.LOGIN}
-                    bgColor="#9F55FF"
-                    color="#fff"
-                    onClick={this.loginHandler}
-                    style={{ marginTop: 18, minWidth: "150px" }}
-                  />
-                </div>
-              </Form>
+                      <ActionButton
+                        text={Constants.LOGIN}
+                        bgColor="#9F55FF"
+                        color="#fff"
+                        onClick={formik.handleSubmit}
+                        style={{ marginTop: 18, minWidth: "150px" }}
+                      />
+                    </div>
+                  </Form>
+                )}
+              </Formik>
             </div>
           </Grid>
         </Grid>
@@ -254,16 +295,3 @@ const mapDispatchToProps = (dispatch: any) => {
 export default connect(mapStateToProps, mapDispatchToProps)(Signin);
 
 // To be used later
-
-/* <Input
-type="password"
-name="password"
-placeholder="Password"
-onChange={this.onChange}
-id="input-with-icon-adornment"
-endAdornment={
-  <InputAdornment position="end">
-    <VpnKeyIcon />
-  </InputAdornment>
-}
-/> */

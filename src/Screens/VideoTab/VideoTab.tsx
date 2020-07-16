@@ -36,6 +36,7 @@ const VideoTab = ({
   videoCount
 }: any) => {
   const [activeTab, setActiveTab] = useState("1");
+  const [isDisabled, enableLinks] = useState(true);
 
   const toggle = (tab: any) => {
     if (activeTab !== tab) setActiveTab(tab);
@@ -43,6 +44,7 @@ const VideoTab = ({
 
   useEffect(() => {
     getVideo(params.id);
+    setTimeout(() => enableLinks(false), 1000);
     return () => {
       cleanSingleVideo();
     };
@@ -74,6 +76,7 @@ const VideoTab = ({
           </NavItem>
           <NavItem className="video-tabs">
             <NavLink
+              disabled={isDisabled}
               id="videoTabNavLink"
               className={classnames({ active: activeTab === "2" })}
               onClick={() => {
@@ -90,6 +93,7 @@ const VideoTab = ({
           </NavItem>
           <NavItem className="video-tabs">
             <NavLink
+              disabled={isDisabled}
               id="videoTabNavLink"
               className={classnames({ active: activeTab === "3" })}
               onClick={() => {

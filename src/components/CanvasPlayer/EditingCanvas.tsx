@@ -163,7 +163,8 @@ class EditingPlayer extends React.Component<IProps, IState> {
     }, 0);
     setTimeout(() => {
       this.setCanvasDimensions();
-    }, 4000);
+    }, 0);
+    this.setCanvasDimensions();
   }
 
   setupListeners(remove?: any) {
@@ -340,16 +341,6 @@ class EditingPlayer extends React.Component<IProps, IState> {
   setCanvasDimensions = () => {
     const persistRect = JSON.parse(
       JSON.stringify(this.edContainer.getBoundingClientRect())
-    );
-    console.log(
-      "width height dimensions",
-      persistRect.width,
-      persistRect.height
-    );
-    console.log(
-      "canvas wrapper width height",
-      this.edContainer.clientWidth,
-      this.edContainer.clientHeight
     );
     this.setState({
       width: persistRect.width,

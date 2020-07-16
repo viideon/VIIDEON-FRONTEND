@@ -10,6 +10,7 @@ interface IProps {
 }
 class Analytics extends React.Component<IProps> {
   render() {
+    console.log(this.props.videoCount, "ana");
     return (
       <div className="wrapperAnalytics">
         <Grid container spacing={2}>

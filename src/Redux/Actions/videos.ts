@@ -87,8 +87,8 @@ export function getVideoCount() {
 
 export function getCampaignCount() {
   return {
-    type: types.COUNT_CAMPAIGN
-  }
+    type: types.COUNT_CAMPAIGN,
+  };
 }
 
 export function cleanSingleVideo() {

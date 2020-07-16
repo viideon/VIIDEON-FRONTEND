@@ -44,17 +44,16 @@ class Editing extends React.Component<IProps, IState> {
       file: null,
       url: "",
       uploading: false,
-      showVideo: false
+      showVideo: true
     };
     this._isMounted = false;
   }
   container: any;
   componentDidMount() {
-    console.log("mounted");
     this._isMounted = true;
     this.container = this.refs.container;
     this._isMounted &&
-      setTimeout(() => this.setState({ showVideo: true }), 5000);
+      setTimeout(() => this.setState({ showVideo: true }), 1000);
   }
   componentWillUnmount() {
     this._isMounted = false;

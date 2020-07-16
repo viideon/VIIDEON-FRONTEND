@@ -15,7 +15,7 @@ type IProps = {
   history: any;
   videoCount: number;
   campaignCount: number;
-  viewCount?: number;
+  viewCount: number;
   getVideoCount: () => void;
   getCampaignCount: () => void;
 };
@@ -149,8 +149,8 @@ const iconStyle = {
 const mapStateToProps = (state: any) => {
   return {
     videoCount: state.video.videoCount,
-    campaignCount: state.video.campaignCount,
-    viewCount: state.video.viewCount
+    viewCount: state.video.viewCount,
+    campaignCount: state.video.campaignCount
   };
 };
 const mapDispatchToProps = (dispatch: any) => {

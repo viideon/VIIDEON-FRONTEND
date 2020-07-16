@@ -60,17 +60,19 @@ class SendSave extends React.Component<IProps> {
   };
   canvas: any;
   container: any;
+  s3:any;
   componentDidMount() {
     this.props.toggleSendVariable();
+    this.s3 = new AWS.S3(config);
   }
 
-  saveVideo = () => {
+   saveVideo =async () => {
     if (this.state.title === "") {
       toast.warn("Enter a title to save video");
       return;
     }
     this.setState({ videoProgress: true, progressVideo: 0 });
-    let s3 = new AWS.S3(config);
+   
     const options = {
       Bucket: config.bucketName,
       ACL: config.ACL,
@@ -83,32 +85,25 @@ class SendSave extends React.Component<IProps> {
       Key: Date.now().toString() + "thumbnail.jpeg",
       Body: this.props.thumbnailBlob
     };
-    const that = this;
+   
     if (this.props.logoBlob) {
-      const logoOptions = {
-        Bucket: config.bucketName,
-        ACL: config.ACL,
-        Key: Date.now().toString() + "logo.jpeg",
-        Body: this.props.logoBlob
-      };
-      s3.upload(logoOptions, function(err: any, data: any) {
-        if (err) {
-          that.setState({ fileProgress: false });
-          toast.error(err);
-          return;
-        }
-        that.setState({ logoUrl: data.Location });
-      });
+    try{
+await this.saveLogo();
+    }
+    catch(err){
+      toast.error(err);
+    }
     }
     //uploading video and thumbnail to aws and db
-    s3.upload(options, function(err: any, data: any) {
+    const that = this;
+    this.s3.upload(options, function(err: any, data: any) {
       if (err) {
         that.setState({ fileProgress: false });
         toast.error(err);
         return;
       }
       that.setState({ urlRecord: data.Location });
-      s3.upload(thumbnailOptions, function(err: any, data: any) {
+      that.s3.upload(thumbnailOptions, function(err: any, data: any) {
         if (err) {
           toast.error(err);
           return;
@@ -132,11 +127,32 @@ class SendSave extends React.Component<IProps> {
         that.setState({ videoProgress: false });
         that.props.saveVideo(video);
       });
-    }).on("httpUploadProgress", function(progress) {
+    }).on("httpUploadProgress", function(progress:any) {
       let uploaded: number = (progress.loaded * 100) / progress.total;
       that.setState({ progressVideo: uploaded });
     });
   };
+  saveLogo=()=>{
+    let that=this;
+    return new Promise(function(resolve,reject){
+      const logoOptions = {
+        Bucket: config.bucketName,
+        ACL: config.ACL,
+        Key: Date.now().toString() + "logo.jpeg",
+        Body: that.props.logoBlob
+      };
+      that.s3.upload(logoOptions, function(err: any, data: any) {
+        if (err) {
+          that.setState({ fileProgress: false });
+          toast.error(err);
+          reject();
+          return;
+        }
+        that.setState({ logoUrl: data.Location });
+        resolve();
+      });
+    });
+  }
   titleNameHandler = (event: any) => {
     this.setState({
       title: event.target.value

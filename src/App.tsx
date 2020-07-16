@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 toast.configure({
   autoClose: 6000,
-  hideProgressBar: true
+  hideProgressBar: true,
 });
 
 const sagaMiddleware = creatSagaMiddleware();
