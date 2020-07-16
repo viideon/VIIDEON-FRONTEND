@@ -6,7 +6,6 @@ import {
   Redirect
 } from "react-router-dom";
 import { connect } from "react-redux";
-import Home from "./Screens/Home/Home";
 import VideoTab from "./Screens/VideoTab/VideoTab";
 import Profile from "./Screens/Profile/index";
 import { AuthState } from "../src/Redux/Types/auth";
@@ -20,6 +19,11 @@ import Recording from "./Screens/Watch/Recording";
 import TestRecorder from "./Screens/Watch/TestRecorder";
 import ForgotPassword from "./Screens/ForgotPassword";
 import ResetPassword from "./Screens/ResetPassword";
+import Dashboard from "./Screens/Home/Dashboard";
+import Contacts from "./Screens/Connections/Contacts";
+import Videos from "./Screens/Home/Videos";
+import Configuration from "./Screens/Configuration";
+import CampaignList from "./Screens/Home/campaign";
 type IProps = {
   auth: AuthState;
 };
@@ -39,7 +43,11 @@ class Routes extends Component<IProps> {
               <Route exact path="/campaign/new" component={Campaign} />
               <Route exact path="/recording" component={Recording} />
               <Route exact path="/recorder" component={TestRecorder} />
-              <Route exact path="*" component={Home} />
+              <Route exact path="/" component={Dashboard} />
+              <Route exact path="/videos" component={Videos} />
+              <Route exact path="/contacts" component={Contacts} />
+              <Route exact path="/campaign" component={CampaignList} />
+              <Route exact path="/configuration" component={Configuration} />
             </Switch>
           </>
         ) : (

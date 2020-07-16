@@ -28,6 +28,7 @@ const Button: React.FC<IProps> = ({
         color: color,
         height: "40px",
         border: "none",
+        outline: "none",
         ...style
       }}
     >

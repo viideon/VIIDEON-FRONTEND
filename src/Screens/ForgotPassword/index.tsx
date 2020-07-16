@@ -177,18 +177,3 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword);
-
-// To be used later
-
-/* <Input
-type="password"
-name="password"
-placeholder="Password"
-onChange={this.onChange}
-id="input-with-icon-adornment"
-endAdornment={
-  <InputAdornment position="end">
-    <VpnKeyIcon />
-  </InputAdornment>
-}
-/> */

@@ -1,23 +1,18 @@
 import React, { Component } from "react";
-import { Route, Redirect, Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { getEmailConfigurations } from "../../Redux/Actions/email";
 import { logout } from "../../Redux/Actions/auth";
 import SideBar from "../../components/SideBar/SideBar";
-import Dashboard from "./Dashboard";
 import Tooltip from "@material-ui/core/Tooltip";
-import Videos from "./Videos";
-import CampaignList from "./campaign";
-import Contacts from "../Connections/Contacts";
-import Configuration from "../Configuration";
 import "./styles.css";
 import LogoutModal from "../../components/Modals/logout";
 type IProps = {
-  history: any;
+  history?: any;
   drawer: boolean;
   getEmailConfigurations: () => void;
   logout: () => void;
-  location: any;
+  location?: any;
 };
 
 class Home extends Component<IProps> {
@@ -43,12 +38,7 @@ class Home extends Component<IProps> {
         <div
           className={drawer ? "wrapperHomeContent" : "wrapperHomeContentFull"}
         >
-          <Route exact path="/" component={Dashboard} />
-          <Route exact path="/videos" component={Videos} />
-          <Route exact path="/contacts" component={Contacts} />
-          <Route exact path="/campaign" component={CampaignList} />
-          <Route exact path="/configuration" component={Configuration} />
-          <Route exact path="*" render={() => <Redirect to="/" />} />
+          {this.props.children}
         </div>
         <div className="footerDashboard">
           <div className="navFooterIcons">
@@ -94,4 +84,6 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default withRouter<any, any>(
+  connect(mapStateToProps, mapDispatchToProps)(Home)
+);

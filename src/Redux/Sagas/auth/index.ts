@@ -61,7 +61,6 @@ function* VerifyUser(action: any) {
 function* forgotPassword(action: any) {
   try {
     const result = yield forgot(action.payload);
-
     if (result.status === 201) {
       toast.success("Reset Password link sent on given email");
       yield put({

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Home from "./Home";
 import { Grid } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import VideoSection from "../../components/VideosSection/VideoSection";
@@ -10,11 +11,13 @@ type IProps = {
 class CampaignList extends Component<IProps> {
   render() {
     return (
-      <Grid container className="wrapperDashVideos">
-        <Grid item xs={12}>
-          <VideoSection history={this.props.history} videoType="campaign" />
+      <Home>
+        <Grid container className="wrapperDashVideos">
+          <Grid item xs={12}>
+            <VideoSection history={this.props.history} videoType="campaign" />
+          </Grid>
         </Grid>
-      </Grid>
+      </Home>
     );
   }
 }

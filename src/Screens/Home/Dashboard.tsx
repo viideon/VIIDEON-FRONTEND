@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Home from "./Home";
 import { Grid } from "@material-ui/core";
 import VideocamIcon from "@material-ui/icons/Videocam";
 import PublishIcon from "@material-ui/icons/Publish";
@@ -34,110 +35,112 @@ class Dashboard extends Component<IProps> {
   };
   render() {
     return (
-      <div className="wrapperDashboard">
-        <div className="dashboardTop">
-          <h3 className="dashboardTopLeft">
-            Dashboard <span className="cntrlText">Control panel</span>
-          </h3>
-          <div className="dashboardTopRight">
-            <span className="homeDashIcon">
-              <i className="fas fa-tachometer-alt" />
-            </span>
-            <span className="homeDashIcon">Home</span>
-            <span>
-              <i className="fas fa-angle-right"></i>
-            </span>
-            <span className="txtDash">Dashboard</span>
+      <Home>
+        <div className="wrapperDashboard">
+          <div className="dashboardTop">
+            <h3 className="dashboardTopLeft">
+              Dashboard <span className="cntrlText">Control panel</span>
+            </h3>
+            <div className="dashboardTopRight">
+              <span className="homeDashIcon">
+                <i className="fas fa-tachometer-alt" />
+              </span>
+              <span className="homeDashIcon">Home</span>
+              <span>
+                <i className="fas fa-angle-right"></i>
+              </span>
+              <span className="txtDash">Dashboard</span>
+            </div>
           </div>
-        </div>
-        <Grid container spacing={2}>
-          <Grid item xs={6} md={3}>
-            <Link to="/videos" className="link-style">
-              <HeaderCard
-                styles={Styles.headerCardOne}
-                Number={this.props.videoCount}
-                Title="VIDEOS"
-                iconBg="#368BC4"
-              />
-            </Link>
-          </Grid>
-          <Grid item xs={6} md={3}>
-            <Tooltip title="Under Progress">
-              <div onClick={() => alert("Feature not created yet")}>
+          <Grid container spacing={2}>
+            <Grid item xs={6} md={3}>
+              <Link to="/videos" className="link-style">
                 <HeaderCard
-                  styles={Styles.headerCardTwo}
-                  Number={this.props.viewCount ? this.props.viewCount : 0}
-                  Title="VIEWS"
-                  iconBg="#3A966F"
+                  styles={Styles.headerCardOne}
+                  Number={this.props.videoCount}
+                  Title="VIDEOS"
+                  iconBg="#368BC4"
                 />
-              </div>
-            </Tooltip>
-          </Grid>
-          <Grid item xs={6} md={3}>
-            <Link to="/campaign" className="link-style">
-              <HeaderCard
-                styles={Styles.headerCardThree}
-                Number={this.props.campaignCount}
-                Title="CAMPAIGNS"
-                iconBg="#7754B8"
-              />
-            </Link>
-          </Grid>
+              </Link>
+            </Grid>
+            <Grid item xs={6} md={3}>
+              <Tooltip title="Under Progress">
+                <div onClick={() => alert("Feature not created yet")}>
+                  <HeaderCard
+                    styles={Styles.headerCardTwo}
+                    Number={this.props.viewCount ? this.props.viewCount : 0}
+                    Title="VIEWS"
+                    iconBg="#3A966F"
+                  />
+                </div>
+              </Tooltip>
+            </Grid>
+            <Grid item xs={6} md={3}>
+              <Link to="/campaign" className="link-style">
+                <HeaderCard
+                  styles={Styles.headerCardThree}
+                  Number={this.props.campaignCount}
+                  Title="CAMPAIGNS"
+                  iconBg="#7754B8"
+                />
+              </Link>
+            </Grid>
 
-          <Grid item xs={6} md={3}>
-            <Tooltip title="Under Progress">
-              <div onClick={() => alert("Feature not created yet")}>
-                <HeaderCard
-                  styles={Styles.headerCardFour}
-                  Number={0}
-                  Title="CONTACTS"
-                  iconBg="#CC5551"
-                />
-              </div>
-            </Tooltip>
+            <Grid item xs={6} md={3}>
+              <Tooltip title="Under Progress">
+                <div onClick={() => alert("Feature not created yet")}>
+                  <HeaderCard
+                    styles={Styles.headerCardFour}
+                    Number={0}
+                    Title="CONTACTS"
+                    iconBg="#CC5551"
+                  />
+                </div>
+              </Tooltip>
+            </Grid>
           </Grid>
-        </Grid>
-        <Grid container className="wrapperActivityHome">
-          <Grid item xs={6} md={3}>
-            <div
-              className="actionsHomePage"
-              onClick={() => this.navigate("record")}
-            >
-              <VideocamIcon style={iconStyle} />
-              <h5>Record a Video</h5>
-            </div>
-          </Grid>
-          <Grid item xs={6} md={3}>
-            <div
-              className="actionsHomePage"
-              onClick={() => this.navigate("upload")}
-            >
-              <PublishIcon style={iconStyle} />
-              <h5>Upload a Video</h5>
-            </div>
-          </Grid>
-          <Grid item xs={6} md={3}>
-            <div
-              className="actionsHomePage"
-              onClick={() => this.props.history.push("/campaign/new")}
-            >
-              <ImageSearchIcon style={iconStyle} />
-              <h5>Create a Campaign</h5>
-            </div>
-          </Grid>
-          <Grid item xs={6} md={3}>
-            <Tooltip title="Under Progress">
+          <Grid container className="wrapperActivityHome">
+            <Grid item xs={6} md={3}>
               <div
                 className="actionsHomePage"
-                onClick={() => alert("Feature not created yet")}
+                onClick={() => this.navigate("record")}
               >
-                <EditIcon style={iconStyle} />
-                <h5>Edit My Message</h5>
+                <VideocamIcon style={iconStyle} />
+                <h5>Record a Video</h5>
               </div>
-            </Tooltip>
+            </Grid>
+            <Grid item xs={6} md={3}>
+              <div
+                className="actionsHomePage"
+                onClick={() => this.navigate("upload")}
+              >
+                <PublishIcon style={iconStyle} />
+                <h5>Upload a Video</h5>
+              </div>
+            </Grid>
+            <Grid item xs={6} md={3}>
+              <div
+                className="actionsHomePage"
+                onClick={() => this.props.history.push("/campaign/new")}
+              >
+                <ImageSearchIcon style={iconStyle} />
+                <h5>Create a Campaign</h5>
+              </div>
+            </Grid>
+            <Grid item xs={6} md={3}>
+              <Tooltip title="Under Progress">
+                <div
+                  className="actionsHomePage"
+                  onClick={() => alert("Feature not created yet")}
+                >
+                  <EditIcon style={iconStyle} />
+                  <h5>Edit My Message</h5>
+                </div>
+              </Tooltip>
+            </Grid>
           </Grid>
-        </Grid>
-      </div>
+        </div>
+      </Home>
     );
   }
 }
