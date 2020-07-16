@@ -41,7 +41,9 @@ class Configuration extends React.Component<IProps> {
     }
   };
   handleLoginFailure = (response: any) => {
-    toast.error("Failed to authorize , please try again");
+    if (response.error !== "popup_closed_by_user") {
+      toast.error("Failed to authorize , please try again");
+    }
   };
   openDeleteDialog = () => {
     this.setState({ deleteDialog: true });

@@ -218,8 +218,12 @@ class Profile extends Component<IProps, IState> {
                     value={this.state.timeZone}
                     onChange={this.onChange}
                   >
-                    {Object.entries(TimeZone).map((key, value) => {
-                      return <option value={key}>{key}</option>;
+                    {Object.entries(TimeZone).map((key: any, value) => {
+                      return (
+                        <option key={key} value={key}>
+                          {key}
+                        </option>
+                      );
                     })}
                   </Input>
                 </FormGroup>

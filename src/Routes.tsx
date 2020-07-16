@@ -36,6 +36,7 @@ class Routes extends Component<IProps> {
           <>
             <Header />
             <Switch>
+              <Route exact path="/" component={Dashboard} />
               <Route exact path="/videotab/:id" component={VideoTab} />
               <Route exact path="/profile" component={Profile} />
               <Route exact path="/video/create" component={UploadRecord} />
@@ -43,11 +44,11 @@ class Routes extends Component<IProps> {
               <Route exact path="/campaign/new" component={Campaign} />
               <Route exact path="/recording" component={Recording} />
               <Route exact path="/recorder" component={TestRecorder} />
-              <Route exact path="/" component={Dashboard} />
               <Route exact path="/videos" component={Videos} />
               <Route exact path="/contacts" component={Contacts} />
               <Route exact path="/campaign" component={CampaignList} />
               <Route exact path="/configuration" component={Configuration} />
+              <Route exact path="*" render={() => <Redirect to="/" />} />
             </Switch>
           </>
         ) : (

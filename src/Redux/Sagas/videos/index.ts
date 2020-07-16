@@ -319,6 +319,7 @@ export function* getVideoCount() {
   try {
     const userId = yield select(selectID);
     const result = yield call(videoCount, userId);
+    console.log("result", result);
     if (result.status === 200) {
       yield put({
         type: types.COUNT_VIDEO_SUCCESS,
@@ -328,6 +329,8 @@ export function* getVideoCount() {
       yield put({ type: types.COUNT_VIDEO_FAIL });
     }
   } catch (error) {
+    console.log("result", error);
+
     toast.error("Failed to connect ,refresh");
     yield put({ type: types.COUNT_VIDEO_FAIL });
   }
@@ -359,7 +362,7 @@ export function* videoWatcher() {
   yield takeEvery(types.DELETE_VIDEO, deleteVideo);
   yield takeEvery(types.GET_VIDEO, getVideo);
   yield takeEvery(types.SEND_MULTIPLE_EMAIL, sendMultipleEmail);
-  yield takeEvery(types.COUNT_VIDEO, getVideoCount);
+  yield takeLatest(types.COUNT_VIDEO, getVideoCount);
   yield takeLatest(types.COUNT_CAMPAIGN, getCampaignCount);
   yield takeEvery(types.UPDATE_VIEW_REQUEST, updateView);
   yield takeEvery(types.UPDATE_VIDEO_WATCH_REQUEST, updateWatch);

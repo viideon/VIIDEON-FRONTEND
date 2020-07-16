@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 // import SearchBar from "../SearchBar";
 import avatar from "../../assets/profileImages/profileImg.png";
 import { UserProfile } from "../../Redux/Types/profile";
-import Tooltip from "@material-ui/core/Tooltip";
+// import Tooltip from "@material-ui/core/Tooltip";
 import LogoutModal from "../Modals/logout";
 import { logout } from "../../Redux/Actions/auth";
 import "./style.css";
