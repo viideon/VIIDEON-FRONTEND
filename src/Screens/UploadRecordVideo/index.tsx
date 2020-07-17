@@ -244,6 +244,7 @@ class UploadRecord extends Component<IProps, IState> {
         recieverEmail
       };
       this.props.sendVideoToEmail(video);
+      this.setState({recieverEmail:""});
     }
   };
   getThumbnail = (blob: any) => {

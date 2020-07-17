@@ -177,6 +177,7 @@ await this.saveLogo();
         recieverEmail
       };
       this.props.sendVideoToEmail(video);
+      this.setState({recieverEmail:""});
     }
   };
   sendMultipleEmail = () => {

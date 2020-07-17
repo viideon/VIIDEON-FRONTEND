@@ -83,6 +83,7 @@ class Detail extends React.Component<IProps> {
         recieverEmail
       };
       this.props.sendVideoToEmail(video);
+      this.setState({ recieverEmail: "" });
     }
   };
   sendMultipleEmail = () => {
