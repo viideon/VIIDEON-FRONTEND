@@ -119,7 +119,7 @@ export function updateEmailShare(id: any) {
 }
 export function updateVideoCta(id: any) {
   return {
-    type: types.UPDATE_VIDEO_CTA_SUCCESS,
+    type: types.UPDATE_VIDEO_CTA_REQUEST,
     payload: id,
   }
 }

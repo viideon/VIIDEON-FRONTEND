@@ -6,6 +6,7 @@ import {
   Redirect
 } from "react-router-dom";
 import { connect } from "react-redux";
+import { updateVideoCta } from "./Redux/Actions/videos";
 import VideoTab from "./Screens/VideoTab/VideoTab";
 import Profile from "./Screens/Profile/index";
 import { AuthState } from "../src/Redux/Types/auth";
@@ -24,6 +25,7 @@ import Configuration from "./Screens/Configuration";
 import CampaignList from "./Screens/Home/campaign";
 type IProps = {
   auth: AuthState;
+  updateVideoCta: (id: any) => void;
 };
 
 class Routes extends Component<IProps> {
@@ -39,6 +41,15 @@ class Routes extends Component<IProps> {
               <Route exact path="/profile" component={Profile} />
               <Route exact path="/video/create" component={UploadRecord} />
               <Route exact path="/watch/:id" component={Watch} />
+              <Route
+                exact
+                path="/watch/:id/cta"
+                render={(props: any) => {
+                  console.log("id", props.match.params.id);
+                  this.props.updateVideoCta(props.match.params.id);
+                  return <Redirect to={`/watch/${props.match.params.id}`} />;
+                }}
+              />
               <Route exact path="/campaign/new" component={Campaign} />
               <Route exact path="/videos" component={Videos} />
               <Route exact path="/contacts" component={Contacts} />
@@ -66,4 +77,9 @@ const mapStateToProps = (state: any) => {
     auth: state.auth
   };
 };
-export default connect(mapStateToProps)(Routes);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    updateVideoCta: (id: any) => dispatch(updateVideoCta(id))
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Routes);

@@ -9,6 +9,7 @@ import {
 } from "../../Redux/Actions/videos";
 import Grid from "@material-ui/core/Grid";
 import Loading from "../../components/Loading";
+import "./style.css";
 
 interface IProps {
   getVideo: (id: string) => void;

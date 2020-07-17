@@ -140,7 +140,7 @@ class Detail extends React.Component<IProps> {
                   {Constants.SENDER_ADDRESS}
                   <span>
                     <Tooltip
-                      title="connect your gmail account in confguration to send email's on your behalf"
+                      title="connect your gmail account in confguration to send email on your behalf"
                       placement="top"
                       arrow
                     >
@@ -176,7 +176,7 @@ class Detail extends React.Component<IProps> {
                   Broadcast
                   <span>
                     <Tooltip
-                      title="connect your gmail account in confguration to send email's on your behalf"
+                      title="connect your gmail account in confguration to send email on your behalf"
                       placement="top"
                       arrow
                     >

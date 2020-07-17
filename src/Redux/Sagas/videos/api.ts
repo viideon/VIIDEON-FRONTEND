@@ -1,6 +1,5 @@
 import * as CONSTANTS from "../../../constants/baseUrl";
 import API from "../../../lib/Api";
-// import DEVAPI from "../../../lib/devApi";
 import AWS from "aws-sdk";
 import { config } from "../../../config/aws";
 
@@ -30,7 +29,7 @@ export async function updateEmailShare(id: any) {
   return API.post("/video/updateEmailShare", id);
 }
 export async function updateCtaVideo(id: any) {
-  return API.post("/video/updateCta", id);
+  return API.post("/video/update/cta", { id });
 }
 export async function sendVideoToEmail(video: any) {
   return API.post("/email/send", video);

@@ -136,12 +136,14 @@ function* updateEmailShareSagas(action: any) {
 function* updateVideoCta(action: any) {
   try {
     const result = yield updateCtaVideo(action.payload);
+    console.log("result", result);
     if (result.status === 200) {
       yield put({ type: types.UPDATE_VIDEO_CTA_SUCCESS });
     } else {
       yield put({ type: types.UPDATE_VIDEO_CTA_FAILURE });
     }
   } catch (error) {
+    console.log("error", error);
     yield put({ type: types.UPDATE_VIDEO_CTA_FAILURE });
 
   }
