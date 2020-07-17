@@ -492,7 +492,8 @@ const iconStyle = {
   cursor: "pointer"
 };
 const logoPositionBtn = {
-  marginLeft: "10px",
+  marginBottom: "10px",
+  marginLeft: "7px",
   fontSize: "11px",
   border: "1px solid #696969"
 };

@@ -146,3 +146,6 @@
     padding: 20px 5px;
   }
 }
+.compact-picker {
+  width: 360px !important;
+}
