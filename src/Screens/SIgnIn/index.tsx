@@ -208,11 +208,11 @@ class Signin extends React.Component<IProps, IState> {
                         ></i>
                       </div>
                     </FormGroup>
-                    <div style={{ width: "69%" }}>
-                      {formik.errors.email && formik.touched.email && (
-                        <Alert color="danger">{formik.errors.email}</Alert>
-                      )}
-                    </div>
+
+                    {formik.errors.email && formik.touched.email && (
+                      <Alert color="danger">{formik.errors.email}</Alert>
+                    )}
+
                     <FormGroup>
                       <Label
                         for="examplePassword"
@@ -237,11 +237,11 @@ class Signin extends React.Component<IProps, IState> {
                         ></i>
                       </div>
                     </FormGroup>
-                    <div style={{ width: "69%" }}>
-                      {formik.errors.password && formik.touched.password && (
-                        <Alert color="danger">{formik.errors.password}</Alert>
-                      )}
-                    </div>
+
+                    {formik.errors.password && formik.touched.password && (
+                      <Alert color="danger">{formik.errors.password}</Alert>
+                    )}
+
                     <div className="mainWrapperLayout">
                       <p
                         className="forgotPassword"

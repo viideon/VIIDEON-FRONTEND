@@ -22,7 +22,7 @@ const rootPersistConfig = {
 const videoPersistConfig = {
   key: 'video',
   storage: storage,
-  whitelist: ["videoCount"],
+  whitelist: ["videoCount","viewCount","emailShareCount","emailOpenCount","ctaCount","watchCount"],
   blacklist: ["isVideoUpdated", "videoSaved", "videos", "singleVideo"]
 }
 

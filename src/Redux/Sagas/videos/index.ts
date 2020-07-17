@@ -136,14 +136,12 @@ function* updateEmailShareSagas(action: any) {
 function* updateVideoCta(action: any) {
   try {
     const result = yield updateCtaVideo(action.payload);
-    console.log("result", result);
     if (result.status === 200) {
       yield put({ type: types.UPDATE_VIDEO_CTA_SUCCESS });
     } else {
       yield put({ type: types.UPDATE_VIDEO_CTA_FAILURE });
     }
   } catch (error) {
-    console.log("error", error);
     yield put({ type: types.UPDATE_VIDEO_CTA_FAILURE });
 
   }
@@ -228,7 +226,7 @@ function* updateVideo(action: any) {
       const responseVideo = result.data.video;
       // const updatedVideos = videos.map((video: any) => ((video._id === responseVideo._id ? responseVideo : video)));
       yield put({ type: types.UPDATE_VIDEO_SUCCESS, payload: responseVideo });
-      toast.success("Updated");
+      toast.info("Updated");
     } else {
       toast.error("Update failed, please try again");
       yield put({
@@ -341,7 +339,6 @@ export function* getVideoCount() {
       yield put({ type: types.COUNT_VIDEO_FAIL });
     }
   } catch (error) {
-    // toast.error("Failed to connect ,refresh");
     yield put({ type: types.COUNT_VIDEO_FAIL });
   }
 }

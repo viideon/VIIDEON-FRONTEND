@@ -1,7 +1,7 @@
-import { types, VideoState } from "../Types/videos";
+import { types } from "../Types/videos";
 import { types as authTypes } from "../Types/auth";
 
-let initialState: VideoState = {
+let initialState: any = {
   videoSaved: null,
   videoSend: null,
   videos: [],
@@ -10,6 +10,11 @@ let initialState: VideoState = {
   videoCount: 0,
   addSearched: true,
   campaignCount: 0,
+  viewCount: 0,
+  watchCount: 0,
+  emailOpenCount: 0,
+  ctaCount: 0,
+  emailShareCount: 0
 };
 const videoReducer = (state = initialState, action: any) => {
   switch (action.type) {
@@ -123,6 +128,10 @@ const videoReducer = (state = initialState, action: any) => {
         ...state,
         videoCount: action.payload.count,
         viewCount: action.payload.viewCount,
+        watchCount: action.payload.watchCount,
+        emailOpenCount: action.payload.emailOpenCount,
+        ctaCount: action.payload.ctaCount,
+        emailShareCount: action.payload.emailShareCount
       };
     case types.COUNT_CAMPAIGN_SUCCESS:
       return {

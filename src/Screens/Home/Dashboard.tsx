@@ -57,7 +57,11 @@ class Dashboard extends Component<IProps> {
               <Link to="/videos" className="link-style">
                 <HeaderCard
                   styles={Styles.headerCardOne}
-                  Number={this.props.videoCount}
+                  Number={
+                    this.props.videoCount && this.props.campaignCount
+                      ? this.props.videoCount - this.props.campaignCount
+                      : 0
+                  }
                   Title="VIDEOS"
                   iconBg="#368BC4"
                 />
@@ -79,7 +83,9 @@ class Dashboard extends Component<IProps> {
               <Link to="/campaign" className="link-style">
                 <HeaderCard
                   styles={Styles.headerCardThree}
-                  Number={this.props.campaignCount}
+                  Number={
+                    this.props.campaignCount ? this.props.campaignCount : 0
+                  }
                   Title="CAMPAIGNS"
                   iconBg="#7754B8"
                 />

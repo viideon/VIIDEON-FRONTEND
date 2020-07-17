@@ -206,11 +206,11 @@ class Signup extends React.Component<IProps, IState> {
                         value={formik.values.email}
                       />
                     </FormGroup>
-                    <div style={{ width: "69%" }}>
-                      {formik.errors.email && formik.touched.email && (
-                        <Alert color="danger">{formik.errors.email}</Alert>
-                      )}
-                    </div>
+
+                    {formik.errors.email && formik.touched.email && (
+                      <Alert color="danger">{formik.errors.email}</Alert>
+                    )}
+
                     {this.state.showNext && (
                       <div className="buttonWrapper">
                         <Button
@@ -242,14 +242,14 @@ class Signup extends React.Component<IProps, IState> {
                             value={formik.values.firstName}
                           />
                         </FormGroup>
-                        <div style={{ width: "69%" }}>
-                          {formik.errors.firstName &&
-                            formik.touched.firstName && (
-                              <Alert color="danger">
-                                {formik.errors.firstName}
-                              </Alert>
-                            )}
-                        </div>
+
+                        {formik.errors.firstName &&
+                          formik.touched.firstName && (
+                            <Alert color="danger">
+                              {formik.errors.firstName}
+                            </Alert>
+                          )}
+
                         <FormGroup>
                           <Label>{Constants.LASTNAME}</Label>
 
@@ -262,14 +262,11 @@ class Signup extends React.Component<IProps, IState> {
                             value={formik.values.lastName}
                           />
                         </FormGroup>
-                        <div style={{ width: "69%" }}>
-                          {formik.errors.lastName &&
-                            formik.touched.lastName && (
-                              <Alert color="danger">
-                                {formik.errors.lastName}
-                              </Alert>
-                            )}
-                        </div>
+
+                        {formik.errors.lastName && formik.touched.lastName && (
+                          <Alert color="danger">{formik.errors.lastName}</Alert>
+                        )}
+
                         <FormGroup>
                           <Label>{Constants.USERNAME}</Label>
 
@@ -282,14 +279,11 @@ class Signup extends React.Component<IProps, IState> {
                             value={formik.values.userName}
                           />
                         </FormGroup>
-                        <div style={{ width: "69%" }}>
-                          {formik.errors.userName &&
-                            formik.touched.userName && (
-                              <Alert color="danger">
-                                {formik.errors.userName}
-                              </Alert>
-                            )}
-                        </div>
+
+                        {formik.errors.userName && formik.touched.userName && (
+                          <Alert color="danger">{formik.errors.userName}</Alert>
+                        )}
+
                         <FormGroup>
                           <Label for="examplePassword">Password</Label>
 
@@ -302,14 +296,11 @@ class Signup extends React.Component<IProps, IState> {
                             value={formik.values.password}
                           />
                         </FormGroup>
-                        <div style={{ width: "69%" }}>
-                          {formik.errors.password &&
-                            formik.touched.password && (
-                              <Alert color="danger">
-                                {formik.errors.password}
-                              </Alert>
-                            )}
-                        </div>
+
+                        {formik.errors.password && formik.touched.password && (
+                          <Alert color="danger">{formik.errors.password}</Alert>
+                        )}
+
                         <FormGroup>
                           <Label for="examplePassword">
                             {Constants.CONFIRM_PASSWORD}
@@ -324,14 +315,13 @@ class Signup extends React.Component<IProps, IState> {
                             value={formik.values.passwordConfirmation}
                           />
                         </FormGroup>
-                        <div style={{ width: "69%" }}>
-                          {formik.errors.passwordConfirmation &&
-                            formik.touched.passwordConfirmation && (
-                              <Alert color="danger">
-                                {formik.errors.passwordConfirmation}
-                              </Alert>
-                            )}
-                        </div>
+
+                        {formik.errors.passwordConfirmation &&
+                          formik.touched.passwordConfirmation && (
+                            <Alert color="danger">
+                              {formik.errors.passwordConfirmation}
+                            </Alert>
+                          )}
 
                         <div className="buttonWrapper1">
                           <Button

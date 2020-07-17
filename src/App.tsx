@@ -11,8 +11,11 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 toast.configure({
-  autoClose: 6000,
+  autoClose: 3000,
+  pauseOnHover: false,
   hideProgressBar: true,
+  pauseOnFocusLoss: false,
+  limit: 1
 });
 
 const sagaMiddleware = creatSagaMiddleware();
