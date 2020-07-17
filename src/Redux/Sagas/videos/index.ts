@@ -16,6 +16,7 @@ import {
   updateEmailShare,
   getCampaignVideos,
   campaignCount,
+  updateCtaVideo,
   getCampaignVideosByTitle,
 } from "./api";
 import {
@@ -82,11 +83,10 @@ function* updateView(action: any) {
       yield put({ type: types.UPDATE_VIEW_SUCCESS });
     } else {
       yield put({ type: types.UPDATE_VIEW_FAILURE });
-      toast.error("Something Went Wrong");
+
     }
   } catch (error) {
     yield put({ type: types.UPDATE_VIEW_FAILURE, payload: error });
-    toast.error(error.message);
   }
 }
 function* updateWatch(action: any) {
@@ -96,7 +96,7 @@ function* updateWatch(action: any) {
       yield put({ type: types.UPDATE_VIDEO_WATCH_SUCCESS });
     } else {
       yield put({ type: types.UPDATE_VIDEO_WATCH_FAILURE });
-      toast.error("Something Went Wrong");
+
     }
   } catch (error) {
     yield put({ type: types.UPDATE_VIDEO_WATCH_FAILURE, payload: error });
@@ -127,11 +127,23 @@ function* updateEmailShareSagas(action: any) {
       yield put({ type: types.UPDATE_EMAIL_SHARE_SUCCESS });
     } else {
       yield put({ type: types.UPDATE_EMAIL_SHARE_FAILURE });
-      toast.error("Something Went Wrong");
     }
   } catch (error) {
     yield put({ type: types.UPDATE_EMAIL_SHARE_FAILURE, payload: error });
     toast.error(error.message);
+  }
+}
+function* updateVideoCta(action: any) {
+  try {
+    const result = yield updateCtaVideo(action.payload);
+    if (result.status === 200) {
+      yield put({ type: types.UPDATE_VIDEO_CTA_SUCCESS });
+    } else {
+      yield put({ type: types.UPDATE_VIDEO_CTA_FAILURE });
+    }
+  } catch (error) {
+    yield put({ type: types.UPDATE_VIDEO_CTA_FAILURE });
+
   }
 }
 
@@ -145,10 +157,8 @@ function* getUserVideos(action: any) {
   try {
     var result;
     if (action.payload === "allVideos") {
-      console.log("all v");
       result = yield call(getVideosByUserId, queryObj);
     } else {
-      console.log("not all");
       result = yield call(getCampaignVideos, queryObj);
     }
     yield put({ type: "LOADMORE_TRUE" });
@@ -258,7 +268,7 @@ function* sendMultipleEmail(action: any) {
     let userId = yield select(selectID);
     const payload = action.payload;
     payload.userId = userId;
-    console.log("payload", payload);
+
     const result = yield call(sendMultiEmails, payload);
     if (result.status === 200) {
       yield put({ type: types.MULTIPLE_EMAIL_SUCCESS });
@@ -319,7 +329,7 @@ export function* getVideoCount() {
   try {
     const userId = yield select(selectID);
     const result = yield call(videoCount, userId);
-    console.log("result", result);
+
     if (result.status === 200) {
       yield put({
         type: types.COUNT_VIDEO_SUCCESS,
@@ -329,9 +339,7 @@ export function* getVideoCount() {
       yield put({ type: types.COUNT_VIDEO_FAIL });
     }
   } catch (error) {
-    console.log("result", error);
-
-    toast.error("Failed to connect ,refresh");
+    // toast.error("Failed to connect ,refresh");
     yield put({ type: types.COUNT_VIDEO_FAIL });
   }
 }
@@ -368,4 +376,5 @@ export function* videoWatcher() {
   yield takeEvery(types.UPDATE_VIDEO_WATCH_REQUEST, updateWatch);
   yield takeEvery(types.UPDATE_EMAIL_SHARE_REQUEST, updateEmailShareSagas);
   yield takeEvery(types.GET_CAMPAIGN_VIDEOS_REQUEST, getCampaignVideoSagas);
+  yield takeEvery(types.UPDATE_VIDEO_CTA_REQUEST, updateVideoCta);
 }

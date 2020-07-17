@@ -15,8 +15,6 @@ import Header from "./components/Header/Header";
 import UploadRecord from "../src/Screens/UploadRecordVideo";
 import Watch from "./Screens/Watch";
 import Campaign from "./Screens/CampaignNew";
-import Recording from "./Screens/Watch/Recording";
-import TestRecorder from "./Screens/Watch/TestRecorder";
 import ForgotPassword from "./Screens/ForgotPassword";
 import ResetPassword from "./Screens/ResetPassword";
 import Dashboard from "./Screens/Home/Dashboard";
@@ -42,8 +40,6 @@ class Routes extends Component<IProps> {
               <Route exact path="/video/create" component={UploadRecord} />
               <Route exact path="/watch/:id" component={Watch} />
               <Route exact path="/campaign/new" component={Campaign} />
-              <Route exact path="/recording" component={Recording} />
-              <Route exact path="/recorder" component={TestRecorder} />
               <Route exact path="/videos" component={Videos} />
               <Route exact path="/contacts" component={Contacts} />
               <Route exact path="/campaign" component={CampaignList} />

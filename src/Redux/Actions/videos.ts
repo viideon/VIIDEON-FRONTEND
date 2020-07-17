@@ -117,7 +117,12 @@ export function updateEmailShare(id: any) {
     payload: id,
   };
 }
-
+export function updateVideoCta(id: any) {
+  return {
+    type: types.UPDATE_VIDEO_CTA_SUCCESS,
+    payload: id,
+  }
+}
 export function getCampaignVideos(id: any) {
   return {
     type: types.GET_CAMPAIGN_VIDEOS_REQUEST,

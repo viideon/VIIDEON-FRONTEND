@@ -29,7 +29,9 @@ export async function updateVideoWatch(id: any) {
 export async function updateEmailShare(id: any) {
   return API.post("/video/updateEmailShare", id);
 }
-
+export async function updateCtaVideo(id: any) {
+  return API.post("/video/updateCta", id);
+}
 export async function sendVideoToEmail(video: any) {
   return API.post("/email/send", video);
 }
