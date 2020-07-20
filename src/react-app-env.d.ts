@@ -4,6 +4,8 @@ declare module '*.mp4' {
     export default src;
 }
 declare module "canvas-txt";
+declare module 'aws-s3';
+declare module 'react-s3';
 declare module "react-whammy";
 declare module "concatenateblobs";
 declare module "recordrtc";
@@ -21,9 +23,3 @@ declare module "*.mp3" {
     const src: string;
     export default src;
 }
-// export { }
-// declare global {
-//     interface Window {
-//         getSeekableBlob: any;
-//     }
-// }

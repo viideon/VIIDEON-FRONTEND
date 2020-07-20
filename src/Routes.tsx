@@ -22,7 +22,7 @@ import Dashboard from "./Screens/Home/Dashboard";
 import Contacts from "./Screens/Connections/Contacts";
 import Videos from "./Screens/Home/Videos";
 import Configuration from "./Screens/Configuration";
-import CampaignList from "./Screens/Home/campaign";
+import CampaignList from "./Screens/Home/Campaigns";
 type IProps = {
   auth: AuthState;
   updateVideoCta: (id: any) => void;
