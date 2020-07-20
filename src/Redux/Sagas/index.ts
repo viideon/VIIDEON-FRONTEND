@@ -4,6 +4,7 @@ import { authWatcher } from './auth/index';
 import { videoWatcher } from './videos/index';
 import { profileWatcher } from './profile/index';
 import { emailWatcher } from "./email/index";
+import { assetWatcher } from "./asset/index"
 
 export default function* rootSaga() {
     yield all([
@@ -11,6 +12,7 @@ export default function* rootSaga() {
         fork(authWatcher),
         fork(videoWatcher),
         fork(profileWatcher),
-        fork(emailWatcher)
+        fork(emailWatcher),
+        fork(assetWatcher)
     ])
 }

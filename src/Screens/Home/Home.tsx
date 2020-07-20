@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { getEmailConfigurations } from "../../Redux/Actions/email";
+import { getAssets } from "../../Redux/Actions/asset";
 import { logout } from "../../Redux/Actions/auth";
 import SideBar from "../../components/SideBar/SideBar";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -13,11 +14,13 @@ type IProps = {
   getEmailConfigurations: () => void;
   logout: () => void;
   location?: any;
+  getAssets: () => void;
 };
 
 class Home extends Component<IProps> {
   componentDidMount() {
     this.props.getEmailConfigurations();
+    this.props.getAssets();
   }
   state = {
     logoutModal: false
@@ -80,7 +83,8 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getEmailConfigurations: () => dispatch(getEmailConfigurations()),
-    logout: () => dispatch(logout())
+    logout: () => dispatch(logout()),
+    getAssets: () => dispatch(getAssets())
   };
 };
 

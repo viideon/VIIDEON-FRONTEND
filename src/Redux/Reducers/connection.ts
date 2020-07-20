@@ -1,6 +1,6 @@
 import { types } from "../Types/connection";
 
-const profileReducer = (state: any = {}, action: any) => {
+const connectionReducer = (state: any = {}, action: any) => {
     switch (action.type) {
         case types.ADD_CONTACT:
             return {
@@ -25,4 +25,4 @@ const profileReducer = (state: any = {}, action: any) => {
     }
 };
 
-export default profileReducer;
+export default connectionReducer;

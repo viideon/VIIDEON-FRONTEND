@@ -1,0 +1,15 @@
+const ADD_ASSET: string = "ADD_ASSET";
+const ADD_ASSET_SUCCESS: string = "ADD_ASSET_SUCCESS";
+const ADD_ASSET_FAILURE: string = "ADD_ASSET_FAILURE";
+const GET_ASSETS: string = "GET_ASSETS";
+const GET_ASSETS_SUCCESS: string = "GET_ASSETS_SUCCESS";
+const GET_ASSETS_FAILURE: string = "GET_ASSETS_FAILURE";
+
+export const types = {
+    ADD_ASSET,
+    ADD_ASSET_SUCCESS,
+    ADD_ASSET_FAILURE,
+    GET_ASSETS,
+    GET_ASSETS_SUCCESS,
+    GET_ASSETS_FAILURE
+}

@@ -8,6 +8,7 @@ import drawerReducer from "./drawer";
 import videoReducer from "./videos";
 import profileReducer from "./profile";
 import emailReducer from "./email";
+import assetReducer from "./asset";
 const expireTime = 24 * 60 * 60 * 1000;
 const expirationKey = "expirationKey";
 
@@ -22,7 +23,7 @@ const rootPersistConfig = {
 const videoPersistConfig = {
   key: 'video',
   storage: storage,
-  whitelist: ["videoCount","viewCount","emailShareCount","emailOpenCount","ctaCount","watchCount"],
+  whitelist: ["videoCount", "viewCount", "emailShareCount", "emailOpenCount", "ctaCount", "watchCount"],
   blacklist: ["isVideoUpdated", "videoSaved", "videos", "singleVideo"]
 }
 
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   // video: videoReducer,
   profile: profileReducer,
   email: emailReducer,
+  asset: assetReducer,
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
