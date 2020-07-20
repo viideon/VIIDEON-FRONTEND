@@ -45,7 +45,6 @@ class Routes extends Component<IProps> {
                 exact
                 path="/watch/:id/cta"
                 render={(props: any) => {
-                  console.log("id", props.match.params.id);
                   this.props.updateVideoCta(props.match.params.id);
                   return <Redirect to={`/watch/${props.match.params.id}`} />;
                 }}
@@ -64,6 +63,14 @@ class Routes extends Component<IProps> {
             <Route exact path="/forgotPassword" component={ForgotPassword} />
             <Route exact path="/resetPassword" component={ResetPassword} />
             <Route exact path="/login*" component={SignIn} />
+            <Route
+              exact
+              path="/watch/:id/cta"
+              render={(props: any) => {
+                this.props.updateVideoCta(props.match.params.id);
+                return <Redirect to={`/watch/${props.match.params.id}`} />;
+              }}
+            />
             <Route exact path="/watch/:id" component={Watch} />
             <Route exact path="*" render={() => <Redirect to="/login" />} />
           </Switch>

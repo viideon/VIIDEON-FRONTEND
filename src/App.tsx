@@ -37,6 +37,11 @@ const store = createStore(persistedReducer, {}, enhancer);
 const persistor = persistStore(store);
 
 class App extends Component {
+  componentDidMount() {
+    window.addEventListener("blur", () => {
+      toast.dismiss();
+    });
+  }
   render() {
     return (
       <div className="App">
