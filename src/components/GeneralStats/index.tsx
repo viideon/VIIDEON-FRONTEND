@@ -5,29 +5,42 @@ import "./style.css";
 interface IProps {
   singleVideo?: any;
   videoCount: number;
+  emailShareCount: number;
+  ctaCount: number;
+  emailOpenCount: number;
+  viewCount: number;
+  watchCount: number;
 }
-const GeneralStats: React.FC<IProps> = ({ singleVideo, videoCount }) => {
+const GeneralStats: React.FC<IProps> = ({
+  singleVideo,
+  videoCount,
+  viewCount,
+  watchCount,
+  ctaCount,
+  emailOpenCount,
+  emailShareCount
+}) => {
   let watch = singleVideo && singleVideo.watch ? singleVideo.watch : 0;
-  watch = videoCount && watch > 0 ? Math.round((watch * 100) / videoCount) : 0;
+  watch = videoCount && watch > 0 ? Math.round((watch * 100) / watchCount) : 0;
   let emailShare =
     singleVideo && singleVideo.emailShareCount
       ? singleVideo.emailShareCount
       : 0;
   emailShare =
     videoCount && emailShare > 0
-      ? Math.round((emailShare * 100) / videoCount)
+      ? Math.round((emailShare * 100) / emailShareCount)
       : 0;
   let ctaClick =
     singleVideo && singleVideo.ctaClicks ? singleVideo.ctaClicks : 0;
   ctaClick =
-    videoCount && ctaClick > 0 ? Math.round((ctaClick * 100) / videoCount) : 0;
+    videoCount && ctaClick > 0 ? Math.round((ctaClick * 100) / ctaCount) : 0;
   let views = singleVideo && singleVideo.views ? singleVideo.views : 0;
-  views = videoCount && views > 0 ? Math.round((views * 100) / videoCount) : 0;
+  views = videoCount && views > 0 ? Math.round((views * 100) / viewCount) : 0;
   let emailOpens =
     singleVideo && singleVideo.emailOpens ? singleVideo.emailOpens : 0;
   emailOpens =
     videoCount && emailOpens > 0
-      ? Math.round((emailOpens * 100) / videoCount)
+      ? Math.round((emailOpens * 100) / emailOpenCount)
       : 0;
   return (
     <div className="wrapperGeneralStats">

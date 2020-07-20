@@ -28,13 +28,7 @@ import Analytics from "./Analytics";
 import * as Constants from "../../constants/constants";
 import "./style.css";
 
-const VideoTab = ({
-  match: { params },
-  getVideo,
-  singleVideo,
-  cleanSingleVideo,
-  videoCount
-}: any) => {
+const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
   const [activeTab, setActiveTab] = useState("1");
   const [isDisabled, enableLinks] = useState(true);
 
@@ -164,7 +158,7 @@ const VideoTab = ({
             </Container>
           </TabPane>
           <TabPane tabId="3">
-            <Analytics singleVideo={singleVideo} videoCount={videoCount} />
+            <Analytics />
           </TabPane>
           <TabPane tabId="1">
             <Editing videoId={params.id} />
@@ -185,9 +179,7 @@ const VideoTab = ({
 };
 const mapStateToProps = (state: any) => {
   return {
-    loadingVideo: state.video.loadingVideo,
-    singleVideo: state.video.singleVideo,
-    videoCount: state.video.videoCount
+    loadingVideo: state.video.loadingVideo
   };
 };
 const mapDispatchToProps = (dispatch: any) => {

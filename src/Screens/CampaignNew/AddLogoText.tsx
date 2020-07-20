@@ -201,6 +201,9 @@ class AddLogo extends React.Component<IProps, IState> {
       case "center":
         this.setState({ align: "center", vAlign: "middle" });
         return;
+        case "center-bottom":
+          this.setState({align:"center" ,vAlign:"bottom"});
+          return;
       default:
         return;
     }
@@ -391,6 +394,12 @@ class AddLogo extends React.Component<IProps, IState> {
                     onClick={() => this.setTextPosition("center")}
                   >
                     Center
+                  </Button>
+                  <Button
+                    style={logoPositionBtn}
+                    onClick={() => this.setTextPosition("center-bottom")}
+                  >
+                    Center Bottom
                   </Button>
                   <Button
                     style={logoPositionBtn}
