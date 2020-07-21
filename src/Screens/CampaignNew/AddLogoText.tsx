@@ -1,4 +1,10 @@
 import React from "react";
+import AWS from "aws-sdk";
+import AssetPicker from "../../components/AssetPicker";
+import Loading from "../../components/Loading";
+import { connect } from "react-redux";
+import { addAsset } from "../../Redux/Actions/asset";
+import { config } from "../../config/aws";
 import { Grid, Button, Tooltip } from "@material-ui/core";
 import { Input, Button as StrapButton } from "reactstrap";
 import canvasTxt from "canvas-txt";
@@ -13,9 +19,10 @@ interface IProps {
   videoToEdit: any;
   saveEditedVideo: (finalBlob: any) => void;
   saveThumbnailBlob: (blob: any) => void;
+  addAsset: (asset: any) => void;
 }
 interface IState {
-  img: any;
+  logoPath: any;
   logoX: number | string;
   logoY: number | string;
   text: string;
@@ -25,6 +32,9 @@ interface IState {
   vAlign: string;
   align: string;
   iconPos: string;
+  logoUploading: boolean;
+  imagePath: any;
+  isAssetPicker: boolean;
 }
 class AddLogo extends React.Component<IProps, IState> {
   video: any;
@@ -34,10 +44,12 @@ class AddLogo extends React.Component<IProps, IState> {
   canvas2: any;
   cwidth: any;
   cheight: any;
+  s3: any;
   constructor(props: any) {
     super(props);
     this.state = {
-      img: null,
+      logoPath: null,
+      isAssetPicker: false,
       logoX: 10,
       logoY: 10,
       text: "",
@@ -46,16 +58,20 @@ class AddLogo extends React.Component<IProps, IState> {
       fontSize: 30,
       vAlign: "top",
       align: "left",
-      iconPos: "top-left"
+      iconPos: "top-left",
+      logoUploading: false,
+      imagePath: ""
     };
     this.draw = this.draw.bind(this);
   }
   componentDidMount() {
+    this.s3 = new AWS.S3(config);
     this.video = this.refs.video;
     this.video.src = URL.createObjectURL(this.props.videoToEdit);
     this.canvas = this.refs.canvas;
     this.canvas2 = this.refs.dummyCanvas;
     this.img = this.refs.image;
+    this.img.crossOrigin = "Anonymous";
     const ctx = this.canvas.getContext("2d");
     const ctx2 = this.canvas2.getContext("2d");
     let cw: any, ch: any;
@@ -79,7 +95,9 @@ class AddLogo extends React.Component<IProps, IState> {
     this.canvas.width = this.video.clientWidth;
     this.canvas.height = this.video.clientHeight;
   };
-
+  toggleAssetPicker = () => {
+    this.setState({ isAssetPicker: !this.state.isAssetPicker });
+  };
   setInputRef = (ref: any) => {
     this.upload = ref;
   };
@@ -92,8 +110,8 @@ class AddLogo extends React.Component<IProps, IState> {
         toast.error("Please add valid image");
         return;
       }
+      toast.info("Uploading logo please wait");
       await this.compress(e.target.files![0]);
-      toast.info("Logo selected play the video to see the logo");
     } else {
       toast.error("error in selecting file");
     }
@@ -131,6 +149,7 @@ class AddLogo extends React.Component<IProps, IState> {
     }, 0);
   }
   compress(file: any) {
+    this.setState({ logoUploading: true });
     const width = 100;
     const height = 100;
     const reader = new FileReader();
@@ -145,9 +164,11 @@ class AddLogo extends React.Component<IProps, IState> {
         const ctx: any = elem.getContext("2d");
         ctx.drawImage(img, 0, 0, width, height);
         ctx.canvas.toBlob(
-          (blob: any) => {
-            this.setState({ img: URL.createObjectURL(blob) });
-            this.props.saveLogoBlob(blob);
+          async (blob: any) => {
+            // this.setState({ img: URL.createObjectURL(blob) });
+            await this.saveLogo(blob);
+            this.setState({ logoUploading: false });
+            toast.info("logo uploaded, play video to see your logo");
           },
           `${file.type}`,
           1
@@ -155,8 +176,30 @@ class AddLogo extends React.Component<IProps, IState> {
       };
     };
   }
+  saveLogo = (logoBlob: any) => {
+    let that = this;
+    return new Promise(function(resolve, reject) {
+      const logoOptions = {
+        Bucket: config.bucketName,
+        ACL: config.ACL,
+        Key: Date.now().toString() + "logo.jpeg",
+        Body: logoBlob
+      };
+      that.s3.upload(logoOptions, function(err: any, data: any) {
+        if (err) {
+          toast.error(err);
+          that.setState({ logoUploading: false });
+          reject();
+          return;
+        }
+        that.setState({ logoPath: data.Location });
+        that.props.addAsset({ type: "logo", url: data.Location });
+        resolve();
+      });
+    });
+  };
   setIconPosition = (position: string) => {
-    if (this.state.img === null) {
+    if (this.state.logoPath === null) {
       toast.info("Please upload a logo");
       return;
     }
@@ -201,9 +244,9 @@ class AddLogo extends React.Component<IProps, IState> {
       case "center":
         this.setState({ align: "center", vAlign: "middle" });
         return;
-        case "center-bottom":
-          this.setState({align:"center" ,vAlign:"bottom"});
-          return;
+      case "center-bottom":
+        this.setState({ align: "center", vAlign: "bottom" });
+        return;
       default:
         return;
     }
@@ -220,6 +263,13 @@ class AddLogo extends React.Component<IProps, IState> {
   moveToNextStep = () => {
     this.getThumbnail();
     this.props.moveToNextStep();
+  };
+  onAssetPick = (logo: any) => {
+    // console.log("logo", logo);
+    this.setState({ logoPath: logo.src }, () => {
+      this.img.crossOrigin = "Anonymous";
+    });
+    toast.info("logo selected");
   };
   getThumbnail = () => {
     const thumbCanvas: any = this.refs.thumbCanvas;
@@ -242,7 +292,7 @@ class AddLogo extends React.Component<IProps, IState> {
       align: this.state.align
     };
     const logoProps = {
-      url: this.state.img,
+      url: this.state.logoPath,
       position: this.state.iconPos,
       width: 50,
       height: 50
@@ -291,8 +341,8 @@ class AddLogo extends React.Component<IProps, IState> {
 
             <img
               alt="logo"
-              src={this.state.img ? this.state.img : null}
-              style={{ display: "none", maxWidth: "200px", maxHeight: "200px" }}
+              src={this.state.logoPath ? this.state.logoPath : null}
+              style={{ display: "none" }}
               ref="image"
             />
             <Grid container>
@@ -316,6 +366,11 @@ class AddLogo extends React.Component<IProps, IState> {
                       </span>
                     </Tooltip>
                   </h3>
+                  <AssetPicker
+                    isOpen={this.state.isAssetPicker}
+                    toggle={this.toggleAssetPicker}
+                    onPick={this.onAssetPick}
+                  />
                   <input
                     id="uploadInput"
                     type="file"
@@ -323,16 +378,33 @@ class AddLogo extends React.Component<IProps, IState> {
                     ref={this.setInputRef}
                     accept="image/x-png,image/gif,image/jpeg"
                   />
+                  {!this.state.logoUploading ? (
+                    <Button
+                      onClick={this.triggerFileUploadBtn}
+                      style={{
+                        color: "#fff",
+                        width: "135px",
+                        backgroundColor: "#ff4301"
+                      }}
+                    >
+                      Upload
+                    </Button>
+                  ) : (
+                    <span>
+                      <Loading width={35} height={35} />
+                    </span>
+                  )}
                   <Button
-                    onClick={this.triggerFileUploadBtn}
+                    onClick={this.toggleAssetPicker}
                     style={{
                       color: "#fff",
-                      width: "135px",
-                      backgroundColor: "#ff4301"
+                      marginLeft: "3px",
+                      backgroundColor: "rgb(34, 185, 255)"
                     }}
                   >
-                    Upload
+                    Select from Assets
                   </Button>
+
                   <h5 className="positionTxt">Change Logo Position</h5>
                   <Button
                     style={logoPositionBtn}
@@ -506,4 +578,9 @@ const logoPositionBtn = {
   fontSize: "11px",
   border: "1px solid #696969"
 };
-export default AddLogo;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    addAsset: (asset: any) => dispatch(addAsset(asset))
+  };
+};
+export default connect(null, mapDispatchToProps)(AddLogo);

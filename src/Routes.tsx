@@ -23,6 +23,7 @@ import Contacts from "./Screens/Connections/Contacts";
 import Videos from "./Screens/Home/Videos";
 import Configuration from "./Screens/Configuration";
 import CampaignList from "./Screens/Home/Campaigns";
+import TestRecorder from "./Screens/Watch/TestRecorder";
 type IProps = {
   auth: AuthState;
   updateVideoCta: (id: any) => void;
@@ -54,6 +55,7 @@ class Routes extends Component<IProps> {
               <Route exact path="/contacts" component={Contacts} />
               <Route exact path="/campaign" component={CampaignList} />
               <Route exact path="/configuration" component={Configuration} />
+              <Route exact path="/test" component={TestRecorder} />
               <Route exact path="*" render={() => <Redirect to="/" />} />
             </Switch>
           </>

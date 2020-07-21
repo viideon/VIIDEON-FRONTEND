@@ -15,7 +15,7 @@ const expirationKey = "expirationKey";
 const rootPersistConfig = {
   key: "root",
   storage: storage,
-  whitelist: ["auth", "profile", "email",],
+  whitelist: ["auth", "profile", "email", "asset"],
   blacklist: ["drawer", "video"],
   transforms: [expireIn(expireTime, expirationKey, {})],
 };

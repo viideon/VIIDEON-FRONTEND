@@ -60,19 +60,18 @@ class SendSave extends React.Component<IProps> {
   };
   canvas: any;
   container: any;
-  s3:any;
+  s3: any;
   componentDidMount() {
     this.props.toggleSendVariable();
     this.s3 = new AWS.S3(config);
   }
 
-   saveVideo =async () => {
+  saveVideo = async () => {
     if (this.state.title === "") {
       toast.warn("Enter a title to save video");
       return;
     }
     this.setState({ videoProgress: true, progressVideo: 0 });
-   
     const options = {
       Bucket: config.bucketName,
       ACL: config.ACL,
@@ -85,56 +84,58 @@ class SendSave extends React.Component<IProps> {
       Key: Date.now().toString() + "thumbnail.jpeg",
       Body: this.props.thumbnailBlob
     };
-   
-    if (this.props.logoBlob) {
-    try{
-await this.saveLogo();
-    }
-    catch(err){
-      toast.error(err);
-    }
-    }
+
+    //     if (this.props.logoBlob) {
+    //     try{
+    // await this.saveLogo();
+    //     }
+    //     catch(err){
+    //       toast.error(err);
+    //     }
+    //     }
     //uploading video and thumbnail to aws and db
     const that = this;
-    this.s3.upload(options, function(err: any, data: any) {
-      if (err) {
-        that.setState({ fileProgress: false });
-        toast.error(err);
-        return;
-      }
-      that.setState({ urlRecord: data.Location });
-      that.s3.upload(thumbnailOptions, function(err: any, data: any) {
+    this.s3
+      .upload(options, function(err: any, data: any) {
         if (err) {
+          that.setState({ fileProgress: false });
           toast.error(err);
           return;
         }
-        const logoProps = that.props.logoProps;
-        if (that.props.logoBlob) {
-          logoProps.url = that.state.logoUrl;
-        } else {
-          logoProps.url = "";
-        }
+        that.setState({ urlRecord: data.Location });
+        that.s3.upload(thumbnailOptions, function(err: any, data: any) {
+          if (err) {
+            toast.error(err);
+            return;
+          }
+          // const logoProps = that.props.logoProps;
+          // if (that.props.logoBlob) {
+          //   logoProps.url = that.state.logoUrl;
+          // } else {
+          //   logoProps.url = "";
+          // }
 
-        const video = {
-          title: that.state.title,
-          url: that.state.urlRecord,
-          userId: that.props.auth!.user!._id,
-          thumbnail: data.Location,
-          textProps: that.props.textProps,
-          logoProps: logoProps,
-          campaign: true
-        };
-        that.setState({ videoProgress: false });
-        that.props.saveVideo(video);
+          const video = {
+            title: that.state.title,
+            url: that.state.urlRecord,
+            userId: that.props.auth!.user!._id,
+            thumbnail: data.Location,
+            textProps: that.props.textProps,
+            logoProps: that.props.logoProps,
+            campaign: true
+          };
+          that.setState({ videoProgress: false });
+          that.props.saveVideo(video);
+        });
+      })
+      .on("httpUploadProgress", function(progress: any) {
+        let uploaded: number = (progress.loaded * 100) / progress.total;
+        that.setState({ progressVideo: uploaded });
       });
-    }).on("httpUploadProgress", function(progress:any) {
-      let uploaded: number = (progress.loaded * 100) / progress.total;
-      that.setState({ progressVideo: uploaded });
-    });
   };
-  saveLogo=()=>{
-    let that=this;
-    return new Promise(function(resolve,reject){
+  saveLogo = () => {
+    let that = this;
+    return new Promise(function(resolve, reject) {
       const logoOptions = {
         Bucket: config.bucketName,
         ACL: config.ACL,
@@ -152,7 +153,7 @@ await this.saveLogo();
         resolve();
       });
     });
-  }
+  };
   titleNameHandler = (event: any) => {
     this.setState({
       title: event.target.value
@@ -177,7 +178,7 @@ await this.saveLogo();
         recieverEmail
       };
       this.props.sendVideoToEmail(video);
-      this.setState({recieverEmail:""});
+      this.setState({ recieverEmail: "" });
     }
   };
   sendMultipleEmail = () => {
@@ -219,7 +220,7 @@ await this.saveLogo();
       <Grid container>
         <Grid item xs={1} sm={1} md={3} lg={3}></Grid>
         <Grid item xs={10} sm={10} md={6} lg={6}>
-          <h3 className="recordHeading">Save and Email Video</h3>
+          <h3 className="recordHeading">Save and Email Campaign</h3>
           <div style={{ width: "100%", height: "400px" }} ref="container">
             {this.props.previewVideo && this.props.thumbnailBlob && (
               <CanvasPlayer
@@ -248,7 +249,7 @@ await this.saveLogo();
                   />
                 )}
                 <FormGroup>
-                  <Label className="labelUploadSection">Video Title</Label>
+                  <Label className="labelUploadSection">Campaign Title</Label>
                   <Input
                     type="text"
                     name="name"

@@ -28,18 +28,17 @@ function* getUserAsset() {
     let userId = yield select(selectID);
     try {
         const result = yield getAssetApi(userId);
-        console.log("result", result);
+
         if (result.status === 200) {
             yield put({ type: types.GET_ASSETS_SUCCESS, payload: result.data.assets });
         }
         else {
             yield put({ type: types.GET_ASSETS_FAILURE });
-            toast.error("Failed to get your assets");
+            // toast.error("Failed to get your assets");
         }
     } catch (error) {
-        console.log("error", error);
         yield put({ type: types.GET_ASSETS_FAILURE });
-        toast.error("Failed to get your assets");
+        // toast.error("Failed to get your assets");
     }
 }
 
