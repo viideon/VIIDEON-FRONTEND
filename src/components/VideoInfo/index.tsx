@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  FaRegEnvelopeOpen,
+  FaEnvelopeOpen,
   FaHandPointUp,
   FaEye,
   FaVideo,
@@ -31,10 +31,10 @@ const VideoInfo: React.FC<IProps> = ({ video }) => {
       <Tooltip title="Email Opens" enterDelay={0}>
         <span className="firstInfoContainer">
           <span className="itemsInfo">
-            {video && video.emailOpens ? video.emailOpens : "0"}{" "}
+            {video && video.emailOpens ? video.emailOpens : "0"}
           </span>
           <span className="itemsInfo">
-            <FaRegEnvelopeOpen />
+            <FaEnvelopeOpen />
           </span>
         </span>
       </Tooltip>
@@ -53,7 +53,7 @@ const VideoInfo: React.FC<IProps> = ({ video }) => {
         <span className="mainInfoContainer">
           {Constants.DASH}
           <span className="itemsInfo">
-            {video && video.views ? video.views : "0"}{" "}
+            {video && video.views ? video.views : "0"}
           </span>
           <span className="itemsInfo">
             <FaEye />

@@ -336,9 +336,7 @@ class AddLogo extends React.Component<IProps, IState> {
                 <canvas ref="canvas" />
               </Grid>
             </Grid>
-
             <canvas ref="dummyCanvas" style={{ display: "none" }} />
-
             <img
               alt="logo"
               src={this.state.logoPath ? this.state.logoPath : null}

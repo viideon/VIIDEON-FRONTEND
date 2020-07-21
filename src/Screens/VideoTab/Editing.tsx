@@ -5,6 +5,7 @@ import { Tooltip } from "@material-ui/core";
 import Loading from "../../components/Loading";
 import HelpIcon from "@material-ui/icons/Help";
 import { connect } from "react-redux";
+import { addAsset } from "../../Redux/Actions/asset";
 import { updateVideo } from "../../Redux/Actions/videos";
 import { VideoUpdate } from "../../Redux/Types/videos";
 import CanvasPlayer from "../../components/CanvasPlayer/EditingCanvas";
@@ -30,6 +31,7 @@ interface Video {
 }
 interface IProps {
   updateVideo: (video: VideoUpdate) => void;
+  addAsset: (asset: any) => void;
   isVideoUpdated: boolean;
   videoId?: string | null;
   video: Video;
@@ -82,7 +84,6 @@ class Editing extends React.Component<IProps, IState> {
         .then((data: any) => {
           this.setState({ url: data.location, uploading: false });
           this.saveChanges();
-
           return;
         })
         .catch((err: any) => {
@@ -103,6 +104,7 @@ class Editing extends React.Component<IProps, IState> {
       id: this.props.videoId,
       thumbnail: this.state.url
     };
+    this.props.addAsset({ type: "thumbnail", url: this.state.url });
     this.props.updateVideo(video);
     this.setState({ url: "" });
   };
@@ -214,7 +216,8 @@ const mapStateToProps = (state: any, ownProps: any) => {
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    updateVideo: (video: VideoUpdate) => dispatch(updateVideo(video))
+    updateVideo: (video: VideoUpdate) => dispatch(updateVideo(video)),
+    addAsset: (asset: any) => dispatch(addAsset(asset))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Editing);

@@ -212,7 +212,7 @@ class SendSave extends React.Component<IProps> {
     });
   };
   navigateToVideos = () => {
-    this.props.history.push("/videos");
+    this.props.history.push("/campaign");
   };
   render() {
     let { videoSaved, loading } = this.props.videoUser;
