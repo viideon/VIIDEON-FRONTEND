@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
-import ImagePicker from "react-image-picker";
-import AssetPicker from "../../components/AssetPicker";
+// import ImagePicker from "react-image-picker";
+// import AssetPicker from "../../components/AssetPicker";
 
 class TestRecorder extends React.Component {
   state = {

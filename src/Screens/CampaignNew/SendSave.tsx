@@ -56,7 +56,8 @@ class SendSave extends React.Component<IProps> {
     url: "",
     width: 0,
     height: 0,
-    logoUrl: ""
+    logoUrl: "",
+    thumbnailUrl: ""
   };
   canvas: any;
   container: any;
@@ -71,89 +72,85 @@ class SendSave extends React.Component<IProps> {
       toast.warn("Enter a title to save video");
       return;
     }
-    this.setState({ videoProgress: true, progressVideo: 0 });
-    const options = {
-      Bucket: config.bucketName,
-      ACL: config.ACL,
-      Key: Date.now().toString() + ".webm",
-      Body: this.props.previewVideo
-    };
-    const thumbnailOptions = {
-      Bucket: config.bucketName,
-      ACL: config.ACL,
-      Key: Date.now().toString() + "thumbnail.jpeg",
-      Body: this.props.thumbnailBlob
-    };
-
-    //     if (this.props.logoBlob) {
-    //     try{
-    // await this.saveLogo();
-    //     }
-    //     catch(err){
-    //       toast.error(err);
-    //     }
-    //     }
-    //uploading video and thumbnail to aws and db
-    const that = this;
-    this.s3
-      .upload(options, function(err: any, data: any) {
-        if (err) {
-          that.setState({ fileProgress: false });
-          toast.error(err);
-          return;
-        }
-        that.setState({ urlRecord: data.Location });
-        that.s3.upload(thumbnailOptions, function(err: any, data: any) {
-          if (err) {
-            toast.error(err);
-            return;
-          }
-          // const logoProps = that.props.logoProps;
-          // if (that.props.logoBlob) {
-          //   logoProps.url = that.state.logoUrl;
-          // } else {
-          //   logoProps.url = "";
-          // }
-
-          const video = {
-            title: that.state.title,
-            url: that.state.urlRecord,
-            userId: that.props.auth!.user!._id,
-            thumbnail: data.Location,
-            textProps: that.props.textProps,
-            logoProps: that.props.logoProps,
-            campaign: true
-          };
-          that.setState({ videoProgress: false });
-          that.props.saveVideo(video);
-        });
-      })
-      .on("httpUploadProgress", function(progress: any) {
-        let uploaded: number = (progress.loaded * 100) / progress.total;
-        that.setState({ progressVideo: uploaded });
-      });
+    try {
+      await this.uploadThumbnail();
+      await this.uploadVideo();
+      const video = {
+        title: this.state.title,
+        url: this.state.urlRecord,
+        userId: this.props.auth!.user!._id,
+        thumbnail: this.state.thumbnailUrl,
+        textProps: this.props.textProps,
+        logoProps: this.props.logoProps,
+        campaign: true
+      };
+      this.props.saveVideo(video);
+    } catch (error) {
+      console.log("error", error);
+      toast.error("Failed to save campaign, Please try again");
+    }
   };
-  saveLogo = () => {
+  uploadVideo = () => {
     let that = this;
     return new Promise(function(resolve, reject) {
-      const logoOptions = {
+      that.setState({ videoProgress: true, progressVideo: 0 });
+      const options = {
         Bucket: config.bucketName,
         ACL: config.ACL,
-        Key: Date.now().toString() + "logo.jpeg",
-        Body: that.props.logoBlob
+        Key: Date.now().toString() + ".webm",
+        Body: that.props.previewVideo
       };
-      that.s3.upload(logoOptions, function(err: any, data: any) {
-        if (err) {
-          that.setState({ fileProgress: false });
-          toast.error(err);
-          reject();
-          return;
-        }
-        that.setState({ logoUrl: data.Location });
-        resolve();
-      });
+      that.s3
+        .upload(options, function(err: any, data: any) {
+          if (err) {
+            that.setState({ videoProgress: false });
+            console.log("error", err);
+            toast.error(err);
+            reject();
+          } else {
+            that.setState({ urlRecord: data.Location, videoProgress: false });
+            resolve();
+          }
+        })
+        .on("httpUploadProgress", function(progress: any) {
+          let uploaded: number = (progress.loaded * 100) / progress.total;
+          that.setState({ progressVideo: uploaded });
+        });
     });
   };
+  uploadThumbnail = () => {
+    let that = this;
+    return new Promise(function(resolve, reject) {
+      that.setState({ videoProgress: true, progressVideo: 0 });
+      const thumbnailOptions = {
+        Bucket: config.bucketName,
+        ACL: config.ACL,
+        Key: Date.now().toString() + "thumbnail.jpeg",
+        Body: that.props.thumbnailBlob
+      };
+
+      that.s3
+        .upload(thumbnailOptions, function(err: any, data: any) {
+          if (err) {
+            that.setState({ videoProgress: false });
+            toast.error(err);
+            console.log("error", err);
+            reject();
+          } else {
+            that.setState({
+              videoProgress: false,
+              thumbnailUrl: data.Location
+            });
+            resolve();
+          }
+        })
+        .on("httpUploadProgress", function(progress: any) {
+          let uploaded: number = (progress.loaded * 100) / progress.total;
+          that.setState({ progressVideo: uploaded });
+        });
+    });
+  };
+
   titleNameHandler = (event: any) => {
     this.setState({
       title: event.target.value

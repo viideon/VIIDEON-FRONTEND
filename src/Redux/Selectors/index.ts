@@ -26,3 +26,6 @@ export const isEmailConfigPresent = (state: any) => {
 export const selectEmailConfigs = (state: any) => {
     return state.email.emailConfigurations;
 }
+export const getLogoAssets = (state: any) => {
+    return state.asset.assets && state.asset.assets.filter((asset: any) => asset.type === "logo");
+}

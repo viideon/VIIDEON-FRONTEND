@@ -1,12 +1,12 @@
 import React from "react";
-import "react-image-picker/dist/index.css";
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
 import { connect } from "react-redux";
-import ImagePicker from "react-image-picker";
-import "react-image-picker/dist/index.css";
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
+import { getAssets } from "../../Redux/Actions/asset";
+import { getLogoAssets } from "../../Redux/Selectors";
 import "./style.css";
 
 interface IProps {
+  getAssets: () => void;
   isOpen: boolean;
   toggle: () => void;
   assets: [any];
@@ -14,16 +14,35 @@ interface IProps {
 }
 
 class AssetPicker extends React.Component<IProps> {
+  componentDidMount() {
+    this.props.getAssets();
+  }
+  onPick = (asset: any) => {
+    this.props.onPick(asset);
+  };
   render() {
     const { assets } = this.props;
     return (
       <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
         <ModalHeader>Select a Logo</ModalHeader>
         <ModalBody>
-          <ImagePicker
-            images={assets.map((asset, i) => ({ src: asset.url, value: i }))}
-            onPick={this.props.onPick}
-          />
+          <div className="wrapperAssetPicker">
+            {assets &&
+              assets.map((asset: any, i) => (
+                <div
+                  className="wrapperImgPicker"
+                  onClick={() => this.onPick(asset.url)}
+                  key={i}
+                >
+                  <img
+                    ref="image"
+                    crossOrigin="anonymous"
+                    src={asset.url}
+                    className="imgAssetPicker"
+                  />
+                </div>
+              ))}
+          </div>
         </ModalBody>
         <ModalFooter>
           <Button
@@ -40,8 +59,14 @@ class AssetPicker extends React.Component<IProps> {
   }
 }
 const mapStateToProps = (state: any) => {
+  const assets = getLogoAssets(state);
   return {
-    assets: state.asset.assets
+    assets: assets
   };
 };
-export default connect(mapStateToProps)(AssetPicker);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    getAssets: () => dispatch(getAssets())
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(AssetPicker);

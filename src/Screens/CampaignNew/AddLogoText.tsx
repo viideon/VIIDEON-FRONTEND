@@ -1,7 +1,7 @@
 import React from "react";
 import AWS from "aws-sdk";
 import AssetPicker from "../../components/AssetPicker";
-import Loading from "../../components/Loading";
+import { LinearProgress } from "@material-ui/core";
 import { connect } from "react-redux";
 import { addAsset } from "../../Redux/Actions/asset";
 import { config } from "../../config/aws";
@@ -264,12 +264,9 @@ class AddLogo extends React.Component<IProps, IState> {
     this.getThumbnail();
     this.props.moveToNextStep();
   };
-  onAssetPick = (logo: any) => {
-    // console.log("logo", logo);
-    this.setState({ logoPath: logo.src }, () => {
-      this.img.crossOrigin = "Anonymous";
-    });
-    toast.info("logo selected");
+  onAssetPick = (path: any) => {
+    this.setState({ logoPath: path });
+    toast.info("Logo selected");
   };
   getThumbnail = () => {
     const thumbCanvas: any = this.refs.thumbCanvas;
@@ -338,6 +335,7 @@ class AddLogo extends React.Component<IProps, IState> {
             </Grid>
             <canvas ref="dummyCanvas" style={{ display: "none" }} />
             <img
+              crossOrigin="anonymous"
               alt="logo"
               src={this.state.logoPath ? this.state.logoPath : null}
               style={{ display: "none" }}
@@ -376,22 +374,18 @@ class AddLogo extends React.Component<IProps, IState> {
                     ref={this.setInputRef}
                     accept="image/x-png,image/gif,image/jpeg"
                   />
-                  {!this.state.logoUploading ? (
-                    <Button
-                      onClick={this.triggerFileUploadBtn}
-                      style={{
-                        color: "#fff",
-                        width: "135px",
-                        backgroundColor: "#ff4301"
-                      }}
-                    >
-                      Upload
-                    </Button>
-                  ) : (
-                    <span>
-                      <Loading width={35} height={35} />
-                    </span>
-                  )}
+                  {this.state.logoUploading && <LinearProgress />}
+                  <Button
+                    onClick={this.triggerFileUploadBtn}
+                    style={{
+                      color: "#fff",
+                      width: "135px",
+                      backgroundColor: "#ff4301"
+                    }}
+                  >
+                    Upload
+                  </Button>
+
                   <Button
                     onClick={this.toggleAssetPicker}
                     style={{
@@ -402,7 +396,6 @@ class AddLogo extends React.Component<IProps, IState> {
                   >
                     Select from Assets
                   </Button>
-
                   <h5 className="positionTxt">Change Logo Position</h5>
                   <Button
                     style={logoPositionBtn}
