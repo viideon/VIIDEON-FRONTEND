@@ -65,6 +65,7 @@ const Header: React.FC<IProps> = ({
           location.pathname === "/videos" ||
           location.pathname === "/configuration" ||
           location.pathname === "/campaign" ||
+          location.pathname === "/assetlibrary" ||
           location.pathname === "/contacts") && (
           <MenuIcon
             onClick={() => toggle()}
@@ -78,6 +79,7 @@ const Header: React.FC<IProps> = ({
           location.pathname === "/videos" ||
           location.pathname === "/configuration" ||
           location.pathname === "/campaign" ||
+          location.pathname === "/assetlibrary" ||
           location.pathname === "/contacts") && (
           <MenuIcon
             onClick={() => toggleDrawer()}

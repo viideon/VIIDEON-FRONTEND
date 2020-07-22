@@ -146,9 +146,11 @@ class SideBar extends Component<IProps, IState> {
           className="OptionIcons"
           style={{
             backgroundColor:
-              activeSideBar === "/assets" ? "rgb(34, 185, 255) " : undefined
+              activeSideBar === "/assetlibrary"
+                ? "rgb(34, 185, 255) "
+                : undefined
           }}
-          onClick={() => this.handleChangeTab("/assets")}
+          onClick={() => this.handleChangeTab("/assetlibrary")}
         >
           <i className="fas fa-folder" style={iconStyle} />
           <span className="IconNameStyling">Asset Library</span>
