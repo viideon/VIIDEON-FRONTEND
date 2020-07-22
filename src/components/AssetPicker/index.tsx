@@ -17,6 +17,11 @@ class AssetPicker extends React.Component<IProps> {
   componentDidMount() {
     this.props.getAssets();
   }
+  componentDidUpdate(prevProps: any) {
+    if (this.props.isOpen !== prevProps.isOpen && this.props.isOpen) {
+      this.props.getAssets();
+    }
+  }
   onPick = (asset: any) => {
     this.props.onPick(asset);
   };

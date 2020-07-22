@@ -213,6 +213,7 @@ class SendSave extends React.Component<IProps> {
   };
   render() {
     let { videoSaved, loading } = this.props.videoUser;
+    let { progressEmail } = this.props;
     return (
       <Grid container>
         <Grid item xs={1} sm={1} md={3} lg={3}></Grid>
@@ -234,9 +235,9 @@ class SendSave extends React.Component<IProps> {
           </div>
           <div style={{ marginLeft: "50%", marginTop: "15px" }}>
             {loading && <Loading />}
-            {this.props.progressEmail && <Loading />}
+            {progressEmail && <Loading />}
           </div>
-          <div id="formInput" style={{ marginTop: "40px" }}>
+          <div id="formInput" style={{ marginTop: "30px" }}>
             {videoSaved !== true && (
               <div>
                 {this.state.videoProgress && (

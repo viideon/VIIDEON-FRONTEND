@@ -69,6 +69,7 @@ progress::-moz-progress-bar {
   right: 0;
   height: 2.2em;
   display: flex;
+  padding-right: 10px;
   /* background-color: #2b333f; */
   background-color: rgba(43, 51, 63, 0.7);
 }

@@ -343,14 +343,7 @@ class AddLogo extends React.Component<IProps, IState> {
             />
             <Grid container>
               <Grid item xs={12} sm={12} md={6} lg={6}>
-                <div
-                  style={{
-                    boxShadow: "0 0 10px #cdcdcd",
-                    padding: "31px",
-                    marginTop: "51px",
-                    marginRight: "30px"
-                  }}
-                >
+                <div className="addLogoDiv">
                   <h3 className="addLogoMessage">
                     Add Logo
                     <Tooltip
@@ -424,14 +417,7 @@ class AddLogo extends React.Component<IProps, IState> {
                 </div>
               </Grid>
               <Grid item xs={12} sm={12} md={6} lg={6}>
-                <div
-                  style={{
-                    boxShadow: "0 0 10px #cdcdcd",
-                    padding: "31px",
-                    marginTop: "51px",
-                    marginLeft: "25px"
-                  }}
-                >
+                <div className="addTextDiv">
                   <h4 className="addLogoMessage">
                     Add Text
                     <Tooltip
