@@ -15,7 +15,7 @@ toast.configure({
   pauseOnHover: false,
   hideProgressBar: true,
   pauseOnFocusLoss: false,
-  limit: 1
+  limit: 2
 });
 
 const sagaMiddleware = creatSagaMiddleware();

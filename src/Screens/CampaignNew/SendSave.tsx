@@ -105,7 +105,6 @@ class SendSave extends React.Component<IProps> {
           if (err) {
             that.setState({ videoProgress: false });
             console.log("error", err);
-            toast.error(err);
             reject();
           } else {
             that.setState({ urlRecord: data.Location, videoProgress: false });
@@ -133,7 +132,6 @@ class SendSave extends React.Component<IProps> {
         .upload(thumbnailOptions, function(err: any, data: any) {
           if (err) {
             that.setState({ videoProgress: false });
-            toast.error(err);
             console.log("error", err);
             reject();
           } else {

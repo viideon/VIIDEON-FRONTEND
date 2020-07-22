@@ -141,16 +141,19 @@ class SideBar extends Component<IProps, IState> {
             <i className="fas fa-angle-left" style={arrowIcon}></i>
           </div>
         </Tooltip> */}
-        {/* <Tooltip title="Under Progress" enterDelay={0}>
-          <div
-            className="OptionIcons assetLibrary"
-            onClick={() => alert("Under Progress")}
-          >
-            <i className="fas fa-folder" style={iconStyle} />
-            <span className="IconNameStyling">Asset Library</span>
-            <i className="fas fa-angle-left" style={arrowIcon}></i>
-          </div>
-        </Tooltip> */}
+
+        <div
+          className="OptionIcons"
+          style={{
+            backgroundColor:
+              activeSideBar === "/assets" ? "rgb(34, 185, 255) " : undefined
+          }}
+          onClick={() => this.handleChangeTab("/assets")}
+        >
+          <i className="fas fa-folder" style={iconStyle} />
+          <span className="IconNameStyling">Asset Library</span>
+          <i className="fas fa-angle-left" style={arrowIcon}></i>
+        </div>
 
         {/* <div className="OptionIcons" onClick={this.toggleLogoutModal}>
           <i className="fa fa-user-circle-o" style={iconStyle} />

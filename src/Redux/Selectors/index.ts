@@ -29,3 +29,6 @@ export const selectEmailConfigs = (state: any) => {
 export const getLogoAssets = (state: any) => {
     return state.asset.assets && state.asset.assets.filter((asset: any) => asset.type === "logo");
 }
+export const getThumbnailAssets = (state: any) => {
+    return state.asset.assets && state.asset.assets.filter((asset: any) => asset.type === "thumbnail");
+}

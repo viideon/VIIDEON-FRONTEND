@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
 import { getAssets } from "../../Redux/Actions/asset";
-import { getLogoAssets } from "../../Redux/Selectors";
+import { getLogoAssets, getThumbnailAssets } from "../../Redux/Selectors";
 import "./style.css";
 
 interface IProps {
@@ -11,6 +11,7 @@ interface IProps {
   toggle: () => void;
   assets: [any];
   onPick: (image: any) => void;
+  logoAssets: boolean;
 }
 
 class AssetPicker extends React.Component<IProps> {
@@ -63,8 +64,13 @@ class AssetPicker extends React.Component<IProps> {
     );
   }
 }
-const mapStateToProps = (state: any) => {
-  const assets = getLogoAssets(state);
+const mapStateToProps = (state: any, ownProps: any) => {
+  let assets = [];
+  if (ownProps.logoAssets) {
+    assets = getLogoAssets(state);
+  } else {
+    assets = getThumbnailAssets(state);
+  }
   return {
     assets: assets
   };

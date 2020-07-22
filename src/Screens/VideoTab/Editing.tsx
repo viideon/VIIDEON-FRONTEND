@@ -1,7 +1,8 @@
 import React from "react";
 import S3FileUpload from "react-s3";
 import { Container, Row, Col } from "reactstrap";
-import { Tooltip } from "@material-ui/core";
+import AssetPicker from "../../components/AssetPicker";
+import { Tooltip, TextField } from "@material-ui/core";
 import Loading from "../../components/Loading";
 import HelpIcon from "@material-ui/icons/Help";
 import { connect } from "react-redux";
@@ -20,6 +21,8 @@ interface IState {
   url: string;
   uploading: boolean;
   showVideo: boolean;
+  isAssetPicker: boolean;
+  newVideoTitle: string;
 }
 interface Video {
   url: string;
@@ -46,7 +49,9 @@ class Editing extends React.Component<IProps, IState> {
       file: null,
       url: "",
       uploading: false,
-      showVideo: true
+      showVideo: true,
+      isAssetPicker: false,
+      newVideoTitle: ""
     };
     this._isMounted = false;
   }
@@ -75,14 +80,18 @@ class Editing extends React.Component<IProps, IState> {
   triggerFileUploadBtn = () => {
     this.upload.click();
   };
-
+  toggleAssetPicker = () => {
+    this.setState({ isAssetPicker: !this.state.isAssetPicker });
+  };
   onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0] !== null) {
       let file = e.target.files![0];
       this.setState({ uploading: true });
       S3FileUpload.uploadFile(file, config)
         .then((data: any) => {
-          this.setState({ url: data.location, uploading: false });
+          this.setState({ url: data.location, uploading: false }, () =>
+            this.props.addAsset({ type: "thumbnail", url: this.state.url })
+          );
           this.saveChanges();
           return;
         })
@@ -94,21 +103,40 @@ class Editing extends React.Component<IProps, IState> {
       toast.error("No file selected");
     }
   };
-
+  onAssetPick = (path: any) => {
+    this.setState({ url: path }, () => {
+      toast.info("Thumbnail selected saving your changes");
+      this.toggleAssetPicker();
+      this.saveChanges();
+    });
+  };
   saveChanges = () => {
     if (this.state.url === "") {
-      toast.error("Please upload a thumbnail");
+      toast.error("Failed to add thumbnail, Please try again");
       return;
     }
     const video = {
       id: this.props.videoId,
       thumbnail: this.state.url
     };
-    this.props.addAsset({ type: "thumbnail", url: this.state.url });
     this.props.updateVideo(video);
     this.setState({ url: "" });
   };
-
+  changeTitle = (e: any) => {
+    this.setState({ newVideoTitle: e.target.value });
+  };
+  updateTitle = () => {
+    if (this.state.newVideoTitle === "") {
+      toast.error("Please add an title befor updating");
+      return;
+    }
+    const video = {
+      id: this.props.videoId,
+      title: this.state.newVideoTitle
+    };
+    this.props.updateVideo(video);
+    this.setState({ newVideoTitle: "" });
+  };
   render() {
     const { video, isVideoUpdating } = this.props;
     const { showVideo } = this.state;
@@ -184,7 +212,12 @@ class Editing extends React.Component<IProps, IState> {
                 <div className="progressEditing">
                   {isVideoUpdating && <Loading />}
                 </div>
-
+                <AssetPicker
+                  isOpen={this.state.isAssetPicker}
+                  toggle={this.toggleAssetPicker}
+                  logoAssets={false}
+                  onPick={this.onAssetPick}
+                />
                 <div className="btnEditThumbnailWrapper">
                   <ThemeButton
                     name="Upload File"
@@ -193,6 +226,51 @@ class Editing extends React.Component<IProps, IState> {
                       border: "none",
                       background: "#16B272",
                       color: "rgb(255, 255, 255)",
+                      marginBottom: "2px"
+                    }}
+                  />
+                  <ThemeButton
+                    name="Select from assets"
+                    onClick={this.toggleAssetPicker}
+                    style={{
+                      border: "none",
+                      background: "#16B272",
+                      color: "rgb(255, 255, 255)",
+                      marginBottom: "2px"
+                    }}
+                  />
+                </div>
+                <div className="wrapperEditTitle">
+                  <h4 className="thumbnaillEditMsg">
+                    Customize Title
+                    <Tooltip
+                      title="Customize  title for this video"
+                      placement="top"
+                      arrow
+                      style={{ marginLeft: "3px" }}
+                    >
+                      <HelpIcon />
+                    </Tooltip>
+                  </h4>
+                  <TextField
+                    placeholder="Add new title"
+                    fullWidth
+                    type="text"
+                    value={this.state.newVideoTitle}
+                    name="recieverEmail"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    onChange={this.changeTitle}
+                  />
+                  <ThemeButton
+                    name="Update title"
+                    onClick={this.updateTitle}
+                    style={{
+                      border: "none",
+                      background: "#16B272",
+                      color: "rgb(255, 255, 255)",
+                      marginTop: "20px",
                       marginBottom: "2px"
                     }}
                   />

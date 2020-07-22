@@ -352,6 +352,7 @@ class AddLogo extends React.Component<IProps, IState> {
                     isOpen={this.state.isAssetPicker}
                     toggle={this.toggleAssetPicker}
                     onPick={this.onAssetPick}
+                    logoAssets={true}
                   />
                   <input
                     id="uploadInput"
