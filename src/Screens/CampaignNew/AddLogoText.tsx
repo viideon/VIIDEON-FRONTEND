@@ -302,14 +302,7 @@ class AddLogo extends React.Component<IProps, IState> {
       <Grid container>
         <Grid item xs={1} sm={1} md={1} lg={1}></Grid>
         <Grid item xs={10} sm={10} md={10} lg={10}>
-          <div
-            style={{
-              borderRadius: "4px",
-              padding: "10px 30px 10px 30px",
-              background: "#fff",
-              boxShadow: "0px 0px 3px #d3d3d3"
-            }}
-          >
+          <div className="wrapperAddLogoText">
             <h2 className="addLogoHeading">Add Logo and Text to Video</h2>
             <Grid container>
               <Grid
