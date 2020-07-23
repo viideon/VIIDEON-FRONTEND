@@ -11,3 +11,9 @@ export function getAssets() {
         type: types.GET_ASSETS
     }
 }
+export function deleteAsset(assetId: any) {
+    return {
+        type: types.DELETE_ASSET,
+        payload: assetId
+    }
+}

@@ -20,6 +20,25 @@ const assetsReducer = (state: any = {}, action: any) => {
                 loadingAssets: false
             }
         }
+        case types.DELETE_ASSET: {
+            return {
+                ...state,
+                isDeletingAsset: true
+            }
+        }
+        case types.DELETE_ASSET_SUCCESS: {
+            return {
+                ...state,
+                isDeletingAsset: false,
+                assets: action.payload
+            }
+        }
+        case types.DELETE_ASSET_FAILURE: {
+            return {
+                ...state,
+                isDeletingAsset: false
+            }
+        }
         default: {
             return state;
         }

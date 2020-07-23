@@ -1,3 +1,33 @@
+.wrapperAssetPicker {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 5px;
+}
+.imgAssetPicker {
+  height: 180px;
+  object-fit: contain;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  width: 180px;
+  opacity: 1;
+  margin: 0;
+}
+.imgAssetPicker:hover {
+  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.7);
+}
+.wrapperImgPicker {
+  position: relative;
+  margin: 8px;
+  cursor: pointer;
+}
+.modal-open {
+  overflow: hidden;
+  overflow-y: scroll;
+  padding-right: 0 !important;
+}
 @media (min-width: 1280px) {
   .modal-dialog {
     max-width: 1000px !important;
@@ -21,30 +51,4 @@
     max-width: 600px;
     margin: 1.75rem auto;
   }
-}
-
-.wrapperAssetPicker {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 5px;
-}
-.imgAssetPicker {
-  height: 180px;
-  object-fit: contain;
-  border: 1px solid #ddd; /* Gray border */
-  border-radius: 4px; /* Rounded border */
-  padding: 5px; /* Some padding */
-  width: 180px;
-  opacity: 1;
-  margin: 0;
-}
-.imgAssetPicker:hover {
-  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.7);
-}
-.wrapperImgPicker {
-  position: relative;
-  margin: 8px;
-  cursor: pointer;
 }
