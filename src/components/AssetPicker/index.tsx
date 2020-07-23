@@ -17,13 +17,15 @@ interface IProps {
 
 class AssetPicker extends React.Component<IProps> {
   state = {
-    assetUrl: ""
+    assetUrl: "",
+    currenSelection: null
   };
   componentDidMount() {
     this.props.getAssets();
   }
   componentDidUpdate(prevProps: any) {
     if (this.props.isOpen !== prevProps.isOpen && this.props.isOpen) {
+      this.setState({ assetUrl: "", currenSelection: null });
       this.props.getAssets();
     }
   }
@@ -36,12 +38,14 @@ class AssetPicker extends React.Component<IProps> {
     this.props.onPick(this.state.assetUrl);
     this.props.toggle();
   };
-  selectAsset = (url: any) => {
-    this.setState({ assetUrl: url });
+  selectAsset = (url: any, i: any) => {
+    this.setState({ assetUrl: url, currenSelection: i });
     toast.info("Asset selected, Click ok to proceed");
   };
   cancelSelection = () => {
-    this.setState({ assetUrl: "" }, () => this.props.toggle());
+    this.setState({ assetUrl: "", currenSelection: null }, () =>
+      this.props.toggle()
+    );
   };
   render() {
     const { assets } = this.props;
@@ -55,8 +59,10 @@ class AssetPicker extends React.Component<IProps> {
             {assets &&
               assets.map((asset: any, i) => (
                 <div
-                  className="wrapperImgPicker"
-                  onClick={() => this.selectAsset(asset.url)}
+                  className={`wrapperImgPicker ${
+                    i === this.state.currenSelection ? "selected" : ""
+                  }`}
+                  onClick={() => this.selectAsset(asset.url, i)}
                   key={i}
                 >
                   <img
