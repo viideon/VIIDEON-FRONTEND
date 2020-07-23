@@ -1,9 +1,10 @@
 import React from "react";
 import Home from "../Home/Home";
 import { connect } from "react-redux";
+import { RiDeleteBack2Line } from "react-icons/ri";
 import DeleteDialog from "../../components/Reusable/DeleteDialogGeneric";
 import { deleteAsset } from "../../Redux/Actions/asset";
-import { Grid } from "@material-ui/core";
+import { Grid, Tooltip } from "@material-ui/core";
 import "./style.css";
 
 interface IProps {
@@ -48,23 +49,35 @@ export default connect(mapStateToProps, mapDispatchToProps)(AssetsLibray);
 
 const Asset = ({ asset, deleteAsset, isDeletingAsset }: any) => {
   const [open, setOpen] = React.useState(false);
-  const deleteAction = (id: any) => {
-    deleteAsset(id);
+  const [showDeleteBtn, setDeleteBtn] = React.useState(false);
+
+  const showDeleteButton = () => {
+    setDeleteBtn(true);
+  };
+  const hideDeleteButton = () => {
+    setDeleteBtn(false);
+  };
+  const deleteAction = () => {
+    deleteAsset(asset._id);
   };
   const openDeleteDialog = () => {
+    setDeleteBtn(false);
     setOpen(true);
   };
   const closeDeleteDialog = () => {
     setOpen(false);
   };
   return (
-    <div className="wrapperImgLib">
+    <div
+      className="wrapperImgLib"
+      onMouseEnter={showDeleteButton}
+      onMouseLeave={hideDeleteButton}
+    >
       <DeleteDialog
         open={open}
         closeDeleteDialog={closeDeleteDialog}
         actionDelete={deleteAction}
         isDeleting={isDeletingAsset}
-        id={asset.id}
         textContent="You will not be able to recover this asset once it is deleted"
       />
       <img
@@ -74,10 +87,14 @@ const Asset = ({ asset, deleteAsset, isDeletingAsset }: any) => {
         alt="asset"
       />
       <button
-        style={{ position: "absolute", top: "0px", right: "0px" }}
         onClick={openDeleteDialog}
+        className={showDeleteBtn ? "showDeleteBtn" : "hideDeleteBtn"}
       >
-        Delete
+        <Tooltip placement="top" title="Delete" arrow>
+          <span>
+            <RiDeleteBack2Line size={"1.5em"} />
+          </span>
+        </Tooltip>
       </button>
     </div>
   );

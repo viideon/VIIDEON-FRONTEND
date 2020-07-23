@@ -20,3 +20,19 @@
   margin: 5px;
   position: relative;
 }
+.showDeleteBtn {
+  display: block;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background: none;
+}
+.showDeleteBtn:focus {
+  outline: none;
+}
+.hideDeleteBtn {
+  display: none;
+}
