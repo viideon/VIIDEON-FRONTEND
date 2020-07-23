@@ -52,12 +52,15 @@ function* deleteUserAsset(action: any) {
                 (asset: any) => asset._id !== assetId
             );
             yield put({ type: types.DELETE_ASSET_SUCCESS, payload: updatedAssets });
+            toast.info("Asset deleted");
         } else {
             yield put({ type: types.DELETE_ASSET_FAILURE });
+            toast.info("Failed to delete asset");
         }
     }
     catch (error) {
         yield put({ type: types.DELETE_ASSET_FAILURE });
+        toast.info("Failed to delete asset");
     }
 }
 export function* assetWatcher() {

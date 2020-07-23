@@ -13,7 +13,7 @@ interface IProps {
   closeDeleteDialog: () => void;
   isDeleting: boolean;
   id?: string;
-  textContent: string;
+  textContent?: string;
 }
 const DeleteDialog: React.FC<IProps> = ({
   actionDelete,
