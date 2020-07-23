@@ -105,8 +105,7 @@ class Editing extends React.Component<IProps, IState> {
   };
   onAssetPick = (path: any) => {
     this.setState({ url: path }, () => {
-      toast.info("Thumbnail selected saving your changes");
-      this.toggleAssetPicker();
+      toast.info("Saving your changes");
       this.saveChanges();
     });
   };

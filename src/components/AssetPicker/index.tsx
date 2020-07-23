@@ -1,4 +1,5 @@
 import React from "react";
+import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
 import { getAssets } from "../../Redux/Actions/asset";
@@ -15,6 +16,9 @@ interface IProps {
 }
 
 class AssetPicker extends React.Component<IProps> {
+  state = {
+    assetUrl: ""
+  };
   componentDidMount() {
     this.props.getAssets();
   }
@@ -23,21 +27,36 @@ class AssetPicker extends React.Component<IProps> {
       this.props.getAssets();
     }
   }
-  onPick = (asset: any) => {
-    this.props.onPick(asset);
+  onPick = () => {
+    if (this.state.assetUrl === "") {
+      toast.info("No asset selected");
+      this.props.toggle();
+      return;
+    }
+    this.props.onPick(this.state.assetUrl);
+    this.props.toggle();
+  };
+  selectAsset = (url: any) => {
+    this.setState({ assetUrl: url });
+    toast.info("Asset selected, Click ok to proceed");
+  };
+  cancelSelection = () => {
+    this.setState({ assetUrl: "" }, () => this.props.toggle());
   };
   render() {
     const { assets } = this.props;
     return (
       <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
-        <ModalHeader>Select a Logo</ModalHeader>
+        <ModalHeader>
+          Select {this.props.logoAssets ? "Logo" : "Thumbnail"}
+        </ModalHeader>
         <ModalBody>
           <div className="wrapperAssetPicker">
             {assets &&
               assets.map((asset: any, i) => (
                 <div
                   className="wrapperImgPicker"
-                  onClick={() => this.onPick(asset.url)}
+                  onClick={() => this.selectAsset(asset.url)}
                   key={i}
                 >
                   <img
@@ -52,10 +71,18 @@ class AssetPicker extends React.Component<IProps> {
         </ModalBody>
         <ModalFooter>
           <Button
+            color="secondary"
+            size="md"
+            style={{ width: "120px", marginRight: "5px" }}
+            onClick={this.cancelSelection}
+          >
+            Cancel
+          </Button>
+          <Button
             color="primary"
             size="md"
             style={{ width: "120px" }}
-            onClick={this.props.toggle}
+            onClick={this.onPick}
           >
             OK
           </Button>

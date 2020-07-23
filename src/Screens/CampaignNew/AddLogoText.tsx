@@ -266,7 +266,7 @@ class AddLogo extends React.Component<IProps, IState> {
   };
   onAssetPick = (path: any) => {
     this.setState({ logoPath: path });
-    toast.info("Logo selected");
+    toast.info("updated");
   };
   getThumbnail = () => {
     const thumbCanvas: any = this.refs.thumbCanvas;
