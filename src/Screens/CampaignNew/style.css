@@ -52,9 +52,27 @@
 }
 /* -----recording screen wrapper */
 .recorderWrapper {
+  margin-left: 30px;
   text-align: center;
-  box-shadow: 0 0 5px lightgray;
+  /* box-shadow: 0 0 5px lightgray; */
+  border: 1px solid #cdcdcd;
   padding: 10px 20px 10px 20px;
+}
+.instructionWrapper {
+  padding: 30px 20px 10px 30px;
+  margin-right: 30px;
+  -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 2s; /* Firefox < 16 */
+  -ms-animation: fadein 2s; /* Internet Explorer */
+  -o-animation: fadein 2s; /* Opera < 12.1 */
+  animation: fadein 2s;
+}
+.instructionText {
+  padding-top: 20px;
+}
+.instructionHeading {
+  padding: 60px 0px 30px 0px;
+  color: #0071bc;
 }
 .introHeading {
   padding-top: 40px !important;

@@ -96,3 +96,38 @@ export const SAVE_VIDEO = "Save Video";
 
 //home
 export const HEADER = "VIDIONPRO";
+
+//campaign Recording constants
+
+export const INTRO_INSTRUCTION_HEADING =
+  "Please tell your audience about your qualification in medical field";
+export const INTRO_INSTRUCTION_Q_ONE =
+  "Tell your audience about the school you went";
+export const INTRO_INSTRUCTION_Q_TWO =
+  "Tell your audience about the noteable people in the industry you learned from";
+export const INTRO_INSTRUCTION_Q_THREE =
+  "Tell your audience about your achievements/distinctions";
+export const INTRO_INSTRUCTION_Q_FOUR =
+  "Tell your audience if you are enrolled in any higher education program";
+
+export const MESSAGE_INSTRUCTION_HEADING =
+  "Please tell your audience about your work experience";
+export const MESSAGE_INSTRUCTION_Q_ONE =
+  "Tell your audience about your internships";
+export const MESSAGE_INSTRUCTION_Q_TWO =
+  "Tell your audience about your job history and where you are working now";
+export const MESSAGE_INSTRUCTION_Q_THREE =
+  "Tell your audience about any social welfare projects you engaged in";
+export const MESSAGE_INSTRUCTION_Q_FOUR =
+  "Tell your audience about any significant achievements";
+
+export const CONCLUSION_INSTRUCTION_HEADING =
+  "Please tell  your audience about your salient features ";
+export const CONCLUSION_INSTRUCTION_Q_ONE =
+  "Tell your audience how do you ensure well being of your patients";
+export const CONCLUSION_INSTRUCTION_Q_TWO =
+  " Tell your audience are you available on call for your patients";
+export const CONCLUSION_INSTRUCTION_Q_THREE =
+  "Tell your audience can you provide home visits";
+export const CONCLUSION_INSTRUCTION_Q_FOUR =
+  " Tell your audience about why you are the right choice for patients";

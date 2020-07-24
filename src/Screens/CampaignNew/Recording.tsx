@@ -1,12 +1,14 @@
 import React from "react";
 import RecordRTC from "recordrtc";
 import { withRouter } from "react-router-dom";
+import { ListGroup, ListGroupItem } from "reactstrap";
 import { toast } from "react-toastify";
 import { Grid, Button, Select, MenuItem, InputLabel } from "@material-ui/core";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import StopIcon from "@material-ui/icons/Stop";
 import Counter from "./Counter";
+import * as Constants from "../../constants/constants";
 import "./style.css";
 
 const hasGetUserMedia = !!navigator.getUserMedia;
@@ -42,7 +44,6 @@ class Recording extends React.Component<IProps> {
   componentDidMount() {
     this.setupMedia();
   }
-
   setupMedia = () => {
     this.setState({ isConnecting: true });
     if (!hasGetUserMedia) {
@@ -155,6 +156,73 @@ class Recording extends React.Component<IProps> {
       });
     }
   };
+  showInstructions = () => {
+    switch (this.state.trackNo) {
+      case 1:
+        return (
+          <div className="instructionWrapper">
+            <h4 className="instructionHeading">
+              {Constants.INTRO_INSTRUCTION_HEADING}
+            </h4>
+            <ListGroup style={listGroupStyle}>
+              <ListGroupItem>{Constants.INTRO_INSTRUCTION_Q_ONE}</ListGroupItem>
+              <ListGroupItem>{Constants.INTRO_INSTRUCTION_Q_TWO}</ListGroupItem>
+              <ListGroupItem>
+                {Constants.INTRO_INSTRUCTION_Q_THREE}
+              </ListGroupItem>
+              <ListGroupItem>
+                {Constants.INTRO_INSTRUCTION_Q_FOUR}
+              </ListGroupItem>
+            </ListGroup>
+          </div>
+        );
+
+      case 2:
+        return (
+          <div className="instructionWrapper">
+            <h4 className="instructionHeading">
+              {Constants.MESSAGE_INSTRUCTION_HEADING}
+            </h4>
+            <ListGroup style={listGroupStyle}>
+              <ListGroupItem>
+                {Constants.MESSAGE_INSTRUCTION_Q_ONE}
+              </ListGroupItem>
+              <ListGroupItem>
+                {Constants.MESSAGE_INSTRUCTION_Q_TWO}
+              </ListGroupItem>
+              <ListGroupItem>
+                {Constants.MESSAGE_INSTRUCTION_Q_THREE}
+              </ListGroupItem>
+              <ListGroupItem>
+                {Constants.MESSAGE_INSTRUCTION_Q_FOUR}
+              </ListGroupItem>
+            </ListGroup>
+          </div>
+        );
+      case 3:
+        return (
+          <div className="instructionWrapper">
+            <h4 className="instructionHeading">
+              {Constants.CONCLUSION_INSTRUCTION_HEADING}
+            </h4>
+            <ListGroup style={listGroupStyle}>
+              <ListGroupItem>
+                {Constants.CONCLUSION_INSTRUCTION_Q_ONE}
+              </ListGroupItem>
+              <ListGroupItem>
+                {Constants.CONCLUSION_INSTRUCTION_Q_TWO}
+              </ListGroupItem>
+              <ListGroupItem>
+                {Constants.CONCLUSION_INSTRUCTION_Q_THREE}
+              </ListGroupItem>
+              <ListGroupItem>
+                {Constants.CONCLUSION_INSTRUCTION_Q_FOUR}
+              </ListGroupItem>
+            </ListGroup>
+          </div>
+        );
+    }
+  };
   trackTime = () => {
     this.setState({
       count: this.state.count + 1
@@ -208,8 +276,7 @@ class Recording extends React.Component<IProps> {
     const sec = Math.floor(count % 60);
     return (
       <Grid container>
-        <Grid item xs={1} sm={1} md={2} lg={2}></Grid>
-        <Grid item xs={10} sm={10} md={8} lg={8}>
+        <Grid item xs={12} sm={12} md={6} lg={6}>
           <div className="recorderWrapper">
             <h2 className="recordHeading">{this.nameTrack()}</h2>
             <div className="videoStreamWrapper">
@@ -225,10 +292,6 @@ class Recording extends React.Component<IProps> {
                   left: 0
                 }}
               />
-
-              {/* {this.state.recordingStatus && (
-                <img src={recordGif} className="iconRecording" alt="record" />
-              )} */}
               {this.state.showCountdown && <Counter />}
               {this.state.showTimer && (
                 <span className="timerRecording">
@@ -289,10 +352,15 @@ class Recording extends React.Component<IProps> {
             </div>
           </div>
         </Grid>
-        <Grid item xs={1} sm={1} md={2} lg={2}></Grid>
+        <Grid item xs={12} sm={12} md={6} lg={6}>
+          {this.showInstructions()}
+        </Grid>
       </Grid>
     );
   }
 }
+const listGroupStyle = {
+  boxShadow: "0 0 10px #cdcdcd"
+};
 
 export default withRouter<any, any>(Recording);
