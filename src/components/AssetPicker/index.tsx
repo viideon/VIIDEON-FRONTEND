@@ -73,6 +73,13 @@ class AssetPicker extends React.Component<IProps> {
                   />
                 </div>
               ))}
+            {assets && assets.length < 1 && (
+              <div className="emptyAssets">
+                <h2>
+                  No {this.props.logoAssets ? "Logo" : "Thumbnail"} Present
+                </h2>
+              </div>
+            )}
           </div>
         </ModalBody>
         <ModalFooter>

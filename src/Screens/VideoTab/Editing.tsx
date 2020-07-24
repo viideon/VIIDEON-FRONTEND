@@ -225,7 +225,8 @@ class Editing extends React.Component<IProps, IState> {
                       border: "none",
                       background: "#16B272",
                       color: "rgb(255, 255, 255)",
-                      marginBottom: "2px"
+                      marginBottom: "2px",
+                      outline: "none"
                     }}
                   />
                   <ThemeButton
@@ -235,7 +236,8 @@ class Editing extends React.Component<IProps, IState> {
                       border: "none",
                       background: "#16B272",
                       color: "rgb(255, 255, 255)",
-                      marginBottom: "2px"
+                      marginBottom: "2px",
+                      outline: "none"
                     }}
                   />
                 </div>
@@ -270,7 +272,8 @@ class Editing extends React.Component<IProps, IState> {
                       background: "#16B272",
                       color: "rgb(255, 255, 255)",
                       marginTop: "20px",
-                      marginBottom: "2px"
+                      marginBottom: "2px",
+                      outline: "none"
                     }}
                   />
                 </div>
