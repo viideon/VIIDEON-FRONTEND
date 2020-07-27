@@ -1,5 +1,5 @@
 export const config = {
-  bucketName: "paractice",
+  bucketName: "videonpro",
   dirName: "assets",
   region: "us-west-1",
   ACL: "public-read",

@@ -1,4 +1,5 @@
 import * as CONSTANTS from '../../../constants/baseUrl';
+import API from "../../../lib/Api";
 
 export function* updateProfile(userProfile: any) {
    const new_user = {
@@ -24,4 +25,8 @@ export function* updateProfile(userProfile: any) {
    const response = yield fetch(`${CONSTANTS.BASE_URL}/user/update/${userProfile.userId}`, opt);
    const message = yield response.json();
    return yield ({ status: response.status, message })
+}
+
+export async function updateProfileApi(profile: any) {
+   return API.post("/user/update", { profile });
 }
