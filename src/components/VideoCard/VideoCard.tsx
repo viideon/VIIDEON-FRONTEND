@@ -67,7 +67,7 @@ const VideoCard: FC<IProps> = ({
   };
   const copyUrl = () => {
     navigator.clipboard.writeText(
-      `https://vidionpro.000webhostapp.com/watch/${id}`
+      `${process.env.REACT_APP_DOMAIN}/watch/${id}`
     );
     toast.info("Url copied to clipboard");
   };

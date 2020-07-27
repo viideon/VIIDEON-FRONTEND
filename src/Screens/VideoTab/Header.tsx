@@ -53,17 +53,11 @@ class VideoTabHeader extends React.Component<IProps> {
   copyUrl = () => {
     const { video } = this.props;
     navigator.clipboard.writeText(
-      `https://vidionpro.000webhostapp.com/watch/${video && video._id}`
+      `${process.env.REACT_APP_DOMAIN}/watch/${video && video._id}`
     );
     toast.info("Url copied to clipboard");
   };
 
-  state = {
-    tooltipOpen: false
-  };
-  toggle = () => {
-    this.setState({ tooltipOpen: !this.state.tooltipOpen });
-  };
   render() {
     const { video } = this.props;
     return (
