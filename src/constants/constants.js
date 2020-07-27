@@ -66,7 +66,7 @@ export const DONT_HAVE_ACCOUNT = "Don't Have Account?";
 export const REGISTER = "Register";
 export const SIGNUP_TO = "Signup to";
 export const SIGNIN_TO = "Login to";
-export const VIDIONPRO = "vidionPRO";
+export const VIDIONPRO = "videonPRO";
 export const LOGIN_TO_ACCOUNT = "Login to your account";
 export const DONT_HAVE_ACCOUNT_YET = "Don't have an account yet?";
 export const CREATE_NEW = "Create one here";
@@ -95,7 +95,7 @@ export const SENDER_ADDRESS = "Reciever Email";
 export const SAVE_VIDEO = "Save Video";
 
 //home
-export const HEADER = "VIDIONPRO";
+export const HEADER = "VIDEONPRO";
 
 //campaign Recording constants
 

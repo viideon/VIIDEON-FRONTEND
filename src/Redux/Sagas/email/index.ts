@@ -21,7 +21,6 @@ function* saveUserEmailConfig(action: any) {
             toast.error("Failed to add your configuration try again");
         }
     } catch (error) {
-
         yield put({ type: types.ADD_EMAIL_CONFIG_FAILURE });
         toast.error("Failed to add your configuration");
     }
@@ -41,7 +40,7 @@ function* getUserEmailConfig() {
 
     } catch (error) {
         yield put({ type: types.GET_USER_EMAIL_CONFIG_FAILURE });
-        toast.error("Failed to get your configuration");
+        // toast.error("Failed to get your configuration");
     }
 }
 function* deleteUserEmailConfig(action: any) {

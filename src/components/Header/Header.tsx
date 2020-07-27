@@ -92,12 +92,12 @@ const Header: React.FC<IProps> = ({
         {location.pathname !== "/" ? (
           <Tooltip title="Redirect to Dashboard">
             <h3 className="headerStyle" onClick={navigateHome}>
-              vidionPRO
+              videonPRO
             </h3>
           </Tooltip>
         ) : (
           <h3 className="headerStyle" onClick={navigateHome}>
-            vidionPRO
+            videonPRO
           </h3>
         )}
       </div>
