@@ -266,10 +266,10 @@ class EditingPlayer extends React.Component<IProps, IState> {
         canvasTxt.drawText(
           this.canvasTmpCtx,
           textProps.text,
-          5,
-          5,
-          width - 10,
-          height - 10
+          10,
+          10,
+          width - 20,
+          height - 20
         );
       }
 

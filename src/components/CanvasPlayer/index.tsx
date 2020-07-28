@@ -220,7 +220,6 @@ class Player extends React.Component<IProps, IState> {
     if (this.video.currentTime >= 3 && this.state.watched === false) {
       this.props.watched && this.props.watched();
       this.setState({ watched: true });
-   
     }
   };
   updateVolumeIcon = () => {
@@ -271,10 +270,10 @@ class Player extends React.Component<IProps, IState> {
         canvasTxt.drawText(
           this.canvasTmpCtx,
           textProps.text,
-          0,
-          0,
-          width,
-          height
+          10,
+          10,
+          width - 20,
+          height - 20
         );
       }
       if (logoProps.url !== "" && logoProps.url !== undefined) {
