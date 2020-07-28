@@ -305,9 +305,9 @@ export function* deleteVideo(action: any) {
         updatedVideos.push(result.data.nextVideo);
       }
       deleteDataAws(removedVideo.url);
-      if (removedVideo.thumbnail) {
-        deleteDataAws(removedVideo.thumbnail);
-      }
+      // if (removedVideo.thumbnail) {
+      //   deleteDataAws(removedVideo.thumbnail);
+      // }
       yield put({
         type: types.UPDATE_VIDEOS_AFTEREDELETE,
         payload: updatedVideos,

@@ -411,6 +411,7 @@ class Player extends React.Component<IProps, IState> {
                   }}
                   src={thumbnail}
                   alt="preview"
+                  crossOrigin="anonymous"
                 />
               )}
             </div>

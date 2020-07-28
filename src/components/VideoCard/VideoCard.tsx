@@ -79,6 +79,7 @@ const VideoCard: FC<IProps> = ({
           style={{ objectFit: "contain", maxHeight: "100%", maxWidth: "100%" }}
           src={thumbnail ? thumbnail : thumbnailDefault}
           alt="preview"
+          crossOrigin="anonymous"
         />
       </div>
       <div className="row" id="rowCardTitle">
