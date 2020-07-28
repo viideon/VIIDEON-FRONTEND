@@ -25,6 +25,7 @@ import Configuration from "./Screens/Configuration";
 import CampaignList from "./Screens/Home/Campaigns";
 import TestRecorder from "./Screens/Watch/TestRecorder";
 import AssetsLibrary from "./Screens/AssetsLibrary";
+import PrivacyPolicy from "./components/PrivacyPolicy";
 type IProps = {
   auth: AuthState;
   updateVideoCta: (id: any) => void;
@@ -56,7 +57,8 @@ class Routes extends Component<IProps> {
               <Route exact path="/contacts" component={Contacts} />
               <Route exact path="/campaign" component={CampaignList} />
               <Route exact path="/configuration" component={Configuration} />
-              <Route exact path="/assetlibrary" component={AssetsLibrary}/>
+              <Route exact path="/assetlibrary" component={AssetsLibrary} />
+              <Route exact path="/privacypolicy" component={PrivacyPolicy} />
               <Route exact path="/test" component={TestRecorder} />
               <Route exact path="*" render={() => <Redirect to="/" />} />
             </Switch>
@@ -66,6 +68,7 @@ class Routes extends Component<IProps> {
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/forgotPassword" component={ForgotPassword} />
             <Route exact path="/resetPassword" component={ResetPassword} />
+            <Route exact path="/privacypolicy" component={PrivacyPolicy} />
             <Route exact path="/login*" component={SignIn} />
             <Route
               exact

@@ -15,5 +15,5 @@ export function* register(user: any) {
 }
 
 export function registerApi(user: any) {
-   return API.post("/user/register", { user });
+   return API.post("/user/register", user);
 }
