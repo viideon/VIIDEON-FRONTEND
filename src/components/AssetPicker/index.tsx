@@ -66,7 +66,7 @@ class AssetPicker extends React.Component<IProps> {
                   key={i}
                 >
                   <img
-                    ref="image"
+                    alt="asset"
                     crossOrigin="anonymous"
                     src={asset.url}
                     className="imgAssetPicker"

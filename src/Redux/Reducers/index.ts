@@ -15,8 +15,8 @@ const expirationKey = "expirationKey";
 const rootPersistConfig = {
   key: "root",
   storage: storage,
-  whitelist: ["auth", "profile", "email", "asset"],
-  blacklist: ["drawer", "video"],
+  whitelist: ["auth", "email", "asset"],
+  blacklist: ["drawer", "video", "profile"],
   transforms: [expireIn(expireTime, expirationKey, {})],
 };
 
@@ -26,6 +26,11 @@ const videoPersistConfig = {
   whitelist: ["videoCount", "viewCount", "emailShareCount", "emailOpenCount", "ctaCount", "watchCount"],
   blacklist: ["isVideoUpdated", "videoSaved", "videos", "singleVideo"]
 }
+const profilePersistConfig = {
+  key: "profile",
+  storage: storage,
+  blacklist: ["loading"],
+}
 
 const rootReducer = combineReducers({
   register: registerReducer,
@@ -33,7 +38,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   video: persistReducer(videoPersistConfig, videoReducer),
   // video: videoReducer,
-  profile: profileReducer,
+  profile: persistReducer(profilePersistConfig, profileReducer),
   email: emailReducer,
   asset: assetReducer,
 });

@@ -28,5 +28,5 @@ export function* updateProfile(userProfile: any) {
 }
 
 export async function updateProfileApi(profile: any) {
-   return API.post("/user/update", { profile });
+   return API.post("/user/update", profile);
 }

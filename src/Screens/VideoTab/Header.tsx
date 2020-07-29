@@ -2,11 +2,11 @@ import React from "react";
 import {
   Row,
   Col,
-  Button,
-  Input,
+  Button
+  // Input,
   // InputGroupAddon,
   // InputGroupText,
-  InputGroup
+  // InputGroup
   // Tooltip as StrapTooltip
 } from "reactstrap";
 // import { FaMailBulk, FaPencilAlt, FaDownload } from "react-icons/fa";

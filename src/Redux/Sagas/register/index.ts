@@ -2,7 +2,7 @@ import { put, takeEvery } from "redux-saga/effects";
 import { push } from "react-router-redux";
 import { types } from "../../Types/register";
 import { toast } from "react-toastify";
-import { register, registerApi } from "./api";
+import { registerApi } from "./api";
 function* registerUser(action: any) {
   try {
     const result = yield registerApi(action.payload);
@@ -12,11 +12,17 @@ function* registerUser(action: any) {
       toast.info("Signup was successfull, Please Verify your email");
     } else {
       yield put({ type: types.REGISTRATION_FAILURE, payload: result.message });
-      toast.error("Error , Please try again");
+      toast.error("Error, Please try again");
     }
   } catch (error) {
-    yield put({ type: types.REGISTRATION_FAILURE, payload: error });
-    toast.error("Already registered with this email or user name");
+    if (error.response.status === 303) {
+      yield put({ type: types.REGISTRATION_FAILURE });
+      toast.error("Email address is already registered");
+    }
+    else {
+      yield put({ type: types.REGISTRATION_FAILURE });
+      toast.error("Error, Please try again");
+    }
   }
 }
 export function* registerhWatcher() {

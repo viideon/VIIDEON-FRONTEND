@@ -11,11 +11,12 @@ function* updateProfileUser(action: any) {
             toast.info("Update Profile Successfully");
         }
         else {
-            yield put({ type: types.PROFILE_UPDATE_FAILURE, payload: result.message });
-            toast.error("Errror updating");
+            yield put({ type: types.PROFILE_UPDATE_FAILURE });
+            toast.error("Error updating");
         }
     } catch (error) {
-        toast.error(error);
+        yield put({ type: types.PROFILE_UPDATE_FAILURE });
+        toast.error("Error updating");
     }
 }
 export function* profileWatcher() {

@@ -4,7 +4,7 @@ import axios from "axios";
 import canvasTxt from "canvas-txt";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import PauseIcon from "@material-ui/icons/Pause";
-import FullscreenIcon from "@material-ui/icons/Fullscreen";
+// import FullscreenIcon from "@material-ui/icons/Fullscreen";
 // import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
 import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 import VolumeOffIcon from "@material-ui/icons/VolumeOff";
