@@ -57,11 +57,7 @@ class Dashboard extends Component<IProps> {
               <Link to="/videos" className="link-style">
                 <HeaderCard
                   styles={Styles.headerCardOne}
-                  Number={
-                    this.props.videoCount && this.props.campaignCount
-                      ? this.props.videoCount - this.props.campaignCount
-                      : 0
-                  }
+                  Number={this.props.videoCount ? this.props.videoCount : 0}
                   Title="VIDEOS"
                   iconBg="#368BC4"
                 />
@@ -157,7 +153,7 @@ const iconStyle = {
 };
 const mapStateToProps = (state: any) => {
   return {
-    videoCount: state.video.videoCount,
+    videoCount: state.video.videoCount - state.video.campaignCount,
     viewCount: state.video.viewCount,
     campaignCount: state.video.campaignCount
   };
