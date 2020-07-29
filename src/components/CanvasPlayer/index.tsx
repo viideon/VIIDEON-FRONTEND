@@ -270,10 +270,10 @@ class Player extends React.Component<IProps, IState> {
         canvasTxt.drawText(
           this.canvasTmpCtx,
           textProps.text,
-          10,
-          10,
-          width - 20,
-          height - 20
+          20,
+          20,
+          width - 40,
+          height - 40
         );
       }
       if (logoProps.url !== "" && logoProps.url !== undefined) {

@@ -1,4 +1,3 @@
-import * as CONSTANTS from "../../../constants/baseUrl";
 import API from "../../../lib/Api";
 import AWS from "aws-sdk";
 import { config } from "../../../config/aws";

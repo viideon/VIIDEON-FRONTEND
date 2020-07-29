@@ -17,7 +17,7 @@ function* registerUser(action: any) {
   } catch (error) {
     if (error.response.status === 303) {
       yield put({ type: types.REGISTRATION_FAILURE });
-      toast.error("Email address is already registered");
+      toast.error(error.response.data.message);
     }
     else {
       yield put({ type: types.REGISTRATION_FAILURE });

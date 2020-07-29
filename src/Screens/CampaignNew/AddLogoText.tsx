@@ -135,10 +135,10 @@ class AddLogo extends React.Component<IProps, IState> {
     canvasTxt.drawText(
       context2,
       this.state.text,
-      10,
-      10,
-      width - 20,
-      height - 20
+      20,
+      20,
+      width - 40,
+      height - 40
     );
     context2.drawImage(img, this.state.logoX, this.state.logoY);
     let idata = context2.getImageData(0, 0, width, height);
