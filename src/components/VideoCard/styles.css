@@ -100,3 +100,9 @@
     opacity: 1;
   }
 }
+
+.menuCustom {
+  position: absolute;
+  box-shadow: 0 0 4px #cdcdcd;
+  background: #fff;
+}

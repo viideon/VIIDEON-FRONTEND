@@ -29,6 +29,7 @@ const DeleteDialog: React.FC<IProps> = ({
       onClose={closeDeleteDialog}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
+      disableScrollLock={true}
     >
       <DialogTitle id="alert-dialog-title">Are you sure?</DialogTitle>
       <DialogContent>

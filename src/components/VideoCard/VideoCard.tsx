@@ -1,10 +1,16 @@
 import React, { FC, useState } from "react";
 import { connect } from "react-redux";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import {
+  DropdownItem,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu
+} from "reactstrap";
 import { toast } from "react-toastify";
 import VideoInfo from "../VideoInfo";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
+// import Menu from "@material-ui/core/Menu";
+// import MenuItem from "@material-ui/core/MenuItem";
 import DeleteDialog from "../Reusable/DeleteDialog";
 import { thumbnailDefault } from "../../constants/constants";
 import moment from "moment";
@@ -41,22 +47,21 @@ const VideoCard: FC<IProps> = ({
   deletingVideo,
   video
 }) => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  // const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = useState(false);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  // const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  // };
   const calculateDays = () => {
     let currentTime = moment(moment().toDate());
     let videoAddedTime = moment(date).format("YYYY-MM-DD HH:mm");
     return currentTime.diff(videoAddedTime, "day");
   };
-
   const openDeleteDialog = () => {
-    handleClose();
+    // handleClose();
     setOpen(true);
   };
   const closeDeleteDialog = () => {
@@ -86,10 +91,20 @@ const VideoCard: FC<IProps> = ({
           <h5 className="titleVideo">{title}</h5>
         </div>
         <div className="col-2">
-          <span className="vertIcon" onClick={handleClick}>
-            <MoreVertIcon />
-          </span>
-          <Menu
+          <UncontrolledDropdown setActiveFromChild>
+            <DropdownToggle tag="span">
+              <span className="vertIcon">
+                <MoreVertIcon />
+              </span>
+            </DropdownToggle>
+            <DropdownMenu right>
+              <DropdownItem onClick={onClick}>View</DropdownItem>
+              <DropdownItem onClick={onClick}>Edit</DropdownItem>
+              <DropdownItem onClick={copyUrl}>Copy url</DropdownItem>
+              <DropdownItem onClick={openDeleteDialog}>Delete</DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+          {/* <Menu
             id="menuVideoCard"
             anchorEl={anchorEl}
             keepMounted
@@ -100,7 +115,7 @@ const VideoCard: FC<IProps> = ({
             <MenuItem onClick={onClick}>Edit</MenuItem>
             <MenuItem onClick={copyUrl}>Copy url</MenuItem>
             <MenuItem onClick={openDeleteDialog}>Delete</MenuItem>
-          </Menu>
+          </Menu> */}
           <DeleteDialog
             open={open}
             deletingVideo={deletingVideo}

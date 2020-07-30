@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { Input, Label, Row, Col, Form, FormGroup, Button } from "reactstrap";
-import "./style.css";
-import { connect } from "react-redux";
-// import { FaInfoCircle } from "react-icons/fa";
-import { toast } from "react-toastify";
 import AWS from "aws-sdk";
+import { Input, Label, Row, Col, Form, FormGroup, Button } from "reactstrap";
+import { connect } from "react-redux";
+import { FaInfoCircle } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { Tooltip } from "@material-ui/core";
 // import LinkAccount from "./LinkAccount";
 import { updateProfileUser } from "../../Redux/Actions/profile";
 import { ProfileState, UserProfile } from "../../Redux/Types/profile";
@@ -14,6 +14,7 @@ import TimeZone from "../../components/TimeZone/Data/timezone.json";
 import * as Constants from "../../constants/constants";
 import { config } from "../../config/aws";
 import Loading from "../../components/Loading";
+import "./style.css";
 
 type IProps = {
   history: any;
@@ -115,9 +116,13 @@ class Profile extends Component<IProps, IState> {
         <div id="profilePhotoWrap">
           <div id="profilePhotoHead">
             <h4>{Constants.PROFILE_PHOTO} </h4>
-            {/* <i>
-              <FaInfoCircle id="infoCircleStyle" />
-            </i> */}
+            <i>
+              <Tooltip title="upload a profile picture with dimensions 360 x 360 pixels (max) 180 x 180 pixels (min)  ">
+                <span>
+                  <FaInfoCircle id="infoCircleStyle" />
+                </span>
+              </Tooltip>
+            </i>
             <p id="uploadProfilePara">{Constants.UPLOAD_DESCRIPTION}</p>
           </div>
           <hr />
