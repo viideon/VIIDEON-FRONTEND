@@ -13,7 +13,8 @@ import classnames from "classnames";
 import {
   FaInfo,
   FaChartLine,
-  FaCut
+  FaCut,
+  FaShare
   // FaPalette,
   // FaRegEye,
   // FaReply,
@@ -21,9 +22,10 @@ import {
 import VideoTabHeader from "./Header";
 import Detail from "./Detail";
 import Editing from "./Editing";
-import Design from "./Design";
-import Privacy from "./Privacy";
-import VideoReplies from "./VideoReplies";
+import Share from "./Share";
+// import Design from "./Design";
+// import Privacy from "./Privacy";
+// import VideoReplies from "./VideoReplies";
 import Analytics from "./Analytics";
 import * as Constants from "../../constants/constants";
 import "./style.css";
@@ -102,6 +104,23 @@ const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
               <p>{Constants.ANALYTICS}</p>
             </NavLink>
           </NavItem>
+          <NavItem className="video-tabs">
+            <NavLink
+              disabled={isDisabled}
+              id="videoTabNavLink"
+              className={classnames({ active: activeTab === "4" })}
+              onClick={() => {
+                toggle("4");
+              }}
+            >
+              <span>
+                <i>
+                  <FaShare id="videoTabIcon" />
+                </i>
+              </span>
+              <p>Share</p>
+            </NavLink>
+          </NavItem>
           {/* <NavItem>
             <NavLink
               id="videoTabNavLink"
@@ -152,6 +171,9 @@ const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
           </NavItem> */}
         </Nav>
         <TabContent activeTab={activeTab}>
+          <TabPane tabId="1">
+            <Editing videoId={params.id} />
+          </TabPane>
           <TabPane tabId="2">
             <Container>
               <Detail />
@@ -160,10 +182,10 @@ const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
           <TabPane tabId="3">
             <Analytics />
           </TabPane>
-          <TabPane tabId="1">
-            <Editing videoId={params.id} />
-          </TabPane>
           <TabPane tabId="4">
+            <Share />
+          </TabPane>
+          {/* <TabPane tabId="4">
             <Design />
           </TabPane>
           <TabPane tabId="5">
@@ -171,7 +193,7 @@ const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
           </TabPane>
           <TabPane tabId="6">
             <VideoReplies />
-          </TabPane>
+          </TabPane> */}
         </TabContent>
       </Container>
     </div>

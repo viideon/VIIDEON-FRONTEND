@@ -135,10 +135,10 @@ class AddLogo extends React.Component<IProps, IState> {
     canvasTxt.drawText(
       context2,
       this.state.text,
-      20,
-      20,
-      width - 40,
-      height - 40
+      30,
+      30,
+      width - 50,
+      height - 50
     );
     context2.drawImage(img, this.state.logoX, this.state.logoY);
     let idata = context2.getImageData(0, 0, width, height);
@@ -207,21 +207,21 @@ class AddLogo extends React.Component<IProps, IState> {
     let x, y: any;
     switch (position) {
       case "top-left":
-        this.setState({ logoX: 10, logoY: 10 });
+        this.setState({ logoX: 20, logoY: 20 });
         return;
       case "bottom-left":
-        x = 10;
-        y = this.canvas.height - this.img.height - 10;
+        x = 20;
+        y = this.canvas.height - this.img.height - 20;
         this.setState({ logoX: x, logoY: y });
         return;
       case "bottom-right":
-        x = this.canvas.width - this.img.width - 10;
-        y = this.canvas.height - this.img.height - 10;
+        x = this.canvas.width - this.img.width - 20;
+        y = this.canvas.height - this.img.height - 20;
         this.setState({ logoX: x, logoY: y });
         return;
       case "top-right":
-        x = this.canvas.width - this.img.width - 10;
-        this.setState({ logoX: x, logoY: 10 });
+        x = this.canvas.width - this.img.width - 20;
+        this.setState({ logoX: x, logoY: 20 });
         return;
       default:
         return;

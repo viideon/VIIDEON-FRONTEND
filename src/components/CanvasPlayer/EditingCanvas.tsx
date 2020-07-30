@@ -78,27 +78,27 @@ class EditingPlayer extends React.Component<IProps, IState> {
     this.frameRate = 60;
     this.logoPosition = {
       "top-left": () => {
-        this.canvasTmpCtx.drawImage(this.logo, 10, 10);
+        this.canvasTmpCtx.drawImage(this.logo, 40, 40);
       },
       "top-right": () => {
         this.canvasTmpCtx.drawImage(
           this.logo,
-          this.edCanvas.width - this.logo.width - 10,
-          10
+          this.edCanvas.width - this.logo.width - 40,
+          40
         );
       },
       "bottom-right": () => {
         this.canvasTmpCtx.drawImage(
           this.logo,
-          this.edCanvas.width - this.logo.width - 10,
-          this.edCanvas.height - this.logo.height - 10
+          this.edCanvas.width - this.logo.width - 40,
+          this.edCanvas.height - this.logo.height - 40
         );
       },
       "bottom-left": () => {
         this.canvasTmpCtx.drawImage(
           this.logo,
-          10,
-          this.edCanvas.height - this.logo.height - 10
+          40,
+          this.edCanvas.height - this.logo.height - 40
         );
       }
     };
@@ -266,10 +266,10 @@ class EditingPlayer extends React.Component<IProps, IState> {
         canvasTxt.drawText(
           this.canvasTmpCtx,
           textProps.text,
-          20,
-          20,
-          width - 40,
-          height - 40
+          40,
+          40,
+          width - 80,
+          height - 80
         );
       }
 
