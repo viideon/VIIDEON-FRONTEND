@@ -48,9 +48,13 @@ class AssetPicker extends React.Component<IProps> {
     );
   };
   render() {
-    const { assets } = this.props;
+    const { assets, logoAssets } = this.props;
     return (
-      <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
+      <Modal
+        isOpen={this.props.isOpen}
+        toggle={this.props.toggle}
+        wrapClassName="wrapperModalAsset"
+      >
         <ModalHeader>
           Select {this.props.logoAssets ? "Logo" : "Thumbnail"}
         </ModalHeader>
@@ -65,12 +69,20 @@ class AssetPicker extends React.Component<IProps> {
                   onClick={() => this.selectAsset(asset.url, i)}
                   key={i}
                 >
-                  <img
-                    alt="asset"
-                    crossOrigin="anonymous"
-                    src={asset.url}
-                    className="imgAssetPicker"
-                  />
+                  {logoAssets ? (
+                    <img
+                      alt="asset"
+                      crossOrigin="anonymous"
+                      src={asset.url}
+                      className="imgAssetPicker"
+                    />
+                  ) : (
+                    <img
+                      alt="asset"
+                      src={asset.url}
+                      className="imgAssetPicker"
+                    />
+                  )}
                 </div>
               ))}
             {assets && assets.length < 1 && (

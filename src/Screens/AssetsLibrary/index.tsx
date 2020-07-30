@@ -80,12 +80,16 @@ const Asset = ({ asset, deleteAsset, isDeletingAsset }: any) => {
         isDeleting={isDeletingAsset}
         textContent="You will not be able to recover this asset once it is deleted"
       />
-      <img
-        src={asset.url}
-        crossOrigin="anonymous"
-        className="imgAssetLib"
-        alt="asset"
-      />
+      {asset.type === "logo" ? (
+        <img
+          src={asset.url}
+          crossOrigin="anonymous"
+          className="imgAssetLib"
+          alt="asset"
+        />
+      ) : (
+        <img src={asset.url} className="imgAssetLib" alt="asset" />
+      )}
       <button
         onClick={openDeleteDialog}
         className={showDeleteBtn ? "showDeleteBtn" : "hideDeleteBtn"}
