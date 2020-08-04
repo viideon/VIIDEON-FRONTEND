@@ -86,65 +86,62 @@ class SendSave extends React.Component<IProps> {
       };
       this.props.saveVideo(video);
     } catch (error) {
-      console.log("error", error);
       toast.error("Failed to save campaign, Please try again");
     }
   };
   uploadVideo = () => {
-    let that = this;
-    return new Promise(function(resolve, reject) {
-      that.setState({ videoProgress: true, progressVideo: 0 });
+    // let that = this;
+    return new Promise((resolve, reject) => {
+      this.setState({ videoProgress: true, progressVideo: 0 });
       const options = {
         Bucket: config.bucketName,
         ACL: config.ACL,
         Key: Date.now().toString() + ".webm",
-        Body: that.props.previewVideo
+        Body: this.props.previewVideo
       };
-      that.s3
-        .upload(options, function(err: any, data: any) {
+      this.s3
+        .upload(options, (err: any, data: any) => {
           if (err) {
-            that.setState({ videoProgress: false });
-            console.log("error", err);
+            this.setState({ videoProgress: false });
             reject();
           } else {
-            that.setState({ urlRecord: data.Location, videoProgress: false });
+            this.setState({ urlRecord: data.Location, videoProgress: false });
             resolve();
           }
         })
-        .on("httpUploadProgress", function(progress: any) {
+        .on("httpUploadProgress", (progress: any) => {
           let uploaded: number = (progress.loaded * 100) / progress.total;
-          that.setState({ progressVideo: uploaded });
+          this.setState({ progressVideo: uploaded });
         });
     });
   };
   uploadThumbnail = () => {
-    let that = this;
-    return new Promise(function(resolve, reject) {
-      that.setState({ videoProgress: true, progressVideo: 0 });
+    // let that = this;
+    return new Promise((resolve, reject) => {
+      this.setState({ videoProgress: true, progressVideo: 0 });
       const thumbnailOptions = {
         Bucket: config.bucketName,
         ACL: config.ACL,
         Key: Date.now().toString() + "thumbnail.jpeg",
-        Body: that.props.thumbnailBlob
+        Body: this.props.thumbnailBlob
       };
 
-      that.s3
-        .upload(thumbnailOptions, function(err: any, data: any) {
+      this.s3
+        .upload(thumbnailOptions, (err: any, data: any) => {
           if (err) {
-            that.setState({ videoProgress: false });
-            console.log("error", err);
+            this.setState({ videoProgress: false });
             reject();
           } else {
-            that.setState({
+            this.setState({
               videoProgress: false,
               thumbnailUrl: data.Location
             });
             resolve();
           }
         })
-        .on("httpUploadProgress", function(progress: any) {
+        .on("httpUploadProgress", (progress: any) => {
           let uploaded: number = (progress.loaded * 100) / progress.total;
-          that.setState({ progressVideo: uploaded });
+          this.setState({ progressVideo: uploaded });
         });
     });
   };

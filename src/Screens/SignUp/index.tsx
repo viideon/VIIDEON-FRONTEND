@@ -137,7 +137,7 @@ class Signup extends React.Component<IProps, IState> {
         <Grid container>
           <Grid item xs={12} md={7} sm={12}>
             {this.state.next ? (
-              <div className="firstStateLayoutContainer">
+              <div className="firstLayoutContainer">
                 <div className="firstLayoutMainContainer">
                   <p className="signUp">{Constants.SIGNUP_TO}</p>
                   <h2 className="logo">{Constants.VIDIONPRO}</h2>

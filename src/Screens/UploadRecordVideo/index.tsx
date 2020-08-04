@@ -143,44 +143,43 @@ class UploadRecord extends Component<IProps, IState> {
       return;
     }
     this.setState({ fileProgress: true, progressFile: 0 });
-    const that = this;
     let s3 = new AWS.S3(config);
-    var options = {
+    const options = {
       Bucket: config.bucketName,
       ACL: config.ACL,
       Key: Date.now().toString() + this.state.files[0].name,
       Body: this.state.files[0]
     };
-    var thumbnailOptions = {
+    const thumbnailOptions = {
       Bucket: config.bucketName,
       ACL: config.ACL,
       Key: Date.now().toString() + ".jpeg",
       Body: this.state.thumbnail
     };
-    s3.upload(options, function(err: any, data: any) {
+    s3.upload(options, (err: any, data: any) => {
       if (err) {
-        that.setState({ fileProgress: false });
+        this.setState({ fileProgress: false });
         toast.error(err);
         return;
       }
-      that.setState({ urlRecord: data.Location });
-      s3.upload(thumbnailOptions, function(err: any, data: any) {
+      this.setState({ urlRecord: data.Location });
+      s3.upload(thumbnailOptions, (err: any, data: any) => {
         if (err) {
           toast.error(err);
           return;
         }
         const video = {
-          title: that.state.title,
-          url: that.state.urlRecord,
-          userId: that.props.auth!.user!._id,
+          title: this.state.title,
+          url: this.state.urlRecord,
+          userId: this.props.auth!.user!._id,
           thumbnail: data.Location
         };
-        that.setState({ fileProgress: false });
-        that.props.saveVideo(video);
+        this.setState({ fileProgress: false });
+        this.props.saveVideo(video);
       });
-    }).on("httpUploadProgress", function(progress) {
+    }).on("httpUploadProgress", progress => {
       let uploaded: number = (progress.loaded * 100) / progress.total;
-      that.setState({ progressFile: uploaded });
+      this.setState({ progressFile: uploaded });
     });
   };
 
@@ -203,31 +202,30 @@ class UploadRecord extends Component<IProps, IState> {
       Key: Date.now().toString() + ".jpeg",
       Body: this.state.thumbnail
     };
-    const that = this;
-    s3.upload(options, function(err: any, data: any) {
+    s3.upload(options, (err: any, data: any) => {
       if (err) {
-        that.setState({ fileProgress: false });
+        this.setState({ fileProgress: false });
         toast.error(err);
         return;
       }
-      that.setState({ urlRecord: data.Location });
-      s3.upload(thumbnailOptions, function(err: any, data: any) {
+      this.setState({ urlRecord: data.Location });
+      s3.upload(thumbnailOptions, (err: any, data: any) => {
         if (err) {
           toast.error(err);
           return;
         }
         const video = {
-          url: that.state.urlRecord,
-          userId: that.props.auth!.user!._id,
-          title: that.state.title,
+          url: this.state.urlRecord,
+          userId: this.props.auth!.user!._id,
+          title: this.state.title,
           thumbnail: data.Location
         };
-        that.setState({ videoProgress: false });
-        that.props.saveVideo(video);
+        this.setState({ videoProgress: false });
+        this.props.saveVideo(video);
       });
-    }).on("httpUploadProgress", function(progress) {
+    }).on("httpUploadProgress", progress => {
       let uploaded: number = (progress.loaded * 100) / progress.total;
-      that.setState({ progressVideo: uploaded });
+      this.setState({ progressVideo: uploaded });
     });
   };
   submitEmail = () => {
@@ -244,7 +242,7 @@ class UploadRecord extends Component<IProps, IState> {
         recieverEmail
       };
       this.props.sendVideoToEmail(video);
-      this.setState({recieverEmail:""});
+      this.setState({ recieverEmail: "" });
     }
   };
   getThumbnail = (blob: any) => {
@@ -254,13 +252,11 @@ class UploadRecord extends Component<IProps, IState> {
     this.video.currentTime = 3;
     this.canvas.width = 1280;
     this.canvas.height = 720;
-    const that = this;
-
     this.video.addEventListener("loadeddata", (e: any) => {
-      setTimeout(function() {
-        that.canvas.getContext("2d").drawImage(that.video, 0, 0, 1280, 720);
-        that.canvas.toBlob((blob: any) => {
-          that.setState({ thumbnail: blob });
+      setTimeout(() => {
+        this.canvas.getContext("2d").drawImage(this.video, 0, 0, 1280, 720);
+        this.canvas.toBlob((blob: any) => {
+          this.setState({ thumbnail: blob });
         }, "image/jpeg");
       }, 2000);
     });
@@ -272,24 +268,16 @@ class UploadRecord extends Component<IProps, IState> {
     this.video.currentTime = 3;
     this.canvas.width = 1280;
     this.canvas.height = 720;
-    const that = this;
     this.video.addEventListener("loadeddata", (e: any) => {
-      setTimeout(function() {
-        that.canvas.getContext("2d").drawImage(that.video, 0, 0, 1280, 720);
-        that.canvas.toBlob((blob: any) => {
-          // alert(URL.createObjectURL(blob));
-          that.setState({ thumbnail: blob });
-          // alert(URL.createObjectURL(blob));
+      setTimeout(() => {
+        this.canvas.getContext("2d").drawImage(this.video, 0, 0, 1280, 720);
+        this.canvas.toBlob((blob: any) => {
+          this.setState({ thumbnail: blob });
         }, "image/jpeg");
       }, 2000);
     });
   };
-  getUrl = () => {
-    this.canvas.getContext("2d").drawImage(this.video, 0, 0, 1280, 720);
-    this.canvas.toBlob((blob: any) => {
-      alert(URL.createObjectURL(blob));
-    }, "image/jpeg");
-  };
+
   navigateToVideos = () => {
     this.props.history.push("/videos");
   };

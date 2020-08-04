@@ -54,7 +54,6 @@ class Signin extends React.Component<IProps, IState> {
   }
   componentDidMount() {
     const search = this.props.location.search;
-
     const params = new URLSearchParams(search);
     const code = params.get("code");
     if (code) {
@@ -172,7 +171,6 @@ class Signin extends React.Component<IProps, IState> {
               </div>
               <Formik
                 onSubmit={values => {
-                  console.log(values);
                   const user = {
                     email: values.email,
                     password: values.password
