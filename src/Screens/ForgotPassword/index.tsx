@@ -100,7 +100,6 @@ class ForgotPassword extends React.Component<IProps, IState> {
               </div>
               <Formik
                 onSubmit={values => {
-                  console.log(values);
                   this.props.forgotPassword({ email: values.email });
                 }}
                 initialValues={{

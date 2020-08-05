@@ -9,7 +9,7 @@ function* registerUser(action: any) {
     if (result.status === 201) {
       yield put({ type: types.REGISTRATION_SUCCESS, payload: result.message });
       yield put(push("/"));
-      toast.info("Signup was successfull, Please Verify your email");
+      toast.info("Signup was successfull, Please Verify your email", { autoClose: 10000 });
     } else {
       yield put({ type: types.REGISTRATION_FAILURE, payload: result.message });
       toast.error("Error, Please try again");

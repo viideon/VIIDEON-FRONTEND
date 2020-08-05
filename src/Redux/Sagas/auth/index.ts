@@ -2,11 +2,11 @@ import { put, takeEvery } from "redux-saga/effects";
 import { push } from "react-router-redux";
 import { types } from "../../Types/auth";
 import { types as profileTypes } from "../../Types/profile";
-import { login, verify, forgot, reset, resendEmail } from "./api";
+import { verifyApi, forgotPasswordApi, resetPasswordApi, resendVerifyEmailApi, loginUserApi } from "./api";
 import { toast } from "react-toastify";
 function* loginUser(action: any) {
   try {
-    const result = yield login(action.payload);
+    const result = yield loginUserApi(action.payload);
     if (result.status === 201) {
       yield put({ type: types.LOGIN_SUCCESS, payload: result.data });
       yield put({
@@ -34,8 +34,7 @@ function* loginUser(action: any) {
 }
 function* VerifyUser(action: any) {
   try {
-    const result = yield verify(action.payload);
-
+    const result = yield verifyApi(action.payload);
     if (result.status === 201) {
       yield put({
         type: types.VERIFY_SUCCESS,
@@ -60,7 +59,7 @@ function* VerifyUser(action: any) {
 }
 function* forgotPassword(action: any) {
   try {
-    const result = yield forgot(action.payload);
+    const result = yield forgotPasswordApi(action.payload);
     if (result.status === 201) {
       toast.success("Reset Password link sent on given email");
       yield put({
@@ -86,8 +85,7 @@ function* forgotPassword(action: any) {
 }
 function* resendEmailSagas(action: any) {
   try {
-    const result = yield resendEmail(action.payload);
-
+    const result = yield resendVerifyEmailApi(action.payload);
     if (result.status === 201) {
       toast.info("Verification link has been sent");
       yield put({
@@ -113,7 +111,7 @@ function* resendEmailSagas(action: any) {
 }
 function* resetPassword(action: any) {
   try {
-    const result = yield reset(action.payload);
+    const result = yield resetPasswordApi(action.payload);
     if (result.status === 201 || result.status === 200) {
       toast.success("Password changed successfully");
       yield put({

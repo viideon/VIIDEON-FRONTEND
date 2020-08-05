@@ -70,6 +70,7 @@ export const VIDIONPRO = "videonPRO";
 export const LOGIN_TO_ACCOUNT = "Login to your account";
 export const DONT_HAVE_ACCOUNT_YET = "Don't have an account yet?";
 export const CREATE_NEW = "Create one here";
+export const RESEND_VERIFICATION_EMAIL_TEXT="We have sent you a verification email. Please verify your account from the link given in email. If you did not receive verification email yet, you may"
 
 //signin constants
 export const FIRSTNAME_ERROR = "First Name Not Empty";

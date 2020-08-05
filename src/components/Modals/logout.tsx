@@ -15,13 +15,12 @@ class LogoutModal extends React.Component<IProps> {
         <ModalHeader toggle={this.props.toggle}>Log out</ModalHeader>
         <ModalBody>Are you sure you want to log out?</ModalBody>
         <ModalFooter>
-          <Button
-            style={{ backgroundColor: "red", border: "0px" }}
-            onClick={logout}
-          >
+          <Button color="danger" onClick={logout}>
             Log out
-          </Button>{" "}
-          <Button onClick={toggle}>Cancel</Button>
+          </Button>
+          <Button onClick={toggle} color="secondary">
+            Cancel
+          </Button>
         </ModalFooter>
       </Modal>
     );

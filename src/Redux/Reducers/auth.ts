@@ -60,14 +60,12 @@ const authReducer = (state = initialState, action: any) => {
         ...state,
         resetSuccess: true,
         loading: false,
-        resetError: null,
       };
     case types.RESET_FAILURE:
       return {
         ...state,
         resetSuccess: false,
         loading: false,
-        resetError: action.payload.message,
       };
     case types.VERIFY_REQUEST:
       console.log("verify req", action.payload);

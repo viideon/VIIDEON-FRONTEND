@@ -26,6 +26,7 @@ import CampaignList from "./Screens/Home/Campaigns";
 import TestRecorder from "./Screens/Watch/TestRecorder";
 import AssetsLibrary from "./Screens/AssetsLibrary";
 import PrivacyPolicy from "./components/PrivacyPolicy";
+import LandingPage from "./Screens/LandingPage";
 type IProps = {
   auth: AuthState;
   updateVideoCta: (id: any) => void;
@@ -79,6 +80,7 @@ class Routes extends Component<IProps> {
               }}
             />
             <Route exact path="/watch/:id" component={Watch} />
+            {/* <Route exact path="/" component={LandingPage} /> */}
             <Route exact path="*" render={() => <Redirect to="/login" />} />
           </Switch>
         )}

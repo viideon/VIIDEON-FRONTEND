@@ -128,10 +128,8 @@ class Signup extends React.Component<IProps, IState> {
       this.setState({ showNext: false, next: true });
     }
   };
-
   render() {
     const { loading } = this.props.registerUser;
-
     return (
       <div>
         <Grid container>

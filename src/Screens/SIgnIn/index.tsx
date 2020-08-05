@@ -1,17 +1,19 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import { Form, FormGroup, Label, Alert, Input } from "reactstrap";
-import * as Constants from "../../constants/constants";
-import { connect } from "react-redux";
-import { reg } from "../../constants/emailRegEx";
-import Loading from "../../components/Loading";
-import { loginUser, verifyUser, resendEmail } from "../../Redux/Actions/auth";
-import { User } from "../../Redux/Types/auth";
-import ActionButton from "../../components/Reusable/ActionButton";
-import "./style.css";
-import VerifySuccessModal from "../../components/Modals/verifySuccessModal";
 import * as Yup from "yup";
 import { Formik } from "formik";
+import { connect } from "react-redux";
+import { Form, FormGroup, Label, Alert, Input } from "reactstrap";
+import { toast } from "react-toastify";
+import * as Constants from "../../constants/constants";
+import { reg } from "../../constants/emailRegEx";
+import { loginUser, verifyUser, resendEmail } from "../../Redux/Actions/auth";
+import { User } from "../../Redux/Types/auth";
+import Loading from "../../components/Loading";
+import ActionButton from "../../components/Reusable/ActionButton";
+import VerifySuccessModal from "../../components/Modals/verifySuccessModal";
+import "./style.css";
+
 const validationSchema = Yup.object().shape({
   password: Yup.string()
     .required("Enter Password")
@@ -43,7 +45,7 @@ class Signin extends React.Component<IProps, IState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      email: "johari9292@gmail.com",
+      email: "",
       password: "",
       emailError: false,
       passwordError: false,
@@ -79,7 +81,7 @@ class Signin extends React.Component<IProps, IState> {
       setTimeout(
         () => this.setState({ resendVerificationEmail: false }),
         10000
-      ); // wait 5 seconds, then reset to false
+      );
     }
   }
   toggleVerifyModal = () => {
@@ -103,10 +105,14 @@ class Signin extends React.Component<IProps, IState> {
       this.props.login(user);
     }
   };
-
+  resendVerificationEmail = () => {
+    if (reg.test(this.state.email) === false) {
+      toast.error("The email address is not valid");
+    }
+    this.props.resendEmail({ email: this.state.email });
+  };
   render() {
     const { loading } = this.props.auth;
-
     return (
       <div>
         <VerifySuccessModal
@@ -141,17 +147,13 @@ class Signin extends React.Component<IProps, IState> {
               </div>
               {this.state.resendVerificationEmail && (
                 <div className="alert alert-warning fade show">
-                  We have sent you a verification email. Please verify your
-                  account from the link given in email. If you did not receive
-                  verification email yet, you may &nbsp;
+                  {Constants.RESEND_VERIFICATION_EMAIL_TEXT}&nbsp;
                   <a
-                    onClick={() =>
-                      this.props.resendEmail({ email: this.state.email })
-                    }
+                    onClick={this.resendVerificationEmail}
                     style={{ textDecoration: "underline", cursor: "pointer" }}
                   >
-                    Click here
-                  </a>{" "}
+                    Click here {""}
+                  </a>
                   to resend .
                 </div>
               )}
@@ -175,6 +177,7 @@ class Signin extends React.Component<IProps, IState> {
                     email: values.email,
                     password: values.password
                   };
+                  this.setState({ email: values.email });
                   this.props.login(user);
                 }}
                 initialValues={{
@@ -291,5 +294,3 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signin);
-
-// To be used later

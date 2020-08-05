@@ -122,7 +122,6 @@ class Recording extends React.Component<IProps> {
       disableRecordBtn: false,
       showStopBtn: false
     });
-    // this.recordVideo.pauseRecording();
     this.stopAndGetBlob();
   };
 
@@ -177,7 +176,6 @@ class Recording extends React.Component<IProps> {
     }
   };
   componentWillUnmount() {
-    console.log("component will unmount  called");
     this.stopStream();
   }
   render() {
