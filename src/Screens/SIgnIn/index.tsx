@@ -158,15 +158,9 @@ class Signin extends React.Component<IProps, IState> {
                 </div>
               )}
 
-              <div
-                style={{
-                  marginLeft: "35%",
-                  position: "relative",
-                  padding: "20px"
-                }}
-              >
+              <div className="wrapperLoader">
                 {loading && (
-                  <span style={{ position: "absolute", top: 0 }}>
+                  <span className="innerWrapperLoader">
                     <Loading />
                   </span>
                 )}
@@ -187,7 +181,7 @@ class Signin extends React.Component<IProps, IState> {
                 validationSchema={validationSchema}
               >
                 {formik => (
-                  <Form style={{ width: "80%" }}>
+                  <Form>
                     <FormGroup>
                       <Label for="exampleEmail" style={{ fontWeight: "bold" }}>
                         {Constants.EMAIL_ADDRESS}

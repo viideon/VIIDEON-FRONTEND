@@ -31,6 +31,17 @@
 }
 .secondLayoutMainContainer {
   padding-left: 10%;
+  padding-right: 10%;
+}
+.wrapperLoader {
+  position: relative;
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+}
+.innerWrapperLoader {
+  position: absolute;
+  top: 0;
 }
 .loginTwo {
   padding-top: 15%;

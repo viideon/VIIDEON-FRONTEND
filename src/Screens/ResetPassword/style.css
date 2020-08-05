@@ -31,6 +31,7 @@
 }
 .secondLayoutMainContainer {
   padding-left: 10%;
+  padding-right: 10%;
 }
 .loginTwo {
   padding-top: 15%;
@@ -110,7 +111,16 @@
 .emailLogin .MuiInput-underline:hover:not(.Mui-disabled):before {
   border-bottom: none;
 }
-
+.wrapperLoader {
+  position: relative;
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+}
+.innerWrapperLoader {
+  position: absolute;
+  top: 0;
+}
 @media only screen and (max-width: 400px) {
   .firstLayoutMainContainer {
     padding-left: 4%;

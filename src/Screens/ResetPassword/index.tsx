@@ -107,15 +107,9 @@ class ResetPassword extends React.Component<IProps, IState> {
                   </p>
                 </div>
               </div>
-              <div
-                style={{
-                  marginLeft: "35%",
-                  padding: "20px",
-                  position: "relative"
-                }}
-              >
+              <div className="wrapperLoader">
                 {loading && (
-                  <span style={{ position: "absolute" }}>
+                  <span className="innerWrapperLoader">
                     <Loading />
                   </span>
                 )}
@@ -134,7 +128,7 @@ class ResetPassword extends React.Component<IProps, IState> {
                 validationSchema={validationSchema}
               >
                 {formik => (
-                  <Form style={{ width: "80%" }}>
+                  <Form>
                     <FormGroup>
                       <Label for="exampleEmail" style={{ fontWeight: "bold" }}>
                         New Password
@@ -156,11 +150,11 @@ class ResetPassword extends React.Component<IProps, IState> {
                         ></i>
                       </div>
                     </FormGroup>
-                    <div style={{ width: "69%" }}>
-                      {formik.errors.password && formik.touched.password && (
-                        <Alert color="danger">{formik.errors.password}</Alert>
-                      )}
-                    </div>
+
+                    {formik.errors.password && formik.touched.password && (
+                      <Alert color="danger">{formik.errors.password}</Alert>
+                    )}
+
                     <FormGroup>
                       <Label
                         for="examplePassword"
@@ -185,14 +179,14 @@ class ResetPassword extends React.Component<IProps, IState> {
                         ></i>
                       </div>
                     </FormGroup>
-                    <div style={{ width: "69%" }}>
-                      {formik.errors.passwordConfirmation &&
-                        formik.touched.passwordConfirmation && (
-                          <Alert color="danger">
-                            {formik.errors.passwordConfirmation}
-                          </Alert>
-                        )}
-                    </div>
+
+                    {formik.errors.passwordConfirmation &&
+                      formik.touched.passwordConfirmation && (
+                        <Alert color="danger">
+                          {formik.errors.passwordConfirmation}
+                        </Alert>
+                      )}
+
                     <div className="mainWrapperLayout">
                       <ActionButton
                         text="Submit"

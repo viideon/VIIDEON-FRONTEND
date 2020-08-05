@@ -31,7 +31,6 @@ const authReducer = (state = initialState, action: any) => {
       return {
         ...state,
         loading: true,
-        forgotError: false,
       };
 
     case types.FORGOT_SUCCESS:
@@ -39,14 +38,12 @@ const authReducer = (state = initialState, action: any) => {
         ...state,
         forgotSuccess: true,
         loading: false,
-        forgotError: null,
       };
     case types.FORGOT_FAILURE:
       return {
         ...state,
         forgotSuccess: false,
         loading: false,
-        forgotError: action.payload.message,
       };
     case types.RESET_REQUEST:
       return {

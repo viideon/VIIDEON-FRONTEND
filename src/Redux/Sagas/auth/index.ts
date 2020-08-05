@@ -69,17 +69,17 @@ function* forgotPassword(action: any) {
     } else {
       yield put({
         type: types.FORGOT_FAILURE,
-        payload: result.data.message,
       });
       toast.error(result.data.message);
     }
   } catch (error) {
-    if (error.message) {
-      toast.error(error.message);
-      yield put({ type: types.FORGOT_FAILURE, payload: error });
-    } else {
-      toast.error("Server error, Try again");
-      yield put({ type: types.FORGOT_FAILURE, payload: error });
+    if (error.response.status === 400) {
+      yield put({ type: types.FORGOT_FAILURE });
+      toast.error(error.response.data.message);
+    }
+    else {
+      yield put({ type: types.FORGOT_FAILURE });
+      toast.error("Server error, Please try again");
     }
   }
 }

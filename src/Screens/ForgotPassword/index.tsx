@@ -85,15 +85,9 @@ class ForgotPassword extends React.Component<IProps, IState> {
                   </p>
                 </div>
               </div>
-              <div
-                style={{
-                  marginLeft: "35%",
-                  padding: "20px",
-                  position: "relative"
-                }}
-              >
+              <div className="wrapperLoader">
                 {loading && (
-                  <span style={{ position: "absolute" }}>
+                  <span className="innerWrapperLoader">
                     <Loading />
                   </span>
                 )}
@@ -108,7 +102,7 @@ class ForgotPassword extends React.Component<IProps, IState> {
                 validationSchema={validationSchema}
               >
                 {formik => (
-                  <Form style={{ width: "80%" }}>
+                  <Form>
                     <FormGroup>
                       <Label for="exampleEmail" style={{ fontWeight: "bold" }}>
                         {Constants.EMAIL_ADDRESS}
@@ -131,11 +125,10 @@ class ForgotPassword extends React.Component<IProps, IState> {
                         ></i>
                       </div>
                     </FormGroup>
-                    <div style={{ width: "69%" }}>
-                      {formik.errors.email && formik.touched.email && (
-                        <Alert color="danger">{formik.errors.email}</Alert>
-                      )}
-                    </div>
+
+                    {formik.errors.email && formik.touched.email && (
+                      <Alert color="danger">{formik.errors.email}</Alert>
+                    )}
 
                     <div className="mainWrapperLayout">
                       <ActionButton

@@ -166,7 +166,13 @@ class Signup extends React.Component<IProps, IState> {
                   </p>
                 </div>
               </div>
-              <div className="loadingWrapper">{loading && <Loading />}</div>
+              <div className="wrapperLoader">
+                {loading && (
+                  <span className="innerWrapperLoader">
+                    <Loading />
+                  </span>
+                )}
+              </div>
               <Formik
                 onSubmit={values => {
                   const user = {
@@ -189,7 +195,7 @@ class Signup extends React.Component<IProps, IState> {
                 validationSchema={validationSchema}
               >
                 {formik => (
-                  <div id="wrapperFormSignup">
+                  <div>
                     <FormGroup>
                       <Label for="exampleEmail" style={{ fontWeight: "bold" }}>
                         {Constants.EMAIL_BUSINESS}
