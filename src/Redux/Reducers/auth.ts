@@ -65,7 +65,6 @@ const authReducer = (state = initialState, action: any) => {
         loading: false,
       };
     case types.VERIFY_REQUEST:
-      console.log("verify req", action.payload);
       return {
         ...state,
         verify: {
