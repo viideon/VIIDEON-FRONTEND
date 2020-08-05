@@ -45,6 +45,16 @@ const authReducer = (state = initialState, action: any) => {
         forgotSuccess: false,
         loading: false,
       };
+    case types.RESET_FORGOT_SUCCESS_VARIABLE:
+      return {
+        ...state,
+        forgotSuccess: null
+      }
+    case types.RESET_EMAIL_VERIFIED_VARIABLE:
+      return {
+        ...state,
+        loginError: action.payload
+      }
     case types.RESET_REQUEST:
       return {
         ...state,

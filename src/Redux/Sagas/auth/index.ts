@@ -23,16 +23,29 @@ function* loginUser(action: any) {
     } else {
       yield put({
         type: types.LOGIN_FAILURE,
-        payload: { message: result.data.message, isEmailNotVerified: false },
+        payload: { isEmailNotVerified: false },
       });
       toast.error(result.data.message);
     }
   } catch (error) {
-    yield put({ type: types.LOGIN_FAILURE, payload: error });
-    toast.error("Invalid Email or Password");
+    if (error.response.status === 410) {
+      yield put({ type: types.LOGIN_FAILURE, payload: { isEmailNotVerified: true }, });
+    } else if (error.response) {
+      const errorMessage = error.response.data.message;
+      toast.error(errorMessage);
+      yield put({ type: types.LOGIN_FAILURE });
+    } else if (error.request) {
+      const errorMessage = "Error. Please check your internet connection.";
+      toast.error(errorMessage);
+      yield put({ type: types.LOGIN_FAILURE });
+    } else {
+      const errorMessage = "There was some error.";
+      toast.error(errorMessage);
+      yield put({ type: types.LOGIN_FAILURE });
+    }
   }
 }
-function* VerifyUser(action: any) {
+function* verifyUser(action: any) {
   try {
     const result = yield verifyApi(action.payload);
     if (result.status === 201) {
@@ -67,6 +80,7 @@ function* forgotPassword(action: any) {
         type: types.FORGOT_SUCCESS,
         payload: result.data,
       });
+      yield put({ type: types.RESET_FORGOT_SUCCESS_VARIABLE });
     } else {
       yield put({
         type: types.FORGOT_FAILURE,
@@ -74,17 +88,23 @@ function* forgotPassword(action: any) {
       toast.error(result.data.message);
     }
   } catch (error) {
-    if (error.response.status === 400) {
+    if (error.response) {
+      const errorMessage = error.response.data.message;
+      toast.error(errorMessage);
       yield put({ type: types.FORGOT_FAILURE });
-      toast.error(error.response.data.message);
-    }
-    else {
+    } else if (error.request) {
+      const errorMessage = "Error. Please check your internet connection.";
+      toast.error(errorMessage);
       yield put({ type: types.FORGOT_FAILURE });
-      toast.error("Server error, Please try again");
+    } else {
+      const errorMessage = "There was some error.";
+      toast.error(errorMessage);
+      yield put({ type: types.FORGOT_FAILURE });
     }
   }
 }
 function* resendEmailSagas(action: any) {
+  toast.info("Sending verfication link please wait");
   try {
     const result = yield resendVerifyEmailApi(action.payload);
     if (result.status === 201) {
@@ -99,16 +119,18 @@ function* resendEmailSagas(action: any) {
       toast.error(result.data.message);
     }
   } catch (error) {
-    if (error.response.status === 400) {
+    if (error.response) {
+      const errorMessage = error.response.data.message;
+      toast.error(errorMessage);
       yield put({ type: types.RESEND_EMAIL_FAILURE });
-      toast.error(error.response.data.message);
-    } else if (error.response.status === 401) {
+    } else if (error.request) {
+      const errorMessage = "Error. Please check your internet connection.";
+      toast.error(errorMessage);
       yield put({ type: types.RESEND_EMAIL_FAILURE });
-      toast.error(error.response.data.message);
-    }
-    else {
+    } else {
+      const errorMessage = "There was some error.";
+      toast.error(errorMessage);
       yield put({ type: types.RESEND_EMAIL_FAILURE });
-      toast.error("Server error, Please try again");
     }
   }
 }
@@ -124,17 +146,22 @@ function* resetPassword(action: any) {
     } else {
       yield put({
         type: types.RESET_FAILURE,
-        payload: result.data.message,
       });
       toast.error(result.data.message);
     }
   } catch (error) {
-    if (error.message) {
-      toast.error(error.message);
-      yield put({ type: types.RESET_FAILURE, payload: error });
+    if (error.response) {
+      const errorMessage = error.response.data.message;
+      toast.error(errorMessage);
+      yield put({ type: types.RESET_FAILURE });
+    } else if (error.request) {
+      const errorMessage = "Error. Please check your internet connection.";
+      toast.error(errorMessage);
+      yield put({ type: types.RESET_FAILURE });
     } else {
-      toast.error("Server error, Try again");
-      yield put({ type: types.RESET_FAILURE, payload: error });
+      const errorMessage = "There was some error.";
+      toast.error(errorMessage);
+      yield put({ type: types.RESET_FAILURE });
     }
   }
 }
@@ -153,7 +180,7 @@ function* logout() {
 export function* authWatcher() {
   yield takeEvery(types.LOGIN_REQUEST, loginUser);
   yield takeEvery(types.LOUGOUT, logout);
-  yield takeEvery(types.VERIFY_REQUEST, VerifyUser);
+  yield takeEvery(types.VERIFY_REQUEST, verifyUser);
   yield takeEvery(types.FORGOT_REQUEST, forgotPassword);
   yield takeEvery(types.RESET_REQUEST, resetPassword);
   yield takeEvery(types.RESEND_EMAIL_REQUEST, resendEmailSagas);

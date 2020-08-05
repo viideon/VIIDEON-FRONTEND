@@ -7,7 +7,12 @@ import { Form, FormGroup, Label, Alert, Input } from "reactstrap";
 import { toast } from "react-toastify";
 import * as Constants from "../../constants/constants";
 import { reg } from "../../constants/emailRegEx";
-import { loginUser, verifyUser, resendEmail } from "../../Redux/Actions/auth";
+import {
+  loginUser,
+  verifyUser,
+  resendEmail,
+  resetEmailVerifiedVariable
+} from "../../Redux/Actions/auth";
 import { User } from "../../Redux/Types/auth";
 import Loading from "../../components/Loading";
 import ActionButton from "../../components/Reusable/ActionButton";
@@ -26,6 +31,7 @@ type IProps = {
   navigation: any;
   auth: any;
   login: (user: object) => void;
+  resetEmailVerifiedVariable: () => void;
   history: any;
   location?: any;
   verifyState?: any;
@@ -78,6 +84,7 @@ class Signin extends React.Component<IProps, IState> {
       this.props.auth.loginError.isEmailNotVerified
     ) {
       this.setState({ resendVerificationEmail: true });
+      this.props.resetEmailVerifiedVariable();
       setTimeout(
         () => this.setState({ resendVerificationEmail: false }),
         10000
@@ -283,7 +290,8 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     login: (user: User) => dispatch(loginUser(user)),
     verifyUser: (token: any) => dispatch(verifyUser(token)),
-    resendEmail: (email: any) => dispatch(resendEmail(email))
+    resendEmail: (email: any) => dispatch(resendEmail(email)),
+    resetEmailVerifiedVariable: () => dispatch(resetEmailVerifiedVariable())
   };
 };
 
