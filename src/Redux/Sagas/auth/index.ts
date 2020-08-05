@@ -61,13 +61,18 @@ function* verifyUser(action: any) {
       toast.error(result.data.message);
     }
   } catch (error) {
-    if (error.response.status === 400) {
-      yield put({ type: types.VERIFY_FAILURE });
-      toast.error(error.response.data.message);
-    }
-    else {
-      yield put({ type: types.VERIFY_FAILURE });
-      toast.error("Server error, Please try again");
+    if (error.response) {
+      const errorMessage = error.response.data.message;
+      toast.error(errorMessage);
+      yield put({ type: types.FORGOT_FAILURE });
+    } else if (error.request) {
+      const errorMessage = "Error. Please check your internet connection.";
+      toast.error(errorMessage);
+      yield put({ type: types.FORGOT_FAILURE });
+    } else {
+      const errorMessage = "There was some error.";
+      toast.error(errorMessage);
+      yield put({ type: types.FORGOT_FAILURE });
     }
   }
 }
