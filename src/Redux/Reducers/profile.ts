@@ -17,8 +17,7 @@ const profileReducer = (state = initialState, action: any) => {
       return {
         ...state,
         loading: false,
-        success: action.payload.message.message,
-        user: action.payload.message.user
+        user: action.payload
       };
     case types.PROFILE_UPDATE_FAILURE:
       return {

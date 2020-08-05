@@ -90,8 +90,11 @@ class Profile extends Component<IProps, IState> {
     this.props.updateProfile(data);
   };
   fileHandler = (e: any) => {
-    toast("Uploading please wait");
-    const that = this;
+    if (!e.target.files[0]) {
+      toast.info("Failed to select a file");
+      return;
+    }
+    toast.info("Uploading please wait");
     let s3 = new AWS.S3(config);
     var options = {
       Bucket: config.bucketName,
@@ -99,14 +102,13 @@ class Profile extends Component<IProps, IState> {
       Key: Date.now().toString(),
       Body: e.target.files[0]
     };
-    s3.upload(options, function(err: any, data: any) {
+    s3.upload(options, (err: any, data: any) => {
       if (err) {
-        // throw err;
         toast.error("Failed to upload profile image ,try again");
         return;
       }
-      that.setState({ url: data.Location });
-      toast("Click update button below to save changes");
+      this.setState({ url: data.Location });
+      toast.info("Click update button below to save changes");
     });
   };
   render() {
