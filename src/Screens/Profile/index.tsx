@@ -104,7 +104,7 @@ class Profile extends Component<IProps, IState> {
     };
     s3.upload(options, (err: any, data: any) => {
       if (err) {
-        toast.error("Failed to upload profile image ,try again");
+        toast.error(err.message);
         return;
       }
       this.setState({ url: data.Location });
