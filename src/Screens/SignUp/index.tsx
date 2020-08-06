@@ -19,7 +19,10 @@ const validationSchema = Yup.object().shape({
     .min(6, "Password must be 6 characters long"),
   email: Yup.string()
     .required("Enter Email")
-    .email("Enter Correct Email"),
+    .matches(
+      /([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)\@gmail([\.])com/g,
+      "Please enter a gmail account"
+    ),
   passwordConfirmation: Yup.string()
     .required("Enter Confirm Password ")
     .oneOf([Yup.ref("password")], "Passwords must match"),
@@ -198,13 +201,14 @@ class Signup extends React.Component<IProps, IState> {
                   <div>
                     <FormGroup>
                       <Label for="exampleEmail" style={{ fontWeight: "bold" }}>
-                        {Constants.EMAIL_BUSINESS}
+                        {/* {Constants.EMAIL_BUSINESS} */}
+                        Enter Gmail Account
                       </Label>
 
                       <InputRound
                         type="email"
                         name="email"
-                        placeholder="Enter your business e-mail"
+                        placeholder="Enter your gmail account"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.email}
