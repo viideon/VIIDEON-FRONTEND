@@ -173,11 +173,10 @@ function* resetPassword(action: any) {
 
 function* logout() {
   try {
-    yield put({ type: types.LOUGOUT_SUCCESS });
     yield put(push("/"));
   } catch (error) {
     if (error.message) {
-      toast.error(error.message);
+      return toast.error(error.message);
     }
     toast("Failed to logout");
   }

@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import storage from "redux-persist/lib/storage";
+import { types } from "../../Redux/Types/auth"
 import expireIn from "redux-persist-transform-expire-in";
 import { persistReducer } from "redux-persist";
 import registerReducer from "./register";
@@ -32,7 +33,7 @@ const profilePersistConfig = {
   blacklist: ["loading"],
 }
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   register: registerReducer,
   drawer: drawerReducer,
   auth: authReducer,
@@ -42,6 +43,18 @@ const rootReducer = combineReducers({
   email: emailReducer,
   asset: assetReducer,
 });
+
+const rootReducer = (state: any, action: any) => {
+  if (action.type === types.LOUGOUT) {
+    // for all keys defined in your persistConfig(s)
+    storage.removeItem('persist:root');
+    storage.removeItem('persist:profile');
+    storage.removeItem('persist:video');
+    // storage.removeItem('persist:otherKey')
+    state = undefined;
+  }
+  return appReducer(state, action);
+}
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
 export default persistedReducer;
