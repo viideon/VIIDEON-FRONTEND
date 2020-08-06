@@ -43,10 +43,13 @@
 }
 .headingLandingPage h1 {
   font-size: 4em;
+  color: rgb(34, 185, 255);
+  font-weight: 600;
 }
 .headingLandingPage p {
   margin-top: 1em;
-  font-size: 1.2em;
+  font-size: 1.5em;
+  line-height: 1.2em;
 }
 .imgLandingPage {
   background: url("../../assets/landingpag.jpg");

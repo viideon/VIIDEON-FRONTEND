@@ -35,7 +35,7 @@ class LandingPage extends React.Component {
                 <p>
                   videonPro lets you record video and create video campaigns on
                   the go. You can send and share these campaigns to reach out to
-                  your audience and create opportunities for your self or your
+                  your audience and create opportunities for yourself and your
                   business.
                 </p>
               </div>
