@@ -172,7 +172,9 @@ function* resetPassword(action: any) {
 }
 
 function* logout() {
+  console.log("req");
   try {
+    yield put({ type: types.LOGOUT_REQ });
     yield put(push("/"));
   } catch (error) {
     if (error.message) {

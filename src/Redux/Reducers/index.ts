@@ -45,11 +45,8 @@ const appReducer = combineReducers({
 });
 
 const rootReducer = (state: any, action: any) => {
-  if (action.type === types.LOUGOUT) {
+  if (action.type === types.LOGOUT_REQ) {
     // for all keys defined in your persistConfig(s)
-    storage.removeItem('persist:root');
-    storage.removeItem('persist:profile');
-    storage.removeItem('persist:video');
     // storage.removeItem('persist:otherKey')
     state = undefined;
   }
