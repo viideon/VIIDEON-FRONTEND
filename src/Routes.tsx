@@ -80,8 +80,8 @@ class Routes extends Component<IProps> {
               }}
             />
             <Route exact path="/watch/:id" component={Watch} />
-            {/* <Route exact path="/" component={LandingPage} /> */}
-            <Route exact path="*" render={() => <Redirect to="/login" />} />
+            <Route exact path="/" component={LandingPage} />
+            <Route exact path="*" render={() => <Redirect to="/" />} />
           </Switch>
         )}
       </Router>

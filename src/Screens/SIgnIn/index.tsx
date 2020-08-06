@@ -197,7 +197,7 @@ class Signin extends React.Component<IProps, IState> {
                         <Input
                           type="text"
                           name="email"
-                          placeholder="Email address"
+                          placeholder="Your registered E-mail"
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                           value={formik.values.email}
@@ -226,7 +226,7 @@ class Signin extends React.Component<IProps, IState> {
                         <Input
                           type="password"
                           name="password"
-                          placeholder="Password"
+                          placeholder="Your password"
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                           value={formik.values.password}
