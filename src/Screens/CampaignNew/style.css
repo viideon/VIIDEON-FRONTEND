@@ -57,6 +57,7 @@
   /* box-shadow: 0 0 5px lightgray; */
   border: 1px solid #cdcdcd;
   padding: 10px 20px 10px 20px;
+  border-radius: 4px;
 }
 .instructionWrapper {
   padding: 30px 20px 10px 30px;
@@ -71,8 +72,15 @@
   padding-top: 20px;
 }
 .instructionHeading {
-  padding: 60px 0px 30px 0px;
+  padding: 60px 0px 0px 0px;
   color: #0071bc;
+}
+.instructionLength {
+  font-size: 0.8em;
+  padding-top: 5px;
+}
+.exampleTxt {
+  font-weight: bold;
 }
 .introHeading {
   padding-top: 40px !important;

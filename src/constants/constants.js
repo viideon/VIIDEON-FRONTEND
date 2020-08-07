@@ -70,7 +70,8 @@ export const VIDIONPRO = "videonPRO";
 export const LOGIN_TO_ACCOUNT = "Login to your account";
 export const DONT_HAVE_ACCOUNT_YET = "Don't have an account yet?";
 export const CREATE_NEW = "Create one here";
-export const RESEND_VERIFICATION_EMAIL_TEXT="We have sent you a verification email. Please verify your account from the link given in email. If you did not receive verification email yet, you may"
+export const RESEND_VERIFICATION_EMAIL_TEXT =
+  "We have sent you a verification email. Please verify your account from the link given in email. If you did not receive verification email yet, you may";
 
 //signin constants
 export const FIRSTNAME_ERROR = "First Name Not Empty";
@@ -100,35 +101,34 @@ export const HEADER = "VIDEONPRO";
 
 //campaign Recording constants
 
-export const INTRO_INSTRUCTION_HEADING =
-  "Please tell your audience about your qualification in medical field";
-export const INTRO_INSTRUCTION_Q_ONE =
-  "Tell your audience about the school you went";
-export const INTRO_INSTRUCTION_Q_TWO =
-  "Tell your audience about the noteable people in the industry you learned from";
-export const INTRO_INSTRUCTION_Q_THREE =
-  "Tell your audience about your achievements/distinctions";
-export const INTRO_INSTRUCTION_Q_FOUR =
-  "Tell your audience if you are enrolled in any higher education program";
+export const INTRO_INSTRUCTION_HEADING = "INTRODUCTION";
+export const INTRO_INSTRUCTION_LENGHT = "Suggested Length: 10 to 15 Seconds.";
+export const INTRO_INSTRUCTION =
+  "Get their attention first, then introduce yourself in connection with the solution that you will offer in the second shot - The Message.";
+export const INTRO_INSTRUCTION_EXAMPLE_ONE =
+  "Did you know that…( mention something of interest to your target audience - get their attention with something unique or, even alarming).";
+export const INTRO_INSTRUCTION_EXAMPLE_TWO =
+  "Are you looking for…(mention a NEED that you know your target audience has a 'pain point' ";
+export const INTRO_INSTRUCTION_EXAMPLE_THREE =
+  "My name is ________ and we specialize in (solving the problem you mentioned in the first portion)";
 
-export const MESSAGE_INSTRUCTION_HEADING =
-  "Please tell your audience about your work experience";
-export const MESSAGE_INSTRUCTION_Q_ONE =
-  "Tell your audience about your internships";
-export const MESSAGE_INSTRUCTION_Q_TWO =
-  "Tell your audience about your job history and where you are working now";
-export const MESSAGE_INSTRUCTION_Q_THREE =
-  "Tell your audience about any social welfare projects you engaged in";
-export const MESSAGE_INSTRUCTION_Q_FOUR =
+export const MESSAGE_INSTRUCTION_HEADING = "THE MESSAGE";
+export const MESSAGE_INSTRUCTION =
+  "Offer a solution to the problem you brought up in your attention getting introduction. Give one piece of free advice that sets you up as the obvious choice to execute that solution.";
+export const MESSAGE_INSTRUCTION_LENGHT = "Suggested Length: 30 to 45 Seconds.";
+export const MESSAGE_INSTRUCTION_EXAMPLE_ONE =
+  "By doing XYZ you can solve that problem immediately. Would you like to learn how you can do XYZ ?";
+export const MESSAGE_INSTRUCTION_EXAMPLE_TWO =
+  "Following a five step approach to this problem, you can easily solve it. The first step is XYZ.";
+export const MESSAGE_INSTRUCTION_EXAMPLE_THREE =
   "Tell your audience about any significant achievements";
 
-export const CONCLUSION_INSTRUCTION_HEADING =
-  "Please tell  your audience about your salient features ";
-export const CONCLUSION_INSTRUCTION_Q_ONE =
-  "Tell your audience how do you ensure well being of your patients";
-export const CONCLUSION_INSTRUCTION_Q_TWO =
-  " Tell your audience are you available on call for your patients";
-export const CONCLUSION_INSTRUCTION_Q_THREE =
-  "Tell your audience can you provide home visits";
+export const CONCLUSION_INSTRUCTION_HEADING = "CALL TO ACTION ";
+export const CONCLUSION_INSTRUCTION =
+  "Ask them to take action by contacting you and provied the contact information.";
+export const CONCLUSION_INSTRUCTION_EXAMPLE_ONE =
+  "Call me at 555-321-1212 and I will show you how to execute the next steps.";
+export const CONCLUSION_INSTRUCTION_EXAMPLE_TWO =
+  "Call me for a free consultation where I can show you how to solve this problem.";
 export const CONCLUSION_INSTRUCTION_Q_FOUR =
   " Tell your audience about why you are the right choice for patients";

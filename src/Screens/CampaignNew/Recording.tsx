@@ -161,17 +161,21 @@ class Recording extends React.Component<IProps> {
       case 1:
         return (
           <div className="instructionWrapper">
-            <h4 className="instructionHeading">
+            <h3 className="instructionHeading">
               {Constants.INTRO_INSTRUCTION_HEADING}
-            </h4>
+            </h3>
+            <p className="instructionLength">
+              {Constants.INTRO_INSTRUCTION_LENGHT}
+            </p>
             <ListGroup style={listGroupStyle}>
-              <ListGroupItem>{Constants.INTRO_INSTRUCTION_Q_ONE}</ListGroupItem>
-              <ListGroupItem>{Constants.INTRO_INSTRUCTION_Q_TWO}</ListGroupItem>
+              <ListGroupItem>{Constants.INTRO_INSTRUCTION}</ListGroupItem>
               <ListGroupItem>
-                {Constants.INTRO_INSTRUCTION_Q_THREE}
-              </ListGroupItem>
-              <ListGroupItem>
-                {Constants.INTRO_INSTRUCTION_Q_FOUR}
+                <p className="exampleTxt">Example</p>
+                <ul>
+                  <li>{Constants.INTRO_INSTRUCTION_EXAMPLE_ONE}</li>
+                  <li>{Constants.INTRO_INSTRUCTION_EXAMPLE_TWO}</li>
+                  <li>{Constants.INTRO_INSTRUCTION_EXAMPLE_THREE}</li>
+                </ul>
               </ListGroupItem>
             </ListGroup>
           </div>
@@ -180,21 +184,20 @@ class Recording extends React.Component<IProps> {
       case 2:
         return (
           <div className="instructionWrapper">
-            <h4 className="instructionHeading">
+            <h3 className="instructionHeading">
               {Constants.MESSAGE_INSTRUCTION_HEADING}
-            </h4>
+            </h3>
+            <p className="instructionLength">
+              {Constants.MESSAGE_INSTRUCTION_LENGHT}
+            </p>
             <ListGroup style={listGroupStyle}>
+              <ListGroupItem>{Constants.MESSAGE_INSTRUCTION}</ListGroupItem>
               <ListGroupItem>
-                {Constants.MESSAGE_INSTRUCTION_Q_ONE}
-              </ListGroupItem>
-              <ListGroupItem>
-                {Constants.MESSAGE_INSTRUCTION_Q_TWO}
-              </ListGroupItem>
-              <ListGroupItem>
-                {Constants.MESSAGE_INSTRUCTION_Q_THREE}
-              </ListGroupItem>
-              <ListGroupItem>
-                {Constants.MESSAGE_INSTRUCTION_Q_FOUR}
+              <p className="exampleTxt">Example</p>
+                <ul>
+                  <li> {Constants.MESSAGE_INSTRUCTION_EXAMPLE_ONE}</li>
+                  <li> {Constants.MESSAGE_INSTRUCTION_EXAMPLE_TWO}</li>
+                </ul>
               </ListGroupItem>
             </ListGroup>
           </div>
@@ -202,21 +205,17 @@ class Recording extends React.Component<IProps> {
       case 3:
         return (
           <div className="instructionWrapper">
-            <h4 className="instructionHeading">
+            <h3 className="instructionHeading">
               {Constants.CONCLUSION_INSTRUCTION_HEADING}
-            </h4>
+            </h3>
             <ListGroup style={listGroupStyle}>
+              <ListGroupItem>{Constants.CONCLUSION_INSTRUCTION}</ListGroupItem>
               <ListGroupItem>
-                {Constants.CONCLUSION_INSTRUCTION_Q_ONE}
-              </ListGroupItem>
-              <ListGroupItem>
-                {Constants.CONCLUSION_INSTRUCTION_Q_TWO}
-              </ListGroupItem>
-              <ListGroupItem>
-                {Constants.CONCLUSION_INSTRUCTION_Q_THREE}
-              </ListGroupItem>
-              <ListGroupItem>
-                {Constants.CONCLUSION_INSTRUCTION_Q_FOUR}
+              <p className="exampleTxt">Example</p>
+                <ul>
+                  <li>{Constants.CONCLUSION_INSTRUCTION_EXAMPLE_ONE}</li>
+                  <li>{Constants.CONCLUSION_INSTRUCTION_EXAMPLE_TWO}</li>
+                </ul>
               </ListGroupItem>
             </ListGroup>
           </div>
@@ -360,7 +359,7 @@ class Recording extends React.Component<IProps> {
   }
 }
 const listGroupStyle = {
-  boxShadow: "0 0 10px #cdcdcd"
+  boxShadow: "0 0 10px #cdcdcd",
+  marginTop: "20px"
 };
-
 export default withRouter<any, any>(Recording);
