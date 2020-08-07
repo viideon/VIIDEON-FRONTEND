@@ -36,20 +36,6 @@ interface IProps {
   history: any;
 }
 interface IState {
-  userName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  firstName: string;
-  lastName: string;
-  emailError: boolean;
-  passwordError: boolean;
-  invalidEmailError: boolean;
-  c_passwordError: any;
-  firstError: boolean;
-  lastError: boolean;
-  userNameError: boolean;
-  confirmPasswordError: boolean;
   next: boolean;
   showNext: boolean;
 }
@@ -58,20 +44,6 @@ class Signup extends React.Component<IProps, IState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      userName: "",
-      emailError: false,
-      passwordError: false,
-      invalidEmailError: false,
-      c_passwordError: false,
-      firstError: false,
-      lastError: false,
-      userNameError: false,
-      confirmPasswordError: false,
       next: false,
       showNext: true
     };
@@ -91,37 +63,6 @@ class Signup extends React.Component<IProps, IState> {
     this.setState({ [e.target.name]: e.target.value } as Pick<IState, any>);
   };
 
-  registerHandler = () => {
-    const {
-      firstName,
-      lastName,
-      userName,
-      email,
-      password,
-      confirmPassword
-    } = this.state;
-    if (firstName === "") this.setState({ firstError: true });
-    else if (lastName === "") this.setState({ lastError: true });
-    else if (userName === "") this.setState({ userNameError: true });
-    else if (email === "") this.setState({ emailError: true });
-    else if (reg.test(email) === false)
-      this.setState({ invalidEmailError: true });
-    else if (password === "") this.setState({ passwordError: true });
-    else if (confirmPassword === "")
-      this.setState({ confirmPasswordError: true });
-    else if (password !== confirmPassword)
-      this.setState({ c_passwordError: true });
-    else {
-      const user = {
-        email,
-        firstName,
-        lastName,
-        userName,
-        password
-      };
-      this.props.register(user);
-    }
-  };
   nextHandler = (email: any, error: any, touched: any) => {
     if (email === "") {
       toast.error("Enter Email");

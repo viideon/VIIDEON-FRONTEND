@@ -98,20 +98,6 @@ class Signin extends React.Component<IProps, IState> {
   onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ [e.target.name]: e.target.value } as Pick<IState, any>);
   };
-  loginHandler = () => {
-    const { email, password } = this.state;
-    if (email === "") this.setState({ emailError: true });
-    else if (reg.test(email) === false)
-      this.setState({ invalidEmailError: true });
-    else if (password === "") this.setState({ passwordError: true });
-    else {
-      const user = {
-        email,
-        password
-      };
-      this.props.login(user);
-    }
-  };
   resendVerificationEmail = () => {
     if (reg.test(this.state.email) === false) {
       toast.error("The email address is not valid");
