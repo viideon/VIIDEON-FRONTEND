@@ -125,7 +125,7 @@ export const MESSAGE_INSTRUCTION_EXAMPLE_THREE =
 
 export const CONCLUSION_INSTRUCTION_HEADING = "CALL TO ACTION ";
 export const CONCLUSION_INSTRUCTION =
-  "Ask them to take action by contacting you and provied the contact information.";
+  "Ask them to take action by contacting you and provide the contact information.";
 export const CONCLUSION_INSTRUCTION_EXAMPLE_ONE =
   "Call me at 555-321-1212 and I will show you how to execute the next steps.";
 export const CONCLUSION_INSTRUCTION_EXAMPLE_TWO =
