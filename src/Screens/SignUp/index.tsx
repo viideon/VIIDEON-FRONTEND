@@ -9,7 +9,7 @@ import { RegisterState } from "../../Redux/Types/register";
 import { User } from "../../Redux/Types/register";
 import * as Constants from "../../constants/constants";
 import Loading from "../../components/Loading";
-import { reg } from "../../constants/emailRegEx";
+// import { reg } from "../../constants/emailRegEx";
 import "./style.css";
 import * as Yup from "yup";
 import { Formik } from "formik";

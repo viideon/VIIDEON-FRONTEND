@@ -66,7 +66,6 @@ class SendSave extends React.Component<IProps> {
     this.props.toggleSendVariable();
     this.s3 = new AWS.S3(config);
   }
-
   saveVideo = async () => {
     if (this.state.title === "") {
       toast.warn("Enter a title to save video");

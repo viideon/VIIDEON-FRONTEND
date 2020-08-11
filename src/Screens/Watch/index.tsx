@@ -30,8 +30,10 @@ class Watch extends React.Component<IProps> {
 
   componentWillReceiveProps(nextProps: any) {
     if (
-      (nextProps.video && nextProps.video.campaign === false) ||
-      (nextProps.video && nextProps.video.campaign === undefined)
+      (nextProps.video && nextProps.video.campaign) ||
+      (nextProps.video && nextProps.video.recordingEdit === false) ||
+      (nextProps.video && nextProps.video.campaign) ||
+      (nextProps.video && nextProps.video.recordingEdit === undefined)
     ) {
       this.container.style.display = "none";
     }
@@ -53,7 +55,7 @@ class Watch extends React.Component<IProps> {
                   <Loading />
                 </div>
               )}
-              {video && !video.campaign && (
+              {video && !video.campaign && !video.recordingEdit && (
                 <VideoPlayer
                   url={video.url}
                   thumbnail={video.thumbnail}
@@ -68,7 +70,8 @@ class Watch extends React.Component<IProps> {
                   width: "100%"
                 }}
               >
-                {video && video.campaign && (
+                {((video && video.campaign) ||
+                  (video && video.recordingEdit)) && (
                   <CanvasPlayer
                     muted={false}
                     autoPlay={false}

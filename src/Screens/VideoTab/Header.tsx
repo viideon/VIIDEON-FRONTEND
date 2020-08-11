@@ -32,6 +32,7 @@ interface Video {
   views?: number;
   watch?: number;
   emailShareCount?: number;
+  recordingEdit?: boolean;
 }
 interface IProps {
   video?: Video;
@@ -44,8 +45,10 @@ class VideoTabHeader extends React.Component<IProps> {
   }
   componentWillReceiveProps(nextProps: any) {
     if (
-      (nextProps.video && nextProps.video.campaign === false) ||
-      (nextProps.video && nextProps.video.campaign === undefined)
+      (nextProps.video && nextProps.video.campaign) ||
+      (nextProps.video && nextProps.video.recordingEdit === false) ||
+      (nextProps.video && nextProps.video.campaign) ||
+        (nextProps.video && nextProps.video.recordingEdit === undefined)
     ) {
       this.container.style.display = "none";
     }
@@ -77,11 +80,12 @@ class VideoTabHeader extends React.Component<IProps> {
                     <CircularProgress color="primary" />
                   </div>
                 )}
-                {video && !video.campaign && (
+                {video && !video.campaign && !video.recordingEdit && (
                   <VideoPlayer url={video.url} thumbnail={video.thumbnail} />
                 )}
                 <div ref="container" style={{ height: "220px", width: "100%" }}>
-                  {video && video.campaign && (
+                  {((video && video.campaign) ||
+                    (video && video.recordingEdit)) && (
                     <CanvasPlayer
                       muted={false}
                       autoPlay={false}

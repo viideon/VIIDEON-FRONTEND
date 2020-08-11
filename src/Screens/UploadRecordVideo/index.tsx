@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import AWS from "aws-sdk";
 import VideoRecorder from "../../components/VideoRecorder";
+import AddLogoText from "./AddLogoText";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import HelpIcon from "@material-ui/icons/Help";
 import { Button, LinearProgress, Tooltip, TextField } from "@material-ui/core";
@@ -30,7 +31,7 @@ import {
   VideoSave,
   MultiEmail
 } from "../../Redux/Types/videos";
-import styles from "../VideoTab/style";
+// import styles from "../VideoTab/style";
 import { AuthState } from "../../Redux/Types/auth";
 import * as Constants from "../../constants/constants";
 import "../../../node_modules/react-tabs/style/react-tabs.css";
@@ -65,6 +66,7 @@ type IState = {
   videoProgress: boolean;
   progressFile: number;
   progressVideo: number;
+  addLogoText: boolean;
   thumbnail: any;
 };
 
@@ -94,7 +96,8 @@ class UploadRecord extends Component<IProps, IState> {
       progressFile: 0,
       progressVideo: 0,
       emails: [],
-      thumbnail: ""
+      thumbnail: "",
+      addLogoText: false
     };
   }
   titleNameHandler = (event: any) => {
@@ -280,6 +283,9 @@ class UploadRecord extends Component<IProps, IState> {
 
   navigateToVideos = () => {
     this.props.history.push("/videos");
+  };
+  moveToAddLogoText = () => {
+    this.setState({ addLogoText: true });
   };
   render() {
     let { videoSaved, loading } = this.props.videoUser;
@@ -471,7 +477,7 @@ class UploadRecord extends Component<IProps, IState> {
             </div>
           </TabPanel>
           <TabPanel>
-            {this.state.videoRecord && (
+            {/* {this.state.videoRecord && (
               <div style={{ marginTop: 20, marginBottom: 20 }}>
                 <Row>
                   <Col className="col-md-6 m-auto">
@@ -499,30 +505,7 @@ class UploadRecord extends Component<IProps, IState> {
                               placeholder=""
                               value={this.state.title}
                               onChange={this.titleNameHandler}
-                            />
-                          </FormGroup>
-                          <StrapButton
-                            style={{
-                              border: "none",
-                              background: "rgb(34, 185, 255)",
-                              color: "rgb(255, 255, 255)"
-                            }}
-                            disabled={this.state.videoProgress || loading}
-                            size="lg"
-                            onClick={this.saveVideo}
-                          >
-                            Save Video
-                          </StrapButton>
-                        </div>
-                      )}
-
-                      {videoSaved === true && (
-                        <div>
-                          <FormGroup>
-                            <Label className="labelUploadSection">
-                              {Constants.SENDER_ADDRESS}{" "}
-                              <span>
-                                <Tooltip
+                              
                                   title="connect your gmail account in confguration to send email's on your behalf"
                                   placement="top"
                                   arrow
@@ -560,7 +543,7 @@ class UploadRecord extends Component<IProps, IState> {
                               Broadcast
                               <span>
                                 <Tooltip
-                                  title="connect your gmail account in confguration to send email's on your behalf"
+                                  title="connect your gmail account in configuration to send email's on your behalf"
                                   placement="top"
                                   arrow
                                 >
@@ -608,16 +591,18 @@ class UploadRecord extends Component<IProps, IState> {
                   </Col>
                 </Row>
               </div>
-            )}
-            <div style={styles.recorder} className="recorderWrapper">
+            )} */}
+            {this.state.addLogoText === false ? (
               <VideoRecorder
                 getBlob={(blob: any) => {
                   this.props.toggleSendVariable();
-                  this.getThumbnail(blob);
-                  this.setState({ videoRecord: blob });
+                  // this.getThumbnail(blob);
+                  this.setState({ videoRecord: blob, addLogoText: true });
                 }}
               />
-            </div>
+            ) : (
+              <AddLogoText videoToEdit={this.state.videoRecord} />
+            )}
           </TabPanel>
         </Tabs>
 

@@ -31,6 +31,7 @@ interface Video {
   campaign?: boolean;
   logoProps?: any;
   textProps?: any;
+  recordingEdit?: boolean;
 }
 interface IProps {
   updateVideo: (video: VideoUpdate) => void;
@@ -67,8 +68,10 @@ class Editing extends React.Component<IProps, IState> {
   }
   componentWillReceiveProps(nextProps: any) {
     if (
-      (nextProps.video && nextProps.video.campaign === false) ||
-      (nextProps.video && nextProps.video.campaign === undefined)
+      (nextProps.video && nextProps.video.campaign) ||
+      (nextProps.video && nextProps.video.recordingEdit === false) ||
+      (nextProps.video && nextProps.video.campaign) ||
+      (nextProps.video && nextProps.video.recordingEdit === undefined)
     ) {
       this.container.style.display = "none";
     }
@@ -145,13 +148,16 @@ class Editing extends React.Component<IProps, IState> {
           <Row>
             <Col xs="1" md="2"></Col>
             <Col xs="10" md="8">
-              {video && !video.campaign && showVideo && (
-                <VideoPlayer
-                  url={video.url}
-                  thumbnail={video.thumbnail}
-                  height={370}
-                />
-              )}
+              {video &&
+                !video.campaign &&
+                !video.recordingEdit &&
+                showVideo && (
+                  <VideoPlayer
+                    url={video.url}
+                    thumbnail={video.thumbnail}
+                    height={370}
+                  />
+                )}
               <div
                 ref="container"
                 style={{
@@ -160,7 +166,8 @@ class Editing extends React.Component<IProps, IState> {
                   visibility: showVideo ? "visible" : "hidden"
                 }}
               >
-                {video && video.campaign && (
+                {((video && video.campaign) ||
+                  (video && video.recordingEdit)) && (
                   <CanvasPlayer
                     muted={false}
                     autoPlay={false}
