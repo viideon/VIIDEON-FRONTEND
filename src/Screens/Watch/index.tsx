@@ -29,12 +29,8 @@ class Watch extends React.Component<IProps> {
   }
 
   componentWillReceiveProps(nextProps: any) {
-    if (
-      (nextProps.video && nextProps.video.campaign) ||
-      (nextProps.video && nextProps.video.recordingEdit === false) ||
-      (nextProps.video && nextProps.video.campaign) ||
-      (nextProps.video && nextProps.video.recordingEdit === undefined)
-    ) {
+    const { video } = nextProps;
+    if (video && !video.campaign && !video.recordingEdit) {
       this.container.style.display = "none";
     }
   }

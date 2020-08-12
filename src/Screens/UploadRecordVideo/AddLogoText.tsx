@@ -230,6 +230,7 @@ class AddLogoText extends React.Component<IProps, IState> {
           reject();
           return;
         }
+        // this.setState({ logoPath: data.Location }, () => this.updateCanvas());
         this.setState({ logoPath: data.Location });
         this.props.addAsset({ type: "logo", url: data.Location });
         resolve();
@@ -290,6 +291,7 @@ class AddLogoText extends React.Component<IProps, IState> {
     }
   };
   changeText = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // this.setState({ text: e.target.value }, () => this.updateCanvas());
     this.setState({ text: e.target.value });
   };
   handleChangeColor = (color: any) => {
@@ -299,8 +301,13 @@ class AddLogoText extends React.Component<IProps, IState> {
     this.setState({ fontSize: e.target.value });
   };
   onAssetPick = (path: any) => {
+    // this.setState({ logoPath: path }, () => this.updateCanvas());
     this.setState({ logoPath: path });
     toast.info("updated");
+  };
+  updateCanvas = () => {
+    this.video.play();
+    setTimeout(() => this.video.pause(), 0);
   };
   getThumbnail = () => {
     return new Promise((resolve, reject) => {
@@ -664,7 +671,7 @@ class AddLogoText extends React.Component<IProps, IState> {
         <Grid container>
           <Grid item xs={1} sm={1} md={2} lg={2}></Grid>
           <Grid item xs={10} sm={10} md={8} lg={8}>
-            <div style={{marginTop:"30px"}}>
+            <div style={{ marginTop: "30px" }}>
               {videoSaved !== true && (
                 <div>
                   {this.state.videoProgress && (

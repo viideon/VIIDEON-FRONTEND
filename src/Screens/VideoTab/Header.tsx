@@ -44,12 +44,8 @@ class VideoTabHeader extends React.Component<IProps> {
     this.container = this.refs.container;
   }
   componentWillReceiveProps(nextProps: any) {
-    if (
-      (nextProps.video && nextProps.video.campaign) ||
-      (nextProps.video && nextProps.video.recordingEdit === false) ||
-      (nextProps.video && nextProps.video.campaign) ||
-        (nextProps.video && nextProps.video.recordingEdit === undefined)
-    ) {
+    const { video } = nextProps;
+    if (video && !video.campaign && !video.recordingEdit) {
       this.container.style.display = "none";
     }
   }

@@ -10,8 +10,8 @@ import ChipInput from "material-ui-chip-input";
 import {
   Input,
   Label,
-  Row,
-  Col,
+  // Row,
+  // Col,
   FormGroup,
   Button as StrapButton
 } from "reactstrap";

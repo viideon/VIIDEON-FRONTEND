@@ -10,11 +10,9 @@ export default class Countdown extends Component {
   componentDidMount() {
     this.timeout = setTimeout(this.updateNumber, 1000);
   }
-
   componentWillUnmount() {
     clearInterval(this.timeout);
   }
-
   updateNumber = () => {
     const nextNumber = this.state.number - 1;
     this.setState({
