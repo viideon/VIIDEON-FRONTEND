@@ -248,22 +248,22 @@ class UploadRecord extends Component<IProps, IState> {
       this.setState({ recieverEmail: "" });
     }
   };
-  getThumbnail = (blob: any) => {
-    this.video = this.refs.video;
-    this.canvas = this.refs.canvas;
-    this.video.src = URL.createObjectURL(blob);
-    this.video.currentTime = 3;
-    this.canvas.width = 1280;
-    this.canvas.height = 720;
-    this.video.addEventListener("loadeddata", (e: any) => {
-      setTimeout(() => {
-        this.canvas.getContext("2d").drawImage(this.video, 0, 0, 1280, 720);
-        this.canvas.toBlob((blob: any) => {
-          this.setState({ thumbnail: blob });
-        }, "image/jpeg");
-      }, 2000);
-    });
-  };
+  // getThumbnail = (blob: any) => {
+  //   this.video = this.refs.video;
+  //   this.canvas = this.refs.canvas;
+  //   this.video.src = URL.createObjectURL(blob);
+  //   this.video.currentTime = 3;
+  //   this.canvas.width = 1280;
+  //   this.canvas.height = 720;
+  //   this.video.addEventListener("loadeddata", (e: any) => {
+  //     setTimeout(() => {
+  //       this.canvas.getContext("2d").drawImage(this.video, 0, 0, 1280, 720);
+  //       this.canvas.toBlob((blob: any) => {
+  //         this.setState({ thumbnail: blob });
+  //       }, "image/jpeg");
+  //     }, 2000);
+  //   });
+  // };
   getThumbnailfromFile = (file: any) => {
     this.video = this.refs.video;
     this.canvas = this.refs.canvas;
@@ -596,8 +596,9 @@ class UploadRecord extends Component<IProps, IState> {
               <VideoRecorder
                 getBlob={(blob: any) => {
                   this.props.toggleSendVariable();
-                  // this.getThumbnail(blob);
-                  this.setState({ videoRecord: blob, addLogoText: true });
+                  this.setState({ videoRecord: blob }, () =>
+                    this.setState({ addLogoText: true })
+                  );
                 }}
               />
             ) : (

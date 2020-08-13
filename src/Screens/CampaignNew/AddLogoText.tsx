@@ -45,6 +45,8 @@ class AddLogo extends React.Component<IProps, IState> {
   cwidth: any;
   cheight: any;
   s3: any;
+  ctx: any;
+  ctx2: any;
   constructor(props: any) {
     super(props);
     this.state = {
@@ -72,21 +74,20 @@ class AddLogo extends React.Component<IProps, IState> {
     this.canvas2 = this.refs.dummyCanvas;
     this.img = this.refs.image;
     this.img.crossOrigin = "Anonymous";
-    const ctx = this.canvas.getContext("2d");
-    const ctx2 = this.canvas2.getContext("2d");
-    let cw: any, ch: any;
-    let that = this;
+    this.ctx = this.canvas.getContext("2d");
+    this.ctx2 = this.canvas2.getContext("2d");
     this.video.addEventListener("loadedmetadata", this.handleLoadedMetaData);
     this.video.addEventListener(
       "play",
-      function() {
-        cw = that.video.clientWidth;
-        ch = that.video.clientHeight;
-        that.canvas.width = cw;
-        that.canvas.height = ch;
-        that.canvas2.width = cw;
-        that.canvas2.height = ch;
-        that.draw(that.video, that.img, ctx, ctx2, cw, ch);
+      () => {
+        this.draw(
+          this.video,
+          this.img,
+          this.ctx,
+          this.ctx2,
+          this.video.clientWidth,
+          this.video.clientHeight
+        );
       },
       false
     );
@@ -94,6 +95,8 @@ class AddLogo extends React.Component<IProps, IState> {
   handleLoadedMetaData = () => {
     this.canvas.width = this.video.clientWidth;
     this.canvas.height = this.video.clientHeight;
+    this.canvas2.width = this.video.clientWidth;
+    this.canvas2.height = this.video.clientHeight;
   };
   toggleAssetPicker = () => {
     this.setState({ isAssetPicker: !this.state.isAssetPicker });
@@ -148,6 +151,43 @@ class AddLogo extends React.Component<IProps, IState> {
       that.draw(video, img, context, context2, width, height);
     }, 0);
   }
+  updateDrawCanvas = (
+    video: any,
+    img: any,
+    context: any,
+    context2: any,
+    width: any,
+    height: any
+  ) => {
+    context2.drawImage(video, 0, 0, width, height);
+    context2.fillStyle = this.state.textColor;
+    canvasTxt.fontSize = this.state.fontSize;
+    canvasTxt.vAlign = this.state.vAlign;
+    canvasTxt.align = this.state.align;
+    canvasTxt.lineHeight = 20;
+    canvasTxt.drawText(
+      context2,
+      this.state.text,
+      30,
+      30,
+      width - 50,
+      height - 50
+    );
+    context2.drawImage(img, this.state.logoX, this.state.logoY);
+    let idata = context2.getImageData(0, 0, width, height);
+    context.putImageData(idata, 0, 0);
+  };
+  updateCanvas = () => {
+    this.updateDrawCanvas(
+      this.video,
+      this.img,
+      this.ctx,
+      this.ctx2,
+      this.video.clientWidth,
+      this.video.clientHeight
+    );
+  };
+
   compress(file: any) {
     this.setState({ logoUploading: true });
     const width = 100;
@@ -177,23 +217,26 @@ class AddLogo extends React.Component<IProps, IState> {
     };
   }
   saveLogo = (logoBlob: any) => {
-    let that = this;
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
       const logoOptions = {
         Bucket: config.bucketName,
         ACL: config.ACL,
         Key: Date.now().toString() + "logo.jpeg",
         Body: logoBlob
       };
-      that.s3.upload(logoOptions, function(err: any, data: any) {
+      this.s3.upload(logoOptions, (err: any, data: any) => {
         if (err) {
           toast.error(err);
-          that.setState({ logoUploading: false });
+          this.setState({ logoUploading: false });
           reject();
           return;
         }
-        that.setState({ logoPath: data.Location });
-        that.props.addAsset({ type: "logo", url: data.Location });
+        this.setState({ logoPath: data.Location }, () => {
+          setTimeout(() => {
+            this.updateCanvas();
+          }, 1000);
+        });
+        this.props.addAsset({ type: "logo", url: data.Location });
         resolve();
       });
     });
@@ -207,21 +250,21 @@ class AddLogo extends React.Component<IProps, IState> {
     let x, y: any;
     switch (position) {
       case "top-left":
-        this.setState({ logoX: 20, logoY: 20 });
+        this.setState({ logoX: 20, logoY: 20 }, () => this.updateCanvas());
         return;
       case "bottom-left":
         x = 20;
         y = this.canvas.height - this.img.height - 20;
-        this.setState({ logoX: x, logoY: y });
+        this.setState({ logoX: x, logoY: y }, () => this.updateCanvas());
         return;
       case "bottom-right":
         x = this.canvas.width - this.img.width - 20;
         y = this.canvas.height - this.img.height - 20;
-        this.setState({ logoX: x, logoY: y });
+        this.setState({ logoX: x, logoY: y }, () => this.updateCanvas());
         return;
       case "top-right":
         x = this.canvas.width - this.img.width - 20;
-        this.setState({ logoX: x, logoY: 20 });
+        this.setState({ logoX: x, logoY: 20 }, () => this.updateCanvas());
         return;
       default:
         return;
@@ -230,42 +273,54 @@ class AddLogo extends React.Component<IProps, IState> {
   setTextPosition = (position: string) => {
     switch (position) {
       case "top-left":
-        this.setState({ align: "left", vAlign: "top" });
+        this.setState({ align: "left", vAlign: "top" }, () =>
+          this.updateCanvas()
+        );
         return;
       case "bottom-left":
-        this.setState({ align: "left", vAlign: "bottom" });
+        this.setState({ align: "left", vAlign: "bottom" }, () =>
+          this.updateCanvas()
+        );
         return;
       case "bottom-right":
-        this.setState({ align: "right", vAlign: "bottom" });
+        this.setState({ align: "right", vAlign: "bottom" }, () =>
+          this.updateCanvas()
+        );
         return;
       case "top-right":
-        this.setState({ align: "right", vAlign: "top" });
+        this.setState({ align: "right", vAlign: "top" }, () =>
+          this.updateCanvas()
+        );
         return;
       case "center":
-        this.setState({ align: "center", vAlign: "middle" });
+        this.setState({ align: "center", vAlign: "middle" }, () =>
+          this.updateCanvas()
+        );
         return;
       case "center-bottom":
-        this.setState({ align: "center", vAlign: "bottom" });
+        this.setState({ align: "center", vAlign: "bottom" }, () =>
+          this.updateCanvas()
+        );
         return;
       default:
         return;
     }
   };
   changeText = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ text: e.target.value });
+    this.setState({ text: e.target.value }, () => this.updateCanvas());
   };
   handleChangeColor = (color: any) => {
-    this.setState({ textColor: color.hex });
+    this.setState({ textColor: color.hex }, () => this.updateCanvas());
   };
   changeFontSize = (e: any) => {
-    this.setState({ fontSize: e.target.value });
+    this.setState({ fontSize: e.target.value }, () => this.updateCanvas());
   };
   moveToNextStep = () => {
     this.getThumbnail();
     this.props.moveToNextStep();
   };
   onAssetPick = (path: any) => {
-    this.setState({ logoPath: path });
+    this.setState({ logoPath: path }, () => this.updateCanvas());
     toast.info("updated");
   };
   getThumbnail = () => {
