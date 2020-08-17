@@ -181,10 +181,11 @@ class EditingPlayer extends React.Component<IProps, IState> {
         "durationchange",
         this.handleLoadedMetaData
       );
+      window.removeEventListener("resize", this.handleWindowResize);
     } else {
       this.video.addEventListener("ended", this.handleEnded);
       this.video.addEventListener("loadedmetadata", this.handleLoadedMetaData);
-      // window.addEventListener("resize", this.handleWindowResize);
+      window.addEventListener("resize", this.handleWindowResize);
       this.video.addEventListener("timeupdate", this.updateProgress);
       this.video.addEventListener("volumechange", this.updateVolumeIcon);
       this.video.addEventListener("durationchange", this.handleLoadedMetaData);

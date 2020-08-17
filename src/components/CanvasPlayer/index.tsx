@@ -184,11 +184,11 @@ class Player extends React.Component<IProps, IState> {
         "durationchange",
         this.handleLoadedMetaData
       );
-      // window.removeEventListener("resize", this.handleWindowResize);
+      window.removeEventListener("resize", this.handleWindowResize);
     } else {
       this.video.addEventListener("ended", this.handleEnded);
       this.video.addEventListener("loadedmetadata", this.handleLoadedMetaData);
-      // window.addEventListener("resize", this.handleWindowResize);
+      window.addEventListener("resize", this.handleWindowResize);
       this.video.addEventListener("timeupdate", this.updateProgress);
       this.video.addEventListener("volumechange", this.updateVolumeIcon);
       this.video.addEventListener("durationchange", this.handleLoadedMetaData);
@@ -259,7 +259,6 @@ class Player extends React.Component<IProps, IState> {
       const { textProps, logoProps } = this.props;
       const { width, height } = this.state;
       this.canvasTmpCtx.drawImage(this.video, 0, 0, width, height);
-
       //Draw text using canvas-txt
       if (textProps.text !== "" && textProps.text !== undefined) {
         this.canvasTmpCtx.fillStyle = textProps.textColor;
@@ -320,7 +319,7 @@ class Player extends React.Component<IProps, IState> {
     }
   }
   onWindowResize(e: any) {
-    // this.setCanvasDimensions();
+    this.setCanvasDimensions();
   }
   playpause = () => {
     if (this.state.playing) {

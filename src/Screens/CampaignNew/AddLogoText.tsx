@@ -164,6 +164,7 @@ class AddLogo extends React.Component<IProps, IState> {
     canvasTxt.fontSize = this.state.fontSize;
     canvasTxt.vAlign = this.state.vAlign;
     canvasTxt.align = this.state.align;
+    console.log("state", this.state);
     canvasTxt.lineHeight = 20;
     canvasTxt.drawText(
       context2,
@@ -208,7 +209,7 @@ class AddLogo extends React.Component<IProps, IState> {
             // this.setState({ img: URL.createObjectURL(blob) });
             await this.saveLogo(blob);
             this.setState({ logoUploading: false });
-            toast.info("logo uploaded, play video to see your logo");
+            toast.info("Logo uploaded");
           },
           `${file.type}`,
           1

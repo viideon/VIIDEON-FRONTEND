@@ -23,6 +23,10 @@ class Watch extends React.Component<IProps> {
   container: any;
   componentDidMount() {
     this.container = this.refs.container;
+    window.addEventListener("resize", () => {
+      console.log("called resize");
+      this.container.height = this.container.width * (16 / 9);
+    });
     this.props.getVideo(this.props.match.params.id);
     const _id = { id: this.props.match.params.id };
     this.props.updateVideoViews(_id);
@@ -62,8 +66,8 @@ class Watch extends React.Component<IProps> {
               <div
                 ref="container"
                 style={{
-                  height: "400px",
-                  width: "100%"
+                  width: "100%",
+                  height: "350px"
                 }}
               >
                 {((video && video.campaign) ||

@@ -200,11 +200,11 @@ class AddLogoText extends React.Component<IProps, IState> {
   ) => {
     context2.drawImage(video, 0, 0, width, height);
     context2.fillStyle = this.state.textColor;
-    canvasTxt.fontSize = this.state.fontSize;
     canvasTxt.vAlign = this.state.vAlign;
     canvasTxt.align = this.state.align;
     canvasTxt.lineHeight = 20;
-    console.log("text",this.state.text);
+    canvasTxt.fontSize = this.state.fontSize;
+    // canvasTxt.debug = true;
     canvasTxt.drawText(
       context2,
       this.state.text,
@@ -247,7 +247,7 @@ class AddLogoText extends React.Component<IProps, IState> {
             // this.setState({ img: URL.createObjectURL(blob) });
             await this.saveLogo(blob);
             this.setState({ logoUploading: false });
-            toast.info("logo uploaded, play video to see your logo");
+            toast.info("Logo uploaded");
           },
           `${file.type}`,
           1
@@ -730,12 +730,12 @@ class AddLogoText extends React.Component<IProps, IState> {
                     />
                   )}
                   <FormGroup>
-                    <Label className="labelUploadSection">Campaign Title</Label>
+                    <Label className="labelUploadSection">Video Title</Label>
                     <Input
                       type="text"
                       name="name"
                       id="typeInput"
-                      placeholder="Give your campaign an amazing title"
+                      placeholder="Give your video an amazing title"
                       value={this.state.title}
                       onChange={this.titleNameHandler}
                     />
