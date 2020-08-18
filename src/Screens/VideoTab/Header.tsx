@@ -17,7 +17,6 @@ import { connect } from "react-redux";
 // import Tooltip from "@material-ui/core/Tooltip";
 import CircularProgress from "@material-ui/core/CircularProgress";
 // import * as Constants from "../../constants/constants";
-import VideoPlayer from "../../components/VideoPlayer";
 import CanvasPlayer from "../../components/CanvasPlayer";
 import styles from "./style";
 
@@ -43,12 +42,7 @@ class VideoTabHeader extends React.Component<IProps> {
   componentDidMount() {
     this.container = this.refs.container;
   }
-  componentWillReceiveProps(nextProps: any) {
-    const { video } = nextProps;
-    if (video && !video.campaign && !video.recordingEdit) {
-      this.container.style.display = "none";
-    }
-  }
+
   copyUrl = () => {
     const { video } = this.props;
     navigator.clipboard.writeText(
@@ -76,12 +70,9 @@ class VideoTabHeader extends React.Component<IProps> {
                     <CircularProgress color="primary" />
                   </div>
                 )}
-                {video && !video.campaign && !video.recordingEdit && (
-                  <VideoPlayer url={video.url} thumbnail={video.thumbnail} />
-                )}
+
                 <div ref="container" style={{ height: "220px", width: "100%" }}>
-                  {((video && video.campaign) ||
-                    (video && video.recordingEdit)) && (
+                  {video && (
                     <CanvasPlayer
                       muted={false}
                       autoPlay={false}

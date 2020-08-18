@@ -148,7 +148,6 @@ class EditingPlayer extends React.Component<IProps, IState> {
         this.video.style.left = "-1000%";
         this.video.style.position = "absolute";
         this.video.style.top = "-1000%";
-
         this.video.src = url;
         this.video.crossOrigin = "Anonymous";
         document.body.appendChild(this.video);
@@ -254,11 +253,11 @@ class EditingPlayer extends React.Component<IProps, IState> {
       const { width, height } = this.state;
       this.canvasTmpCtx.drawImage(this.video, 0, 0, width, height);
 
-      if (logoProps.url !== "" && logoProps.url !== undefined) {
+      if (logoProps && logoProps.url) {
         this.logoPosition[logoProps.position].call();
       }
       //Draw text using canvas-txt
-      if (textProps.text !== "" && textProps.text !== undefined) {
+      if (textProps && textProps.text) {
         this.canvasTmpCtx.fillStyle = textProps.textColor;
         canvasTxt.fontSize = textProps.fontSize;
         canvasTxt.vAlign = textProps.vAlign;
@@ -314,7 +313,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
     }
   }
   onWindowResize(e: any) {
-    console.log("window resize called");
+    this.setCanvasDimensions();
   }
   playpause = () => {
     if (this.state.playing) {
@@ -485,7 +484,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
         />
         <img
           alt="logo"
-          src={logoProps.url ? logoProps.url : null}
+          src={logoProps && logoProps.url ? logoProps.url : null}
           style={{ display: "none" }}
           ref="logo"
         />

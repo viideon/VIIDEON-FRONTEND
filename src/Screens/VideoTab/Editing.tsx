@@ -1,19 +1,27 @@
 import React from "react";
+import AWS from "aws-sdk";
 import S3FileUpload from "react-s3";
-import { Container, Row, Col } from "reactstrap";
+import axios from "axios";
+import { Container, Row, Col, Input } from "reactstrap";
+import { toast } from "react-toastify";
+import canvasTxt from "canvas-txt";
+import { CompactPicker } from "react-color";
 import AssetPicker from "../../components/AssetPicker";
-import { Tooltip, TextField } from "@material-ui/core";
+import {
+  Tooltip,
+  TextField,
+  Button,
+  Grid,
+  LinearProgress
+} from "@material-ui/core";
 import Loading from "../../components/Loading";
 import HelpIcon from "@material-ui/icons/Help";
 import { connect } from "react-redux";
 import { addAsset } from "../../Redux/Actions/asset";
 import { updateVideo } from "../../Redux/Actions/videos";
-import { VideoUpdate } from "../../Redux/Types/videos";
 import CanvasPlayer from "../../components/CanvasPlayer/EditingCanvas";
 import { config } from "../../config/aws";
 import ThemeButton from "../../components/ThemeButton";
-import VideoPlayer from "../../components/VideoPlayer/index";
-import { toast } from "react-toastify";
 import "./style.css";
 
 interface IState {
@@ -21,8 +29,23 @@ interface IState {
   url: string;
   uploading: boolean;
   showVideo: boolean;
-  isAssetPicker: boolean;
+  isOpenThumbnailPicker: boolean;
+  isOpenLogoPicker: boolean;
   newVideoTitle: string;
+  logoPath: any;
+  logoX: number | string;
+  logoY: number | string;
+  text: string;
+  btnText: string;
+  textColor: string;
+  fontSize: number;
+  vAlign: string;
+  align: string;
+  iconPos: string;
+  logoUploading: boolean;
+  imagePath: any;
+  urlRecord: string;
+  videoLoaded: boolean;
 }
 interface Video {
   url: string;
@@ -34,9 +57,8 @@ interface Video {
   recordingEdit?: boolean;
 }
 interface IProps {
-  updateVideo: (video: VideoUpdate) => void;
+  updateVideo: (video: any) => void;
   addAsset: (asset: any) => void;
-  isVideoUpdated: boolean;
   videoId?: string | null;
   video: Video;
   isVideoUpdating: boolean;
@@ -44,6 +66,17 @@ interface IProps {
 
 class Editing extends React.Component<IProps, IState> {
   _isMounted: any;
+  video: any;
+  thumbnailRef: any;
+  logoRef: any;
+  img: any;
+  canvas: any;
+  canvas2: any;
+  cwidth: any;
+  cheight: any;
+  s3: any;
+  ctx: any;
+  ctx2: any;
   constructor(props: any) {
     super(props);
     this.state = {
@@ -51,38 +84,96 @@ class Editing extends React.Component<IProps, IState> {
       url: "",
       uploading: false,
       showVideo: true,
-      isAssetPicker: false,
-      newVideoTitle: ""
+      isOpenThumbnailPicker: false,
+      isOpenLogoPicker: false,
+      newVideoTitle: "",
+      logoPath: null,
+      logoX: 10,
+      logoY: 10,
+      text: "",
+      btnText: "Skip",
+      textColor: "#fff",
+      fontSize: 30,
+      vAlign: "top",
+      align: "left",
+      iconPos: "top-left",
+      logoUploading: false,
+      imagePath: "",
+      urlRecord: "",
+      videoLoaded: false
     };
     this._isMounted = false;
   }
   container: any;
   componentDidMount() {
+    this.s3 = new AWS.S3(config);
+    this.setUpCanvasEditing();
     this._isMounted = true;
     this.container = this.refs.container;
     this._isMounted &&
       setTimeout(() => this.setState({ showVideo: true }), 1000);
   }
+  setUpCanvasEditing = () => {
+    this.video = this.refs.video;
+    this.canvas = this.refs.canvas;
+    this.canvas2 = this.refs.dummyCanvas;
+    this.img = this.refs.image;
+    this.video.crossOrigin = "Anonymous";
+    this.img.crossOrigin = "Anonymous";
+    this.ctx = this.canvas.getContext("2d");
+    this.ctx2 = this.canvas2.getContext("2d");
+    this.video.addEventListener("loadedmetadata", this.handleLoadedMetaData);
+    this.video.addEventListener(
+      "play",
+      () => {
+        this.draw(
+          this.video,
+          this.img,
+          this.ctx,
+          this.ctx2,
+          this.video.clientWidth,
+          this.video.clientHeight
+        );
+      },
+      false
+    );
+  };
+  componentWillReceiveProps(nextProps: any) {
+    const { video } = nextProps;
+    if (video) {
+      axios({
+        url: video.url,
+        method: "GET",
+        responseType: "blob" // important
+      }).then((response: any) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        this.video.src = url;
+        this.setState({ videoLoaded: true });
+      });
+    }
+  }
   componentWillUnmount() {
     this._isMounted = false;
   }
-  componentWillReceiveProps(nextProps: any) {
-    const { video } = nextProps;
-    if (video && !video.campaign && !video.recordingEdit) {
-      this.container.style.display = "none";
-    }
-  }
-  upload: any;
-  setInputRef = (ref: any) => {
-    this.upload = ref;
+  setThumbnailInputRef = (ref: any) => {
+    this.thumbnailRef = ref;
   };
-  triggerFileUploadBtn = () => {
-    this.upload.click();
+  triggerThumbnailUploadBtn = () => {
+    this.thumbnailRef.click();
   };
-  toggleAssetPicker = () => {
-    this.setState({ isAssetPicker: !this.state.isAssetPicker });
+  setLogoInputRef = (ref: any) => {
+    this.logoRef = ref;
   };
-  onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  triggerLogoUploadBtn = () => {
+    this.logoRef.click();
+  };
+  toggleThumbnailAssetPicker = () => {
+    this.setState({ isOpenThumbnailPicker: !this.state.isOpenThumbnailPicker });
+  };
+  toggleLogoAssetPicker = () => {
+    this.setState({ isOpenLogoPicker: !this.state.isOpenLogoPicker });
+  };
+  onThumbnailFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0] !== null) {
       let file = e.target.files![0];
       this.setState({ uploading: true });
@@ -102,7 +193,7 @@ class Editing extends React.Component<IProps, IState> {
       toast.error("No file selected");
     }
   };
-  onAssetPick = (path: any) => {
+  onThumbnailAssetPick = (path: any) => {
     this.setState({ url: path }, () => {
       toast.info("Saving your changes");
       this.saveChanges();
@@ -125,7 +216,7 @@ class Editing extends React.Component<IProps, IState> {
   };
   updateTitle = () => {
     if (this.state.newVideoTitle === "") {
-      toast.error("Please add an title befor updating");
+      toast.error("Please add an title before updating");
       return;
     }
     const video = {
@@ -134,6 +225,245 @@ class Editing extends React.Component<IProps, IState> {
     };
     this.props.updateVideo(video);
     this.setState({ newVideoTitle: "" });
+  };
+  handleLoadedMetaData = () => {
+    this.canvas.width = this.video.clientWidth;
+    this.canvas.height = this.video.clientHeight;
+    this.canvas2.width = this.video.clientWidth;
+    this.canvas2.height = this.video.clientHeight;
+  };
+
+  onLogoFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files![0] !== null) {
+      if (!e.target.files![0].name.match(/\.(jpg|jpeg|png)$/)) {
+        toast.error("Please add valid image");
+        return;
+      }
+      toast.info("Uploading logo please wait");
+      await this.compress(e.target.files![0]);
+    } else {
+      toast.error("error in selecting file");
+    }
+  };
+  draw = (
+    video: any,
+    img: any,
+    context: any,
+    context2: any,
+    width: any,
+    height: any
+  ) => {
+    if (video.paused || video.ended) return false;
+    context2.drawImage(video, 0, 0, width, height);
+    context2.fillStyle = this.state.textColor;
+    canvasTxt.fontSize = this.state.fontSize;
+    canvasTxt.vAlign = this.state.vAlign;
+    canvasTxt.align = this.state.align;
+    canvasTxt.lineHeight = 20;
+    canvasTxt.drawText(
+      context2,
+      this.state.text,
+      30,
+      30,
+      width - 50,
+      height - 50
+    );
+    context2.drawImage(img, this.state.logoX, this.state.logoY);
+    let idata = context2.getImageData(0, 0, width, height);
+    let that = this;
+    context.putImageData(idata, 0, 0);
+    setTimeout(function() {
+      that.draw(video, img, context, context2, width, height);
+    }, 0);
+  };
+  updateDrawCanvas = (
+    video: any,
+    img: any,
+    context: any,
+    context2: any,
+    width: any,
+    height: any
+  ) => {
+    context2.drawImage(video, 0, 0, width, height);
+    context2.fillStyle = this.state.textColor;
+    canvasTxt.vAlign = this.state.vAlign;
+    canvasTxt.align = this.state.align;
+    canvasTxt.lineHeight = 20;
+    canvasTxt.fontSize = this.state.fontSize;
+    // canvasTxt.debug = true;
+    canvasTxt.drawText(
+      context2,
+      this.state.text,
+      30,
+      30,
+      width - 50,
+      height - 50
+    );
+    context2.drawImage(img, this.state.logoX, this.state.logoY);
+    let idata = context2.getImageData(0, 0, width, height);
+    context.putImageData(idata, 0, 0);
+  };
+  updateCanvas = () => {
+    this.updateDrawCanvas(
+      this.video,
+      this.img,
+      this.ctx,
+      this.ctx2,
+      this.video.clientWidth,
+      this.video.clientHeight
+    );
+  };
+  changeText = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ text: e.target.value }, () => this.updateCanvas());
+  };
+  handleChangeColor = (color: any) => {
+    this.setState({ textColor: color.hex }, () => this.updateCanvas());
+  };
+  changeFontSize = (e: any) => {
+    this.setState({ fontSize: e.target.value }, () => this.updateCanvas());
+  };
+  setIconPosition = (position: string) => {
+    if (this.state.logoPath === null) {
+      toast.info("Please upload a logo");
+      return;
+    }
+    this.setState({ iconPos: position });
+    let x, y: any;
+    switch (position) {
+      case "top-left":
+        this.setState({ logoX: 20, logoY: 20 }, () => this.updateCanvas());
+        return;
+      case "bottom-left":
+        x = 20;
+        y = this.canvas.height - this.img.height - 20;
+        this.setState({ logoX: x, logoY: y }, () => this.updateCanvas());
+        return;
+      case "bottom-right":
+        x = this.canvas.width - this.img.width - 20;
+        y = this.canvas.height - this.img.height - 20;
+        this.setState({ logoX: x, logoY: y }, () => this.updateCanvas());
+        return;
+      case "top-right":
+        x = this.canvas.width - this.img.width - 20;
+        this.setState({ logoX: x, logoY: 20 }, () => this.updateCanvas());
+        return;
+      default:
+        return;
+    }
+  };
+  setTextPosition = (position: string) => {
+    switch (position) {
+      case "top-left":
+        this.setState({ align: "left", vAlign: "top" }, () =>
+          this.updateCanvas()
+        );
+        return;
+      case "bottom-left":
+        this.setState({ align: "left", vAlign: "bottom" }, () =>
+          this.updateCanvas()
+        );
+        return;
+      case "bottom-right":
+        this.setState({ align: "right", vAlign: "bottom" }, () =>
+          this.updateCanvas()
+        );
+        return;
+      case "top-right":
+        this.setState({ align: "right", vAlign: "top" }, () =>
+          this.updateCanvas()
+        );
+        return;
+      case "center":
+        this.setState({ align: "center", vAlign: "middle" }, () =>
+          this.updateCanvas()
+        );
+        return;
+      case "center-bottom":
+        this.setState({ align: "center", vAlign: "bottom" }, () =>
+          this.updateCanvas()
+        );
+        return;
+      default:
+        return;
+    }
+  };
+  compress(file: any) {
+    this.setState({ logoUploading: true });
+    const width = 100;
+    const height = 100;
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event: any) => {
+      const img = new Image();
+      img.src = event.target.result;
+      img.onload = () => {
+        const elem = document.createElement("canvas");
+        elem.width = width;
+        elem.height = height;
+        const ctx: any = elem.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+        ctx.canvas.toBlob(
+          async (blob: any) => {
+            // this.setState({ img: URL.createObjectURL(blob) });
+            await this.saveLogo(blob);
+            this.setState({ logoUploading: false });
+            toast.info("Logo uploaded");
+          },
+          `${file.type}`,
+          1
+        );
+      };
+    };
+  }
+  saveLogo = (logoBlob: any) => {
+    return new Promise((resolve, reject) => {
+      const logoOptions = {
+        Bucket: config.bucketName,
+        ACL: config.ACL,
+        Key: Date.now().toString() + "logo.jpeg",
+        Body: logoBlob
+      };
+      this.s3.upload(logoOptions, (err: any, data: any) => {
+        if (err) {
+          toast.error(err);
+          this.setState({ logoUploading: false });
+          reject();
+          return;
+        }
+        this.setState({ logoPath: data.Location }, () => {
+          setTimeout(() => {
+            this.updateCanvas();
+          }, 1000);
+        });
+        this.props.addAsset({ type: "logo", url: data.Location });
+        resolve();
+      });
+    });
+  };
+  onLogoAssetPick = (path: any) => {
+    this.setState({ logoPath: path }, () => this.updateCanvas());
+    toast.info("updated");
+  };
+  updateVideoLogoText = () => {
+    const textProps = {
+      text: this.state.text,
+      textColor: this.state.textColor,
+      fontSize: this.state.fontSize,
+      vAlign: this.state.vAlign,
+      align: this.state.align
+    };
+    const logoProps = {
+      url: this.state.logoPath,
+      position: this.state.iconPos
+    };
+    if (this.props.video) {
+      const video = {
+        id: this.props.videoId,
+        logoProps,
+        textProps
+      };
+      this.props.updateVideo(video);
+    }
   };
   render() {
     const { video, isVideoUpdating } = this.props;
@@ -144,16 +474,6 @@ class Editing extends React.Component<IProps, IState> {
           <Row>
             <Col xs="1" md="2"></Col>
             <Col xs="10" md="8">
-              {video &&
-                !video.campaign &&
-                !video.recordingEdit &&
-                showVideo && (
-                  <VideoPlayer
-                    url={video.url}
-                    thumbnail={video.thumbnail}
-                    height={370}
-                  />
-                )}
               <div
                 ref="container"
                 style={{
@@ -162,8 +482,7 @@ class Editing extends React.Component<IProps, IState> {
                   visibility: showVideo ? "visible" : "hidden"
                 }}
               >
-                {((video && video.campaign) ||
-                  (video && video.recordingEdit)) && (
+                {video && (
                   <CanvasPlayer
                     muted={false}
                     autoPlay={false}
@@ -193,8 +512,8 @@ class Editing extends React.Component<IProps, IState> {
                 <input
                   id="uploadInput"
                   type="file"
-                  onChange={this.onFileChange}
-                  ref={this.setInputRef}
+                  onChange={this.onThumbnailFileChange}
+                  ref={this.setThumbnailInputRef}
                   accept="image/x-png,image/gif,image/jpeg"
                 />
                 <h4 className="thumbnaillEditMsg">
@@ -215,15 +534,15 @@ class Editing extends React.Component<IProps, IState> {
                   {isVideoUpdating && <Loading />}
                 </div>
                 <AssetPicker
-                  isOpen={this.state.isAssetPicker}
-                  toggle={this.toggleAssetPicker}
+                  isOpen={this.state.isOpenThumbnailPicker}
+                  toggle={this.toggleThumbnailAssetPicker}
                   logoAssets={false}
-                  onPick={this.onAssetPick}
+                  onPick={this.onThumbnailAssetPick}
                 />
                 <div className="btnEditThumbnailWrapper">
                   <ThemeButton
                     name="Upload File"
-                    onClick={this.triggerFileUploadBtn}
+                    onClick={this.triggerThumbnailUploadBtn}
                     style={{
                       border: "none",
                       background: "#16B272",
@@ -234,7 +553,7 @@ class Editing extends React.Component<IProps, IState> {
                   />
                   <ThemeButton
                     name="Select from assets"
-                    onClick={this.toggleAssetPicker}
+                    onClick={this.toggleThumbnailAssetPicker}
                     style={{
                       border: "none",
                       background: "#16B272",
@@ -285,13 +604,236 @@ class Editing extends React.Component<IProps, IState> {
             <Col xs="1" md="2"></Col>
           </Row>
         </Container>
+        {/* ------update logo and text---- */}
+        <div className="wrapperEditLogoText">
+          <h2 className="addLogoHeading">Update/Add Logo and Text to Video</h2>
+          <Grid container>
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={6}
+              lg={6}
+              style={{ paddingRight: "5px" }}
+            >
+              <video
+                ref="video"
+                controls={this.state.videoLoaded}
+                width="100%"
+              />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={6}
+              lg={6}
+              style={{ paddingLeft: "5px" }}
+            >
+              <canvas ref="canvas" />
+            </Grid>
+          </Grid>
+          <canvas ref="dummyCanvas" style={{ display: "none" }} />
+          <img
+            crossOrigin="anonymous"
+            alt="logo"
+            src={this.state.logoPath ? this.state.logoPath : null}
+            style={{ display: "none" }}
+            ref="image"
+          />
+          <Grid container>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <div className="addLogoDiv">
+                <h3 className="addLogoMessage">
+                  Add Logo
+                  <Tooltip
+                    title="upload a logo and play the video to see it"
+                    placement="top"
+                  >
+                    <span style={iconStyle}>
+                      <i className="fas fa-info"></i>
+                    </span>
+                  </Tooltip>
+                </h3>
+                <AssetPicker
+                  isOpen={this.state.isOpenLogoPicker}
+                  toggle={this.toggleLogoAssetPicker}
+                  onPick={this.onLogoAssetPick}
+                  logoAssets={true}
+                />
+                <input
+                  id="uploadInput"
+                  type="file"
+                  onChange={this.onLogoFileChange}
+                  ref={this.setLogoInputRef}
+                  accept="image/x-png,image/gif,image/jpeg"
+                />
+                {this.state.logoUploading && <LinearProgress />}
+                <Button
+                  onClick={this.triggerLogoUploadBtn}
+                  style={{
+                    color: "#fff",
+                    width: "135px",
+                    backgroundColor: "#ff4301"
+                  }}
+                >
+                  Upload
+                </Button>
+
+                <Button
+                  onClick={this.toggleLogoAssetPicker}
+                  style={{
+                    color: "#fff",
+                    marginLeft: "3px",
+                    backgroundColor: "rgb(34, 185, 255)"
+                  }}
+                >
+                  Select from Assets
+                </Button>
+                <h5 className="positionTxt">Change Logo Position</h5>
+                <Button
+                  style={logoPositionBtn}
+                  onClick={() => this.setIconPosition("top-left")}
+                >
+                  Top Left
+                </Button>
+                <Button
+                  style={logoPositionBtn}
+                  onClick={() => this.setIconPosition("top-right")}
+                >
+                  Top Right
+                </Button>
+                <Button
+                  style={logoPositionBtn}
+                  onClick={() => this.setIconPosition("bottom-left")}
+                >
+                  Bottom Left
+                </Button>
+                <Button
+                  style={logoPositionBtn}
+                  onClick={() => this.setIconPosition("bottom-right")}
+                >
+                  Bottom Right
+                </Button>
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <div className="addTextDiv">
+                <h4 className="addLogoMessage">
+                  Add Text
+                  <Tooltip
+                    title="enter text and play the video to see it"
+                    placement="top"
+                  >
+                    <span style={iconStyle}>
+                      <i className="fas fa-info"></i>
+                    </span>
+                  </Tooltip>
+                </h4>
+                <Input
+                  type="text"
+                  placeholder="Add Text"
+                  name="text"
+                  value={this.state.text}
+                  onChange={this.changeText}
+                  style={{ width: "80%" }}
+                />
+                <h5 className="positionTxt">Change Text Position</h5>
+                <Button
+                  style={logoPositionBtn}
+                  onClick={() => this.setTextPosition("center")}
+                >
+                  Center
+                </Button>
+                <Button
+                  style={logoPositionBtn}
+                  onClick={() => this.setTextPosition("center-bottom")}
+                >
+                  Center Bottom
+                </Button>
+                <Button
+                  style={logoPositionBtn}
+                  onClick={() => this.setTextPosition("top-left")}
+                >
+                  Top Left
+                </Button>
+                <Button
+                  style={logoPositionBtn}
+                  onClick={() => this.setTextPosition("top-right")}
+                >
+                  Top Right
+                </Button>
+                <Button
+                  style={logoPositionBtn}
+                  onClick={() => this.setTextPosition("bottom-left")}
+                >
+                  Bottom Left
+                </Button>
+                <Button
+                  style={logoPositionBtn}
+                  onClick={() => this.setTextPosition("bottom-right")}
+                >
+                  Bottom Right
+                </Button>
+                <h5 className="positionTxt">Select Font Size</h5>
+                <div style={{ display: "flex", flexWrap: "nowrap" }}>
+                  <input
+                    type="range"
+                    id="font"
+                    name="font"
+                    min="10"
+                    max="100"
+                    style={{ width: "80%" }}
+                    value={this.state.fontSize}
+                    onChange={this.changeFontSize}
+                  ></input>
+                  <span style={{ width: "10%", padding: "10px" }}>
+                    {this.state.fontSize}px
+                  </span>
+                </div>
+                <h5 className="positionTxt">
+                  Choose Text Color
+                  <span className="optionalText">(optional)</span>
+                </h5>
+                <CompactPicker
+                  color={this.state.textColor}
+                  onChangeComplete={this.handleChangeColor}
+                />
+              </div>
+            </Grid>
+          </Grid>
+          <div style={{ textAlign: "end" }}>
+            <ThemeButton
+              name="Update"
+              onClick={this.updateVideoLogoText}
+              style={{
+                border: "none",
+                background: "#16B272",
+                color: "rgb(255, 255, 255)",
+                marginTop: "20px",
+                marginBottom: "2px",
+                outline: "none"
+              }}
+            />
+          </div>
+        </div>
       </div>
     );
   }
 }
-
+const iconStyle = {
+  fontSize: "15px",
+  color: "#a9a9a9",
+  marginLeft: "7px",
+  cursor: "pointer"
+};
+const logoPositionBtn = {
+  marginBottom: "10px",
+  marginLeft: "7px",
+  fontSize: "11px",
+  border: "1px solid #696969"
+};
 const mapStateToProps = (state: any, ownProps: any) => {
-  // const video = getVideoById(state, ownProps.videoId);
   return {
     video: state.video.singleVideo,
     isVideoUpdating: state.video.isVideoUpdating
@@ -299,7 +841,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    updateVideo: (video: VideoUpdate) => dispatch(updateVideo(video)),
+    updateVideo: (video: any) => dispatch(updateVideo(video)),
     addAsset: (asset: any) => dispatch(addAsset(asset))
   };
 };

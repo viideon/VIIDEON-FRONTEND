@@ -260,7 +260,7 @@ class Player extends React.Component<IProps, IState> {
       const { width, height } = this.state;
       this.canvasTmpCtx.drawImage(this.video, 0, 0, width, height);
       //Draw text using canvas-txt
-      if (textProps.text !== "" && textProps.text !== undefined) {
+      if (textProps && textProps.text) {
         this.canvasTmpCtx.fillStyle = textProps.textColor;
         canvasTxt.fontSize = textProps.fontSize;
         canvasTxt.vAlign = textProps.vAlign;
@@ -275,10 +275,9 @@ class Player extends React.Component<IProps, IState> {
           height - 100
         );
       }
-      if (logoProps.url !== "" && logoProps.url !== undefined) {
+      if (logoProps && logoProps.url) {
         this.logoPosition[logoProps.position].call();
       }
-
       let idata = this.canvasTmpCtx.getImageData(0, 0, width, height);
       this.canvasContext.putImageData(idata, 0, 0);
     };
@@ -491,7 +490,7 @@ class Player extends React.Component<IProps, IState> {
         />
         <img
           alt="logo"
-          src={logoProps.url ? logoProps.url : null}
+          src={logoProps && logoProps.url ? logoProps.url : null}
           style={{ display: "none" }}
           ref="logo"
         />

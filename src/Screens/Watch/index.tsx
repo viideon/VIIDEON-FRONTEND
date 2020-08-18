@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import VideoPlayer from "../../components/VideoPlayer";
 import CanvasPlayer from "../../components/CanvasPlayer";
 import {
   getVideo,
@@ -23,21 +22,11 @@ class Watch extends React.Component<IProps> {
   container: any;
   componentDidMount() {
     this.container = this.refs.container;
-    window.addEventListener("resize", () => {
-      console.log("called resize");
-      this.container.height = this.container.width * (16 / 9);
-    });
     this.props.getVideo(this.props.match.params.id);
     const _id = { id: this.props.match.params.id };
     this.props.updateVideoViews(_id);
   }
 
-  componentWillReceiveProps(nextProps: any) {
-    const { video } = nextProps;
-    if (video && !video.campaign && !video.recordingEdit) {
-      this.container.style.display = "none";
-    }
-  }
   watched = () => {
     const _id = { id: this.props.match.params.id };
     this.props.updateVideoWatch(_id);
@@ -55,14 +44,7 @@ class Watch extends React.Component<IProps> {
                   <Loading />
                 </div>
               )}
-              {video && !video.campaign && !video.recordingEdit && (
-                <VideoPlayer
-                  url={video.url}
-                  thumbnail={video.thumbnail}
-                  height={350}
-                  watched={this.watched}
-                />
-              )}
+
               <div
                 ref="container"
                 style={{
@@ -70,8 +52,7 @@ class Watch extends React.Component<IProps> {
                   height: "350px"
                 }}
               >
-                {((video && video.campaign) ||
-                  (video && video.recordingEdit)) && (
+                {video && (
                   <CanvasPlayer
                     muted={false}
                     autoPlay={false}

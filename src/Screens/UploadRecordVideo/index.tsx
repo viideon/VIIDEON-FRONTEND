@@ -175,7 +175,8 @@ class UploadRecord extends Component<IProps, IState> {
           title: this.state.title,
           url: this.state.urlRecord,
           userId: this.props.auth!.user!._id,
-          thumbnail: data.Location
+          thumbnail: data.Location,
+          campaign: false
         };
         this.setState({ fileProgress: false });
         this.props.saveVideo(video);
@@ -186,51 +187,6 @@ class UploadRecord extends Component<IProps, IState> {
     });
   };
 
-  saveVideo = () => {
-    if (this.state.title === "") {
-      toast.warn("Enter a title to save video");
-      return;
-    }
-    this.setState({ videoProgress: true, progressVideo: 0 });
-    let s3 = new AWS.S3(config);
-    let options = {
-      Bucket: config.bucketName,
-      ACL: config.ACL,
-      Key: Date.now().toString() + ".webm",
-      Body: this.state.videoRecord
-    };
-    let thumbnailOptions = {
-      Bucket: config.bucketName,
-      ACL: config.ACL,
-      Key: Date.now().toString() + ".jpeg",
-      Body: this.state.thumbnail
-    };
-    s3.upload(options, (err: any, data: any) => {
-      if (err) {
-        this.setState({ fileProgress: false });
-        toast.error(err);
-        return;
-      }
-      this.setState({ urlRecord: data.Location });
-      s3.upload(thumbnailOptions, (err: any, data: any) => {
-        if (err) {
-          toast.error(err);
-          return;
-        }
-        const video = {
-          url: this.state.urlRecord,
-          userId: this.props.auth!.user!._id,
-          title: this.state.title,
-          thumbnail: data.Location
-        };
-        this.setState({ videoProgress: false });
-        this.props.saveVideo(video);
-      });
-    }).on("httpUploadProgress", progress => {
-      let uploaded: number = (progress.loaded * 100) / progress.total;
-      this.setState({ progressVideo: uploaded });
-    });
-  };
   submitEmail = () => {
     if (this.props.savedVideoId === "") {
       return toast.warn("Please save a video");

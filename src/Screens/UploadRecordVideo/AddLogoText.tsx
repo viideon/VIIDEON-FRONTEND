@@ -443,9 +443,7 @@ class AddLogoText extends React.Component<IProps, IState> {
       };
       const logoProps = {
         url: this.state.logoPath,
-        position: this.state.iconPos,
-        width: 50,
-        height: 50
+        position: this.state.iconPos
       };
       const video = {
         title: this.state.title,
@@ -454,7 +452,7 @@ class AddLogoText extends React.Component<IProps, IState> {
         thumbnail: this.state.thumbnailUrl,
         textProps: textProps,
         logoProps: logoProps,
-        recordingEdit: true
+        campaign: false
       };
       this.props.saveVideo(video);
     } catch (error) {
