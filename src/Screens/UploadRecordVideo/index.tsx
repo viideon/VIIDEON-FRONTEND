@@ -7,14 +7,7 @@ import HelpIcon from "@material-ui/icons/Help";
 import { Button, LinearProgress, Tooltip, TextField } from "@material-ui/core";
 import Loading from "../../components/Loading";
 import ChipInput from "material-ui-chip-input";
-import {
-  Input,
-  Label,
-  // Row,
-  // Col,
-  FormGroup,
-  Button as StrapButton
-} from "reactstrap";
+import { Input, Label, FormGroup, Button as StrapButton } from "reactstrap";
 import { FaCamera, FaLaptop } from "react-icons/fa";
 import Dropzone from "react-dropzone";
 import { connect } from "react-redux";
@@ -31,7 +24,6 @@ import {
   VideoSave,
   MultiEmail
 } from "../../Redux/Types/videos";
-// import styles from "../VideoTab/style";
 import { AuthState } from "../../Redux/Types/auth";
 import * as Constants from "../../constants/constants";
 import "../../../node_modules/react-tabs/style/react-tabs.css";
@@ -417,121 +409,6 @@ class UploadRecord extends Component<IProps, IState> {
             </div>
           </TabPanel>
           <TabPanel>
-            {/* {this.state.videoRecord && (
-              <div style={{ marginTop: 20, marginBottom: 20 }}>
-                <Row>
-                  <Col className="col-md-6 m-auto">
-                    <div style={{ marginLeft: "50%" }}>
-                      {loading && <Loading />}
-                      {this.props.progressEmail && <Loading />}
-                    </div>
-                    <div id="formInput">
-                      {videoSaved === null && (
-                        <div>
-                          {this.state.videoProgress && (
-                            <LinearProgress
-                              variant="determinate"
-                              value={this.state.progressVideo}
-                            />
-                          )}
-                          <FormGroup>
-                            <Label className="labelUploadSection">
-                              {Constants.TITLE}
-                            </Label>
-                            <Input
-                              type="text"
-                              name="name"
-                              id="typeInput"
-                              placeholder=""
-                              value={this.state.title}
-                              onChange={this.titleNameHandler}
-                              
-                                  title="connect your gmail account in confguration to send email's on your behalf"
-                                  placement="top"
-                                  arrow
-                                >
-                                  <HelpIcon />
-                                </Tooltip>
-                              </span>
-                            </Label>
-                            <TextField
-                              placeholder="Enter email address"
-                              fullWidth
-                              type="text"
-                              value={this.state.recieverEmail}
-                              name="recieverEmail"
-                              InputLabelProps={{
-                                shrink: true
-                              }}
-                              onChange={this.emailHandler}
-                            />
-                          </FormGroup>
-
-                          <StrapButton
-                            style={{
-                              border: "none",
-                              background: "#16B272",
-                              color: "rgb(255, 255, 255)"
-                            }}
-                            size="lg"
-                            onClick={this.submitEmail}
-                          >
-                            {Constants.SEND_THROUGH_EMAIL}
-                          </StrapButton>
-                          <FormGroup className="formGroupMultiple">
-                            <Label className="labelUploadSection">
-                              Broadcast
-                              <span>
-                                <Tooltip
-                                  title="connect your gmail account in configuration to send email's on your behalf"
-                                  placement="top"
-                                  arrow
-                                >
-                                  <HelpIcon />
-                                </Tooltip>
-                              </span>
-                            </Label>
-                            <ChipInput
-                              value={this.state.emails}
-                              placeholder="Enter email and press enter"
-                              fullWidth
-                              onAdd={chips => this.handleChipAdd(chips)}
-                              onDelete={chip => this.handleDeleteChip(chip)}
-                            />
-                          </FormGroup>
-                          <StrapButton
-                            style={{
-                              border: "none",
-                              background: "#16B272",
-                              color: "#fff"
-                            }}
-                            size="lg"
-                            onClick={this.sendMultipleEmail}
-                          >
-                            Broadcast
-                          </StrapButton>
-                          <FormGroup>
-                            <StrapButton
-                              style={{
-                                border: "none",
-                                background: "rgb(34, 185, 255)",
-                                color: "rgb(255, 255, 255)",
-                                marginTop: "30px",
-                                width: "120px"
-                              }}
-                              size="lg"
-                              onClick={this.navigateToVideos}
-                            >
-                              Done
-                            </StrapButton>
-                          </FormGroup>
-                        </div>
-                      )}
-                    </div>
-                  </Col>
-                </Row>
-              </div>
-            )} */}
             {this.state.addLogoText === false ? (
               <VideoRecorder
                 getBlob={(blob: any) => {

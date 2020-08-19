@@ -360,7 +360,6 @@ class EditingPlayer extends React.Component<IProps, IState> {
   };
   toggleMute = () => {
     this.video.muted = !this.video.muted;
-
     if (this.video.muted) {
       this.volume.setAttribute("data-volume", this.volume.value);
       this.volume.value = 0;

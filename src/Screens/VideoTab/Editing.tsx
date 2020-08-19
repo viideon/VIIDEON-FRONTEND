@@ -44,7 +44,6 @@ interface IState {
   iconPos: string;
   logoUploading: boolean;
   imagePath: any;
-  urlRecord: string;
   videoLoaded: boolean;
 }
 interface Video {
@@ -63,7 +62,7 @@ interface IProps {
   video: Video;
   isVideoUpdating: boolean;
 }
-
+const ICON_DIMENSION = 100;
 class Editing extends React.Component<IProps, IState> {
   _isMounted: any;
   video: any;
@@ -99,7 +98,6 @@ class Editing extends React.Component<IProps, IState> {
       iconPos: "top-left",
       logoUploading: false,
       imagePath: "",
-      urlRecord: "",
       videoLoaded: false
     };
     this._isMounted = false;
@@ -122,7 +120,8 @@ class Editing extends React.Component<IProps, IState> {
     this.img.crossOrigin = "Anonymous";
     this.ctx = this.canvas.getContext("2d");
     this.ctx2 = this.canvas2.getContext("2d");
-    this.video.addEventListener("loadedmetadata", this.handleLoadedMetaData);
+    // this.video.addEventListener("loadedmetadata", this.handleLoadedMetaData);
+    this.video.addEventListener("canplaythrough", this.handleLoadedMetaData);
     this.video.addEventListener(
       "play",
       () => {
@@ -150,6 +149,19 @@ class Editing extends React.Component<IProps, IState> {
         this.video.src = url;
         this.setState({ videoLoaded: true });
       });
+      const { logoProps, textProps } = video;
+      if (logoProps) {
+        this.setState({ logoPath: logoProps.url, iconPos: logoProps.position });
+      }
+      if (textProps) {
+        this.setState({
+          text: textProps.text,
+          textColor: textProps.textColor,
+          fontSize: textProps.fontSize,
+          vAlign: textProps.vAlign,
+          align: textProps.align
+        });
+      }
     }
   }
   componentWillUnmount() {
@@ -231,6 +243,14 @@ class Editing extends React.Component<IProps, IState> {
     this.canvas.height = this.video.clientHeight;
     this.canvas2.width = this.video.clientWidth;
     this.canvas2.height = this.video.clientHeight;
+
+    if (
+      this.props.video &&
+      this.props.video.logoProps &&
+      this.props.video.logoProps.position
+    ) {
+      this.initializeIconPosition(this.props.video.logoProps.position);
+    }
   };
 
   onLogoFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -351,6 +371,31 @@ class Editing extends React.Component<IProps, IState> {
         return;
     }
   };
+  initializeIconPosition = (position: string) => {
+    let x, y: any;
+    // debugger;
+    switch (position) {
+      case "top-left":
+        this.setState({ logoX: 20, logoY: 20 });
+        return;
+      case "bottom-left":
+        x = 20;
+        y = this.canvas.height - ICON_DIMENSION - 20;
+        this.setState({ logoX: x, logoY: y });
+        return;
+      case "bottom-right":
+        x = this.canvas.width - ICON_DIMENSION - 20;
+        y = this.canvas.height - ICON_DIMENSION - 20;
+        this.setState({ logoX: x, logoY: y });
+        return;
+      case "top-right":
+        x = this.canvas.width - ICON_DIMENSION - 20;
+        this.setState({ logoX: x, logoY: 20 });
+        return;
+      default:
+        return;
+    }
+  };
   setTextPosition = (position: string) => {
     switch (position) {
       case "top-left":
@@ -456,18 +501,16 @@ class Editing extends React.Component<IProps, IState> {
       url: this.state.logoPath,
       position: this.state.iconPos
     };
-    if (this.props.video) {
-      const video = {
-        id: this.props.videoId,
-        logoProps,
-        textProps
-      };
-      this.props.updateVideo(video);
-    }
+    const video = {
+      id: this.props.videoId,
+      logoProps,
+      textProps
+    };
+    this.props.updateVideo(video);
   };
   render() {
     const { video, isVideoUpdating } = this.props;
-    const { showVideo } = this.state;
+    const { showVideo, videoLoaded } = this.state;
     return (
       <div className="editingTabWrapper">
         <Container>
@@ -531,7 +574,7 @@ class Editing extends React.Component<IProps, IState> {
                   {this.state.uploading && <Loading />}
                 </div>
                 <div className="progressEditing">
-                  {isVideoUpdating && <Loading />}
+                  {isVideoUpdating && <Loading height={60} width={60} />}
                 </div>
                 <AssetPicker
                   isOpen={this.state.isOpenThumbnailPicker}
@@ -607,7 +650,12 @@ class Editing extends React.Component<IProps, IState> {
         {/* ------update logo and text---- */}
         <div className="wrapperEditLogoText">
           <h2 className="addLogoHeading">Update/Add Logo and Text to Video</h2>
-          <Grid container>
+          <Grid container style={{ position: "relative" }}>
+            {!videoLoaded && (
+              <span className="progressVideoLoaded">
+                <Loading />
+              </span>
+            )}
             <Grid
               item
               xs={12}
@@ -616,11 +664,7 @@ class Editing extends React.Component<IProps, IState> {
               lg={6}
               style={{ paddingRight: "5px" }}
             >
-              <video
-                ref="video"
-                controls={this.state.videoLoaded}
-                width="100%"
-              />
+              <video ref="video" controls={videoLoaded} width="100%" />
             </Grid>
             <Grid
               item

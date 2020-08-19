@@ -18,6 +18,7 @@ declare module "react-gmail";
 declare module "react-image-picker";
 declare module 'react-tabs';
 declare module "react-timezone-picker"
+declare module 'react-video-recorder'
 declare const PERMISSION_DENIED;
 declare function getSeekableBlob(arg1: any, arg2: any) {
 

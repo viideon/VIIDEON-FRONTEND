@@ -155,7 +155,6 @@ class Player extends React.Component<IProps, IState> {
         this.video.style.left = "-1000%";
         this.video.style.position = "absolute";
         this.video.style.top = "-1000%";
-
         this.video.src = url;
         this.video.crossOrigin = "Anonymous";
         document.body.appendChild(this.video);
