@@ -9,16 +9,8 @@
   max-height: 100%;
   max-width: 100%;
 }
-.wrapperImgLib {
-  border-radius: 4px;
-  height: 210px;
-  max-width: 100%;
-  background: #f3f7fa;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 5px;
-  position: relative;
+.wrapperAudioLib {
+  padding: 5px;
 }
 .showDeleteBtn {
   display: block;
