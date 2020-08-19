@@ -27,6 +27,7 @@ import TestRecorder from "./Screens/Watch/TestRecorder";
 import AssetsLibrary from "./Screens/AssetsLibrary";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import LandingPage from "./Screens/LandingPage";
+import MusicAssets from "./Screens/MusicAssets";
 type IProps = {
   auth: AuthState;
   updateVideoCta: (id: any) => void;
@@ -60,6 +61,7 @@ class Routes extends Component<IProps> {
               <Route exact path="/configuration" component={Configuration} />
               <Route exact path="/assetlibrary" component={AssetsLibrary} />
               <Route exact path="/privacypolicy" component={PrivacyPolicy} />
+              <Route exact path="/music" component={MusicAssets} />
               <Route exact path="/test" component={TestRecorder} />
               <Route exact path="*" render={() => <Redirect to="/" />} />
             </Switch>

@@ -4,8 +4,6 @@ import { connect } from "react-redux";
 import avatar from "../../assets/profileImages/profileImg.png";
 import { UserProfile } from "../../Redux/Types/profile";
 // import Tooltip from "@material-ui/core/Tooltip";
-import LogoutModal from "../Modals/logout";
-import { logout } from "../../Redux/Actions/auth";
 import "./style.css";
 
 type IProps = {
@@ -13,22 +11,14 @@ type IProps = {
   location: any;
   drawer: boolean;
   user: UserProfile;
-  logout: () => void;
 };
-type IState = { activeTab: string; logoutModal: boolean };
+type IState = { activeTab: string };
 class SideBar extends Component<IProps, IState> {
   constructor(props: any) {
     super(props);
-    this.state = { activeTab: "/", logoutModal: false };
+    this.state = { activeTab: "/" };
   }
 
-  logout = () => {
-    this.props.logout();
-  };
-  toggleLogoutModal = () => {
-    this.setState({ logoutModal: !this.state.logoutModal });
-  };
-  componentDidMount() {}
   handleChangeTab = (path: string) => {
     this.setState({ activeTab: path });
     this.props.history.push(path);
@@ -42,11 +32,6 @@ class SideBar extends Component<IProps, IState> {
     }
     return (
       <div className={drawer ? "MainDrawer" : "MainDrawerHide"}>
-        <LogoutModal
-          open={this.state.logoutModal}
-          toggle={this.toggleLogoutModal}
-          logout={this.logout}
-        />
         <div className="wrapperProfileSidebar">
           {user && (
             <div className="wrapperDetails">
@@ -134,13 +119,6 @@ class SideBar extends Component<IProps, IState> {
           <span className="IconNameStyling">Configuration</span>
           <i className="fas fa-angle-left" style={arrowIcon}></i>
         </div>
-        {/* <Tooltip title="Under Progress" enterDelay={0}>
-          <div className="OptionIcons" onClick={() => alert("Under Progress")}>
-            <i className="fas fa-chart-pie" style={iconStyle} />
-            <span className="IconNameStyling">My Stats</span>
-            <i className="fas fa-angle-left" style={arrowIcon}></i>
-          </div>
-        </Tooltip> */}
 
         <div
           className="OptionIcons"
@@ -157,11 +135,18 @@ class SideBar extends Component<IProps, IState> {
           <i className="fas fa-angle-left" style={arrowIcon}></i>
         </div>
 
-        {/* <div className="OptionIcons" onClick={this.toggleLogoutModal}>
-          <i className="fa fa-user-circle-o" style={iconStyle} />
-          <span className="IconNameStyling">Logout</span>
+        <div
+          className="OptionIcons"
+          onClick={() => this.handleChangeTab("/music")}
+          style={{
+            backgroundColor:
+              activeSideBar === "/music" ? "rgb(34, 185, 255) " : undefined
+          }}
+        >
+          <i className="far fa-play-circle" style={iconStyle} />
+          <span className="IconNameStyling">Music</span>
           <i className="fas fa-angle-left" style={arrowIcon}></i>
-        </div> */}
+        </div>
       </div>
     );
   }
@@ -182,9 +167,5 @@ const mapStateToProps = (state: any) => {
     drawer: state.drawer.drawer
   };
 };
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    logout: () => dispatch(logout())
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(SideBar);
+
+export default connect(mapStateToProps)(SideBar);

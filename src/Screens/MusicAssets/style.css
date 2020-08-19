@@ -1,0 +1,38 @@
+.wrapperAssets {
+  padding: 20px 20px 20px 0px;
+}
+.assetHeading {
+  padding: 15px 0px 0px 30px;
+}
+.imgAssetLib {
+  object-fit: contain;
+  max-height: 100%;
+  max-width: 100%;
+}
+.wrapperImgLib {
+  border-radius: 4px;
+  height: 210px;
+  max-width: 100%;
+  background: #f3f7fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+  position: relative;
+}
+.showDeleteBtn {
+  display: block;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background: none;
+}
+.showDeleteBtn:focus {
+  outline: none;
+}
+.hideDeleteBtn {
+  display: none;
+}
