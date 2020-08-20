@@ -247,7 +247,6 @@ class EditingPlayer extends React.Component<IProps, IState> {
   };
 
   onAnimationFrame() {
-    // const { mobile } = this.state;
     const render = () => {
       const { textProps, logoProps } = this.props;
       const { width, height } = this.state;

@@ -3147,10 +3147,10 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001035, can
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001050.tgz#11218af4b6b85dc1089536f31e10e3181e849e71"
   integrity sha512-OvGZqalCwmapci76ISq5q4kuAskb1ebqF3FEQBv1LE1kWht0pojlDDqzFlmk5jgYkuZN7MNZ1n+ULwe/7MaDNQ==
 
-canvas-txt@^2.0.9:
-  version "2.0.9"
-  resolved "https://registry.yarnpkg.com/canvas-txt/-/canvas-txt-2.0.9.tgz#ac217cea1a89d060bd5df72755fdff24d7d43249"
-  integrity sha512-CIFOmfKVux11IT+fQEwWQe/oInMytocYe+FVhCtjybcBh7DzuBaXChxAlizveS7LesE4a/9Z8oRv4OFZFm0Vkg==
+canvas-txt@^2.0.10:
+  version "2.0.10"
+  resolved "https://registry.yarnpkg.com/canvas-txt/-/canvas-txt-2.0.10.tgz#a7bf9489d2cec8728668ea883836a7a0a126618c"
+  integrity sha512-Hst6J5gjB/u19vNIPpmJdSjsac6c/NUlW2xIl07mihcsOfU5ff5AMjmqKZrqt9drW5qIBxQwtxHNTuqTxZD8Jg==
 
 capture-exit@^2.0.0:
   version "2.0.0"

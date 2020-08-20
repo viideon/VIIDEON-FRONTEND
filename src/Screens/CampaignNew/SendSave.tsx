@@ -211,9 +211,12 @@ class SendSave extends React.Component<IProps> {
     return (
       <Grid container>
         <Grid item xs={1} sm={1} md={3} lg={3}></Grid>
-        <Grid item xs={10} sm={10} md={6} lg={6}>
+        <Grid item xs={10} sm={10} md={6} lg={6} id="wrapperSend">
           <h3 className="recordHeading">Save and Email Campaign</h3>
-          <div style={{ width: "100%", height: "400px" }} ref="container">
+          <div ref="container" style={{
+            width: "100%",
+            height: document.getElementById('wrapperSend') ? `${document.getElementById('wrapperSend')!.clientWidth * 0.5625}px` : `100px`
+          }}>
             {this.props.previewVideo && this.props.thumbnailBlob && (
               <CanvasPlayer
                 autoPlay={false}

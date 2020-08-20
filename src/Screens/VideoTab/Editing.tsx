@@ -277,9 +277,13 @@ class Editing extends React.Component<IProps, IState> {
     context2.drawImage(video, 0, 0, width, height);
     context2.fillStyle = this.state.textColor;
     canvasTxt.fontSize = this.state.fontSize;
+    canvasTxt.font = "Arial";
     canvasTxt.vAlign = this.state.vAlign;
     canvasTxt.align = this.state.align;
-    canvasTxt.lineHeight = 20;
+    canvasTxt.justify = false;
+    canvasTxt.lineHeight = null;
+    // canvasTxt.debug = true;
+    // context2.font = `${this.state.fontSize}px Arial`;
     canvasTxt.drawText(
       context2,
       this.state.text,
@@ -292,7 +296,7 @@ class Editing extends React.Component<IProps, IState> {
     let idata = context2.getImageData(0, 0, width, height);
     let that = this;
     context.putImageData(idata, 0, 0);
-    setTimeout(function() {
+    setTimeout(function () {
       that.draw(video, img, context, context2, width, height);
     }, 0);
   };
@@ -310,6 +314,8 @@ class Editing extends React.Component<IProps, IState> {
     canvasTxt.align = this.state.align;
     canvasTxt.lineHeight = 20;
     canvasTxt.fontSize = this.state.fontSize;
+    // context2.font = `${this.state.fontSize}px Arial`;
+    // context2.font = context2.font.replace(/\d+px/, `${this.state.fontSize}px`);
     // canvasTxt.debug = true;
     canvasTxt.drawText(
       context2,
@@ -512,17 +518,17 @@ class Editing extends React.Component<IProps, IState> {
     const { video, isVideoUpdating } = this.props;
     const { showVideo, videoLoaded } = this.state;
     return (
-      <div className="editingTabWrapper">
+      <div className="editingTabWrapper" >
         <Container>
           <Row>
             <Col xs="1" md="2"></Col>
-            <Col xs="10" md="8">
+            <Col xs="10" md="8" id="wrapper_main">
               <div
                 ref="container"
                 style={{
-                  height: "400px",
+                  visibility: showVideo ? "visible" : "hidden",
                   width: "100%",
-                  visibility: showVideo ? "visible" : "hidden"
+                  height: document.getElementById('wrapper_main') ? `${document.getElementById('wrapper_main')!.clientWidth * 0.5625}px` : `300px`
                 }}
               >
                 {video && (
@@ -649,7 +655,7 @@ class Editing extends React.Component<IProps, IState> {
         </Container>
         {/* ------update logo and text---- */}
         <div className="wrapperEditLogoText">
-          <h2 className="addLogoHeading">Update/Add Logo and Text to Video</h2>
+          <h2 className="addLogoHeading">Edit Logo and Text</h2>
           <Grid container style={{ position: "relative" }}>
             {!videoLoaded && (
               <span className="progressVideoLoaded">
@@ -674,7 +680,7 @@ class Editing extends React.Component<IProps, IState> {
               lg={6}
               style={{ paddingLeft: "5px" }}
             >
-              <canvas ref="canvas" />
+              <canvas ref="canvas" style={{ transform: 'rotate(-270px)' }} />
             </Grid>
           </Grid>
           <canvas ref="dummyCanvas" style={{ display: "none" }} />

@@ -102,7 +102,6 @@ class AddLogoText extends React.Component<IProps, IState> {
       emails: [],
       recieverEmail: ""
     };
-    this.draw = this.draw.bind(this);
   }
   componentDidMount() {
     this.props.toggleSendVariable();
@@ -159,14 +158,14 @@ class AddLogoText extends React.Component<IProps, IState> {
     }
   };
 
-  draw(
+  draw = (
     video: any,
     img: any,
     context: any,
     context2: any,
     width: any,
     height: any
-  ): any {
+  ) => {
     if (video.paused || video.ended) return false;
     context2.drawImage(video, 0, 0, width, height);
     context2.fillStyle = this.state.textColor;
@@ -189,7 +188,7 @@ class AddLogoText extends React.Component<IProps, IState> {
     setTimeout(function() {
       that.draw(video, img, context, context2, width, height);
     }, 0);
-  }
+  };
   updateDrawCanvas = (
     video: any,
     img: any,

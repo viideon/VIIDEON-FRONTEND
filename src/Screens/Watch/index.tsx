@@ -38,7 +38,7 @@ class Watch extends React.Component<IProps> {
         <div className="containerWatch">
           <Grid container>
             <Grid item md={3} sm={2} xs={1}></Grid>
-            <Grid item md={6} sm={8} xs={10}>
+            <Grid item md={6} sm={8} xs={10} id="wrapperWatch">
               {loadingVideo && (
                 <div style={{ marginLeft: "45%", marginTop: "20%" }}>
                   <Loading />
@@ -49,7 +49,7 @@ class Watch extends React.Component<IProps> {
                 ref="container"
                 style={{
                   width: "100%",
-                  height: "350px"
+                  height: document.getElementById('wrapperWatch') ? `${document.getElementById('wrapperWatch')!.clientWidth * 0.5625}px` : `100px`
                 }}
               >
                 {video && (

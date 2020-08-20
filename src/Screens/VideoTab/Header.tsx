@@ -58,7 +58,7 @@ class VideoTabHeader extends React.Component<IProps> {
         <Row>
           <Col xs="12" sm="12" md="8" lg="8" xl="8">
             <Row>
-              <Col xs="12" sm="12" md="6">
+              <Col xs="12" sm="12" md="6" id="wrapperHeader">
                 {!video && (
                   <div
                     style={{
@@ -71,7 +71,10 @@ class VideoTabHeader extends React.Component<IProps> {
                   </div>
                 )}
 
-                <div ref="container" style={{ height: "220px", width: "100%" }}>
+                <div ref="container" style={{
+                  width: "100%",
+                  height: document.getElementById('wrapperHeader') ? `${document.getElementById('wrapperHeader')!.clientWidth * 0.5625}px` : `100px`
+                }}>
                   {video && (
                     <CanvasPlayer
                       muted={false}
