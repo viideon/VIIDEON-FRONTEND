@@ -8,6 +8,9 @@ export const selectVideos = (state: any) => {
 export const selectAssets = (state: any) => {
     return state.asset.assets;
 }
+export const selectMusicAssets = (state: any) => {
+    return state.asset.musicAssets;
+}
 export const getVideoById = (state: any, id: string) => {
     if (id) {
         return state.video.videos.find((video: any) => video._id === id);

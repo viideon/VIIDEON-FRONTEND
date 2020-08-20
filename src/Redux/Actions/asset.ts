@@ -17,3 +17,20 @@ export function deleteAsset(assetId: any) {
         payload: assetId
     }
 }
+export function addMusicAsset(asset: any) {
+    return {
+        type: types.ADD_MUSIC,
+        payload: asset,
+    }
+}
+export function getMusicAsset() {
+    return {
+        type: types.GET_MUSIC
+    }
+}
+export function deleteMusicAsset(assetId: any) {
+    return {
+        type: types.DELETE_MUSIC,
+        payload: assetId
+    }
+}

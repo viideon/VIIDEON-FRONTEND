@@ -11,3 +11,15 @@ export async function deleteAssetApi(queryObj: any) {
     const { userId, assetId } = queryObj;
     return API.delete("/asset/remove", { params: { userId, assetId } });
 }
+
+export async function addMusicApi(queryObj: any) {
+    const { asset, userId } = queryObj;
+    return API.post("/asset/add/music", { userId, asset });
+}
+export async function getMusicApi(userId: any) {
+    return API.get("/asset/get/music", { params: { userId } })
+}
+export async function deleteMusicApi(queryObj: any) {
+    const { userId, assetId } = queryObj;
+    return API.delete("/asset/remove/music", { params: { userId, assetId } });
+}
