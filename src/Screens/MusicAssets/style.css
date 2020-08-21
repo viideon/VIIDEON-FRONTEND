@@ -10,7 +10,10 @@
   max-width: 100%;
 }
 .wrapperAudioLib {
-  padding: 5px;
+  padding: 10px;
+}
+.wrapperAudioLib h5 {
+  padding-left: 10px;
 }
 .showDeleteBtn {
   display: block;

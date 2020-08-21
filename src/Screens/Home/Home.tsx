@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { getEmailConfigurations } from "../../Redux/Actions/email";
-import { getAssets } from "../../Redux/Actions/asset";
+import { getAssets, getMusicAsset } from "../../Redux/Actions/asset";
 import { logout } from "../../Redux/Actions/auth";
 import SideBar from "../../components/SideBar/SideBar";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -15,6 +15,7 @@ type IProps = {
   logout: () => void;
   location?: any;
   getAssets: () => void;
+  getMusicAsset: () => void;
 };
 
 class Home extends Component<IProps> {
@@ -84,7 +85,8 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     getEmailConfigurations: () => dispatch(getEmailConfigurations()),
     logout: () => dispatch(logout()),
-    getAssets: () => dispatch(getAssets())
+    getAssets: () => dispatch(getAssets()),
+    getMusicAsset: () => dispatch(getMusicAsset())
   };
 };
 

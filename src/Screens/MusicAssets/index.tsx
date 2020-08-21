@@ -1,16 +1,16 @@
 import React from "react";
 import Home from "../Home/Home";
-// import { connect } from "react-redux";
+import { connect } from "react-redux";
 // import { RiDeleteBack2Line } from "react-icons/ri";
 // import DeleteDialog from "../../components/Reusable/DeleteDialogGeneric";
 // import { deleteAsset } from "../../Redux/Actions/asset";
-import { Grid, Tooltip } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import "./style.css";
 
 interface IProps {
-  assets: [any];
-  deleteAsset: (assetId: any) => void;
-  isDeletingAsset: boolean;
+  musicAssets: [any];
+  // deleteAsset: (assetId: any) => void;
+  // isDeletingAsset: boolean;
 }
 
 class MusicAssets extends React.Component<IProps> {
@@ -21,13 +21,15 @@ class MusicAssets extends React.Component<IProps> {
     ]
   };
   render() {
+    const { musicAssets } = this.props;
+    console.log("music assets", musicAssets);
     return (
       <Home>
         <h3 className="assetHeading">Music Assets</h3>
-        <Grid container style={{ padding: "5px 20px 20px 20px" }}>
-          {this.state.dummyMusic.map((audioUrl: string, index: number) => (
-            <Grid item xs={12} sm={12} md={12} lg={12} key={index}>
-              <MusicAsset audioUrl={audioUrl} />
+        <Grid container style={{ padding: "20px" }}>
+          {musicAssets.map((asset: any) => (
+            <Grid item xs={12} sm={6} md={4} lg={4} key={asset._id}>
+              <MusicAsset asset={asset} />
             </Grid>
           ))}
         </Grid>
@@ -35,20 +37,19 @@ class MusicAssets extends React.Component<IProps> {
     );
   }
 }
-// const mapStateToProps = (state: any) => {
-//   return {
-//     assets: state.asset.assets,
-//     isDeletingAsset: state.asset.isDeletingAsset
-//   };
-// };
+const mapStateToProps = (state: any) => {
+  return {
+    musicAssets: state.asset.musicAssets,
+  };
+};
 // const mapDispatchToProps = (dispatch: any) => {
 //   return {
 //     deleteAsset: (assetId: any) => dispatch(deleteAsset(assetId))
 //   };
 // };
-export default MusicAssets;
+export default connect(mapStateToProps)(MusicAssets);
 
-const MusicAsset = ({ audioUrl }: any) => {
+const MusicAsset = ({ asset }: any) => {
   // const [open, setOpen] = React.useState(false);
   // const [showDeleteBtn, setDeleteBtn] = React.useState(false);
 
@@ -70,7 +71,8 @@ const MusicAsset = ({ audioUrl }: any) => {
   // };
   return (
     <div className="wrapperAudioLib">
-      <audio src={audioUrl} controls />
+      <h5>{asset.title}</h5>
+      <audio src={asset.url} controls />
     </div>
   );
 };

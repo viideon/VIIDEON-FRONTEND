@@ -1,10 +1,3 @@
-.wrapperAssetPicker {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 5px;
-}
 .imgAssetPicker {
   height: 180px;
   object-fit: contain;
@@ -15,9 +8,13 @@
   opacity: 1;
   margin: 0;
 }
-.selected {
-  border: 1px solid rgb(34, 185, 255);
-  border-radius: 4px;
+.selectedMusicHeading {
+  color: rgb(34, 185, 255);
+  font-size: bold;
+  padding-left: 10px;
+}
+.musicHeading {
+  padding-left: 10px;
 }
 .imgAssetPicker:hover {
   box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.7);

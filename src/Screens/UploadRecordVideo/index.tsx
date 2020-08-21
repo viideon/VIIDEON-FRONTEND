@@ -132,7 +132,7 @@ class UploadRecord extends Component<IProps, IState> {
       this.setState({ emails: [] });
     }
   };
-  fileHandler = () => {
+  uploadFileHandler = () => {
     if (this.state.title === "") {
       toast.warn("Enter a video title");
       return;
@@ -302,7 +302,7 @@ class UploadRecord extends Component<IProps, IState> {
                                       this.state.videoProgress || loading
                                     }
                                     size="lg"
-                                    onClick={this.fileHandler}
+                                    onClick={this.uploadFileHandler}
                                   >
                                     Save Video
                                   </StrapButton>
@@ -419,8 +419,8 @@ class UploadRecord extends Component<IProps, IState> {
                 }}
               />
             ) : (
-              <AddLogoText videoToEdit={this.state.videoRecord} />
-            )}
+                <AddLogoText videoToEdit={this.state.videoRecord} />
+              )}
           </TabPanel>
         </Tabs>
 

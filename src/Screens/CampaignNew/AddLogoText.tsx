@@ -1,6 +1,7 @@
 import React from "react";
 import AWS from "aws-sdk";
 import AssetPicker from "../../components/AssetPicker";
+// import MusicAssetPicker from "../../components/MusicAssetPicker";
 import { LinearProgress } from "@material-ui/core";
 import { connect } from "react-redux";
 import { addAsset } from "../../Redux/Actions/asset";
@@ -147,7 +148,7 @@ class AddLogo extends React.Component<IProps, IState> {
     let idata = context2.getImageData(0, 0, width, height);
     let that = this;
     context.putImageData(idata, 0, 0);
-    setTimeout(function() {
+    setTimeout(function () {
       that.draw(video, img, context, context2, width, height);
     }, 0);
   }
@@ -164,7 +165,6 @@ class AddLogo extends React.Component<IProps, IState> {
     canvasTxt.fontSize = this.state.fontSize;
     canvasTxt.vAlign = this.state.vAlign;
     canvasTxt.align = this.state.align;
-    console.log("state", this.state);
     canvasTxt.lineHeight = 20;
     canvasTxt.drawText(
       context2,
@@ -396,7 +396,7 @@ class AddLogo extends React.Component<IProps, IState> {
                   <h3 className="addLogoMessage">
                     Add Logo
                     <Tooltip
-                      title="upload a logo and play the video to see it"
+                      title="upload a logo"
                       placement="top"
                     >
                       <span style={iconStyle}>
@@ -463,6 +463,39 @@ class AddLogo extends React.Component<IProps, IState> {
                     onClick={() => this.setIconPosition("bottom-right")}
                   >
                     Bottom Right
+                  </Button>
+
+                  <h3 className="addLogoMessage">
+                    Add Music
+                    <Tooltip
+                      title="upload audio music"
+                      placement="top"
+                    >
+                      <span style={iconStyle}>
+                        <i className="fas fa-info"></i>
+                      </span>
+                    </Tooltip>
+                  </h3>
+                  <Button
+                    onClick={this.triggerFileUploadBtn}
+                    style={{
+                      color: "#fff",
+                      width: "135px",
+                      backgroundColor: "#ff4301"
+                    }}
+                  >
+                    Upload
+                  </Button>
+
+                  <Button
+                    onClick={this.toggleAssetPicker}
+                    style={{
+                      color: "#fff",
+                      marginLeft: "3px",
+                      backgroundColor: "rgb(34, 185, 255)"
+                    }}
+                  >
+                    Select from Assets
                   </Button>
                 </div>
               </Grid>

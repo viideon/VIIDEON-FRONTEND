@@ -2,17 +2,16 @@ import React from "react";
 import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
-import { getAssets } from "../../Redux/Actions/asset";
-import { getLogoAssets, getThumbnailAssets } from "../../Redux/Selectors";
+import { Grid } from "@material-ui/core";
+import { getMusicAsset } from "../../Redux/Actions/asset";
 import "./style.css";
 
 interface IProps {
-    getAssets: () => void;
+    getMusicAsset: () => void;
     isOpen: boolean;
     toggle: () => void;
-    assets: [any];
+    musicAssets: [any];
     onPick: (image: any) => void;
-    logoAssets: boolean;
 }
 
 class AssetPicker extends React.Component<IProps> {
@@ -21,12 +20,12 @@ class AssetPicker extends React.Component<IProps> {
         currenSelection: null
     };
     componentDidMount() {
-        this.props.getAssets();
+        this.props.getMusicAsset();
     }
     componentDidUpdate(prevProps: any) {
         if (this.props.isOpen !== prevProps.isOpen && this.props.isOpen) {
             this.setState({ assetUrl: "", currenSelection: null });
-            this.props.getAssets();
+            this.props.getMusicAsset();
         }
     }
     onPick = () => {
@@ -48,7 +47,8 @@ class AssetPicker extends React.Component<IProps> {
         );
     };
     render() {
-        const { assets, logoAssets } = this.props;
+        const { musicAssets } = this.props;
+        console.log("state", this.state);
         return (
             <Modal
                 isOpen={this.props.isOpen}
@@ -56,43 +56,22 @@ class AssetPicker extends React.Component<IProps> {
                 wrapClassName="wrapperModalAsset"
             >
                 <ModalHeader>
-                    Select {this.props.logoAssets ? "Logo" : "Thumbnail"}
+                    Select Music Asset
                 </ModalHeader>
                 <ModalBody>
-                    <div className="wrapperAssetPicker">
-                        {assets &&
-                            assets.map((asset: any, i) => (
-                                <div
-                                    className={`wrapperImgPicker ${
-                                        i === this.state.currenSelection ? "selected" : ""
-                                        }`}
-                                    onClick={() => this.selectAsset(asset.url, i)}
-                                    key={i}
-                                >
-                                    {logoAssets ? (
-                                        <img
-                                            alt="asset"
-                                            crossOrigin="anonymous"
-                                            src={asset.url}
-                                            className="imgAssetPicker"
-                                        />
-                                    ) : (
-                                            <img
-                                                alt="asset"
-                                                src={asset.url}
-                                                className="imgAssetPicker"
-                                            />
-                                        )}
-                                </div>
+                    <Grid container>
+                        {musicAssets &&
+                            musicAssets.map((asset: any, i) => (
+                                <Grid item md={4} lg={4} sm={6} key={i}>
+                                    <div
+                                        onClick={() => this.selectAsset(asset.url, i)}
+                                    >
+                                        <h5 className={i === this.state.currenSelection ? "selectedMusicHeading" : "musicHeading"}>{asset.title}</h5>
+                                        <audio src={asset.url} controls />
+                                    </div>
+                                </Grid>
                             ))}
-                        {assets && assets.length < 1 && (
-                            <div className="emptyAssets">
-                                <h2>
-                                    No {this.props.logoAssets ? "Logo" : "Thumbnail"} Present
-                </h2>
-                            </div>
-                        )}
-                    </div>
+                    </Grid>
                 </ModalBody>
                 <ModalFooter>
                     <Button
@@ -116,20 +95,14 @@ class AssetPicker extends React.Component<IProps> {
         );
     }
 }
-const mapStateToProps = (state: any, ownProps: any) => {
-    let assets = [];
-    if (ownProps.logoAssets) {
-        assets = getLogoAssets(state);
-    } else {
-        assets = getThumbnailAssets(state);
-    }
+const mapStateToProps = (state: any) => {
     return {
-        assets: assets
+        musicAssets: state.asset.musicAssets
     };
 };
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        getAssets: () => dispatch(getAssets())
+        getMusicAsset: () => dispatch(getMusicAsset())
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AssetPicker);

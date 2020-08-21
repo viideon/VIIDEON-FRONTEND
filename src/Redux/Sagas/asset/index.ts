@@ -129,7 +129,7 @@ function* deleteMusicAsset(action: any) {
     try {
         const result = yield deleteMusicApi(queryObj);
         if (result.status === 200) {
-            const assets = yield select(selectAssets);
+            const assets = yield select(selectMusicAssets);
             const updatedAssets = assets.filter(
                 (asset: any) => asset._id !== assetId
             );

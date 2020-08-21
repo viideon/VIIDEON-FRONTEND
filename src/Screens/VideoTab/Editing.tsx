@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import canvasTxt from "canvas-txt";
 import { CompactPicker } from "react-color";
 import AssetPicker from "../../components/AssetPicker";
+import MusicAssetPicker from "../../components/MusicAssetPicker";
 import {
   Tooltip,
   TextField,
@@ -17,7 +18,7 @@ import {
 import Loading from "../../components/Loading";
 import HelpIcon from "@material-ui/icons/Help";
 import { connect } from "react-redux";
-import { addAsset } from "../../Redux/Actions/asset";
+import { addAsset, addMusicAsset } from "../../Redux/Actions/asset";
 import { updateVideo } from "../../Redux/Actions/videos";
 import CanvasPlayer from "../../components/CanvasPlayer/EditingCanvas";
 import { config } from "../../config/aws";
@@ -31,6 +32,7 @@ interface IState {
   showVideo: boolean;
   isOpenThumbnailPicker: boolean;
   isOpenLogoPicker: boolean;
+  isOpenMusicPicker: boolean;
   newVideoTitle: string;
   logoPath: any;
   logoX: number | string;
@@ -42,9 +44,13 @@ interface IState {
   vAlign: string;
   align: string;
   iconPos: string;
-  logoUploading: boolean;
+  assetUploading: boolean;
   imagePath: any;
   videoLoaded: boolean;
+  musicTitle: string;
+  backgroundMusicUrl: string;
+  musicFileSelected: boolean;
+  musicFile: any;
 }
 interface Video {
   url: string;
@@ -58,6 +64,7 @@ interface Video {
 interface IProps {
   updateVideo: (video: any) => void;
   addAsset: (asset: any) => void;
+  addMusicAsset: (asset: any) => void;
   videoId?: string | null;
   video: Video;
   isVideoUpdating: boolean;
@@ -66,8 +73,10 @@ const ICON_DIMENSION = 100;
 class Editing extends React.Component<IProps, IState> {
   _isMounted: any;
   video: any;
+  backgroundMusic: any;
   thumbnailRef: any;
   logoRef: any;
+  musicRef: any;
   img: any;
   canvas: any;
   canvas2: any;
@@ -85,6 +94,7 @@ class Editing extends React.Component<IProps, IState> {
       showVideo: true,
       isOpenThumbnailPicker: false,
       isOpenLogoPicker: false,
+      isOpenMusicPicker: false,
       newVideoTitle: "",
       logoPath: null,
       logoX: 10,
@@ -96,9 +106,13 @@ class Editing extends React.Component<IProps, IState> {
       vAlign: "top",
       align: "left",
       iconPos: "top-left",
-      logoUploading: false,
+      assetUploading: false,
       imagePath: "",
-      videoLoaded: false
+      videoLoaded: false,
+      musicTitle: "",
+      backgroundMusicUrl: "",
+      musicFileSelected: false,
+      musicFile: null
     };
     this._isMounted = false;
   }
@@ -113,6 +127,7 @@ class Editing extends React.Component<IProps, IState> {
   }
   setUpCanvasEditing = () => {
     this.video = this.refs.video;
+    this.backgroundMusic = this.refs.backgroundMusic;
     this.canvas = this.refs.canvas;
     this.canvas2 = this.refs.dummyCanvas;
     this.img = this.refs.image;
@@ -173,6 +188,12 @@ class Editing extends React.Component<IProps, IState> {
   triggerThumbnailUploadBtn = () => {
     this.thumbnailRef.click();
   };
+  setMusicInputRef = (ref: any) => {
+    this.musicRef = ref;
+  }
+  triggerMusicUploadBtn = () => {
+    this.musicRef.click();
+  }
   setLogoInputRef = (ref: any) => {
     this.logoRef = ref;
   };
@@ -185,6 +206,9 @@ class Editing extends React.Component<IProps, IState> {
   toggleLogoAssetPicker = () => {
     this.setState({ isOpenLogoPicker: !this.state.isOpenLogoPicker });
   };
+  toggleMusicAssetPicker = () => {
+    this.setState({ isOpenMusicPicker: !this.state.isOpenMusicPicker });
+  }
   onThumbnailFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0] !== null) {
       let file = e.target.files![0];
@@ -205,6 +229,44 @@ class Editing extends React.Component<IProps, IState> {
       toast.error("No file selected");
     }
   };
+  onMusicInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const audioTypes = /(\.|\/)(mp3|ogg|wav)$/i;
+    let musicFile = e.target.files![0];
+    if (!audioTypes.test(musicFile.name)) {
+      toast.error("Please upload a valid audio file");
+      return;
+    }
+    if (musicFile !== null) {
+      toast.info("Add a title and  click upload to save this asset");
+      this.setState({ musicFileSelected: true, musicFile: musicFile });
+    } else {
+      toast.error("Failed to select a file try again");
+    }
+  }
+  uploadAndSaveMusicAsset = () => {
+    if (this.state.musicTitle === "") {
+      toast.error("Please add a title for music asset");
+    } else {
+      toast.info("Uploading music please wait");
+      this.setState({ assetUploading: true });
+      const musicOptions = {
+        Bucket: config.bucketName,
+        ACL: config.ACL,
+        Key: Date.now().toString() + this.state.musicFile.name,
+        Body: this.state.musicFile
+      };
+      this.s3.upload(musicOptions, (err: any, data: any) => {
+        if (err) {
+          toast.error(err);
+          this.setState({ assetUploading: false });
+          return;
+        }
+        toast.info("Asset Uploaded");
+        this.setState({ backgroundMusicUrl: data.Location, musicFile: null, musicFileSelected: false, assetUploading: false });
+        this.props.addMusicAsset({ url: data.Location, title: this.state.musicTitle });
+      });
+    }
+  }
   onThumbnailAssetPick = (path: any) => {
     this.setState({ url: path }, () => {
       toast.info("Saving your changes");
@@ -282,8 +344,6 @@ class Editing extends React.Component<IProps, IState> {
     canvasTxt.align = this.state.align;
     canvasTxt.justify = false;
     canvasTxt.lineHeight = null;
-    // canvasTxt.debug = true;
-    // context2.font = `${this.state.fontSize}px Arial`;
     canvasTxt.drawText(
       context2,
       this.state.text,
@@ -314,9 +374,6 @@ class Editing extends React.Component<IProps, IState> {
     canvasTxt.align = this.state.align;
     canvasTxt.lineHeight = 20;
     canvasTxt.fontSize = this.state.fontSize;
-    // context2.font = `${this.state.fontSize}px Arial`;
-    // context2.font = context2.font.replace(/\d+px/, `${this.state.fontSize}px`);
-    // canvasTxt.debug = true;
     canvasTxt.drawText(
       context2,
       this.state.text,
@@ -348,6 +405,9 @@ class Editing extends React.Component<IProps, IState> {
   changeFontSize = (e: any) => {
     this.setState({ fontSize: e.target.value }, () => this.updateCanvas());
   };
+  onChangeMusicTitle = (e: any) => {
+    this.setState({ musicTitle: e.target.value });
+  }
   setIconPosition = (position: string) => {
     if (this.state.logoPath === null) {
       toast.info("Please upload a logo");
@@ -439,7 +499,7 @@ class Editing extends React.Component<IProps, IState> {
     }
   };
   compress(file: any) {
-    this.setState({ logoUploading: true });
+    this.setState({ assetUploading: true });
     const width = 100;
     const height = 100;
     const reader = new FileReader();
@@ -457,7 +517,7 @@ class Editing extends React.Component<IProps, IState> {
           async (blob: any) => {
             // this.setState({ img: URL.createObjectURL(blob) });
             await this.saveLogo(blob);
-            this.setState({ logoUploading: false });
+            this.setState({ assetUploading: false });
             toast.info("Logo uploaded");
           },
           `${file.type}`,
@@ -477,7 +537,7 @@ class Editing extends React.Component<IProps, IState> {
       this.s3.upload(logoOptions, (err: any, data: any) => {
         if (err) {
           toast.error(err);
-          this.setState({ logoUploading: false });
+          this.setState({ assetUploading: false });
           reject();
           return;
         }
@@ -691,6 +751,7 @@ class Editing extends React.Component<IProps, IState> {
             style={{ display: "none" }}
             ref="image"
           />
+          <audio src={this.state.backgroundMusicUrl} style={{ display: "none" }} ref="backgroundMusic" />
           <Grid container>
             <Grid item xs={12} sm={12} md={6} lg={6}>
               <div className="addLogoDiv">
@@ -718,7 +779,7 @@ class Editing extends React.Component<IProps, IState> {
                   ref={this.setLogoInputRef}
                   accept="image/x-png,image/gif,image/jpeg"
                 />
-                {this.state.logoUploading && <LinearProgress />}
+                {this.state.assetUploading && <LinearProgress />}
                 <Button
                   onClick={this.triggerLogoUploadBtn}
                   style={{
@@ -765,6 +826,62 @@ class Editing extends React.Component<IProps, IState> {
                 >
                   Bottom Right
                 </Button>
+                <h3 className="addLogoMessage">
+                  Add Music
+                    <Tooltip
+                    title="upload audio music"
+                    placement="top"
+                  >
+                    <span style={iconStyle}>
+                      <i className="fas fa-info"></i>
+                    </span>
+                  </Tooltip>
+                </h3>
+                <MusicAssetPicker
+                  isOpen={this.state.isOpenMusicPicker}
+                  toggle={this.toggleMusicAssetPicker}
+                  onPick={this.onLogoAssetPick}
+                />
+                <input
+                  id="uploadInput"
+                  type="file"
+                  onChange={this.onMusicInputChange}
+                  ref={this.setMusicInputRef}
+                  accept="audio/*"
+                />
+                {this.state.musicFileSelected && <Button
+                  onClick={this.uploadAndSaveMusicAsset}
+                  style={{
+                    color: "#fff",
+                    width: "135px",
+                    backgroundColor: "#ff4301"
+                  }}
+                >
+                  Upload
+                  </Button>}
+                {!this.state.musicFileSelected && <Button
+                  onClick={this.triggerMusicUploadBtn}
+                  style={{
+                    color: "#fff",
+                    backgroundColor: "#ff4301"
+                  }}
+                >
+                  Select to Upload
+                  </Button>}
+
+
+                <Button
+                  onClick={this.toggleMusicAssetPicker}
+                  style={{
+                    color: "#fff",
+                    marginLeft: "3px",
+                    backgroundColor: "rgb(34, 185, 255)"
+                  }}
+                >
+                  Select from Assets
+                  </Button>
+
+                {this.state.musicFileSelected && <Input type="text" placeholder='Music Title' value={this.state.musicTitle} onChange={this.onChangeMusicTitle} style={{ marginTop: "10px" }} />}
               </div>
             </Grid>
             <Grid item xs={12} sm={12} md={6} lg={6}>
@@ -892,7 +1009,8 @@ const mapStateToProps = (state: any, ownProps: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     updateVideo: (video: any) => dispatch(updateVideo(video)),
-    addAsset: (asset: any) => dispatch(addAsset(asset))
+    addAsset: (asset: any) => dispatch(addAsset(asset)),
+    addMusicAsset: (asset: any) => dispatch(addMusicAsset(asset))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Editing);
