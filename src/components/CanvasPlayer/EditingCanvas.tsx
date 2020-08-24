@@ -1,6 +1,5 @@
 import React from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import axios from "axios";
 import canvasTxt from "canvas-txt";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import PauseIcon from "@material-ui/icons/Pause";
@@ -10,7 +9,7 @@ import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 import VolumeOffIcon from "@material-ui/icons/VolumeOff";
 // import VolumeMuteIcon from "@material-ui/icons/VolumeMute";
 import VolumeDownIcon from "@material-ui/icons/VolumeDown";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import "./style.css";
 
 interface IProps {
@@ -112,6 +111,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
   }
   async componentDidMount() {
     this.edContainer = this.refs.edContainer;
+    this.setCanvasDimensions();
     this.video = document.createElement("video");
     this.backgroundMusic = this.refs.backgroundMusic;
     this.edCanvas = this.refs.edCanvas;
@@ -125,15 +125,15 @@ class EditingPlayer extends React.Component<IProps, IState> {
     this.progressBar = this.refs.progressBar;
     this.logo = this.refs.logo;
     this.logo.crossOrigin = "Anonymous";
-    //setting height /width and hiding video element
+    //setting video properties
+    this.video.height = this.state.height;
+    this.video.width = this.state.width;
+    this.video.style.left = "-1000%";
+    this.video.style.top = "-1000%";
+    this.video.style.position = "absolute";
+    this.video.crossOrigin = "Anonymous";
     if (this.props.local && this.props.local === true) {
-      this.video.height = this.state.height;
-      this.video.style.left = "-1000%";
-      this.video.style.position = "absolute";
-      this.video.style.top = "-1000%";
-      this.video.width = this.state.width;
       this.video.src = this.props.src;
-      this.video.crossOrigin = "Anonymous";
       document.body.appendChild(this.video);
       this.canvasContext = this.edCanvas.getContext("2d");
       this.canvasTmpCtx = this.tmpCanvas.getContext("2d");
@@ -150,48 +150,18 @@ class EditingPlayer extends React.Component<IProps, IState> {
         let videoResponse = await fetch(src);
         let videoBlob = await videoResponse.blob();
         const videoUrl = await window.URL.createObjectURL(videoBlob);
-        this.video.height = this.state.height;
-        this.video.width = this.state.width;
-        this.video.style.left = "-1000%";
-        this.video.style.position = "absolute";
-        this.video.style.top = "-1000%";
         this.video.src = videoUrl;
-        this.video.crossOrigin = "Anonymous";
         document.body.appendChild(this.video);
         this.canvasContext = this.edCanvas.getContext("2d");
         this.canvasTmpCtx = this.tmpCanvas.getContext("2d");
         this.setState({ videoLoaded: true });
-
       } catch (err) {
         console.log("error in editing canvas", err);
       }
-      // axios({
-      //   url: this.props.src,
-      //   method: "GET",
-      //   responseType: "blob" // important
-      // }).then(response => {
-      //   const url = window.URL.createObjectURL(new Blob([response.data]));
-      //   this.video.height = this.state.height;
-      //   this.video.width = this.state.width;
-      //   this.video.style.left = "-1000%";
-      //   this.video.style.position = "absolute";
-      //   this.video.style.top = "-1000%";
-      //   this.video.src = url;
-      //   this.video.crossOrigin = "Anonymous";
-      //   document.body.appendChild(this.video);
-      //   this.canvasContext = this.edCanvas.getContext("2d");
-      //   this.canvasTmpCtx = this.tmpCanvas.getContext("2d");
-      //   this.setState({ videoLoaded: true });
-      // });
     }
-
     setTimeout(() => {
       this.setupListeners();
     }, 0);
-    setTimeout(() => {
-      this.setCanvasDimensions();
-    }, 0);
-    this.setCanvasDimensions();
   }
 
   setupListeners(remove?: any) {
@@ -384,7 +354,15 @@ class EditingPlayer extends React.Component<IProps, IState> {
     let skipTo = event.target.dataset.seek
       ? event.target.dataset.seek
       : event.target.value;
-    this.video.currentTime = skipTo;
+    if (this.backgroundMusic.duration >= this.video.duration) {
+      this.video.currentTime = skipTo;
+      this.backgroundMusic.currentTime = skipTo;
+    } else {
+      let skipPercentage = skipTo * 100 % this.video.duration;
+      let audioToSkip = skipPercentage / this.backgroundMusic.duration;
+      this.backgroundMusic.currentTime = audioToSkip;
+      this.video.currentTime = skipTo;
+    }
     this.progressBar.value = skipTo;
     this.seek.value = skipTo;
   };
