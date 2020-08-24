@@ -137,14 +137,20 @@ class EditingPlayer extends React.Component<IProps, IState> {
     this.video.style.top = "-1000%";
     this.video.style.position = "absolute";
     this.video.crossOrigin = "Anonymous";
+    const { musicProps, src } = this.props;
     if (this.props.local && this.props.local === true) {
       this.video.src = this.props.src;
       document.body.appendChild(this.video);
       this.canvasContext = this.edCanvas.getContext("2d");
       this.canvasTmpCtx = this.tmpCanvas.getContext("2d");
+      if (musicProps && musicProps.url) {
+        let musicResponse = await fetch(musicProps.url)
+        let musicBlob = await musicResponse.blob();
+        const musicUrl = await window.URL.createObjectURL(musicBlob);
+        this.backgroundMusic.src = musicUrl;
+      }
       this.setState({ videoLoaded: true });
     } else {
-      const { musicProps, src } = this.props;
       try {
         if (musicProps && musicProps.url) {
           let musicResponse = await fetch(musicProps.url)

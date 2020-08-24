@@ -3,7 +3,7 @@ import { Grid, LinearProgress, Tooltip, TextField } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import Loading from "../../components/Loading";
 import { Input, Label, FormGroup, Button } from "reactstrap";
-import CanvasPlayer from "../../components/CanvasPlayer";
+import CanvasPlayer from "../../components/CanvasPlayer/EditingCanvas";
 import ChipInput from "material-ui-chip-input";
 import AWS from "aws-sdk";
 import { connect } from "react-redux";
@@ -39,6 +39,7 @@ interface IProps {
   progressEmail: boolean;
   logoProps: any;
   textProps: any;
+  musicProps: any;
   toggleSendVariable: () => void;
   logoBlob: any;
   thumbnailBlob: any;
@@ -81,6 +82,7 @@ class SendSave extends React.Component<IProps> {
         thumbnail: this.state.thumbnailUrl,
         textProps: this.props.textProps,
         logoProps: this.props.logoProps,
+        musicProps: this.props.musicProps,
         campaign: true
       };
       this.props.saveVideo(video);
@@ -208,6 +210,7 @@ class SendSave extends React.Component<IProps> {
   render() {
     let { videoSaved, loading } = this.props.videoUser;
     let { progressEmail } = this.props;
+    console.log("musicProps", this.props.musicProps && this.props.musicProps);
     return (
       <Grid container>
         <Grid item xs={1} sm={1} md={3} lg={3}></Grid>
@@ -225,6 +228,7 @@ class SendSave extends React.Component<IProps> {
                 src={URL.createObjectURL(this.props.previewVideo)}
                 textProps={this.props.textProps}
                 logoProps={this.props.logoProps}
+                musicProps={this.props.musicProps}
                 local={true}
                 thumbnail={URL.createObjectURL(this.props.thumbnailBlob)}
               />
