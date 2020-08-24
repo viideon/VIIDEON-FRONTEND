@@ -22,6 +22,8 @@ interface IProps {
   musicProps: any;
   thumbnail?: string;
   local?: boolean;
+  watched?: () => void;
+
 }
 interface IState {
   playing: boolean;
@@ -34,6 +36,8 @@ interface IState {
   fullScreen: boolean;
   width: number;
   height: number;
+  watched: boolean;
+
 }
 class EditingPlayer extends React.Component<IProps, IState> {
   canvasContext: any;
@@ -70,7 +74,8 @@ class EditingPlayer extends React.Component<IProps, IState> {
       videoLoaded: false,
       fullScreen: false,
       width: 0,
-      height: 0
+      height: 0,
+      watched: false,
     };
     this.unmounted = false;
     this.canvasContext = null;
@@ -213,6 +218,10 @@ class EditingPlayer extends React.Component<IProps, IState> {
     );
     this.seek.value = Math.floor(this.video.currentTime);
     this.progressBar.value = Math.floor(this.video.currentTime);
+    if (this.video.currentTime >= 3 && this.state.watched === false) {
+      this.props.watched && this.props.watched();
+      this.setState({ watched: true });
+    }
   };
   updateVolumeIcon = () => {
     if (this.video.muted || this.video.volume === 0) {

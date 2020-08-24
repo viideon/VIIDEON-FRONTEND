@@ -51,7 +51,6 @@ interface IState {
   backgroundMusicUrl: string;
   musicFileSelected: boolean;
   musicFile: any;
-  isMusicLoaded: boolean;
 }
 interface Video {
   url: string;
@@ -115,7 +114,6 @@ class Editing extends React.Component<IProps, IState> {
       backgroundMusicUrl: "",
       musicFileSelected: false,
       musicFile: null,
-      isMusicLoaded: false,
     };
     this._isMounted = false;
   }
@@ -140,7 +138,6 @@ class Editing extends React.Component<IProps, IState> {
     this.ctx2 = this.canvas2.getContext("2d");
     // this.video.addEventListener("loadedmetadata", this.handleLoadedMetaData);
     this.video.addEventListener("canplaythrough", this.handleLoadedMetaData);
-    this.backgroundMusic.addEventListener("canplaythrough", this.canPlayMusic)
     this.video.addEventListener("pause", this.onVideoPause);
     this.video.addEventListener("play", this.onVideoPlay);
     this.video.addEventListener("ended", this.onVideoEnd);
@@ -154,16 +151,13 @@ class Editing extends React.Component<IProps, IState> {
         if (musicProps && musicProps.url) {
           let res = await fetch(musicProps.url)
           let blob2 = await res.blob();
-          const audioUrl = window.URL.createObjectURL(blob2);
+          const audioUrl = await window.URL.createObjectURL(blob2);
           this.backgroundMusic.src = audioUrl;
-          const response = await axios.get(video.url, { responseType: "blob" });
-          const url = window.URL.createObjectURL(new Blob([response.data]));
-          this.video.src = url;
-        } else {
-          const response = await axios.get(video.url, { responseType: "blob" });
-          const url = window.URL.createObjectURL(new Blob([response.data]));
-          this.video.src = url;
         }
+        const response = await axios.get(video.url, { responseType: "blob" });
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        this.video.src = url;
+
       } catch (err) {
         // toast.error(err.message);
         // return;
@@ -233,10 +227,7 @@ class Editing extends React.Component<IProps, IState> {
   onVideoEnd = () => {
     this.backgroundMusic.currentTime = 0;
   }
-  canPlayMusic = () => {
-    // alert("can play music called");
-    this.setState({ isMusicLoaded: true });
-  }
+
   onThumbnailFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0] !== null) {
       let file = e.target.files![0];
@@ -613,7 +604,6 @@ class Editing extends React.Component<IProps, IState> {
   }
   removeListeners = () => {
     this.video.removeEventListener("canplaythrough", this.handleLoadedMetaData);
-    this.backgroundMusic.removeEventListener("canplaythrough", this.canPlayMusic)
     this.video.removeEventListener("pause", this.onVideoPause);
     this.video.removeEventListener("play", this.onVideoPlay);
     this.video.removeEventListener("ended", this.onVideoEnd);

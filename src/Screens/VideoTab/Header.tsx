@@ -17,7 +17,7 @@ import { connect } from "react-redux";
 // import Tooltip from "@material-ui/core/Tooltip";
 import CircularProgress from "@material-ui/core/CircularProgress";
 // import * as Constants from "../../constants/constants";
-import CanvasPlayer from "../../components/CanvasPlayer";
+import CanvasPlayer from "../../components/CanvasPlayer/EditingCanvas";
 import styles from "./style";
 
 interface Video {
@@ -27,6 +27,7 @@ interface Video {
   campaign?: boolean;
   logoProps?: any;
   textProps?: any;
+  musicProps: any;
   _id: string;
   views?: number;
   watch?: number;
@@ -84,6 +85,7 @@ class VideoTabHeader extends React.Component<IProps> {
                       logoProps={video.logoProps}
                       textProps={video.textProps}
                       thumbnail={video.thumbnail}
+                      musicProps={video.musicProps}
                     />
                   )}
                 </div>

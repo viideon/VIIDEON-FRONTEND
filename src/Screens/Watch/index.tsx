@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import CanvasPlayer from "../../components/CanvasPlayer";
+import CanvasPlayer from "../../components/CanvasPlayer/EditingCanvas";
 import {
   getVideo,
   updateVideoViews,
@@ -62,6 +62,7 @@ class Watch extends React.Component<IProps> {
                     textProps={video.textProps}
                     thumbnail={video.thumbnail}
                     watched={this.watched}
+                    musicProps={video.musicProps}
                   />
                 )}
               </div>
