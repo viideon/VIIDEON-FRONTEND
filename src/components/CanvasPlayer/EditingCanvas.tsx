@@ -139,17 +139,21 @@ class EditingPlayer extends React.Component<IProps, IState> {
     this.video.crossOrigin = "Anonymous";
     const { musicProps, src } = this.props;
     if (this.props.local && this.props.local === true) {
-      this.video.src = this.props.src;
-      document.body.appendChild(this.video);
-      this.canvasContext = this.edCanvas.getContext("2d");
-      this.canvasTmpCtx = this.tmpCanvas.getContext("2d");
-      if (musicProps && musicProps.url) {
-        let musicResponse = await fetch(musicProps.url)
-        let musicBlob = await musicResponse.blob();
-        const musicUrl = await window.URL.createObjectURL(musicBlob);
-        this.backgroundMusic.src = musicUrl;
+      try {
+        if (musicProps && musicProps.url) {
+          let musicResponse = await fetch(musicProps.url)
+          let musicBlob = await musicResponse.blob();
+          const musicUrl = await window.URL.createObjectURL(musicBlob);
+          this.backgroundMusic.src = musicUrl;
+          this.video.src = this.props.src;
+          document.body.appendChild(this.video);
+          this.canvasContext = this.edCanvas.getContext("2d");
+          this.canvasTmpCtx = this.tmpCanvas.getContext("2d");
+          this.setState({ videoLoaded: true });
+        }
+      } catch (err) {
+        console.log("error in local canvas ", err);
       }
-      this.setState({ videoLoaded: true });
     } else {
       try {
         if (musicProps && musicProps.url) {
