@@ -20,6 +20,7 @@ interface IProps {
   src: string;
   logoProps: any;
   textProps: any;
+  musicProps: any;
   thumbnail?: string;
   local?: boolean;
 }
@@ -54,7 +55,6 @@ class EditingPlayer extends React.Component<IProps, IState> {
   handleEnded: any;
   handleLoadedMetaData: any;
   handleWindowResize: any;
-  timestamp: any;
   unmounted: any;
   timeElapsed: any;
   duration: any;
@@ -73,7 +73,6 @@ class EditingPlayer extends React.Component<IProps, IState> {
       width: 0,
       height: 0
     };
-    this.timestamp = null;
     this.unmounted = false;
     this.canvasContext = null;
     this.canvasTmpCtx = null;
@@ -111,7 +110,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
     this.pause = this.pause.bind(this);
     this.play = this.play.bind(this);
   }
-  componentDidMount() {
+  async componentDidMount() {
     this.edContainer = this.refs.edContainer;
     this.video = document.createElement("video");
     this.backgroundMusic = this.refs.backgroundMusic;
@@ -140,24 +139,50 @@ class EditingPlayer extends React.Component<IProps, IState> {
       this.canvasTmpCtx = this.tmpCanvas.getContext("2d");
       this.setState({ videoLoaded: true });
     } else {
-      axios({
-        url: this.props.src,
-        method: "GET",
-        responseType: "blob" // important
-      }).then(response => {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
+      const { musicProps, src } = this.props;
+      try {
+        if (musicProps && musicProps.url) {
+          let musicResponse = await fetch(musicProps.url)
+          let musicBlob = await musicResponse.blob();
+          const musicUrl = await window.URL.createObjectURL(musicBlob);
+          this.backgroundMusic.src = musicUrl;
+        }
+        let videoResponse = await fetch(src);
+        let videoBlob = await videoResponse.blob();
+        const videoUrl = await window.URL.createObjectURL(videoBlob);
         this.video.height = this.state.height;
         this.video.width = this.state.width;
         this.video.style.left = "-1000%";
         this.video.style.position = "absolute";
         this.video.style.top = "-1000%";
-        this.video.src = url;
+        this.video.src = videoUrl;
         this.video.crossOrigin = "Anonymous";
         document.body.appendChild(this.video);
         this.canvasContext = this.edCanvas.getContext("2d");
         this.canvasTmpCtx = this.tmpCanvas.getContext("2d");
         this.setState({ videoLoaded: true });
-      });
+
+      } catch (err) {
+        console.log("error in editing canvas", err);
+      }
+      // axios({
+      //   url: this.props.src,
+      //   method: "GET",
+      //   responseType: "blob" // important
+      // }).then(response => {
+      //   const url = window.URL.createObjectURL(new Blob([response.data]));
+      //   this.video.height = this.state.height;
+      //   this.video.width = this.state.width;
+      //   this.video.style.left = "-1000%";
+      //   this.video.style.position = "absolute";
+      //   this.video.style.top = "-1000%";
+      //   this.video.src = url;
+      //   this.video.crossOrigin = "Anonymous";
+      //   document.body.appendChild(this.video);
+      //   this.canvasContext = this.edCanvas.getContext("2d");
+      //   this.canvasTmpCtx = this.tmpCanvas.getContext("2d");
+      //   this.setState({ videoLoaded: true });
+      // });
     }
 
     setTimeout(() => {
@@ -334,12 +359,12 @@ class EditingPlayer extends React.Component<IProps, IState> {
   }
   play() {
     this.video.play();
-    this.backgroundMusic.pause();
+    this.backgroundMusic.play();
     this.setState({ playing: true, showThumbnail: false });
-    this.timestamp = Date.now();
     this.requestAnimationFrame();
   }
   onVideoEnd = () => {
+    this.backgroundMusic.pause();
     this.backgroundMusic.currentTime = 0;
   }
   setCanvasDimensions = () => {
@@ -353,6 +378,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
   };
   setVolume = (e: any) => {
     this.video.volume = e.target.value / 100;
+    this.backgroundMusic.volume = e.target.value / 100;
   };
   skipAhead = (event: any) => {
     let skipTo = event.target.dataset.seek
@@ -391,6 +417,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
   render() {
     const { playing, showThumbnail, videoLoaded, width, height } = this.state;
     const { thumbnail, logoProps } = this.props;
+    console.log("volume", this.video && this.video.volume, this.backgroundMusic && this.backgroundMusic.volume);
     return (
       <div ref="edContainer" style={{ width: "100%", height: "100%" }}>
         <div className="wrapperCanvas" ref="wrapperCanvas">

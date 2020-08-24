@@ -60,6 +60,7 @@ interface Video {
   campaign?: boolean;
   logoProps?: any;
   textProps?: any;
+  musicProps?: any;
   recordingEdit?: boolean;
 }
 interface IProps {
@@ -143,6 +144,7 @@ class Editing extends React.Component<IProps, IState> {
     this.video.addEventListener("pause", this.onVideoPause);
     this.video.addEventListener("play", this.onVideoPlay);
     this.video.addEventListener("ended", this.onVideoEnd);
+    this.video.addEventListener("volumechange", this.syncAudio);
   };
   async componentWillReceiveProps(nextProps: any) {
     const { video } = nextProps;
@@ -608,6 +610,9 @@ class Editing extends React.Component<IProps, IState> {
     };
     this.props.updateVideo(video);
   };
+  syncAudio = () => {
+    this.backgroundMusic.volume = this.video.volume;
+  }
   render() {
     const { video, isVideoUpdating } = this.props;
     const { showVideo, videoLoaded } = this.state;
@@ -634,6 +639,7 @@ class Editing extends React.Component<IProps, IState> {
                     logoProps={video.logoProps}
                     textProps={video.textProps}
                     thumbnail={video.thumbnail}
+                    musicProps={video.musicProps}
                   />
                 )}
               </div>
