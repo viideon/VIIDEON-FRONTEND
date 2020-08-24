@@ -183,9 +183,7 @@ class Editing extends React.Component<IProps, IState> {
       this.setState({ videoLoaded: true });
     }
   }
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
+
   setThumbnailInputRef = (ref: any) => {
     this.thumbnailRef = ref;
   };
@@ -612,6 +610,18 @@ class Editing extends React.Component<IProps, IState> {
   };
   syncAudio = () => {
     this.backgroundMusic.volume = this.video.volume;
+  }
+  removeListeners = () => {
+    this.video.removeEventListener("canplaythrough", this.handleLoadedMetaData);
+    this.backgroundMusic.removeEventListener("canplaythrough", this.canPlayMusic)
+    this.video.removeEventListener("pause", this.onVideoPause);
+    this.video.removeEventListener("play", this.onVideoPlay);
+    this.video.removeEventListener("ended", this.onVideoEnd);
+    this.video.removeEventListener("volumechange", this.syncAudio);
+  }
+  componentWillUnmount() {
+    this.removeListeners();
+    this._isMounted = false;
   }
   render() {
     const { video, isVideoUpdating } = this.props;
