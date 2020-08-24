@@ -198,9 +198,8 @@ class Player extends React.Component<IProps, IState> {
   updateSeekTooltip = (event: any) => {
     const skipTo = Math.round(
       (event.offsetX / event.target.clientWidth) *
-        parseInt(event.target.getAttribute("max"), 10)
+      parseInt(event.target.getAttribute("max"), 10)
     );
-
     this.seek.setAttribute("data-seek", skipTo);
     const t = this.formatTime(skipTo);
     this.seekTooltip.textContent = `${t.minutes}:${t.seconds}`;

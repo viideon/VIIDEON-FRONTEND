@@ -10,6 +10,7 @@ import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 import VolumeOffIcon from "@material-ui/icons/VolumeOff";
 // import VolumeMuteIcon from "@material-ui/icons/VolumeMute";
 import VolumeDownIcon from "@material-ui/icons/VolumeDown";
+import { toast } from "react-toastify";
 import "./style.css";
 
 interface IProps {
@@ -46,6 +47,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
   progressBar: any;
   canvasTmpCtx: any;
   video: any;
+  backgroundMusic: any;
   logo: any;
   frameRate: any;
   handleAnimationFrame: any;
@@ -112,6 +114,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
   componentDidMount() {
     this.edContainer = this.refs.edContainer;
     this.video = document.createElement("video");
+    this.backgroundMusic = this.refs.backgroundMusic;
     this.edCanvas = this.refs.edCanvas;
     this.tmpCanvas = this.refs.tempCanvas;
     this.wrapperCanvas = this.refs.wrapperCanvas;
@@ -180,10 +183,12 @@ class EditingPlayer extends React.Component<IProps, IState> {
         "durationchange",
         this.handleLoadedMetaData
       );
+      this.video.removeEventListener("ended", this.onVideoEnd);
       window.removeEventListener("resize", this.handleWindowResize);
     } else {
       this.video.addEventListener("ended", this.handleEnded);
       this.video.addEventListener("loadedmetadata", this.handleLoadedMetaData);
+      this.video.addEventListener("ended", this.onVideoEnd);
       window.addEventListener("resize", this.handleWindowResize);
       this.video.addEventListener("timeupdate", this.updateProgress);
       this.video.addEventListener("volumechange", this.updateVolumeIcon);
@@ -195,7 +200,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
   updateSeekTooltip = (event: any) => {
     const skipTo = Math.round(
       (event.offsetX / event.target.clientWidth) *
-        parseInt(event.target.getAttribute("max"), 10)
+      parseInt(event.target.getAttribute("max"), 10)
     );
 
     this.seek.setAttribute("data-seek", skipTo);
@@ -317,25 +322,25 @@ class EditingPlayer extends React.Component<IProps, IState> {
   playpause = () => {
     if (this.state.playing) {
       this.pause();
+
     } else {
       this.play();
     }
   };
   pause() {
-    const { mobile } = this.state;
-    if (!mobile) {
-      this.video.pause();
-    }
+    this.video.pause();
+    this.backgroundMusic.pause();
     this.setState({ playing: false });
   }
   play() {
-    const { mobile } = this.state;
-    if (!mobile) {
-      this.video.play();
-    }
+    this.video.play();
+    this.backgroundMusic.pause();
     this.setState({ playing: true, showThumbnail: false });
     this.timestamp = Date.now();
     this.requestAnimationFrame();
+  }
+  onVideoEnd = () => {
+    this.backgroundMusic.currentTime = 0;
   }
   setCanvasDimensions = () => {
     const persistRect = JSON.parse(
@@ -486,6 +491,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
           style={{ display: "none" }}
           ref="logo"
         />
+        <audio loop style={{ display: "none" }} ref="backgroundMusic" />
       </div>
     );
   }

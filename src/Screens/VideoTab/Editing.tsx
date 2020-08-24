@@ -51,6 +51,7 @@ interface IState {
   backgroundMusicUrl: string;
   musicFileSelected: boolean;
   musicFile: any;
+  isMusicLoaded: boolean;
 }
 interface Video {
   url: string;
@@ -112,7 +113,8 @@ class Editing extends React.Component<IProps, IState> {
       musicTitle: "",
       backgroundMusicUrl: "",
       musicFileSelected: false,
-      musicFile: null
+      musicFile: null,
+      isMusicLoaded: false,
     };
     this._isMounted = false;
   }
@@ -137,34 +139,33 @@ class Editing extends React.Component<IProps, IState> {
     this.ctx2 = this.canvas2.getContext("2d");
     // this.video.addEventListener("loadedmetadata", this.handleLoadedMetaData);
     this.video.addEventListener("canplaythrough", this.handleLoadedMetaData);
-    this.video.addEventListener(
-      "play",
-      () => {
-        this.draw(
-          this.video,
-          this.img,
-          this.ctx,
-          this.ctx2,
-          this.video.clientWidth,
-          this.video.clientHeight
-        );
-      },
-      false
-    );
+    this.backgroundMusic.addEventListener("canplaythrough", this.canPlayMusic)
+    this.video.addEventListener("pause", this.onVideoPause);
+    this.video.addEventListener("play", this.onVideoPlay);
+    this.video.addEventListener("ended", this.onVideoEnd);
   };
-  componentWillReceiveProps(nextProps: any) {
+  async componentWillReceiveProps(nextProps: any) {
     const { video } = nextProps;
     if (video) {
-      axios({
-        url: video.url,
-        method: "GET",
-        responseType: "blob" // important
-      }).then((response: any) => {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        this.video.src = url;
-        this.setState({ videoLoaded: true });
-      });
-      const { logoProps, textProps } = video;
+      const { logoProps, textProps, musicProps } = video;
+      try {
+        if (musicProps && musicProps.url) {
+          let res = await fetch(musicProps.url)
+          let blob2 = await res.blob();
+          const audioUrl = window.URL.createObjectURL(blob2);
+          this.backgroundMusic.src = audioUrl;
+          const response = await axios.get(video.url, { responseType: "blob" });
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          this.video.src = url;
+        } else {
+          const response = await axios.get(video.url, { responseType: "blob" });
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          this.video.src = url;
+        }
+      } catch (err) {
+        // toast.error(err.message);
+        // return;
+      }
       if (logoProps) {
         this.setState({ logoPath: logoProps.url, iconPos: logoProps.position });
       }
@@ -177,6 +178,7 @@ class Editing extends React.Component<IProps, IState> {
           align: textProps.align
         });
       }
+      this.setState({ videoLoaded: true });
     }
   }
   componentWillUnmount() {
@@ -208,6 +210,32 @@ class Editing extends React.Component<IProps, IState> {
   };
   toggleMusicAssetPicker = () => {
     this.setState({ isOpenMusicPicker: !this.state.isOpenMusicPicker });
+  }
+  onVideoPlay = () => {
+    if (this.state.backgroundMusicUrl && this.backgroundMusic.readyState !== 4) {
+      toast.info("Adding background music to video , Please wait");
+      return;
+    } else {
+      this.backgroundMusic.play();
+    }
+    this.draw(
+      this.video,
+      this.img,
+      this.ctx,
+      this.ctx2,
+      this.video.clientWidth,
+      this.video.clientHeight
+    );
+  }
+  onVideoPause = () => {
+    this.backgroundMusic.pause();
+  }
+  onVideoEnd = () => {
+    this.backgroundMusic.currentTime = 0;
+  }
+  canPlayMusic = () => {
+    // alert("can play music called");
+    this.setState({ isMusicLoaded: true });
   }
   onThumbnailFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0] !== null) {
@@ -305,7 +333,6 @@ class Editing extends React.Component<IProps, IState> {
     this.canvas.height = this.video.clientHeight;
     this.canvas2.width = this.video.clientWidth;
     this.canvas2.height = this.video.clientHeight;
-
     if (
       this.props.video &&
       this.props.video.logoProps &&
@@ -439,7 +466,6 @@ class Editing extends React.Component<IProps, IState> {
   };
   initializeIconPosition = (position: string) => {
     let x, y: any;
-    // debugger;
     switch (position) {
       case "top-left":
         this.setState({ logoX: 20, logoY: 20 });
@@ -555,6 +581,10 @@ class Editing extends React.Component<IProps, IState> {
     this.setState({ logoPath: path }, () => this.updateCanvas());
     toast.info("updated");
   };
+  onMusicAssetPick = (path: any) => {
+    this.setState({ backgroundMusicUrl: path });
+    toast.info("Wait while we add the music to the video");
+  }
   updateVideoLogoText = () => {
     const textProps = {
       text: this.state.text,
@@ -567,10 +597,14 @@ class Editing extends React.Component<IProps, IState> {
       url: this.state.logoPath,
       position: this.state.iconPos
     };
+    const musicProps = {
+      url: this.state.backgroundMusicUrl
+    }
     const video = {
       id: this.props.videoId,
       logoProps,
-      textProps
+      textProps,
+      musicProps
     };
     this.props.updateVideo(video);
   };
@@ -751,7 +785,7 @@ class Editing extends React.Component<IProps, IState> {
             style={{ display: "none" }}
             ref="image"
           />
-          <audio src={this.state.backgroundMusicUrl} style={{ display: "none" }} ref="backgroundMusic" />
+          <audio src={this.state.backgroundMusicUrl} ref="backgroundMusic" loop style={{ display: "none" }} />
           <Grid container>
             <Grid item xs={12} sm={12} md={6} lg={6}>
               <div className="addLogoDiv">
@@ -840,7 +874,7 @@ class Editing extends React.Component<IProps, IState> {
                 <MusicAssetPicker
                   isOpen={this.state.isOpenMusicPicker}
                   toggle={this.toggleMusicAssetPicker}
-                  onPick={this.onLogoAssetPick}
+                  onPick={this.onMusicAssetPick}
                 />
                 <input
                   id="uploadInput"

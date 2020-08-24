@@ -62,10 +62,8 @@ class AssetPicker extends React.Component<IProps> {
                     <Grid container>
                         {musicAssets &&
                             musicAssets.map((asset: any, i) => (
-                                <Grid item md={4} lg={4} sm={6} key={i}>
-                                    <div
-                                        onClick={() => this.selectAsset(asset.url, i)}
-                                    >
+                                <Grid item md={4} lg={4} sm={6} key={i} onClick={() => this.selectAsset(asset.url, i)}>
+                                    <div>
                                         <h5 className={i === this.state.currenSelection ? "selectedMusicHeading" : "musicHeading"}>{asset.title}</h5>
                                         <audio src={asset.url} controls />
                                     </div>

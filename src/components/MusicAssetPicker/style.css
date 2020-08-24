@@ -12,8 +12,10 @@
   color: rgb(34, 185, 255);
   font-size: bold;
   padding-left: 10px;
+  cursor: pointer;
 }
 .musicHeading {
+  cursor: pointer;
   padding-left: 10px;
 }
 .imgAssetPicker:hover {
