@@ -404,7 +404,6 @@ class EditingPlayer extends React.Component<IProps, IState> {
   render() {
     const { playing, showThumbnail, videoLoaded, width, height } = this.state;
     const { thumbnail, logoProps } = this.props;
-    console.log("volume", this.video && this.video.volume, this.backgroundMusic && this.backgroundMusic.volume);
     return (
       <div ref="edContainer" style={{ width: "100%", height: "100%" }}>
         <div className="wrapperCanvas" ref="wrapperCanvas">

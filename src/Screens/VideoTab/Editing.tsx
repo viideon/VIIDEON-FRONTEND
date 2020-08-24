@@ -1,7 +1,6 @@
 import React from "react";
 import AWS from "aws-sdk";
 import S3FileUpload from "react-s3";
-import axios from "axios";
 import { Container, Row, Col, Input } from "reactstrap";
 import { toast } from "react-toastify";
 import canvasTxt from "canvas-txt";
@@ -150,17 +149,19 @@ class Editing extends React.Component<IProps, IState> {
       try {
         if (musicProps && musicProps.url) {
           let res = await fetch(musicProps.url)
-          let blob2 = await res.blob();
-          const audioUrl = await window.URL.createObjectURL(blob2);
+          let musicBlob = await res.blob();
+          const audioUrl = await window.URL.createObjectURL(musicBlob);
           this.backgroundMusic.src = audioUrl;
         }
-        const response = await axios.get(video.url, { responseType: "blob" });
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        this.video.src = url;
+        const response = await fetch(video.url);
+        let videoBlob = await response.blob();
+        const videoUrl = await window.URL.createObjectURL(videoBlob);
+        this.video.src = videoUrl;
 
       } catch (err) {
         // toast.error(err.message);
         // return;
+        console.log("errror in editing screen", err);
       }
       if (logoProps) {
         this.setState({ logoPath: logoProps.url, iconPos: logoProps.position });
