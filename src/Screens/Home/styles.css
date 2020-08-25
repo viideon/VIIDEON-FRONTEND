@@ -99,14 +99,6 @@
   margin-bottom: 20px;
 }
 
-/* @media only screen and (max-width: 960px) {
-  .wrapperHomeContent {
-    margin-top: 16px;
-  }
-  .wrapperHomeContentFull {
-    margin-top: 6%;
-  }
-} */
 @media only screen and (max-width: 768px) {
   .wrapperHomeContent {
     margin-left: 0px;

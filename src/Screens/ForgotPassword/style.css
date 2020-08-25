@@ -110,7 +110,6 @@
 .emailLogin .MuiInput-underline {
   content: none !important;
   transition: none !important;
-  /* border: none !important; */
 }
 .emailLogin .MuiInput-underline:after {
   border-bottom: none;
