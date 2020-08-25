@@ -21,6 +21,10 @@ function* saveUserEmailConfig(action: any) {
             toast.error("Unexpected error, Failed to add your configuration try again");
         }
     } catch (error) {
+        if (error.message) {
+            yield put({ type: types.ADD_EMAIL_CONFIG_FAILURE });
+            toast.error(error.message);
+        }
         yield put({ type: types.ADD_EMAIL_CONFIG_FAILURE });
         toast.error("Failed to add your configuration");
     }
@@ -68,8 +72,6 @@ function* deleteUserEmailConfig(action: any) {
             yield put({ type: types.DELETE_USER_CONFIG_FAILURE });
             toast.info("Failed to delete try again");
         }
-
-
     }
 }
 export function* emailWatcher() {
