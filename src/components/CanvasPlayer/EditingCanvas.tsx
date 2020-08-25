@@ -145,12 +145,12 @@ class EditingPlayer extends React.Component<IProps, IState> {
           let musicBlob = await musicResponse.blob();
           const musicUrl = await window.URL.createObjectURL(musicBlob);
           this.backgroundMusic.src = musicUrl;
-          this.video.src = this.props.src;
-          document.body.appendChild(this.video);
-          this.canvasContext = this.edCanvas.getContext("2d");
-          this.canvasTmpCtx = this.tmpCanvas.getContext("2d");
-          this.setState({ videoLoaded: true });
         }
+        this.video.src = this.props.src;
+        document.body.appendChild(this.video);
+        this.canvasContext = this.edCanvas.getContext("2d");
+        this.canvasTmpCtx = this.tmpCanvas.getContext("2d");
+        this.setState({ videoLoaded: true });
       } catch (err) {
         console.log("error in local canvas ", err);
       }
