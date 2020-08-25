@@ -72,6 +72,7 @@ interface IState {
   musicFile: any;
   assetUploading: boolean;
   isOpenMusicPicker: boolean;
+  musicLoadingTimeout: any;
 }
 class AddLogoText extends React.Component<IProps, IState> {
   video: any;
@@ -114,7 +115,8 @@ class AddLogoText extends React.Component<IProps, IState> {
       backgroundMusicUrl: "",
       musicFileSelected: false,
       musicFile: null,
-      assetUploading: false
+      assetUploading: false,
+      musicLoadingTimeout: null
     };
   }
   componentDidMount() {
@@ -470,6 +472,7 @@ class AddLogoText extends React.Component<IProps, IState> {
   onMusicAssetPick = (path: any) => {
     this.setState({ backgroundMusicUrl: path });
     toast.info("Wait while we add the music to the video");
+    this.setState({ musicLoadingTimeout: setInterval(() => this.isMusicLoaded(), 3000) });
   }
   uploadThumbnail = () => {
     return new Promise((resolve, reject) => {
@@ -584,6 +587,13 @@ class AddLogoText extends React.Component<IProps, IState> {
   };
   onChangeMusicTitle = (e: any) => {
     this.setState({ musicTitle: e.target.value });
+  }
+  isMusicLoaded = () => {
+    if (this.backgroundMusic && this.backgroundMusic.readyState === 4) {
+      clearInterval(this.state.musicLoadingTimeout);
+      this.setState({ musicLoadingTimeout: null });
+      toast.info("Music added");
+    }
   }
   handleChipAdd = (email: any) => {
     if (reg.test(email) === false) {

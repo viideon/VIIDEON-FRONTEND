@@ -42,6 +42,7 @@ interface IState {
   musicFile: any;
   assetUploading: boolean;
   isOpenMusicPicker: boolean;
+  musicLoadingTimeout: any;
 }
 class AddLogo extends React.Component<IProps, IState> {
   video: any;
@@ -76,7 +77,8 @@ class AddLogo extends React.Component<IProps, IState> {
       musicFileSelected: false,
       musicFile: null,
       assetUploading: false,
-      isOpenMusicPicker: false
+      isOpenMusicPicker: false,
+      musicLoadingTimeout: null
     };
     this.draw = this.draw.bind(this);
   }
@@ -108,6 +110,7 @@ class AddLogo extends React.Component<IProps, IState> {
     this.canvas2.width = this.video.clientWidth;
     this.canvas2.height = this.video.clientHeight;
   };
+
   onVideoPlay = () => {
     if (this.state.backgroundMusicUrl && this.backgroundMusic.readyState !== 4) {
       toast.info("Adding background music to video , Please wait");
@@ -240,7 +243,6 @@ class AddLogo extends React.Component<IProps, IState> {
         ctx.drawImage(img, 0, 0, width, height);
         ctx.canvas.toBlob(
           async (blob: any) => {
-            // this.setState({ img: URL.createObjectURL(blob) });
             await this.saveLogo(blob);
             this.setState({ assetUploading: false });
             toast.info("Logo uploaded");
@@ -395,9 +397,17 @@ class AddLogo extends React.Component<IProps, IState> {
       toast.error("Failed to select a file try again");
     }
   }
+  isMusicLoaded = () => {
+    if (this.backgroundMusic && this.backgroundMusic.readyState === 4) {
+      clearInterval(this.state.musicLoadingTimeout);
+      this.setState({ musicLoadingTimeout: null });
+      toast.info("Music added");
+    }
+  }
   onMusicAssetPick = (path: any) => {
     this.setState({ backgroundMusicUrl: path });
     toast.info("Wait while we add the music to the video");
+    this.setState({ musicLoadingTimeout: setInterval(() => this.isMusicLoaded(), 3000) });
   }
   onAssetPick = (path: any) => {
     this.setState({ logoPath: path }, () => this.updateCanvas());

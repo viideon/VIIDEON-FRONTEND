@@ -50,6 +50,7 @@ interface IState {
   backgroundMusicUrl: string;
   musicFileSelected: boolean;
   musicFile: any;
+  musicLoadingTimeout: any;
 }
 interface Video {
   url: string;
@@ -113,6 +114,7 @@ class Editing extends React.Component<IProps, IState> {
       backgroundMusicUrl: "",
       musicFileSelected: false,
       musicFile: null,
+      musicLoadingTimeout: null,
     };
     this._isMounted = false;
   }
@@ -135,7 +137,6 @@ class Editing extends React.Component<IProps, IState> {
     this.img.crossOrigin = "Anonymous";
     this.ctx = this.canvas.getContext("2d");
     this.ctx2 = this.canvas2.getContext("2d");
-    // this.video.addEventListener("loadedmetadata", this.handleLoadedMetaData);
     this.video.addEventListener("canplaythrough", this.handleLoadedMetaData);
     this.video.addEventListener("pause", this.onVideoPause);
     this.video.addEventListener("play", this.onVideoPlay);
@@ -157,11 +158,8 @@ class Editing extends React.Component<IProps, IState> {
         let videoBlob = await response.blob();
         const videoUrl = await window.URL.createObjectURL(videoBlob);
         this.video.src = videoUrl;
-
       } catch (err) {
-        // toast.error(err.message);
-        // return;
-        console.log("errror in editing screen", err);
+        console.log("error in editing screen", err);
       }
       if (logoProps) {
         this.setState({ logoPath: logoProps.url, iconPos: logoProps.position });
@@ -221,6 +219,13 @@ class Editing extends React.Component<IProps, IState> {
       this.video.clientWidth,
       this.video.clientHeight
     );
+  }
+  isMusicLoaded = () => {
+    if (this.backgroundMusic && this.backgroundMusic.readyState === 4) {
+      clearInterval(this.state.musicLoadingTimeout);
+      this.setState({ musicLoadingTimeout: null });
+      toast.info("Music added");
+    }
   }
   onVideoPause = () => {
     this.backgroundMusic.pause();
@@ -533,7 +538,6 @@ class Editing extends React.Component<IProps, IState> {
         ctx.drawImage(img, 0, 0, width, height);
         ctx.canvas.toBlob(
           async (blob: any) => {
-            // this.setState({ img: URL.createObjectURL(blob) });
             await this.saveLogo(blob);
             this.setState({ assetUploading: false });
             toast.info("Logo uploaded");
@@ -576,6 +580,7 @@ class Editing extends React.Component<IProps, IState> {
   onMusicAssetPick = (path: any) => {
     this.setState({ backgroundMusicUrl: path });
     toast.info("Wait while we add the music to the video");
+    this.setState({ musicLoadingTimeout: setInterval(() => this.isMusicLoaded(), 3000) });
   }
   updateVideoLogoText = () => {
     const textProps = {
