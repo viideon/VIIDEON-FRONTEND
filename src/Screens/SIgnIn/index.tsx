@@ -73,7 +73,7 @@ class Signin extends React.Component<IProps, IState> {
     if (
       this.props.verifyState &&
       JSON.stringify(prevProps.verifyState) !==
-        JSON.stringify(this.props.verifyState) &&
+      JSON.stringify(this.props.verifyState) &&
       this.props.verifyState.VerifySuccess
     ) {
       this.setState({ verifySuccessModals: true });
@@ -141,12 +141,12 @@ class Signin extends React.Component<IProps, IState> {
               {this.state.resendVerificationEmail && (
                 <div className="alert alert-warning fade show">
                   {Constants.RESEND_VERIFICATION_EMAIL_TEXT}&nbsp;
-                  <a
+                  <span
                     onClick={this.resendVerificationEmail}
                     style={{ textDecoration: "underline", cursor: "pointer" }}
                   >
-                    Click here {""}
-                  </a>
+                    Click here
+                  </span>
                   to resend .
                 </div>
               )}
