@@ -2,7 +2,7 @@ import React from "react";
 import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
-import { Grid } from "@material-ui/core";
+import { Grid, Radio } from "@material-ui/core";
 import { getMusicAsset } from "../../Redux/Actions/asset";
 import "./style.css";
 
@@ -48,7 +48,6 @@ class AssetPicker extends React.Component<IProps> {
     };
     render() {
         const { musicAssets } = this.props;
-        console.log("state", this.state);
         return (
             <Modal
                 isOpen={this.props.isOpen}
@@ -62,11 +61,16 @@ class AssetPicker extends React.Component<IProps> {
                     <Grid container>
                         {musicAssets &&
                             musicAssets.map((asset: any, i) => (
-                                <Grid item md={4} lg={4} sm={6} key={i} onClick={() => this.selectAsset(asset.url, i)}>
-                                    <div>
-                                        <h5 className={i === this.state.currenSelection ? "selectedMusicHeading" : "musicHeading"}>{asset.title}</h5>
-                                        <audio src={asset.url} controls />
-                                    </div>
+                                <Grid item md={4} lg={4} sm={6} key={i} >
+                                    <div className="pickerHeaderMusic"><Radio
+                                        checked={i === this.state.currenSelection}
+                                        onChange={() => this.selectAsset(asset.url, i)}
+                                        value={i}
+                                        color="default"
+                                        size="small"
+                                    />
+                                        <h5 className={i === this.state.currenSelection ? "selectedMusicHeading" : "musicHeading"}>{asset.title}</h5></div>
+                                    <audio src={asset.url} controls style={{ outline: "none" }} />
                                 </Grid>
                             ))}
                     </Grid>
