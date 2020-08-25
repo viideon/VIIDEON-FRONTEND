@@ -1,15 +1,15 @@
 import React, { FC } from "react";
 import ReactLoading from "react-loading";
 type IProps = {
-  height?: string;
-  width?: string;
+  height?: number;
+  width?: number;
 };
 const Loading: FC<IProps> = ({ height, width }) => (
   <ReactLoading
-    type={"spin"}
-    color={"red"}
-    height={height ? height : "10%"}
-    width={width ? width : "10%"}
+    type={"spinningBubbles"}
+    color={"#696969"}
+    height={!height ? 50 : height}
+    width={!width ? 50 : width}
   />
 );
 

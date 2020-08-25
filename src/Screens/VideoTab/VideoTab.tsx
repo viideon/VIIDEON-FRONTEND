@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { getVideo, cleanSingleVideo } from "../../Redux/Actions/videos";
 import {
   TabContent,
   TabPane,
@@ -12,74 +14,52 @@ import {
   FaInfo,
   FaChartLine,
   FaCut,
-  FaPalette,
-  FaRegEye,
-  FaReply
+  FaShare
+  // FaPalette,
+  // FaRegEye,
+  // FaReply,
 } from "react-icons/fa";
 import VideoTabHeader from "./Header";
 import Detail from "./Detail";
 import Editing from "./Editing";
-import Design from "./Design";
-import Privacy from "./Privacy";
-import VideoReplies from "./VideoReplies";
+import Share from "./Share";
+// import Design from "./Design";
+// import Privacy from "./Privacy";
+// import VideoReplies from "./VideoReplies";
 import Analytics from "./Analytics";
 import * as Constants from "../../constants/constants";
 import "./style.css";
 
-const VideoTab = ({ match: { params }, history }: any) => {
+const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
   const [activeTab, setActiveTab] = useState("1");
+  const [isDisabled, enableLinks] = useState(true);
 
   const toggle = (tab: any) => {
     if (activeTab !== tab) setActiveTab(tab);
   };
+
+  useEffect(() => {
+    getVideo(params.id);
+    setTimeout(() => enableLinks(false), 1000);
+    return () => {
+      cleanSingleVideo();
+    };
+  }, []);
 
   return (
     <div className="wrapperVideoTab">
       <Container>
         <br />
         <br />
-        <VideoTabHeader videoId={params.id} />
-        <br />
-        <br />
+        <VideoTabHeader />
+
         <Nav tabs id="videoTabWrap">
-          <NavItem>
+          <NavItem className="video-tabs">
             <NavLink
               id="videoTabNavLink"
               className={classnames({ active: activeTab === "1" })}
               onClick={() => {
                 toggle("1");
-              }}
-            >
-              <span>
-                <i>
-                  <FaInfo id="videoTabIcon" />
-                </i>
-              </span>
-              <p>{Constants.DETAILS}</p>
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              id="videoTabNavLink"
-              className={classnames({ active: activeTab === "2" })}
-              onClick={() => {
-                toggle("2");
-              }}
-            >
-              <span>
-                <i>
-                  <FaChartLine id="videoTabIcon" />
-                </i>
-              </span>
-              <p>{Constants.ANALYTICS}</p>
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              id="videoTabNavLink"
-              className={classnames({ active: activeTab === "3" })}
-              onClick={() => {
-                toggle("3");
               }}
             >
               <span>
@@ -90,7 +70,58 @@ const VideoTab = ({ match: { params }, history }: any) => {
               <p>{Constants.EDITING}</p>
             </NavLink>
           </NavItem>
-          <NavItem>
+          <NavItem className="video-tabs">
+            <NavLink
+              disabled={isDisabled}
+              id="videoTabNavLink"
+              className={classnames({ active: activeTab === "2" })}
+              onClick={() => {
+                toggle("2");
+              }}
+            >
+              <span>
+                <i>
+                  <FaInfo id="videoTabIcon" />
+                </i>
+              </span>
+              <p>{Constants.DETAILS}</p>
+            </NavLink>
+          </NavItem>
+          <NavItem className="video-tabs">
+            <NavLink
+              disabled={isDisabled}
+              id="videoTabNavLink"
+              className={classnames({ active: activeTab === "3" })}
+              onClick={() => {
+                toggle("3");
+              }}
+            >
+              <span>
+                <i>
+                  <FaChartLine id="videoTabIcon" />
+                </i>
+              </span>
+              <p>{Constants.ANALYTICS}</p>
+            </NavLink>
+          </NavItem>
+          <NavItem className="video-tabs">
+            <NavLink
+              disabled={isDisabled}
+              id="videoTabNavLink"
+              className={classnames({ active: activeTab === "4" })}
+              onClick={() => {
+                toggle("4");
+              }}
+            >
+              <span>
+                <i>
+                  <FaShare id="videoTabIcon" />
+                </i>
+              </span>
+              <p>Share</p>
+            </NavLink>
+          </NavItem>
+          {/* <NavItem>
             <NavLink
               id="videoTabNavLink"
               className={classnames({ active: activeTab === "4" })}
@@ -137,21 +168,24 @@ const VideoTab = ({ match: { params }, history }: any) => {
               </span>
               <p>{Constants.VIDEO_REPLIES}</p>
             </NavLink>
-          </NavItem>
+          </NavItem> */}
         </Nav>
         <TabContent activeTab={activeTab}>
           <TabPane tabId="1">
+            <Editing videoId={params.id} />
+          </TabPane>
+          <TabPane tabId="2">
             <Container>
               <Detail />
             </Container>
           </TabPane>
-          <TabPane tabId="2">
+          <TabPane tabId="3">
             <Analytics />
           </TabPane>
-          <TabPane tabId="3">
-            <Editing videoId={params.id} />
-          </TabPane>
           <TabPane tabId="4">
+            <Share />
+          </TabPane>
+          {/* <TabPane tabId="4">
             <Design />
           </TabPane>
           <TabPane tabId="5">
@@ -159,10 +193,21 @@ const VideoTab = ({ match: { params }, history }: any) => {
           </TabPane>
           <TabPane tabId="6">
             <VideoReplies />
-          </TabPane>
+          </TabPane> */}
         </TabContent>
       </Container>
     </div>
   );
 };
-export default VideoTab;
+const mapStateToProps = (state: any) => {
+  return {
+    loadingVideo: state.video.loadingVideo
+  };
+};
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    getVideo: (id: any) => dispatch(getVideo(id)),
+    cleanSingleVideo: () => dispatch(cleanSingleVideo())
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(VideoTab);

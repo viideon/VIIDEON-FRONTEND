@@ -1,12 +1,8 @@
 import React, { Component } from "react";
-// import styles from './style';
 import { FormGroup, Label, Col, Input } from "reactstrap";
 import * as Constants from "../../constants/constants";
 
-type IProps = {};
-
-type IState = {};
-class VideoReplies extends Component<IProps, IState> {
+class VideoReplies extends Component {
   render() {
     return (
       <div style={{ marginTop: "10%", marginLeft: "4%" }}>

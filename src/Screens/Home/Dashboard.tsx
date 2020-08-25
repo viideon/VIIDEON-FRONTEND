@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Home from "./Home";
 import { Grid } from "@material-ui/core";
 import VideocamIcon from "@material-ui/icons/Videocam";
 import PublishIcon from "@material-ui/icons/Publish";
@@ -6,16 +7,18 @@ import ImageSearchIcon from "@material-ui/icons/ImageSearch";
 import EditIcon from "@material-ui/icons/Edit";
 import HeaderCard from "../../components/HeaderCards";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import { getVideosLength } from "../../Redux/Selectors";
-import { getUserVideos } from "../../Redux/Actions/videos";
+import { withRouter, Link } from "react-router-dom";
+import { getVideoCount, getCampaignCount } from "../../Redux/Actions/videos";
 import Styles from "./styles";
 import "./styles.css";
-
+import Tooltip from "@material-ui/core/Tooltip";
 type IProps = {
   history: any;
-  noOfVideos: number;
-  getUserVideos: () => void;
+  videoCount: number;
+  campaignCount: number;
+  viewCount: number;
+  getVideoCount: () => void;
+  getCampaignCount: () => void;
 };
 
 class Dashboard extends Component<IProps> {
@@ -24,102 +27,122 @@ class Dashboard extends Component<IProps> {
     showVideos: false
   };
   componentDidMount() {
-    this.props.getUserVideos();
+    this.props.getVideoCount();
+    this.props.getCampaignCount();
   }
   navigate = (show?: string) => {
     this.props.history.push({ pathname: "/video/create", show: show });
   };
   render() {
     return (
-      <div className="wrapperDashboard">
-        <div className="dashboardTop">
-          <h3 className="dashboardTopLeft">
-            Dashboard <span className="cntrlText">Control panel</span>
-          </h3>
-          <div className="dashboardTopRight">
-            <span className="homeDashIcon">
-              <i className="fas fa-tachometer-alt dashboard" />
-            </span>
-            <span className="homeDashIcon">Home</span>
-            <span>
-              <i className="fas fa-angle-right"></i>
-            </span>
-            <span className="txtDash">Dashboard</span>
+      <Home>
+        <div className="wrapperDashboard">
+          <div className="dashboardTop">
+            <h3 className="dashboardTopLeft">
+              Dashboard <span className="cntrlText">Control panel</span>
+            </h3>
+            <div className="dashboardTopRight">
+              <span className="homeDashIcon">
+                <i className="fas fa-tachometer-alt" />
+              </span>
+              <span className="homeDashIcon">Home</span>
+              <span>
+                <i className="fas fa-angle-right"></i>
+              </span>
+              <span className="txtDash">Dashboard</span>
+            </div>
           </div>
+          <Grid container spacing={2}>
+            <Grid item xs={6} md={3}>
+              <Link to="/videos" className="link-style">
+                <HeaderCard
+                  styles={Styles.headerCardOne}
+                  Number={this.props.videoCount ? this.props.videoCount : 0}
+                  Title="VIDEOS"
+                  iconBg="#368BC4"
+                />
+              </Link>
+            </Grid>
+            <Grid item xs={6} md={3}>
+              <Tooltip title="Under Progress">
+                <div onClick={() => alert("Feature not created yet")}>
+                  <HeaderCard
+                    styles={Styles.headerCardTwo}
+                    Number={this.props.viewCount ? this.props.viewCount : 0}
+                    Title="VIEWS"
+                    iconBg="#3A966F"
+                  />
+                </div>
+              </Tooltip>
+            </Grid>
+            <Grid item xs={6} md={3}>
+              <Link to="/campaign" className="link-style">
+                <HeaderCard
+                  styles={Styles.headerCardThree}
+                  Number={
+                    this.props.campaignCount ? this.props.campaignCount : 0
+                  }
+                  Title="CAMPAIGNS"
+                  iconBg="#7754B8"
+                />
+              </Link>
+            </Grid>
+
+            <Grid item xs={6} md={3}>
+              <Tooltip title="Under Progress">
+                <div onClick={() => alert("Feature not created yet")}>
+                  <HeaderCard
+                    styles={Styles.headerCardFour}
+                    Number={0}
+                    Title="CONTACTS"
+                    iconBg="#CC5551"
+                  />
+                </div>
+              </Tooltip>
+            </Grid>
+          </Grid>
+          <Grid container className="wrapperActivityHome">
+            <Grid item xs={6} md={3}>
+              <div
+                className="actionsHomePage"
+                onClick={() => this.navigate("record")}
+              >
+                <VideocamIcon style={iconStyle} />
+                <h5>Record a Video</h5>
+              </div>
+            </Grid>
+            <Grid item xs={6} md={3}>
+              <div
+                className="actionsHomePage"
+                onClick={() => this.navigate("upload")}
+              >
+                <PublishIcon style={iconStyle} />
+                <h5>Upload a Video</h5>
+              </div>
+            </Grid>
+            <Grid item xs={6} md={3}>
+              <div
+                className="actionsHomePage"
+                onClick={() => this.props.history.push("/campaign/new")}
+              >
+                <ImageSearchIcon style={iconStyle} />
+                <h5>Create a Campaign</h5>
+              </div>
+            </Grid>
+            <Grid item xs={6} md={3}>
+              <Tooltip title="Under Progress">
+                <div
+                  className="actionsHomePage"
+                  onClick={() => alert("Feature not created yet")}
+                >
+                  <EditIcon style={iconStyle} />
+                  <h5>Edit My Message</h5>
+                </div>
+              </Tooltip>
+            </Grid>
+          </Grid>
         </div>
-        <Grid container spacing={2}>
-          <Grid item xs={6} md={3}>
-            <HeaderCard
-              styles={Styles.headerCardOne}
-              Number={this.props.noOfVideos ? this.props.noOfVideos : 0}
-              Title="VIDEOS"
-              iconBg="#368BC4"
-            />
-          </Grid>
-          <Grid item xs={6} md={3}>
-            <HeaderCard
-              styles={Styles.headerCardTwo}
-              Number={0}
-              Title="VIEWS"
-              iconBg="#3A966F"
-            />
-          </Grid>
-          <Grid item xs={6} md={3}>
-            <HeaderCard
-              styles={Styles.headerCardThree}
-              Number={3}
-              Title="CAMPAIGNS"
-              iconBg="#7754B8"
-            />
-          </Grid>
-          <Grid item xs={6} md={3}>
-            <HeaderCard
-              styles={Styles.headerCardFour}
-              Number={1}
-              Title="CONTACTS"
-              iconBg="#CC5551"
-            />
-          </Grid>
-        </Grid>
-        <Grid container className="wrapperActivityHome">
-          <Grid item xs={6} md={3}>
-            <div
-              className="actionsHomePage"
-              onClick={() => this.navigate("record")}
-            >
-              <VideocamIcon style={iconStyle} />
-              <h5>Record a Video</h5>
-            </div>
-          </Grid>
-          <Grid item xs={6} md={3}>
-            <div
-              className="actionsHomePage"
-              onClick={() => this.navigate("upload")}
-            >
-              <PublishIcon style={iconStyle} />
-              <h5>Upload a Video</h5>
-            </div>
-          </Grid>
-          <Grid item xs={6} md={3}>
-            <div
-              className="actionsHomePage"
-              onClick={() => alert("Feature not created yet")}
-            >
-              <ImageSearchIcon style={iconStyle} />
-              <h5>Create a Campaign</h5>
-            </div>
-          </Grid>
-          <Grid item xs={6} md={3}>
-            <div
-              className="actionsHomePage"
-              onClick={() => alert("Feature not created yet")}
-            >
-              <EditIcon style={iconStyle} />
-              <h5>Edit My Message</h5>
-            </div>
-          </Grid>
-        </Grid>
-      </div>
+      </Home>
     );
   }
 }
@@ -129,14 +152,16 @@ const iconStyle = {
   cursor: "pointer"
 };
 const mapStateToProps = (state: any) => {
-  let videoLength = getVideosLength(state);
   return {
-    noOfVideos: videoLength
+    videoCount: state.video.videoCount - state.video.campaignCount,
+    viewCount: state.video.viewCount,
+    campaignCount: state.video.campaignCount
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    getUserVideos: () => dispatch(getUserVideos())
+    getVideoCount: () => dispatch(getVideoCount()),
+    getCampaignCount: () => dispatch(getCampaignCount())
   };
 };
 

@@ -2,14 +2,14 @@ import React from "react";
 import { GoInfo } from "react-icons/go";
 import { Form, FormGroup, Label, Input, Row, Col, Button } from "reactstrap";
 import * as Constants from "../../constants/constants";
-
+import { FaInfoCircle } from "react-icons/fa";
 function LinkAccount() {
   return (
     <div id="linkAccountWrap">
       <h4 id="linkAccountHead">
         {Constants.LINK_DUBB_ACCOUNT}{" "}
         <i>
-          <GoInfo />
+          <FaInfoCircle id="infoCircleStyle" />
         </i>
       </h4>{" "}
       <hr />
@@ -20,7 +20,9 @@ function LinkAccount() {
               <Label for="exampleEmail">{Constants.EMAIL}</Label>
               <Input type="email" name="email" id="typeInput" placeholder="" />
             </FormGroup>
-            <Button id="linkAccountSendBtn">{Constants.SEND}</Button>
+            <Button className="profileBtn" id="linkAccountSendBtn">
+              {Constants.SEND}
+            </Button>
           </Form>
         </Col>
       </Row>

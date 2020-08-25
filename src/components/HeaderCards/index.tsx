@@ -1,5 +1,5 @@
 import React from "react";
-import LinearProgress from "@material-ui/core/LinearProgress";
+// import LinearProgress from "@material-ui/core/LinearProgress";
 import "./styles.css";
 
 type IProps = {
@@ -30,10 +30,11 @@ const HeaderCard: React.FC<IProps> = ({ styles, Title, Number, iconBg }) => {
       </span>
       <div className="detailsCard">
         <h4 className="Title">
-          {Number} {Title}
+          {Number}
+          <span className="title-text"> {Title}</span>
         </h4>
-        <LinearProgress variant="determinate" value={34} />
-        <h4 className="Description">45% Increase in 28 days</h4>
+        {/* <LinearProgress variant="determinate" value={34} /> */}
+        {/* <h4 className="Description">45% Increase in 28 days</h4> */}
       </div>
     </div>
   );

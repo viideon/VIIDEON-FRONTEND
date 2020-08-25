@@ -1,59 +1,97 @@
 import React from "react";
-import { FormControl, InputLabel, Select, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import ProgressBar from "../CircularProgressBar";
 import "./style.css";
-
-const GeneralStats: React.FC = () => {
+interface IProps {
+  singleVideo?: any;
+  videoCount: number;
+  emailShareCount: number;
+  ctaCount: number;
+  emailOpenCount: number;
+  viewCount: number;
+  watchCount: number;
+}
+const GeneralStats: React.FC<IProps> = ({
+  singleVideo,
+  videoCount,
+  viewCount,
+  watchCount,
+  ctaCount,
+  emailOpenCount,
+  emailShareCount
+}) => {
+  let watch = singleVideo && singleVideo.watch ? singleVideo.watch : 0;
+  watch = videoCount && watch > 0 ? Math.round((watch * 100) / watchCount) : 0;
+  let emailShare =
+    singleVideo && singleVideo.emailShareCount
+      ? singleVideo.emailShareCount
+      : 0;
+  emailShare =
+    videoCount && emailShare > 0
+      ? Math.round((emailShare * 100) / emailShareCount)
+      : 0;
+  let ctaClick =
+    singleVideo && singleVideo.ctaClicks ? singleVideo.ctaClicks : 0;
+  ctaClick =
+    videoCount && ctaClick > 0 ? Math.round((ctaClick * 100) / ctaCount) : 0;
+  let views = singleVideo && singleVideo.views ? singleVideo.views : 0;
+  views = videoCount && views > 0 ? Math.round((views * 100) / viewCount) : 0;
+  let emailOpens =
+    singleVideo && singleVideo.emailOpens ? singleVideo.emailOpens : 0;
+  emailOpens =
+    videoCount && emailOpens > 0
+      ? Math.round((emailOpens * 100) / emailOpenCount)
+      : 0;
   return (
     <div className="wrapperGeneralStats">
       <div className="headGeneralStats">
         <h6>General Stats</h6>
-        <FormControl variant="outlined" id="formSelectInput">
-          <InputLabel htmlFor="outlined-age-native-simple">
-            Filter Range
-          </InputLabel>
-          <Select native label="Filter Range">
-            <option aria-label="None" value="" />
-            <option value={10}>All Time</option>
-            <option value={20}>Today</option>
-            <option value={30}>Yesterday</option>
-          </Select>
-        </FormControl>
       </div>
       <div className="bodyGeneralStats">
         <Grid container>
           <Grid item xs={6} md={6}>
             <div className="wrapperProgress">
-              <ProgressBar width="25%" value={1} heading="Email Click Rates" />
+              <ProgressBar
+                width="25%"
+                value={emailShare}
+                heading="Email Share Rates"
+              />
             </div>
           </Grid>
           <Grid item xs={6} md={6}>
             <div className="wrapperProgress">
-              <ProgressBar width="25%" value={1} heading="CTA Click Rates" />
+              <ProgressBar
+                width="25%"
+                value={ctaClick}
+                heading="CTA Click Rates"
+              />
             </div>
           </Grid>
           <Grid item xs={6} md={6}>
             <div className="wrapperProgress">
-              <ProgressBar width="25%" value={1} heading="Watch Rates" />
+              <ProgressBar width="25%" value={watch} heading="Watch Rates" />
             </div>
           </Grid>
           <Grid item xs={6} md={6}>
             <div className="wrapperProgress">
-              <ProgressBar width="25%" value={1} heading="Reaction Rates" />
+              <ProgressBar
+                width="25%"
+                value={emailOpens}
+                heading="Email Open Rates"
+              />
             </div>
           </Grid>
           <Grid item xs={6} md={6}>
-            {" "}
             <div className="wrapperProgress">
-              <ProgressBar width="25%" value={1} heading="Call Rates" />
+              <ProgressBar width="25%" value={views} heading="View Rates" />
             </div>
           </Grid>
-          <Grid item xs={6} md={6}>
-            {" "}
+          {/* <Grid item xs={6} md={6}>
+       
             <div className="wrapperProgress">
-              <ProgressBar width="25%" value={1} heading="Email Rates" />
+              <ProgressBar width="25%" value={watch} heading="Email Rates" />
             </div>
-          </Grid>
+          </Grid>  */}
         </Grid>
       </div>
     </div>

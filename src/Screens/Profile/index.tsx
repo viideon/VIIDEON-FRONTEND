@@ -1,10 +1,11 @@
 import React, { Component } from "react";
+import AWS from "aws-sdk";
 import { Input, Label, Row, Col, Form, FormGroup, Button } from "reactstrap";
-import "./style.css";
 import { connect } from "react-redux";
 import { FaInfoCircle } from "react-icons/fa";
-import AWS from "aws-sdk";
-import LinkAccount from "./LinkAccount";
+import { toast } from "react-toastify";
+import { Tooltip } from "@material-ui/core";
+// import LinkAccount from "./LinkAccount";
 import { updateProfileUser } from "../../Redux/Actions/profile";
 import { ProfileState, UserProfile } from "../../Redux/Types/profile";
 import { AuthState } from "../../Redux/Types/auth";
@@ -13,6 +14,7 @@ import TimeZone from "../../components/TimeZone/Data/timezone.json";
 import * as Constants from "../../constants/constants";
 import { config } from "../../config/aws";
 import Loading from "../../components/Loading";
+import "./style.css";
 
 type IProps = {
   history: any;
@@ -85,11 +87,14 @@ class Profile extends Component<IProps, IState> {
       userId: this.props.profile!.user!._id,
       url
     };
-    console.log("data", data);
     this.props.updateProfile(data);
   };
   fileHandler = (e: any) => {
-    const that = this;
+    if (!e.target.files[0]) {
+      toast.info("Failed to select a file");
+      return;
+    }
+    toast.info("Uploading please wait");
     let s3 = new AWS.S3(config);
     var options = {
       Bucket: config.bucketName,
@@ -97,11 +102,13 @@ class Profile extends Component<IProps, IState> {
       Key: Date.now().toString(),
       Body: e.target.files[0]
     };
-    s3.upload(options, function(err: any, data: any) {
+    s3.upload(options, (err: any, data: any) => {
       if (err) {
-        throw err;
+        toast.error(err.message);
+        return;
       }
-      that.setState({ url: data.Location });
+      this.setState({ url: data.Location });
+      toast.info("Click update button below to save changes");
     });
   };
   render() {
@@ -112,7 +119,11 @@ class Profile extends Component<IProps, IState> {
           <div id="profilePhotoHead">
             <h4>{Constants.PROFILE_PHOTO} </h4>
             <i>
-              <FaInfoCircle id="infoCircleStyle" />
+              <Tooltip title="upload a profile picture with dimensions 360 x 360 pixels (max) 180 x 180 pixels (min)  ">
+                <span>
+                  <FaInfoCircle id="infoCircleStyle" />
+                </span>
+              </Tooltip>
             </i>
             <p id="uploadProfilePara">{Constants.UPLOAD_DESCRIPTION}</p>
           </div>
@@ -133,8 +144,8 @@ class Profile extends Component<IProps, IState> {
             )}
           </div>
           <div id="profileImgLabelWrap">
-            <Label id="profileImgLabelStyle">
-              {Constants.SELECT_NEW_PHOTO}
+            <Label id="profileImgLabelStyle" className="profileBtn">
+              SELECT NEW PHOTO
               <Input
                 type="file"
                 id="profileSelectInput"
@@ -214,8 +225,12 @@ class Profile extends Component<IProps, IState> {
                     value={this.state.timeZone}
                     onChange={this.onChange}
                   >
-                    {Object.entries(TimeZone).map((key, value) => {
-                      return <option value={key}>{key}</option>;
+                    {Object.entries(TimeZone).map((key: any, value) => {
+                      return (
+                        <option key={key} value={key}>
+                          {key}
+                        </option>
+                      );
                     })}
                   </Input>
                 </FormGroup>
@@ -252,7 +267,7 @@ class Profile extends Component<IProps, IState> {
                     onChange={this.onChange}
                   />
                 </FormGroup>
-                <FormGroup>
+                {/* <FormGroup>
                   <Label for="exampleEmail">{Constants.AFFILIATE}</Label>
                   <Input
                     type="text"
@@ -266,7 +281,7 @@ class Profile extends Component<IProps, IState> {
                     {Constants.PROFILE_DESCRIPTION}{" "}
                     <a href="/profile"> {Constants.PROFILE_URL}</a>
                   </p>
-                </FormGroup>
+                </FormGroup> */}
                 <Button id="yourProfileUpdateBtn" onClick={() => this.update()}>
                   {Constants.UPDATE}
                 </Button>
@@ -277,7 +292,7 @@ class Profile extends Component<IProps, IState> {
             </Col>
           </Row>
         </div>
-        <LinkAccount />
+        {/* <LinkAccount /> */}
       </div>
     );
   }

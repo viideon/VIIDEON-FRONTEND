@@ -11,8 +11,11 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 toast.configure({
-  autoClose: 6000,
-  hideProgressBar: true
+  autoClose: 4000,
+  pauseOnHover: false,
+  hideProgressBar: true,
+  pauseOnFocusLoss: false,
+  limit: 2
 });
 
 const sagaMiddleware = creatSagaMiddleware();
@@ -34,6 +37,11 @@ const store = createStore(persistedReducer, {}, enhancer);
 const persistor = persistStore(store);
 
 class App extends Component {
+  componentDidMount() {
+    window.addEventListener("blur", () => {
+      toast.dismiss();
+    });
+  }
   render() {
     return (
       <div className="App">

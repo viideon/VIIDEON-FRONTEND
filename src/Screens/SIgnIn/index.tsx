@@ -1,20 +1,42 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import { Form, FormGroup, Label, Alert, Input } from "reactstrap";
-import * as Constants from "../../constants/constants";
+import * as Yup from "yup";
+import { Formik } from "formik";
 import { connect } from "react-redux";
+import { Form, FormGroup, Label, Alert, Input } from "reactstrap";
+import { toast } from "react-toastify";
+import * as Constants from "../../constants/constants";
 import { reg } from "../../constants/emailRegEx";
+import {
+  loginUser,
+  verifyUser,
+  resendEmail,
+  resetEmailVerifiedVariable
+} from "../../Redux/Actions/auth";
+import { User } from "../../Redux/Types/auth";
 import Loading from "../../components/Loading";
-import { loginUser } from "../../Redux/Actions/auth";
-import { AuthState, User } from "../../Redux/Types/auth";
 import ActionButton from "../../components/Reusable/ActionButton";
+import VerifySuccessModal from "../../components/Modals/verifySuccessModal";
 import "./style.css";
 
+const validationSchema = Yup.object().shape({
+  password: Yup.string()
+    .required("Enter Password")
+    .min(6, "Password must be 6 characters long"),
+  email: Yup.string()
+    .required("Enter Email")
+    .email("Enter Correct Email")
+});
 type IProps = {
   navigation: any;
-  auth: AuthState;
+  auth: any;
   login: (user: object) => void;
+  resetEmailVerifiedVariable: () => void;
   history: any;
+  location?: any;
+  verifyState?: any;
+  resendEmail?: any;
+  verifyUser: any;
 };
 type IState = {
   email: string;
@@ -22,6 +44,8 @@ type IState = {
   emailError: boolean;
   passwordError: boolean;
   invalidEmailError: boolean;
+  verifySuccessModals: boolean;
+  resendVerificationEmail: boolean;
 };
 class Signin extends React.Component<IProps, IState> {
   constructor(props: any) {
@@ -31,38 +55,68 @@ class Signin extends React.Component<IProps, IState> {
       password: "",
       emailError: false,
       passwordError: false,
-      invalidEmailError: false
+      invalidEmailError: false,
+      verifySuccessModals: false,
+      resendVerificationEmail: false
     };
   }
+  componentDidMount() {
+    const search = this.props.location.search;
+    const params = new URLSearchParams(search);
+    const code = params.get("code");
+    if (code) {
+      this.props.verifyUser({ token: code });
+    }
+  }
 
+  componentDidUpdate(prevProps: any) {
+    if (
+      this.props.verifyState &&
+      JSON.stringify(prevProps.verifyState) !==
+        JSON.stringify(this.props.verifyState) &&
+      this.props.verifyState.VerifySuccess
+    ) {
+      this.setState({ verifySuccessModals: true });
+    }
+    if (
+      this.props.auth.loginError &&
+      JSON.stringify(prevProps.auth) !== JSON.stringify(this.props.auth) &&
+      this.props.auth.loginError.isEmailNotVerified
+    ) {
+      this.setState({ resendVerificationEmail: true });
+      this.props.resetEmailVerifiedVariable();
+      setTimeout(
+        () => this.setState({ resendVerificationEmail: false }),
+        10000
+      );
+    }
+  }
+  toggleVerifyModal = () => {
+    this.setState({ verifySuccessModals: false });
+    this.props.history.push("/login");
+  };
   onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ [e.target.name]: e.target.value } as Pick<IState, any>);
   };
-  loginHandler = () => {
-    const { email, password } = this.state;
-    if (email === "") this.setState({ emailError: true });
-    else if (reg.test(email) === false)
-      this.setState({ invalidEmailError: true });
-    else if (password === "") this.setState({ passwordError: true });
-    else {
-      const user = {
-        email,
-        password
-      };
-
-      this.props.login(user);
+  resendVerificationEmail = () => {
+    if (reg.test(this.state.email) === false) {
+      toast.error("The email address is not valid");
     }
+    this.props.resendEmail({ email: this.state.email });
   };
   render() {
     const { loading } = this.props.auth;
-    const { emailError, passwordError, invalidEmailError } = this.state;
     return (
       <div>
+        <VerifySuccessModal
+          open={this.state.verifySuccessModals}
+          toggle={this.toggleVerifyModal}
+        />
         <Grid container>
           <Grid item xs={12} md={7} sm={12}>
             <div className="firstLayoutContainer">
               <div className="firstLayoutMainContainer">
-                <p className="signUp">{Constants.SIGNUP_TO}</p>
+                <p className="signUp">{Constants.SIGNIN_TO}</p>
                 <h2 className="logoSignin">{Constants.VIDIONPRO}</h2>
                 <p className="login">{Constants.LOGIN_TO_ACCOUNT}</p>
               </div>
@@ -73,74 +127,130 @@ class Signin extends React.Component<IProps, IState> {
               <p className="loginTwo">{Constants.LOGIN}</p>
               <div className="createAccount">
                 <p className="account">{Constants.DONT_HAVE_ACCOUNT_YET}</p>
-                <div
-                  onClick={() => {
-                    this.props.history.push("/signup");
-                  }}
-                >
-                  <p className="create">{Constants.CREATE_NEW}</p>
+                <div>
+                  <p
+                    className="create"
+                    onClick={() => {
+                      this.props.history.push("/signup");
+                    }}
+                  >
+                    {Constants.CREATE_NEW}
+                  </p>
                 </div>
               </div>
-              <div style={{ marginLeft: "35%", opacity: 0.5 }}>
-                {loading && <Loading />}
-              </div>
-              <Form style={{ width: "80%" }}>
-                <FormGroup>
-                  <Label for="exampleEmail" style={{ fontWeight: "bold" }}>
-                    {Constants.EMAIL_ADDRESS}
-                  </Label>
-                  <div className="textInput">
-                    <Input
-                      type="text"
-                      name="email"
-                      placeholder="Email address"
-                      onChange={this.onChange}
-                      style={inputStyle}
-                      autoComplete="off"
-                    />
-                    <i className="w3-xxlarge fa fa-user" style={iconStyle}></i>
-                  </div>
-                </FormGroup>
-                <div style={{ width: "69%" }}>
-                  {emailError && (
-                    <Alert color="danger">{Constants.EMAIL_ERROR}</Alert>
-                  )}
-                  {invalidEmailError && (
-                    <Alert color="danger">{Constants.EMAIL_INVALID}</Alert>
-                  )}
+              {this.state.resendVerificationEmail && (
+                <div className="alert alert-warning fade show">
+                  {Constants.RESEND_VERIFICATION_EMAIL_TEXT}&nbsp;
+                  <a
+                    onClick={this.resendVerificationEmail}
+                    style={{ textDecoration: "underline", cursor: "pointer" }}
+                  >
+                    Click here {""}
+                  </a>
+                  to resend .
                 </div>
-                <FormGroup>
-                  <Label for="examplePassword" style={{ fontWeight: "bold" }}>
-                    {Constants.PASSWORD}
-                  </Label>
-                  <div className="textInput">
-                    <Input
-                      type="password"
-                      name="password"
-                      placeholder="Password"
-                      onChange={this.onChange}
-                      style={inputStyle}
-                    />
-                    <i className="w3-xxlarge fa fa-key" style={iconStyle}></i>
-                  </div>
-                </FormGroup>
-                <div style={{ width: "69%" }}>
-                  {passwordError && (
-                    <Alert color="danger">{Constants.PASSWORD_ERROR}</Alert>
-                  )}
-                </div>
-                <div className="mainWrapperLayout">
-                  <p className="forgotPassword">Forget your Password</p>
+              )}
 
-                  <ActionButton
-                    text={Constants.LOGIN}
-                    bgColor="#9F55FF"
-                    color="#fff"
-                    onClick={this.loginHandler}
-                    style={{ marginTop: 18, minWidth: "150px" }}
-                  />
-                </div>
-              </Form>
+              <div className="wrapperLoader">
+                {loading && (
+                  <span className="innerWrapperLoader">
+                    <Loading />
+                  </span>
+                )}
+              </div>
+              <Formik
+                onSubmit={values => {
+                  const user = {
+                    email: values.email,
+                    password: values.password
+                  };
+                  this.setState({ email: values.email });
+                  this.props.login(user);
+                }}
+                initialValues={{
+                  password: "",
+                  email: ""
+                }}
+                validationSchema={validationSchema}
+              >
+                {formik => (
+                  <Form>
+                    <FormGroup>
+                      <Label for="exampleEmail" style={{ fontWeight: "bold" }}>
+                        {Constants.EMAIL_ADDRESS}
+                      </Label>
+                      <div className="textInput">
+                        <Input
+                          type="text"
+                          name="email"
+                          placeholder="Your registered E-mail"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.email}
+                          style={inputStyle}
+                          autoComplete="off"
+                        />
+                        <i
+                          className="w3-xxlarge fa fa-user"
+                          style={iconStyle}
+                        ></i>
+                      </div>
+                    </FormGroup>
+
+                    {formik.errors.email && formik.touched.email && (
+                      <Alert color="danger">{formik.errors.email}</Alert>
+                    )}
+
+                    <FormGroup>
+                      <Label
+                        for="examplePassword"
+                        style={{ fontWeight: "bold" }}
+                      >
+                        {Constants.PASSWORD}
+                      </Label>
+                      <div className="textInput">
+                        <Input
+                          type="password"
+                          name="password"
+                          placeholder="Your password"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.password}
+                          style={inputStyle}
+                          autoComplete="new-password"
+                        />
+                        <i
+                          className="w3-xxlarge fa fa-key"
+                          style={iconStyle}
+                        ></i>
+                      </div>
+                    </FormGroup>
+
+                    {formik.errors.password && formik.touched.password && (
+                      <Alert color="danger">{formik.errors.password}</Alert>
+                    )}
+
+                    <div className="mainWrapperLayout">
+                      <p
+                        className="forgotPassword"
+                        onClick={() =>
+                          this.props.history.push("/forgotpassword")
+                        }
+                      >
+                        Forgot your password ?
+                      </p>
+
+                      <ActionButton
+                        text={Constants.LOGIN}
+                        bgColor="#9F55FF"
+                        color="#fff"
+                        onClick={formik.handleSubmit}
+                        style={{ marginTop: 18, minWidth: "150px" }}
+                      />
+                    </div>
+                  </Form>
+                )}
+              </Formik>
             </div>
           </Grid>
         </Grid>
@@ -158,28 +268,17 @@ const inputStyle = {
 const iconStyle = { width: "5%", margin: 10 };
 const mapStateToProps = (state: any) => {
   return {
-    auth: state.auth
+    auth: state.auth,
+    verifyState: state.auth.verify
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    login: (user: User) => dispatch(loginUser(user))
+    login: (user: User) => dispatch(loginUser(user)),
+    verifyUser: (token: any) => dispatch(verifyUser(token)),
+    resendEmail: (email: any) => dispatch(resendEmail(email)),
+    resetEmailVerifiedVariable: () => dispatch(resetEmailVerifiedVariable())
   };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signin);
-
-// To be used later
-
-/* <Input
-type="password"
-name="password"
-placeholder="Password"
-onChange={this.onChange}
-id="input-with-icon-adornment"
-endAdornment={
-  <InputAdornment position="end">
-    <VpnKeyIcon />
-  </InputAdornment>
-}
-/> */

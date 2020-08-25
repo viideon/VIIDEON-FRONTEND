@@ -1,6 +1,8 @@
-import { types, ProfileState } from "../Types/profile";
+import { types } from "../Types/profile";
 
-const initialState: ProfileState = {};
+const initialState: any = {
+  loading: false,
+};
 
 const profileReducer = (state = initialState, action: any) => {
   switch (action.type) {
@@ -15,15 +17,12 @@ const profileReducer = (state = initialState, action: any) => {
       return {
         ...state,
         loading: false,
-        success: action.payload.message.message,
-        user: action.payload.message.user
-
+        user: action.payload
       };
     case types.PROFILE_UPDATE_FAILURE:
       return {
         ...state,
         loading: false,
-        errorMessage: action.payload.message.message
       };
     default: {
       return state;

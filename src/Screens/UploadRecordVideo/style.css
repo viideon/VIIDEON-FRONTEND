@@ -1,5 +1,5 @@
 .recordMainContainer {
-  width: 60%;
+  width: 80%;
   border-radius: 5px;
   margin: auto;
   margin-top: 8%;
@@ -87,4 +87,7 @@
 }
 .formGroupMultiple {
   padding-top: 15px;
+}
+.recordMainContainer #formInput input {
+  padding: 8px !important;
 }

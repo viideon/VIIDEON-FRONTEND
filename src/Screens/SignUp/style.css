@@ -1,6 +1,7 @@
 .firstLayoutContainer {
   background-color: rgba(39, 51, 62, 0.6);
-  height: 100vh;
+  height: 100%;
+  min-height: 100vh;
   background-image: linear-gradient(
     -135deg,
     rgba(16, 20, 128, 0.7) 25%,
@@ -9,7 +10,8 @@
 }
 .firstStateLayoutContainer {
   background-color: rgba(39, 51, 62, 0.6);
-  height: 150vh;
+  height: 100%;
+  min-height: 100vh;
   background-image: linear-gradient(
     -135deg,
     rgba(16, 20, 128, 0.7) 25%,
@@ -36,7 +38,8 @@
   font-size: 25px;
 }
 .secondLayoutMainContainer {
-  padding-left: 5%;
+  padding-left: 10%;
+  padding-right: 10%;
 }
 .loginTwo {
   padding-top: 15%;
@@ -74,10 +77,41 @@
   margin-top: 20px;
   border-radius: 10rem;
 }
-.loadingWrapper {
-  margin-left: 35%;
-  opacity: 0.5;
+.wrapperLoader {
+  position: relative;
+  padding: 30px;
+  display: flex;
+  justify-content: center;
 }
-#wrapperFormSignup {
+.innerWrapperLoader {
+  position: absolute;
+  top: 0;
+}
+@media only screen and (max-width: 400px) {
+  .firstLayoutMainContainer {
+    padding-left: 4%;
+  }
+  .firstStateLayoutContainer {
+    height: 60vh;
+  }
+  .buttonWrapper1 {
+    padding-bottom: 60px;
+  }
+}
+
+.alert-warning {
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeeba;
   width: 80%;
+}
+.alert {
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
+.fade {
+  transition: opacity 0.15s linear;
 }

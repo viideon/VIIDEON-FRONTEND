@@ -16,7 +16,6 @@ const registerReducer = (state = initialState, action: any) => {
       return {
         ...state,
         loading: false,
-        success: action.payload,
         isSignupSuccess: true,
       };
     case types.REGISTRATION_FAILURE:
@@ -24,7 +23,6 @@ const registerReducer = (state = initialState, action: any) => {
         ...state,
         error: true,
         loading: false,
-        errorMessage: action.payload.message,
         isSignupSuccess: false,
       };
     default: {
