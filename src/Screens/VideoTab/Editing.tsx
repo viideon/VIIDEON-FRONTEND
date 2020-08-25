@@ -153,6 +153,7 @@ class Editing extends React.Component<IProps, IState> {
           let musicBlob = await res.blob();
           const audioUrl = await window.URL.createObjectURL(musicBlob);
           this.backgroundMusic.src = audioUrl;
+          this.setState({ backgroundMusicUrl: musicProps.url });
         }
         const response = await fetch(video.url);
         let videoBlob = await response.blob();
