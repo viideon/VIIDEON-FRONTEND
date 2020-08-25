@@ -19,7 +19,7 @@ function* addUserAsset(action: any) {
             toast.error("Failed to add your asset try again");
         }
     } catch (error) {
-        console.log("error", error);
+        toast.error("Failed to add your asset try again");
     }
 }
 
@@ -38,7 +38,7 @@ function* addMusicAsset(action: any) {
             toast.error("Failed to add your asset try again");
         }
     } catch (error) {
-        console.log("error", error);
+        toast.error("Failed to add your asset try again");
     }
 }
 function* getUserAsset() {

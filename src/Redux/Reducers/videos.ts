@@ -47,7 +47,7 @@ const videoReducer = (state = initialState, action: any) => {
         loadingVideos: true,
         page: state.page + 1,
       };
-    case "LOADMORE_TRUE":
+    case types.LOADMORE_TRUE:
       return {
         ...state,
         loadMore: true,
@@ -72,7 +72,7 @@ const videoReducer = (state = initialState, action: any) => {
         videos: [...state.videos, ...action.payload],
         loadingVideos: false,
       };
-    case "EMPTY_PAGE":
+    case types.EMPTY_PAGE:
       return {
         ...state,
         page: 0,
@@ -97,7 +97,6 @@ const videoReducer = (state = initialState, action: any) => {
         loadingVideos: false,
       };
     case types.GET_CAMPAIGN_VIDEOS_SUCCESS:
-      console.log("red", action.payload.video);
       return {
         ...state,
         error: false,
@@ -170,7 +169,7 @@ const videoReducer = (state = initialState, action: any) => {
       return { ...state, deletingVideo: false, showDeleteDialog: false };
     case types.DELETE_VIDEO_SUCCESS:
       return { ...state, deletingVideo: false, showDeleteDialog: false };
-    case "ENABLE_DELETEDIALOG":
+    case types.ENABLE_DELETEDIALOG:
       return { ...state, showDeleteDialog: true };
     case types.UPDATE_VIDEOS_AFTEREDELETE:
       return { ...state, videos: action.payload };

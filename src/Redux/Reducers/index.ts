@@ -38,7 +38,6 @@ const appReducer = combineReducers({
   drawer: drawerReducer,
   auth: authReducer,
   video: persistReducer(videoPersistConfig, videoReducer),
-  // video: videoReducer,
   profile: persistReducer(profilePersistConfig, profileReducer),
   email: emailReducer,
   asset: assetReducer,

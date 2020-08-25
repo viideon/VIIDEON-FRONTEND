@@ -38,7 +38,7 @@ export function searchUserVideos(title: any) {
 }
 export function emptyPage() {
   return {
-    type: "EMPTY_PAGE",
+    type: types.EMPTY_PAGE,
   };
 }
 export function updateVideo(video: VideoUpdate): updateVideoAction {
