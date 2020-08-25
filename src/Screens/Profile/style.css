@@ -43,11 +43,16 @@
 #profileImgWrap {
   display: flex;
   justify-content: center;
+  width: 160px;
+  border-radius: 5px;
+  height: 160px;
+  background: #cdcdcd;
+  margin: auto;
 }
 #profileImgStyle {
-  border-radius: 5px;
-  width: 160px;
-  height: 160px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 #profileImgLabelWrap {
   display: flex;
@@ -100,7 +105,7 @@
   border: none;
   border-radius: 0%;
 }
-#memberDubbPara {
+#memberVideonText {
   font-size: small;
   font-weight: 200;
 }

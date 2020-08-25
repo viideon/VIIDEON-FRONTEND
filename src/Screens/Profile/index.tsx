@@ -279,7 +279,7 @@ class Profile extends Component<IProps, IState> {
                     value={this.state.affiliateId}
                     onChange={this.onChange}
                   />
-                  <p id="memberDubbPara">
+                  <p id="memberVideonText">
                     {Constants.PROFILE_DESCRIPTION}{" "}
                     <a href="/profile"> {Constants.PROFILE_URL}</a>
                   </p>

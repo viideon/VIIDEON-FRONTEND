@@ -35,11 +35,13 @@ class SideBar extends Component<IProps, IState> {
         <div className="wrapperProfileSidebar">
           {user && (
             <div className="wrapperDetails">
-              <img
-                src={user.url ? user.url : avatar}
-                className="avatarSidebar"
-                alt="avatar"
-              />
+              <span className="wrapperAvatarSidebar">
+                <img
+                  src={user.url ? user.url : avatar}
+                  className="avatarSidebar"
+                  alt="avatar"
+                />
+              </span>
               <span className="infoProfile">
                 <span className="nameInfo">{`${user.firstName} ${user.lastName}`}</span>
                 <span className="contactInfo">{user.email}</span>
