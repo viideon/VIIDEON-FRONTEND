@@ -15,14 +15,12 @@
 .titleContacts > .caption {
   padding: 10px 0;
   float: left;
-  /* display: inline-block; */
   font-size: 18px;
   line-height: 18px;
 }
 .titleContacts > .action {
   padding: 6px 0 14px;
   float: right;
-  /* display: inline-block; */
 }
 
 .caption > .heading {
@@ -81,7 +79,6 @@
   font-size: 14px;
   font-weight: 400;
   white-space: nowrap;
-  /* overflow: hidden; */
 }
 .table th {
   border: 1px solid #ddd;
