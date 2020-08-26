@@ -4,11 +4,9 @@
   height: 95vh;
   min-height: 700px;
   opacity: 5px;
-  /* box-shadow: 0 0 10px lightgrey; */
   width: 235px;
   position: fixed !important;
   margin-left: 0;
-  /* transition: transform 2s ease-in-out; */
   transition: left 1s cubic-bezier(0.82, 0.085, 0.395, 0.895);
 }
 .MainDrawerHide {
