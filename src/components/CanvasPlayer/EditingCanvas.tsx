@@ -303,9 +303,8 @@ class EditingPlayer extends React.Component<IProps, IState> {
     }
   }
   onEnded(e: any) {
-    if (!this.props.loop) {
-      this.setState({ playing: false });
-    }
+    this.backgroundMusic.pause();
+    this.backgroundMusic.currentTime = 0;
     this.progressBar.value = 0;
   }
   onLoadedMetaData(e: any) {

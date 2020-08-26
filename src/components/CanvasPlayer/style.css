@@ -237,8 +237,9 @@ input[type="range"]::-moz-range-thumb {
 } */
 .videoLoadingIcon {
   position: absolute;
+  left: 50%;
   top: 40%;
-  left: 48%;
+  transform: translate(-50%, 0);
 }
 input[type="range"]:focus::-moz-range-track {
   outline: none;
