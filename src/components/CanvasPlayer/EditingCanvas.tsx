@@ -293,7 +293,6 @@ class EditingPlayer extends React.Component<IProps, IState> {
     };
     if (this.video) {
       render();
-      // && this.video.readyState === 4
       if (this.state.playing) {
         window.requestAnimationFrame(this.handleAnimationFrame);
       }
@@ -302,6 +301,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
   onEnded(e: any) {
     this.backgroundMusic.pause();
     this.backgroundMusic.currentTime = 0;
+    this.video.currentTime = 0;
     this.progressBar.value = 0;
   }
   onLoadedMetaData(e: any) {
