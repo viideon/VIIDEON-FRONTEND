@@ -68,12 +68,12 @@ const Header: React.FC<IProps> = ({
           location.pathname === "/assetlibrary" ||
           location.pathname === "/music" ||
           location.pathname === "/contacts") && (
-          <MenuIcon
-            onClick={() => toggle()}
-            style={{ color: "#fff" }}
-            className="hamburgerTop"
-          />
-        )}
+            <MenuIcon
+              onClick={() => toggle()}
+              style={{ color: "#fff" }}
+              className="hamburgerTop"
+            />
+          )}
         <TopDrawer open={drawerOpen} toggle={toggle} />
 
         {(location.pathname === "/" ||
@@ -83,12 +83,12 @@ const Header: React.FC<IProps> = ({
           location.pathname === "/assetlibrary" ||
           location.pathname === "/music" ||
           location.pathname === "/contacts") && (
-          <MenuIcon
-            onClick={() => toggleDrawer()}
-            style={{ color: "#fff" }}
-            id="hamburgerSide"
-          />
-        )}
+            <MenuIcon
+              onClick={() => toggleDrawer()}
+              style={{ color: "#fff" }}
+              id="hamburgerSide"
+            />
+          )}
       </div>
       <div className="centerHeader">
         {location.pathname !== "/" ? (
@@ -98,14 +98,14 @@ const Header: React.FC<IProps> = ({
             </h3>
           </Tooltip>
         ) : (
-          <h3 className="headerStyle" onClick={navigateHome}>
-            videonPRO
+            <h3 className="headerStyle" onClick={navigateHome}>
+              videonPRO
           </h3>
-        )}
+          )}
       </div>
       <div className="endHeader">
         <div className="wrapperEnd">
-          <span onClick={handleClickPopup} style={{ cursor: "pointer" }}>
+          <span onClick={handleClickPopup} style={{ cursor: "pointer" }} className="avatarWrapperHeader">
             <img src={image} className="avatarNav" alt="avatar" />
           </span>
           <Tooltip title="Under Progress">

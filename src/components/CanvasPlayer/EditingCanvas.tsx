@@ -9,7 +9,6 @@ import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 import VolumeOffIcon from "@material-ui/icons/VolumeOff";
 // import VolumeMuteIcon from "@material-ui/icons/VolumeMute";
 import VolumeDownIcon from "@material-ui/icons/VolumeDown";
-// import { toast } from "react-toastify";
 import "./style.css";
 
 interface IProps {
@@ -28,7 +27,6 @@ interface IProps {
 interface IState {
   playing: boolean;
   video: any;
-  mobile: boolean;
   mute: boolean;
   volumeState: string;
   showThumbnail: boolean;
@@ -37,7 +35,7 @@ interface IState {
   width: number;
   height: number;
   watched: boolean;
-
+  musicVolume: number;
 }
 class EditingPlayer extends React.Component<IProps, IState> {
   canvasContext: any;
@@ -67,7 +65,6 @@ class EditingPlayer extends React.Component<IProps, IState> {
     this.state = {
       playing: false,
       video: null,
-      mobile: this.isMobile(),
       mute: false,
       volumeState: "up",
       showThumbnail: true,
@@ -76,6 +73,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
       width: 0,
       height: 0,
       watched: false,
+      musicVolume: 0
     };
     this.unmounted = false;
     this.canvasContext = null;
@@ -145,12 +143,13 @@ class EditingPlayer extends React.Component<IProps, IState> {
           let musicBlob = await musicResponse.blob();
           const musicUrl = await window.URL.createObjectURL(musicBlob);
           this.backgroundMusic.src = musicUrl;
-          this.video.src = this.props.src;
-          document.body.appendChild(this.video);
-          this.canvasContext = this.edCanvas.getContext("2d");
-          this.canvasTmpCtx = this.tmpCanvas.getContext("2d");
-          this.setState({ videoLoaded: true });
+          this.setState({ musicVolume: musicProps.musicVolume }, () => this.initializeVolume());
         }
+        this.video.src = this.props.src;
+        document.body.appendChild(this.video);
+        this.canvasContext = this.edCanvas.getContext("2d");
+        this.canvasTmpCtx = this.tmpCanvas.getContext("2d");
+        this.setState({ videoLoaded: true });
       } catch (err) {
         console.log("error in local canvas ", err);
       }
@@ -161,6 +160,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
           let musicBlob = await musicResponse.blob();
           const musicUrl = await window.URL.createObjectURL(musicBlob);
           this.backgroundMusic.src = musicUrl;
+          this.setState({ musicVolume: musicProps.musicVolume }, () => this.initializeVolume());
         }
         let videoResponse = await fetch(src);
         let videoBlob = await videoResponse.blob();
@@ -242,9 +242,6 @@ class EditingPlayer extends React.Component<IProps, IState> {
       this.setState({ volumeState: "up" });
     }
   };
-  isMobile() {
-    return window.innerWidth <= 768;
-  }
   formatTime = (timeInSeconds: any) => {
     const result = new Date(timeInSeconds * 1000).toISOString().substr(11, 8);
     return {
@@ -303,9 +300,8 @@ class EditingPlayer extends React.Component<IProps, IState> {
     }
   }
   onEnded(e: any) {
-    if (!this.props.loop) {
-      this.setState({ playing: false });
-    }
+    this.backgroundMusic.pause();
+    this.backgroundMusic.currentTime = 0;
     this.progressBar.value = 0;
   }
   onLoadedMetaData(e: any) {
@@ -315,9 +311,6 @@ class EditingPlayer extends React.Component<IProps, IState> {
     this.progressBar.setAttribute("max", videoDuration);
     this.duration.innerText = `${time.minutes}:${time.seconds}`;
     this.duration.setAttribute("datetime", `${time.minutes}m ${time.seconds}s`);
-    if (this.props.autoPlay) {
-      this.play();
-    }
   }
   requestAnimationFrame() {
     if (!this.unmounted) {
@@ -365,9 +358,13 @@ class EditingPlayer extends React.Component<IProps, IState> {
       height: persistRect.height
     });
   };
+  initializeVolume = () => {
+    this.video.volume = 0.5;
+    this.backgroundMusic.volume = this.state.musicVolume / 100 * 50;
+  }
   setVolume = (e: any) => {
     this.video.volume = e.target.value / 100;
-    this.backgroundMusic.volume = e.target.value / 100;
+    this.backgroundMusic.volume = this.state.musicVolume / 100 * e.target.value;
   };
   skipAhead = (event: any) => {
     let skipTo = event.target.dataset.seek

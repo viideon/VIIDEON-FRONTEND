@@ -33,8 +33,7 @@ export const TAB = "Tab 2";
 
 //Profile screen constants
 export const PROFILE_PHOTO = "PROFILE PHOTO";
-export const UPLOAD_DESCRIPTION =
-  "Upload a profile photo of you to display on your video pages";
+export const UPLOAD_DESCRIPTION = "Upload a profile photo of you";
 export const SELECT_NEW_PHOTO = "SELECT NEW PHOTO";
 export const YOUR_PROFILE = "YOUR PROFILE";
 export const FIRSTNAME = "First Name";
@@ -54,6 +53,8 @@ export const UPDATE = "Update";
 export const LINK_DUBB_ACCOUNT = "LINK DUBB ACCOUNTS";
 export const EMAIL = "Email";
 export const SEND = "Send";
+export const PROFILE_PIC_INSTRUCTIONS =
+  "Upload profile picture with dimensions max 250 x 250 pixels and less then 1 Mb";
 
 //Signin screen constants
 export const EMAIL_ADDRESS = "E-MAIL ADDRESS";

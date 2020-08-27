@@ -150,7 +150,7 @@ export function* assetWatcher() {
     yield takeEvery(types.GET_ASSETS, getUserAsset);
     yield takeEvery(types.DELETE_ASSET, deleteUserAsset);
     yield takeEvery(types.ADD_MUSIC, addMusicAsset);
-    yield takeEvery(types.DELETE_ASSET, deleteMusicAsset);
+    yield takeEvery(types.DELETE_MUSIC, deleteMusicAsset);
     yield takeEvery(types.GET_MUSIC, getMusicAsset);
 
 }

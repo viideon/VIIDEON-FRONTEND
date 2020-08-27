@@ -99,6 +99,16 @@
 .wrapperEditLogoText {
   margin-top: 20px;
 }
+.musicVolumeAdjust {
+  margin-top: 20px;
+  display: flex;
+  width: 40%;
+  flex-direction: column;
+}
+.musicVolumeAdjust label {
+  font-size: medium;
+  font-weight: bold;
+}
 /* -----------analtics tab----------- */
 .wrapperAnalytics {
   padding-bottom: 20px;

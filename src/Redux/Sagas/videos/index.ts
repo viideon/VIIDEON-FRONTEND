@@ -225,6 +225,7 @@ function* updateVideo(action: any) {
       const responseVideo = result.data.video;
       yield put({ type: types.UPDATE_VIDEO_SUCCESS, payload: responseVideo });
       toast.info("Updated");
+      window.location.reload(true);
     } else {
       toast.error("Update failed, please try again");
       yield put({

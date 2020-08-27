@@ -119,7 +119,7 @@ class Profile extends Component<IProps, IState> {
           <div id="profilePhotoHead">
             <h4>{Constants.PROFILE_PHOTO} </h4>
             <i>
-              <Tooltip title="upload a profile picture with dimensions 360 x 360 pixels (max) 180 x 180 pixels (min)  ">
+              <Tooltip title={`${Constants.PROFILE_PIC_INSTRUCTIONS}`}>
                 <span>
                   <FaInfoCircle id="infoCircleStyle" />
                 </span>
@@ -136,23 +136,25 @@ class Profile extends Component<IProps, IState> {
                 id="profileImgStyle"
               />
             ) : (
-              <img
-                src={this.state.url ? this.state.url : profileImg}
-                alt="profileImg"
-                id="profileImgStyle"
-              />
-            )}
+                <img
+                  src={this.state.url ? this.state.url : profileImg}
+                  alt="profileImg"
+                  id="profileImgStyle"
+                />
+              )}
           </div>
-          <div id="profileImgLabelWrap">
-            <Label id="profileImgLabelStyle" className="profileBtn">
-              SELECT NEW PHOTO
+          <Tooltip title={`${Constants.PROFILE_PIC_INSTRUCTIONS}`}>
+            <div id="profileImgLabelWrap">
+              <Label id="profileImgLabelStyle" className="profileBtn">
+                SELECT NEW PHOTO
               <Input
-                type="file"
-                id="profileSelectInput"
-                onChange={this.fileHandler}
-              />
-            </Label>
-          </div>
+                  type="file"
+                  id="profileSelectInput"
+                  onChange={this.fileHandler}
+                />
+              </Label>
+            </div>
+          </Tooltip>
         </div>
         <div id="yourProfileWrap">
           <h4 id="yourProfielHead">{Constants.YOUR_PROFILE}</h4>
@@ -277,7 +279,7 @@ class Profile extends Component<IProps, IState> {
                     value={this.state.affiliateId}
                     onChange={this.onChange}
                   />
-                  <p id="memberDubbPara">
+                  <p id="memberVideonText">
                     {Constants.PROFILE_DESCRIPTION}{" "}
                     <a href="/profile"> {Constants.PROFILE_URL}</a>
                   </p>

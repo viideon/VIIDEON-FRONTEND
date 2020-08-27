@@ -9,7 +9,6 @@ import { RegisterState } from "../../Redux/Types/register";
 import { User } from "../../Redux/Types/register";
 import * as Constants from "../../constants/constants";
 import Loading from "../../components/Loading";
-// import { reg } from "../../constants/emailRegEx";
 import "./style.css";
 import * as Yup from "yup";
 import { Formik } from "formik";
@@ -53,7 +52,7 @@ class Signup extends React.Component<IProps, IState> {
     if (
       nextProps.registerUser.isSignupSuccess &&
       nextProps.registerUser.isSignupSuccess !==
-        this.props.registerUser.isSignupSuccess
+      this.props.registerUser.isSignupSuccess
     ) {
       this.props.history.push("/");
     }
@@ -86,13 +85,13 @@ class Signup extends React.Component<IProps, IState> {
                 </div>
               </div>
             ) : (
-              <div className="firstLayoutContainer">
-                <div className="firstLayoutMainContainer">
-                  <p className="signUp">{Constants.SIGNUP_TO}</p>
-                  <p className="logo">{Constants.VIDIONPRO}</p>
+                <div className="firstLayoutContainer">
+                  <div className="firstLayoutMainContainer">
+                    <p className="signUp">{Constants.SIGNUP_TO}</p>
+                    <p className="logo">{Constants.VIDIONPRO}</p>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </Grid>
           <Grid item xs={12} md={5} sm={12}>
             <div className="secondLayoutMainContainer">
@@ -142,10 +141,8 @@ class Signup extends React.Component<IProps, IState> {
                   <div>
                     <FormGroup>
                       <Label for="exampleEmail" style={{ fontWeight: "bold" }}>
-                        {/* {Constants.EMAIL_BUSINESS} */}
                         Enter Gmail Account
                       </Label>
-
                       <InputRound
                         type="email"
                         name="email"

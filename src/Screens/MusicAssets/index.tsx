@@ -14,20 +14,13 @@ interface IProps {
 }
 
 class MusicAssets extends React.Component<IProps> {
-  state = {
-    dummyMusic: [
-      "https://videonpro.s3-us-west-1.amazonaws.com/assets/musicasset1.mp3",
-      "https://videonpro.s3-us-west-1.amazonaws.com/assets/musicasset2.mp3"
-    ]
-  };
   render() {
     const { musicAssets } = this.props;
-    console.log("music assets", musicAssets);
     return (
       <Home>
         <h3 className="assetHeading">Music Assets</h3>
         <Grid container style={{ padding: "20px" }}>
-          {musicAssets.map((asset: any) => (
+          {musicAssets && musicAssets.map((asset: any) => (
             <Grid item xs={12} sm={6} md={4} lg={4} key={asset._id}>
               <MusicAsset asset={asset} />
             </Grid>
@@ -72,7 +65,7 @@ const MusicAsset = ({ asset }: any) => {
   return (
     <div className="wrapperAudioLib">
       <h5>{asset.title}</h5>
-      <audio src={asset.url} controls />
+      <audio src={asset.url} controls style={{ outline: "none" }} />
     </div>
   );
 };

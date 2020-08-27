@@ -42,6 +42,8 @@ interface IState {
   musicFile: any;
   assetUploading: boolean;
   isOpenMusicPicker: boolean;
+  musicLoadingTimeout: any;
+  musicVolume: string;
 }
 class AddLogo extends React.Component<IProps, IState> {
   video: any;
@@ -76,7 +78,9 @@ class AddLogo extends React.Component<IProps, IState> {
       musicFileSelected: false,
       musicFile: null,
       assetUploading: false,
-      isOpenMusicPicker: false
+      isOpenMusicPicker: false,
+      musicVolume: "0.5",
+      musicLoadingTimeout: null,
     };
     this.draw = this.draw.bind(this);
   }
@@ -108,6 +112,7 @@ class AddLogo extends React.Component<IProps, IState> {
     this.canvas2.width = this.video.clientWidth;
     this.canvas2.height = this.video.clientHeight;
   };
+
   onVideoPlay = () => {
     if (this.state.backgroundMusicUrl && this.backgroundMusic.readyState !== 4) {
       toast.info("Adding background music to video , Please wait");
@@ -240,7 +245,6 @@ class AddLogo extends React.Component<IProps, IState> {
         ctx.drawImage(img, 0, 0, width, height);
         ctx.canvas.toBlob(
           async (blob: any) => {
-            // this.setState({ img: URL.createObjectURL(blob) });
             await this.saveLogo(blob);
             this.setState({ assetUploading: false });
             toast.info("Logo uploaded");
@@ -395,9 +399,17 @@ class AddLogo extends React.Component<IProps, IState> {
       toast.error("Failed to select a file try again");
     }
   }
+  isMusicLoaded = () => {
+    if (this.backgroundMusic && this.backgroundMusic.readyState === 4) {
+      clearInterval(this.state.musicLoadingTimeout);
+      this.setState({ musicLoadingTimeout: null });
+      toast.info("Music added");
+    }
+  }
   onMusicAssetPick = (path: any) => {
     this.setState({ backgroundMusicUrl: path });
     toast.info("Wait while we add the music to the video");
+    this.setState({ musicLoadingTimeout: setInterval(() => this.isMusicLoaded(), 3000) });
   }
   onAssetPick = (path: any) => {
     this.setState({ logoPath: path }, () => this.updateCanvas());
@@ -430,7 +442,8 @@ class AddLogo extends React.Component<IProps, IState> {
       height: 50
     };
     const musicProps = {
-      url: this.state.backgroundMusicUrl
+      url: this.state.backgroundMusicUrl,
+      musicVolume: parseFloat(this.state.musicVolume)
     }
     this.props.saveTextLogoProps(logoProps, textProps, musicProps);
     this.props.moveToNextStep();
@@ -443,7 +456,12 @@ class AddLogo extends React.Component<IProps, IState> {
     this.video.removeEventListener("volumechange", this.syncAudio);
   }
   syncAudio = () => {
-    this.backgroundMusic.volume = this.video.volume;
+    let videoVolume = this.video.volume * 100;
+    this.backgroundMusic.volume = parseFloat(this.state.musicVolume) / 100 * videoVolume;
+  }
+  onAdjustMusicVolume = (e: any) => {
+    this.backgroundMusic.volume = e.target.value;
+    this.setState({ musicVolume: e.target.value });
   }
   onVideoPause = () => {
     this.backgroundMusic.pause();
@@ -451,11 +469,11 @@ class AddLogo extends React.Component<IProps, IState> {
   onVideoEnd = () => {
     this.backgroundMusic.currentTime = 0;
   }
-
   componentWillUnmount() {
     this.removeListeners();
   }
   render() {
+    const { backgroundMusicUrl, musicFileSelected } = this.state;
     return (
       <Grid container>
         <Grid item xs={1} sm={1} md={1} lg={1}></Grid>
@@ -589,7 +607,7 @@ class AddLogo extends React.Component<IProps, IState> {
                     ref={this.setMusicInputRef}
                     accept="audio/*"
                   />
-                  {this.state.musicFileSelected && <Button
+                  {musicFileSelected && <Button
                     onClick={this.uploadAndSaveMusicAsset}
                     style={{
                       color: "#fff",
@@ -599,7 +617,7 @@ class AddLogo extends React.Component<IProps, IState> {
                   >
                     Upload
                   </Button>}
-                  {!this.state.musicFileSelected && <Button
+                  {!musicFileSelected && <Button
                     onClick={this.triggerMusicUploadBtn}
                     style={{
                       color: "#fff",
@@ -621,7 +639,11 @@ class AddLogo extends React.Component<IProps, IState> {
                     Select from Assets
                   </Button>
 
-                  {this.state.musicFileSelected && <Input type="text" placeholder='Music Title' value={this.state.musicTitle} onChange={this.onChangeMusicTitle} style={{ marginTop: "10px" }} />}
+                  {musicFileSelected && <Input type="text" placeholder='Music Title' value={this.state.musicTitle} onChange={this.onChangeMusicTitle} style={{ marginTop: "10px" }} />}
+                  {backgroundMusicUrl && <div className="musicVolumeAdjust">
+                    <label>Adjust music volume</label>
+                    <input type="range" value={this.state.musicVolume} onChange={this.onAdjustMusicVolume}
+                      min="0" max="1" step="0.1" /> </div>}
 
                 </div>
               </Grid>
@@ -744,7 +766,7 @@ class AddLogo extends React.Component<IProps, IState> {
                 width={1280}
                 style={{ display: "none" }}
               />
-              <audio src={this.state.backgroundMusicUrl} ref="backgroundMusic" loop style={{ display: "none" }} />
+              <audio src={backgroundMusicUrl} ref="backgroundMusic" loop style={{ display: "none" }} />
             </div>
           </div>
         </Grid>

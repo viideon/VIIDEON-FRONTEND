@@ -50,6 +50,8 @@ interface IState {
   backgroundMusicUrl: string;
   musicFileSelected: boolean;
   musicFile: any;
+  musicLoadingTimeout: any;
+  musicVolume: string;
 }
 interface Video {
   url: string;
@@ -113,6 +115,8 @@ class Editing extends React.Component<IProps, IState> {
       backgroundMusicUrl: "",
       musicFileSelected: false,
       musicFile: null,
+      musicLoadingTimeout: null,
+      musicVolume: "0.5",
     };
     this._isMounted = false;
   }
@@ -135,7 +139,6 @@ class Editing extends React.Component<IProps, IState> {
     this.img.crossOrigin = "Anonymous";
     this.ctx = this.canvas.getContext("2d");
     this.ctx2 = this.canvas2.getContext("2d");
-    // this.video.addEventListener("loadedmetadata", this.handleLoadedMetaData);
     this.video.addEventListener("canplaythrough", this.handleLoadedMetaData);
     this.video.addEventListener("pause", this.onVideoPause);
     this.video.addEventListener("play", this.onVideoPlay);
@@ -152,16 +155,14 @@ class Editing extends React.Component<IProps, IState> {
           let musicBlob = await res.blob();
           const audioUrl = await window.URL.createObjectURL(musicBlob);
           this.backgroundMusic.src = audioUrl;
+          this.setState({ backgroundMusicUrl: musicProps.url, musicVolume: musicProps.musicVolume.toString() }, () => this.syncAudio());
         }
         const response = await fetch(video.url);
         let videoBlob = await response.blob();
         const videoUrl = await window.URL.createObjectURL(videoBlob);
         this.video.src = videoUrl;
-
       } catch (err) {
-        // toast.error(err.message);
-        // return;
-        console.log("errror in editing screen", err);
+        console.log("error in editing screen", err);
       }
       if (logoProps) {
         this.setState({ logoPath: logoProps.url, iconPos: logoProps.position });
@@ -178,7 +179,10 @@ class Editing extends React.Component<IProps, IState> {
       this.setState({ videoLoaded: true });
     }
   }
-
+  onAdjustMusicVolume = (e: any) => {
+    this.backgroundMusic.volume = e.target.value;
+    this.setState({ musicVolume: e.target.value });
+  }
   setThumbnailInputRef = (ref: any) => {
     this.thumbnailRef = ref;
   };
@@ -221,6 +225,13 @@ class Editing extends React.Component<IProps, IState> {
       this.video.clientWidth,
       this.video.clientHeight
     );
+  }
+  isMusicLoaded = () => {
+    if (this.backgroundMusic && this.backgroundMusic.readyState === 4) {
+      clearInterval(this.state.musicLoadingTimeout);
+      this.setState({ musicLoadingTimeout: null });
+      toast.info("Music added");
+    }
   }
   onVideoPause = () => {
     this.backgroundMusic.pause();
@@ -332,6 +343,7 @@ class Editing extends React.Component<IProps, IState> {
     ) {
       this.initializeIconPosition(this.props.video.logoProps.position);
     }
+
   };
 
   onLogoFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -533,7 +545,6 @@ class Editing extends React.Component<IProps, IState> {
         ctx.drawImage(img, 0, 0, width, height);
         ctx.canvas.toBlob(
           async (blob: any) => {
-            // this.setState({ img: URL.createObjectURL(blob) });
             await this.saveLogo(blob);
             this.setState({ assetUploading: false });
             toast.info("Logo uploaded");
@@ -576,6 +587,7 @@ class Editing extends React.Component<IProps, IState> {
   onMusicAssetPick = (path: any) => {
     this.setState({ backgroundMusicUrl: path });
     toast.info("Wait while we add the music to the video");
+    this.setState({ musicLoadingTimeout: setInterval(() => this.isMusicLoaded(), 3000) });
   }
   updateVideoLogoText = () => {
     const textProps = {
@@ -590,7 +602,8 @@ class Editing extends React.Component<IProps, IState> {
       position: this.state.iconPos
     };
     const musicProps = {
-      url: this.state.backgroundMusicUrl
+      url: this.state.backgroundMusicUrl,
+      musicVolume: parseFloat(this.state.musicVolume)
     }
     const video = {
       id: this.props.videoId,
@@ -601,7 +614,8 @@ class Editing extends React.Component<IProps, IState> {
     this.props.updateVideo(video);
   };
   syncAudio = () => {
-    this.backgroundMusic.volume = this.video.volume;
+    let videoVolume = this.video.volume * 100;
+    this.backgroundMusic.volume = parseFloat(this.state.musicVolume) / 100 * videoVolume;
   }
   removeListeners = () => {
     this.video.removeEventListener("canplaythrough", this.handleLoadedMetaData);
@@ -616,7 +630,7 @@ class Editing extends React.Component<IProps, IState> {
   }
   render() {
     const { video, isVideoUpdating } = this.props;
-    const { showVideo, videoLoaded } = this.state;
+    const { showVideo, videoLoaded, musicFileSelected, backgroundMusicUrl } = this.state;
     return (
       <div className="editingTabWrapper" >
         <Container>
@@ -792,7 +806,7 @@ class Editing extends React.Component<IProps, IState> {
             style={{ display: "none" }}
             ref="image"
           />
-          <audio src={this.state.backgroundMusicUrl} ref="backgroundMusic" loop style={{ display: "none" }} />
+          <audio src={backgroundMusicUrl} ref="backgroundMusic" loop style={{ display: "none" }} />
           <Grid container>
             <Grid item xs={12} sm={12} md={6} lg={6}>
               <div className="addLogoDiv">
@@ -890,7 +904,7 @@ class Editing extends React.Component<IProps, IState> {
                   ref={this.setMusicInputRef}
                   accept="audio/*"
                 />
-                {this.state.musicFileSelected && <Button
+                {musicFileSelected && <Button
                   onClick={this.uploadAndSaveMusicAsset}
                   style={{
                     color: "#fff",
@@ -900,7 +914,7 @@ class Editing extends React.Component<IProps, IState> {
                 >
                   Upload
                   </Button>}
-                {!this.state.musicFileSelected && <Button
+                {!musicFileSelected && <Button
                   onClick={this.triggerMusicUploadBtn}
                   style={{
                     color: "#fff",
@@ -922,7 +936,11 @@ class Editing extends React.Component<IProps, IState> {
                   Select from Assets
                   </Button>
 
-                {this.state.musicFileSelected && <Input type="text" placeholder='Music Title' value={this.state.musicTitle} onChange={this.onChangeMusicTitle} style={{ marginTop: "10px" }} />}
+                {musicFileSelected && <Input type="text" placeholder='Music Title' value={this.state.musicTitle} onChange={this.onChangeMusicTitle} style={{ marginTop: "10px" }} />}
+                {backgroundMusicUrl && <div className="musicVolumeAdjust">
+                  <label>Adjust music volume</label>
+                  <input type="range" value={this.state.musicVolume} onChange={this.onAdjustMusicVolume}
+                    min="0" max="1" step="0.1" /> </div>}
               </div>
             </Grid>
             <Grid item xs={12} sm={12} md={6} lg={6}>
