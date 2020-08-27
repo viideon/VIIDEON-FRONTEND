@@ -73,6 +73,7 @@ interface IState {
   assetUploading: boolean;
   isOpenMusicPicker: boolean;
   musicLoadingTimeout: any;
+  musicVolume: string;
 }
 class AddLogoText extends React.Component<IProps, IState> {
   video: any;
@@ -116,7 +117,8 @@ class AddLogoText extends React.Component<IProps, IState> {
       musicFileSelected: false,
       musicFile: null,
       assetUploading: false,
-      musicLoadingTimeout: null
+      musicLoadingTimeout: null,
+      musicVolume: "0.5",
     };
   }
   componentDidMount() {
@@ -279,7 +281,6 @@ class AddLogoText extends React.Component<IProps, IState> {
         ctx.drawImage(img, 0, 0, width, height);
         ctx.canvas.toBlob(
           async (blob: any) => {
-            // this.setState({ img: URL.createObjectURL(blob) });
             await this.saveLogo(blob);
             this.setState({ assetUploading: false });
             toast.info("Logo uploaded");
@@ -524,7 +525,8 @@ class AddLogoText extends React.Component<IProps, IState> {
         position: this.state.iconPos
       };
       const musicProps = {
-        url: this.state.backgroundMusicUrl
+        url: this.state.backgroundMusicUrl,
+        musicVolume: parseFloat(this.state.musicVolume)
       }
       const video = {
         title: this.state.title,
@@ -618,7 +620,12 @@ class AddLogoText extends React.Component<IProps, IState> {
     this.video.removeEventListener("volumechange", this.syncAudio);
   }
   syncAudio = () => {
-    this.backgroundMusic.volume = this.video.volume;
+    let videoVolume = this.video.volume * 100;
+    this.backgroundMusic.volume = parseFloat(this.state.musicVolume) / 100 * videoVolume;
+  }
+  onAdjustMusicVolume = (e: any) => {
+    this.backgroundMusic.volume = e.target.value;
+    this.setState({ musicVolume: e.target.value });
   }
   onVideoPause = () => {
     this.backgroundMusic.pause();
@@ -626,13 +633,13 @@ class AddLogoText extends React.Component<IProps, IState> {
   onVideoEnd = () => {
     this.backgroundMusic.currentTime = 0;
   }
-
   componentWillUnmount() {
     this.removeListeners();
   }
   render() {
     let { videoSaved, loading } = this.props.videoUser;
     let { progressEmail } = this.props;
+    let { musicFileSelected, backgroundMusicUrl } = this.state;
     return (
       <div>
         <h2 className="addLogoHeading">Add Logo and Text to Video</h2>
@@ -763,7 +770,7 @@ class AddLogoText extends React.Component<IProps, IState> {
                 ref={this.setMusicInputRef}
                 accept="audio/*"
               />
-              {this.state.musicFileSelected && <Button
+              {musicFileSelected && <Button
                 onClick={this.uploadAndSaveMusicAsset}
                 style={{
                   color: "#fff",
@@ -773,7 +780,7 @@ class AddLogoText extends React.Component<IProps, IState> {
               >
                 Upload
                   </Button>}
-              {!this.state.musicFileSelected && <Button
+              {!musicFileSelected && <Button
                 onClick={this.triggerMusicUploadBtn}
                 style={{
                   color: "#fff",
@@ -795,7 +802,11 @@ class AddLogoText extends React.Component<IProps, IState> {
                 Select from Assets
                   </Button>
 
-              {this.state.musicFileSelected && <Input type="text" placeholder='Music Title' value={this.state.musicTitle} onChange={this.onChangeMusicTitle} style={{ marginTop: "10px" }} />}
+              {musicFileSelected && <Input type="text" placeholder='Music Title' value={this.state.musicTitle} onChange={this.onChangeMusicTitle} style={{ marginTop: "10px" }} />}
+              {backgroundMusicUrl && <div className="musicVolumeAdjust">
+                <label>Adjust music volume</label>
+                <input type="range" value={this.state.musicVolume} onChange={this.onAdjustMusicVolume}
+                  min="0" max="1" step="0.1" /> </div>}
             </div>
           </Grid>
           <Grid item xs={12} sm={12} md={6} lg={6}>
@@ -1022,7 +1033,7 @@ class AddLogoText extends React.Component<IProps, IState> {
           width={1280}
           style={{ display: "none" }}
         />
-        <audio src={this.state.backgroundMusicUrl} ref="backgroundMusic" loop style={{ display: "none" }} />
+        <audio src={backgroundMusicUrl} ref="backgroundMusic" loop style={{ display: "none" }} />
       </div>
     );
   }
