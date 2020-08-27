@@ -103,7 +103,6 @@ class Recording extends React.Component<IProps> {
       showTimer: true,
       count: 0
     });
-    // toast.info("Recording started");
     if (this.state.trackNo === 1) {
       this.recordVideo.startRecording();
     } else {
@@ -143,7 +142,7 @@ class Recording extends React.Component<IProps> {
       this.stopStream();
       let that = this;
       this.recordVideo.stopRecording(() => {
-        window.getSeekableBlob(this.recordVideo.getBlob(), function(
+        window.getSeekableBlob(this.recordVideo.getBlob(), function (
           seekableBlob: any
         ) {
           that.props.saveVideo(seekableBlob);
@@ -193,7 +192,7 @@ class Recording extends React.Component<IProps> {
             <ListGroup style={listGroupStyle}>
               <ListGroupItem>{Constants.MESSAGE_INSTRUCTION}</ListGroupItem>
               <ListGroupItem>
-              <p className="exampleTxt">Example</p>
+                <p className="exampleTxt">Example</p>
                 <ul>
                   <li> {Constants.MESSAGE_INSTRUCTION_EXAMPLE_ONE}</li>
                   <li> {Constants.MESSAGE_INSTRUCTION_EXAMPLE_TWO}</li>
@@ -211,7 +210,7 @@ class Recording extends React.Component<IProps> {
             <ListGroup style={listGroupStyle}>
               <ListGroupItem>{Constants.CONCLUSION_INSTRUCTION}</ListGroupItem>
               <ListGroupItem>
-              <p className="exampleTxt">Example</p>
+                <p className="exampleTxt">Example</p>
                 <ul>
                   <li>{Constants.CONCLUSION_INSTRUCTION_EXAMPLE_ONE}</li>
                   <li>{Constants.CONCLUSION_INSTRUCTION_EXAMPLE_TWO}</li>
@@ -239,7 +238,7 @@ class Recording extends React.Component<IProps> {
   };
   stopStream = () => {
     this.localStream &&
-      this.localStream.getTracks().forEach(function(track: any) {
+      this.localStream.getTracks().forEach(function (track: any) {
         track.stop();
       });
     this.video.srcObect = null;
