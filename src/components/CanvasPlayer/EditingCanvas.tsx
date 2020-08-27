@@ -143,7 +143,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
           let musicBlob = await musicResponse.blob();
           const musicUrl = await window.URL.createObjectURL(musicBlob);
           this.backgroundMusic.src = musicUrl;
-          this.setState({ musicVolume: musicProps.musicVolume });
+          this.setState({ musicVolume: musicProps.musicVolume }, () => this.initializeVolume());
         }
         this.video.src = this.props.src;
         document.body.appendChild(this.video);
@@ -160,7 +160,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
           let musicBlob = await musicResponse.blob();
           const musicUrl = await window.URL.createObjectURL(musicBlob);
           this.backgroundMusic.src = musicUrl;
-          this.setState({ musicVolume: musicProps.musicVolume });
+          this.setState({ musicVolume: musicProps.musicVolume }, () => this.initializeVolume());
         }
         let videoResponse = await fetch(src);
         let videoBlob = await videoResponse.blob();
@@ -311,7 +311,6 @@ class EditingPlayer extends React.Component<IProps, IState> {
     this.progressBar.setAttribute("max", videoDuration);
     this.duration.innerText = `${time.minutes}:${time.seconds}`;
     this.duration.setAttribute("datetime", `${time.minutes}m ${time.seconds}s`);
-    // this.initializeVolume();
   }
   requestAnimationFrame() {
     if (!this.unmounted) {
@@ -361,7 +360,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
   };
   initializeVolume = () => {
     this.video.volume = 0.5;
-    this.backgroundMusic = this.state.musicVolume / 100 * 0.5;
+    this.backgroundMusic.volume = this.state.musicVolume / 100 * 50;
   }
   setVolume = (e: any) => {
     this.video.volume = e.target.value / 100;

@@ -143,7 +143,7 @@ class Editing extends React.Component<IProps, IState> {
     this.video.addEventListener("pause", this.onVideoPause);
     this.video.addEventListener("play", this.onVideoPlay);
     this.video.addEventListener("ended", this.onVideoEnd);
-    // this.video.addEventListener("volumechange", this.syncAudio);
+    this.video.addEventListener("volumechange", this.syncAudio);
   };
   async componentWillReceiveProps(nextProps: any) {
     const { video } = nextProps;
@@ -155,7 +155,7 @@ class Editing extends React.Component<IProps, IState> {
           let musicBlob = await res.blob();
           const audioUrl = await window.URL.createObjectURL(musicBlob);
           this.backgroundMusic.src = audioUrl;
-          this.setState({ backgroundMusicUrl: musicProps.url, musicVolume: musicProps.musicVolume.toString() });
+          this.setState({ backgroundMusicUrl: musicProps.url, musicVolume: musicProps.musicVolume.toString() }, () => this.syncAudio());
         }
         const response = await fetch(video.url);
         let videoBlob = await response.blob();
@@ -614,7 +614,8 @@ class Editing extends React.Component<IProps, IState> {
     this.props.updateVideo(video);
   };
   syncAudio = () => {
-    this.backgroundMusic.volume = this.video.volume;
+    let videoVolume = this.video.volume * 100;
+    this.backgroundMusic.volume = parseFloat(this.state.musicVolume) / 100 * videoVolume;
   }
   removeListeners = () => {
     this.video.removeEventListener("canplaythrough", this.handleLoadedMetaData);
