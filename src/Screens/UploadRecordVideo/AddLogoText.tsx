@@ -27,6 +27,7 @@ import * as Constants from "../../constants/constants";
 import { reg } from "../../constants/emailRegEx";
 import { EmailVideo, VideoSave, MultiEmail } from "../../Redux/Types/videos";
 import { addAsset, addMusicAsset } from "../../Redux/Actions/asset";
+import { getIconPosition } from "../../lib/helpers"
 import { config } from "../../config/aws";
 import HelpIcon from "@material-ui/icons/Help";
 import "./style.css";
@@ -345,20 +346,6 @@ class AddLogoText extends React.Component<IProps, IState> {
         return;
     }
   };
-  getIconPosition = (position: string) => {
-    switch (position) {
-      case "top-left":
-        return { x: 20, y: 20 };
-      case "bottom-left":
-        return { x: 20, y: 600 };
-      case "bottom-right":
-        return { x: 1160, y: 600 };
-      case "top-right":
-        return { x: 1160, y: 20 };
-      default:
-        return { x: 0, y: 0 };
-    }
-  }
   setTextPosition = (position: string) => {
     switch (position) {
       case "top-left":
@@ -412,7 +399,7 @@ class AddLogoText extends React.Component<IProps, IState> {
     return new Promise((resolve, reject) => {
       const thumbCanvas: any = this.refs.thumbCanvas;
       const thumbnailContext = thumbCanvas.getContext("2d");
-      const iconPos = this.getIconPosition(this.state.iconPos);
+      const iconPos = getIconPosition(this.state.iconPos);
       thumbnailContext.drawImage(this.video, 0, 0, 1280, 720);
       thumbnailContext.fillStyle = this.state.textColor;
       canvasTxt.fontSize = this.state.fontSize;
@@ -537,6 +524,7 @@ class AddLogoText extends React.Component<IProps, IState> {
       return;
     }
     try {
+      toast.info("Generating thumbnail ...");
       await this.getThumbnail();
       await this.uploadThumbnail();
       await this.uploadVideo();
