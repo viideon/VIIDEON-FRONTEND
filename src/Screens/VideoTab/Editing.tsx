@@ -21,6 +21,7 @@ import { addAsset, addMusicAsset } from "../../Redux/Actions/asset";
 import { updateVideo } from "../../Redux/Actions/videos";
 import CanvasPlayer from "../../components/CanvasPlayer/EditingCanvas";
 import { config } from "../../config/aws";
+import { getIconPosition } from "../../lib/helpers";
 import ThemeButton from "../../components/ThemeButton";
 import "./style.css";
 
@@ -52,6 +53,7 @@ interface IState {
   musicFile: any;
   musicLoadingTimeout: any;
   musicVolume: string;
+  updatedThumbnailUrl: string;
 }
 interface Video {
   url: string;
@@ -117,6 +119,7 @@ class Editing extends React.Component<IProps, IState> {
       musicFile: null,
       musicLoadingTimeout: null,
       musicVolume: "0.5",
+      updatedThumbnailUrl: ""
     };
     this._isMounted = false;
   }
@@ -589,30 +592,101 @@ class Editing extends React.Component<IProps, IState> {
     toast.info("Wait while we add the music to the video");
     this.setState({ musicLoadingTimeout: setInterval(() => this.isMusicLoaded(), 3000) });
   }
-  updateVideoLogoText = () => {
-    const textProps = {
-      text: this.state.text,
-      textColor: this.state.textColor,
-      fontSize: this.state.fontSize,
-      vAlign: this.state.vAlign,
-      align: this.state.align
-    };
-    const logoProps = {
-      url: this.state.logoPath,
-      position: this.state.iconPos
-    };
-    const musicProps = {
-      url: this.state.backgroundMusicUrl,
-      musicVolume: parseFloat(this.state.musicVolume)
+  updateVideoLogoText = async () => {
+    try {
+      const textProps = {
+        text: this.state.text,
+        textColor: this.state.textColor,
+        fontSize: this.state.fontSize,
+        vAlign: this.state.vAlign,
+        align: this.state.align
+      };
+      const logoProps = {
+        url: this.state.logoPath,
+        position: this.state.iconPos
+      };
+      const musicProps = {
+        url: this.state.backgroundMusicUrl,
+        musicVolume: parseFloat(this.state.musicVolume)
+      }
+      if (this.props.video) {
+        const { video } = this.props;
+        if (JSON.stringify(video.textProps) !== JSON.stringify(textProps) || JSON.stringify(logoProps) !== JSON.stringify(video.logoProps)) {
+          toast.info("Generating new thumbnail", { autoClose: 1000 });
+          await this.updateThumbnail();
+          toast.info("Thumbnail generated", { autoClose: 1000 });
+          const video = {
+            id: this.props.videoId,
+            logoProps,
+            textProps,
+            musicProps,
+            thumbnail: this.state.updatedThumbnailUrl
+          };
+          this.props.updateVideo(video);
+        } else {
+          const video = {
+            id: this.props.videoId,
+            logoProps,
+            textProps,
+            musicProps
+          };
+          this.props.updateVideo(video);
+        }
+      }
+    } catch (error) {
+      toast.info("Error in updating");
     }
-    const video = {
-      id: this.props.videoId,
-      logoProps,
-      textProps,
-      musicProps
-    };
-    this.props.updateVideo(video);
   };
+  updateThumbnail = () => {
+    return new Promise((resolve, reject) => {
+      const thumbCanvas: any = this.refs.thumbCanvas;
+      const thumbnailContext = thumbCanvas.getContext("2d");
+      const iconPos = getIconPosition(this.state.iconPos);
+      thumbnailContext.drawImage(this.video, 0, 0, 1280, 720);
+      thumbnailContext.fillStyle = this.state.textColor;
+      canvasTxt.fontSize = this.state.fontSize;
+      canvasTxt.vAlign = this.state.vAlign;
+      canvasTxt.align = this.state.align;
+      canvasTxt.lineHeight = 20;
+      canvasTxt.drawText(
+        thumbnailContext,
+        this.state.text,
+        60,
+        60,
+        1280 - 120,
+        720 - 120
+      );
+      thumbnailContext.drawImage(this.img, iconPos.x, iconPos.y);
+      thumbCanvas.toBlob(async (blob: any) => {
+        try {
+          await this.uploadUpdatedThumbnail(blob);
+          resolve();
+        } catch (err) {
+          reject();
+        }
+        resolve();
+      }, "image/jpeg");
+    })
+  }
+  uploadUpdatedThumbnail = (blob: any) => {
+    return new Promise((resolve, reject) => {
+      const thumbnailOptions = {
+        Bucket: config.bucketName,
+        ACL: config.ACL,
+        Key: Date.now().toString() + "thumbnail.jpeg",
+        Body: blob
+      };
+      this.s3
+        .upload(thumbnailOptions, (err: any, data: any) => {
+          if (err) {
+            reject();
+          } else {
+            this.setState({ updatedThumbnailUrl: data.Location });
+            resolve();
+          }
+        });
+    });
+  }
   syncAudio = () => {
     let videoVolume = this.video.volume * 100;
     this.backgroundMusic.volume = parseFloat(this.state.musicVolume) / 100 * videoVolume;
@@ -845,7 +919,6 @@ class Editing extends React.Component<IProps, IState> {
                 >
                   Upload
                 </Button>
-
                 <Button
                   onClick={this.toggleLogoAssetPicker}
                   style={{
@@ -923,8 +996,6 @@ class Editing extends React.Component<IProps, IState> {
                 >
                   Select to Upload
                   </Button>}
-
-
                 <Button
                   onClick={this.toggleMusicAssetPicker}
                   style={{
@@ -1042,6 +1113,12 @@ class Editing extends React.Component<IProps, IState> {
               }}
             />
           </div>
+          <canvas
+            ref="thumbCanvas"
+            height={720}
+            width={1280}
+            style={{ display: "none" }}
+          />
         </div>
       </div>
     );
