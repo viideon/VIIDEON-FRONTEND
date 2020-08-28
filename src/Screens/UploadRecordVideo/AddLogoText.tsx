@@ -345,6 +345,20 @@ class AddLogoText extends React.Component<IProps, IState> {
         return;
     }
   };
+  getIconPosition = (position: string) => {
+    switch (position) {
+      case "top-left":
+        return { x: 20, y: 20 };
+      case "bottom-left":
+        return { x: 20, y: 600 };
+      case "bottom-right":
+        return { x: 1160, y: 600 };
+      case "top-right":
+        return { x: 1160, y: 20 };
+      default:
+        return { x: 0, y: 0 };
+    }
+  }
   setTextPosition = (position: string) => {
     switch (position) {
       case "top-left":
@@ -397,10 +411,23 @@ class AddLogoText extends React.Component<IProps, IState> {
   getThumbnail = () => {
     return new Promise((resolve, reject) => {
       const thumbCanvas: any = this.refs.thumbCanvas;
-      this.video.currenTime = 3;
-      thumbCanvas
-        .getContext("2d")
-        .drawImage(this.video, 0, 0, thumbCanvas.width, thumbCanvas.height);
+      const thumbnailContext = thumbCanvas.getContext("2d");
+      const iconPos = this.getIconPosition(this.state.iconPos);
+      thumbnailContext.drawImage(this.video, 0, 0, 1280, 720);
+      thumbnailContext.fillStyle = this.state.textColor;
+      canvasTxt.fontSize = this.state.fontSize;
+      canvasTxt.vAlign = this.state.vAlign;
+      canvasTxt.align = this.state.align;
+      canvasTxt.lineHeight = 20;
+      canvasTxt.drawText(
+        thumbnailContext,
+        this.state.text,
+        60,
+        60,
+        1280 - 120,
+        720 - 120
+      );
+      thumbnailContext.drawImage(this.img, iconPos.x, iconPos.y);
       thumbCanvas.toBlob((blob: any) => {
         this.setState({ thumbnailBlob: blob });
         resolve();
@@ -540,7 +567,7 @@ class AddLogoText extends React.Component<IProps, IState> {
       };
       this.props.saveVideo(video);
     } catch (error) {
-      toast.error("Failed to save campaign, Please try again");
+      toast.error("Failed to save video, Please try again");
     }
   };
   submitEmail = () => {
