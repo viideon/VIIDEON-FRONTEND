@@ -376,7 +376,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
     } else {
       let skipPercentage = skipTo * 100 % this.video.duration;
       let audioToSkip = skipPercentage / this.backgroundMusic.duration;
-      this.backgroundMusic.currentTime = audioToSkip;
+      this.backgroundMusic.currentTime = isNaN(audioToSkip) ? 0 : audioToSkip;
       this.video.currentTime = skipTo;
     }
     this.progressBar.value = skipTo;
