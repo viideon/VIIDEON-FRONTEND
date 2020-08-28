@@ -11,6 +11,7 @@ import { Input, Button as StrapButton } from "reactstrap";
 import canvasTxt from "canvas-txt";
 import { CompactPicker } from "react-color";
 import { toast } from "react-toastify";
+import { getIconPosition } from "../../lib/helpers";
 import "./style.css";
 
 interface IProps {
@@ -426,8 +427,31 @@ class AddLogo extends React.Component<IProps, IState> {
       this.props.saveThumbnailBlob(blob);
     }, "image/jpeg");
   };
+  getThumbnailWithLogoText = () => {
+    const thumbCanvas: any = this.refs.thumbCanvas;
+    const thumbnailContext = thumbCanvas.getContext("2d");
+    const iconPos = getIconPosition(this.state.iconPos);
+    thumbnailContext.drawImage(this.video, 0, 0, 1280, 720);
+    thumbnailContext.fillStyle = this.state.textColor;
+    canvasTxt.fontSize = this.state.fontSize;
+    canvasTxt.vAlign = this.state.vAlign;
+    canvasTxt.align = this.state.align;
+    canvasTxt.lineHeight = 20;
+    canvasTxt.drawText(
+      thumbnailContext,
+      this.state.text,
+      60,
+      60,
+      1280 - 120,
+      720 - 120
+    );
+    thumbnailContext.drawImage(this.img, iconPos.x, iconPos.y);
+    thumbCanvas.toBlob((blob: any) => {
+      this.props.saveThumbnailBlob(blob);
+    }, "image/jpeg");
+  }
   finalize = () => {
-    this.getThumbnail();
+    this.getThumbnailWithLogoText();
     const textProps = {
       text: this.state.text,
       textColor: this.state.textColor,
