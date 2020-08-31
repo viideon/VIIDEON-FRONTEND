@@ -914,7 +914,8 @@ class Editing extends React.Component<IProps, IState> {
                   style={{
                     color: "#fff",
                     width: "135px",
-                    backgroundColor: "#ff4301"
+                    backgroundColor: "#ff4301",
+                    margin: "0px 5px 10px 0px",
                   }}
                 >
                   Upload
@@ -924,7 +925,8 @@ class Editing extends React.Component<IProps, IState> {
                   style={{
                     color: "#fff",
                     marginLeft: "3px",
-                    backgroundColor: "rgb(34, 185, 255)"
+                    backgroundColor: "rgb(34, 185, 255)",
+                    margin: "0px 5px 10px 0px",
                   }}
                 >
                   Select from Assets
@@ -982,7 +984,8 @@ class Editing extends React.Component<IProps, IState> {
                   style={{
                     color: "#fff",
                     width: "135px",
-                    backgroundColor: "#ff4301"
+                    backgroundColor: "#ff4301",
+                    margin: "0px 5px 10px 0px",
                   }}
                 >
                   Upload
@@ -991,7 +994,8 @@ class Editing extends React.Component<IProps, IState> {
                   onClick={this.triggerMusicUploadBtn}
                   style={{
                     color: "#fff",
-                    backgroundColor: "#ff4301"
+                    backgroundColor: "#ff4301",
+                    margin: "0px 5px 10px 0px",
                   }}
                 >
                   Select to Upload
@@ -1000,8 +1004,8 @@ class Editing extends React.Component<IProps, IState> {
                   onClick={this.toggleMusicAssetPicker}
                   style={{
                     color: "#fff",
-                    marginLeft: "3px",
-                    backgroundColor: "rgb(34, 185, 255)"
+                    backgroundColor: "rgb(34, 185, 255)",
+                    margin: "0px 5px 10px 0px",
                   }}
                 >
                   Select from Assets

@@ -180,7 +180,10 @@
   box-shadow: 0 0 10px #cdcdcd;
   padding: 31px;
   margin-top: 51px;
-  margin-left: 25px;
+  /* margin-left: 25px; */
+}
+.compact-picker {
+  width: 360px !important;
 }
 @media (max-width: 500px) {
   .btnDoubleWrap {
@@ -189,7 +192,7 @@
     justify-content: center;
     padding: 20px 5px;
   }
-}
-.compact-picker {
-  width: 360px !important;
+  .compact-picker {
+    width: 200px !important;
+  }
 }
