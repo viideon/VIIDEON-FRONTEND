@@ -150,3 +150,9 @@ tr {
   text-transform: uppercase;
   letter-spacing: 1.5px;
 }
+
+@media (max-width: 500px) {
+  .sb-example-3 {
+    margin-top: 10px;
+  }
+}
