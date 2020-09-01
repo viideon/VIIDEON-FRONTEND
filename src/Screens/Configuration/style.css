@@ -51,7 +51,6 @@
   font-size: 14px;
   font-weight: 400;
   white-space: nowrap;
-  /* overflow: hidden; */
 }
 .squareBtn:hover {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.26);
@@ -68,4 +67,12 @@ tr {
 .loadingConfigs {
   display: flex;
   justify-content: center;
+}
+@media (max-width: 480px) {
+  .titleContacts {
+    padding-bottom: 15px;
+  }
+  .titleContacts > .connectAccount {
+    float: none;
+  }
 }
