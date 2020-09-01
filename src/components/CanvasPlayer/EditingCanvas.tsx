@@ -22,7 +22,6 @@ interface IProps {
   thumbnail?: string;
   local?: boolean;
   watched?: () => void;
-
 }
 interface IState {
   playing: boolean;
@@ -73,7 +72,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
       width: 0,
       height: 0,
       watched: false,
-      musicVolume: 0
+      musicVolume: 0,
     };
     this.unmounted = false;
     this.canvasContext = null;
@@ -103,7 +102,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
           50,
           this.edCanvas.height - this.logo.height - 50
         );
-      }
+      },
     };
     this.handleAnimationFrame = this.onAnimationFrame.bind(this);
     this.handleEnded = this.onEnded.bind(this);
@@ -139,11 +138,13 @@ class EditingPlayer extends React.Component<IProps, IState> {
     if (this.props.local && this.props.local === true) {
       try {
         if (musicProps && musicProps.url) {
-          let musicResponse = await fetch(musicProps.url)
+          let musicResponse = await fetch(musicProps.url);
           let musicBlob = await musicResponse.blob();
           const musicUrl = await window.URL.createObjectURL(musicBlob);
           this.backgroundMusic.src = musicUrl;
-          this.setState({ musicVolume: musicProps.musicVolume }, () => this.initializeVolume());
+          this.setState({ musicVolume: musicProps.musicVolume }, () =>
+            this.initializeVolume()
+          );
         }
         this.video.src = this.props.src;
         document.body.appendChild(this.video);
@@ -156,11 +157,13 @@ class EditingPlayer extends React.Component<IProps, IState> {
     } else {
       try {
         if (musicProps && musicProps.url) {
-          let musicResponse = await fetch(musicProps.url)
+          let musicResponse = await fetch(musicProps.url);
           let musicBlob = await musicResponse.blob();
           const musicUrl = await window.URL.createObjectURL(musicBlob);
           this.backgroundMusic.src = musicUrl;
-          this.setState({ musicVolume: musicProps.musicVolume }, () => this.initializeVolume());
+          this.setState({ musicVolume: musicProps.musicVolume }, () =>
+            this.initializeVolume()
+          );
         }
         let videoResponse = await fetch(src);
         let videoBlob = await videoResponse.blob();
@@ -193,12 +196,10 @@ class EditingPlayer extends React.Component<IProps, IState> {
         "durationchange",
         this.handleLoadedMetaData
       );
-      this.video.removeEventListener("ended", this.onVideoEnd);
       window.removeEventListener("resize", this.handleWindowResize);
     } else {
       this.video.addEventListener("ended", this.handleEnded);
       this.video.addEventListener("loadedmetadata", this.handleLoadedMetaData);
-      this.video.addEventListener("ended", this.onVideoEnd);
       window.addEventListener("resize", this.handleWindowResize);
       this.video.addEventListener("timeupdate", this.updateProgress);
       this.video.addEventListener("volumechange", this.updateVolumeIcon);
@@ -210,7 +211,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
   updateSeekTooltip = (event: any) => {
     const skipTo = Math.round(
       (event.offsetX / event.target.clientWidth) *
-      parseInt(event.target.getAttribute("max"), 10)
+        parseInt(event.target.getAttribute("max"), 10)
     );
 
     this.seek.setAttribute("data-seek", skipTo);
@@ -246,7 +247,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
     const result = new Date(timeInSeconds * 1000).toISOString().substr(11, 8);
     return {
       minutes: result.substr(3, 2),
-      seconds: result.substr(6, 2)
+      seconds: result.substr(6, 2),
     };
   };
   toggleFullScreen = () => {
@@ -257,7 +258,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
       this.wrapperCanvas.requestFullscreen();
       this.setState({
         width: window.screen.width,
-        height: window.screen.height
+        height: window.screen.height,
       });
     }
   };
@@ -302,7 +303,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
     this.setState({ playing: false });
     this.backgroundMusic.pause();
     this.backgroundMusic.currentTime = 0;
-    // this.video.currentTime = 0;
+    this.seek.value = 0;
     this.progressBar.value = 0;
   }
   onLoadedMetaData(e: any) {
@@ -330,7 +331,6 @@ class EditingPlayer extends React.Component<IProps, IState> {
   playpause = () => {
     if (this.state.playing) {
       this.pause();
-
     } else {
       this.play();
     }
@@ -340,32 +340,30 @@ class EditingPlayer extends React.Component<IProps, IState> {
     this.backgroundMusic.pause();
     this.setState({ playing: false });
   }
-  play() {
+  async play() {
     this.video.play();
-    this.backgroundMusic.play();
+    this.backgroundMusic.play().catch(() => {});
     this.setState({ playing: true, showThumbnail: false });
     this.requestAnimationFrame();
   }
-  onVideoEnd = () => {
-    this.backgroundMusic.pause();
-    this.backgroundMusic.currentTime = 0;
-  }
+
   setCanvasDimensions = () => {
     const persistRect = JSON.parse(
       JSON.stringify(this.edContainer.getBoundingClientRect())
     );
     this.setState({
       width: persistRect.width,
-      height: persistRect.height
+      height: persistRect.height,
     });
   };
   initializeVolume = () => {
     this.video.volume = 0.5;
-    this.backgroundMusic.volume = this.state.musicVolume / 100 * 50;
-  }
+    this.backgroundMusic.volume = (this.state.musicVolume / 100) * 50;
+  };
   setVolume = (e: any) => {
     this.video.volume = e.target.value / 100;
-    this.backgroundMusic.volume = this.state.musicVolume / 100 * e.target.value;
+    this.backgroundMusic.volume =
+      (this.state.musicVolume / 100) * e.target.value;
   };
   skipAhead = (event: any) => {
     let skipTo = event.target.dataset.seek
@@ -375,7 +373,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
       this.video.currentTime = skipTo;
       this.backgroundMusic.currentTime = skipTo;
     } else {
-      let skipPercentage = skipTo * 100 % this.video.duration;
+      let skipPercentage = (skipTo * 100) % this.video.duration;
       let audioToSkip = skipPercentage / this.backgroundMusic.duration;
       this.backgroundMusic.currentTime = isNaN(audioToSkip) ? 0 : audioToSkip;
       this.video.currentTime = skipTo;
@@ -423,7 +421,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
                   style={{
                     objectFit: "contain",
                     maxHeight: "100%",
-                    maxWidth: "100%"
+                    maxWidth: "100%",
                   }}
                   src={thumbnail}
                   alt="preview"
@@ -479,7 +477,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
                 disabled={!videoLoaded}
                 id="seek"
                 ref="seek"
-                value="0"
+                defaultValue="0"
                 min="0"
                 type="range"
                 step="1"
