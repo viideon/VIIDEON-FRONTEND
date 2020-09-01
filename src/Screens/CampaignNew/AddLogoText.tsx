@@ -353,7 +353,7 @@ class AddLogo extends React.Component<IProps, IState> {
     this.setState({ textColor: color.hex }, () => this.updateCanvas());
   };
   changeFontSize = (e: any) => {
-    this.setState({ fontSize: e.target.value }, () => this.updateCanvas());
+    this.setState({ fontSize: Number(e.target.value) }, () => this.updateCanvas());
   };
   onChangeMusicTitle = (e: any) => {
     this.setState({ musicTitle: e.target.value });

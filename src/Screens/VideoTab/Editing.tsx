@@ -388,7 +388,8 @@ class Editing extends React.Component<IProps, IState> {
     if (video.paused || video.ended) return false;
     context2.drawImage(video, 0, 0, width, height);
     context2.fillStyle = this.state.textColor;
-    canvasTxt.fontSize = (this.state.fontSize / 100) * width;
+    // canvasTxt.fontSize = (this.state.fontSize / 100) * width;
+    canvasTxt.fontSize = this.state.fontSize;
     canvasTxt.font = "Arial";
     canvasTxt.vAlign = this.state.vAlign;
     canvasTxt.align = this.state.align;
@@ -406,7 +407,7 @@ class Editing extends React.Component<IProps, IState> {
     let idata = context2.getImageData(0, 0, width, height);
     let that = this;
     context.putImageData(idata, 0, 0);
-    setTimeout(function() {
+    setTimeout(function () {
       that.draw(video, img, context, context2, width, height);
     }, 0);
   };
@@ -423,7 +424,8 @@ class Editing extends React.Component<IProps, IState> {
     canvasTxt.vAlign = this.state.vAlign;
     canvasTxt.align = this.state.align;
     canvasTxt.lineHeight = 20;
-    canvasTxt.fontSize = (this.state.fontSize / 100) * width;
+    // canvasTxt.fontSize = (this.state.fontSize / 100) * width;
+    canvasTxt.fontSize = this.state.fontSize;
     canvasTxt.drawText(
       context2,
       this.state.text,
@@ -746,7 +748,7 @@ class Editing extends React.Component<IProps, IState> {
                   width: "100%",
                   height: document.getElementById("wrapper_main")
                     ? `${document.getElementById("wrapper_main")!.clientWidth *
-                        0.5625}px`
+                    0.5625}px`
                     : `300px`,
                 }}
               >

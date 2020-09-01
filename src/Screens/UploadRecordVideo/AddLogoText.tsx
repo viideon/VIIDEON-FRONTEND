@@ -389,7 +389,7 @@ class AddLogoText extends React.Component<IProps, IState> {
     this.setState({ textColor: color.hex }, () => this.updateCanvas());
   };
   changeFontSize = (e: any) => {
-    this.setState({ fontSize: e.target.value }, () => this.updateCanvas());
+    this.setState({ fontSize: Number(e.target.value) }, () => this.updateCanvas());
   };
   onAssetPick = (path: any) => {
     this.setState({ logoPath: path }, () => this.updateCanvas());
