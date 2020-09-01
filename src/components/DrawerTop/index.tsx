@@ -1,8 +1,6 @@
 import React from "react";
-import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import Drawer from "@material-ui/core/Drawer";
-import { logout } from "../../Redux/Actions/auth";
 import { makeStyles } from "@material-ui/core/styles";
 import "./style.css";
 
@@ -34,16 +32,16 @@ const useStyles = makeStyles({
 });
 interface IProps {
   open?: boolean;
-  toggle?: () => void;
+  toggle: () => void;
   history?: any;
-  logout: () => void;
 }
 
-const TopDrawer: React.FC<IProps> = ({ open, toggle, history, logout }) => {
-  const logoutUser = () => {
-    logout();
-  };
+const TopDrawer: React.FC<IProps> = ({ open, toggle, history }) => {
   const classes = useStyles();
+  const navigate = (location: string) => {
+    history.push(location);
+    toggle();
+  }
   return (
     <Drawer open={open} anchor="top" className={classes.root} onClose={toggle}>
       <div className="wrapperTopDrawer">
@@ -57,30 +55,30 @@ const TopDrawer: React.FC<IProps> = ({ open, toggle, history, logout }) => {
           <span className="IconNameStyling">Dashboard</span>
           <i className="fas fa-angle-left" style={arrowIcon}></i>
         </div>
-        <div className="OptionIcons" onClick={() => history.push("/videos")}>
+        <div className="OptionIcons" onClick={() => navigate("/videos")}>
           <i className="fab fa-microsoft" style={iconStyle} />
           <span className="IconNameStyling">My Videos</span>
           <i className="fas fa-angle-left" style={arrowIcon}></i>
         </div>
-        {/* <div className="OptionIcons" onClick={() => alert("Under Progress")}>
-          <i className="fa fa-envelope" style={iconStyle} />
-          <span className="IconNameStyling">My Messages</span>
+        <div className="OptionIcons" onClick={() => navigate("/campaign")}>
+          <i className="far fa-flag" style={iconStyle} />
+          <span className="IconNameStyling">Campaigns</span>
           <i className="fas fa-angle-left" style={arrowIcon}></i>
-        </div> */}
-        {/* <div className="OptionIcons" onClick={() => alert("Under Progress")}>
-          <i className="fas fa-chart-pie" style={iconStyle} />
-          <span className="IconNameStyling">My Stats</span>
+        </div>
+        <div className="OptionIcons" onClick={() => navigate("/configuration")}>
+          <i className="fas fa-users-cog" style={iconStyle} />
+          <span className="IconNameStyling">Configuration</span>
           <i className="fas fa-angle-left" style={arrowIcon}></i>
-        </div> */}
+        </div>
 
-        {/* <div className="OptionIcons" onClick={() => alert("Under Progress")}>
+        <div className="OptionIcons" onClick={() => navigate("/assetlibrary")}>
           <i className="fas fa-folder" style={iconStyle} />
           <span className="IconNameStyling">Asset Library</span>
           <i className="fas fa-angle-left" style={arrowIcon}></i>
-        </div> */}
-        <div className="OptionIcons" onClick={logoutUser}>
-          <i className="fa fa-user-circle-o" style={iconStyle} />
-          <span className="IconNameStyling">Logout</span>
+        </div>
+        <div className="OptionIcons" onClick={() => navigate("/music")}>
+          <i className="far fa-play-circle" style={iconStyle} />
+          <span className="IconNameStyling">Music</span>
           <i className="fas fa-angle-left" style={arrowIcon}></i>
         </div>
       </div>
@@ -99,11 +97,4 @@ const arrowIcon = {
   marginRight: "12px"
 };
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    logout: () => dispatch(logout())
-  };
-};
-export default withRouter<any, any>(
-  connect(null, mapDispatchToProps)(TopDrawer)
-);
+export default withRouter<any, any>(TopDrawer);
