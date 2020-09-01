@@ -19,6 +19,7 @@ declare module "react-image-picker";
 declare module 'react-tabs';
 declare module "react-timezone-picker"
 declare module 'react-video-recorder'
+declare module "video-react";
 declare const PERMISSION_DENIED;
 declare function getSeekableBlob(arg1: any, arg2: any) {
 

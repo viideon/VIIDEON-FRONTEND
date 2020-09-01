@@ -293,15 +293,16 @@ class EditingPlayer extends React.Component<IProps, IState> {
     };
     if (this.video) {
       render();
-      // && this.video.readyState === 4
       if (this.state.playing) {
         window.requestAnimationFrame(this.handleAnimationFrame);
       }
     }
   }
   onEnded(e: any) {
+    this.setState({ playing: false });
     this.backgroundMusic.pause();
     this.backgroundMusic.currentTime = 0;
+    // this.video.currentTime = 0;
     this.progressBar.value = 0;
   }
   onLoadedMetaData(e: any) {
@@ -376,7 +377,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
     } else {
       let skipPercentage = skipTo * 100 % this.video.duration;
       let audioToSkip = skipPercentage / this.backgroundMusic.duration;
-      this.backgroundMusic.currentTime = audioToSkip;
+      this.backgroundMusic.currentTime = isNaN(audioToSkip) ? 0 : audioToSkip;
       this.video.currentTime = skipTo;
     }
     this.progressBar.value = skipTo;

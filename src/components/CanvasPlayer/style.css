@@ -164,7 +164,7 @@ input[type="range"].seek::-webkit-slider-runnable-track {
   cursor: pointer;
   border-radius: 1.3px;
   -webkit-appearance: none;
-  transition: all 0.4s ease;
+  /* transition: all 0.4s ease; */
 }
 
 input[type="range"].seek::-webkit-slider-thumb {

@@ -22,6 +22,7 @@ class Home extends Component<IProps> {
   componentDidMount() {
     this.props.getEmailConfigurations();
     this.props.getAssets();
+    this.props.getMusicAsset();
   }
   state = {
     logoutModal: false

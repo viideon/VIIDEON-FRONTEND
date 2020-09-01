@@ -53,7 +53,6 @@ class Configuration extends React.Component<IProps> {
   };
   deleteUserConfig = (id: any) => {
     this.props.deleteEmailConfig(id);
-    // console.log("deleted", id);
   };
   render() {
     const { emailConfigs, loading, isDeleting } = this.props;
@@ -79,7 +78,6 @@ class Configuration extends React.Component<IProps> {
                 render={(renderProps: any) => (
                   <Button
                     onClick={renderProps.onClick}
-                    // disabled={renderProps.disabled}
                     variant="contained"
                     style={{
                       backgroundColor: "#e7505a",

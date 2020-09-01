@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { Tooltip } from "@material-ui/core";
 // import LinkAccount from "./LinkAccount";
 import { updateProfileUser } from "../../Redux/Actions/profile";
+import { addAsset } from "../../Redux/Actions/asset";
 import { ProfileState, UserProfile } from "../../Redux/Types/profile";
 import { AuthState } from "../../Redux/Types/auth";
 import profileImg from "../../assets/profileImages/profileImg.png";
@@ -22,6 +23,7 @@ type IProps = {
   navigation: any;
   profile: ProfileState;
   updateProfile: (userProfile: UserProfile) => void;
+  addAsset: (asset: any) => void;
 };
 
 type IState = {
@@ -36,8 +38,10 @@ type IState = {
   title: string;
   affiliateId: string;
   url: string;
+  avatarUploading: boolean;
 };
 class Profile extends Component<IProps, IState> {
+  s3: any = new AWS.S3(config);
   constructor(props: any) {
     super(props);
     this.state = {
@@ -51,7 +55,8 @@ class Profile extends Component<IProps, IState> {
       webAddress: this.props.profile!.user!.webAddress || "",
       title: this.props.profile!.user!.title || "",
       affiliateId: this.props.profile!.user!.affiliateId || "",
-      url: this.props.profile!.user!.url || ""
+      url: this.props.profile!.user!.url || "",
+      avatarUploading: false,
     };
   }
 
@@ -95,24 +100,74 @@ class Profile extends Component<IProps, IState> {
       return;
     }
     toast.info("Uploading please wait");
-    let s3 = new AWS.S3(config);
-    var options = {
+    this.setState({ avatarUploading: true });
+    this.getLogoFromProfilePic(e.target.files[0]);
+    const options = {
       Bucket: config.bucketName,
       ACL: config.ACL,
       Key: Date.now().toString(),
       Body: e.target.files[0]
     };
-    s3.upload(options, (err: any, data: any) => {
+    this.s3.upload(options, (err: any, data: any) => {
       if (err) {
         toast.error(err.message);
+        this.setState({ avatarUploading: false });
         return;
       }
-      this.setState({ url: data.Location });
+      this.setState({ avatarUploading: false, url: data.Location });
       toast.info("Click update button below to save changes");
+    });
+  };
+  getLogoFromProfilePic = (file: any) => {
+    const width = 100;
+    const height = 100;
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event: any) => {
+      const img = new Image();
+      img.src = event.target.result;
+      img.onload = () => {
+        const elem = document.createElement("canvas");
+        elem.width = width;
+        elem.height = height;
+        const ctx: any = elem.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+        ctx.canvas.toBlob(
+          async (blob: any) => {
+            try {
+              await this.saveLogo(blob);
+            } catch (err) {
+              toast.error("Error saving profile image as asset");
+            }
+          },
+          `${file.type}`,
+          1
+        );
+      };
+    };
+  }
+  saveLogo = (logoBlob: any) => {
+    return new Promise((resolve, reject) => {
+      const logoOptions = {
+        Bucket: config.bucketName,
+        ACL: config.ACL,
+        Key: Date.now().toString() + "logo.jpeg",
+        Body: logoBlob
+      };
+      this.s3.upload(logoOptions, (err: any, data: any) => {
+        if (err) {
+          toast.error(err);
+          reject();
+          return;
+        }
+        this.props.addAsset({ type: "logo", url: data.Location });
+        resolve();
+      });
     });
   };
   render() {
     const { loading, user } = this.props.profile;
+    const { avatarUploading } = this.state;
     return (
       <div className="wrapperProfileSection">
         <div id="profilePhotoWrap">
@@ -142,6 +197,9 @@ class Profile extends Component<IProps, IState> {
                   id="profileImgStyle"
                 />
               )}
+            <div className="progressEditing">
+              {avatarUploading && <Loading />}
+            </div>
           </div>
           <Tooltip title={`${Constants.PROFILE_PIC_INSTRUCTIONS}`}>
             <div id="profileImgLabelWrap">
@@ -288,8 +346,9 @@ class Profile extends Component<IProps, IState> {
                   {Constants.UPDATE}
                 </Button>
               </Form>
-              <div style={{ marginLeft: "50%", opacity: 0.5 }}>
-                {loading ? <Loading /> : null}
+
+              <div className="progressEditing">
+                {loading && <Loading />}
               </div>
             </Col>
           </Row>
@@ -307,7 +366,8 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     updateProfile: (userProfile: UserProfile) =>
-      dispatch(updateProfileUser(userProfile))
+      dispatch(updateProfileUser(userProfile)),
+    addAsset: (asset: any) => dispatch(addAsset(asset))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

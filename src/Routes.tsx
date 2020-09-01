@@ -25,7 +25,6 @@ import Configuration from "./Screens/Configuration";
 import CampaignList from "./Screens/Home/Campaigns";
 import AssetsLibrary from "./Screens/AssetsLibrary";
 import PrivacyPolicy from "./components/PrivacyPolicy";
-import LandingPage from "./Screens/LandingPage";
 import MusicAssets from "./Screens/MusicAssets";
 type IProps = {
   auth: AuthState;
@@ -66,11 +65,11 @@ class Routes extends Component<IProps> {
           </>
         ) : (
             <Switch>
+              <Route exact path="/login*" component={SignIn} />
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/forgotPassword" component={ForgotPassword} />
               <Route exact path="/resetPassword" component={ResetPassword} />
               <Route exact path="/privacypolicy" component={PrivacyPolicy} />
-              <Route exact path="/login*" component={SignIn} />
               <Route
                 exact
                 path="/watch/:id/cta"
@@ -80,8 +79,7 @@ class Routes extends Component<IProps> {
                 }}
               />
               <Route exact path="/watch/:id" component={Watch} />
-              <Route exact path="/" component={LandingPage} />
-              <Route exact path="*" render={() => <Redirect to="/" />} />
+              <Route exact path="*" render={() => <Redirect to="/login" />} />
             </Switch>
           )}
       </Router>
