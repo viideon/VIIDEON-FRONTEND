@@ -53,7 +53,6 @@ class Configuration extends React.Component<IProps> {
   };
   deleteUserConfig = (id: any) => {
     this.props.deleteEmailConfig(id);
-    // console.log("deleted", id);
   };
   render() {
     const { emailConfigs, loading, isDeleting } = this.props;
