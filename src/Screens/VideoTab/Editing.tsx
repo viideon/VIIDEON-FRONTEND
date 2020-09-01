@@ -388,7 +388,7 @@ class Editing extends React.Component<IProps, IState> {
     if (video.paused || video.ended) return false;
     context2.drawImage(video, 0, 0, width, height);
     context2.fillStyle = this.state.textColor;
-    canvasTxt.fontSize = this.state.fontSize;
+    canvasTxt.fontSize = (this.state.fontSize / 100) * width;
     canvasTxt.font = "Arial";
     canvasTxt.vAlign = this.state.vAlign;
     canvasTxt.align = this.state.align;
@@ -423,8 +423,7 @@ class Editing extends React.Component<IProps, IState> {
     canvasTxt.vAlign = this.state.vAlign;
     canvasTxt.align = this.state.align;
     canvasTxt.lineHeight = 20;
-    console.log("testing", this.state.fontSize);
-    canvasTxt.fontSize = this.state.fontSize;
+    canvasTxt.fontSize = (this.state.fontSize / 100) * width;
     canvasTxt.drawText(
       context2,
       this.state.text,
