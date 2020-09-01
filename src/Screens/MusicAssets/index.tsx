@@ -19,7 +19,7 @@ class MusicAssets extends React.Component<IProps> {
     return (
       <Home>
         <h3 className="assetHeading">Music Assets</h3>
-        <Grid container style={{ padding: "20px" }}>
+        <Grid container className="wrapperMusicAssets">
           {musicAssets && musicAssets.map((asset: any) => (
             <Grid item xs={12} sm={6} md={4} lg={4} key={asset._id}>
               <MusicAsset asset={asset} />
