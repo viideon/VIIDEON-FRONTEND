@@ -29,10 +29,12 @@ const HeaderCard: React.FC<IProps> = ({ styles, Title, Number, iconBg }) => {
         {renderIcon()}
       </span>
       <div className="detailsCard">
-        <h4 className="Title">
-          {Number}
-          <span className="title-text"> {Title}</span>
-        </h4>
+        <div className="detailCardHeader">
+          <span className="cardTitle">
+            {Number}
+          </span>
+          <span className="cardText"> {Title}</span>
+        </div>
         {/* <LinearProgress variant="determinate" value={34} /> */}
         {/* <h4 className="Description">45% Increase in 28 days</h4> */}
       </div>

@@ -9,8 +9,6 @@ import {
 } from "reactstrap";
 import { toast } from "react-toastify";
 import VideoInfo from "../VideoInfo";
-// import Menu from "@material-ui/core/Menu";
-// import MenuItem from "@material-ui/core/MenuItem";
 import DeleteDialog from "../Reusable/DeleteDialog";
 import { thumbnailDefault } from "../../constants/constants";
 import moment from "moment";
@@ -47,21 +45,13 @@ const VideoCard: FC<IProps> = ({
   deletingVideo,
   video
 }) => {
-  // const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = useState(false);
-  // const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
   const calculateDays = () => {
     let currentTime = moment(moment().toDate());
     let videoAddedTime = moment(date).format("YYYY-MM-DD HH:mm");
     return currentTime.diff(videoAddedTime, "day");
   };
   const openDeleteDialog = () => {
-    // handleClose();
     setOpen(true);
   };
   const closeDeleteDialog = () => {
@@ -104,18 +94,6 @@ const VideoCard: FC<IProps> = ({
               <DropdownItem onClick={openDeleteDialog}>Delete</DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
-          {/* <Menu
-            id="menuVideoCard"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <MenuItem onClick={onClick}>View</MenuItem>
-            <MenuItem onClick={onClick}>Edit</MenuItem>
-            <MenuItem onClick={copyUrl}>Copy url</MenuItem>
-            <MenuItem onClick={openDeleteDialog}>Delete</MenuItem>
-          </Menu> */}
           <DeleteDialog
             open={open}
             deletingVideo={deletingVideo}

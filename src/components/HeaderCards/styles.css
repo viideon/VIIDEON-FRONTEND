@@ -7,11 +7,18 @@
   cursor: pointer;
 }
 
-.Title {
+.cardTitle {
+  margin-right: 5px;
   font-size: 1.2rem;
   letter-spacing: -1px;
   font-weight: 300;
 }
+.cardText {
+  font-size: 16px;
+  letter-spacing: 0;
+  font-weight: 300;
+}
+
 .Description {
   padding-top: 5px;
   font-size: 0.8rem;
@@ -37,6 +44,12 @@
   flex-direction: column;
   margin-top: 0%;
 }
+.detailCardHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: baseline;
+  align-items: center;
+}
 .CardMain .MuiLinearProgress-barColorPrimary {
   background-color: #d3d3d3 !important;
 }
@@ -44,25 +57,8 @@
   height: 2px !important;
 }
 
-@media only screen and (max-width: 1150px) {
-  .Title {
-    font-size: 1rem !important;
-    font-weight: 300 !important;
-  }
-  .iconCards {
-    font-size: 25px !important;
-    margin: 5px !important;
-  }
-}
-@media only screen and (max-width: 1022px) {
-  .Title {
-    font-size: 0.8rem !important;
-    font-weight: 300 !important;
-  }
-}
-
 @media only screen and (max-width: 960px) {
-  .Title {
+  .cardTitle {
     font-size: 1.2rem !important;
     font-weight: 500 !important;
   }
@@ -72,18 +68,19 @@
   }
 }
 @media (max-width: 400px) {
-  .Title {
+  .detailCardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .cardTitle {
     font-size: 10px !important;
     font-weight: 400 !important;
+  }
+  .cardText {
+    font-size: 12px;
   }
   .iconCards {
     font-size: 20px !important;
     margin: 16px !important;
   }
-}
-.title-text {
-  text-align: right;
-  font-size: 16px;
-  letter-spacing: 0;
-  font-weight: 300;
 }

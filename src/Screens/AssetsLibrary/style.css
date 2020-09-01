@@ -36,3 +36,8 @@
 .hideDeleteBtn {
   display: none;
 }
+@media (max-width: 500px) {
+  .assetHeading {
+    margin-top: 15px;
+  }
+}
