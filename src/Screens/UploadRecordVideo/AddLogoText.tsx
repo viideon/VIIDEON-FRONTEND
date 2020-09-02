@@ -403,7 +403,7 @@ class AddLogoText extends React.Component<IProps, IState> {
       const iconPos = getIconPosition(this.state.iconPos);
       thumbnailContext.drawImage(this.video, 0, 0, 1280, 720);
       thumbnailContext.fillStyle = this.state.textColor;
-      canvasTxt.fontSize = this.state.fontSize;
+      canvasTxt.fontSize = (this.state.fontSize / 100) * 1100;
       canvasTxt.vAlign = this.state.vAlign;
       canvasTxt.align = this.state.align;
       canvasTxt.lineHeight = 20;

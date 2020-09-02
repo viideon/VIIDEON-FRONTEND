@@ -87,7 +87,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
         let logoDimension = 0.2 * this.edCanvas.width;
         this.canvasTmpCtx.drawImage(
           this.logo,
-          this.edCanvas.width - this.logo.width - 50,
+          this.edCanvas.width - logoDimension - 50,
           50,
           logoDimension,
           logoDimension
@@ -97,8 +97,8 @@ class EditingPlayer extends React.Component<IProps, IState> {
         let logoDimension = 0.2 * this.edCanvas.width;
         this.canvasTmpCtx.drawImage(
           this.logo,
-          this.edCanvas.width - this.logo.width - 50,
-          this.edCanvas.height - this.logo.height - 50,
+          this.edCanvas.width - logoDimension - 50,
+          this.edCanvas.height - logoDimension - 50,
           logoDimension,
           logoDimension
         );
@@ -108,7 +108,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
         this.canvasTmpCtx.drawImage(
           this.logo,
           50,
-          this.edCanvas.height - this.logo.height - 50,
+          this.edCanvas.height - logoDimension - 50,
           logoDimension,
           logoDimension
         );
@@ -281,7 +281,6 @@ class EditingPlayer extends React.Component<IProps, IState> {
       if (logoProps && logoProps.url) {
         this.logoPosition[logoProps.position].call();
       }
-      //Draw text using canvas-txt
       if (textProps && textProps.text) {
         this.canvasTmpCtx.fillStyle = textProps.textColor;
         canvasTxt.fontSize = (textProps.fontSize / 100) * (width - 150);
@@ -297,7 +296,6 @@ class EditingPlayer extends React.Component<IProps, IState> {
           height - 100
         );
       }
-
       let idata = this.canvasTmpCtx.getImageData(0, 0, width, height);
       this.canvasContext.putImageData(idata, 0, 0);
     };
