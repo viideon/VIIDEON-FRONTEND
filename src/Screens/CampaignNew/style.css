@@ -39,8 +39,7 @@
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  /* border-radius: 10px; */
-  padding: 5px 5px 5px 5px;
+  padding: 5px;
 }
 .containerCampaign {
   margin-top: 100px;
@@ -54,7 +53,6 @@
 .recorderWrapper {
   margin-left: 30px;
   text-align: center;
-  /* box-shadow: 0 0 5px lightgray; */
   border: 1px solid #cdcdcd;
   padding: 10px 20px 10px 20px;
   border-radius: 4px;
@@ -62,10 +60,10 @@
 .instructionWrapper {
   padding: 30px 20px 10px 30px;
   margin-right: 30px;
-  -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
-  -moz-animation: fadein 2s; /* Firefox < 16 */
-  -ms-animation: fadein 2s; /* Internet Explorer */
-  -o-animation: fadein 2s; /* Opera < 12.1 */
+  -webkit-animation: fadein 2s;
+  -moz-animation: fadein 2s;
+  -ms-animation: fadein 2s;
+  -o-animation: fadein 2s;
   animation: fadein 2s;
 }
 .instructionText {
@@ -193,5 +191,14 @@
   }
   .compact-picker {
     width: 200px !important;
+  }
+  .counterRecording {
+    font-size: 50px;
+  }
+  .timerRecording {
+    padding: 1px;
+  }
+  .timerRecording span {
+    font-size: 0.6em;
   }
 }
