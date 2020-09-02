@@ -37,7 +37,9 @@ const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
   const toggle = (tab: any) => {
     if (activeTab !== tab) setActiveTab(tab);
   };
-
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, []);
   useEffect(() => {
     getVideo(params.id);
     setTimeout(() => enableLinks(false), 1000);
@@ -45,6 +47,7 @@ const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
       cleanSingleVideo();
     };
   }, []);
+
 
   return (
     <div className="wrapperVideoTab">
