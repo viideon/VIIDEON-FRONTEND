@@ -106,7 +106,7 @@ class Editing extends React.Component<IProps, IState> {
       text: "",
       btnText: "Skip",
       textColor: "#fff",
-      fontSize: 30,
+      fontSize: 5,
       vAlign: "top",
       align: "left",
       iconPos: "top-left",
@@ -388,8 +388,7 @@ class Editing extends React.Component<IProps, IState> {
     if (video.paused || video.ended) return false;
     context2.drawImage(video, 0, 0, width, height);
     context2.fillStyle = this.state.textColor;
-    // canvasTxt.fontSize = (this.state.fontSize / 100) * width;
-    canvasTxt.fontSize = this.state.fontSize;
+    canvasTxt.fontSize = (this.state.fontSize / 100) * (width - 80);
     canvasTxt.font = "Arial";
     canvasTxt.vAlign = this.state.vAlign;
     canvasTxt.align = this.state.align;
@@ -403,7 +402,8 @@ class Editing extends React.Component<IProps, IState> {
       width - 50,
       height - 50
     );
-    context2.drawImage(img, this.state.logoX, this.state.logoY);
+    let logoDimension = 0.2 * width;
+    context2.drawImage(img, this.state.logoX, this.state.logoY, logoDimension, logoDimension);
     let idata = context2.getImageData(0, 0, width, height);
     let that = this;
     context.putImageData(idata, 0, 0);
@@ -424,8 +424,7 @@ class Editing extends React.Component<IProps, IState> {
     canvasTxt.vAlign = this.state.vAlign;
     canvasTxt.align = this.state.align;
     canvasTxt.lineHeight = 20;
-    // canvasTxt.fontSize = (this.state.fontSize / 100) * width;
-    canvasTxt.fontSize = this.state.fontSize;
+    canvasTxt.fontSize = (this.state.fontSize / 100) * (width - 80);
     canvasTxt.drawText(
       context2,
       this.state.text,
@@ -434,7 +433,8 @@ class Editing extends React.Component<IProps, IState> {
       width - 50,
       height - 50
     );
-    context2.drawImage(img, this.state.logoX, this.state.logoY);
+    let logoDimension = 0.2 * width;
+    context2.drawImage(img, this.state.logoX, this.state.logoY, logoDimension, logoDimension);
     let idata = context2.getImageData(0, 0, width, height);
     context.putImageData(idata, 0, 0);
   };
@@ -455,9 +455,7 @@ class Editing extends React.Component<IProps, IState> {
     this.setState({ textColor: color.hex }, () => this.updateCanvas());
   };
   changeFontSize = (e: any) => {
-    this.setState({ fontSize: Number(e.target.value) }, () =>
-      this.updateCanvas()
-    );
+    this.setState({ fontSize: Number(e.target.value) }, () => this.updateCanvas());
   };
   onChangeMusicTitle = (e: any) => {
     this.setState({ musicTitle: e.target.value });
@@ -669,7 +667,7 @@ class Editing extends React.Component<IProps, IState> {
       const iconPos = getIconPosition(this.state.iconPos);
       thumbnailContext.drawImage(this.video, 0, 0, 1280, 720);
       thumbnailContext.fillStyle = this.state.textColor;
-      canvasTxt.fontSize = this.state.fontSize;
+      canvasTxt.fontSize = (this.state.fontSize / 100) * 1100;
       canvasTxt.vAlign = this.state.vAlign;
       canvasTxt.align = this.state.align;
       canvasTxt.lineHeight = 20;
@@ -1069,7 +1067,7 @@ class Editing extends React.Component<IProps, IState> {
                       min="0"
                       max="1"
                       step="0.1"
-                    />{" "}
+                    />
                   </div>
                 )}
               </div>
@@ -1138,14 +1136,15 @@ class Editing extends React.Component<IProps, IState> {
                     type="range"
                     id="font"
                     name="font"
-                    min="10"
-                    max="100"
+                    min="1"
+                    max="10"
                     style={{ width: "80%" }}
+                    step="0.1"
                     value={this.state.fontSize}
                     onChange={this.changeFontSize}
                   ></input>
                   <span style={{ width: "10%", padding: "10px" }}>
-                    {this.state.fontSize}px
+                    {Math.round(this.state.fontSize / 10 * 100)}px
                   </span>
                 </div>
                 <h5 className="positionTxt">

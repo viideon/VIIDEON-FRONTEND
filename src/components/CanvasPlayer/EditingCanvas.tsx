@@ -80,27 +80,37 @@ class EditingPlayer extends React.Component<IProps, IState> {
     this.frameRate = 60;
     this.logoPosition = {
       "top-left": () => {
-        this.canvasTmpCtx.drawImage(this.logo, 50, 50);
+        let logoDimension = 0.2 * this.edCanvas.width;
+        this.canvasTmpCtx.drawImage(this.logo, 50, 50, logoDimension, logoDimension);
       },
       "top-right": () => {
+        let logoDimension = 0.2 * this.edCanvas.width;
         this.canvasTmpCtx.drawImage(
           this.logo,
           this.edCanvas.width - this.logo.width - 50,
-          50
+          50,
+          logoDimension,
+          logoDimension
         );
       },
       "bottom-right": () => {
+        let logoDimension = 0.2 * this.edCanvas.width;
         this.canvasTmpCtx.drawImage(
           this.logo,
           this.edCanvas.width - this.logo.width - 50,
-          this.edCanvas.height - this.logo.height - 50
+          this.edCanvas.height - this.logo.height - 50,
+          logoDimension,
+          logoDimension
         );
       },
       "bottom-left": () => {
+        let logoDimension = 0.2 * this.edCanvas.width;
         this.canvasTmpCtx.drawImage(
           this.logo,
           50,
-          this.edCanvas.height - this.logo.height - 50
+          this.edCanvas.height - this.logo.height - 50,
+          logoDimension,
+          logoDimension
         );
       },
     };
@@ -211,7 +221,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
   updateSeekTooltip = (event: any) => {
     const skipTo = Math.round(
       (event.offsetX / event.target.clientWidth) *
-        parseInt(event.target.getAttribute("max"), 10)
+      parseInt(event.target.getAttribute("max"), 10)
     );
 
     this.seek.setAttribute("data-seek", skipTo);
@@ -268,14 +278,13 @@ class EditingPlayer extends React.Component<IProps, IState> {
       const { textProps, logoProps } = this.props;
       const { width, height } = this.state;
       this.canvasTmpCtx.drawImage(this.video, 0, 0, width, height);
-
       if (logoProps && logoProps.url) {
         this.logoPosition[logoProps.position].call();
       }
       //Draw text using canvas-txt
       if (textProps && textProps.text) {
         this.canvasTmpCtx.fillStyle = textProps.textColor;
-        canvasTxt.fontSize = textProps.fontSize;
+        canvasTxt.fontSize = (textProps.fontSize / 100) * (width - 150);
         canvasTxt.vAlign = textProps.vAlign;
         canvasTxt.align = textProps.align;
         canvasTxt.lineHeight = 20;
@@ -342,7 +351,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
   }
   async play() {
     this.video.play();
-    this.backgroundMusic.play().catch(() => {});
+    this.backgroundMusic.play().catch(() => { });
     this.setState({ playing: true, showThumbnail: false });
     this.requestAnimationFrame();
   }

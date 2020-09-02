@@ -100,7 +100,7 @@ class AddLogoText extends React.Component<IProps, IState> {
       text: "",
       btnText: "Skip",
       textColor: "#fff",
-      fontSize: 30,
+      fontSize: 5,
       vAlign: "top",
       align: "left",
       iconPos: "top-left",
@@ -207,8 +207,8 @@ class AddLogoText extends React.Component<IProps, IState> {
   ) => {
     if (video.paused || video.ended) return false;
     context2.drawImage(video, 0, 0, width, height);
+    canvasTxt.fontSize = (this.state.fontSize / 100) * (width - 80);
     context2.fillStyle = this.state.textColor;
-    canvasTxt.fontSize = this.state.fontSize;
     canvasTxt.vAlign = this.state.vAlign;
     canvasTxt.align = this.state.align;
     canvasTxt.lineHeight = 20;
@@ -220,7 +220,8 @@ class AddLogoText extends React.Component<IProps, IState> {
       width - 50,
       height - 50
     );
-    context2.drawImage(img, this.state.logoX, this.state.logoY);
+    let logoDimension = 0.2 * width;
+    context2.drawImage(img, this.state.logoX, this.state.logoY, logoDimension, logoDimension);
     let idata = context2.getImageData(0, 0, width, height);
     let that = this;
     context.putImageData(idata, 0, 0);
@@ -241,8 +242,7 @@ class AddLogoText extends React.Component<IProps, IState> {
     canvasTxt.vAlign = this.state.vAlign;
     canvasTxt.align = this.state.align;
     canvasTxt.lineHeight = 20;
-    canvasTxt.fontSize = this.state.fontSize;
-    // canvasTxt.debug = true;
+    canvasTxt.fontSize = (this.state.fontSize / 100) * (width - 80);
     canvasTxt.drawText(
       context2,
       this.state.text,
@@ -251,7 +251,8 @@ class AddLogoText extends React.Component<IProps, IState> {
       width - 50,
       height - 50
     );
-    context2.drawImage(img, this.state.logoX, this.state.logoY);
+    let logoDimension = 0.2 * width;
+    context2.drawImage(img, this.state.logoX, this.state.logoY, logoDimension, logoDimension);
     let idata = context2.getImageData(0, 0, width, height);
     context.putImageData(idata, 0, 0);
   };
@@ -888,14 +889,15 @@ class AddLogoText extends React.Component<IProps, IState> {
                   type="range"
                   id="font"
                   name="font"
-                  min="10"
-                  max="100"
+                  min="1"
+                  max="10"
+                  step="0.1"
                   style={{ width: "80%" }}
                   value={this.state.fontSize}
                   onChange={this.changeFontSize}
                 ></input>
                 <span style={{ width: "10%", padding: "10px" }}>
-                  {this.state.fontSize}px
+                  {Math.round(this.state.fontSize / 10 * 100)}px
                 </span>
               </div>
               <h5 className="positionTxt">
