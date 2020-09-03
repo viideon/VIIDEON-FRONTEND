@@ -99,28 +99,6 @@
   outline: 0;
   box-shadow: none !important;
 }
-
-.emailLogin .MuiInputBase-root {
-  border-radius: 10rem;
-  border: 1px solid #9f55ff;
-  width: 100%;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-.emailLogin .MuiInput-underline {
-  content: none !important;
-  transition: none !important;
-}
-.emailLogin .MuiInput-underline:after {
-  border-bottom: none;
-}
-.emailLogin .MuiInput-underline:before {
-  border-bottom: none;
-}
-.emailLogin .MuiInput-underline:hover:not(.Mui-disabled):before {
-  border-bottom: none;
-}
-
 @media only screen and (max-width: 400px) {
   .firstLayoutMainContainer {
     padding-left: 4%;
