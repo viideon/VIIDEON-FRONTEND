@@ -47,9 +47,7 @@ const TopDrawer: React.FC<IProps> = ({ open, toggle, history }) => {
       <div className="wrapperTopDrawer">
         <div
           className="OptionIcons dashboardOptionTop"
-          onClick={() => {
-            history.push("/");
-          }}
+          onClick={() => navigate("/dashboard")}
         >
           <i className="fas fa-tachometer-alt dashboard" style={iconStyle} />
           <span className="IconNameStyling">Dashboard</span>
