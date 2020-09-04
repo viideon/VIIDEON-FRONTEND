@@ -1,10 +1,12 @@
 import React from "react";
 import Home from "../Home/Home";
 import { connect } from "react-redux";
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 // import { RiDeleteBack2Line } from "react-icons/ri";
 // import DeleteDialog from "../../components/Reusable/DeleteDialogGeneric";
 // import { deleteAsset } from "../../Redux/Actions/asset";
 import { Grid } from "@material-ui/core";
+import 'react-tabs/style/react-tabs.css';
 import "./style.css";
 
 interface IProps {
@@ -18,14 +20,32 @@ class MusicAssets extends React.Component<IProps> {
     const { musicAssets } = this.props;
     return (
       <Home>
-        <h3 className="assetHeading">Music Assets</h3>
-        <Grid container className="wrapperMusicAssets">
-          {musicAssets && musicAssets.map((asset: any) => (
-            <Grid item xs={12} sm={6} md={4} lg={4} key={asset._id}>
-              <MusicAsset asset={asset} />
+        <h4 className="assetHeading">Music Assets</h4>
+        <Tabs>
+          <TabList>
+            <Tab>Private Music</Tab>
+            <Tab>Public Music</Tab>
+          </TabList>
+
+          <TabPanel>
+            <Grid container className="wrapperMusicAssets">
+              {musicAssets && musicAssets.map((asset: any) => (
+                <Grid item xs={12} sm={6} md={4} lg={4} key={asset._id}>
+                  <MusicAsset asset={asset} />
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
+          </TabPanel>
+          <TabPanel>
+            <Grid container className="wrapperMusicAssets">
+              {musicAssets && musicAssets.map((asset: any) => (
+                <Grid item xs={12} sm={6} md={4} lg={4} key={asset._id}>
+                  <MusicAsset asset={asset} />
+                </Grid>
+              ))}
+            </Grid>
+          </TabPanel>
+        </Tabs>
       </Home>
     );
   }
