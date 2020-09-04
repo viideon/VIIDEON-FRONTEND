@@ -84,7 +84,7 @@ class Recording extends React.Component<IProps> {
     this.captureUserMedia((stream: any) => {
       this.recordVideo = RecordRTC(stream, {
         type: "video/webm",
-        mimeType: "video/webm;codecs=vp9"
+        mimeType: "video/webm;codecs=vp8"
       });
       this.localStream = stream;
       this.video.srcObject = this.localStream;
