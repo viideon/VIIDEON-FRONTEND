@@ -58,7 +58,8 @@ class SendSave extends React.Component<IProps> {
     width: 0,
     height: 0,
     logoUrl: "",
-    thumbnailUrl: ""
+    thumbnailUrl: "",
+    videoHeight: "300px"
   };
   canvas: any;
   container: any;
@@ -66,6 +67,12 @@ class SendSave extends React.Component<IProps> {
   componentDidMount() {
     this.props.toggleSendVariable();
     this.s3 = new AWS.S3(config);
+    this.caluclateContainerHeight();
+    window.addEventListener("resize", this.caluclateContainerHeight);
+  }
+  caluclateContainerHeight = () => {
+    let calculatedVideoHeight = document.getElementById("wrapperSend")?.clientWidth ? `${document.getElementById('wrapperSend')!.clientWidth * 0.5625}px` : "300px";
+    this.setState({ videoHeight: calculatedVideoHeight });
   }
   saveVideo = async () => {
     if (this.state.title === "") {
@@ -91,7 +98,6 @@ class SendSave extends React.Component<IProps> {
     }
   };
   uploadVideo = () => {
-    // let that = this;
     return new Promise((resolve, reject) => {
       this.setState({ videoProgress: true, progressVideo: 0 });
       const options = {
@@ -117,7 +123,6 @@ class SendSave extends React.Component<IProps> {
     });
   };
   uploadThumbnail = () => {
-    // let that = this;
     return new Promise((resolve, reject) => {
       this.setState({ videoProgress: true, progressVideo: 0 });
       const thumbnailOptions = {
@@ -207,6 +212,9 @@ class SendSave extends React.Component<IProps> {
   navigateToVideos = () => {
     this.props.history.push("/campaign");
   };
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.caluclateContainerHeight);
+  }
   render() {
     let { videoSaved, loading } = this.props.videoUser;
     let { progressEmail } = this.props;
@@ -218,7 +226,7 @@ class SendSave extends React.Component<IProps> {
           <h3 className="recordHeading">Save and Email Campaign</h3>
           <div ref="container" style={{
             width: "100%",
-            height: document.getElementById('wrapperSend') ? `${document.getElementById('wrapperSend')!.clientWidth * 0.5625}px` : `100px`
+            height: this.state.videoHeight
           }}>
             {this.props.previewVideo && this.props.thumbnailBlob && (
               <CanvasPlayer

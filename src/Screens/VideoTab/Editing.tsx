@@ -54,6 +54,7 @@ interface IState {
   musicLoadingTimeout: any;
   musicVolume: string;
   updatedThumbnailUrl: string;
+  videoHeight: string;
 }
 interface Video {
   url: string;
@@ -120,6 +121,7 @@ class Editing extends React.Component<IProps, IState> {
       musicLoadingTimeout: null,
       musicVolume: "0.5",
       updatedThumbnailUrl: "",
+      videoHeight: "300px"
     };
     this._isMounted = false;
   }
@@ -129,8 +131,14 @@ class Editing extends React.Component<IProps, IState> {
     this.setUpCanvasEditing();
     this._isMounted = true;
     this.container = this.refs.container;
+    this.caluclateContainerHeight();
+    window.addEventListener("resize", this.caluclateContainerHeight);
     this._isMounted &&
       setTimeout(() => this.setState({ showVideo: true }), 1000);
+  }
+  caluclateContainerHeight = () => {
+    let calculatedVideoHeight = document.getElementById("wrapper_main")?.clientWidth ? `${document.getElementById('wrapper_main')!.clientWidth * 0.5625}px` : "300px";
+    this.setState({ videoHeight: calculatedVideoHeight });
   }
   setUpCanvasEditing = () => {
     this.video = this.refs.video;
@@ -720,6 +728,7 @@ class Editing extends React.Component<IProps, IState> {
     this.video.removeEventListener("play", this.onVideoPlay);
     this.video.removeEventListener("ended", this.onVideoEnd);
     this.video.removeEventListener("volumechange", this.syncAudio);
+    window.removeEventListener("resize", this.caluclateContainerHeight);
   };
   componentWillUnmount() {
     this.removeListeners();
@@ -744,10 +753,7 @@ class Editing extends React.Component<IProps, IState> {
                 style={{
                   visibility: showVideo ? "visible" : "hidden",
                   width: "100%",
-                  height: document.getElementById("wrapper_main")
-                    ? `${document.getElementById("wrapper_main")!.clientWidth *
-                    0.5625}px`
-                    : `300px`,
+                  height: this.state.videoHeight,
                 }}
               >
                 {video && (

@@ -20,17 +20,28 @@ interface IProps {
 }
 class Watch extends React.Component<IProps> {
   container: any;
+  state = {
+    height: "100px"
+  }
   componentDidMount() {
     this.container = this.refs.container;
     this.props.getVideo(this.props.match.params.id);
     const _id = { id: this.props.match.params.id };
     this.props.updateVideoViews(_id);
+    this.caluclateContainerHeight();
+    window.addEventListener("resize", this.caluclateContainerHeight);
   }
-
+  caluclateContainerHeight = () => {
+    let calculatedVideoHeight = document.getElementById("wrapperWatch")?.clientWidth ? `${document.getElementById('wrapperWatch')!.clientWidth * 0.5625}px` : "300px";
+    this.setState({ height: calculatedVideoHeight });
+  }
   watched = () => {
     const _id = { id: this.props.match.params.id };
     this.props.updateVideoWatch(_id);
   };
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.caluclateContainerHeight);
+  }
   render() {
     const { video, loadingVideo } = this.props;
     return (
@@ -49,7 +60,7 @@ class Watch extends React.Component<IProps> {
                 ref="container"
                 style={{
                   width: "100%",
-                  height: document.getElementById('wrapperWatch') ? `${document.getElementById('wrapperWatch')!.clientWidth * 0.5625}px` : `100px`
+                  height: this.state.height
                 }}
               >
                 {video && (
