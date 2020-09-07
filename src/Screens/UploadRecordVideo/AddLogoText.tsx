@@ -46,6 +46,7 @@ interface IProps {
   savedVideoId: string;
   progressEmail: boolean;
 }
+
 interface IState {
   logoPath: any;
   logoX: number | string;
