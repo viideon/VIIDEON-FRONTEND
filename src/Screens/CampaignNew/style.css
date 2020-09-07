@@ -183,8 +183,12 @@
   width: 360px !important;
 }
 /* -----select template css goes here */
-.wrapperSelectTemplate h3 {
+.wrapperSelectTemplate {
+  padding: 10px 20px;
+}
+.wrapperSelectTemplate h4 {
   text-align: center;
+  padding-bottom: 30px;
 }
 @media (max-width: 500px) {
   .btnDoubleWrap {
