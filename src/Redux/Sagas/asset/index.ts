@@ -145,6 +145,14 @@ function* deleteMusicAsset(action: any) {
         toast.info("Failed to delete asset");
     }
 }
+function* getCampaignTemplates(action: any) {
+    try {
+
+    }
+    catch (err) {
+
+    }
+}
 export function* assetWatcher() {
     yield takeEvery(types.ADD_ASSET, addUserAsset);
     yield takeEvery(types.GET_ASSETS, getUserAsset);
@@ -152,5 +160,6 @@ export function* assetWatcher() {
     yield takeEvery(types.ADD_MUSIC, addMusicAsset);
     yield takeEvery(types.DELETE_MUSIC, deleteMusicAsset);
     yield takeEvery(types.GET_MUSIC, getMusicAsset);
+    yield takeEvery(types.GET_CAMPAIGN_TEMPLATES, getCampaignTemplates);
 
 }

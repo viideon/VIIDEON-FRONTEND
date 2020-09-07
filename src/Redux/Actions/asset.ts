@@ -34,3 +34,9 @@ export function deleteMusicAsset(assetId: any) {
         payload: assetId
     }
 }
+
+export function getCampaignTemplates() {
+    return {
+        type: types.GET_CAMPAIGN_TEMPLATES
+    }
+}
