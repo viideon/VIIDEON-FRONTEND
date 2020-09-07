@@ -218,7 +218,6 @@ class SendSave extends React.Component<IProps> {
   render() {
     let { videoSaved, loading } = this.props.videoUser;
     let { progressEmail } = this.props;
-    console.log("musicProps", this.props.musicProps && this.props.musicProps);
     return (
       <Grid container>
         <Grid item xs={1} sm={1} md={3} lg={3}></Grid>

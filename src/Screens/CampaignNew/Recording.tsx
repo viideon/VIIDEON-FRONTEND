@@ -8,7 +8,7 @@ import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import StopIcon from "@material-ui/icons/Stop";
 import Counter from "./Counter";
-import * as Constants from "../../constants/constants";
+import studentTemplate from "./dummyTemplate.json";
 import "./style.css";
 
 const hasGetUserMedia = !!navigator.getUserMedia;
@@ -26,7 +26,6 @@ class Recording extends React.Component<IProps> {
     showCountdown: false,
     isConnecting: false,
     showNext: true,
-    trackNo: 1,
     showTimer: false,
     count: 0,
     timerTimeout: 0,
@@ -34,7 +33,9 @@ class Recording extends React.Component<IProps> {
     width: 1280,
     height: 720,
     selectValue: 1,
-    showQualityInput: true
+    showQualityInput: true,
+    currentStep: 1,
+    totalSteps: 1,
   };
   recordVideo: any;
   video: any;
@@ -43,6 +44,10 @@ class Recording extends React.Component<IProps> {
 
   componentDidMount() {
     this.setupMedia();
+    this.intializeRecordingTemplate();
+  }
+  intializeRecordingTemplate = () => {
+    this.setState({ totalSteps: studentTemplate.totalSteps })
   }
   setupMedia = () => {
     this.setState({ isConnecting: true });
@@ -103,7 +108,7 @@ class Recording extends React.Component<IProps> {
       showTimer: true,
       count: 0
     });
-    if (this.state.trackNo === 1) {
+    if (this.state.currentStep === 1) {
       this.recordVideo.startRecording();
     } else {
       this.recordVideo.resumeRecording();
@@ -121,23 +126,14 @@ class Recording extends React.Component<IProps> {
       disableRecordBtn: false
     });
     this.recordVideo.pauseRecording();
-    if (this.state.trackNo === 1) {
-      toast.info("Intro recorded", this.toastOptions);
-      this.moveToNextTrack();
-    } else if (this.state.trackNo === 2) {
-      toast.info("Message recorded", this.toastOptions);
-      this.moveToNextTrack();
-    } else {
-      toast.info("Conclusion recorded", this.toastOptions);
-      this.moveToNextTrack();
-    }
+
+    toast.info(`${studentTemplate.steps[this.state.currentStep - 1].title} Recorded`, this.toastOptions);
+    this.moveToNextTrack();
   };
 
   moveToNextTrack = () => {
-    if (this.state.trackNo === 1) {
-      this.setState({ trackNo: 2 });
-    } else if (this.state.trackNo === 2) {
-      this.setState({ trackNo: 3 });
+    if (this.state.currentStep !== this.state.totalSteps) {
+      this.setState({ currentStep: this.state.currentStep + 1 });
     } else {
       this.stopStream();
       let that = this;
@@ -155,72 +151,25 @@ class Recording extends React.Component<IProps> {
       });
     }
   };
-  showInstructions = () => {
-    switch (this.state.trackNo) {
-      case 1:
-        return (
-          <div className="instructionWrapper">
-            <h3 className="instructionHeading">
-              {Constants.INTRO_INSTRUCTION_HEADING}
-            </h3>
-            <p className="instructionLength">
-              {Constants.INTRO_INSTRUCTION_LENGHT}
-            </p>
-            <ListGroup style={listGroupStyle}>
-              <ListGroupItem>{Constants.INTRO_INSTRUCTION}</ListGroupItem>
-              <ListGroupItem>
-                <p className="exampleTxt">Example</p>
-                <ul>
-                  <li>{Constants.INTRO_INSTRUCTION_EXAMPLE_ONE}</li>
-                  <li>{Constants.INTRO_INSTRUCTION_EXAMPLE_TWO}</li>
-                  <li>{Constants.INTRO_INSTRUCTION_EXAMPLE_THREE}</li>
-                </ul>
-              </ListGroupItem>
-            </ListGroup>
-          </div>
-        );
-
-      case 2:
-        return (
-          <div className="instructionWrapper">
-            <h3 className="instructionHeading">
-              {Constants.MESSAGE_INSTRUCTION_HEADING}
-            </h3>
-            <p className="instructionLength">
-              {Constants.MESSAGE_INSTRUCTION_LENGHT}
-            </p>
-            <ListGroup style={listGroupStyle}>
-              <ListGroupItem>{Constants.MESSAGE_INSTRUCTION}</ListGroupItem>
-              <ListGroupItem>
-                <p className="exampleTxt">Example</p>
-                <ul>
-                  <li> {Constants.MESSAGE_INSTRUCTION_EXAMPLE_ONE}</li>
-                  <li> {Constants.MESSAGE_INSTRUCTION_EXAMPLE_TWO}</li>
-                </ul>
-              </ListGroupItem>
-            </ListGroup>
-          </div>
-        );
-      case 3:
-        return (
-          <div className="instructionWrapper">
-            <h3 className="instructionHeading">
-              {Constants.CONCLUSION_INSTRUCTION_HEADING}
-            </h3>
-            <ListGroup style={listGroupStyle}>
-              <ListGroupItem>{Constants.CONCLUSION_INSTRUCTION}</ListGroupItem>
-              <ListGroupItem>
-                <p className="exampleTxt">Example</p>
-                <ul>
-                  <li>{Constants.CONCLUSION_INSTRUCTION_EXAMPLE_ONE}</li>
-                  <li>{Constants.CONCLUSION_INSTRUCTION_EXAMPLE_TWO}</li>
-                </ul>
-              </ListGroupItem>
-            </ListGroup>
-          </div>
-        );
-    }
-  };
+  showRecInstructions = () => {
+    let { currentStep } = this.state;
+    return <div className="instructionWrapper">
+      <h3 className="instructionHeading">
+        {studentTemplate.steps[currentStep - 1].title}
+      </h3>
+      <ListGroup style={listGroupStyle}>
+        <ListGroupItem>{studentTemplate.steps[currentStep - 1].description}</ListGroupItem>
+        <ListGroupItem>
+          <p className="exampleTxt">Example</p>
+          <ul>
+            {studentTemplate.steps[currentStep - 1].examples.map((example: string, index: number) => {
+              return <li key={index}>{example}</li>
+            })}
+          </ul>
+        </ListGroupItem>
+      </ListGroup>
+    </div>
+  }
   trackTime = () => {
     this.setState({
       count: this.state.count + 1
@@ -228,13 +177,8 @@ class Recording extends React.Component<IProps> {
   };
 
   nameTrack = () => {
-    if (this.state.trackNo === 1) {
-      return "Record Intro";
-    } else if (this.state.trackNo === 2) {
-      return "Record Message";
-    } else {
-      return "Record Conclusion";
-    }
+    let { currentStep } = this.state;
+    return studentTemplate.steps[currentStep - 1].title;
   };
   stopStream = () => {
     this.localStream &&
@@ -350,7 +294,7 @@ class Recording extends React.Component<IProps> {
           </div>
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={6}>
-          {this.showInstructions()}
+          {this.showRecInstructions()}
         </Grid>
       </Grid>
     );

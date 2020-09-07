@@ -1,0 +1,52 @@
+{
+  "id": "12345",
+  "name": "Student template",
+  "totalSteps": 4,
+  "templateThumbnailUrl": "www.videonpro.app",
+  "steps": [
+    {
+      "id": "111",
+      "title": "Intro",
+      "description": "This is the introduction Step",
+      "examples": [
+        "This is Step one",
+        "This is Step two",
+        "This is Step three ",
+        "This is step four"
+      ]
+    },
+    {
+      "id": "112",
+      "title": "Message",
+      "description": "This is the Message Step",
+      "examples": [
+        "This is Step one",
+        "This is Step two",
+        "This is Step three ",
+        "This is step four"
+      ]
+    },
+    {
+      "id": "113",
+      "title": "Conclusion",
+      "description": "This is the Conclusion Step",
+      "examples": [
+        "This is Step one",
+        "This is Step two",
+        "This is Step three ",
+        "This is step four"
+      ]
+    },
+    {
+      "id": "114",
+      "title": "The End",
+      "description": "This is the Ending Step",
+      "examples": [
+        "This is Step one",
+        "This is Step two",
+        "This is Step three ",
+        "This is step four"
+      ]
+    }
+  ]
+}

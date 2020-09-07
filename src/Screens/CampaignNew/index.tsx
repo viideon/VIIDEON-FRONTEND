@@ -3,6 +3,7 @@ import VideoPreview from "./VideoPreview";
 import Recording from "./Recording";
 import SendSave from "./SendSave";
 import AddLogoText from "./AddLogoText";
+import SelectTemplate from "./SelectTemplate";
 
 class Campaign extends React.Component {
   state = {
@@ -36,19 +37,23 @@ class Campaign extends React.Component {
     switch (this.state.currentStep) {
       case 1:
         return (
+          <SelectTemplate moveToNextStep={this.moveToNextStep} />
+        );
+      case 2:
+        return (
           <Recording
             moveToNextStep={this.moveToNextStep}
             saveVideo={this.saveVideo}
           />
         );
-      case 2:
+      case 3:
         return (
           <VideoPreview
             moveToNextStep={this.moveToNextStep}
             previewVideo={this.state.recordedVideo}
           />
         );
-      case 3:
+      case 4:
         return (
           <AddLogoText
             moveToNextStep={this.moveToNextStep}
@@ -59,7 +64,7 @@ class Campaign extends React.Component {
             saveThumbnailBlob={this.saveThumbnailBlob}
           />
         );
-      case 4:
+      case 5:
         return (
           <SendSave
             logoProps={this.state.logoProps}

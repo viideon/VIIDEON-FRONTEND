@@ -182,6 +182,10 @@
 .compact-picker {
   width: 360px !important;
 }
+/* -----select template css goes here */
+.wrapperSelectTemplate h3 {
+  text-align: center;
+}
 @media (max-width: 500px) {
   .btnDoubleWrap {
     display: flex;
