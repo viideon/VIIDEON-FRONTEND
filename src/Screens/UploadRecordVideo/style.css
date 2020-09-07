@@ -51,26 +51,11 @@
   flex-direction: column;
   font-size: 16px;
 }
-
-.Highlight {
-  background-color: rgb(188, 185, 236);
-}
-
-.Icon {
-  opacity: 0.3;
-  height: 64px;
-  width: 64px;
-}
-
 .FileInput {
   display: none;
 }
 .btnSaveVideo {
   margin-right: 3px;
-}
-.orSpanText {
-  padding-left: 12px;
-  padding-right: 12px;
 }
 .fileInformationDiv {
   box-shadow: 0 0 4px #dadada;
@@ -81,10 +66,7 @@
   font-weight: 600;
   letter-spacing: 1px;
 }
-.recorderWrapper .hCBOlN {
-  padding: 0px;
-  margin-bottom: 80px;
-}
+
 .formGroupMultiple {
   padding-top: 15px;
 }

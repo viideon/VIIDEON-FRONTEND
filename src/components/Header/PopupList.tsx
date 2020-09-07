@@ -101,11 +101,3 @@ export default function CustomizedMenus() {
   );
 }
 
-/* <Link to="/videotab">
-          <StyledMenuItem>
-            <ListItemIcon>
-              <InboxIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText primary="VideoTab" />
-          </StyledMenuItem>
-        </Link>   */

@@ -84,7 +84,7 @@ class Recording extends React.Component<IProps> {
     this.captureUserMedia((stream: any) => {
       this.recordVideo = RecordRTC(stream, {
         type: "video/webm",
-        mimeType: "video/webm;codecs=vp9"
+        mimeType: "video/webm;codecs=vp8"
       });
       this.localStream = stream;
       this.video.srcObject = this.localStream;
@@ -128,7 +128,7 @@ class Recording extends React.Component<IProps> {
   stopAndGetBlob = () => {
     let that = this;
     this.recordVideo.stopRecording(() => {
-      window.getSeekableBlob(this.recordVideo.getBlob(), function(
+      window.getSeekableBlob(this.recordVideo.getBlob(), function (
         seekableBlob: any
       ) {
         that.stopStream();
@@ -150,7 +150,7 @@ class Recording extends React.Component<IProps> {
 
   stopStream = () => {
     this.localStream &&
-      this.localStream.getTracks().forEach(function(track: any) {
+      this.localStream.getTracks().forEach(function (track: any) {
         track.stop();
       });
     this.video.srcObect = null;
@@ -210,7 +210,6 @@ class Recording extends React.Component<IProps> {
               left: 0
             }}
           />
-
           <video
             ref="resultVideo"
             muted
@@ -224,7 +223,6 @@ class Recording extends React.Component<IProps> {
               left: 0
             }}
           />
-
           {showCountdown && <Counter />}
           {showTimer && (
             <span className="timerRecording">

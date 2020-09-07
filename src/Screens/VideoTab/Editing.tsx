@@ -12,7 +12,7 @@ import {
   TextField,
   Button,
   Grid,
-  LinearProgress
+  LinearProgress,
 } from "@material-ui/core";
 import Loading from "../../components/Loading";
 import HelpIcon from "@material-ui/icons/Help";
@@ -54,6 +54,7 @@ interface IState {
   musicLoadingTimeout: any;
   musicVolume: string;
   updatedThumbnailUrl: string;
+  videoHeight: string;
 }
 interface Video {
   url: string;
@@ -106,7 +107,7 @@ class Editing extends React.Component<IProps, IState> {
       text: "",
       btnText: "Skip",
       textColor: "#fff",
-      fontSize: 30,
+      fontSize: 5,
       vAlign: "top",
       align: "left",
       iconPos: "top-left",
@@ -119,7 +120,8 @@ class Editing extends React.Component<IProps, IState> {
       musicFile: null,
       musicLoadingTimeout: null,
       musicVolume: "0.5",
-      updatedThumbnailUrl: ""
+      updatedThumbnailUrl: "",
+      videoHeight: "300px"
     };
     this._isMounted = false;
   }
@@ -129,8 +131,14 @@ class Editing extends React.Component<IProps, IState> {
     this.setUpCanvasEditing();
     this._isMounted = true;
     this.container = this.refs.container;
+    this.caluclateContainerHeight();
+    window.addEventListener("resize", this.caluclateContainerHeight);
     this._isMounted &&
       setTimeout(() => this.setState({ showVideo: true }), 1000);
+  }
+  caluclateContainerHeight = () => {
+    let calculatedVideoHeight = document.getElementById("wrapper_main")?.clientWidth ? `${document.getElementById('wrapper_main')!.clientWidth * 0.5625}px` : "300px";
+    this.setState({ videoHeight: calculatedVideoHeight });
   }
   setUpCanvasEditing = () => {
     this.video = this.refs.video;
@@ -154,11 +162,17 @@ class Editing extends React.Component<IProps, IState> {
       const { logoProps, textProps, musicProps } = video;
       try {
         if (musicProps && musicProps.url) {
-          let res = await fetch(musicProps.url)
+          let res = await fetch(musicProps.url);
           let musicBlob = await res.blob();
           const audioUrl = await window.URL.createObjectURL(musicBlob);
           this.backgroundMusic.src = audioUrl;
-          this.setState({ backgroundMusicUrl: musicProps.url, musicVolume: musicProps.musicVolume.toString() }, () => this.syncAudio());
+          this.setState(
+            {
+              backgroundMusicUrl: musicProps.url,
+              musicVolume: musicProps.musicVolume.toString(),
+            },
+            () => this.syncAudio()
+          );
         }
         const response = await fetch(video.url);
         let videoBlob = await response.blob();
@@ -176,7 +190,7 @@ class Editing extends React.Component<IProps, IState> {
           textColor: textProps.textColor,
           fontSize: textProps.fontSize,
           vAlign: textProps.vAlign,
-          align: textProps.align
+          align: textProps.align,
         });
       }
       this.setState({ videoLoaded: true });
@@ -185,7 +199,7 @@ class Editing extends React.Component<IProps, IState> {
   onAdjustMusicVolume = (e: any) => {
     this.backgroundMusic.volume = e.target.value;
     this.setState({ musicVolume: e.target.value });
-  }
+  };
   setThumbnailInputRef = (ref: any) => {
     this.thumbnailRef = ref;
   };
@@ -194,10 +208,10 @@ class Editing extends React.Component<IProps, IState> {
   };
   setMusicInputRef = (ref: any) => {
     this.musicRef = ref;
-  }
+  };
   triggerMusicUploadBtn = () => {
     this.musicRef.click();
-  }
+  };
   setLogoInputRef = (ref: any) => {
     this.logoRef = ref;
   };
@@ -212,9 +226,12 @@ class Editing extends React.Component<IProps, IState> {
   };
   toggleMusicAssetPicker = () => {
     this.setState({ isOpenMusicPicker: !this.state.isOpenMusicPicker });
-  }
+  };
   onVideoPlay = () => {
-    if (this.state.backgroundMusicUrl && this.backgroundMusic.readyState !== 4) {
+    if (
+      this.state.backgroundMusicUrl &&
+      this.backgroundMusic.readyState !== 4
+    ) {
       toast.info("Adding background music to video , Please wait");
       return;
     } else {
@@ -228,20 +245,20 @@ class Editing extends React.Component<IProps, IState> {
       this.video.clientWidth,
       this.video.clientHeight
     );
-  }
+  };
   isMusicLoaded = () => {
     if (this.backgroundMusic && this.backgroundMusic.readyState === 4) {
       clearInterval(this.state.musicLoadingTimeout);
       this.setState({ musicLoadingTimeout: null });
       toast.info("Music added");
     }
-  }
+  };
   onVideoPause = () => {
     this.backgroundMusic.pause();
-  }
+  };
   onVideoEnd = () => {
     this.backgroundMusic.currentTime = 0;
-  }
+  };
 
   onThumbnailFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0] !== null) {
@@ -276,7 +293,7 @@ class Editing extends React.Component<IProps, IState> {
     } else {
       toast.error("Failed to select a file try again");
     }
-  }
+  };
   uploadAndSaveMusicAsset = () => {
     if (this.state.musicTitle === "") {
       toast.error("Please add a title for music asset");
@@ -287,7 +304,7 @@ class Editing extends React.Component<IProps, IState> {
         Bucket: config.bucketName,
         ACL: config.ACL,
         Key: Date.now().toString() + this.state.musicFile.name,
-        Body: this.state.musicFile
+        Body: this.state.musicFile,
       };
       this.s3.upload(musicOptions, (err: any, data: any) => {
         if (err) {
@@ -296,11 +313,19 @@ class Editing extends React.Component<IProps, IState> {
           return;
         }
         toast.info("Asset Uploaded");
-        this.setState({ backgroundMusicUrl: data.Location, musicFile: null, musicFileSelected: false, assetUploading: false });
-        this.props.addMusicAsset({ url: data.Location, title: this.state.musicTitle });
+        this.setState({
+          backgroundMusicUrl: data.Location,
+          musicFile: null,
+          musicFileSelected: false,
+          assetUploading: false,
+        });
+        this.props.addMusicAsset({
+          url: data.Location,
+          title: this.state.musicTitle,
+        });
       });
     }
-  }
+  };
   onThumbnailAssetPick = (path: any) => {
     this.setState({ url: path }, () => {
       toast.info("Saving your changes");
@@ -314,7 +339,7 @@ class Editing extends React.Component<IProps, IState> {
     }
     const video = {
       id: this.props.videoId,
-      thumbnail: this.state.url
+      thumbnail: this.state.url,
     };
     this.props.updateVideo(video);
     this.setState({ url: "" });
@@ -329,7 +354,7 @@ class Editing extends React.Component<IProps, IState> {
     }
     const video = {
       id: this.props.videoId,
-      title: this.state.newVideoTitle
+      title: this.state.newVideoTitle,
     };
     this.props.updateVideo(video);
     this.setState({ newVideoTitle: "" });
@@ -346,7 +371,6 @@ class Editing extends React.Component<IProps, IState> {
     ) {
       this.initializeIconPosition(this.props.video.logoProps.position);
     }
-
   };
 
   onLogoFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -372,7 +396,7 @@ class Editing extends React.Component<IProps, IState> {
     if (video.paused || video.ended) return false;
     context2.drawImage(video, 0, 0, width, height);
     context2.fillStyle = this.state.textColor;
-    canvasTxt.fontSize = this.state.fontSize;
+    canvasTxt.fontSize = (this.state.fontSize / 100) * (width - 80);
     canvasTxt.font = "Arial";
     canvasTxt.vAlign = this.state.vAlign;
     canvasTxt.align = this.state.align;
@@ -386,7 +410,8 @@ class Editing extends React.Component<IProps, IState> {
       width - 50,
       height - 50
     );
-    context2.drawImage(img, this.state.logoX, this.state.logoY);
+    let logoDimension = 0.2 * width;
+    context2.drawImage(img, this.state.logoX, this.state.logoY, logoDimension, logoDimension);
     let idata = context2.getImageData(0, 0, width, height);
     let that = this;
     context.putImageData(idata, 0, 0);
@@ -407,7 +432,7 @@ class Editing extends React.Component<IProps, IState> {
     canvasTxt.vAlign = this.state.vAlign;
     canvasTxt.align = this.state.align;
     canvasTxt.lineHeight = 20;
-    canvasTxt.fontSize = this.state.fontSize;
+    canvasTxt.fontSize = (this.state.fontSize / 100) * (width - 80);
     canvasTxt.drawText(
       context2,
       this.state.text,
@@ -416,7 +441,8 @@ class Editing extends React.Component<IProps, IState> {
       width - 50,
       height - 50
     );
-    context2.drawImage(img, this.state.logoX, this.state.logoY);
+    let logoDimension = 0.2 * width;
+    context2.drawImage(img, this.state.logoX, this.state.logoY, logoDimension, logoDimension);
     let idata = context2.getImageData(0, 0, width, height);
     context.putImageData(idata, 0, 0);
   };
@@ -437,11 +463,11 @@ class Editing extends React.Component<IProps, IState> {
     this.setState({ textColor: color.hex }, () => this.updateCanvas());
   };
   changeFontSize = (e: any) => {
-    this.setState({ fontSize: e.target.value }, () => this.updateCanvas());
+    this.setState({ fontSize: Number(e.target.value) }, () => this.updateCanvas());
   };
   onChangeMusicTitle = (e: any) => {
     this.setState({ musicTitle: e.target.value });
-  }
+  };
   setIconPosition = (position: string) => {
     if (this.state.logoPath === null) {
       toast.info("Please upload a logo");
@@ -564,7 +590,7 @@ class Editing extends React.Component<IProps, IState> {
         Bucket: config.bucketName,
         ACL: config.ACL,
         Key: Date.now().toString() + "logo.jpeg",
-        Body: logoBlob
+        Body: logoBlob,
       };
       this.s3.upload(logoOptions, (err: any, data: any) => {
         if (err) {
@@ -590,8 +616,10 @@ class Editing extends React.Component<IProps, IState> {
   onMusicAssetPick = (path: any) => {
     this.setState({ backgroundMusicUrl: path });
     toast.info("Wait while we add the music to the video");
-    this.setState({ musicLoadingTimeout: setInterval(() => this.isMusicLoaded(), 3000) });
-  }
+    this.setState({
+      musicLoadingTimeout: setInterval(() => this.isMusicLoaded(), 3000),
+    });
+  };
   updateVideoLogoText = async () => {
     try {
       const textProps = {
@@ -599,19 +627,22 @@ class Editing extends React.Component<IProps, IState> {
         textColor: this.state.textColor,
         fontSize: this.state.fontSize,
         vAlign: this.state.vAlign,
-        align: this.state.align
+        align: this.state.align,
       };
       const logoProps = {
         url: this.state.logoPath,
-        position: this.state.iconPos
+        position: this.state.iconPos,
       };
       const musicProps = {
         url: this.state.backgroundMusicUrl,
-        musicVolume: parseFloat(this.state.musicVolume)
-      }
+        musicVolume: parseFloat(this.state.musicVolume),
+      };
       if (this.props.video) {
         const { video } = this.props;
-        if (JSON.stringify(video.textProps) !== JSON.stringify(textProps) || JSON.stringify(logoProps) !== JSON.stringify(video.logoProps)) {
+        if (
+          JSON.stringify(video.textProps) !== JSON.stringify(textProps) ||
+          JSON.stringify(logoProps) !== JSON.stringify(video.logoProps)
+        ) {
           toast.info("Generating new thumbnail", { autoClose: 1000 });
           await this.updateThumbnail();
           toast.info("Thumbnail generated", { autoClose: 1000 });
@@ -620,7 +651,7 @@ class Editing extends React.Component<IProps, IState> {
             logoProps,
             textProps,
             musicProps,
-            thumbnail: this.state.updatedThumbnailUrl
+            thumbnail: this.state.updatedThumbnailUrl,
           };
           this.props.updateVideo(video);
         } else {
@@ -628,7 +659,7 @@ class Editing extends React.Component<IProps, IState> {
             id: this.props.videoId,
             logoProps,
             textProps,
-            musicProps
+            musicProps,
           };
           this.props.updateVideo(video);
         }
@@ -644,7 +675,7 @@ class Editing extends React.Component<IProps, IState> {
       const iconPos = getIconPosition(this.state.iconPos);
       thumbnailContext.drawImage(this.video, 0, 0, 1280, 720);
       thumbnailContext.fillStyle = this.state.textColor;
-      canvasTxt.fontSize = this.state.fontSize;
+      canvasTxt.fontSize = (this.state.fontSize / 100) * 1100;
       canvasTxt.vAlign = this.state.vAlign;
       canvasTxt.align = this.state.align;
       canvasTxt.lineHeight = 20;
@@ -666,47 +697,53 @@ class Editing extends React.Component<IProps, IState> {
         }
         resolve();
       }, "image/jpeg");
-    })
-  }
+    });
+  };
   uploadUpdatedThumbnail = (blob: any) => {
     return new Promise((resolve, reject) => {
       const thumbnailOptions = {
         Bucket: config.bucketName,
         ACL: config.ACL,
         Key: Date.now().toString() + "thumbnail.jpeg",
-        Body: blob
+        Body: blob,
       };
-      this.s3
-        .upload(thumbnailOptions, (err: any, data: any) => {
-          if (err) {
-            reject();
-          } else {
-            this.setState({ updatedThumbnailUrl: data.Location });
-            resolve();
-          }
-        });
+      this.s3.upload(thumbnailOptions, (err: any, data: any) => {
+        if (err) {
+          reject();
+        } else {
+          this.setState({ updatedThumbnailUrl: data.Location });
+          resolve();
+        }
+      });
     });
-  }
+  };
   syncAudio = () => {
     let videoVolume = this.video.volume * 100;
-    this.backgroundMusic.volume = parseFloat(this.state.musicVolume) / 100 * videoVolume;
-  }
+    this.backgroundMusic.volume =
+      (parseFloat(this.state.musicVolume) / 100) * videoVolume;
+  };
   removeListeners = () => {
     this.video.removeEventListener("canplaythrough", this.handleLoadedMetaData);
     this.video.removeEventListener("pause", this.onVideoPause);
     this.video.removeEventListener("play", this.onVideoPlay);
     this.video.removeEventListener("ended", this.onVideoEnd);
     this.video.removeEventListener("volumechange", this.syncAudio);
-  }
+    window.removeEventListener("resize", this.caluclateContainerHeight);
+  };
   componentWillUnmount() {
     this.removeListeners();
     this._isMounted = false;
   }
   render() {
     const { video, isVideoUpdating } = this.props;
-    const { showVideo, videoLoaded, musicFileSelected, backgroundMusicUrl } = this.state;
+    const {
+      showVideo,
+      videoLoaded,
+      musicFileSelected,
+      backgroundMusicUrl,
+    } = this.state;
     return (
-      <div className="editingTabWrapper" >
+      <div className="editingTabWrapper">
         <Container>
           <Row>
             <Col xs="1" md="2"></Col>
@@ -716,7 +753,7 @@ class Editing extends React.Component<IProps, IState> {
                 style={{
                   visibility: showVideo ? "visible" : "hidden",
                   width: "100%",
-                  height: document.getElementById('wrapper_main') ? `${document.getElementById('wrapper_main')!.clientWidth * 0.5625}px` : `300px`
+                  height: this.state.videoHeight,
                 }}
               >
                 {video && (
@@ -786,7 +823,7 @@ class Editing extends React.Component<IProps, IState> {
                       background: "#16B272",
                       color: "rgb(255, 255, 255)",
                       marginBottom: "2px",
-                      outline: "none"
+                      outline: "none",
                     }}
                   />
                   <ThemeButton
@@ -797,7 +834,7 @@ class Editing extends React.Component<IProps, IState> {
                       background: "#16B272",
                       color: "rgb(255, 255, 255)",
                       marginBottom: "2px",
-                      outline: "none"
+                      outline: "none",
                     }}
                   />
                 </div>
@@ -820,7 +857,7 @@ class Editing extends React.Component<IProps, IState> {
                     value={this.state.newVideoTitle}
                     name="recieverEmail"
                     InputLabelProps={{
-                      shrink: true
+                      shrink: true,
                     }}
                     onChange={this.changeTitle}
                   />
@@ -833,7 +870,7 @@ class Editing extends React.Component<IProps, IState> {
                       color: "rgb(255, 255, 255)",
                       marginTop: "20px",
                       marginBottom: "2px",
-                      outline: "none"
+                      outline: "none",
                     }}
                   />
                 </div>
@@ -869,7 +906,7 @@ class Editing extends React.Component<IProps, IState> {
               lg={6}
               style={{ paddingLeft: "5px" }}
             >
-              <canvas ref="canvas" style={{ transform: 'rotate(-270px)' }} />
+              <canvas ref="canvas" style={{ transform: "rotate(-270px)" }} />
             </Grid>
           </Grid>
           <canvas ref="dummyCanvas" style={{ display: "none" }} />
@@ -880,7 +917,12 @@ class Editing extends React.Component<IProps, IState> {
             style={{ display: "none" }}
             ref="image"
           />
-          <audio src={backgroundMusicUrl} ref="backgroundMusic" loop style={{ display: "none" }} />
+          <audio
+            src={backgroundMusicUrl}
+            ref="backgroundMusic"
+            loop
+            style={{ display: "none" }}
+          />
           <Grid container>
             <Grid item xs={12} sm={12} md={6} lg={6}>
               <div className="addLogoDiv">
@@ -958,10 +1000,7 @@ class Editing extends React.Component<IProps, IState> {
                 </Button>
                 <h3 className="addLogoMessage">
                   Add Music
-                    <Tooltip
-                    title="upload audio music"
-                    placement="top"
-                  >
+                  <Tooltip title="upload audio music" placement="top">
                     <span style={iconStyle}>
                       <i className="fas fa-info"></i>
                     </span>
@@ -979,27 +1018,31 @@ class Editing extends React.Component<IProps, IState> {
                   ref={this.setMusicInputRef}
                   accept="audio/*"
                 />
-                {musicFileSelected && <Button
-                  onClick={this.uploadAndSaveMusicAsset}
-                  style={{
-                    color: "#fff",
-                    width: "135px",
-                    backgroundColor: "#ff4301",
-                    margin: "0px 5px 10px 0px",
-                  }}
-                >
-                  Upload
-                  </Button>}
-                {!musicFileSelected && <Button
-                  onClick={this.triggerMusicUploadBtn}
-                  style={{
-                    color: "#fff",
-                    backgroundColor: "#ff4301",
-                    margin: "0px 5px 10px 0px",
-                  }}
-                >
-                  Select to Upload
-                  </Button>}
+                {musicFileSelected && (
+                  <Button
+                    onClick={this.uploadAndSaveMusicAsset}
+                    style={{
+                      color: "#fff",
+                      width: "135px",
+                      backgroundColor: "#ff4301",
+                      margin: "0px 5px 10px 0px",
+                    }}
+                  >
+                    Upload
+                  </Button>
+                )}
+                {!musicFileSelected && (
+                  <Button
+                    onClick={this.triggerMusicUploadBtn}
+                    style={{
+                      color: "#fff",
+                      backgroundColor: "#ff4301",
+                      margin: "0px 5px 10px 0px",
+                    }}
+                  >
+                    Select to Upload
+                  </Button>
+                )}
                 <Button
                   onClick={this.toggleMusicAssetPicker}
                   style={{
@@ -1009,13 +1052,30 @@ class Editing extends React.Component<IProps, IState> {
                   }}
                 >
                   Select from Assets
-                  </Button>
+                </Button>
 
-                {musicFileSelected && <Input type="text" placeholder='Music Title' value={this.state.musicTitle} onChange={this.onChangeMusicTitle} style={{ marginTop: "10px" }} />}
-                {backgroundMusicUrl && <div className="musicVolumeAdjust">
-                  <label>Adjust music volume</label>
-                  <input type="range" value={this.state.musicVolume} onChange={this.onAdjustMusicVolume}
-                    min="0" max="1" step="0.1" /> </div>}
+                {musicFileSelected && (
+                  <Input
+                    type="text"
+                    placeholder="Music Title"
+                    value={this.state.musicTitle}
+                    onChange={this.onChangeMusicTitle}
+                    style={{ marginTop: "10px" }}
+                  />
+                )}
+                {backgroundMusicUrl && (
+                  <div className="musicVolumeAdjust">
+                    <label>Adjust music volume</label>
+                    <input
+                      type="range"
+                      value={this.state.musicVolume}
+                      onChange={this.onAdjustMusicVolume}
+                      min="0"
+                      max="1"
+                      step="0.1"
+                    />
+                  </div>
+                )}
               </div>
             </Grid>
             <Grid item xs={12} sm={12} md={6} lg={6}>
@@ -1082,14 +1142,15 @@ class Editing extends React.Component<IProps, IState> {
                     type="range"
                     id="font"
                     name="font"
-                    min="10"
-                    max="100"
+                    min="1"
+                    max="10"
                     style={{ width: "80%" }}
+                    step="0.1"
                     value={this.state.fontSize}
                     onChange={this.changeFontSize}
                   ></input>
                   <span style={{ width: "10%", padding: "10px" }}>
-                    {this.state.fontSize}px
+                    {Math.round(this.state.fontSize / 10 * 100)}px
                   </span>
                 </div>
                 <h5 className="positionTxt">
@@ -1113,7 +1174,7 @@ class Editing extends React.Component<IProps, IState> {
                 color: "rgb(255, 255, 255)",
                 marginTop: "20px",
                 marginBottom: "2px",
-                outline: "none"
+                outline: "none",
               }}
             />
           </div>
@@ -1132,25 +1193,25 @@ const iconStyle = {
   fontSize: "15px",
   color: "#a9a9a9",
   marginLeft: "7px",
-  cursor: "pointer"
+  cursor: "pointer",
 };
 const logoPositionBtn = {
   marginBottom: "10px",
   marginLeft: "7px",
   fontSize: "11px",
-  border: "1px solid #696969"
+  border: "1px solid #696969",
 };
 const mapStateToProps = (state: any, ownProps: any) => {
   return {
     video: state.video.singleVideo,
-    isVideoUpdating: state.video.isVideoUpdating
+    isVideoUpdating: state.video.isVideoUpdating,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
     updateVideo: (video: any) => dispatch(updateVideo(video)),
     addAsset: (asset: any) => dispatch(addAsset(asset)),
-    addMusicAsset: (asset: any) => dispatch(addMusicAsset(asset))
+    addMusicAsset: (asset: any) => dispatch(addMusicAsset(asset)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Editing);

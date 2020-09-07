@@ -41,7 +41,7 @@ class Detail extends React.Component<IProps> {
     clearTimeout(this.state.typingTimeout);
     this.setState({
       description: e.target.value,
-      typingTimeout: setTimeout(function() {
+      typingTimeout: setTimeout(function () {
         that.triggerUpdate(that.state.description);
       }, 2000)
     });
@@ -94,30 +94,6 @@ class Detail extends React.Component<IProps> {
                     </p>
                   </Col>
                 </FormGroup>
-                {/* <FormGroup row style={{ margin: "30px" }}>
-            <Col xs={3} md={2} className="colDetailTab">
-              <Label for="exampleText" id="descriptionLabel">
-                {Constants.TAG}
-              </Label>
-            </Col>
-            <Col>
-              <Input type="text" name="text" id="exampleTextAddTags" />
-              <p>
-                {Constants.ADD_TAGS}
-                <i>
-                  <Tooltip
-                    title="Organize your videos with tags to enable videos to be filtered in dashboard"
-                    placement="top"
-                    arrow
-                  >
-                    <span>
-                      <GoInfo />
-                    </span>
-                  </Tooltip>
-                </i>
-              </p>
-            </Col>
-          </FormGroup> */}
               </Form>
             </div>
             <Grid item xs={1} sm={1} md={2}></Grid>

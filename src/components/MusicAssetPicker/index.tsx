@@ -1,9 +1,11 @@
 import React from "react";
 import { toast } from "react-toastify";
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { connect } from "react-redux";
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
 import { Grid, Radio } from "@material-ui/core";
 import { getMusicAsset } from "../../Redux/Actions/asset";
+import 'react-tabs/style/react-tabs.css';
 import "./style.css";
 
 interface IProps {
@@ -58,22 +60,35 @@ class AssetPicker extends React.Component<IProps> {
                     Select Music Asset
                 </ModalHeader>
                 <ModalBody>
-                    <Grid container>
-                        {musicAssets &&
-                            musicAssets.map((asset: any, i) => (
-                                <Grid item md={4} lg={4} sm={6} key={i} >
-                                    <div className="pickerHeaderMusic"><Radio
-                                        checked={i === this.state.currenSelection}
-                                        onChange={() => this.selectAsset(asset.url, i)}
-                                        value={i}
-                                        color="default"
-                                        size="small"
-                                    />
-                                        <h5 className={i === this.state.currenSelection ? "selectedMusicHeading" : "musicHeading"}>{asset.title}</h5></div>
-                                    <audio src={asset.url} controls style={{ outline: "none" }} />
-                                </Grid>
-                            ))}
-                    </Grid>
+                    <Tabs>
+                        <TabList>
+                            <Tab>Private Assets</Tab>
+                            <Tab>Public Assets</Tab>
+                        </TabList>
+
+                        <TabPanel>
+                            <Grid container>
+                                {musicAssets &&
+                                    musicAssets.map((asset: any, i) => (
+                                        <Grid item md={4} lg={4} sm={6} key={i} >
+                                            <div className="pickerHeaderMusic"><Radio
+                                                checked={i === this.state.currenSelection}
+                                                onChange={() => this.selectAsset(asset.url, i)}
+                                                value={i}
+                                                color="default"
+                                                size="small"
+                                            />
+                                                <h5 className={i === this.state.currenSelection ? "selectedMusicHeading" : "musicHeading"}>{asset.title}</h5></div>
+                                            <audio src={asset.url} controls style={{ outline: "none" }} />
+                                        </Grid>
+                                    ))}
+                            </Grid>
+                        </TabPanel>
+                        <TabPanel>
+                            <h2>Any content 2</h2>
+                        </TabPanel>
+                    </Tabs>
+
                 </ModalBody>
                 <ModalFooter>
                     <Button
@@ -81,17 +96,13 @@ class AssetPicker extends React.Component<IProps> {
                         size="md"
                         style={{ width: "120px", marginRight: "5px" }}
                         onClick={this.cancelSelection}
-                    >
-                        Cancel
-          </Button>
+                    >Cancel </Button>
                     <Button
                         color="primary"
                         size="md"
                         style={{ width: "120px" }}
                         onClick={this.onPick}
-                    >
-                        OK
-          </Button>
+                    >Ok</Button>
                 </ModalFooter>
             </Modal>
         );

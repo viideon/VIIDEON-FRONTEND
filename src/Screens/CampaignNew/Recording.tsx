@@ -264,7 +264,6 @@ class Recording extends React.Component<IProps> {
     }
   };
   componentWillUnmount() {
-    console.log("component will unmount  called");
     this.stopStream();
   }
   render() {

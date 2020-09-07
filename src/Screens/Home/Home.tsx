@@ -20,6 +20,7 @@ type IProps = {
 
 class Home extends Component<IProps> {
   componentDidMount() {
+    window.scrollTo(0, 0)
     this.props.getEmailConfigurations();
     this.props.getAssets();
     this.props.getMusicAsset();

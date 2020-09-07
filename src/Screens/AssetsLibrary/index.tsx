@@ -17,7 +17,7 @@ class AssetsLibray extends React.Component<IProps> {
     const { assets } = this.props;
     return (
       <Home>
-        <h3 className="assetHeading">Your Assets</h3>
+        <h4 className="assetHeading">Your Assets</h4>
         <Grid container style={{ padding: "5px 20px 20px 20px" }}>
           {assets &&
             assets.map((asset: any) => (
@@ -88,8 +88,8 @@ const Asset = ({ asset, deleteAsset, isDeletingAsset }: any) => {
           alt="asset"
         />
       ) : (
-        <img src={asset.url} className="imgAssetLib" alt="asset" />
-      )}
+          <img src={asset.url} className="imgAssetLib" alt="asset" />
+        )}
       <button
         onClick={openDeleteDialog}
         className={showDeleteBtn ? "showDeleteBtn" : "hideDeleteBtn"}

@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect
+  Redirect,
 } from "react-router-dom";
 import { connect } from "react-redux";
 import { updateVideoCta } from "./Redux/Actions/videos";
@@ -88,12 +88,12 @@ class Routes extends Component<IProps> {
 }
 const mapStateToProps = (state: any) => {
   return {
-    auth: state.auth
+    auth: state.auth,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    updateVideoCta: (id: any) => dispatch(updateVideoCta(id))
+    updateVideoCta: (id: any) => dispatch(updateVideoCta(id)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Routes);

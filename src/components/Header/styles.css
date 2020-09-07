@@ -33,12 +33,6 @@
   display: block !important;
   cursor: pointer;
 }
-
-.HeaderComponent {
-  display: flex;
-  flex-direction: row;
-  height: 10vh;
-}
 .centerHeader {
   width: 28%;
 }
@@ -51,24 +45,6 @@
   color: #fff;
   cursor: pointer;
   vertical-align: middle;
-}
-.IconComponents {
-  display: flex;
-  flex-direction: row;
-  flex: 0.5;
-}
-.ImagePlusTag {
-  margin-top: 20px;
-  width: 30px;
-  cursor: pointer;
-  height: 30px;
-}
-.ImageGiftTag {
-  margin-top: 20px;
-  margin-left: 20px;
-  width: 30px;
-  cursor: pointer;
-  height: 30px;
 }
 .avatarWrapperHeader {
   width: 2.5rem;
@@ -102,32 +78,18 @@
     display: none !important;
   }
 }
-
-@media (max-width: 380px) {
-  .endHeader {
-    width: 50% !important;
+@media (max-width: 480px) {
+  .startHeader {
+    width: 20%;
+    padding-left: 5%;
   }
   .centerHeader {
-    width: 20% !important;
+    width: 30%;
   }
-  .startHeader {
-    width: 30% !important;
-  }
-  .wrapperEnd {
-    width: 100% !important;
+  .endHeader {
+    width: 50%;
   }
   .headerStyle {
-    font-size: 16px !important;
-    margin-top: 25px !important;
-  }
-}
-
-@media (max-width: 320px) {
-  .wrapperEnd {
-    width: 100% !important;
-  }
-  .headerStyle {
-    font-size: 12px !important;
-    margin-top: 20px !important;
+    font-size: 1em;
   }
 }

@@ -40,10 +40,18 @@ interface IProps {
 
 class VideoTabHeader extends React.Component<IProps> {
   container: any;
+  state = {
+    height: "150px"
+  }
   componentDidMount() {
     this.container = this.refs.container;
+    this.caluclateContainerHeight();
+    window.addEventListener("resize", this.caluclateContainerHeight);
   }
-
+  caluclateContainerHeight = () => {
+    let calculatedVideoHeight = document.getElementById("wrapperHeader")?.clientWidth ? `${document.getElementById('wrapperHeader')!.clientWidth * 0.5625}px` : "150px";
+    this.setState({ height: calculatedVideoHeight });
+  }
   copyUrl = () => {
     const { video } = this.props;
     navigator.clipboard.writeText(
@@ -51,7 +59,9 @@ class VideoTabHeader extends React.Component<IProps> {
     );
     toast.info("Url copied to clipboard");
   };
-
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.caluclateContainerHeight);
+  }
   render() {
     const { video } = this.props;
     return (
@@ -74,7 +84,7 @@ class VideoTabHeader extends React.Component<IProps> {
 
                 <div ref="container" style={{
                   width: "100%",
-                  height: document.getElementById('wrapperHeader') ? `${document.getElementById('wrapperHeader')!.clientWidth * 0.5625}px` : `100px`
+                  height: this.state.height
                 }}>
                   {video && (
                     <CanvasPlayer

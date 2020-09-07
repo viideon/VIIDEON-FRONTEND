@@ -87,3 +87,12 @@
 tr {
   border: 1px solid #ddd;
 }
+
+@media (max-width: 480px) {
+  .titleContacts {
+    padding-bottom: 15px;
+  }
+  .titleContacts > .connectAccount {
+    float: none;
+  }
+}
