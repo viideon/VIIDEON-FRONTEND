@@ -12,16 +12,16 @@ class SelectTemplate extends React.Component<IProps> {
                 Select template for your Campaign
       </Typography>
             <Grid container spacing={2}>
-                <Grid item xs={12} sm={12} md={3} lg={3} >
+                <Grid item xs={12} sm={6} md={3} lg={3} >
                     <CampaignTemplateCard moveToNextStep={this.props.moveToNextStep} />
                 </Grid>
-                <Grid item xs={12} sm={12} md={3} lg={3} >
+                <Grid item xs={12} sm={6} md={3} lg={3} >
                     <CampaignTemplateCard moveToNextStep={this.props.moveToNextStep} />
                 </Grid>
-                <Grid item xs={12} sm={12} md={3} lg={3} >
+                <Grid item xs={12} sm={6} md={3} lg={3} >
                     <CampaignTemplateCard moveToNextStep={this.props.moveToNextStep} />
                 </Grid>
-                <Grid item xs={12} sm={12} md={3} lg={3} >
+                <Grid item xs={12} sm={6} md={3} lg={3} >
                     <CampaignTemplateCard moveToNextStep={this.props.moveToNextStep} />
                 </Grid>
             </Grid>
