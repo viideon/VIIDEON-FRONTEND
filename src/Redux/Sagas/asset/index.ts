@@ -1,7 +1,7 @@
 import { put, takeEvery, select, } from 'redux-saga/effects';
 import { types } from '../../Types/asset';
-import { addAssetApi, getAssetApi, deleteAssetApi, addMusicApi, getMusicApi, deleteMusicApi } from './api';
-import { selectID, selectAssets, selectMusicAssets } from "../../Selectors/index"
+import { addAssetApi, getAssetApi, deleteAssetApi, addMusicApi, getMusicApi, deleteMusicApi, getTemplatesApi } from './api';
+import { selectID, selectAssets, selectMusicAssets, } from "../../Selectors/index"
 import { toast } from 'react-toastify';
 
 function* addUserAsset(action: any) {
@@ -147,10 +147,30 @@ function* deleteMusicAsset(action: any) {
 }
 function* getCampaignTemplates(action: any) {
     try {
-
-    }
-    catch (err) {
-
+        const result = yield getTemplatesApi();
+        if (result.status === 200) {
+            yield put({
+                type: types.GET_CAMPAIGN_TEMPLATES_SUCCESS,
+                payload: result.data.templates
+            });
+        } else {
+            yield put({ type: types.GET_CAMPAIGN_TEMPLATES_FAILURE });
+        }
+    } catch (error) {
+        console.log("error", error);
+        if (error.response) {
+            const errorMessage = error.response.data.message;
+            toast.error(errorMessage);
+            yield put({ type: types.GET_CAMPAIGN_TEMPLATES_FAILURE });
+        } else if (error.request) {
+            const errorMessage = "Error. Please check your internet connection.";
+            toast.error(errorMessage);
+            yield put({ type: types.GET_CAMPAIGN_TEMPLATES_FAILURE });
+        } else {
+            const errorMessage = "Unexpected error";
+            toast.error(errorMessage);
+            yield put({ type: types.GET_CAMPAIGN_TEMPLATES_FAILURE });
+        }
     }
 }
 export function* assetWatcher() {

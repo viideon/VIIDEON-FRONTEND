@@ -26,3 +26,7 @@ export async function deleteMusicApi(queryObj: any) {
 export async function getTemplates() {
     return API.get("/assets/campaign/templates");
 }
+
+export const getTemplatesApi = () => {
+    return API.get("/campaign/templates");
+};
