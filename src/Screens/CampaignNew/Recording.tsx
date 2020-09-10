@@ -119,7 +119,6 @@ class Recording extends React.Component<IProps> {
   };
 
   stopRecord = () => {
-    const { template } = this.props;
     clearInterval(this.state.timerTimeout);
     this.setState({
       showTimer: false,
@@ -128,7 +127,7 @@ class Recording extends React.Component<IProps> {
     });
     this.recordVideo.pauseRecording();
 
-    toast.info(`${template.steps[this.state.currentStep - 1].title} Recorded`, this.toastOptions);
+    toast.info("Scene recorded", this.toastOptions);
     this.moveToNextTrack();
   };
 
