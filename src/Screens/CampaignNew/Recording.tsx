@@ -8,7 +8,6 @@ import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import StopIcon from "@material-ui/icons/Stop";
 import Counter from "./Counter";
-import studentTemplate from "./dummyTemplate.json";
 import "./style.css";
 
 const hasGetUserMedia = !!navigator.getUserMedia;
@@ -16,6 +15,7 @@ const hasGetUserMedia = !!navigator.getUserMedia;
 interface IProps {
   moveToNextStep: () => void;
   saveVideo: (blob: any) => void;
+  template: any;
   history: any;
 }
 
@@ -47,7 +47,7 @@ class Recording extends React.Component<IProps> {
     this.intializeRecordingTemplate();
   }
   intializeRecordingTemplate = () => {
-    this.setState({ totalSteps: studentTemplate.totalSteps })
+    this.setState({ totalSteps: this.props.template.totalSteps })
   }
   setupMedia = () => {
     this.setState({ isConnecting: true });
@@ -119,6 +119,7 @@ class Recording extends React.Component<IProps> {
   };
 
   stopRecord = () => {
+    const { template } = this.props;
     clearInterval(this.state.timerTimeout);
     this.setState({
       showTimer: false,
@@ -127,7 +128,7 @@ class Recording extends React.Component<IProps> {
     });
     this.recordVideo.pauseRecording();
 
-    toast.info(`${studentTemplate.steps[this.state.currentStep - 1].title} Recorded`, this.toastOptions);
+    toast.info(`${template.steps[this.state.currentStep - 1].title} Recorded`, this.toastOptions);
     this.moveToNextTrack();
   };
 
@@ -153,16 +154,17 @@ class Recording extends React.Component<IProps> {
   };
   showRecInstructions = () => {
     let { currentStep } = this.state;
+    let { template } = this.props;
     return <div className="instructionWrapper">
       <h3 className="instructionHeading">
-        {studentTemplate.steps[currentStep - 1].title}
+        {template.steps[currentStep - 1].title}
       </h3>
       <ListGroup style={listGroupStyle}>
-        <ListGroupItem>{studentTemplate.steps[currentStep - 1].description}</ListGroupItem>
+        <ListGroupItem>{template.steps[currentStep - 1].description}</ListGroupItem>
         <ListGroupItem>
           <p className="exampleTxt">Example</p>
           <ul>
-            {studentTemplate.steps[currentStep - 1].examples.map((example: string, index: number) => {
+            {template.steps[currentStep - 1].examples.map((example: string, index: number) => {
               return <li key={index}>{example}</li>
             })}
           </ul>
@@ -178,7 +180,8 @@ class Recording extends React.Component<IProps> {
 
   nameTrack = () => {
     let { currentStep } = this.state;
-    return studentTemplate.steps[currentStep - 1].title;
+    let { template } = this.props;
+    return template.steps[currentStep - 1].title;
   };
   stopStream = () => {
     this.localStream &&

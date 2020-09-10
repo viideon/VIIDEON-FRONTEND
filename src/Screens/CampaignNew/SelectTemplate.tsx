@@ -10,23 +10,27 @@ interface IProps {
     templates: any[];
     loadingTemplates: boolean;
     getCampaignTemplates: () => void;
+    selectTemplate: (template: any) => void;
 }
 class SelectTemplate extends React.Component<IProps> {
     componentDidMount() {
         this.props.getCampaignTemplates();
     }
+    proceedToRecording = (template: any) => {
+        this.props.selectTemplate(template);
+        this.props.moveToNextStep();
+    }
     render() {
         const { templates, loadingTemplates } = this.props;
         return <div className="wrapperSelectTemplate">
             <Typography variant="h4" >
-                Select template for your Campaign
+                Choose template for your Campaign
       </Typography>
             {loadingTemplates && <div className="progressEditing"><Loading /></div>}
             <Grid container spacing={2}>
                 {templates && templates.map((template: any) => <Grid item xs={12} sm={6} md={3} lg={3} >
-                    <CampaignTemplateCard template={template} moveToNextStep={this.props.moveToNextStep} />
+                    <CampaignTemplateCard template={template} proceedToRecording={this.proceedToRecording} />
                 </Grid>)}
-
             </Grid>
         </div>
     }

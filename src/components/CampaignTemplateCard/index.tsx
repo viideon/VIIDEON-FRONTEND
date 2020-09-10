@@ -3,10 +3,13 @@ import { Card, CardActionArea, CardActions, CardContent, Button, CardMedia, Typo
 
 
 interface IProps {
-    moveToNextStep: () => void;
+    proceedToRecording: (template: any) => void;
     template: any;
 }
-const CampaignTemplateCard: React.FC<IProps> = ({ moveToNextStep, template }) => {
+const CampaignTemplateCard: React.FC<IProps> = ({ proceedToRecording, template }) => {
+    const moveToRecording = () => {
+        proceedToRecording(template);
+    }
     return <Card  >
         <CardActionArea>
             <CardMedia
@@ -25,7 +28,7 @@ const CampaignTemplateCard: React.FC<IProps> = ({ moveToNextStep, template }) =>
             </CardContent>
         </CardActionArea>
         <CardActions>
-            <Button size="small" color="primary" onClick={moveToNextStep}>
+            <Button size="small" color="primary" onClick={moveToRecording}>
                 Proceed
       </Button>
         </CardActions>
