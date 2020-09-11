@@ -1,7 +1,7 @@
 import { put, takeEvery, select, } from 'redux-saga/effects';
 import { types } from '../../Types/asset';
-import { addAssetApi, getAssetApi, deleteAssetApi, addMusicApi, getMusicApi, deleteMusicApi } from './api';
-import { selectID, selectAssets, selectMusicAssets } from "../../Selectors/index"
+import { addAssetApi, getAssetApi, deleteAssetApi, addMusicApi, getMusicApi, deleteMusicApi, getTemplatesApi } from './api';
+import { selectID, selectAssets, selectMusicAssets, } from "../../Selectors/index"
 import { toast } from 'react-toastify';
 
 function* addUserAsset(action: any) {
@@ -145,6 +145,34 @@ function* deleteMusicAsset(action: any) {
         toast.info("Failed to delete asset");
     }
 }
+function* getCampaignTemplates(action: any) {
+    try {
+        const result = yield getTemplatesApi();
+        if (result.status === 200) {
+            yield put({
+                type: types.GET_CAMPAIGN_TEMPLATES_SUCCESS,
+                payload: result.data.templates
+            });
+        } else {
+            yield put({ type: types.GET_CAMPAIGN_TEMPLATES_FAILURE });
+        }
+    } catch (error) {
+        console.log("error", error);
+        if (error.response) {
+            const errorMessage = error.response.data.message;
+            toast.error(errorMessage);
+            yield put({ type: types.GET_CAMPAIGN_TEMPLATES_FAILURE });
+        } else if (error.request) {
+            const errorMessage = "Error. Please check your internet connection.";
+            toast.error(errorMessage);
+            yield put({ type: types.GET_CAMPAIGN_TEMPLATES_FAILURE });
+        } else {
+            const errorMessage = "Unexpected error";
+            toast.error(errorMessage);
+            yield put({ type: types.GET_CAMPAIGN_TEMPLATES_FAILURE });
+        }
+    }
+}
 export function* assetWatcher() {
     yield takeEvery(types.ADD_ASSET, addUserAsset);
     yield takeEvery(types.GET_ASSETS, getUserAsset);
@@ -152,5 +180,6 @@ export function* assetWatcher() {
     yield takeEvery(types.ADD_MUSIC, addMusicAsset);
     yield takeEvery(types.DELETE_MUSIC, deleteMusicAsset);
     yield takeEvery(types.GET_MUSIC, getMusicAsset);
+    yield takeEvery(types.GET_CAMPAIGN_TEMPLATES, getCampaignTemplates);
 
 }

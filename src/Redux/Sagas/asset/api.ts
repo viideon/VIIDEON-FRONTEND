@@ -23,3 +23,10 @@ export async function deleteMusicApi(queryObj: any) {
     const { userId, assetId } = queryObj;
     return API.delete("/asset/remove/music", { params: { userId, assetId } });
 }
+export async function getTemplates() {
+    return API.get("/assets/campaign/templates");
+}
+
+export const getTemplatesApi = () => {
+    return API.get("/campaign/templates");
+};
