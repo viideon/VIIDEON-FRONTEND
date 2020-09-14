@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import AWS from "aws-sdk";
-import { Input, Label, Row, Col, Form, FormGroup, Button } from "reactstrap";
 import { connect } from "react-redux";
 import { FaInfoCircle } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { Tooltip } from "@material-ui/core";
-// import LinkAccount from "./LinkAccount";
+import { Tooltip, TextField, Button, Grid } from "@material-ui/core";
 import { updateProfileUser } from "../../Redux/Actions/profile";
 import { addAsset } from "../../Redux/Actions/asset";
 import { ProfileState, UserProfile } from "../../Redux/Types/profile";
@@ -15,6 +13,7 @@ import TimeZone from "../../components/TimeZone/Data/timezone.json";
 import * as Constants from "../../constants/constants";
 import { config } from "../../config/aws";
 import Loading from "../../components/Loading";
+import ThemeButton from "../../components/ThemeButton";
 import "./style.css";
 
 type IProps = {
@@ -202,158 +201,155 @@ class Profile extends Component<IProps, IState> {
             </div>
           </div>
           <Tooltip title={`${Constants.PROFILE_PIC_INSTRUCTIONS}`}>
-            <div id="profileImgLabelWrap">
-              <Label id="profileImgLabelStyle" className="profileBtn">
+            <div className="profileImgLabelWrap">
+              <div className="profileBtn">
                 SELECT NEW PHOTO
-              <Input
+              <input
                   type="file"
                   id="profileSelectInput"
                   onChange={this.fileHandler}
                 />
-              </Label>
+              </div>
             </div>
           </Tooltip>
         </div>
         <div id="yourProfileWrap">
           <h4 id="yourProfielHead">{Constants.YOUR_PROFILE}</h4>
           <hr />
-          <Row>
-            <Col className="col-md-6 m-auto">
-              <Form id="formInput">
-                <FormGroup>
-                  <Label for="exampleEmail">{Constants.FIRSTNAME}</Label>
-                  <Input
-                    type="text"
-                    name="firstName"
-                    id="typeInput"
-                    placeholder=""
-                    value={this.state.firstName}
-                    onChange={this.onChange}
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">{Constants.LASTNAME}</Label>
-                  <Input
-                    type="text"
-                    name="lastName"
-                    id="typeInput"
-                    placeholder=""
-                    value={this.state.lastName}
-                    onChange={this.onChange}
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">{Constants.USERNAME}</Label>
-                  <Input
-                    type="text"
-                    name="userName"
-                    id="typeInput"
-                    placeholder=""
-                    value={this.state.userName}
-                    onChange={this.onChange}
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">{Constants.E_MAIL}</Label>
-                  <Input
-                    type="text"
-                    name="email"
-                    id="typeInput"
-                    placeholder=""
-                    value={this.state.email}
-                    onChange={this.onChange}
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">{Constants.MOBILE_NUMBER}</Label>
-                  <Input
-                    type="text"
-                    name="mobileNumber"
-                    id="typeInput"
-                    placeholder=""
-                    value={this.state.mobileNumber}
-                    onChange={this.onChange}
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">{Constants.TIMEZONE}</Label>
-                  <Input
-                    type="select"
-                    name="timeZone"
-                    id="typeSelectInput"
-                    placeholder=""
-                    value={this.state.timeZone}
-                    onChange={this.onChange}
-                  >
-                    {Object.entries(TimeZone).map((key: any, value) => {
-                      return (
-                        <option key={key} value={key}>
-                          {key}
-                        </option>
-                      );
-                    })}
-                  </Input>
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">{Constants.BUSINESS_PHONE}</Label>
-                  <Input
-                    type="text"
-                    name="businessPhone"
-                    id="typeInput"
-                    placeholder=""
-                    value={this.state.businessPhone}
-                    onChange={this.onChange}
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">{Constants.WEB_ADDRESS}</Label>
-                  <Input
-                    type="text"
-                    name="webAddress"
-                    id="typeInput"
-                    placeholder=""
-                    value={this.state.webAddress}
-                    onChange={this.onChange}
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">{Constants.TITLE}</Label>
-                  <Input
-                    type="text"
-                    name="title"
-                    id="typeInput"
-                    placeholder=""
-                    value={this.state.title}
-                    onChange={this.onChange}
-                  />
-                </FormGroup>
-                {/* <FormGroup>
-                  <Label for="exampleEmail">{Constants.AFFILIATE}</Label>
-                  <Input
-                    type="text"
-                    name="affiliateId"
-                    id="typeInput"
-                    placeholder=""
-                    value={this.state.affiliateId}
-                    onChange={this.onChange}
-                  />
-                  <p id="memberVideonText">
-                    {Constants.PROFILE_DESCRIPTION}{" "}
-                    <a href="/profile"> {Constants.PROFILE_URL}</a>
-                  </p>
-                </FormGroup> */}
-                <Button id="yourProfileUpdateBtn" onClick={() => this.update()}>
-                  {Constants.UPDATE}
-                </Button>
-              </Form>
+          <Grid container>
+            <Grid xs={1} sm={1} md={2} lg={2} item></Grid>
+            <Grid item xs={10} sm={10} md={8} lg={8}>
+              <div className="formProfile">
+                <TextField
+                  name="firstName"
+                  value={this.state.firstName}
+                  onChange={this.onChange}
+                  label="First Name"
+                  fullWidth
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+                <TextField
+                  name="lastName"
+                  value={this.state.lastName}
+                  onChange={this.onChange}
+                  label="Last Name"
+                  fullWidth
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+                <TextField
+                  name="userName"
+                  value={this.state.userName}
+                  onChange={this.onChange}
+                  label="User Name"
+                  fullWidth
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+                <TextField
+                  name="email"
+                  value={this.state.email}
+                  onChange={this.onChange}
+                  label="E-mail Address"
+                  fullWidth
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+
+
+                <TextField
+                  name="mobileNumber"
+                  value={this.state.mobileNumber}
+                  onChange={this.onChange}
+                  label="Mobile Number"
+                  fullWidth
+                  margin="normal"
+                  type="text"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+                <TextField
+                  select
+                  name="timeZone"
+                  label="Time Zone"
+                  fullWidth
+                  value={this.state.timeZone}
+                  onChange={this.onChange}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  SelectProps={{
+                    native: true,
+                  }}
+                >
+                  {Object.entries(TimeZone).map((key: any, value) => {
+                    console.log("key value", key, value);
+                    return (
+                      <option key={key} value={key}>
+                        {key}
+                      </option>
+                    );
+                  })}
+                </TextField>
+
+                <TextField
+                  name="businessPhone"
+                  value={this.state.businessPhone}
+                  onChange={this.onChange}
+                  label="Business Phone"
+                  fullWidth
+                  margin="normal"
+                  type="text"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+                <TextField
+                  name="webAddress"
+                  value={this.state.webAddress}
+                  onChange={this.onChange}
+                  label="Web Address"
+                  fullWidth
+                  margin="normal"
+                  type="text"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+                <TextField
+                  type="text"
+                  name="title"
+                  value={this.state.title}
+                  onChange={this.onChange}
+                  label="Web Address"
+                  fullWidth
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  style={{ marginBottom: "30px" }}
+                />
+
+                <ThemeButton style={{ backgroundColor: "rgb(34, 185, 255)", color: "#fff" }} onClick={() => this.update()} name={`${Constants.UPDATE}`} />
+              </div>
 
               <div className="progressEditing">
                 {loading && <Loading />}
               </div>
-            </Col>
-          </Row>
+            </Grid>
+            <Grid xs={1} sm={1} md={2} lg={2} item></Grid>
+          </Grid>
         </div>
-        {/* <LinkAccount /> */}
       </div>
     );
   }

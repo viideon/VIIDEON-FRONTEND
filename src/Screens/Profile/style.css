@@ -54,17 +54,12 @@
   height: 100%;
   object-fit: contain;
 }
-#profileImgLabelWrap {
+.profileImgLabelWrap {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
-#profileImgLabelStyle {
-  padding: 5px;
-  background-color: royalblue;
-  color: #ffffff;
-  cursor: pointer;
-}
+
 #profileSelectInput {
   position: absolute;
   display: none;
@@ -141,6 +136,7 @@
   border-radius: 0%;
 }
 .profileBtn {
+  padding: 5px;
   color: #fff;
   background-color: rgb(34, 185, 255) !important;
   border-color: #3598dc !important;
@@ -148,4 +144,7 @@
 }
 .profileBtn:hover {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.26);
+}
+.formProfile .MuiInputBase-input {
+  margin-bottom: 15px;
 }

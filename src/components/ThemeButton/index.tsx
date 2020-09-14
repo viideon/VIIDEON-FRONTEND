@@ -9,8 +9,10 @@ interface IProps {
 const useStyles = makeStyles(theme => ({
   button: {
     "&:hover": {
-      backgroundColor: "#22B9FF"
-    }
+      backgroundColor: "#22B9FF",
+      outline: "none"
+    },
+    "outline": "none !important"
   }
 }));
 const ThemeButton: React.FC<IProps> = ({ name, onClick, style }) => {
@@ -20,7 +22,7 @@ const ThemeButton: React.FC<IProps> = ({ name, onClick, style }) => {
       onClick={onClick}
       className={classes.button}
       style={style}
-      variant="outlined"
+      variant="contained"
     >
       {name}
     </Button>
