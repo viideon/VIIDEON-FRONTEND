@@ -1,24 +1,11 @@
 import React from "react";
-import {
-  Row,
-  Col,
-  Button
-  // Input,
-  // InputGroupAddon,
-  // InputGroupText,
-  // InputGroup
-  // Tooltip as StrapTooltip
-} from "reactstrap";
-// import { FaMailBulk, FaPencilAlt, FaDownload } from "react-icons/fa";
 import { toast } from "react-toastify";
 import VideoInfo from "../../components/VideoInfo";
-// import { FiExternalLink } from "react-icons/fi";
 import { connect } from "react-redux";
-// import Tooltip from "@material-ui/core/Tooltip";
-import CircularProgress from "@material-ui/core/CircularProgress";
-// import * as Constants from "../../constants/constants";
+import { CircularProgress, Grid } from "@material-ui/core";
+import Colors from "../../constants/colors";
+import ThemeButton from "../../components/ThemeButton";
 import CanvasPlayer from "../../components/CanvasPlayer/EditingCanvas";
-import styles from "./style";
 
 interface Video {
   url: string;
@@ -66,22 +53,17 @@ class VideoTabHeader extends React.Component<IProps> {
     const { video } = this.props;
     return (
       <div className="headerTab">
-        <Row>
-          <Col xs="12" sm="12" md="8" lg="8" xl="8">
-            <Row>
-              <Col xs="12" sm="12" md="6" id="wrapperHeader">
+        <Grid container>
+          <Grid item xs={12} sm={12} md={8} lg={8} xl={8}>
+            <Grid container>
+              <Grid item xs={12} sm={12} md={6} id="wrapperHeader">
                 {!video && (
                   <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      textAlign: "center"
-                    }}
+                    className="justifyCenter"
                   >
                     <CircularProgress color="primary" />
                   </div>
                 )}
-
                 <div ref="container" style={{
                   width: "100%",
                   height: this.state.height
@@ -99,75 +81,30 @@ class VideoTabHeader extends React.Component<IProps> {
                     />
                   )}
                 </div>
-              </Col>
-
-              <Col xs="12" sm="12" md="6" id="headerText">
+              </Grid>
+              <Grid xs={12} sm={12} md={6} id="headerText">
                 <h3>
                   {video && video.title}
-                  {/* <i>
-                    <FaPencilAlt
-                      style={{ fontSize: "15px", marginLeft: "4px" }}
-                    />
-                  </i> */}
                 </h3>
                 <VideoInfo video={video} />
-                {/* <div style={styles.wrapper}>
-                  <span>
-                    <FaDownload /> {Constants.MP4}
-                  </span>
-                </div> */}
-              </Col>
-            </Row>
-          </Col>
-          <Col xs="12" sm="12" md="4" lg="4" xl="4">
-            <Button
-              size="lg"
-              style={styles.buttonWrapper}
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
+            <ThemeButton
+              style={{
+                fontSize: '1.15rem',
+                width: '100%',
+                border: 'none',
+                background: Colors.themeBlue,
+                color: Colors.white,
+                outline: 'none'
+              }}
               onClick={this.copyUrl}
-            >
-              Copy URL
-            </Button>
-            <br />
-            <br />
-            {/* <InputGroup>
-              <Input
-                ref="urlInput"
-                value={`https://vidionpro.000webhostapp.com/watch/${video &&
-                  video._id}`}
-                disabled={true}
-              /> */}
-            {/* <InputGroupAddon addonType="append">
-                <InputGroupText
-                  style={styles.inputContainer}
-                  className="share-icons"
-                  id="TooltipExample" //here i am using react starp tooltip because  material tooltip not working with reactstrap component
-                  onClick={() => alert("This is not functional yet")}
-                >
-                  <FaMailBulk style={styles.inputwrapper} />
-                </InputGroupText>
-
-                <InputGroupText
-                  style={styles.inputContainer}
-                  className="share-icons"
-                  id="TooltipExample"
-                  onClick={() => alert("This is not functional yet")}
-                >
-                  <FiExternalLink style={styles.inputwrapper} />
-                </InputGroupText>
-
-                <StrapTooltip
-                  placement="bottom"
-                  isOpen={this.state.tooltipOpen}
-                  target="TooltipExample"
-                  toggle={this.toggle}
-                >
-                  Under Progress
-                </StrapTooltip>
-              </InputGroupAddon>
-             */}
-            {/* </InputGroup> */}
-          </Col>
-        </Row>
+              name="Copy URL"
+            />
+          </Grid>
+        </Grid>
       </div>
     );
   }
