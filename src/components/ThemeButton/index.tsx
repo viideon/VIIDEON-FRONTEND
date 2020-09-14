@@ -6,6 +6,7 @@ interface IProps {
   onClick?: () => void;
   style?: any;
   disabled?: boolean;
+  round?: boolean;
 }
 const useStyles = makeStyles(theme => ({
   button: {
@@ -16,13 +17,14 @@ const useStyles = makeStyles(theme => ({
     "outline": "none !important"
   }
 }));
-const ThemeButton: React.FC<IProps> = ({ name, onClick, style, disabled }) => {
+const ThemeButton: React.FC<IProps> = ({ name, onClick, style, disabled, round }) => {
   const classes = useStyles();
   return (
     <Button
       onClick={onClick}
       className={classes.button}
-      style={style}
+      // style={style}
+      style={{ ...style, borderRadius: round ? "10rem" : "inherit" }}
       variant="contained"
       disabled={disabled}
     >
