@@ -3,7 +3,7 @@ import AWS from "aws-sdk";
 import { connect } from "react-redux";
 import { FaInfoCircle } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { Tooltip, TextField, Button, Grid } from "@material-ui/core";
+import { Tooltip, TextField, Grid } from "@material-ui/core";
 import { updateProfileUser } from "../../Redux/Actions/profile";
 import { addAsset } from "../../Redux/Actions/asset";
 import { ProfileState, UserProfile } from "../../Redux/Types/profile";

@@ -1,17 +1,18 @@
 import React, { Component } from "react";
 import AWS from "aws-sdk";
+import { connect } from "react-redux";
+import Dropzone from "react-dropzone";
 import VideoRecorder from "../../components/VideoRecorder";
 import AddLogoText from "./AddLogoText";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import HelpIcon from "@material-ui/icons/Help";
-import { Button, LinearProgress, Tooltip, TextField } from "@material-ui/core";
+import { LinearProgress, TextField } from "@material-ui/core";
+import ThemeButton from "../../components/ThemeButton";
 import Loading from "../../components/Loading";
 import ChipInput from "material-ui-chip-input";
-import { Input, Label, FormGroup, Button as StrapButton } from "reactstrap";
 import { FaCamera, FaLaptop } from "react-icons/fa";
-import Dropzone from "react-dropzone";
-import { connect } from "react-redux";
+import EmailInstruction from "../../components/Reusable/EmailInstruction";
 import { toast } from "react-toastify";
+import Colors from "../../constants/colors";
 import {
   sendVideoToEmail,
   saveVideo,
@@ -239,8 +240,8 @@ class UploadRecord extends Component<IProps, IState> {
           </TabList>
 
           <TabPanel>
-            <div className="borderStyle">
-              <div style={{ marginTop: 20, marginBottom: 20 }}>
+            <div className="uploadPanelBorder">
+              <div className="wrapperUploadPanel">
                 <Dropzone onDrop={this.onDrop}>
                   {({ getRootProps, getInputProps }) => (
                     <section className="container">
@@ -279,51 +280,39 @@ class UploadRecord extends Component<IProps, IState> {
                                       value={this.state.progressFile}
                                     />
                                   )}
-                                  <FormGroup style={{ marginTop: "5px" }}>
-                                    <Label className="labelUploadSection">
-                                      {Constants.VIDEO_TITLE}
-                                    </Label>
-                                    <Input
-                                      type="text"
-                                      name="name"
-                                      id="typeInput"
-                                      placeholder="Give your video an amazing title"
-                                      value={this.state.title}
-                                      onChange={this.titleNameHandler}
-                                    />
-                                  </FormGroup>
-                                  <StrapButton
+
+                                  <TextField
+                                    name="name"
+                                    value={this.state.title}
+                                    onChange={this.titleNameHandler}
+                                    placeholder="Give your video an amazing title"
+                                    type="text"
+                                    label="Video Title"
+                                    fullWidth
+                                    margin="normal"
+                                    InputLabelProps={{
+                                      shrink: true,
+                                    }}
+                                    style={{ margin: "40px 0px" }}
+                                  />
+                                  <ThemeButton
                                     style={{
-                                      border: "none",
-                                      background: "rgb(34, 185, 255)",
-                                      color: "rgb(255, 255, 255)"
+                                      background: Colors.themeBlue,
+                                      color: Colors.white
                                     }}
                                     disabled={
                                       this.state.videoProgress || loading
                                     }
-                                    size="lg"
                                     onClick={this.uploadFileHandler}
-                                  >
-                                    Save Video
-                                  </StrapButton>
+                                    name="Save Video"
+                                  />
                                 </div>
                               )}
 
                               {videoSaved === true && (
                                 <div>
-                                  <FormGroup>
-                                    <Label className="labelUploadSection">
-                                      {Constants.SENDER_ADDRESS}
-                                      <span>
-                                        <Tooltip
-                                          title="connect your gmail account in confguration to send email's on your behalf"
-                                          placement="top"
-                                          arrow
-                                        >
-                                          <HelpIcon />
-                                        </Tooltip>
-                                      </span>
-                                    </Label>
+                                  <div>
+                                    <EmailInstruction heading="Reciever Email" />
                                     <TextField
                                       placeholder="Enter email address"
                                       fullWidth
@@ -335,27 +324,17 @@ class UploadRecord extends Component<IProps, IState> {
                                       }}
                                       onChange={this.emailHandler}
                                     />
-                                  </FormGroup>
-                                  <Button
-                                    variant="contained"
+                                  </div>
+                                  <ThemeButton
                                     onClick={this.submitEmail}
-                                    color="primary"
-                                  >
-                                    {Constants.SEND_THROUGH_EMAIL}
-                                  </Button>
-                                  <FormGroup className="formGroupMultiple">
-                                    <Label className="labelUploadSection">
-                                      Broadcast
-                                      <span>
-                                        <Tooltip
-                                          title="connect your gmail account in confguration to send email's on your behalf"
-                                          placement="top"
-                                          arrow
-                                        >
-                                          <HelpIcon />
-                                        </Tooltip>
-                                      </span>
-                                    </Label>
+                                    name={`${Constants.SEND_THROUGH_EMAIL}`}
+                                    style={{
+                                      backgroundColor: Colors.themeGreen,
+                                      color: Colors.white
+                                    }}
+                                  />
+                                  <div className="formGroupMultiple">
+                                    <EmailInstruction heading="Broadcast" />
                                     <ChipInput
                                       value={this.state.emails}
                                       placeholder="Enter email and press enter"
@@ -365,33 +344,26 @@ class UploadRecord extends Component<IProps, IState> {
                                         this.handleDeleteChip(chip)
                                       }
                                     />
-                                  </FormGroup>
-                                  <StrapButton
-                                    style={{
-                                      border: "none",
-                                      background: "#16B272",
-                                      color: "#fff"
-                                    }}
-                                    size="lg"
-                                    onClick={this.sendMultipleEmail}
-                                  >
-                                    Broadcast
-                                  </StrapButton>
-                                  <FormGroup>
-                                    <StrapButton
+                                  </div>
+                                  <div>
+                                    <ThemeButton
                                       style={{
-                                        border: "none",
-                                        background: "rgb(34, 185, 255)",
-                                        color: "rgb(255, 255, 255)",
-                                        marginTop: "30px",
-                                        width: "120px"
+                                        backgroundColor: Colors.themeGreen,
+                                        color: Colors.white
                                       }}
-                                      size="lg"
-                                      onClick={this.navigateToVideos}
-                                    >
-                                      Done
-                                    </StrapButton>
-                                  </FormGroup>
+                                      onClick={this.sendMultipleEmail}
+                                      name="Broadcast"
+                                    />
+                                  </div>
+                                  <ThemeButton
+                                    style={{
+                                      background: Colors.themeBlue,
+                                      color: Colors.white,
+                                      marginTop: "30px",
+                                    }}
+                                    onClick={this.navigateToVideos}
+                                    name="Done"
+                                  />
                                 </div>
                               )}
                             </div>
@@ -432,7 +404,6 @@ class UploadRecord extends Component<IProps, IState> {
           ref="video"
           style={{
             opacity: 0.00001,
-            // transform:"translate(-999px, 0px)"
             position: "absolute",
             left: "-999px"
           }}

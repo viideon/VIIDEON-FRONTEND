@@ -9,8 +9,10 @@ import {
   TextField,
   Button
 } from "@material-ui/core";
+import ThemeButton from "../../components/ThemeButton";
+import EmailInstruction from "../../components/Reusable/EmailInstruction";
+import Colors from "../../constants/colors";
 import { connect } from "react-redux";
-import { Input, Button as StrapButton, FormGroup, Label } from "reactstrap";
 import ChipInput from "material-ui-chip-input";
 import canvasTxt from "canvas-txt";
 import { CompactPicker } from "react-color";
@@ -29,7 +31,6 @@ import { EmailVideo, VideoSave, MultiEmail } from "../../Redux/Types/videos";
 import { addAsset, addMusicAsset } from "../../Redux/Actions/asset";
 import { getIconPosition } from "../../lib/helpers"
 import { config } from "../../config/aws";
-import HelpIcon from "@material-ui/icons/Help";
 import "./style.css";
 
 interface IProps {
@@ -806,8 +807,6 @@ class AddLogoText extends React.Component<IProps, IState> {
               >
                 Select to Upload
                   </Button>}
-
-
               <Button
                 onClick={this.toggleMusicAssetPicker}
                 style={{
@@ -819,7 +818,7 @@ class AddLogoText extends React.Component<IProps, IState> {
                 Select from Assets
                   </Button>
 
-              {musicFileSelected && <Input type="text" placeholder='Music Title' value={this.state.musicTitle} onChange={this.onChangeMusicTitle} style={{ marginTop: "10px" }} />}
+              {musicFileSelected && <TextField type="text" placeholder='Music Title' value={this.state.musicTitle} onChange={this.onChangeMusicTitle} style={{ marginTop: "10px" }} />}
               {backgroundMusicUrl && <div className="musicVolumeAdjust">
                 <label>Adjust music volume</label>
                 <input type="range" value={this.state.musicVolume} onChange={this.onAdjustMusicVolume}
@@ -839,7 +838,7 @@ class AddLogoText extends React.Component<IProps, IState> {
                   </span>
                 </Tooltip>
               </h4>
-              <Input
+              <TextField
                 type="text"
                 placeholder="Add Text"
                 name="text"
@@ -917,57 +916,46 @@ class AddLogoText extends React.Component<IProps, IState> {
           <Grid item xs={10} sm={10} md={8} lg={8}>
             <div style={{ marginTop: "30px" }}>
               {videoSaved !== true && (
-                <div>
+                <>
                   {this.state.videoProgress && (
                     <LinearProgress
                       variant="determinate"
                       value={this.state.progressVideo}
                     />
                   )}
-                  <FormGroup>
-                    <Label className="labelUploadSection">Video Title</Label>
-                    <Input
-                      type="text"
-                      name="name"
-                      id="typeInput"
-                      placeholder="Give your video an amazing title"
-                      value={this.state.title}
-                      onChange={this.titleNameHandler}
-                    />
-                  </FormGroup>
-                  <StrapButton
+                  <TextField
+                    name="name"
+                    value={this.state.title}
+                    onChange={this.titleNameHandler}
+                    placeholder="Give your video an amazing title"
+                    type="text"
+                    label="Video Title"
+                    fullWidth
+                    margin="normal"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    style={{ margin: "20px 0px" }}
+                  />
+                  <ThemeButton
                     style={{
-                      border: "none",
-                      background: "rgb(34, 185, 255)",
-                      color: "rgb(255, 255, 255)"
+                      backgroundColor: Colors.themeBlue,
+                      color: Colors.white
                     }}
                     disabled={this.state.videoProgress || loading}
-                    size="lg"
                     onClick={this.saveVideo}
-                  >
-                    Save Video
-                  </StrapButton>
-                </div>
+                    name="Save Video"
+                  />
+                </>
               )}
               <div style={{ marginLeft: "50%", marginTop: "15px" }}>
                 {loading && <Loading />}
                 {progressEmail && <Loading />}
               </div>
               {videoSaved === true && (
-                <div>
-                  <FormGroup>
-                    <Label className="labelUploadSection">
-                      {Constants.SENDER_ADDRESS}
-                      <span>
-                        <Tooltip
-                          title="connect your gmail account in confguration to send email's on your behalf"
-                          placement="top"
-                          arrow
-                        >
-                          <HelpIcon />
-                        </Tooltip>
-                      </span>
-                    </Label>
+                <>
+                  <div>
+                    <EmailInstruction heading="Reciever Email" />
                     <TextField
                       placeholder="Enter email address"
                       fullWidth
@@ -979,32 +967,18 @@ class AddLogoText extends React.Component<IProps, IState> {
                       }}
                       onChange={this.emailHandler}
                     />
-                  </FormGroup>
-
-                  <StrapButton
-                    style={{
-                      border: "none",
-                      background: "#16B272",
-                      color: "rgb(255, 255, 255)"
-                    }}
-                    size="lg"
+                  </div>
+                  <ThemeButton
                     onClick={this.submitEmail}
-                  >
-                    {Constants.SEND_THROUGH_EMAIL}
-                  </StrapButton>
-                  <FormGroup className="formGroupMultiple">
-                    <Label className="labelUploadSection">
-                      Broadcast
-                      <span>
-                        <Tooltip
-                          title="connect your gmail account in confguration to send email's on your behalf"
-                          placement="top"
-                          arrow
-                        >
-                          <HelpIcon />
-                        </Tooltip>
-                      </span>
-                    </Label>
+                    name={`${Constants.SEND_THROUGH_EMAIL}`}
+                    style={{
+                      backgroundColor: Colors.themeGreen,
+                      color: Colors.white,
+                      marginTop: "15px"
+                    }}
+                  />
+                  <div className="formGroupMultiple">
+                    <EmailInstruction heading="Broadcast" />
                     <ChipInput
                       value={this.state.emails}
                       placeholder="Enter email and press enter"
@@ -1012,39 +986,33 @@ class AddLogoText extends React.Component<IProps, IState> {
                       onAdd={chips => this.handleChipAdd(chips)}
                       onDelete={chip => this.handleDeleteChip(chip)}
                     />
-                  </FormGroup>
-                  <StrapButton
+                  </div>
+                  <ThemeButton
                     style={{
-                      border: "none",
-                      background: "#16B272",
-                      color: "#fff"
+                      backgroundColor: Colors.themeGreen,
+                      color: Colors.white,
+                      marginTop: "15px"
                     }}
-                    size="lg"
                     onClick={this.sendMultipleEmail}
-                  >
-                    Broadcast
-                  </StrapButton>
-                  <FormGroup style={{ textAlign: "end" }}>
-                    <StrapButton
+                    name="Broadcast"
+                  />
+                  <div style={{ textAlign: "end" }}>
+                    <ThemeButton
                       style={{
-                        border: "none",
-                        background: "rgb(34, 185, 255)",
-                        color: "rgb(255, 255, 255)",
-                        width: "120px"
+                        background: Colors.themeBlue,
+                        color: Colors.white,
+                        marginTop: "30px",
                       }}
-                      size="lg"
                       onClick={this.navigateToVideos}
-                    >
-                      Done
-                    </StrapButton>
-                  </FormGroup>
-                </div>
+                      name="Done"
+                    />
+                  </div>
+                </>
               )}
             </div>
           </Grid>
           <Grid item xs={1} sm={1} md={8} lg={2}></Grid>
         </Grid>
-
         <canvas
           ref="thumbCanvas"
           height={720}
