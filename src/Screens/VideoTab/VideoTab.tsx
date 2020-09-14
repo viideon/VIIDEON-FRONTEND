@@ -15,17 +15,11 @@ import {
   FaChartLine,
   FaCut,
   FaShare
-  // FaPalette,
-  // FaRegEye,
-  // FaReply,
 } from "react-icons/fa";
 import VideoTabHeader from "./Header";
 import Detail from "./Detail";
 import Editing from "./Editing";
 import Share from "./Share";
-// import Design from "./Design";
-// import Privacy from "./Privacy";
-// import VideoReplies from "./VideoReplies";
 import Analytics from "./Analytics";
 import * as Constants from "../../constants/constants";
 import "./style.css";
@@ -124,54 +118,6 @@ const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
               <p>Share</p>
             </NavLink>
           </NavItem>
-          {/* <NavItem>
-            <NavLink
-              id="videoTabNavLink"
-              className={classnames({ active: activeTab === "4" })}
-              onClick={() => {
-                toggle("4");
-              }}
-            >
-              <span>
-                <i>
-                  <FaPalette id="videoTabIcon" />
-                </i>
-              </span>
-              <p>{Constants.DESIGN}</p>
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              id="videoTabNavLink"
-              className={classnames({ active: activeTab === "5" })}
-              onClick={() => {
-                toggle("5");
-              }}
-            >
-              <span>
-                <i>
-                  <FaRegEye id="videoTabIcon" />
-                </i>
-              </span>
-              <p>{Constants.PRIVACY}</p>
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              id="videoTabNavLink"
-              className={classnames({ active: activeTab === "6" })}
-              onClick={() => {
-                toggle("6");
-              }}
-            >
-              <span>
-                <i>
-                  <FaReply id="videoTabIcon" />
-                </i>
-              </span>
-              <p>{Constants.VIDEO_REPLIES}</p>
-            </NavLink>
-          </NavItem> */}
         </Nav>
         <TabContent activeTab={activeTab}>
           <TabPane tabId="1">
@@ -188,15 +134,6 @@ const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
           <TabPane tabId="4">
             <Share />
           </TabPane>
-          {/* <TabPane tabId="4">
-            <Design />
-          </TabPane>
-          <TabPane tabId="5">
-            <Privacy />
-          </TabPane>
-          <TabPane tabId="6">
-            <VideoReplies />
-          </TabPane> */}
         </TabContent>
       </Container>
     </div>

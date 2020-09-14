@@ -1,12 +1,14 @@
 import React from "react";
-import { FormGroup, Label, Input, Col, Form } from "reactstrap";
+import { FormGroup, Label, Col, Form } from "reactstrap";
 import { Grid, Tooltip } from "@material-ui/core";
+import Colors from "../../constants/colors";
 import Loading from "../../components/Loading";
 import HelpIcon from "@material-ui/icons/Help";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import * as Constants from "../../constants/constants";
 import { updateVideo } from "../../Redux/Actions/videos";
+import "./style.css";
 
 interface IProps {
   updateVideo: (video: any) => void;
@@ -62,39 +64,27 @@ class Detail extends React.Component<IProps> {
           <Grid item xs={1} sm={1} md={2}></Grid>
           <Grid item xs={10} sm={10} md={8}>
             <div style={{ paddingTop: "40px", paddingBottom: "40px" }}>
-              <div style={{ marginLeft: "48%" }}>{loading && <Loading />}</div>
-              <Form>
-                <FormGroup row>
-                  <Col xs={3} md={2} className="colDetailTab">
-                    <Label for="exampleText" id="descriptionLabel">
-                      {Constants.DESCRIPTION}
-                    </Label>
-                  </Col>
-                  <Col>
-                    <Input
-                      type="textarea"
-                      name="text"
-                      value={this.state.description}
-                      style={{ minHeight: "150px" }}
-                      onChange={this.updateDescription}
-                    />
-                    <p>
-                      {Constants.ADD_TEXT}
-                      <i>
-                        <Tooltip
-                          title="Appears on video page"
-                          placement="top"
-                          arrow
-                        >
-                          <span>
-                            <HelpIcon />
-                          </span>
-                        </Tooltip>
-                      </i>
-                    </p>
-                  </Col>
-                </FormGroup>
-              </Form>
+              <div className="progressEditing">{loading && <Loading />}</div>
+              <Label for="exampleText" id="descriptionLabel">
+                {Constants.DESCRIPTION}
+              </Label>
+              <textarea name="textarea" value={this.state.description}
+                className="descriptionTextArea"
+                onChange={this.updateDescription} />
+              <p>
+                {Constants.ADD_TEXT}
+                <i>
+                  <Tooltip
+                    title="Appears on video page"
+                    placement="top"
+                    arrow
+                  >
+                    <span>
+                      <HelpIcon />
+                    </span>
+                  </Tooltip>
+                </i>
+              </p>
             </div>
             <Grid item xs={1} sm={1} md={2}></Grid>
           </Grid>

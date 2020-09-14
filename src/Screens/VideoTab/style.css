@@ -19,20 +19,16 @@
   margin-top: 5px;
   font-size: large;
 }
-
 #videoTabNavLink {
   padding: 0.5rem 3rem;
 }
-
 #videoTabIcon {
   color: #22b9ff;
   font-size: large;
 }
-
 #headerText {
   color: #646c9a;
 }
-
 @media screen and (max-width: 580px) {
   #videoTabNavLink p {
     color: red;
@@ -139,6 +135,13 @@
   justify-content: space-between;
 }
 
+/* -------detail tab---- */
+.descriptionTextArea {
+  min-height: 150px;
+  width: 100%;
+  border-color: #22b9ff;
+  outline: none !important;
+}
 @media (max-width: 380px) {
   #descriptionLabel {
     font-size: 12px;
