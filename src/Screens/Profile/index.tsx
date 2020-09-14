@@ -293,7 +293,6 @@ class Profile extends Component<IProps, IState> {
                   }}
                 >
                   {Object.entries(TimeZone).map((key: any, value) => {
-                    console.log("key value", key, value);
                     return (
                       <option key={key} value={key}>
                         {key}
