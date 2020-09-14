@@ -1,7 +1,5 @@
 import React from "react";
-import { FormGroup, Label, Col, Form } from "reactstrap";
 import { Grid, Tooltip } from "@material-ui/core";
-import Colors from "../../constants/colors";
 import Loading from "../../components/Loading";
 import HelpIcon from "@material-ui/icons/Help";
 import { withRouter } from "react-router-dom";
@@ -65,9 +63,9 @@ class Detail extends React.Component<IProps> {
           <Grid item xs={10} sm={10} md={8}>
             <div style={{ paddingTop: "40px", paddingBottom: "40px" }}>
               <div className="progressEditing">{loading && <Loading />}</div>
-              <Label for="exampleText" id="descriptionLabel">
+              <h6 id="descriptionLabel">
                 {Constants.DESCRIPTION}
-              </Label>
+              </h6>
               <textarea name="textarea" value={this.state.description}
                 className="descriptionTextArea"
                 onChange={this.updateDescription} />
