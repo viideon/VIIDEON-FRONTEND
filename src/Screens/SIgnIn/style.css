@@ -69,9 +69,10 @@
   border-radius: 10rem;
   justify-content: space-between;
 }
-.mainWrapperLayout {
+.btnBottomWrapper {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .forgotPassword {
   padding-top: 24px;
@@ -79,17 +80,13 @@
   color: #646f79;
   cursor: pointer;
 }
-.buttonWrapper {
-  margin-top: 20px;
-  border-radius: 10rem;
-}
+
 .form-control:focus {
   color: #495057;
   background-color: #fff !important;
   outline: 0;
   box-shadow: none !important;
 }
-
 .wrapperLoader {
   position: relative;
   padding: 30px;

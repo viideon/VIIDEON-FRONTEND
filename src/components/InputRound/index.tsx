@@ -44,7 +44,7 @@ const inputWrapper = {
   display: "flex",
   width: "100%",
   borderStyle: "solid",
-  borderWidth: "2px",
+  borderWidth: "1px",
   borderColor: "#9f55ff",
   borderRadius: "10rem",
   justifyContent: "space-between",

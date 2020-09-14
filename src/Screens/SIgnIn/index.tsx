@@ -3,7 +3,9 @@ import Grid from "@material-ui/core/Grid";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { connect } from "react-redux";
-import { Form, FormGroup, Label, Alert, Input } from "reactstrap";
+import InputRoundIcon from "../../components/InputRound/InputRoundIcon";
+import Label from "../../components/Reusable/Label";
+import Alert from "@material-ui/lab/Alert";
 import { toast } from "react-toastify";
 import * as Constants from "../../constants/constants";
 import { reg } from "../../constants/emailRegEx";
@@ -15,8 +17,9 @@ import {
 } from "../../Redux/Actions/auth";
 import { User } from "../../Redux/Types/auth";
 import Loading from "../../components/Loading";
-import ActionButton from "../../components/Reusable/ActionButton";
+import ThemeButton from "../../components/ThemeButton";
 import VerifySuccessModal from "../../components/Modals/verifySuccessModal";
+import Colors from "../../constants/colors";
 import "./style.css";
 
 const validationSchema = Yup.object().shape({
@@ -174,63 +177,31 @@ class Signin extends React.Component<IProps, IState> {
                 validationSchema={validationSchema}
               >
                 {formik => (
-                  <Form>
-                    <FormGroup>
-                      <Label for="exampleEmail" style={{ fontWeight: "bold" }}>
-                        {Constants.EMAIL_ADDRESS}
-                      </Label>
-                      <div className="textInput">
-                        <Input
-                          type="text"
-                          name="email"
-                          placeholder="Your registered E-mail"
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.email}
-                          style={inputStyle}
-                          autoComplete="off"
-                        />
-                        <i
-                          className="w3-xxlarge fa fa-user"
-                          style={iconStyle}
-                        ></i>
-                      </div>
-                    </FormGroup>
+                  <>
+                    <div className="formGroups">
+                      <Label text={Constants.EMAIL_ADDRESS} />
+                      <InputRoundIcon placeholder="Your registered E-mail" iconClass="iconPerson" type="text"
+                        name="email" onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.email} />
+                    </div>
 
                     {formik.errors.email && formik.touched.email && (
-                      <Alert color="danger">{formik.errors.email}</Alert>
+                      <Alert severity="warning">{formik.errors.email}</Alert>
                     )}
 
-                    <FormGroup>
-                      <Label
-                        for="examplePassword"
-                        style={{ fontWeight: "bold" }}
-                      >
-                        {Constants.PASSWORD}
-                      </Label>
-                      <div className="textInput">
-                        <Input
-                          type="password"
-                          name="password"
-                          placeholder="Your password"
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.password}
-                          style={inputStyle}
-                          autoComplete="new-password"
-                        />
-                        <i
-                          className="w3-xxlarge fa fa-key"
-                          style={iconStyle}
-                        ></i>
-                      </div>
-                    </FormGroup>
+                    <div className="formGroups">
+                      <Label text={Constants.PASSWORD} />
+                      <InputRoundIcon placeholder="Your password" iconClass="iconKey" type="password"
+                        name="password" onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.password} />
+                    </div>
 
                     {formik.errors.password && formik.touched.password && (
-                      <Alert color="danger">{formik.errors.password}</Alert>
+                      <Alert severity="warning">{formik.errors.password}</Alert>
                     )}
-
-                    <div className="mainWrapperLayout">
+                    <div className="btnBottomWrapper">
                       <p
                         className="forgotPassword"
                         onClick={() =>
@@ -240,15 +211,14 @@ class Signin extends React.Component<IProps, IState> {
                         Forgot your password ?
                       </p>
 
-                      <ActionButton
-                        text={Constants.LOGIN}
-                        bgColor="#9F55FF"
-                        color="#fff"
+                      <ThemeButton
+                        name={Constants.LOGIN}
                         onClick={formik.handleSubmit}
-                        style={{ marginTop: 18, minWidth: "150px" }}
+                        round={true}
+                        style={{ marginTop: 18, background: Colors.themePurple, color: Colors.white, width: "150px" }}
                       />
                     </div>
-                  </Form>
+                  </>
                 )}
               </Formik>
             </div>
@@ -258,14 +228,6 @@ class Signin extends React.Component<IProps, IState> {
     );
   }
 }
-
-const inputStyle = {
-  borderRadius: "10rem",
-  borderWidth: 0,
-  borderColor: "white",
-  boxShadow: "white"
-};
-const iconStyle = { width: "5%", margin: 10 };
 const mapStateToProps = (state: any) => {
   return {
     auth: state.auth,
