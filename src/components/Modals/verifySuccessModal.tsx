@@ -1,5 +1,10 @@
 import React from "react";
-import { Modal, ModalHeader, ModalBody } from "reactstrap";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Typography,
+} from "@material-ui/core";
 import "./style.css";
 
 interface IProps {
@@ -9,10 +14,10 @@ interface IProps {
 class VerifySuccessModal extends React.Component<IProps> {
   render() {
     return (
-      <Modal isOpen={this.props.open} toggle={this.props.toggle}>
-        <ModalHeader toggle={this.props.toggle}>Email Verified</ModalHeader>
-        <ModalBody>Your Email has been Verified , Please Login</ModalBody>
-      </Modal>
+      <Dialog open={this.props.open} onClose={this.props.toggle} maxWidth="sm" fullWidth>
+        <DialogTitle >Email Verified</DialogTitle>
+        <DialogContent><Typography variant="h6">Your Email has been Verified, Please Login</Typography></DialogContent>
+      </Dialog>
     );
   }
 }
