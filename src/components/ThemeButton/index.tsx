@@ -23,8 +23,7 @@ const ThemeButton: React.FC<IProps> = ({ name, onClick, style, disabled, round }
     <Button
       onClick={onClick}
       className={classes.button}
-      // style={style}
-      style={{ ...style, borderRadius: round ? "10rem" : "inherit" }}
+      style={{ ...style, borderRadius: round ? "10rem" : "4px" }}
       variant="contained"
       disabled={disabled}
     >

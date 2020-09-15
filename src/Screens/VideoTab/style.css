@@ -22,7 +22,7 @@
 #videoTabNavLink {
   padding: 0.5rem 3rem;
 }
-#videoTabIcon {
+.videoTabIcon {
   color: #22b9ff;
   font-size: large;
 }
@@ -127,6 +127,9 @@
   position: relative;
 }
 
+#tabVideo {
+  outline: none;
+}
 @media screen and (max-width: 580px) {
   .wrapperVideoTab {
     padding-top: 12%;

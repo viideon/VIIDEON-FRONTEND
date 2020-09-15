@@ -362,7 +362,6 @@ class EditingPlayer extends React.Component<IProps, IState> {
       width: persistRect.width,
       height: persistRect.height,
     });
-    console.log("width height", persistRect.width, persistRect.height);
   };
   initializeVolume = () => {
     this.video.volume = 0.5;

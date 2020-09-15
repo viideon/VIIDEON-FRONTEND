@@ -82,7 +82,7 @@ class VideoTabHeader extends React.Component<IProps> {
                   )}
                 </div>
               </Grid>
-              <Grid xs={12} sm={12} md={6} id="headerText">
+              <Grid item xs={12} sm={12} md={6} id="headerText">
                 <h3>
                   {video && video.title}
                 </h3>

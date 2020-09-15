@@ -2,14 +2,10 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { getVideo, cleanSingleVideo } from "../../Redux/Actions/videos";
 import {
-  TabContent,
-  TabPane,
-  Nav,
-  NavItem,
-  NavLink,
   Container
 } from "reactstrap";
-import classnames from "classnames";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import 'react-tabs/style/react-tabs.css';
 import {
   FaInfo,
   FaChartLine,
@@ -21,16 +17,10 @@ import Detail from "./Detail";
 import Editing from "./Editing";
 import Share from "./Share";
 import Analytics from "./Analytics";
-import * as Constants from "../../constants/constants";
 import "./style.css";
 
 const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
-  const [activeTab, setActiveTab] = useState("1");
   const [isDisabled, enableLinks] = useState(true);
-
-  const toggle = (tab: any) => {
-    if (activeTab !== tab) setActiveTab(tab);
-  };
   useEffect(() => {
     window.scrollTo(0, 0)
   }, []);
@@ -42,99 +32,32 @@ const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
     };
   }, []);
 
-
   return (
     <div className="wrapperVideoTab">
       <Container>
         <br />
         <br />
         <VideoTabHeader />
-
-        <Nav tabs id="videoTabWrap">
-          <NavItem className="video-tabs">
-            <NavLink
-              id="videoTabNavLink"
-              className={classnames({ active: activeTab === "1" })}
-              onClick={() => {
-                toggle("1");
-              }}
-            >
-              <span>
-                <i>
-                  <FaCut id="videoTabIcon" />
-                </i>
-              </span>
-              <p>{Constants.EDITING}</p>
-            </NavLink>
-          </NavItem>
-          <NavItem className="video-tabs">
-            <NavLink
-              disabled={isDisabled}
-              id="videoTabNavLink"
-              className={classnames({ active: activeTab === "2" })}
-              onClick={() => {
-                toggle("2");
-              }}
-            >
-              <span>
-                <i>
-                  <FaInfo id="videoTabIcon" />
-                </i>
-              </span>
-              <p>{Constants.DETAILS}</p>
-            </NavLink>
-          </NavItem>
-          <NavItem className="video-tabs">
-            <NavLink
-              disabled={isDisabled}
-              id="videoTabNavLink"
-              className={classnames({ active: activeTab === "3" })}
-              onClick={() => {
-                toggle("3");
-              }}
-            >
-              <span>
-                <i>
-                  <FaChartLine id="videoTabIcon" />
-                </i>
-              </span>
-              <p>{Constants.ANALYTICS}</p>
-            </NavLink>
-          </NavItem>
-          <NavItem className="video-tabs">
-            <NavLink
-              disabled={isDisabled}
-              id="videoTabNavLink"
-              className={classnames({ active: activeTab === "4" })}
-              onClick={() => {
-                toggle("4");
-              }}
-            >
-              <span>
-                <i>
-                  <FaShare id="videoTabIcon" />
-                </i>
-              </span>
-              <p>Share</p>
-            </NavLink>
-          </NavItem>
-        </Nav>
-        <TabContent activeTab={activeTab}>
-          <TabPane tabId="1">
+        <Tabs >
+          <TabList>
+            <Tab><span className="videoTabIcon"><FaCut /></span>Editing</Tab>
+            <Tab disabled={isDisabled}><span className="videoTabIcon"><FaInfo /></span>Details</Tab>
+            <Tab disabled={isDisabled}><span className="videoTabIcon"><FaChartLine /></span>Analytics</Tab>
+            <Tab disabled={isDisabled}><span className="videoTabIcon"><FaShare /></span>Share</Tab>
+          </TabList>
+          <TabPanel forceRender>
             <Editing videoId={params.id} />
-          </TabPane>
-          <TabPane tabId="2">
-            <Container>
-              <Detail />
-            </Container>
-          </TabPane>
-          <TabPane tabId="3">
+          </TabPanel>
+          <TabPanel>
+            <Detail />
+          </TabPanel>
+          <TabPanel>
             <Analytics />
-          </TabPane>
-          <TabPane tabId="4">
+          </TabPanel>
+          <TabPanel>
             <Share />
-          </TabPane>
-        </TabContent>
+          </TabPanel>
+        </Tabs>
       </Container>
     </div>
   );

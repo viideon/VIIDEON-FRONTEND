@@ -27,7 +27,7 @@ import {
 } from "../../Redux/Types/videos";
 import { AuthState } from "../../Redux/Types/auth";
 import * as Constants from "../../constants/constants";
-import "../../../node_modules/react-tabs/style/react-tabs.css";
+import 'react-tabs/style/react-tabs.css';
 import { reg } from "../../constants/emailRegEx";
 import { config } from "../../config/aws";
 import "./style.css";
