@@ -6,8 +6,9 @@ import { LinearProgress } from "@material-ui/core";
 import { connect } from "react-redux";
 import { addAsset, addMusicAsset } from "../../Redux/Actions/asset";
 import { config } from "../../config/aws";
-import { Grid, Button, Tooltip } from "@material-ui/core";
-import { Input, Button as StrapButton } from "reactstrap";
+import { Grid, Button, Tooltip, TextField } from "@material-ui/core";
+import ThemeButton from "../../components/ThemeButton";
+import Colors from "../../constants/colors";
 import canvasTxt from "canvas-txt";
 import { CompactPicker } from "react-color";
 import { toast } from "react-toastify";
@@ -664,8 +665,7 @@ class AddLogo extends React.Component<IProps, IState> {
                   >
                     Select from Assets
                   </Button>
-
-                  {musicFileSelected && <Input type="text" placeholder='Music Title' value={this.state.musicTitle} onChange={this.onChangeMusicTitle} style={{ marginTop: "10px" }} />}
+                  {musicFileSelected && <TextField type="text" placeholder='Music Title' value={this.state.musicTitle} onChange={this.onChangeMusicTitle} style={{ marginTop: "10px" }} />}
                   {backgroundMusicUrl && <div className="musicVolumeAdjust">
                     <label>Adjust music volume</label>
                     <input type="range" value={this.state.musicVolume} onChange={this.onAdjustMusicVolume}
@@ -686,7 +686,7 @@ class AddLogo extends React.Component<IProps, IState> {
                       </span>
                     </Tooltip>
                   </h4>
-                  <Input
+                  <TextField
                     type="text"
                     placeholder="Add Text"
                     name="text"
@@ -761,31 +761,8 @@ class AddLogo extends React.Component<IProps, IState> {
             </Grid>
 
             <div className="btnEditVideo">
-              <StrapButton
-                style={{
-                  border: "none",
-                  background: "#A9A9A9",
-                  color: "rgb(255, 255, 255)",
-                  width: "150px",
-                  marginRight: "20px"
-                }}
-                size="lg"
-                onClick={this.moveToNextStep}
-              >
-                Skip
-              </StrapButton>
-              <StrapButton
-                style={{
-                  border: "none",
-                  background: "rgb(34, 185, 255)",
-                  color: "rgb(255, 255, 255)",
-                  width: "150px"
-                }}
-                size="lg"
-                onClick={this.finalize}
-              >
-                Finalize
-              </StrapButton>
+              <ThemeButton name="Skip" onClick={this.moveToNextStep} style={{ backgroundColor: Colors.darkGrey, color: Colors.white, width: "150px", marginRight: "25px" }} />
+              <ThemeButton name="Finalize" onClick={this.finalize} style={{ backgroundColor: Colors.themeBlue, color: Colors.white, width: "150px" }} />
 
               <canvas
                 ref="thumbCanvas"
