@@ -1,11 +1,5 @@
 import React from "react";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
+import { CircularProgress, Button, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText } from "@material-ui/core";
 
 interface IProps {
   actionDelete: (id?: string) => void;
@@ -47,10 +41,10 @@ const DeleteDialog: React.FC<IProps> = ({
             <CircularProgress size={30} />
           </span>
         ) : (
-          <Button onClick={() => actionDelete(id)} color="primary">
-            Yes,Delete
-          </Button>
-        )}
+            <Button onClick={() => actionDelete(id)} color="primary">
+              Yes,Delete
+            </Button>
+          )}
       </DialogActions>
     </Dialog>
   );
