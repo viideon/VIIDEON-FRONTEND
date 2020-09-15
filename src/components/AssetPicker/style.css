@@ -38,28 +38,3 @@
   justify-content: center;
   align-items: center;
 }
-
-@media (min-width: 780px) {
-  .wrapperModalAsset .modal-dialog {
-    max-width: 600px !important;
-    margin: 1.75rem auto;
-  }
-}
-@media (min-width: 960px) {
-  .wrapperModalAsset .modal-dialog {
-    max-width: 800px !important;
-    margin: 1.75rem auto;
-  }
-}
-@media (min-width: 1080px) {
-  .wrapperModalAsset .modal-dialog {
-    max-width: 900px !important;
-    margin: 1.75rem auto !important;
-  }
-}
-@media (min-width: 1280px) {
-  .wrapperModalAsset .modal-dialog {
-    max-width: 1000px !important;
-    margin: 1.75rem auto;
-  }
-}
