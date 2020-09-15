@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { getVideo, cleanSingleVideo } from "../../Redux/Actions/videos";
-import {
-  Container
-} from "reactstrap";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import 'react-tabs/style/react-tabs.css';
 import {
@@ -34,31 +31,29 @@ const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
 
   return (
     <div className="wrapperVideoTab">
-      <Container>
-        <br />
-        <br />
-        <VideoTabHeader />
-        <Tabs >
-          <TabList>
-            <Tab><span className="videoTabIcon"><FaCut /></span>Editing</Tab>
-            <Tab disabled={isDisabled}><span className="videoTabIcon"><FaInfo /></span>Details</Tab>
-            <Tab disabled={isDisabled}><span className="videoTabIcon"><FaChartLine /></span>Analytics</Tab>
-            <Tab disabled={isDisabled}><span className="videoTabIcon"><FaShare /></span>Share</Tab>
-          </TabList>
-          <TabPanel forceRender>
-            <Editing videoId={params.id} />
-          </TabPanel>
-          <TabPanel>
-            <Detail />
-          </TabPanel>
-          <TabPanel>
-            <Analytics />
-          </TabPanel>
-          <TabPanel>
-            <Share />
-          </TabPanel>
-        </Tabs>
-      </Container>
+      <br />
+      <br />
+      <VideoTabHeader />
+      <Tabs >
+        <TabList>
+          <Tab><span className="videoTabIcon"><FaCut /></span>Editing</Tab>
+          <Tab disabled={isDisabled}><span className="videoTabIcon"><FaInfo /></span>Details</Tab>
+          <Tab disabled={isDisabled}><span className="videoTabIcon"><FaChartLine /></span>Analytics</Tab>
+          <Tab disabled={isDisabled}><span className="videoTabIcon"><FaShare /></span>Share</Tab>
+        </TabList>
+        <TabPanel forceRender>
+          <Editing videoId={params.id} />
+        </TabPanel>
+        <TabPanel>
+          <Detail />
+        </TabPanel>
+        <TabPanel>
+          <Analytics />
+        </TabPanel>
+        <TabPanel>
+          <Share />
+        </TabPanel>
+      </Tabs>
     </div>
   );
 };
