@@ -177,7 +177,7 @@ class Recording extends React.Component<IProps> {
   nameTrack = () => {
     let { currentStep } = this.state;
     let { template } = this.props;
-    return template.steps[currentStep - 1].title;
+    return template?.steps[currentStep - 1].title;
   };
   stopStream = () => {
     this.localStream &&

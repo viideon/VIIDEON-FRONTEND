@@ -113,6 +113,7 @@ export interface EmailVideo {
   url?: string;
   id?: string;
   recieverEmail: string;
+  themeName?: string;
 }
 export interface VideoSave {
   title: string;
@@ -130,6 +131,7 @@ export interface VideoUpdate {
 export interface MultiEmail {
   emails: Array<string>;
   videoId: string;
+  themeName?: string;
 }
 //Video State interface
 export interface VideoState {
