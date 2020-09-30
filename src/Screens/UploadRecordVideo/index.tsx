@@ -30,7 +30,10 @@ import * as Constants from "../../constants/constants";
 import 'react-tabs/style/react-tabs.css';
 import { reg } from "../../constants/emailRegEx";
 import { config } from "../../config/aws";
+import VideocamIcon from '@material-ui/icons/Videocam';
 import "./style.css";
+import fileUploadIcon from '../../assets/uploadCircle.png';
+import Header from '../../components/Header/Header';
 
 type IProps = {
   auth: AuthState;
@@ -223,22 +226,41 @@ class UploadRecord extends Component<IProps, IState> {
   render() {
     let { videoSaved, loading } = this.props.videoUser;
     return (
+      <>
+      <Header styles={{backgroundImage: 'linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))'}} />
       <div className="recordMainContainer">
-        <p className="mainHeader">{Constants.CREATE_VIDEO}</p>
-        <p className="titleHeader">{Constants.RECORD_AND_SHARE}</p>
-        <hr />
-        <Tabs defaultIndex={this.props.location.show === "upload" ? 0 : 1}>
+        {/* <p className="mainHeader">{Constants.CREATE_VIDEO}</p> */}
+        {/* <p className="titleHeader">{Constants.RECORD_AND_SHARE}</p> */}
+        {/* <hr /> */}
+        <Tabs defaultIndex={this.props.location.show === "upload" ? 1 : 0}>
           <TabList>
             <Tab>
-              <FaLaptop id="videoTabIcon" style={iconStyle} />
-              {Constants.UPLOAD_FROM_COMPUTER}
+              <div>
+                <VideocamIcon />
+                {Constants.RECORD_WITH_CAMERA}
+              </div>
             </Tab>
-            <Tab>
-              <FaCamera id="videoTabIcon" style={iconStyle} />
-              {Constants.RECORD_WITH_CAMERA}
+            <Tab style={{ bottom: '-2.2px'}}>
+              <div>
+                <FaLaptop id="videoTabIcon" style={iconStyle} />
+                {Constants.UPLOAD_FROM_COMPUTER}
+              </div>
             </Tab>
           </TabList>
-
+          <TabPanel>
+            {this.state.addLogoText === false ? (
+              <VideoRecorder
+                getBlob={(blob: any) => {
+                  this.props.toggleSendVariable();
+                  this.setState({ videoRecord: blob }, () =>
+                    this.setState({ addLogoText: true })
+                  );
+                }}
+              />
+            ) : (
+                <AddLogoText videoToEdit={this.state.videoRecord} />
+              )}
+          </TabPanel>
           <TabPanel>
             <div className="uploadPanelBorder">
               <div className="wrapperUploadPanel">
@@ -256,13 +278,14 @@ class UploadRecord extends Component<IProps, IState> {
                       >
                         <input {...getInputProps()} />
                         <img
-                          src={require("../../assets/upload.png")}
+                          // src={require("../../assets/upload.png")}
+                          src={fileUploadIcon}
                           style={{ width: 80, margin: "auto" }}
                           alt="upload"
                         />
                       </div>
                       <aside>
-                        <p style={{ marginTop: 20, textAlign: "center" }}>
+                        <p style={{ marginTop: 20, textAlign: "center", fontFamily: "Poppins", fontWeight: 'bold' }}>
                           {Constants.CLICK_AND_DRAG}
                         </p>
                         {this.state.files.map((file: any) => (
@@ -380,20 +403,6 @@ class UploadRecord extends Component<IProps, IState> {
               </div>
             </div>
           </TabPanel>
-          <TabPanel>
-            {this.state.addLogoText === false ? (
-              <VideoRecorder
-                getBlob={(blob: any) => {
-                  this.props.toggleSendVariable();
-                  this.setState({ videoRecord: blob }, () =>
-                    this.setState({ addLogoText: true })
-                  );
-                }}
-              />
-            ) : (
-                <AddLogoText videoToEdit={this.state.videoRecord} />
-              )}
-          </TabPanel>
         </Tabs>
 
         <canvas
@@ -409,14 +418,15 @@ class UploadRecord extends Component<IProps, IState> {
           }}
         />
       </div>
+      </>
     );
   }
 }
 
 const iconStyle = {
-  padding: 5,
-  width: 20,
-  height: 20
+  padding: 0,
+  width: '1em',
+  height: '1em'
 };
 const mapStateToProps = (state: any) => {
   return {

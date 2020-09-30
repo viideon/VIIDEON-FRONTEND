@@ -1,10 +1,12 @@
 .HeaderContainer {
-  background-color: rgb(34, 185, 255);
-  position: fixed;
+  /* background-color: rgb(34, 185, 255); */
+  background-color: transparent;
+  position: sticky;
   top: 0;
   width: 100%;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   height: 61px;
   z-index: 1000;
 }
@@ -70,7 +72,7 @@
     margin-left: 10px;
   }
   .headerStyle {
-    font-size: 1.5rem !important;
+    font-size: 1rem !important;
     margin-top: 20px !important;
     text-align: start !important;
   }
@@ -93,6 +95,6 @@
     width: 50%;
   }
   .headerStyle {
-    font-size: 1em;
+    font-size: 1.5em;
   }
 }

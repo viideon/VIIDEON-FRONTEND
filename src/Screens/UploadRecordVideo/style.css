@@ -6,6 +6,38 @@
   opacity: 5px;
   padding: 15px;
   box-shadow: 0 0 10px lightgrey;
+  padding-top: 0%;
+}
+
+.recordMainContainer .react-tabs__tab-list {
+  border-bottom: 6px solid #fcb414;
+  overflow: hidden;
+}
+
+.recordMainContainer .react-tabs__tab {
+  border: none;
+  margin-right: 4px;
+  background: #E0E0E0;
+  /* width: 260px; */
+  /* height: 60px; */
+  font-family: "Poppins";
+  font-weight: bold;
+  /* bottom: 0px; */
+  /* border-bottom: 1px solid #fcb414; */
+}
+
+.recordMainContainer .react-tabs__tab div {
+  /* height: 100%; */
+  /* display: flex; */
+  place-items: center;
+}
+
+.recordMainContainer .react-tabs__tab--selected {
+  background: #fcb414;
+  color: #FFFFFF;
+  border-bottom: 1px solid #fcb414;
+  /* bottom: -1.0px; */
+  border-radius: 0%;
 }
 
 .mainHeader {
@@ -19,12 +51,17 @@
   font-weight: 500;
 }
 .uploadPanelBorder {
-  border-style: dotted;
+  border-style: dashed;
   border-radius: 1px;
-  border-color: #0071bc;
+  border-color: #0F2733;
 }
 .wrapperUploadPanel {
-  margin: "20px 0px";
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
 }
 .Dropzone {
   height: 200px;
@@ -58,7 +95,8 @@
   padding-top: 15px;
 }
 .recordMainContainer #formInput input {
-  padding: 8px !important;
+  padding: 8px 0px 8px 8px !important;
+
 }
 @media only screen and (max-width: 768px) {
   .recordMainContainer {

@@ -199,14 +199,7 @@ class AddLogoText extends React.Component<IProps, IState> {
     }
   };
 
-  draw = (
-    video: any,
-    img: any,
-    context: any,
-    context2: any,
-    width: any,
-    height: any
-  ) => {
+  draw = ( video: any, img: any, context: any, context2: any, width: any, height: any) => {
     if (video.paused || video.ended) return false;
     context2.drawImage(video, 0, 0, width, height);
     canvasTxt.fontSize = (this.state.fontSize / 100) * (width - 80);
@@ -214,14 +207,7 @@ class AddLogoText extends React.Component<IProps, IState> {
     canvasTxt.vAlign = this.state.vAlign;
     canvasTxt.align = this.state.align;
     canvasTxt.lineHeight = 20;
-    canvasTxt.drawText(
-      context2,
-      this.state.text,
-      30,
-      30,
-      width - 50,
-      height - 50
-    );
+    canvasTxt.drawText( context2, this.state.text, 30, 30, width - 50, height - 50);
     let logoDimension = 0.2 * width;
     context2.drawImage(img, this.state.logoX, this.state.logoY, logoDimension, logoDimension);
     let idata = context2.getImageData(0, 0, width, height);
@@ -231,42 +217,21 @@ class AddLogoText extends React.Component<IProps, IState> {
       that.draw(video, img, context, context2, width, height);
     }, 0);
   };
-  updateDrawCanvas = (
-    video: any,
-    img: any,
-    context: any,
-    context2: any,
-    width: any,
-    height: any
-  ) => {
+  updateDrawCanvas = (video: any, img: any, context: any, context2: any, width: any, height: any) => {
     context2.drawImage(video, 0, 0, width, height);
     context2.fillStyle = this.state.textColor;
     canvasTxt.vAlign = this.state.vAlign;
     canvasTxt.align = this.state.align;
     canvasTxt.lineHeight = 20;
     canvasTxt.fontSize = (this.state.fontSize / 100) * (width - 80);
-    canvasTxt.drawText(
-      context2,
-      this.state.text,
-      30,
-      30,
-      width - 50,
-      height - 50
-    );
+    canvasTxt.drawText(context2, this.state.text, 30, 30, width - 50, height - 50);
     let logoDimension = 0.2 * width;
     context2.drawImage(img, this.state.logoX, this.state.logoY, logoDimension, logoDimension);
     let idata = context2.getImageData(0, 0, width, height);
     context.putImageData(idata, 0, 0);
   };
   updateCanvas = () => {
-    this.updateDrawCanvas(
-      this.video,
-      this.img,
-      this.ctx,
-      this.ctx2,
-      this.video.clientWidth,
-      this.video.clientHeight
-    );
+    this.updateDrawCanvas(this.video, this.img, this.ctx, this.ctx2, this.video.clientWidth, this.video.clientHeight);
   };
   compress(file: any) {
     this.setState({ assetUploading: true });

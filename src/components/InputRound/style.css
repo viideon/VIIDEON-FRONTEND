@@ -4,18 +4,18 @@
 .wrapperInputRound .inputRound {
   width: 100%;
   height: 35px;
-  padding: 20px 24px;
+  padding: 20px 20px;
   outline: none !important;
   background-color: transparent;
   font-size: 14px;
   line-height: 18px;
-  color: #000;
+  color: #0e2633;
   background-color: transparent;
   background-repeat: no-repeat;
   background-size: 18px 18px;
   background-position: 95% center;
-  border-radius: 50px;
-  border: 1px solid #9f55ff;
+  border-radius: 5px;
+  border: 1px solid #406c7f;
 }
 .iconKey {
   background-image: url("../../assets/key.png");

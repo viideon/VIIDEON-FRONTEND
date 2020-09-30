@@ -71,6 +71,8 @@ export const VIDIONPRO = "videonPRO";
 export const LOGIN_TO_ACCOUNT = "Login to your account";
 export const DONT_HAVE_ACCOUNT_YET = "Don't have an account yet?";
 export const CREATE_NEW = "Create one here";
+export const SIGN_UP_HERE = "Sign up here";
+export const ENTER_DETAILS = "Enter Your details bellow to continue";
 export const RESEND_VERIFICATION_EMAIL_TEXT =
   "We have sent you a verification email. Please verify your account from the link given in email. If you did not receive verification email yet, you may";
 
@@ -92,7 +94,7 @@ export const VIDEO_TITLE = "Video Title";
 export const RECORD_AND_SHARE = "Record and share a personalized video.";
 export const UPLOAD_FROM_COMPUTER = "Upload from Computer";
 export const RECORD_WITH_CAMERA = "Record With Camera";
-export const CLICK_AND_DRAG = "Click or Drag File to Upload Video";
+export const CLICK_AND_DRAG = "Click or Drag File Here to Upload";
 export const SEND_THROUGH_EMAIL = "Send Through Email";
 export const SENDER_ADDRESS = "Reciever Email";
 export const SAVE_VIDEO = "Save Video";

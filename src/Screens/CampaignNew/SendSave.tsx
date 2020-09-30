@@ -88,6 +88,7 @@ function SimpleDialog(props: SimpleDialogProps) {
   };
 
   return (
+    <div className="emailTmplateDialogWrapper">
     <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
       <DialogTitle id="simple-dialog-title">Select E-mail theme</DialogTitle>
       <List component="div" >
@@ -99,6 +100,7 @@ function SimpleDialog(props: SimpleDialogProps) {
         ))}
       </List>
     </Dialog>
+    </div>
   );
 }
 

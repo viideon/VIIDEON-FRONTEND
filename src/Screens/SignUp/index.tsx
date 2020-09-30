@@ -4,7 +4,7 @@ import Alert from '@material-ui/lab/Alert';
 import Label from "../../components/Reusable/Label";
 import ThemeButton from "../../components/ThemeButton"
 import { toast } from "react-toastify";
-import InputRound from "../../components/InputRound";
+import InputRound from "../../components/InputRound/InputRoundIcon";
 import { connect } from "react-redux";
 import { registerUser } from "../../Redux/Actions/register";
 import { RegisterState } from "../../Redux/Types/register";
@@ -15,6 +15,10 @@ import "./style.css";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import Colors from "../../constants/colors";
+
+import whiteLogo from "../../assets/logo.png"
+import atom from "../../assets/atom.png"
+
 const validationSchema = Yup.object().shape({
   password: Yup.string()
     .required("Enter Password")
@@ -79,22 +83,21 @@ class Signup extends React.Component<IProps, IState> {
     return (
       <>
         <Grid container>
-          <Grid item xs={12} md={7} sm={12}>
-            {this.state.next ? (
-              <div className="firstLayoutContainer">
-                <div className="firstLayoutMainContainer">
-                  <p className="signUp">{Constants.SIGNUP_TO}</p>
-                  <h2 className="logo">{Constants.VIDIONPRO}</h2>
-                </div>
+          <Grid item xs={12} md={7} sm={12} className="sm-none">
+            <div className="firstLayoutContainer">
+              <div className="firstLayoutMainContainer">
+                <img src={whiteLogo} />
+                VideonPro
               </div>
-            ) : (
-                <div className="firstLayoutContainer">
-                  <div className="firstLayoutMainContainer">
-                    <p className="signUp">{Constants.SIGNUP_TO}</p>
-                    <p className="logo">{Constants.VIDIONPRO}</p>
-                  </div>
-                </div>
-              )}
+              <div style={{
+                position: "fixed",
+                bottom: "-13%",
+                left: "-3%",
+                opacity: "0.5",
+              }}>
+                <img style={{ width: '30%'}} src={atom} />
+              </div>
+            </div>
           </Grid>
           <Grid item xs={12} md={5} sm={12}>
             <div className="secondLayoutMainContainer">
@@ -168,8 +171,15 @@ class Signup extends React.Component<IProps, IState> {
                               formik.touched.email
                             )
                           }
-                          round={true}
-                          style={{ backgroundColor: Colors.themePurple, color: Colors.white, width: "150px" }}
+                          round={false}
+                          style={{ 
+                            marginTop: 18, background: Colors.themePurple, color: Colors.white, width: "60%",
+                            backgroundImage: "linear-gradient(to right, #fcb317, #8bb589, #61b5b3)",
+                            fontFamily: "Poppins",
+                            fontWeight: 'bolder',
+                            fontSize: 'larger',
+                          }}
+                          // style={{ backgroundColor: Colors.themePurple, color: Colors.white, width: "150px" }}
                           name={Constants.NEXT}
                         />
                       </div>
@@ -266,8 +276,14 @@ class Signup extends React.Component<IProps, IState> {
                           <ThemeButton
                             onClick={formik.handleSubmit}
                             name={Constants.REGISTER}
-                            round={true}
-                            style={{ backgroundColor: Colors.themePurple, color: Colors.white, width: "150px" }}
+                            round={false}
+                            style={{ 
+                              marginTop: 18, background: Colors.themePurple, color: Colors.white, width: "80%",
+                              backgroundImage: "linear-gradient(to right, #fcb317, #8bb589, #61b5b3)",
+                              fontFamily: "Poppins",
+                              fontWeight: 'bolder',
+                              fontSize: 'larger',
+                            }}
                           />
                         </div>
                       </>

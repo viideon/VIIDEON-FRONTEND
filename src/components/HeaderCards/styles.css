@@ -1,22 +1,25 @@
 .CardMain {
   width: 100%;
-  height: 100px;
+  height: 120px;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  color: #fff;
+  color: #000000;
   cursor: pointer;
 }
 
 .cardTitle {
-  margin-right: 5px;
-  font-size: 1.2rem;
-  letter-spacing: -1px;
-  font-weight: 300;
+  font-size: 40px;
+  color: #000000;
+  font-weight: 600;
+  font-family: "Poppins";
 }
 .cardText {
   font-size: 16px;
   letter-spacing: 0;
   font-weight: 300;
+  font-family: "Poppins";
 }
 
 .Description {
@@ -25,30 +28,27 @@
   font-weight: 400;
 }
 .iconCards {
-  font-size: 20px;
+  font-size: 15px;
 }
 .wrapperIconCard {
   width: 60px;
-  height: 60px;
-  padding: 2px;
-  vertical-align: middle;
-  text-align: center;
-  border-radius: 50%;
-  line-height: 60px;
-  margin-right: 8px;
-  margin-left: -8px;
+  text-align: right;
 }
 .detailsCard {
   width: 70%;
   display: flex;
-  flex-direction: column;
   margin-top: 0%;
+  align-items: center;
+  justify-content: center;
+
 }
 .detailCardHeader {
   display: flex;
   flex-direction: row;
   justify-content: baseline;
   align-items: center;
+  margin-left: 10px;
+
 }
 .CardMain .MuiLinearProgress-barColorPrimary {
   background-color: #d3d3d3 !important;
@@ -59,7 +59,7 @@
 
 @media only screen and (max-width: 960px) {
   .cardTitle {
-    font-size: 1.2rem !important;
+    font-size: 2.2rem !important;
     font-weight: 500 !important;
   }
   .iconCards {
@@ -73,7 +73,7 @@
     align-items: flex-start;
   }
   .cardTitle {
-    font-size: 10px !important;
+    font-size: 30px !important;
     font-weight: 400 !important;
   }
   .cardText {
@@ -81,6 +81,11 @@
   }
   .iconCards {
     font-size: 20px !important;
-    margin: 16px !important;
+    /* margin: 16px !important; */
+  }
+  .detailsCard {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
   }
 }
