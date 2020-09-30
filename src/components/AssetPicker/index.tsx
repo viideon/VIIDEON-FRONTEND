@@ -1,9 +1,11 @@
 import React from "react";
 import { toast } from "react-toastify";
 import { connect } from "react-redux";
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
+import ThemeButton from "../ThemeButton";
+import { Dialog, DialogContent, DialogTitle, DialogActions } from "@material-ui/core";
 import { getAssets } from "../../Redux/Actions/asset";
 import { getLogoAssets, getThumbnailAssets } from "../../Redux/Selectors";
+import Colors from "../../constants/colors";
 import "./style.css";
 
 interface IProps {
@@ -50,22 +52,24 @@ class AssetPicker extends React.Component<IProps> {
   render() {
     const { assets, logoAssets } = this.props;
     return (
-      <Modal
-        isOpen={this.props.isOpen}
-        toggle={this.props.toggle}
-        wrapClassName="wrapperModalAsset"
+      <Dialog
+        open={this.props.isOpen}
+        onClose={this.props.toggle}
+        maxWidth="md"
+        fullWidth
+        scroll="paper"
       >
-        <ModalHeader>
+        <DialogTitle>
           Select {this.props.logoAssets ? "Logo" : "Thumbnail"}
-        </ModalHeader>
-        <ModalBody>
+        </DialogTitle>
+        <DialogContent>
           <div className="wrapperAssetPicker">
             {assets &&
               assets.map((asset: any, i) => (
                 <div
                   className={`wrapperImgPicker ${
                     i === this.state.currenSelection ? "selected" : ""
-                  }`}
+                    }`}
                   onClick={() => this.selectAsset(asset.url, i)}
                   key={i}
                 >
@@ -77,12 +81,12 @@ class AssetPicker extends React.Component<IProps> {
                       className="imgAssetPicker"
                     />
                   ) : (
-                    <img
-                      alt="asset"
-                      src={asset.url}
-                      className="imgAssetPicker"
-                    />
-                  )}
+                      <img
+                        alt="asset"
+                        src={asset.url}
+                        className="imgAssetPicker"
+                      />
+                    )}
                 </div>
               ))}
             {assets && assets.length < 1 && (
@@ -93,26 +97,20 @@ class AssetPicker extends React.Component<IProps> {
               </div>
             )}
           </div>
-        </ModalBody>
-        <ModalFooter>
-          <Button
-            color="secondary"
-            size="md"
-            style={{ width: "120px", marginRight: "5px" }}
+        </DialogContent>
+        <DialogActions>
+          <ThemeButton
+            style={{ width: "120px", marginRight: "5px", backgroundColor: Colors.darkGrey, color: Colors.white }}
             onClick={this.cancelSelection}
-          >
-            Cancel
-          </Button>
-          <Button
-            color="primary"
-            size="md"
-            style={{ width: "120px" }}
+            name="Cancel"
+          />
+          <ThemeButton
+            style={{ width: "120px", backgroundColor: Colors.themeBlue, color: Colors.white }}
             onClick={this.onPick}
-          >
-            OK
-          </Button>
-        </ModalFooter>
-      </Modal>
+            name="OK"
+          />
+        </DialogActions>
+      </Dialog>
     );
   }
 }

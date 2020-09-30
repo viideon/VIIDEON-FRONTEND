@@ -1,6 +1,8 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import { Button, FormGroup, Label, Alert } from "reactstrap";
+import Alert from '@material-ui/lab/Alert';
+import Label from "../../components/Reusable/Label";
+import ThemeButton from "../../components/ThemeButton"
 import { toast } from "react-toastify";
 import InputRound from "../../components/InputRound";
 import { connect } from "react-redux";
@@ -12,6 +14,7 @@ import Loading from "../../components/Loading";
 import "./style.css";
 import * as Yup from "yup";
 import { Formik } from "formik";
+import Colors from "../../constants/colors";
 const validationSchema = Yup.object().shape({
   password: Yup.string()
     .required("Enter Password")
@@ -74,7 +77,7 @@ class Signup extends React.Component<IProps, IState> {
   render() {
     const { loading } = this.props.registerUser;
     return (
-      <div>
+      <>
         <Grid container>
           <Grid item xs={12} md={7} sm={12}>
             {this.state.next ? (
@@ -139,10 +142,8 @@ class Signup extends React.Component<IProps, IState> {
               >
                 {formik => (
                   <div>
-                    <FormGroup>
-                      <Label for="exampleEmail" style={{ fontWeight: "bold" }}>
-                        Enter Gmail Account
-                      </Label>
+                    <div className="formGroups">
+                      <Label text="Enter Gmail Account" />
                       <InputRound
                         type="email"
                         name="email"
@@ -151,16 +152,15 @@ class Signup extends React.Component<IProps, IState> {
                         onBlur={formik.handleBlur}
                         value={formik.values.email}
                       />
-                    </FormGroup>
+                    </div>
 
                     {formik.errors.email && formik.touched.email && (
-                      <Alert color="danger">{formik.errors.email}</Alert>
+                      <Alert severity="warning">{formik.errors.email}</Alert>
                     )}
 
                     {this.state.showNext && (
-                      <div className="buttonWrapper">
-                        <Button
-                          color="#9F55FF"
+                      <div className="signupBtns">
+                        <ThemeButton
                           onClick={() =>
                             this.nextHandler(
                               formik.values.email,
@@ -168,17 +168,16 @@ class Signup extends React.Component<IProps, IState> {
                               formik.touched.email
                             )
                           }
-                          style={registerBtnStyle}
-                        >
-                          {Constants.NEXT}
-                        </Button>
+                          round={true}
+                          style={{ backgroundColor: Colors.themePurple, color: Colors.white, width: "150px" }}
+                          name={Constants.NEXT}
+                        />
                       </div>
                     )}
                     {this.state.next && (
                       <>
-                        <FormGroup>
-                          <Label>{Constants.FIRSTNAME}</Label>
-
+                        <div className="formGroups">
+                          <Label text={Constants.FIRSTNAME} />
                           <InputRound
                             type="text"
                             name="firstName"
@@ -187,18 +186,17 @@ class Signup extends React.Component<IProps, IState> {
                             onBlur={formik.handleBlur}
                             value={formik.values.firstName}
                           />
-                        </FormGroup>
+                        </div>
 
                         {formik.errors.firstName &&
                           formik.touched.firstName && (
-                            <Alert color="danger">
+                            <Alert severity="warning">
                               {formik.errors.firstName}
                             </Alert>
                           )}
 
-                        <FormGroup>
-                          <Label>{Constants.LASTNAME}</Label>
-
+                        <div className="formGroups">
+                          <Label text={Constants.LASTNAME} />
                           <InputRound
                             type="text"
                             name="lastName"
@@ -207,15 +205,14 @@ class Signup extends React.Component<IProps, IState> {
                             onBlur={formik.handleBlur}
                             value={formik.values.lastName}
                           />
-                        </FormGroup>
+                        </div>
 
                         {formik.errors.lastName && formik.touched.lastName && (
-                          <Alert color="danger">{formik.errors.lastName}</Alert>
+                          <Alert severity="warning">{formik.errors.lastName}</Alert>
                         )}
 
-                        <FormGroup>
-                          <Label>{Constants.USERNAME}</Label>
-
+                        <div className="formGroups">
+                          <Label text={Constants.USERNAME} />
                           <InputRound
                             type="text"
                             name="userName"
@@ -224,15 +221,14 @@ class Signup extends React.Component<IProps, IState> {
                             onBlur={formik.handleBlur}
                             value={formik.values.userName}
                           />
-                        </FormGroup>
+                        </div>
 
                         {formik.errors.userName && formik.touched.userName && (
-                          <Alert color="danger">{formik.errors.userName}</Alert>
+                          <Alert severity="warning">{formik.errors.userName}</Alert>
                         )}
 
-                        <FormGroup>
-                          <Label for="examplePassword">Password</Label>
-
+                        <div className="formGroups">
+                          <Label text="Password" />
                           <InputRound
                             type="password"
                             name="password"
@@ -241,17 +237,14 @@ class Signup extends React.Component<IProps, IState> {
                             onBlur={formik.handleBlur}
                             value={formik.values.password}
                           />
-                        </FormGroup>
+                        </div>
 
                         {formik.errors.password && formik.touched.password && (
-                          <Alert color="danger">{formik.errors.password}</Alert>
+                          <Alert severity="warning">{formik.errors.password}</Alert>
                         )}
 
-                        <FormGroup>
-                          <Label for="examplePassword">
-                            {Constants.CONFIRM_PASSWORD}
-                          </Label>
-
+                        <div className="formGroups">
+                          <Label text={Constants.CONFIRM_PASSWORD} />
                           <InputRound
                             type="password"
                             name="passwordConfirmation"
@@ -260,23 +253,22 @@ class Signup extends React.Component<IProps, IState> {
                             onBlur={formik.handleBlur}
                             value={formik.values.passwordConfirmation}
                           />
-                        </FormGroup>
+                        </div>
 
                         {formik.errors.passwordConfirmation &&
                           formik.touched.passwordConfirmation && (
-                            <Alert color="danger">
+                            <Alert severity="warning">
                               {formik.errors.passwordConfirmation}
                             </Alert>
                           )}
 
-                        <div className="buttonWrapper1">
-                          <Button
-                            color="#9F55FF"
+                        <div className="signupBtns">
+                          <ThemeButton
                             onClick={formik.handleSubmit}
-                            style={registerBtnStyle}
-                          >
-                            {Constants.REGISTER}
-                          </Button>
+                            name={Constants.REGISTER}
+                            round={true}
+                            style={{ backgroundColor: Colors.themePurple, color: Colors.white, width: "150px" }}
+                          />
                         </div>
                       </>
                     )}
@@ -286,19 +278,10 @@ class Signup extends React.Component<IProps, IState> {
             </div>
           </Grid>
         </Grid>
-      </div>
+      </>
     );
   }
 }
-
-const registerBtnStyle = {
-  backgroundColor: "#9F55FF",
-  width: "40%",
-  float: "right",
-  marginBottom: "10px",
-  color: "white",
-  borderRadius: "10rem"
-} as React.CSSProperties;
 
 const mapStateToProps = (state: any) => {
   return {

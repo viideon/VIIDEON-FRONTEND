@@ -190,6 +190,22 @@
   text-align: center;
   padding-bottom: 30px;
 }
+
+/* ---step recording css */
+.wrapperStep {
+  border: 1px solid #cdcdcd;
+  width: 100%;
+  border-radius: 4px;
+}
+.wrapperStepHeader {
+  border-bottom: 1px solid #cdcdcd;
+}
+.wrapperStepHeader p {
+  padding: 10px 20px 10px 20px;
+}
+.wrapperStepExamples {
+  padding: 10px 20px 10px 20px;
+}
 @media (max-width: 500px) {
   .btnDoubleWrap {
     display: flex;
@@ -209,4 +225,29 @@
   .timerRecording span {
     font-size: 0.6em;
   }
+}
+
+.avatarImage {
+  width: 100px;
+  margin-right: 1em;
+}
+
+.MuiDialog-paperWidthSm {
+  width: 60% !important;
+  max-width: 60% !important;
+}
+
+.MuiListItem-root {
+  width: 250px !important;
+}
+
+.MuiList-root, .MuiList-padding {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.MuiListItem-button {
+  box-shadow: 0px 5px 5px #888888;
+  margin: 0.5em !important;
 }

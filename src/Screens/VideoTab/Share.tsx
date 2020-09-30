@@ -1,8 +1,9 @@
 import React from "react";
-import { FormGroup, Label, Button } from "reactstrap";
-import { Grid, Tooltip, TextField } from "@material-ui/core";
+import { Grid, TextField } from "@material-ui/core";
+import ThemeButton from "../../components/ThemeButton";
+import EmailInstruction from "../../components/Reusable/EmailInstruction";
+import Colors from "../../constants/colors";
 import Loading from "../../components/Loading";
-import HelpIcon from "@material-ui/icons/Help";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
@@ -14,6 +15,7 @@ import {
   sendMultipleEmails
 } from "../../Redux/Actions/videos";
 import { EmailVideo, MultiEmail } from "../../Redux/Types/videos";
+import "./style.css"
 
 interface IProps {
   sendMultipleEmail: (emailVideoOnj: any) => void;
@@ -94,23 +96,12 @@ class Share extends React.Component<IProps> {
           <Grid item xs={1} sm={1} md={3}></Grid>
           <Grid item xs={10} sm={10} md={6}>
             <div style={{ paddingTop: "40px", paddingBottom: "40px" }}>
-              <div style={{ marginLeft: "48%" }}>
+              <div className="progressEditing">
                 {loading && <Loading />}
                 {progressEmail && <Loading />}
               </div>
-              <FormGroup>
-                <Label className="labelUploadSection">
-                  {Constants.SENDER_ADDRESS}
-                  <span>
-                    <Tooltip
-                      title="connect your gmail account in confguration to send email on your behalf"
-                      placement="top"
-                      arrow
-                    >
-                      <HelpIcon />
-                    </Tooltip>
-                  </span>
-                </Label>
+              <div>
+                <EmailInstruction heading="Reciever Email" />
                 <TextField
                   placeholder="Enter email address"
                   fullWidth
@@ -122,31 +113,18 @@ class Share extends React.Component<IProps> {
                   }}
                   onChange={this.emailHandler}
                 />
-              </FormGroup>
-              <Button
+              </div>
+              <ThemeButton
                 style={{
-                  border: "none",
-                  background: "#16B272",
-                  color: "rgb(255, 255, 255)"
+                  background: Colors.themeGreen,
+                  color: Colors.white,
+                  marginTop: "15px"
                 }}
-                size="lg"
                 onClick={this.submitEmail}
-              >
-                {Constants.SEND_THROUGH_EMAIL}
-              </Button>
-              <FormGroup className="formGroupMultiple">
-                <Label className="labelUploadSection">
-                  Broadcast
-                  <span>
-                    <Tooltip
-                      title="connect your gmail account in confguration to send email on your behalf"
-                      placement="top"
-                      arrow
-                    >
-                      <HelpIcon />
-                    </Tooltip>
-                  </span>
-                </Label>
+                name={Constants.SEND_THROUGH_EMAIL}
+              />
+              <div className="formGroupMultiple">
+                <EmailInstruction heading="Broadcast" />
                 <ChipInput
                   value={this.state.emails}
                   placeholder="Enter email and press enter"
@@ -154,18 +132,17 @@ class Share extends React.Component<IProps> {
                   onAdd={chips => this.handleChipAdd(chips)}
                   onDelete={chip => this.handleDeleteChip(chip)}
                 />
-              </FormGroup>
-              <Button
+              </div>
+
+              <ThemeButton
                 style={{
-                  border: "none",
-                  background: "#16B272",
-                  color: "#fff"
+                  background: Colors.themeGreen,
+                  color: Colors.white,
+                  marginTop: "15px"
                 }}
-                size="lg"
                 onClick={this.sendMultipleEmail}
-              >
-                Broadcast
-              </Button>
+                name="Broadcast"
+              />
             </div>
             <Grid item xs={1} sm={1} md={3}></Grid>
           </Grid>

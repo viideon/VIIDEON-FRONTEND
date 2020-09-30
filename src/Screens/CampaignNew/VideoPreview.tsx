@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
-import { Button } from "reactstrap";
+import ThemeButton from "../../components/ThemeButton";
+import Colors from "../../constants/colors";
 import "./style.css";
 
 interface IProps {
@@ -31,19 +32,7 @@ class VideoPreview extends React.Component<IProps> {
             </div>
           )}
           <div className="btnSingleWrap">
-            <Button
-              style={{
-                border: "none",
-                background: "rgb(34, 185, 255)",
-                color: "rgb(255, 255, 255)",
-                width: "150px",
-                marginTop: "30px"
-              }}
-              size="lg"
-              onClick={this.props.moveToNextStep}
-            >
-              Next
-            </Button>
+            <ThemeButton onClick={this.props.moveToNextStep} name="Proceed" style={{ backgroundColor: Colors.themeBlue, color: Colors.white, marginTop: "30px", width: "150px" }} />
           </div>
         </Grid>
         <Grid item xs={1} sm={1} md={3} lg={3}></Grid>

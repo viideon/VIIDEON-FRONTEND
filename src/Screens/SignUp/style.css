@@ -73,9 +73,11 @@
   justify-content: space-between;
 }
 
-.buttonWrapper1 {
-  margin-top: 20px;
-  border-radius: 10rem;
+.signupBtns {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
 }
 .wrapperLoader {
   position: relative;
@@ -86,6 +88,9 @@
 .innerWrapperLoader {
   position: absolute;
   top: 0;
+}
+.formGroups {
+  padding: 10px 0px;
 }
 @media only screen and (max-width: 400px) {
   .firstLayoutMainContainer {

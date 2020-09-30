@@ -1,14 +1,18 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import { Form, FormGroup, Label, Alert, Input } from "reactstrap";
+import * as Yup from "yup";
+import { Formik } from "formik";
+import InputRoundIcon from "../../components/InputRound/InputRoundIcon";
+import Label from "../../components/Reusable/Label";
+import Alert from "@material-ui/lab/Alert";
+import ThemeButton from "../../components/ThemeButton";
 import * as Constants from "../../constants/constants";
 import { connect } from "react-redux";
 import Loading from "../../components/Loading";
 import { forgotPassword } from "../../Redux/Actions/auth";
-import ActionButton from "../../components/Reusable/ActionButton";
+import Colors from "../../constants/colors";
 import "./style.css";
-import * as Yup from "yup";
-import { Formik } from "formik";
+
 const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email("Enter Correct Email")
@@ -102,44 +106,33 @@ class ForgotPassword extends React.Component<IProps, IState> {
                 validationSchema={validationSchema}
               >
                 {formik => (
-                  <Form>
-                    <FormGroup>
-                      <Label for="exampleEmail" style={{ fontWeight: "bold" }}>
-                        {Constants.EMAIL_ADDRESS}
-                      </Label>
-                      <div className="textInput">
-                        <Input
-                          type="text"
-                          name="email"
-                          placeholder="Email address"
-                          style={inputStyle}
-                          id="email"
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.email}
-                          autoComplete="off"
-                        />
-                        <i
-                          className="w3-xxlarge fa fa-user"
-                          style={iconStyle}
-                        ></i>
-                      </div>
-                    </FormGroup>
+                  <>
+                    <div className="formGroups">
+                      <Label text={Constants.EMAIL_ADDRESS} />
+                      <InputRoundIcon
+                        type="email"
+                        name="email"
+                        placeholder="Email address"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.email}
+                        iconClass="iconPerson"
+                      />
+                    </div>
 
                     {formik.errors.email && formik.touched.email && (
-                      <Alert color="danger">{formik.errors.email}</Alert>
+                      <Alert severity="warning">{formik.errors.email}</Alert>
                     )}
 
                     <div className="mainWrapperLayout">
-                      <ActionButton
-                        text="Submit"
-                        bgColor="#9F55FF"
-                        color="#fff"
+                      <ThemeButton
+                        round={true}
+                        name="Submit"
                         onClick={formik.handleSubmit}
-                        style={{ marginTop: 18, minWidth: "150px" }}
+                        style={{ marginTop: 18, minWidth: "150px", backgroundColor: Colors.themePurple, color: Colors.white }}
                       />
                     </div>
-                  </Form>
+                  </>
                 )}
               </Formik>
             </div>

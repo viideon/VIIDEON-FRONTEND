@@ -28,7 +28,7 @@ class SelectTemplate extends React.Component<IProps> {
       </Typography>
             {loadingTemplates && <div className="progressEditing"><Loading /></div>}
             <Grid container spacing={2}>
-                {templates && templates.map((template: any) => <Grid item xs={12} sm={6} md={3} lg={3} >
+                {templates && templates.map((template: any) => <Grid item xs={12} sm={6} md={3} lg={3} key={template._id}>
                     <CampaignTemplateCard template={template} proceedToRecording={this.proceedToRecording} />
                 </Grid>)}
             </Grid>

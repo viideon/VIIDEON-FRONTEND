@@ -19,20 +19,23 @@
   margin-top: 5px;
   font-size: large;
 }
-
 #videoTabNavLink {
   padding: 0.5rem 3rem;
 }
-
-#videoTabIcon {
+.videoTabIcon {
   color: #22b9ff;
   font-size: large;
 }
-
 #headerText {
   color: #646c9a;
+  padding-left: 10px;
+  padding-top: 10px;
 }
-
+.justifyCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 @media screen and (max-width: 580px) {
   #videoTabNavLink p {
     color: red;
@@ -42,6 +45,7 @@
   #headerText {
     padding-top: 20px;
     padding-bottom: 10px;
+    padding-left: 0px;
   }
 }
 
@@ -119,10 +123,13 @@
 }
 
 .wrapperVideoTab {
-  padding-top: 5%;
+  padding: 5%;
   position: relative;
 }
 
+#tabVideo {
+  outline: none;
+}
 @media screen and (max-width: 580px) {
   .wrapperVideoTab {
     padding-top: 12%;
@@ -139,6 +146,13 @@
   justify-content: space-between;
 }
 
+/* -------detail tab---- */
+.descriptionTextArea {
+  min-height: 150px;
+  width: 100%;
+  border-color: #22b9ff;
+  outline: none !important;
+}
 @media (max-width: 380px) {
   #descriptionLabel {
     font-size: 12px;

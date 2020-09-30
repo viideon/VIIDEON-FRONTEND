@@ -1,15 +1,19 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import { Form, FormGroup, Label, Alert, Input } from "reactstrap";
+import * as Yup from "yup";
+import { Formik } from "formik";
+import InputRoundIcon from "../../components/InputRound/InputRoundIcon";
+import Label from "../../components/Reusable/Label";
+import Alert from "@material-ui/lab/Alert";
+import ThemeButton from "../../components/ThemeButton";
 import * as Constants from "../../constants/constants";
 import { connect } from "react-redux";
 import Loading from "../../components/Loading";
 import { resetPassword } from "../../Redux/Actions/auth";
-import ActionButton from "../../components/Reusable/ActionButton";
-import "./style.css";
+import Colors from "../../constants/colors";
 import VerifySuccessModal from "../../components/Modals/verifySuccessModal";
-import * as Yup from "yup";
-import { Formik } from "formik";
+import "./style.css";
+
 const validationSchema = Yup.object().shape({
   password: Yup.string()
     .required("Required")
@@ -128,75 +132,50 @@ class ResetPassword extends React.Component<IProps, IState> {
                 validationSchema={validationSchema}
               >
                 {formik => (
-                  <Form>
-                    <FormGroup>
-                      <Label for="exampleEmail" style={{ fontWeight: "bold" }}>
-                        New Password
-                      </Label>
-                      <div className="textInput">
-                        <Input
-                          type="password"
-                          name="password"
-                          placeholder="New Password"
-                          id="password"
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.password}
-                          style={inputStyle}
-                        />
-                        <i
-                          className="w3-xxlarge fa fa-key"
-                          style={iconStyle}
-                        ></i>
-                      </div>
-                    </FormGroup>
+                  <>
+                    <div className="formGroups">
+                      <Label text="New Password" />
+                      <InputRoundIcon type="password"
+                        name="password"
+                        placeholder="New Password"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.password}
+                        iconClass="iconKey" />
+                    </div>
 
                     {formik.errors.password && formik.touched.password && (
-                      <Alert color="danger">{formik.errors.password}</Alert>
+                      <Alert severity="warning">{formik.errors.password}</Alert>
                     )}
 
-                    <FormGroup>
-                      <Label
-                        for="examplePassword"
-                        style={{ fontWeight: "bold" }}
-                      >
-                        Confirm New Password
-                      </Label>
-                      <div className="textInput">
-                        <Input
-                          type="password"
-                          name="passwordConfirmation"
-                          placeholder="Confirm Password"
-                          id="passwordConfirmation"
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.passwordConfirmation}
-                          style={inputStyle}
-                        />
-                        <i
-                          className="w3-xxlarge fa fa-key"
-                          style={iconStyle}
-                        ></i>
-                      </div>
-                    </FormGroup>
+                    <div className="formGroups">
+                      <Label text=" Confirm New Password" />
+                      <InputRoundIcon
+                        type="password"
+                        name="passwordConfirmation"
+                        placeholder="Confirm Password"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.passwordConfirmation}
+                        iconClass="iconKey" />
+                    </div>
 
                     {formik.errors.passwordConfirmation &&
                       formik.touched.passwordConfirmation && (
-                        <Alert color="danger">
+                        <Alert severity="warning">
                           {formik.errors.passwordConfirmation}
                         </Alert>
                       )}
 
                     <div className="mainWrapperLayout">
-                      <ActionButton
-                        text="Submit"
-                        bgColor="#9F55FF"
-                        color="#fff"
+                      <ThemeButton
+                        name="Submit"
+                        round={true}
                         onClick={formik.handleSubmit}
-                        style={{ marginTop: 18, minWidth: "150px" }}
+                        style={{ marginTop: 18, minWidth: "150px", backgroundColor: Colors.themePurple, color: Colors.white }}
                       />
                     </div>
-                  </Form>
+                  </>
                 )}
               </Formik>
             </div>

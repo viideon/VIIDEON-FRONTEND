@@ -1,7 +1,7 @@
 import React from "react";
 import AWS from "aws-sdk";
 import S3FileUpload from "react-s3";
-import { Container, Row, Col, Input } from "reactstrap";
+import Colors from "../../constants/colors";
 import { toast } from "react-toastify";
 import canvasTxt from "canvas-txt";
 import { CompactPicker } from "react-color";
@@ -744,57 +744,96 @@ class Editing extends React.Component<IProps, IState> {
     } = this.state;
     return (
       <div className="editingTabWrapper">
-        <Container>
-          <Row>
-            <Col xs="1" md="2"></Col>
-            <Col xs="10" md="8" id="wrapper_main">
-              <div
-                ref="container"
-                style={{
-                  visibility: showVideo ? "visible" : "hidden",
-                  width: "100%",
-                  height: this.state.videoHeight,
-                }}
-              >
-                {video && (
-                  <CanvasPlayer
-                    muted={false}
-                    autoPlay={false}
-                    loop={false}
-                    src={video.url}
-                    logoProps={video.logoProps}
-                    textProps={video.textProps}
-                    thumbnail={video.thumbnail}
-                    musicProps={video.musicProps}
-                  />
-                )}
-              </div>
-              {showVideo === false && (
-                <div style={{ position: "absolute", left: "48%", top: "40%" }}>
-                  <Loading />
-                </div>
-              )}
-            </Col>
-            <Col xs="1" md="2"></Col>
-          </Row>
-          <Row>
-            <Col></Col>
-          </Row>
-          <Row>
-            <Col xs="1" md="2"></Col>
-            <Col xs="10" md="8">
-              <div className="wrapperEditThumbnail">
-                <input
-                  id="uploadInput"
-                  type="file"
-                  onChange={this.onThumbnailFileChange}
-                  ref={this.setThumbnailInputRef}
-                  accept="image/x-png,image/gif,image/jpeg"
+        <Grid container>
+          <Grid item xs={1} md={2}></Grid>
+          <Grid item xs={10} md={8} id="wrapper_main">
+            <div
+              ref="container"
+              style={{
+                visibility: showVideo ? "visible" : "hidden",
+                width: "100%",
+                height: this.state.videoHeight,
+              }}
+            >
+              {video && (
+                <CanvasPlayer
+                  muted={false}
+                  autoPlay={false}
+                  loop={false}
+                  src={video.url}
+                  logoProps={video.logoProps}
+                  textProps={video.textProps}
+                  thumbnail={video.thumbnail}
+                  musicProps={video.musicProps}
                 />
-                <h4 className="thumbnaillEditMsg">
-                  Customize Thumbnail
+              )}
+            </div>
+            {showVideo === false && (
+              <div style={{ position: "absolute", left: "48%", top: "40%" }}>
+                <Loading />
+              </div>
+            )}
+          </Grid>
+          <Grid item xs={1} md={2}></Grid>
+        </Grid>
+
+        <Grid container>
+          <Grid item xs={1} md={2}></Grid>
+          <Grid item xs={10} md={8}>
+            <div className="wrapperEditThumbnail">
+              <input
+                id="uploadInput"
+                type="file"
+                onChange={this.onThumbnailFileChange}
+                ref={this.setThumbnailInputRef}
+                accept="image/x-png,image/gif,image/jpeg"
+              />
+              <h4 className="thumbnaillEditMsg">
+                Customize Thumbnail
                   <Tooltip
-                    title="upload a thumbnail for your video"
+                  title="upload a thumbnail for your video"
+                  placement="top"
+                  arrow
+                  style={{ marginLeft: "3px" }}
+                >
+                  <HelpIcon />
+                </Tooltip>
+              </h4>
+              <div className="progressEditing">
+                {this.state.uploading && <Loading />}
+              </div>
+              <div className="progressEditing">
+                {isVideoUpdating && <Loading height={60} width={60} />}
+              </div>
+              <AssetPicker
+                isOpen={this.state.isOpenThumbnailPicker}
+                toggle={this.toggleThumbnailAssetPicker}
+                logoAssets={false}
+                onPick={this.onThumbnailAssetPick}
+              />
+              <div className="btnEditThumbnailWrapper">
+                <ThemeButton
+                  name="Upload File"
+                  onClick={this.triggerThumbnailUploadBtn}
+                  style={{
+                    background: Colors.themeGreen,
+                    color: Colors.white,
+                  }}
+                />
+                <ThemeButton
+                  name="Select from assets"
+                  onClick={this.toggleThumbnailAssetPicker}
+                  style={{
+                    background: Colors.themeGreen,
+                    color: Colors.white,
+                  }}
+                />
+              </div>
+              <div className="wrapperEditTitle">
+                <h4 className="thumbnaillEditMsg">
+                  Customize Title
+                    <Tooltip
+                    title="Customize  title for this video"
                     placement="top"
                     arrow
                     style={{ marginLeft: "3px" }}
@@ -802,83 +841,31 @@ class Editing extends React.Component<IProps, IState> {
                     <HelpIcon />
                   </Tooltip>
                 </h4>
-                <div className="progressEditing">
-                  {this.state.uploading && <Loading />}
-                </div>
-                <div className="progressEditing">
-                  {isVideoUpdating && <Loading height={60} width={60} />}
-                </div>
-                <AssetPicker
-                  isOpen={this.state.isOpenThumbnailPicker}
-                  toggle={this.toggleThumbnailAssetPicker}
-                  logoAssets={false}
-                  onPick={this.onThumbnailAssetPick}
+                <TextField
+                  placeholder="Add new title"
+                  fullWidth
+                  type="text"
+                  value={this.state.newVideoTitle}
+                  name="recieverEmail"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={this.changeTitle}
                 />
-                <div className="btnEditThumbnailWrapper">
-                  <ThemeButton
-                    name="Upload File"
-                    onClick={this.triggerThumbnailUploadBtn}
-                    style={{
-                      border: "none",
-                      background: "#16B272",
-                      color: "rgb(255, 255, 255)",
-                      marginBottom: "2px",
-                      outline: "none",
-                    }}
-                  />
-                  <ThemeButton
-                    name="Select from assets"
-                    onClick={this.toggleThumbnailAssetPicker}
-                    style={{
-                      border: "none",
-                      background: "#16B272",
-                      color: "rgb(255, 255, 255)",
-                      marginBottom: "2px",
-                      outline: "none",
-                    }}
-                  />
-                </div>
-                <div className="wrapperEditTitle">
-                  <h4 className="thumbnaillEditMsg">
-                    Customize Title
-                    <Tooltip
-                      title="Customize  title for this video"
-                      placement="top"
-                      arrow
-                      style={{ marginLeft: "3px" }}
-                    >
-                      <HelpIcon />
-                    </Tooltip>
-                  </h4>
-                  <TextField
-                    placeholder="Add new title"
-                    fullWidth
-                    type="text"
-                    value={this.state.newVideoTitle}
-                    name="recieverEmail"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    onChange={this.changeTitle}
-                  />
-                  <ThemeButton
-                    name="Update title"
-                    onClick={this.updateTitle}
-                    style={{
-                      border: "none",
-                      background: "#16B272",
-                      color: "rgb(255, 255, 255)",
-                      marginTop: "20px",
-                      marginBottom: "2px",
-                      outline: "none",
-                    }}
-                  />
-                </div>
+                <ThemeButton
+                  name="Update title"
+                  onClick={this.updateTitle}
+                  style={{
+                    background: Colors.themeGreen,
+                    color: Colors.white,
+                    marginTop: "20px",
+                  }}
+                />
               </div>
-            </Col>
-            <Col xs="1" md="2"></Col>
-          </Row>
-        </Container>
+            </div>
+          </Grid>
+          <Grid item xs={1} md={2}></Grid>
+        </Grid>
         {/* ------update logo and text---- */}
         <div className="wrapperEditLogoText">
           <h2 className="addLogoHeading">Edit Logo and Text</h2>
@@ -1055,9 +1042,10 @@ class Editing extends React.Component<IProps, IState> {
                 </Button>
 
                 {musicFileSelected && (
-                  <Input
+                  <TextField
                     type="text"
                     placeholder="Music Title"
+                    name="text"
                     value={this.state.musicTitle}
                     onChange={this.onChangeMusicTitle}
                     style={{ marginTop: "10px" }}
@@ -1091,7 +1079,7 @@ class Editing extends React.Component<IProps, IState> {
                     </span>
                   </Tooltip>
                 </h4>
-                <Input
+                <TextField
                   type="text"
                   placeholder="Add Text"
                   name="text"

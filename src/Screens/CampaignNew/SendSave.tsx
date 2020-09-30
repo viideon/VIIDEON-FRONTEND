@@ -1,13 +1,32 @@
 import React from "react";
-import { Grid, LinearProgress, Tooltip, TextField } from "@material-ui/core";
+import { Grid, LinearProgress, TextField } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import Loading from "../../components/Loading";
-import { Input, Label, FormGroup, Button } from "reactstrap";
+import ThemeButton from "../../components/ThemeButton";
+import EmailInstruction from "../../components/Reusable/EmailInstruction";
+import Label from "../../components/Reusable/Label";
+import Colors from "../../constants/colors";
 import CanvasPlayer from "../../components/CanvasPlayer/EditingCanvas";
 import ChipInput from "material-ui-chip-input";
 import AWS from "aws-sdk";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
+
+import { makeStyles } from '@material-ui/core/styles';
+// import Button from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemText from '@material-ui/core/ListItemText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import PersonIcon from '@material-ui/icons/Person';
+import AddIcon from '@material-ui/icons/Add';
+import Typography from '@material-ui/core/Typography';
+import { blue } from '@material-ui/core/colors';
+
+
 import {
   sendVideoToEmail,
   saveVideo,
@@ -24,8 +43,66 @@ import { AuthState } from "../../Redux/Types/auth";
 import * as Constants from "../../constants/constants";
 import { reg } from "../../constants/emailRegEx";
 import { config } from "../../config/aws";
-import HelpIcon from "@material-ui/icons/Help";
+
+
 import "./style.css";
+
+const Spread = require('../../assets/email-theme/Spread.png');
+const Streamlined = require('../../assets/email-theme/Streamlined.png');
+const SimpleBlue = require('../../assets/email-theme/SimpleBlue.png');
+const Sleek = require('../../assets/email-theme/Sleek.png');
+const SocialBusiness = require('../../assets/email-theme/SocialBusiness.png');
+const SocialImpact = require('../../assets/email-theme/SocialImpact.png');
+const ClassicDark = require('../../assets/email-theme/ClassicDark.png');
+const CorporateLight = require('../../assets/email-theme/CorporateLight.png');
+const ModernSimple = require('../../assets/email-theme/ModernSimple.png');
+const Ocean = require('../../assets/email-theme/Ocean.png');
+
+const availableTheme = [{ name: "Spread", avatar: Spread }, { name: "Streamlined", avatar: Streamlined }, { name: "Simple Blue", avatar: SimpleBlue }, { name: "Sleek", avatar: Sleek}, { name: "Social Business", avatar: SocialBusiness }, { name: "Social Impact", avatar: SocialImpact }, { name: "Clasic Dark", avatar: ClassicDark }, { name: "Corporate Light", avatar: CorporateLight }, { name: "Modern Simple", avatar: ModernSimple }, { name: "Ocean", avatar: Ocean }]
+
+const emails = ['username@gmail.com', 'user02@gmail.com'];
+
+const useStyles = makeStyles({
+  avatar: {
+    backgroundColor: blue[100],
+    color: blue[600],
+  },
+});
+
+export interface SimpleDialogProps {
+  open: boolean;
+  selectedValue: string;
+  onClose: (value: string) => void;
+}
+
+function SimpleDialog(props: SimpleDialogProps) {
+  const classes = useStyles();
+  const { onClose, selectedValue, open } = props;
+
+  const handleClose = () => {
+    onClose(selectedValue);
+  };
+
+  const handleListItemClick = (value: string) => {
+    onClose(value);
+  };
+
+  return (
+    <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+      <DialogTitle id="simple-dialog-title">Select E-mail theme</DialogTitle>
+      <List component="div" >
+        {availableTheme.map((theme) => (
+          <ListItem button onClick={() => handleListItemClick(theme.name)} key={theme.name}>
+            <img className="avatarImage" src={theme.avatar} />
+            <ListItemText primary={theme.name} />
+          </ListItem>
+        ))}
+      </List>
+    </Dialog>
+  );
+}
+
+
 
 interface IProps {
   history: any;
@@ -43,6 +120,9 @@ interface IProps {
   toggleSendVariable: () => void;
   logoBlob: any;
   thumbnailBlob: any;
+  open: boolean;
+  themeName: string;
+  emailType: string;
 }
 
 class SendSave extends React.Component<IProps> {
@@ -59,21 +139,31 @@ class SendSave extends React.Component<IProps> {
     height: 0,
     logoUrl: "",
     thumbnailUrl: "",
-    videoHeight: "300px"
+    videoHeight: "300px",
+    open: false,
+    themeName: "",
+    emailType: 'single',
   };
   canvas: any;
   container: any;
   s3: any;
+  
   componentDidMount() {
     this.props.toggleSendVariable();
     this.s3 = new AWS.S3(config);
     this.caluclateContainerHeight();
     window.addEventListener("resize", this.caluclateContainerHeight);
   }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.caluclateContainerHeight);
+  }
+
   caluclateContainerHeight = () => {
     let calculatedVideoHeight = document.getElementById("wrapperSend")?.clientWidth ? `${document.getElementById('wrapperSend')!.clientWidth * 0.5625}px` : "300px";
     this.setState({ videoHeight: calculatedVideoHeight });
   }
+  
   saveVideo = async () => {
     if (this.state.title === "") {
       toast.warn("Enter a title to save video");
@@ -97,6 +187,7 @@ class SendSave extends React.Component<IProps> {
       toast.error("Failed to save campaign, Please try again");
     }
   };
+
   uploadVideo = () => {
     return new Promise((resolve, reject) => {
       this.setState({ videoProgress: true, progressVideo: 0 });
@@ -122,6 +213,7 @@ class SendSave extends React.Component<IProps> {
         });
     });
   };
+
   uploadThumbnail = () => {
     return new Promise((resolve, reject) => {
       this.setState({ videoProgress: true, progressVideo: 0 });
@@ -157,12 +249,14 @@ class SendSave extends React.Component<IProps> {
       title: event.target.value
     });
   };
+
   emailHandler = (event: any) => {
     this.setState({
       recieverEmail: event.target.value
     });
   };
-  submitEmail = () => {
+
+  submitEmail = (themeName: string) => {
     if (this.props.savedVideoId === "") {
       return toast.warn("Please save a video");
     } else if (this.state.recieverEmail === "") {
@@ -173,13 +267,15 @@ class SendSave extends React.Component<IProps> {
       const recieverEmail = this.state.recieverEmail;
       const video = {
         videoId: this.props.savedVideoId,
-        recieverEmail
+        recieverEmail,
+        themeName,
       };
       this.props.sendVideoToEmail(video);
       this.setState({ recieverEmail: "" });
     }
   };
-  sendMultipleEmail = () => {
+
+  sendMultipleEmail = (themeName: string) => {
     if (this.state.emails.length === 0) {
       toast.error("No email provided");
       return;
@@ -190,7 +286,8 @@ class SendSave extends React.Component<IProps> {
       const emails = this.state.emails.join();
       const emailVideoObj = {
         recieverEmail: emails,
-        videoId: this.props.savedVideoId
+        videoId: this.props.savedVideoId,
+        themeName
       };
       this.props.sendMultipleEmail(emailVideoObj);
       this.setState({ emails: [] });
@@ -204,20 +301,31 @@ class SendSave extends React.Component<IProps> {
     }
     this.setState({ emails: [...this.state.emails, email] });
   };
+
   handleDeleteChip = (delEmail: any) => {
     this.setState({
       emails: this.state.emails.filter((email: string) => email !== delEmail)
     });
   };
+
   navigateToVideos = () => {
     this.props.history.push("/campaign");
   };
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.caluclateContainerHeight);
+
+  handleClose = (themeName: string) => {
+    const { emailType } = this.state;
+    this.setState({themeName, open: false});
+    emailType === "single" ? this.submitEmail(themeName) : this.sendMultipleEmail(themeName);
   }
+
+  handleModal = (emailType: string) => {
+    this.setState({open: true, emailType})
+  }
+
   render() {
     let { videoSaved, loading } = this.props.videoUser;
     let { progressEmail } = this.props;
+    const { open, themeName } = this.state
     return (
       <Grid container>
         <Grid item xs={1} sm={1} md={3} lg={3}></Grid>
@@ -247,53 +355,35 @@ class SendSave extends React.Component<IProps> {
           </div>
           <div id="formInput" style={{ marginTop: "30px" }}>
             {videoSaved !== true && (
-              <div>
+              <>
                 {this.state.videoProgress && (
                   <LinearProgress
                     variant="determinate"
                     value={this.state.progressVideo}
                   />
                 )}
-                <FormGroup>
-                  <Label className="labelUploadSection">Campaign Title</Label>
-                  <Input
-                    type="text"
+                <div className="formGroups">
+                  <Label text="Campaign Title" />
+                  <TextField
                     name="name"
-                    id="typeInput"
-                    placeholder="Give your campaign an amazing title"
                     value={this.state.title}
                     onChange={this.titleNameHandler}
+                    placeholder="Give your campaign an amazing title"
+                    type="text"
+                    fullWidth
+                    margin="normal"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
                   />
-                </FormGroup>
-                <Button
-                  style={{
-                    border: "none",
-                    background: "rgb(34, 185, 255)",
-                    color: "rgb(255, 255, 255)"
-                  }}
-                  disabled={this.state.videoProgress || loading}
-                  size="lg"
-                  onClick={this.saveVideo}
-                >
-                  Save Campaign
-                </Button>
-              </div>
+                </div>
+                <ThemeButton disabled={this.state.videoProgress || loading} onClick={this.saveVideo} name="Save Campaign" style={{ backgroundColor: Colors.themeBlue, color: Colors.white }} />
+              </>
             )}
             {videoSaved === true && (
-              <div>
-                <FormGroup>
-                  <Label className="labelUploadSection">
-                    {Constants.SENDER_ADDRESS}{" "}
-                    <span>
-                      <Tooltip
-                        title="connect your gmail account in confguration to send email's on your behalf"
-                        placement="top"
-                        arrow
-                      >
-                        <HelpIcon />
-                      </Tooltip>
-                    </span>
-                  </Label>
+              <>
+                <div className="formGroups">
+                  <EmailInstruction heading={Constants.SENDER_ADDRESS} />
                   <TextField
                     placeholder="Enter email address"
                     fullWidth
@@ -305,32 +395,10 @@ class SendSave extends React.Component<IProps> {
                     }}
                     onChange={this.emailHandler}
                   />
-                </FormGroup>
-
-                <Button
-                  style={{
-                    border: "none",
-                    background: "#16B272",
-                    color: "rgb(255, 255, 255)"
-                  }}
-                  size="lg"
-                  onClick={this.submitEmail}
-                >
-                  {Constants.SEND_THROUGH_EMAIL}
-                </Button>
-                <FormGroup className="formGroupMultiple">
-                  <Label className="labelUploadSection">
-                    Broadcast
-                    <span>
-                      <Tooltip
-                        title="connect your gmail account in confguration to send email's on your behalf"
-                        placement="top"
-                        arrow
-                      >
-                        <HelpIcon />
-                      </Tooltip>
-                    </span>
-                  </Label>
+                </div>
+                <ThemeButton name="Send Through Email" onClick={() => this.handleModal("single") }  style={{ backgroundColor: Colors.themeGreen, color: Colors.white }} />
+                <div className="formGroups">
+                  <EmailInstruction heading="Broadcast" />
                   <ChipInput
                     value={this.state.emails}
                     placeholder="Enter email and press enter"
@@ -338,33 +406,12 @@ class SendSave extends React.Component<IProps> {
                     onAdd={chips => this.handleChipAdd(chips)}
                     onDelete={chip => this.handleDeleteChip(chip)}
                   />
-                </FormGroup>
-                <Button
-                  style={{
-                    border: "none",
-                    background: "#16B272",
-                    color: "#fff"
-                  }}
-                  size="lg"
-                  onClick={this.sendMultipleEmail}
-                >
-                  Broadcast
-                </Button>
-                <FormGroup style={{ textAlign: "end" }}>
-                  <Button
-                    style={{
-                      border: "none",
-                      background: "rgb(34, 185, 255)",
-                      color: "rgb(255, 255, 255)",
-                      width: "120px"
-                    }}
-                    size="lg"
-                    onClick={this.navigateToVideos}
-                  >
-                    Done
-                  </Button>
-                </FormGroup>
-              </div>
+                </div>
+                <ThemeButton name="Broadcast" onClick={() => this.handleModal("multiple")} style={{ backgroundColor: Colors.themeGreen, color: Colors.white }} />
+                <div style={{ textAlign: "end" }}>
+                  <ThemeButton name="Done" onClick={this.navigateToVideos} style={{ backgroundColor: Colors.themeBlue, color: Colors.white, width: "120px" }} />
+                </div>
+              </>
             )}
           </div>
           <canvas
@@ -373,6 +420,7 @@ class SendSave extends React.Component<IProps> {
           />
         </Grid>
         <Grid item xs={1} sm={1} md={3} lg={3}></Grid>
+        <SimpleDialog selectedValue={themeName} open={open} onClose={this.handleClose} />
       </Grid>
     );
   }

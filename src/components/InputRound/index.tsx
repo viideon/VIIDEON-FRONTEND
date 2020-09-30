@@ -1,5 +1,4 @@
 import React from "react";
-import { Input } from "reactstrap";
 
 interface IProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -19,7 +18,7 @@ const InputRound: React.FC<IProps> = ({
 }) => {
   return (
     <div style={inputWrapper}>
-      <Input
+      <input
         type={type}
         name={name}
         placeholder={placeholder}
@@ -37,12 +36,15 @@ const inputStyle = {
   borderWidth: 0,
   borderColor: "white",
   boxShadow: "white",
+  width: "100%",
+  padding: "5px 5px 5px 15px",
+  outline: "none"
 };
 const inputWrapper = {
   display: "flex",
   width: "100%",
   borderStyle: "solid",
-  borderWidth: "2px",
+  borderWidth: "1px",
   borderColor: "#9f55ff",
   borderRadius: "10rem",
   justifyContent: "space-between",

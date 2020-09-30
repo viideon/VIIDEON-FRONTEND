@@ -1,12 +1,7 @@
 import React, { FC, useState } from "react";
 import { connect } from "react-redux";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import {
-  DropdownItem,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu
-} from "reactstrap";
+import { Grid, Menu, MenuItem } from "@material-ui/core";
 import { toast } from "react-toastify";
 import VideoInfo from "../VideoInfo";
 import DeleteDialog from "../Reusable/DeleteDialog";
@@ -46,6 +41,13 @@ const VideoCard: FC<IProps> = ({
   video
 }) => {
   const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const calculateDays = () => {
     let currentTime = moment(moment().toDate());
     let videoAddedTime = moment(date).format("YYYY-MM-DD HH:mm");
@@ -76,40 +78,42 @@ const VideoCard: FC<IProps> = ({
           alt="preview"
         />
       </div>
-      <div className="row" id="rowCardTitle">
-        <div className="col-10">
+      <Grid container style={{ padding: '10px 0px 0px 10px' }}>
+        <Grid item xs={10}>
           <h5 className="titleVideo">{title}</h5>
-        </div>
-        <div className="col-2">
-          <UncontrolledDropdown setActiveFromChild>
-            <DropdownToggle tag="span">
-              <span className="vertIcon">
-                <MoreVertIcon />
-              </span>
-            </DropdownToggle>
-            <DropdownMenu right>
-              <DropdownItem onClick={onClick}>View</DropdownItem>
-              <DropdownItem onClick={onClick}>Edit</DropdownItem>
-              <DropdownItem onClick={copyUrl}>Copy url</DropdownItem>
-              <DropdownItem onClick={openDeleteDialog}>Delete</DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
+        </Grid>
+        <Grid item xs={2}>
+          <span className="vertIcon" onClick={handleClick}>
+            <MoreVertIcon />
+          </span>
+          <Menu
+            id="menuVideoCard"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={onClick}>View</MenuItem>
+            <MenuItem onClick={onClick}>Edit</MenuItem>
+            <MenuItem onClick={copyUrl}>Copy url</MenuItem>
+            <MenuItem onClick={openDeleteDialog}>Delete</MenuItem>
+          </Menu>
           <DeleteDialog
             open={open}
             deletingVideo={deletingVideo}
             deleteVideo={deleteAction}
             closeDeleteDialog={closeDeleteDialog}
           />
-        </div>
-      </div>
-      <div className="row" id="rowCardInfo">
-        <div className="col-xs-12">
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item>
           <VideoInfo video={video} />
           <span className="addedVideoInfo">
             added {calculateDays()} days ago
           </span>
-        </div>
-      </div>
+        </Grid>
+      </Grid>
     </div>
   );
 };

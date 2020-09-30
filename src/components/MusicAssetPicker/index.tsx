@@ -2,7 +2,9 @@ import React from "react";
 import { toast } from "react-toastify";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { connect } from "react-redux";
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
+import ThemeButton from "../ThemeButton";
+import { Dialog, DialogContent, DialogTitle, DialogActions } from "@material-ui/core";
+import Colors from "../../constants/colors";
 import { Grid, Radio } from "@material-ui/core";
 import { getMusicAsset } from "../../Redux/Actions/asset";
 import 'react-tabs/style/react-tabs.css';
@@ -51,15 +53,17 @@ class AssetPicker extends React.Component<IProps> {
     render() {
         const { musicAssets } = this.props;
         return (
-            <Modal
-                isOpen={this.props.isOpen}
-                toggle={this.props.toggle}
-                wrapClassName="wrapperModalAsset"
+            <Dialog
+                open={this.props.isOpen}
+                onClose={this.props.toggle}
+                scroll="paper"
+                fullWidth
+                maxWidth="md"
             >
-                <ModalHeader>
+                <DialogTitle>
                     Select Music Asset
-                </ModalHeader>
-                <ModalBody>
+                </DialogTitle>
+                <DialogContent>
                     <Tabs>
                         <TabList>
                             <Tab>Private Assets</Tab>
@@ -89,22 +93,20 @@ class AssetPicker extends React.Component<IProps> {
                         </TabPanel>
                     </Tabs>
 
-                </ModalBody>
-                <ModalFooter>
-                    <Button
-                        color="secondary"
-                        size="md"
-                        style={{ width: "120px", marginRight: "5px" }}
+                </DialogContent>
+                <DialogActions>
+                    <ThemeButton
+                        style={{ width: "120px", marginRight: "5px", backgroundColor: Colors.darkGrey, color: Colors.white }}
                         onClick={this.cancelSelection}
-                    >Cancel </Button>
-                    <Button
-                        color="primary"
-                        size="md"
-                        style={{ width: "120px" }}
+                        name="Cancel"
+                    />
+                    <ThemeButton
+                        style={{ width: "120px", backgroundColor: Colors.themeBlue, color: Colors.white }}
                         onClick={this.onPick}
-                    >Ok</Button>
-                </ModalFooter>
-            </Modal>
+                        name="OK"
+                    />
+                </DialogActions>
+            </Dialog>
         );
     }
 }

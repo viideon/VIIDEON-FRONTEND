@@ -1,7 +1,6 @@
 import React from "react";
 import RecordRTC from "recordrtc";
 import { withRouter } from "react-router-dom";
-import { ListGroup, ListGroupItem } from "reactstrap";
 import { toast } from "react-toastify";
 import { Grid, Button, Select, MenuItem, InputLabel } from "@material-ui/core";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
@@ -158,17 +157,15 @@ class Recording extends React.Component<IProps> {
       <h3 className="instructionHeading">
         {template.steps[currentStep - 1].title}
       </h3>
-      <ListGroup style={listGroupStyle}>
-        <ListGroupItem>{template.steps[currentStep - 1].description}</ListGroupItem>
-        <ListGroupItem>
-          <p className="exampleTxt">Example</p>
+      <div className="wrapperStep">
+        <div className="wrapperStepHeader"><p>{template.steps[currentStep - 1].description}</p></div>
+        <div className="wrapperStepExamples"> <p className="exampleTxt">Example</p>
           <ul>
             {template.steps[currentStep - 1].examples.map((example: string, index: number) => {
               return <li key={index}>{example}</li>
             })}
-          </ul>
-        </ListGroupItem>
-      </ListGroup>
+          </ul></div>
+      </div>
     </div>
   }
   trackTime = () => {
@@ -180,7 +177,7 @@ class Recording extends React.Component<IProps> {
   nameTrack = () => {
     let { currentStep } = this.state;
     let { template } = this.props;
-    return template.steps[currentStep - 1].title;
+    return template?.steps[currentStep - 1].title;
   };
   stopStream = () => {
     this.localStream &&
@@ -302,8 +299,4 @@ class Recording extends React.Component<IProps> {
     );
   }
 }
-const listGroupStyle = {
-  boxShadow: "0 0 10px #cdcdcd",
-  marginTop: "20px"
-};
 export default withRouter<any, any>(Recording);

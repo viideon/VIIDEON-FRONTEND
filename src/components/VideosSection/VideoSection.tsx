@@ -130,7 +130,7 @@ class VideoSection extends Component<IProps> {
             </div>
           </div>
           <div className="ovalBtnWrap">
-            <Tooltip title="Create new  Video">
+            <Tooltip title="Create new Video">
               <button
                 className="ovalBtn over-add-btn "
                 onClick={this.createVideo}

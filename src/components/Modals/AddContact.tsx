@@ -1,5 +1,11 @@
 import React from "react";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogActions,
+  Button
+} from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import "./style.css";
 
@@ -10,9 +16,9 @@ interface IProps {
 class AddContact extends React.Component<IProps> {
   render() {
     return (
-      <Modal isOpen={this.props.open} toggle={this.props.toggle}>
-        <ModalHeader toggle={this.props.toggle}>Add Contact</ModalHeader>
-        <ModalBody>
+      <Dialog open={this.props.open} onClose={this.props.toggle} fullWidth maxWidth="md">
+        <DialogTitle >Add Contact</DialogTitle>
+        <DialogContent>
           <div style={{ display: "flex", flexWrap: "wrap" }}>
             <TextField
               label="First Name"
@@ -105,16 +111,16 @@ class AddContact extends React.Component<IProps> {
             style={{ width: "100%" }}
             rows={3}
           />
-        </ModalBody>
-        <ModalFooter>
-          <Button color="secondary" onClick={this.props.toggle}>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" color="default" onClick={this.props.toggle}>
             Close
           </Button>
-          <Button color="primary" onClick={() => alert("Save")}>
+          <Button variant="contained" color="primary" onClick={() => alert("Save")}>
             Save
-          </Button>{" "}
-        </ModalFooter>
-      </Modal>
+          </Button>
+        </DialogActions>
+      </Dialog>
     );
   }
 }

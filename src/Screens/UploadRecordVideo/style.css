@@ -7,23 +7,7 @@
   padding: 15px;
   box-shadow: 0 0 10px lightgrey;
 }
-@media only screen and (max-width: 768px) {
-  .recordMainContainer {
-    margin-top: 8%;
-  }
-}
-@media only screen and (max-width: 550px) {
-  .recordMainContainer {
-    margin-top: 22%;
-  }
-}
 
-@media only screen and (max-width: 400px) {
-  .recordMainContainer {
-    margin-top: 24%;
-    width: 80%;
-  }
-}
 .mainHeader {
   color: #0071bc;
   font-size: 20px;
@@ -34,10 +18,13 @@
   font-size: 17px;
   font-weight: 500;
 }
-.borderStyle {
+.uploadPanelBorder {
   border-style: dotted;
   border-radius: 1px;
   border-color: #0071bc;
+}
+.wrapperUploadPanel {
+  margin: "20px 0px";
 }
 .Dropzone {
   height: 200px;
@@ -72,4 +59,21 @@
 }
 .recordMainContainer #formInput input {
   padding: 8px !important;
+}
+@media only screen and (max-width: 768px) {
+  .recordMainContainer {
+    margin-top: 8%;
+  }
+}
+@media only screen and (max-width: 550px) {
+  .recordMainContainer {
+    margin-top: 22%;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .recordMainContainer {
+    margin-top: 24%;
+    width: 80%;
+  }
 }
