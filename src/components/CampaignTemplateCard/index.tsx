@@ -1,38 +1,50 @@
 import React from "react";
-import { Card, CardActionArea, CardActions, CardContent, Button, CardMedia, Typography } from "@material-ui/core";
-
+import {
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  Button,
+  CardMedia,
+  Typography
+} from "@material-ui/core";
 
 interface IProps {
-    proceedToRecording: (template: any) => void;
-    template: any;
+  proceedToRecording: (template: any) => void;
+  template: any;
 }
-const CampaignTemplateCard: React.FC<IProps> = ({ proceedToRecording, template }) => {
-    const moveToRecording = () => {
-        proceedToRecording(template);
-    }
-    return <Card  >
-        <CardActionArea>
-            <CardMedia
-                component="img"
-                alt="Template Thumbnail"
-                height="140"
-                image={template.templateThumbnailUrl}
-            />
-            <CardContent style={{ maxHeight: "100px", minHeight: "100px" }}>
-                <Typography gutterBottom variant="h5" component="h2">
-                    {template.name}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                    {template.templateDescription}
-                </Typography>
-            </CardContent>
-        </CardActionArea>
-        <CardActions>
-            <Button size="small" color="primary" onClick={moveToRecording}>
-                Proceed
-      </Button>
-        </CardActions>
+const CampaignTemplateCard: React.FC<IProps> = ({
+  proceedToRecording,
+  template
+}) => {
+  const moveToRecording = () => {
+    proceedToRecording(template);
+  };
+  return (
+    <Card>
+      <CardActionArea>
+        <CardMedia
+          component="img"
+          alt="Template Thumbnail"
+          height="140"
+          image={template.templateThumbnailUrl}
+        />
+        <CardContent style={{ maxHeight: "100px", minHeight: "100px" }}>
+          <Typography gutterBottom variant="h5" component="h2">
+            {template.name}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {template.templateDescription}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <CardActions>
+        <Button size="small" color="primary" onClick={moveToRecording}>
+          Proceed
+        </Button>
+      </CardActions>
     </Card>
-}
+  );
+};
 
 export default CampaignTemplateCard;

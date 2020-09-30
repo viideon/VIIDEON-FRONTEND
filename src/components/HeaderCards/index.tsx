@@ -25,13 +25,9 @@ const HeaderCard: React.FC<IProps> = ({ styles, Title, Number, iconBg }) => {
   };
   return (
     <div className="CardMain">
-      <span className="cardTitle">
-        {Number}
-      </span>
+      <span className="cardTitle">{Number}</span>
       <div className="detailsCard">
-      <span className="wrapperIconCard">
-        {renderIcon()}
-      </span>
+        <span className="wrapperIconCard">{renderIcon()}</span>
         <div className="detailCardHeader">
           <span className="cardText"> {Title}</span>
         </div>

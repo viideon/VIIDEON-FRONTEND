@@ -1,12 +1,12 @@
 import React from "react";
 import Home from "../Home/Home";
 import { connect } from "react-redux";
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 // import { RiDeleteBack2Line } from "react-icons/ri";
 // import DeleteDialog from "../../components/Reusable/DeleteDialogGeneric";
 // import { deleteAsset } from "../../Redux/Actions/asset";
 import { Grid } from "@material-ui/core";
-import 'react-tabs/style/react-tabs.css';
+import "react-tabs/style/react-tabs.css";
 import "./style.css";
 
 interface IProps {
@@ -29,20 +29,22 @@ class MusicAssets extends React.Component<IProps> {
 
           <TabPanel>
             <Grid container className="wrapperMusicAssets">
-              {musicAssets && musicAssets.map((asset: any) => (
-                <Grid item xs={12} sm={6} md={4} lg={4} key={asset._id}>
-                  <MusicAsset asset={asset} />
-                </Grid>
-              ))}
+              {musicAssets &&
+                musicAssets.map((asset: any) => (
+                  <Grid item xs={12} sm={6} md={4} lg={4} key={asset._id}>
+                    <MusicAsset asset={asset} />
+                  </Grid>
+                ))}
             </Grid>
           </TabPanel>
           <TabPanel>
             <Grid container className="wrapperMusicAssets">
-              {musicAssets && musicAssets.map((asset: any) => (
-                <Grid item xs={12} sm={6} md={4} lg={4} key={asset._id}>
-                  <MusicAsset asset={asset} />
-                </Grid>
-              ))}
+              {musicAssets &&
+                musicAssets.map((asset: any) => (
+                  <Grid item xs={12} sm={6} md={4} lg={4} key={asset._id}>
+                    <MusicAsset asset={asset} />
+                  </Grid>
+                ))}
             </Grid>
           </TabPanel>
         </Tabs>
@@ -52,7 +54,7 @@ class MusicAssets extends React.Component<IProps> {
 }
 const mapStateToProps = (state: any) => {
   return {
-    musicAssets: state.asset.musicAssets,
+    musicAssets: state.asset.musicAssets
   };
 };
 // const mapDispatchToProps = (dispatch: any) => {

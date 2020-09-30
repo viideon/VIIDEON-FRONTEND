@@ -22,12 +22,12 @@ import VerifySuccessModal from "../../components/Modals/verifySuccessModal";
 import Colors from "../../constants/colors";
 import "./style.css";
 
-import EmailIcon from '@material-ui/icons/Email';
-import LockIcon from '@material-ui/icons/Lock';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import EmailIcon from "@material-ui/icons/Email";
+import LockIcon from "@material-ui/icons/Lock";
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 
-import whiteLogo from "../../assets/logo.png"
-import atom from "../../assets/atom.png"
+import whiteLogo from "../../assets/logo.png";
+import atom from "../../assets/atom.png";
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()
@@ -83,7 +83,7 @@ class Signin extends React.Component<IProps, IState> {
     if (
       this.props.verifyState &&
       JSON.stringify(prevProps.verifyState) !==
-      JSON.stringify(this.props.verifyState) &&
+        JSON.stringify(this.props.verifyState) &&
       this.props.verifyState.VerifySuccess
     ) {
       this.setState({ verifySuccessModals: true });
@@ -129,17 +129,19 @@ class Signin extends React.Component<IProps, IState> {
                 <img src={whiteLogo} />
                 VideonPro
               </div>
-              <div style={{
-                position: "fixed",
-                bottom: "-13%",
-                left: "-3%",
-                opacity: "0.5",
-              }}>
-                <img style={{ width: '30%'}} src={atom} />
+              <div
+                style={{
+                  position: "fixed",
+                  bottom: "-13%",
+                  left: "-3%",
+                  opacity: "0.5"
+                }}
+              >
+                <img style={{ width: "30%" }} src={atom} />
               </div>
             </div>
           </Grid>
-          <Grid item xs={12} md={5} sm={12} style={{ zIndex: 123123123}}>
+          <Grid item xs={12} md={5} sm={12} style={{ zIndex: 123123123 }}>
             <div className="secondLayoutMainContainer">
               <p className="loginTwo">{Constants.LOGIN}</p>
               <p className="loginDescription">{Constants.ENTER_DETAILS}</p>
@@ -181,20 +183,21 @@ class Signin extends React.Component<IProps, IState> {
                 {formik => (
                   <>
                     <div className="formGroups">
-                      <Grid container spacing={2} alignItems="center" >
-                      <Grid md={1} sm={2} xs={2} item>
-                        <EmailIcon />
+                      <Grid container spacing={2} alignItems="center">
+                        <Grid md={1} sm={2} xs={2} item>
+                          <EmailIcon />
+                        </Grid>
+                        <Grid md={10} sm={10} xs={10} item>
+                          <InputRoundIcon
+                            type="email"
+                            placeholder="Email Address"
+                            name="email"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.email}
+                          />
+                        </Grid>
                       </Grid>
-                      <Grid md={10} sm={10} xs={10} item>
-                        <InputRoundIcon 
-                          type="email"
-                          placeholder="Email Address" 
-                          name="email" onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.email} 
-                        />
-                      </Grid>
-                    </Grid>
                     </div>
 
                     {formik.errors.email && formik.touched.email && (
@@ -202,29 +205,35 @@ class Signin extends React.Component<IProps, IState> {
                     )}
 
                     <div className="formGroups">
-                      <Grid container spacing={2} alignItems="center" >
-                      <Grid md={1} sm={2} xs={2} item>
-                        <LockIcon />
+                      <Grid container spacing={2} alignItems="center">
+                        <Grid md={1} sm={2} xs={2} item>
+                          <LockIcon />
+                        </Grid>
+                        <Grid md={10} sm={10} xs={10} item>
+                          <InputRoundIcon
+                            type="password"
+                            placeholder="Password"
+                            name="password"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.password}
+                          />
+                        </Grid>
                       </Grid>
-                      <Grid md={10} sm={10} xs={10} item>
-                        <InputRoundIcon 
-                          type="password"
-                          placeholder="Password" 
-                          name="password" 
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.password} 
-                        />
-                      </Grid>
-                    </Grid>
                     </div>
 
                     {formik.errors.password && formik.touched.password && (
                       <Alert severity="warning">{formik.errors.password}</Alert>
                     )}
                     <div className="btnBottomWrapper">
-                      <p className="forgotPassword" onClick={() => this.props.history.push("/forgotpassword")} >
-                        Forgot your password <ArrowForwardIcon fontSize="small" />
+                      <p
+                        className="forgotPassword"
+                        onClick={() =>
+                          this.props.history.push("/forgotpassword")
+                        }
+                      >
+                        Forgot your password{" "}
+                        <ArrowForwardIcon fontSize="small" />
                       </p>
                     </div>
                     <div className="loginBtnWrapper">
@@ -232,12 +241,16 @@ class Signin extends React.Component<IProps, IState> {
                         name={Constants.LOGIN}
                         onClick={formik.handleSubmit}
                         round={false}
-                        style={{ 
-                          marginTop: 18, background: Colors.themePurple, color: Colors.white, width: "80%",
-                          backgroundImage: "linear-gradient(to right, #fcb317, #8bb589, #61b5b3)",
+                        style={{
+                          marginTop: 18,
+                          background: Colors.themePurple,
+                          color: Colors.white,
+                          width: "80%",
+                          backgroundImage:
+                            "linear-gradient(to right, #fcb317, #8bb589, #61b5b3)",
                           fontFamily: "Poppins",
-                          fontWeight: 'bolder',
-                          fontSize: 'larger',
+                          fontWeight: "bolder",
+                          fontSize: "larger"
                         }}
                       />
                     </div>

@@ -40,7 +40,6 @@
   margin-top: 0%;
   align-items: center;
   justify-content: center;
-
 }
 .detailCardHeader {
   display: flex;
@@ -48,7 +47,6 @@
   justify-content: baseline;
   align-items: center;
   margin-left: 10px;
-
 }
 .CardMain .MuiLinearProgress-barColorPrimary {
   background-color: #d3d3d3 !important;

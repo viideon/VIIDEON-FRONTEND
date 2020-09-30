@@ -1,1 +1,11 @@
-{"web":{"client_id":"685869201660-5oorcvakepja90lmejbe74jtcjjd1r2q.apps.googleusercontent.com","project_id":"quickstart-1593015439513","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"7NKl5384gOqHy-e8l2HW4jEy","javascript_origins":["http://localhost:8000"]}}
+{
+  "web": {
+    "client_id": "685869201660-5oorcvakepja90lmejbe74jtcjjd1r2q.apps.googleusercontent.com",
+    "project_id": "quickstart-1593015439513",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": "7NKl5384gOqHy-e8l2HW4jEy",
+    "javascript_origins": ["http://localhost:8000"]
+  }
+}

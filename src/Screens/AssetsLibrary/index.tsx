@@ -88,8 +88,8 @@ const Asset = ({ asset, deleteAsset, isDeletingAsset }: any) => {
           alt="asset"
         />
       ) : (
-          <img src={asset.url} className="imgAssetLib" alt="asset" />
-        )}
+        <img src={asset.url} className="imgAssetLib" alt="asset" />
+      )}
       <button
         onClick={openDeleteDialog}
         className={showDeleteBtn ? "showDeleteBtn" : "hideDeleteBtn"}

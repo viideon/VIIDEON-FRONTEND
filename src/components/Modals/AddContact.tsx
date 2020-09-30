@@ -16,8 +16,13 @@ interface IProps {
 class AddContact extends React.Component<IProps> {
   render() {
     return (
-      <Dialog open={this.props.open} onClose={this.props.toggle} fullWidth maxWidth="md">
-        <DialogTitle >Add Contact</DialogTitle>
+      <Dialog
+        open={this.props.open}
+        onClose={this.props.toggle}
+        fullWidth
+        maxWidth="md"
+      >
+        <DialogTitle>Add Contact</DialogTitle>
         <DialogContent>
           <div style={{ display: "flex", flexWrap: "wrap" }}>
             <TextField
@@ -113,10 +118,18 @@ class AddContact extends React.Component<IProps> {
           />
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" color="default" onClick={this.props.toggle}>
+          <Button
+            variant="contained"
+            color="default"
+            onClick={this.props.toggle}
+          >
             Close
           </Button>
-          <Button variant="contained" color="primary" onClick={() => alert("Save")}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => alert("Save")}
+          >
             Save
           </Button>
         </DialogActions>

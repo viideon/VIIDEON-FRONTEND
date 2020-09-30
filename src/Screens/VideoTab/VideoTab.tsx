@@ -2,25 +2,20 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { getVideo, cleanSingleVideo } from "../../Redux/Actions/videos";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import 'react-tabs/style/react-tabs.css';
-import {
-  FaInfo,
-  FaChartLine,
-  FaCut,
-  FaShare
-} from "react-icons/fa";
+import "react-tabs/style/react-tabs.css";
+import { FaInfo, FaChartLine, FaCut, FaShare } from "react-icons/fa";
 import VideoTabHeader from "./Header";
 import Detail from "./Detail";
 import Editing from "./Editing";
 import Share from "./Share";
 import Analytics from "./Analytics";
-import Header from '../../components/Header/Header';
+import Header from "../../components/Header/Header";
 import "./style.css";
 
 const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
   const [isDisabled, enableLinks] = useState(true);
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
   }, []);
   useEffect(() => {
     getVideo(params.id);
@@ -37,12 +32,32 @@ const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
         <br />
         <br />
         <VideoTabHeader />
-        <Tabs >
+        <Tabs>
           <TabList>
-            <Tab><span className="videoTabIcon"><FaCut /></span>Editing</Tab>
-            <Tab disabled={isDisabled}><span className="videoTabIcon"><FaInfo /></span>Details</Tab>
-            <Tab disabled={isDisabled}><span className="videoTabIcon"><FaChartLine /></span>Analytics</Tab>
-            <Tab disabled={isDisabled}><span className="videoTabIcon"><FaShare /></span>Share</Tab>
+            <Tab>
+              <span className="videoTabIcon">
+                <FaCut />
+              </span>
+              Editing
+            </Tab>
+            <Tab disabled={isDisabled}>
+              <span className="videoTabIcon">
+                <FaInfo />
+              </span>
+              Details
+            </Tab>
+            <Tab disabled={isDisabled}>
+              <span className="videoTabIcon">
+                <FaChartLine />
+              </span>
+              Analytics
+            </Tab>
+            <Tab disabled={isDisabled}>
+              <span className="videoTabIcon">
+                <FaShare />
+              </span>
+              Share
+            </Tab>
           </TabList>
           <TabPanel forceRender>
             <Editing videoId={params.id} />

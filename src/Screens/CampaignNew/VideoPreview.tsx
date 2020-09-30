@@ -32,7 +32,16 @@ class VideoPreview extends React.Component<IProps> {
             </div>
           )}
           <div className="btnSingleWrap">
-            <ThemeButton onClick={this.props.moveToNextStep} name="Proceed" style={{ backgroundColor: Colors.themeBlue, color: Colors.white, marginTop: "30px", width: "150px" }} />
+            <ThemeButton
+              onClick={this.props.moveToNextStep}
+              name="Proceed"
+              style={{
+                backgroundColor: Colors.themeBlue,
+                color: Colors.white,
+                marginTop: "30px",
+                width: "150px"
+              }}
+            />
           </div>
         </Grid>
         <Grid item xs={1} sm={1} md={3} lg={3}></Grid>

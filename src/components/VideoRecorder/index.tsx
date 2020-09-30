@@ -4,7 +4,7 @@ import { Tooltip } from "@material-ui/core";
 import { Select, MenuItem, InputLabel } from "@material-ui/core";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import Counter from "./Counter";
-import Button from '../Reusable/ActionButton';
+import Button from "../Reusable/ActionButton";
 import "./style.css";
 
 const hasGetUserMedia = !!navigator.getUserMedia;
@@ -32,8 +32,8 @@ class Recording extends React.Component<IProps> {
     showStopBtn: false,
     showNotSupported: false,
     deniedPermission: false,
-    pause: false,
-  }
+    pause: false
+  };
   recordVideo: any;
   video: any;
   localStream: any;
@@ -57,7 +57,7 @@ class Recording extends React.Component<IProps> {
     }
     this.video = this.refs.video;
     this.requestUserMedia();
-  }
+  };
   captureUserMedia = (callback: any) => {
     const params: any = {
       video: {
@@ -80,7 +80,7 @@ class Recording extends React.Component<IProps> {
         });
       }
     });
-  }
+  };
 
   requestUserMedia = () => {
     this.captureUserMedia((stream: any) => {
@@ -92,7 +92,7 @@ class Recording extends React.Component<IProps> {
       this.video.srcObject = this.localStream;
       this.setState({ isConnecting: false });
     });
-  }
+  };
 
   handleRecording = () => {
     this.setState({
@@ -101,7 +101,7 @@ class Recording extends React.Component<IProps> {
       showQualityInput: false
     });
     setTimeout(() => this.startRecord(), 3000);
-  }
+  };
   startRecord = () => {
     this.setState({
       showCountdown: false,
@@ -114,7 +114,7 @@ class Recording extends React.Component<IProps> {
     this.setState({
       timerTimeout: setInterval(this.trackTime, 1000)
     });
-  }
+  };
 
   stopRecord = () => {
     clearInterval(this.state.timerTimeout);
@@ -125,12 +125,12 @@ class Recording extends React.Component<IProps> {
       showStopBtn: false
     });
     this.stopAndGetBlob();
-  }
+  };
 
   stopAndGetBlob = () => {
     let that = this;
     this.recordVideo.stopRecording(() => {
-      window.getSeekableBlob(this.recordVideo.getBlob(), function (
+      window.getSeekableBlob(this.recordVideo.getBlob(), function(
         seekableBlob: any
       ) {
         that.stopStream();
@@ -142,22 +142,22 @@ class Recording extends React.Component<IProps> {
         recordingStatus: false
       });
     });
-  }
+  };
 
   trackTime = () => {
     this.setState({
       count: this.state.count + 1
     });
-  }
+  };
 
   stopStream = () => {
     this.localStream &&
-      this.localStream.getTracks().forEach(function (track: any) {
+      this.localStream.getTracks().forEach(function(track: any) {
         track.stop();
       });
     this.video.srcObect = null;
     this.localStream = null;
-  }
+  };
   setQuality = (e: any) => {
     let value = e.target.value;
     if (value === 1) {
@@ -176,22 +176,22 @@ class Recording extends React.Component<IProps> {
         this.setupMedia();
       });
     }
-  }
+  };
   componentWillUnmount() {
     this.stopStream();
   }
 
   pauseRecorder = () => {
     const { pause } = this.state;
-    if(!pause) {
+    if (!pause) {
       this.recordVideo.pauseRecording();
       clearInterval(this.state.timerTimeout);
     } else {
       this.recordVideo.resumeRecording();
-      this.setState({timerTimeout: setInterval(this.trackTime, 1000)});
+      this.setState({ timerTimeout: setInterval(this.trackTime, 1000) });
     }
-    this.setState({ pause: !pause })
-  }
+    this.setState({ pause: !pause });
+  };
   render() {
     const {
       count,
@@ -267,27 +267,26 @@ class Recording extends React.Component<IProps> {
             </span>
           )}
           {/* {showRecordBtn && !isConnecting && ( */}
-            <Tooltip title="Record" placement="top" arrow>
-              <button
-                className="recordingBtn"
-                onClick={() => showRecordBtn && this.handleRecording()}
-              />
-            </Tooltip>
+          <Tooltip title="Record" placement="top" arrow>
+            <button
+              className="recordingBtn"
+              onClick={() => showRecordBtn && this.handleRecording()}
+            />
+          </Tooltip>
           {/* {showStopBtn && ( */}
-            <div className="stopBtnWrapper">
-              <button
-                className="stopBtn"
-                onClick={() => !showRecordBtn && this.stopRecord()}
-              ></button>
-            </div>
-            <div className="pauseBtnWrapper" onClick={() => showStopBtn && this.pauseRecorder()} >
-              <div
-                className="pauseBtn"
-              ></div>
-              <div
-                className="pauseBtn"
-              ></div>
-            </div>
+          <div className="stopBtnWrapper">
+            <button
+              className="stopBtn"
+              onClick={() => !showRecordBtn && this.stopRecord()}
+            ></button>
+          </div>
+          <div
+            className="pauseBtnWrapper"
+            onClick={() => showStopBtn && this.pauseRecorder()}
+          >
+            <div className="pauseBtn"></div>
+            <div className="pauseBtn"></div>
+          </div>
           {/* )} */}
         </div>
         {showQualityInput && (
@@ -305,8 +304,41 @@ class Recording extends React.Component<IProps> {
               </Select>
             </div>
             <div className="btnWrapper">
-              <Button id="reset" text="Reset" onClick={() => { alert()}} style={{ fontWeight: 'bold', fontSize: 'larger', width: '80px', borderRadius: '6px', fontFamily: 'Poppins', fontWaight: 'bold'  }} color="#FFFFFF" bgColor="#FF404E" />
-              <Button id="done" text="Done" onClick={() => { alert()}} style={{ fontWeight: 'bold', fontSize: 'larger', width: '180px', borderRadius: '6px', fontFamily: 'Poppins', fontWaight: 'bold', backgroundImage: 'linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))' }}  color="#FFFFFF" />
+              <Button
+                id="reset"
+                text="Reset"
+                onClick={() => {
+                  alert();
+                }}
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "larger",
+                  width: "80px",
+                  borderRadius: "6px",
+                  fontFamily: "Poppins",
+                  fontWaight: "bold"
+                }}
+                color="#FFFFFF"
+                bgColor="#FF404E"
+              />
+              <Button
+                id="done"
+                text="Done"
+                onClick={() => {
+                  alert();
+                }}
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "larger",
+                  width: "180px",
+                  borderRadius: "6px",
+                  fontFamily: "Poppins",
+                  fontWaight: "bold",
+                  backgroundImage:
+                    "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"
+                }}
+                color="#FFFFFF"
+              />
             </div>
           </div>
         )}

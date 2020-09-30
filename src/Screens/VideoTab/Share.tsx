@@ -15,7 +15,7 @@ import {
   sendMultipleEmails
 } from "../../Redux/Actions/videos";
 import { EmailVideo, MultiEmail } from "../../Redux/Types/videos";
-import "./style.css"
+import "./style.css";
 
 interface IProps {
   sendMultipleEmail: (emailVideoOnj: any) => void;

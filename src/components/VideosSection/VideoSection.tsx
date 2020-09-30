@@ -165,38 +165,38 @@ class VideoSection extends Component<IProps> {
               ))}
           </Grid>
         ) : (
-            <div className="listWrapper">
-              <table className="tableList">
-                <thead>
-                  <tr>
-                    {/* <th>
+          <div className="listWrapper">
+            <table className="tableList">
+              <thead>
+                <tr>
+                  {/* <th>
                     <Checkbox color="primary" />
                   </th> */}
-                    <th>Video</th>
-                    <th>Title</th>
-                    <th>Tags</th>
-                    <th>Created at</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {userVideos &&
-                    userVideos.map((video: any) => (
-                      <ListViewCard
-                        key={video._id}
-                        date={video.date}
-                        title={video.title}
-                        thumbnail={video.thumbnail}
-                        deletingVideo={this.props.deletingVideo}
-                        deleteVideo={this.deleteVideo}
-                        id={video._id}
-                        navigateToVideo={this.navigateToVideoTab}
-                      />
-                    ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+                  <th>Video</th>
+                  <th>Title</th>
+                  <th>Tags</th>
+                  <th>Created at</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {userVideos &&
+                  userVideos.map((video: any) => (
+                    <ListViewCard
+                      key={video._id}
+                      date={video.date}
+                      title={video.title}
+                      thumbnail={video.thumbnail}
+                      deletingVideo={this.props.deletingVideo}
+                      deleteVideo={this.deleteVideo}
+                      id={video._id}
+                      navigateToVideo={this.navigateToVideoTab}
+                    />
+                  ))}
+              </tbody>
+            </table>
+          </div>
+        )}
         <div className="loadMoreWrapper">{loadingVideos && <Loading />}</div>
         <div className="loadMoreWrapper">
           {this.props.loadMore && (

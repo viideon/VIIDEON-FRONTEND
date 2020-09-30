@@ -13,8 +13,8 @@ import { forgotPassword } from "../../Redux/Actions/auth";
 import Colors from "../../constants/colors";
 import "./style.css";
 
-import whiteLogo from '../../assets/logo.png'
-import atom from '../../assets/atom.png'
+import whiteLogo from "../../assets/logo.png";
+import atom from "../../assets/atom.png";
 const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email("Enter Correct Email")
@@ -72,13 +72,15 @@ class ForgotPassword extends React.Component<IProps, IState> {
                 <img src={whiteLogo} />
                 VideonPro
               </div>
-              <div style={{
-                position: "fixed",
-                bottom: "-13%",
-                left: "-3%",
-                opacity: "0.5",
-              }}>
-                <img style={{ width: '30%'}} src={atom} />
+              <div
+                style={{
+                  position: "fixed",
+                  bottom: "-13%",
+                  left: "-3%",
+                  opacity: "0.5"
+                }}
+              >
+                <img style={{ width: "30%" }} src={atom} />
               </div>
             </div>
           </Grid>
@@ -138,12 +140,16 @@ class ForgotPassword extends React.Component<IProps, IState> {
                         round={false}
                         name="Submit"
                         onClick={formik.handleSubmit}
-                        style={{ 
-                          marginTop: 18, background: Colors.themePurple, color: Colors.white, width: "80%",
-                          backgroundImage: "linear-gradient(to right, #fcb317, #8bb589, #61b5b3)",
+                        style={{
+                          marginTop: 18,
+                          background: Colors.themePurple,
+                          color: Colors.white,
+                          width: "80%",
+                          backgroundImage:
+                            "linear-gradient(to right, #fcb317, #8bb589, #61b5b3)",
                           fontFamily: "Poppins",
-                          fontWeight: 'bolder',
-                          fontSize: 'larger',
+                          fontWeight: "bolder",
+                          fontSize: "larger"
                         }}
                         // style={{ marginTop: 18, minWidth: "150px", backgroundColor: Colors.themePurple, color: Colors.white }}
                       />

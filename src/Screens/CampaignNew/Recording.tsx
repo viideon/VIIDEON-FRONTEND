@@ -34,7 +34,7 @@ class Recording extends React.Component<IProps> {
     selectValue: 1,
     showQualityInput: true,
     currentStep: 1,
-    totalSteps: 1,
+    totalSteps: 1
   };
   recordVideo: any;
   video: any;
@@ -46,8 +46,8 @@ class Recording extends React.Component<IProps> {
     this.intializeRecordingTemplate();
   }
   intializeRecordingTemplate = () => {
-    this.setState({ totalSteps: this.props.template.totalSteps })
-  }
+    this.setState({ totalSteps: this.props.template.totalSteps });
+  };
   setupMedia = () => {
     this.setState({ isConnecting: true });
     if (!hasGetUserMedia) {
@@ -137,7 +137,7 @@ class Recording extends React.Component<IProps> {
       this.stopStream();
       let that = this;
       this.recordVideo.stopRecording(() => {
-        window.getSeekableBlob(this.recordVideo.getBlob(), function (
+        window.getSeekableBlob(this.recordVideo.getBlob(), function(
           seekableBlob: any
         ) {
           that.props.saveVideo(seekableBlob);
@@ -153,21 +153,30 @@ class Recording extends React.Component<IProps> {
   showRecInstructions = () => {
     let { currentStep } = this.state;
     let { template } = this.props;
-    return <div className="instructionWrapper">
-      <h3 className="instructionHeading">
-        {template.steps[currentStep - 1].title}
-      </h3>
-      <div className="wrapperStep">
-        <div className="wrapperStepHeader"><p>{template.steps[currentStep - 1].description}</p></div>
-        <div className="wrapperStepExamples"> <p className="exampleTxt">Example</p>
-          <ul>
-            {template.steps[currentStep - 1].examples.map((example: string, index: number) => {
-              return <li key={index}>{example}</li>
-            })}
-          </ul></div>
+    return (
+      <div className="instructionWrapper">
+        <h3 className="instructionHeading">
+          {template.steps[currentStep - 1].title}
+        </h3>
+        <div className="wrapperStep">
+          <div className="wrapperStepHeader">
+            <p>{template.steps[currentStep - 1].description}</p>
+          </div>
+          <div className="wrapperStepExamples">
+            {" "}
+            <p className="exampleTxt">Example</p>
+            <ul>
+              {template.steps[currentStep - 1].examples.map(
+                (example: string, index: number) => {
+                  return <li key={index}>{example}</li>;
+                }
+              )}
+            </ul>
+          </div>
+        </div>
       </div>
-    </div>
-  }
+    );
+  };
   trackTime = () => {
     this.setState({
       count: this.state.count + 1
@@ -181,7 +190,7 @@ class Recording extends React.Component<IProps> {
   };
   stopStream = () => {
     this.localStream &&
-      this.localStream.getTracks().forEach(function (track: any) {
+      this.localStream.getTracks().forEach(function(track: any) {
         track.stop();
       });
     this.video.srcObect = null;

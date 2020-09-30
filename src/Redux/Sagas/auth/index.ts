@@ -2,7 +2,13 @@ import { put, takeEvery } from "redux-saga/effects";
 import { push } from "react-router-redux";
 import { types } from "../../Types/auth";
 import { types as profileTypes } from "../../Types/profile";
-import { verifyApi, forgotPasswordApi, resetPasswordApi, resendVerifyEmailApi, loginUserApi } from "./api";
+import {
+  verifyApi,
+  forgotPasswordApi,
+  resetPasswordApi,
+  resendVerifyEmailApi,
+  loginUserApi
+} from "./api";
 import { toast } from "react-toastify";
 function* loginUser(action: any) {
   try {
@@ -11,25 +17,28 @@ function* loginUser(action: any) {
       yield put({ type: types.LOGIN_SUCCESS, payload: result.data });
       yield put({
         type: profileTypes.ADD_PROFILE_DATA,
-        payload: result.data,
+        payload: result.data
       });
       yield put(push("/"));
     } else if (result.status === 410) {
       yield put({
         type: types.LOGIN_FAILURE,
-        payload: { message: result.data.message, isEmailNotVerified: true },
+        payload: { message: result.data.message, isEmailNotVerified: true }
       });
       toast.error(result.data.message);
     } else {
       yield put({
         type: types.LOGIN_FAILURE,
-        payload: { isEmailNotVerified: false },
+        payload: { isEmailNotVerified: false }
       });
       toast.error(result.data.message);
     }
   } catch (error) {
     if (error.response.status === 410) {
-      yield put({ type: types.LOGIN_FAILURE, payload: { isEmailNotVerified: true }, });
+      yield put({
+        type: types.LOGIN_FAILURE,
+        payload: { isEmailNotVerified: true }
+      });
     } else if (error.response) {
       const errorMessage = error.response.data.message;
       toast.error(errorMessage);
@@ -51,12 +60,12 @@ function* verifyUser(action: any) {
     if (result.status === 201) {
       yield put({
         type: types.VERIFY_SUCCESS,
-        payload: result.data.message,
+        payload: result.data.message
       });
     } else {
       yield put({
         type: types.VERIFY_FAILURE,
-        payload: result.data.message,
+        payload: result.data.message
       });
       toast.error(result.data.message);
     }
@@ -83,12 +92,12 @@ function* forgotPassword(action: any) {
       toast.success("Reset Password link sent on given email");
       yield put({
         type: types.FORGOT_SUCCESS,
-        payload: result.data,
+        payload: result.data
       });
       yield put({ type: types.RESET_FORGOT_SUCCESS_VARIABLE });
     } else {
       yield put({
-        type: types.FORGOT_FAILURE,
+        type: types.FORGOT_FAILURE
       });
       toast.error(result.data.message);
     }
@@ -115,11 +124,11 @@ function* resendEmailSagas(action: any) {
     if (result.status === 201) {
       toast.info("Verification link has been sent");
       yield put({
-        type: types.RESEND_EMAIL_SUCCESS,
+        type: types.RESEND_EMAIL_SUCCESS
       });
     } else {
       yield put({
-        type: types.RESEND_EMAIL_FAILURE,
+        type: types.RESEND_EMAIL_FAILURE
       });
       toast.error(result.data.message);
     }
@@ -146,11 +155,11 @@ function* resetPassword(action: any) {
       toast.success("Password changed successfully");
       yield put({
         type: types.RESET_SUCCESS,
-        payload: result.data,
+        payload: result.data
       });
     } else {
       yield put({
-        type: types.RESET_FAILURE,
+        type: types.RESET_FAILURE
       });
       toast.error(result.data.message);
     }

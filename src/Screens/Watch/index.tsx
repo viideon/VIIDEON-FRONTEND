@@ -22,7 +22,7 @@ class Watch extends React.Component<IProps> {
   container: any;
   state = {
     height: "100px"
-  }
+  };
   componentDidMount() {
     this.container = this.refs.container;
     this.props.getVideo(this.props.match.params.id);
@@ -32,9 +32,12 @@ class Watch extends React.Component<IProps> {
     window.addEventListener("resize", this.caluclateContainerHeight);
   }
   caluclateContainerHeight = () => {
-    let calculatedVideoHeight = document.getElementById("wrapperWatch")?.clientWidth ? `${document.getElementById('wrapperWatch')!.clientWidth * 0.5625}px` : "300px";
+    let calculatedVideoHeight = document.getElementById("wrapperWatch")
+      ?.clientWidth
+      ? `${document.getElementById("wrapperWatch")!.clientWidth * 0.5625}px`
+      : "300px";
     this.setState({ height: calculatedVideoHeight });
-  }
+  };
   watched = () => {
     const _id = { id: this.props.match.params.id };
     this.props.updateVideoWatch(_id);

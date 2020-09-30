@@ -55,7 +55,7 @@ class Profile extends Component<IProps, IState> {
       title: this.props.profile!.user!.title || "",
       affiliateId: this.props.profile!.user!.affiliateId || "",
       url: this.props.profile!.user!.url || "",
-      avatarUploading: false,
+      avatarUploading: false
     };
   }
 
@@ -144,7 +144,7 @@ class Profile extends Component<IProps, IState> {
         );
       };
     };
-  }
+  };
   saveLogo = (logoBlob: any) => {
     return new Promise((resolve, reject) => {
       const logoOptions = {
@@ -190,12 +190,12 @@ class Profile extends Component<IProps, IState> {
                 id="profileImgStyle"
               />
             ) : (
-                <img
-                  src={this.state.url ? this.state.url : profileImg}
-                  alt="profileImg"
-                  id="profileImgStyle"
-                />
-              )}
+              <img
+                src={this.state.url ? this.state.url : profileImg}
+                alt="profileImg"
+                id="profileImgStyle"
+              />
+            )}
             <div className="progressEditing">
               {avatarUploading && <Loading />}
             </div>
@@ -204,7 +204,7 @@ class Profile extends Component<IProps, IState> {
             <div className="profileImgLabelWrap">
               <div className="profileBtn">
                 SELECT NEW PHOTO
-              <input
+                <input
                   type="file"
                   id="profileSelectInput"
                   onChange={this.fileHandler}
@@ -228,7 +228,7 @@ class Profile extends Component<IProps, IState> {
                   fullWidth
                   margin="normal"
                   InputLabelProps={{
-                    shrink: true,
+                    shrink: true
                   }}
                 />
                 <TextField
@@ -239,7 +239,7 @@ class Profile extends Component<IProps, IState> {
                   fullWidth
                   margin="normal"
                   InputLabelProps={{
-                    shrink: true,
+                    shrink: true
                   }}
                 />
                 <TextField
@@ -250,7 +250,7 @@ class Profile extends Component<IProps, IState> {
                   fullWidth
                   margin="normal"
                   InputLabelProps={{
-                    shrink: true,
+                    shrink: true
                   }}
                 />
                 <TextField
@@ -261,10 +261,9 @@ class Profile extends Component<IProps, IState> {
                   fullWidth
                   margin="normal"
                   InputLabelProps={{
-                    shrink: true,
+                    shrink: true
                   }}
                 />
-
 
                 <TextField
                   name="mobileNumber"
@@ -275,7 +274,7 @@ class Profile extends Component<IProps, IState> {
                   margin="normal"
                   type="text"
                   InputLabelProps={{
-                    shrink: true,
+                    shrink: true
                   }}
                 />
                 <TextField
@@ -286,10 +285,10 @@ class Profile extends Component<IProps, IState> {
                   value={this.state.timeZone}
                   onChange={this.onChange}
                   InputLabelProps={{
-                    shrink: true,
+                    shrink: true
                   }}
                   SelectProps={{
-                    native: true,
+                    native: true
                   }}
                 >
                   {Object.entries(TimeZone).map((key: any, value) => {
@@ -310,7 +309,7 @@ class Profile extends Component<IProps, IState> {
                   margin="normal"
                   type="text"
                   InputLabelProps={{
-                    shrink: true,
+                    shrink: true
                   }}
                 />
                 <TextField
@@ -322,7 +321,7 @@ class Profile extends Component<IProps, IState> {
                   margin="normal"
                   type="text"
                   InputLabelProps={{
-                    shrink: true,
+                    shrink: true
                   }}
                 />
                 <TextField
@@ -334,17 +333,22 @@ class Profile extends Component<IProps, IState> {
                   fullWidth
                   margin="normal"
                   InputLabelProps={{
-                    shrink: true,
+                    shrink: true
                   }}
                   style={{ marginBottom: "30px" }}
                 />
 
-                <ThemeButton style={{ backgroundColor: "rgb(34, 185, 255)", color: "#fff" }} onClick={() => this.update()} name={`${Constants.UPDATE}`} />
+                <ThemeButton
+                  style={{
+                    backgroundColor: "rgb(34, 185, 255)",
+                    color: "#fff"
+                  }}
+                  onClick={() => this.update()}
+                  name={`${Constants.UPDATE}`}
+                />
               </div>
 
-              <div className="progressEditing">
-                {loading && <Loading />}
-              </div>
+              <div className="progressEditing">{loading && <Loading />}</div>
             </Grid>
             <Grid xs={1} sm={1} md={2} lg={2} item></Grid>
           </Grid>

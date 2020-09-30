@@ -1,8 +1,8 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import Alert from '@material-ui/lab/Alert';
+import Alert from "@material-ui/lab/Alert";
 import Label from "../../components/Reusable/Label";
-import ThemeButton from "../../components/ThemeButton"
+import ThemeButton from "../../components/ThemeButton";
 import { toast } from "react-toastify";
 import InputRound from "../../components/InputRound/InputRoundIcon";
 import { connect } from "react-redux";
@@ -16,8 +16,8 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import Colors from "../../constants/colors";
 
-import whiteLogo from "../../assets/logo.png"
-import atom from "../../assets/atom.png"
+import whiteLogo from "../../assets/logo.png";
+import atom from "../../assets/atom.png";
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()
@@ -59,7 +59,7 @@ class Signup extends React.Component<IProps, IState> {
     if (
       nextProps.registerUser.isSignupSuccess &&
       nextProps.registerUser.isSignupSuccess !==
-      this.props.registerUser.isSignupSuccess
+        this.props.registerUser.isSignupSuccess
     ) {
       this.props.history.push("/");
     }
@@ -89,13 +89,15 @@ class Signup extends React.Component<IProps, IState> {
                 <img src={whiteLogo} />
                 VideonPro
               </div>
-              <div style={{
-                position: "fixed",
-                bottom: "-13%",
-                left: "-3%",
-                opacity: "0.5",
-              }}>
-                <img style={{ width: '30%'}} src={atom} />
+              <div
+                style={{
+                  position: "fixed",
+                  bottom: "-13%",
+                  left: "-3%",
+                  opacity: "0.5"
+                }}
+              >
+                <img style={{ width: "30%" }} src={atom} />
               </div>
             </div>
           </Grid>
@@ -172,12 +174,16 @@ class Signup extends React.Component<IProps, IState> {
                             )
                           }
                           round={false}
-                          style={{ 
-                            marginTop: 18, background: Colors.themePurple, color: Colors.white, width: "60%",
-                            backgroundImage: "linear-gradient(to right, #fcb317, #8bb589, #61b5b3)",
+                          style={{
+                            marginTop: 18,
+                            background: Colors.themePurple,
+                            color: Colors.white,
+                            width: "60%",
+                            backgroundImage:
+                              "linear-gradient(to right, #fcb317, #8bb589, #61b5b3)",
                             fontFamily: "Poppins",
-                            fontWeight: 'bolder',
-                            fontSize: 'larger',
+                            fontWeight: "bolder",
+                            fontSize: "larger"
                           }}
                           // style={{ backgroundColor: Colors.themePurple, color: Colors.white, width: "150px" }}
                           name={Constants.NEXT}
@@ -218,7 +224,9 @@ class Signup extends React.Component<IProps, IState> {
                         </div>
 
                         {formik.errors.lastName && formik.touched.lastName && (
-                          <Alert severity="warning">{formik.errors.lastName}</Alert>
+                          <Alert severity="warning">
+                            {formik.errors.lastName}
+                          </Alert>
                         )}
 
                         <div className="formGroups">
@@ -234,7 +242,9 @@ class Signup extends React.Component<IProps, IState> {
                         </div>
 
                         {formik.errors.userName && formik.touched.userName && (
-                          <Alert severity="warning">{formik.errors.userName}</Alert>
+                          <Alert severity="warning">
+                            {formik.errors.userName}
+                          </Alert>
                         )}
 
                         <div className="formGroups">
@@ -250,7 +260,9 @@ class Signup extends React.Component<IProps, IState> {
                         </div>
 
                         {formik.errors.password && formik.touched.password && (
-                          <Alert severity="warning">{formik.errors.password}</Alert>
+                          <Alert severity="warning">
+                            {formik.errors.password}
+                          </Alert>
                         )}
 
                         <div className="formGroups">
@@ -277,12 +289,16 @@ class Signup extends React.Component<IProps, IState> {
                             onClick={formik.handleSubmit}
                             name={Constants.REGISTER}
                             round={false}
-                            style={{ 
-                              marginTop: 18, background: Colors.themePurple, color: Colors.white, width: "80%",
-                              backgroundImage: "linear-gradient(to right, #fcb317, #8bb589, #61b5b3)",
+                            style={{
+                              marginTop: 18,
+                              background: Colors.themePurple,
+                              color: Colors.white,
+                              width: "80%",
+                              backgroundImage:
+                                "linear-gradient(to right, #fcb317, #8bb589, #61b5b3)",
                               fontFamily: "Poppins",
-                              fontWeight: 'bolder',
-                              fontSize: 'larger',
+                              fontWeight: "bolder",
+                              fontSize: "larger"
                             }}
                           />
                         </div>

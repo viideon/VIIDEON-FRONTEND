@@ -1,6 +1,5 @@
 import API from "../../../lib/Api";
 
-
 export async function resetPasswordApi(queryObj: any) {
   return API.post("/user/resetPassword", queryObj);
 }

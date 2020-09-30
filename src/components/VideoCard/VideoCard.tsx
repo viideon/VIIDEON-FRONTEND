@@ -78,7 +78,7 @@ const VideoCard: FC<IProps> = ({
           alt="preview"
         />
       </div>
-      <Grid container style={{ padding: '10px 0px 0px 10px' }}>
+      <Grid container style={{ padding: "10px 0px 0px 10px" }}>
         <Grid item xs={10}>
           <h5 className="titleVideo">{title}</h5>
         </Grid>

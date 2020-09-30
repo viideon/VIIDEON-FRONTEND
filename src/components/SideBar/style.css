@@ -56,16 +56,16 @@
   flex-direction: row;
   align-items: center;
   padding: 10px 10px;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 .OptionIcons:hover {
   background-color: #fcb414;
   cursor: pointer;
-  color: #0F2733;
+  color: #0f2733;
 }
 .IconNameStyling {
   font-family: "Poppins", sans-serif;
-  color: #FFFFFF;
+  color: #ffffff;
   margin-left: 20px;
   font-weight: 300 !important;
   cursor: pointer;
@@ -88,7 +88,7 @@
   background-color: #fcb414;
 }
 .activeSideBar .IconNameStyling {
-  color: #0F2733
+  color: #0f2733;
 }
 
 @media only screen and (max-width: 768px) {

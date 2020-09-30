@@ -1,5 +1,10 @@
 .videonAppWrapper {
-  background-image: linear-gradient(-36deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23));
+  background-image: linear-gradient(
+    -36deg,
+    rgb(97, 181, 179),
+    rgb(97, 181, 179),
+    rgb(252, 179, 23)
+  );
   height: 100%;
   padding-top: 1em;
   overflow: hidden;
@@ -52,9 +57,9 @@
   background-color: #fdb415;
 }
 .actionsHomePage h5 {
-  font-size: 1.0em;
+  font-size: 1em;
   font-family: "Poppins";
-  color: #FFFFFF;
+  color: #ffffff;
   font-weight: 600;
 }
 .wrapperActivityHome {

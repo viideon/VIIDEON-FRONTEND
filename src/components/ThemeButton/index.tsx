@@ -14,10 +14,16 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: "#22B9FF",
       outline: "none"
     },
-    "outline": "none !important"
+    outline: "none !important"
   }
 }));
-const ThemeButton: React.FC<IProps> = ({ name, onClick, style, disabled, round }) => {
+const ThemeButton: React.FC<IProps> = ({
+  name,
+  onClick,
+  style,
+  disabled,
+  round
+}) => {
   const classes = useStyles();
   return (
     <Button

@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import storage from "redux-persist/lib/storage";
-import { types } from "../../Redux/Types/auth"
+import { types } from "../../Redux/Types/auth";
 import expireIn from "redux-persist-transform-expire-in";
 import { persistReducer } from "redux-persist";
 import registerReducer from "./register";
@@ -18,20 +18,27 @@ const rootPersistConfig = {
   storage: storage,
   whitelist: ["auth", "email", "asset"],
   blacklist: ["drawer", "video", "profile"],
-  transforms: [expireIn(expireTime, expirationKey, {})],
+  transforms: [expireIn(expireTime, expirationKey, {})]
 };
 
 const videoPersistConfig = {
-  key: 'video',
+  key: "video",
   storage: storage,
-  whitelist: ["videoCount", "viewCount", "emailShareCount", "emailOpenCount", "ctaCount", "watchCount"],
+  whitelist: [
+    "videoCount",
+    "viewCount",
+    "emailShareCount",
+    "emailOpenCount",
+    "ctaCount",
+    "watchCount"
+  ],
   blacklist: ["isVideoUpdated", "videoSaved", "videos", "singleVideo"]
-}
+};
 const profilePersistConfig = {
   key: "profile",
   storage: storage,
-  blacklist: ["loading"],
-}
+  blacklist: ["loading"]
+};
 
 const appReducer = combineReducers({
   register: registerReducer,
@@ -40,7 +47,7 @@ const appReducer = combineReducers({
   video: persistReducer(videoPersistConfig, videoReducer),
   profile: persistReducer(profilePersistConfig, profileReducer),
   email: emailReducer,
-  asset: assetReducer,
+  asset: assetReducer
 });
 
 const rootReducer = (state: any, action: any) => {
@@ -50,7 +57,7 @@ const rootReducer = (state: any, action: any) => {
     state = undefined;
   }
   return appReducer(state, action);
-}
+};
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
 export default persistedReducer;

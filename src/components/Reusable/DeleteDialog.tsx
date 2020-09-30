@@ -1,5 +1,13 @@
 import React from "react";
-import { CircularProgress, Button, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText } from "@material-ui/core"
+import {
+  CircularProgress,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  DialogContentText
+} from "@material-ui/core";
 
 interface IProps {
   deleteVideo: (id?: string) => void;
@@ -41,10 +49,10 @@ const DeleteDialog: React.FC<IProps> = ({
             <CircularProgress size={30} />
           </span>
         ) : (
-            <Button onClick={() => deleteVideo(id)} color="primary">
-              Yes,Delete
-            </Button>
-          )}
+          <Button onClick={() => deleteVideo(id)} color="primary">
+            Yes,Delete
+          </Button>
+        )}
       </DialogActions>
     </Dialog>
   );

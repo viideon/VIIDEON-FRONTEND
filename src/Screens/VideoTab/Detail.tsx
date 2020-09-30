@@ -41,7 +41,7 @@ class Detail extends React.Component<IProps> {
     clearTimeout(this.state.typingTimeout);
     this.setState({
       description: e.target.value,
-      typingTimeout: setTimeout(function () {
+      typingTimeout: setTimeout(function() {
         that.triggerUpdate(that.state.description);
       }, 2000)
     });
@@ -63,20 +63,17 @@ class Detail extends React.Component<IProps> {
           <Grid item xs={10} sm={10} md={8}>
             <div style={{ paddingTop: "40px", paddingBottom: "40px" }}>
               <div className="progressEditing">{loading && <Loading />}</div>
-              <h6 id="descriptionLabel">
-                {Constants.DESCRIPTION}
-              </h6>
-              <textarea name="textarea" value={this.state.description}
+              <h6 id="descriptionLabel">{Constants.DESCRIPTION}</h6>
+              <textarea
+                name="textarea"
+                value={this.state.description}
                 className="descriptionTextArea"
-                onChange={this.updateDescription} />
+                onChange={this.updateDescription}
+              />
               <p>
                 {Constants.ADD_TEXT}
                 <i>
-                  <Tooltip
-                    title="Appears on video page"
-                    placement="top"
-                    arrow
-                  >
+                  <Tooltip title="Appears on video page" placement="top" arrow>
                     <span>
                       <HelpIcon />
                     </span>
