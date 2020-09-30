@@ -37,7 +37,6 @@ class Routes extends Component<IProps> {
       <Router>
         {this.props.auth.loggedInStatus === true ? (
           <>
-            <Header />
             <Switch>
               <Route exact path="/" component={Dashboard} />
               <Route exact path="/videotab/:id" component={VideoTab} />

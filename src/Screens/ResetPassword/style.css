@@ -44,6 +44,8 @@
   display: flex;
   margin-bottom: 1em;
   font-family: "Poppins", sans-serif;
+  z-index: 123;
+
 }
 .account {
   font-size: 16px;
@@ -59,6 +61,7 @@
   font-weight: bold;
   cursor: pointer;
   vertical-align: bottom;
+  z-index: 123;
 }
 .textInput {
   display: flex;
@@ -78,6 +81,8 @@
   font-size: 1.1em;
   color: #646f79;
   cursor: pointer;
+  z-index: 123;
+
 }
 .buttonWrapper {
   margin-top: 20px;
@@ -121,6 +126,8 @@
   .forgotPassword {
     padding-top: 18px;
     font-size: 13px;
+    z-index: 123;
+
   }
   .secondLayoutMainContainer {
     padding-bottom: 20px;

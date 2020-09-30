@@ -6,10 +6,10 @@ import "./style.css";
 
 const useStyles = makeStyles({
   root: {
-    "& .MuiDrawer-paper": {
-      width: "0vw",
-      display: "none"
-    },
+    // "& .MuiDrawer-paper": {
+    //   width: "0vw",
+    //   display: "none"
+    // },
     "& .MuiDrawer-root .MuiDrawer-modal .makeStyles-root-10 .MuiBackdrop-root": {
       display: "none !important"
     },
@@ -51,33 +51,27 @@ const TopDrawer: React.FC<IProps> = ({ open, toggle, history }) => {
         >
           <i className="fas fa-tachometer-alt dashboard" style={iconStyle} />
           <span className="IconNameStyling">Dashboard</span>
-          <i className="fas fa-angle-left" style={arrowIcon}></i>
         </div>
         <div className="OptionIcons" onClick={() => navigate("/videos")}>
           <i className="fab fa-microsoft" style={iconStyle} />
           <span className="IconNameStyling">My Videos</span>
-          <i className="fas fa-angle-left" style={arrowIcon}></i>
         </div>
         <div className="OptionIcons" onClick={() => navigate("/campaign")}>
           <i className="far fa-flag" style={iconStyle} />
           <span className="IconNameStyling">Campaigns</span>
-          <i className="fas fa-angle-left" style={arrowIcon}></i>
         </div>
         <div className="OptionIcons" onClick={() => navigate("/configuration")}>
           <i className="fas fa-users-cog" style={iconStyle} />
           <span className="IconNameStyling">Configuration</span>
-          <i className="fas fa-angle-left" style={arrowIcon}></i>
         </div>
 
         <div className="OptionIcons" onClick={() => navigate("/assetlibrary")}>
           <i className="fas fa-folder" style={iconStyle} />
           <span className="IconNameStyling">Asset Library</span>
-          <i className="fas fa-angle-left" style={arrowIcon}></i>
         </div>
         <div className="OptionIcons" onClick={() => navigate("/music")}>
           <i className="far fa-play-circle" style={iconStyle} />
           <span className="IconNameStyling">Music</span>
-          <i className="fas fa-angle-left" style={arrowIcon}></i>
         </div>
       </div>
     </Drawer>

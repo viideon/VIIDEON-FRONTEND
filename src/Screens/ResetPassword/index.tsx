@@ -14,6 +14,8 @@ import Colors from "../../constants/colors";
 import VerifySuccessModal from "../../components/Modals/verifySuccessModal";
 import "./style.css";
 
+import whiteLogo from '../../assets/logo.png';
+import atom from '../../assets/atom.png';
 const validationSchema = Yup.object().shape({
   password: Yup.string()
     .required("Required")
@@ -86,12 +88,19 @@ class ResetPassword extends React.Component<IProps, IState> {
           toggle={this.toggleVerifyModal}
         />
         <Grid container>
-          <Grid item xs={12} md={7} sm={12}>
+          <Grid item xs={12} md={7} sm={12} className="sm-none">
             <div className="firstLayoutContainer">
               <div className="firstLayoutMainContainer">
-                <p className="signUp">Reset Password for</p>
-                <h2 className="logoSignin">{Constants.VIDIONPRO}</h2>
-                <p className="login">Enter New Password </p>
+                <img src={whiteLogo} />
+                VideonPro
+              </div>
+              <div style={{
+                position: "fixed",
+                bottom: "-13%",
+                left: "-3%",
+                opacity: "0.5",
+              }}>
+                <img style={{ width: '30%'}} src={atom} />
               </div>
             </div>
           </Grid>
@@ -170,9 +179,15 @@ class ResetPassword extends React.Component<IProps, IState> {
                     <div className="mainWrapperLayout">
                       <ThemeButton
                         name="Submit"
-                        round={true}
+                        round={false}
                         onClick={formik.handleSubmit}
-                        style={{ marginTop: 18, minWidth: "150px", backgroundColor: Colors.themePurple, color: Colors.white }}
+                        style={{ 
+                          marginTop: 18, background: Colors.themePurple, color: Colors.white, width: "80%",
+                          backgroundImage: "linear-gradient(to right, #fcb317, #8bb589, #61b5b3)",
+                          fontFamily: "Poppins",
+                          fontWeight: 'bolder',
+                          fontSize: 'larger',
+                        }}
                       />
                     </div>
                   </>

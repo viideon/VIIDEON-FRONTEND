@@ -1,11 +1,12 @@
 .MainDrawer {
-  background-color: #222933;
+  background-color: transparent;
   border-radius: 1px;
   height: 95vh;
   min-height: 700px;
   opacity: 5px;
   width: 235px;
   position: fixed !important;
+  padding-top: 5em;
   margin-left: 0;
   transition: left 1s cubic-bezier(0.82, 0.085, 0.395, 0.895);
 }
@@ -55,16 +56,16 @@
   flex-direction: row;
   align-items: center;
   padding: 10px 10px;
-  color: #9fa5b3;
+  color: #FFFFFF;
 }
 .OptionIcons:hover {
-  background-color: #2c3542;
+  background-color: #fcb414;
   cursor: pointer;
-  color: #c4cbd6;
+  color: #0F2733;
 }
 .IconNameStyling {
   font-family: "Poppins", sans-serif;
-  color: #b4bcc8;
+  color: #FFFFFF;
   margin-left: 20px;
   font-weight: 300 !important;
   cursor: pointer;
@@ -81,6 +82,13 @@
 }
 .assetLibrary {
   margin-top: 10px;
+}
+
+.activeSideBar {
+  background-color: #fcb414;
+}
+.activeSideBar .IconNameStyling {
+  color: #0F2733
 }
 
 @media only screen and (max-width: 768px) {

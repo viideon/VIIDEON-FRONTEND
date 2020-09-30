@@ -22,6 +22,13 @@ import VerifySuccessModal from "../../components/Modals/verifySuccessModal";
 import Colors from "../../constants/colors";
 import "./style.css";
 
+import EmailIcon from '@material-ui/icons/Email';
+import LockIcon from '@material-ui/icons/Lock';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+
+import whiteLogo from "../../assets/logo.png"
+import atom from "../../assets/atom.png"
+
 const validationSchema = Yup.object().shape({
   password: Yup.string()
     .required("Enter Password")
@@ -116,31 +123,26 @@ class Signin extends React.Component<IProps, IState> {
           toggle={this.toggleVerifyModal}
         />
         <Grid container>
-          <Grid item xs={12} md={7} sm={12}>
+          <Grid item xs={12} md={7} sm={12} className="sm-none">
             <div className="firstLayoutContainer">
               <div className="firstLayoutMainContainer">
-                <p className="signUp">{Constants.SIGNIN_TO}</p>
-                <h2 className="logoSignin">{Constants.VIDIONPRO}</h2>
-                <p className="login">{Constants.LOGIN_TO_ACCOUNT}</p>
+                <img src={whiteLogo} />
+                VideonPro
+              </div>
+              <div style={{
+                position: "fixed",
+                bottom: "-13%",
+                left: "-3%",
+                opacity: "0.5",
+              }}>
+                <img style={{ width: '30%'}} src={atom} />
               </div>
             </div>
           </Grid>
-          <Grid item xs={12} md={5} sm={12}>
+          <Grid item xs={12} md={5} sm={12} style={{ zIndex: 123123123}}>
             <div className="secondLayoutMainContainer">
               <p className="loginTwo">{Constants.LOGIN}</p>
-              <div className="createAccount">
-                <p className="account">{Constants.DONT_HAVE_ACCOUNT_YET}</p>
-                <div>
-                  <p
-                    className="create"
-                    onClick={() => {
-                      this.props.history.push("/signup");
-                    }}
-                  >
-                    {Constants.CREATE_NEW}
-                  </p>
-                </div>
-              </div>
+              <p className="loginDescription">{Constants.ENTER_DETAILS}</p>
               {this.state.resendVerificationEmail && (
                 <div className="alert alert-warning fade show">
                   {Constants.RESEND_VERIFICATION_EMAIL_TEXT}&nbsp;
@@ -179,11 +181,20 @@ class Signin extends React.Component<IProps, IState> {
                 {formik => (
                   <>
                     <div className="formGroups">
-                      <Label text={Constants.EMAIL_ADDRESS} />
-                      <InputRoundIcon placeholder="Your registered E-mail" iconClass="iconPerson" type="text"
-                        name="email" onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.email} />
+                      <Grid container spacing={2} alignItems="center" >
+                      <Grid md={1} sm={2} xs={2} item>
+                        <EmailIcon />
+                      </Grid>
+                      <Grid md={10} sm={10} xs={10} item>
+                        <InputRoundIcon 
+                          type="email"
+                          placeholder="Email Address" 
+                          name="email" onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.email} 
+                        />
+                      </Grid>
+                    </Grid>
                     </div>
 
                     {formik.errors.email && formik.touched.email && (
@@ -191,36 +202,61 @@ class Signin extends React.Component<IProps, IState> {
                     )}
 
                     <div className="formGroups">
-                      <Label text={Constants.PASSWORD} />
-                      <InputRoundIcon placeholder="Your password" iconClass="iconKey" type="password"
-                        name="password" onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.password} />
+                      <Grid container spacing={2} alignItems="center" >
+                      <Grid md={1} sm={2} xs={2} item>
+                        <LockIcon />
+                      </Grid>
+                      <Grid md={10} sm={10} xs={10} item>
+                        <InputRoundIcon 
+                          type="password"
+                          placeholder="Password" 
+                          name="password" 
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.password} 
+                        />
+                      </Grid>
+                    </Grid>
                     </div>
 
                     {formik.errors.password && formik.touched.password && (
                       <Alert severity="warning">{formik.errors.password}</Alert>
                     )}
                     <div className="btnBottomWrapper">
-                      <p
-                        className="forgotPassword"
-                        onClick={() =>
-                          this.props.history.push("/forgotpassword")
-                        }
-                      >
-                        Forgot your password ?
+                      <p className="forgotPassword" onClick={() => this.props.history.push("/forgotpassword")} >
+                        Forgot your password <ArrowForwardIcon fontSize="small" />
                       </p>
-
+                    </div>
+                    <div className="loginBtnWrapper">
                       <ThemeButton
                         name={Constants.LOGIN}
                         onClick={formik.handleSubmit}
-                        round={true}
-                        style={{ marginTop: 18, background: Colors.themePurple, color: Colors.white, width: "150px" }}
+                        round={false}
+                        style={{ 
+                          marginTop: 18, background: Colors.themePurple, color: Colors.white, width: "80%",
+                          backgroundImage: "linear-gradient(to right, #fcb317, #8bb589, #61b5b3)",
+                          fontFamily: "Poppins",
+                          fontWeight: 'bolder',
+                          fontSize: 'larger',
+                        }}
                       />
                     </div>
                   </>
                 )}
               </Formik>
+              <div className="createAccount">
+                <p className="account">{Constants.DONT_HAVE_ACCOUNT_YET}</p>
+                <div>
+                  <p
+                    className="create"
+                    onClick={() => {
+                      this.props.history.push("/signup");
+                    }}
+                  >
+                    {Constants.SIGN_UP_HERE}
+                  </p>
+                </div>
+              </div>
             </div>
           </Grid>
         </Grid>

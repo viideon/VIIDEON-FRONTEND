@@ -24,19 +24,17 @@ const HeaderCard: React.FC<IProps> = ({ styles, Title, Number, iconBg }) => {
     }
   };
   return (
-    <div className="CardMain" style={styles}>
-      <span className="wrapperIconCard" style={{ backgroundColor: iconBg }}>
-        {renderIcon()}
+    <div className="CardMain">
+      <span className="cardTitle">
+        {Number}
       </span>
       <div className="detailsCard">
+      <span className="wrapperIconCard">
+        {renderIcon()}
+      </span>
         <div className="detailCardHeader">
-          <span className="cardTitle">
-            {Number}
-          </span>
           <span className="cardText"> {Title}</span>
         </div>
-        {/* <LinearProgress variant="determinate" value={34} /> */}
-        {/* <h4 className="Description">45% Increase in 28 days</h4> */}
       </div>
     </div>
   );

@@ -17,6 +17,7 @@ type IProps = {
   videoCount: number;
   campaignCount: number;
   viewCount: number;
+  user: any;
   getVideoCount: () => void;
   getCampaignCount: () => void;
 };
@@ -34,25 +35,16 @@ class Dashboard extends Component<IProps> {
     this.props.history.push({ pathname: "/video/create", show: show });
   };
   render() {
+    const { user } = this.props;
     return (
       <Home>
         <div className="wrapperDashboard">
           <div className="dashboardTop">
             <h3 className="dashboardTopLeft">
-              Dashboard <span className="cntrlText">Control panel</span>
+              Welcome, { user?.firstName || user?.lastName || user?.userName }!
             </h3>
-            <div className="dashboardTopRight">
-              <span className="homeDashIcon">
-                <i className="fas fa-tachometer-alt" />
-              </span>
-              <span className="homeDashIcon">Home</span>
-              <span>
-                <i className="fas fa-angle-right"></i>
-              </span>
-              <span className="txtDash">Dashboard</span>
-            </div>
           </div>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} className="dashHeaderWrapper">
             <Grid item xs={6} md={3}>
               <Link to="/videos" className="link-style">
                 <HeaderCard
@@ -148,14 +140,16 @@ class Dashboard extends Component<IProps> {
 }
 
 const iconStyle = {
-  fontSize: "100px",
-  cursor: "pointer"
+  fontSize: "50px",
+  cursor: "pointer",
+  color: "#FFFFFF"
 };
 const mapStateToProps = (state: any) => {
   return {
     videoCount: state.video.videoCount - state.video.campaignCount,
     viewCount: state.video.viewCount,
-    campaignCount: state.video.campaignCount
+    campaignCount: state.video.campaignCount,
+    user: state.auth.user
   };
 };
 const mapDispatchToProps = (dispatch: any) => {

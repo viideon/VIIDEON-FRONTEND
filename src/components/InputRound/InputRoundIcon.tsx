@@ -14,7 +14,7 @@ const InputRoundIcon: React.FC<IProps> = ({ onChange, value, name, iconClass, pl
     return <div className="wrapperInputRound">
         <div className="search__container">
             <input
-                className={`inputRound ${iconClass}`}
+                className={`inputRound`}
                 onChange={onChange}
                 placeholder={placeholder}
                 onBlur={onBlur}

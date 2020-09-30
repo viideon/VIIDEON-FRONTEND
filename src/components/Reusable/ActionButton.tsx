@@ -8,6 +8,7 @@ interface IProps {
   color?: string;
   bgColor?: string;
   onKeyDown?: any;
+  id?: string;
 }
 const Button: React.FC<IProps> = ({
   text,
@@ -15,7 +16,8 @@ const Button: React.FC<IProps> = ({
   style,
   color,
   bgColor,
-  onKeyDown
+  onKeyDown,
+  id
 }) => {
   return (
     <Fab
@@ -23,6 +25,7 @@ const Button: React.FC<IProps> = ({
       variant="extended"
       onClick={onClick}
       onKeyDown={onKeyDown}
+      id={id}
       style={{
         backgroundColor: bgColor,
         color: color,
