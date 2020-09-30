@@ -132,7 +132,8 @@
   width: 100% !important;
   justify-content: space-between;
 }
-.recordQualityInput .qualityWrapper, .recordQualityInput .btnWrapper {
+.recordQualityInput .qualityWrapper,
+.recordQualityInput .btnWrapper {
   display: flex;
   width: 50%;
 }
@@ -150,7 +151,7 @@
 #videoQuality {
   border: 1px solid gray;
   border-radius: 8px;
-  padding: 7px
+  padding: 7px;
 }
 .recordQualityInput .MuiInput-underline {
   width: 45%;
@@ -163,7 +164,7 @@
   border-bottom: none;
 }
 .recordingBtn {
-  border: 12px solid #FFFFFF;
+  border: 12px solid #ffffff;
   color: black;
   border-radius: 50%;
   width: 90px;
@@ -180,7 +181,7 @@
   background: #ff0202;
 }
 .stopBtnWrapper {
-  background: #FFFFFF;
+  background: #ffffff;
   height: 70px;
   width: 70px;
   border-radius: 50%;
@@ -202,7 +203,7 @@
   margin: 16px 16px 16px 15px;
 }
 .pauseBtnWrapper {
-  background: #FFFFFF;
+  background: #ffffff;
   height: 70px;
   width: 70px;
   border-radius: 50%;
@@ -224,14 +225,14 @@
   outline: none;
   border: none;
   cursor: pointer;
-  margin: 16px 5px 16px 5px
+  margin: 16px 5px 16px 5px;
 }
 .stopBtn:hover {
   background: #ff0202;
 }
 
 .videoStreamWrapper button:focus {
-  outline: none !important
+  outline: none !important;
 }
 @media (max-width: 1400px) {
   .recordingBtn {
@@ -263,7 +264,7 @@
     margin: 12px 2px 16px 2px;
   }
 }
-@media (min-width: 1080px) { 
+@media (min-width: 1080px) {
   .recordQualityInput .btnWrapper #reset {
     width: 20% !important;
     margin: 6px;
@@ -280,7 +281,7 @@
     height: 50px;
     right: 2%;
     top: 50%;
-    border: 6px solid #FFFFFF;
+    border: 6px solid #ffffff;
   }
   .stopBtnWrapper {
     height: 40px;
@@ -310,7 +311,7 @@
     height: 30px;
     left: 50%;
     top: 90%;
-    border: 3px solid #FFFFFF;
+    border: 3px solid #ffffff;
   }
   .stopBtnWrapper {
     height: 30px;
@@ -336,11 +337,13 @@
   }
 }
 @media (max-width: 720px) {
-  .recordQualityInput .qualityWrapper, .recordQualityInput .btnWrapper {
+  .recordQualityInput .qualityWrapper,
+  .recordQualityInput .btnWrapper {
     width: 100%;
     flex-direction: column;
   }
-  .recordQualityInput .qualityWrapper label, .recordQualityInput .qualityWrapper div {
+  .recordQualityInput .qualityWrapper label,
+  .recordQualityInput .qualityWrapper div {
     width: 100% !important;
     margin: 2px;
   }
@@ -374,11 +377,13 @@
     flex-direction: column;
     justify-content: space-between;
   }
-  .recordQualityInput .qualityWrapper, .recordQualityInput .btnWrapper {
+  .recordQualityInput .qualityWrapper,
+  .recordQualityInput .btnWrapper {
     width: 100%;
     flex-direction: column;
   }
-  .recordQualityInput .qualityWrapper label, .recordQualityInput .qualityWrapper div {
+  .recordQualityInput .qualityWrapper label,
+  .recordQualityInput .qualityWrapper div {
     width: 100% !important;
     margin: 2px;
   }
@@ -396,7 +401,7 @@
     height: 27px;
     left: 50%;
     top: 80%;
-    border: 3px solid #FFFFFF;
+    border: 3px solid #ffffff;
   }
   .stopBtnWrapper {
     height: 27px;

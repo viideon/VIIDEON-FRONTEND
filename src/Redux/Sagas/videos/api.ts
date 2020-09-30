@@ -30,22 +30,22 @@ export async function getVideos() {
 }
 export async function getVideosByUserId(queryObj: any) {
   return API.get("/video/user", {
-    params: { id: queryObj.userId, page: queryObj.page },
+    params: { id: queryObj.userId, page: queryObj.page }
   });
 }
 export async function getCampaignVideos(queryObj: any) {
   return API.get("/video/campaignVideos", {
-    params: { id: queryObj.userId, page: queryObj.page },
+    params: { id: queryObj.userId, page: queryObj.page }
   });
 }
 export async function getVideosByTitle(queryObj: any) {
   return API.get("/video/user", {
-    params: { id: queryObj.userId, page: queryObj.page, title: queryObj.title },
+    params: { id: queryObj.userId, page: queryObj.page, title: queryObj.title }
   });
 }
 export async function getCampaignVideosByTitle(queryObj: any) {
   return API.get("/video/campaignVideos", {
-    params: { id: queryObj.userId, page: queryObj.page, title: queryObj.title },
+    params: { id: queryObj.userId, page: queryObj.page, title: queryObj.title }
   });
 }
 export async function updateUserVideo(video: any) {
@@ -53,7 +53,7 @@ export async function updateUserVideo(video: any) {
 }
 export async function deleteVideoById(callObj: any) {
   return API.delete("/video", {
-    params: { id: callObj.videoId, pageNo: callObj.pageNo },
+    params: { id: callObj.videoId, pageNo: callObj.pageNo }
   });
 }
 export async function getSingleVideo(id: string) {
@@ -73,11 +73,9 @@ export async function deleteDataAws(imageUrl: any) {
       imageUrl = imageUrl.substring(index + 5);
       const options = {
         Bucket: config.bucketName,
-        Key: imageUrl,
+        Key: imageUrl
       };
-      s3.deleteObject(options, () => {
-      });
-    } catch (e) {
-    }
+      s3.deleteObject(options, () => {});
+    } catch (e) {}
   }
 }

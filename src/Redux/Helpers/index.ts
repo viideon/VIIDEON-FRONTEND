@@ -11,7 +11,7 @@ export async function deleteDataAws(imageUrl: string) {
         Bucket: config.bucketName,
         Key: imageUrl
       };
-      s3.deleteObject(options, function (err, data) {
+      s3.deleteObject(options, function(err, data) {
         console.log("Image deleted", err, data);
       });
     } catch (e) {

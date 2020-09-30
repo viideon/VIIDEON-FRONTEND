@@ -11,14 +11,14 @@ import avatarImage from "../../assets/profileImages/profileImg.png";
 import TopDrawer from "../DrawerTop/index";
 import "./styles.css";
 import LogoutModal from "../Modals/logout";
-import whiteLogo from '../../assets/logo.png'
+import whiteLogo from "../../assets/logo.png";
 type IProps = {
   history: any;
   toggleDrawer: () => void;
   logout: () => void;
   loggedInStatus?: any;
   profile?: any;
-  styles?: any
+  styles?: any;
 };
 const Header: React.FC<IProps> = ({
   history,
@@ -67,18 +67,20 @@ const Header: React.FC<IProps> = ({
         {location.pathname !== "/" ? (
           <Tooltip title="Redirect to Dashboard">
             <h3 className="headerStyle" onClick={navigateHome}>
-              <img style={{ width: '50px'}} src={whiteLogo} />
+              <img style={{ width: "50px" }} src={whiteLogo} />
               videonPRO
             </h3>
           </Tooltip>
         ) : (
           <h3 className="headerStyle" onClick={navigateHome}>
-            <img style={{ width: '50px'}} src={whiteLogo} />
-              videonPRO
-            </h3>
-          )}
+            <img style={{ width: "50px" }} src={whiteLogo} />
+            videonPRO
+          </h3>
+        )}
         <MenuIcon
-          onClick={() => {toggle()}}
+          onClick={() => {
+            toggle();
+          }}
           style={{ color: "#fff", zIndex: 234234323 }}
           className="hamburgerTop"
         />
@@ -91,12 +93,12 @@ const Header: React.FC<IProps> = ({
           location.pathname === "/assetlibrary" ||
           location.pathname === "/music" ||
           location.pathname === "/contacts") && (
-            <MenuIcon
-              onClick={() => toggleDrawer()}
-              style={{ color: "#fff" }}
-              id="hamburgerSide"
-            />
-          )}
+          <MenuIcon
+            onClick={() => toggleDrawer()}
+            style={{ color: "#fff" }}
+            id="hamburgerSide"
+          />
+        )}
       </div>
       <div className="endHeader">
         <div className="wrapperEnd">
@@ -133,7 +135,11 @@ const Header: React.FC<IProps> = ({
               <MenuItem onClick={() => toggleLogoutModal()}>Logout</MenuItem>
             </Menu>
           </span>
-          <span onClick={handleClickPopup} style={{ cursor: "pointer" }} className="avatarWrapperHeader">
+          <span
+            onClick={handleClickPopup}
+            style={{ cursor: "pointer" }}
+            className="avatarWrapperHeader"
+          >
             <img src={image} className="avatarNav" alt="avatar" />
           </span>
         </div>

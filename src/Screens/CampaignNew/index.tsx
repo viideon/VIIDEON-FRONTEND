@@ -26,7 +26,11 @@ class Campaign extends React.Component {
     this.setState({ editedVideo: editedVideoBlob });
   };
   saveTextLogoProps = (logoProps: any, textProps: any, musicProps: any) => {
-    this.setState({ logoProps: logoProps, textProps: textProps, musicProps: musicProps });
+    this.setState({
+      logoProps: logoProps,
+      textProps: textProps,
+      musicProps: musicProps
+    });
   };
   saveLogoBlob = (blob: any) => {
     this.setState({ logoBlob: blob });
@@ -36,12 +40,15 @@ class Campaign extends React.Component {
   };
   selectTemplate = (template: any) => {
     this.setState({ template: template });
-  }
+  };
   renderCampaignSteps = () => {
     switch (this.state.currentStep) {
       case 1:
         return (
-          <SelectTemplate moveToNextStep={this.moveToNextStep} selectTemplate={this.selectTemplate} />
+          <SelectTemplate
+            moveToNextStep={this.moveToNextStep}
+            selectTemplate={this.selectTemplate}
+          />
         );
       case 2:
         return (

@@ -72,7 +72,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
       width: 0,
       height: 0,
       watched: false,
-      musicVolume: 0,
+      musicVolume: 0
     };
     this.unmounted = false;
     this.canvasContext = null;
@@ -81,7 +81,13 @@ class EditingPlayer extends React.Component<IProps, IState> {
     this.logoPosition = {
       "top-left": () => {
         let logoDimension = 0.2 * this.edCanvas.width;
-        this.canvasTmpCtx.drawImage(this.logo, 50, 50, logoDimension, logoDimension);
+        this.canvasTmpCtx.drawImage(
+          this.logo,
+          50,
+          50,
+          logoDimension,
+          logoDimension
+        );
       },
       "top-right": () => {
         let logoDimension = 0.2 * this.edCanvas.width;
@@ -112,7 +118,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
           logoDimension,
           logoDimension
         );
-      },
+      }
     };
     this.handleAnimationFrame = this.onAnimationFrame.bind(this);
     this.handleEnded = this.onEnded.bind(this);
@@ -221,7 +227,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
   updateSeekTooltip = (event: any) => {
     const skipTo = Math.round(
       (event.offsetX / event.target.clientWidth) *
-      parseInt(event.target.getAttribute("max"), 10)
+        parseInt(event.target.getAttribute("max"), 10)
     );
 
     this.seek.setAttribute("data-seek", skipTo);
@@ -257,7 +263,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
     const result = new Date(timeInSeconds * 1000).toISOString().substr(11, 8);
     return {
       minutes: result.substr(3, 2),
-      seconds: result.substr(6, 2),
+      seconds: result.substr(6, 2)
     };
   };
   toggleFullScreen = () => {
@@ -268,7 +274,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
       this.wrapperCanvas.requestFullscreen();
       this.setState({
         width: window.screen.width,
-        height: window.screen.height,
+        height: window.screen.height
       });
     }
   };
@@ -349,7 +355,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
   }
   async play() {
     this.video.play();
-    this.backgroundMusic.play().catch(() => { });
+    this.backgroundMusic.play().catch(() => {});
     this.setState({ playing: true, showThumbnail: false });
     this.requestAnimationFrame();
   }
@@ -360,7 +366,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
     );
     this.setState({
       width: persistRect.width,
-      height: persistRect.height,
+      height: persistRect.height
     });
   };
   initializeVolume = () => {
@@ -428,7 +434,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
                   style={{
                     objectFit: "contain",
                     maxHeight: "100%",
-                    maxWidth: "100%",
+                    maxWidth: "100%"
                   }}
                   src={thumbnail}
                   alt="preview"

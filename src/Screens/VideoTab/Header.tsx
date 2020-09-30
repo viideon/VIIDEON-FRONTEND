@@ -29,16 +29,19 @@ class VideoTabHeader extends React.Component<IProps> {
   container: any;
   state = {
     height: "150px"
-  }
+  };
   componentDidMount() {
     this.container = this.refs.container;
     this.caluclateContainerHeight();
     window.addEventListener("resize", this.caluclateContainerHeight);
   }
   caluclateContainerHeight = () => {
-    let calculatedVideoHeight = document.getElementById("wrapperHeader")?.clientWidth ? `${document.getElementById('wrapperHeader')!.clientWidth * 0.5625}px` : "150px";
+    let calculatedVideoHeight = document.getElementById("wrapperHeader")
+      ?.clientWidth
+      ? `${document.getElementById("wrapperHeader")!.clientWidth * 0.5625}px`
+      : "150px";
     this.setState({ height: calculatedVideoHeight });
-  }
+  };
   copyUrl = () => {
     const { video } = this.props;
     navigator.clipboard.writeText(
@@ -58,16 +61,17 @@ class VideoTabHeader extends React.Component<IProps> {
             <Grid container>
               <Grid item xs={12} sm={12} md={6} id="wrapperHeader">
                 {!video && (
-                  <div
-                    className="justifyCenter"
-                  >
+                  <div className="justifyCenter">
                     <CircularProgress color="primary" />
                   </div>
                 )}
-                <div ref="container" style={{
-                  width: "100%",
-                  height: this.state.height
-                }}>
+                <div
+                  ref="container"
+                  style={{
+                    width: "100%",
+                    height: this.state.height
+                  }}
+                >
                   {video && (
                     <CanvasPlayer
                       muted={false}
@@ -83,9 +87,7 @@ class VideoTabHeader extends React.Component<IProps> {
                 </div>
               </Grid>
               <Grid item xs={12} sm={12} md={6} id="headerText">
-                <h3>
-                  {video && video.title}
-                </h3>
+                <h3>{video && video.title}</h3>
                 <VideoInfo video={video} />
               </Grid>
             </Grid>
@@ -93,12 +95,12 @@ class VideoTabHeader extends React.Component<IProps> {
           <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
             <ThemeButton
               style={{
-                fontSize: '1.15rem',
-                width: '100%',
-                border: 'none',
+                fontSize: "1.15rem",
+                width: "100%",
+                border: "none",
                 background: Colors.themeBlue,
                 color: Colors.white,
-                outline: 'none'
+                outline: "none"
               }}
               onClick={this.copyUrl}
               name="Copy URL"

@@ -20,5 +20,5 @@ const Progressbar: React.FC<IProps> = ({ width, value, heading }) => {
 const headingStyle = {
   fontSize: "14px",
   color: "#666"
-}
+};
 export default Progressbar;

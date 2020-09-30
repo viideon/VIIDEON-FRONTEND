@@ -241,7 +241,8 @@
   width: 250px !important;
 }
 
-.emailTmplateDialogWrapper .MuiList-root, .emailTmplateDialogWrapper .MuiList-padding {
+.emailTmplateDialogWrapper .MuiList-root,
+.emailTmplateDialogWrapper .MuiList-padding {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;

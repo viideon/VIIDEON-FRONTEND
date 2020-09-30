@@ -7,7 +7,7 @@ import { logout } from "../../Redux/Actions/auth";
 import SideBar from "../../components/SideBar/SideBar";
 // import Tooltip from "@material-ui/core/Tooltip";
 // import LogoutModal from "../../components/Modals/logout";
-import Header from '../../components/Header/Header';
+import Header from "../../components/Header/Header";
 import "./styles.css";
 type IProps = {
   history?: any;
@@ -21,7 +21,7 @@ type IProps = {
 
 class Home extends Component<IProps> {
   componentDidMount() {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     this.props.getEmailConfigurations();
     this.props.getAssets();
     this.props.getMusicAsset();
@@ -37,8 +37,14 @@ class Home extends Component<IProps> {
     return (
       <div className="videonAppWrapper">
         <Header />
-        <SideBar history={this.props.history} location={this.props.location} logout={logout} />
-        <div className={drawer ? "wrapperHomeContent" : "wrapperHomeContentFull"}>
+        <SideBar
+          history={this.props.history}
+          location={this.props.location}
+          logout={logout}
+        />
+        <div
+          className={drawer ? "wrapperHomeContent" : "wrapperHomeContentFull"}
+        >
           {this.props.children}
         </div>
       </div>

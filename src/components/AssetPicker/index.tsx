@@ -2,7 +2,12 @@ import React from "react";
 import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import ThemeButton from "../ThemeButton";
-import { Dialog, DialogContent, DialogTitle, DialogActions } from "@material-ui/core";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogActions
+} from "@material-ui/core";
 import { getAssets } from "../../Redux/Actions/asset";
 import { getLogoAssets, getThumbnailAssets } from "../../Redux/Selectors";
 import Colors from "../../constants/colors";
@@ -69,7 +74,7 @@ class AssetPicker extends React.Component<IProps> {
                 <div
                   className={`wrapperImgPicker ${
                     i === this.state.currenSelection ? "selected" : ""
-                    }`}
+                  }`}
                   onClick={() => this.selectAsset(asset.url, i)}
                   key={i}
                 >
@@ -81,12 +86,12 @@ class AssetPicker extends React.Component<IProps> {
                       className="imgAssetPicker"
                     />
                   ) : (
-                      <img
-                        alt="asset"
-                        src={asset.url}
-                        className="imgAssetPicker"
-                      />
-                    )}
+                    <img
+                      alt="asset"
+                      src={asset.url}
+                      className="imgAssetPicker"
+                    />
+                  )}
                 </div>
               ))}
             {assets && assets.length < 1 && (
@@ -100,12 +105,21 @@ class AssetPicker extends React.Component<IProps> {
         </DialogContent>
         <DialogActions>
           <ThemeButton
-            style={{ width: "120px", marginRight: "5px", backgroundColor: Colors.darkGrey, color: Colors.white }}
+            style={{
+              width: "120px",
+              marginRight: "5px",
+              backgroundColor: Colors.darkGrey,
+              color: Colors.white
+            }}
             onClick={this.cancelSelection}
             name="Cancel"
           />
           <ThemeButton
-            style={{ width: "120px", backgroundColor: Colors.themeBlue, color: Colors.white }}
+            style={{
+              width: "120px",
+              backgroundColor: Colors.themeBlue,
+              color: Colors.white
+            }}
             onClick={this.onPick}
             name="OK"
           />

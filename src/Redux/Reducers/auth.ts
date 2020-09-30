@@ -8,7 +8,7 @@ const authReducer = (state = initialState, action: any) => {
       return {
         ...state,
         loading: true,
-        loginError: false,
+        loginError: false
       };
 
     case types.LOGIN_SUCCESS:
@@ -18,61 +18,61 @@ const authReducer = (state = initialState, action: any) => {
         loggedInStatus: true,
         loading: false,
         loginError: null,
-        token: action.payload.token,
+        token: action.payload.token
       };
     case types.LOGIN_FAILURE:
       return {
         ...state,
         loggedInStatus: false,
         loading: false,
-        loginError: action.payload,
+        loginError: action.payload
       };
     case types.FORGOT_REQUEST:
       return {
         ...state,
-        loading: true,
+        loading: true
       };
 
     case types.FORGOT_SUCCESS:
       return {
         ...state,
         forgotSuccess: true,
-        loading: false,
+        loading: false
       };
     case types.FORGOT_FAILURE:
       return {
         ...state,
         forgotSuccess: false,
-        loading: false,
+        loading: false
       };
     case types.RESET_FORGOT_SUCCESS_VARIABLE:
       return {
         ...state,
         forgotSuccess: null
-      }
+      };
     case types.RESET_EMAIL_VERIFIED_VARIABLE:
       return {
         ...state,
         loginError: action.payload
-      }
+      };
     case types.RESET_REQUEST:
       return {
         ...state,
         loading: true,
-        resetError: false,
+        resetError: false
       };
 
     case types.RESET_SUCCESS:
       return {
         ...state,
         resetSuccess: true,
-        loading: false,
+        loading: false
       };
     case types.RESET_FAILURE:
       return {
         ...state,
         resetSuccess: false,
-        loading: false,
+        loading: false
       };
     case types.VERIFY_REQUEST:
       return {
@@ -80,8 +80,8 @@ const authReducer = (state = initialState, action: any) => {
         verify: {
           verifyLoading: true,
           VerifyError: false,
-          VerifySuccess: false,
-        },
+          VerifySuccess: false
+        }
       };
     case types.VERIFY_FAILURE:
       return {
@@ -89,8 +89,8 @@ const authReducer = (state = initialState, action: any) => {
         verify: {
           verifyLoading: false,
           VerifyError: true,
-          VerifySuccess: false,
-        },
+          VerifySuccess: false
+        }
       };
     case types.VERIFY_SUCCESS:
       return {
@@ -98,15 +98,15 @@ const authReducer = (state = initialState, action: any) => {
         verify: {
           verifyLoading: false,
           VerifyError: false,
-          VerifySuccess: true,
-        },
+          VerifySuccess: true
+        }
       };
     case types.UPDATE_USER:
       return { ...state, user: action.payload };
     case types.LOUGOUT_SUCCESS:
       return {
         ...state,
-        loggedInStatus: false,
+        loggedInStatus: false
       };
     default: {
       return state;

@@ -32,6 +32,6 @@ export interface ProfileState {
 }
 
 export interface ProfileAction {
-  type: typeof PROFILE_UPDATE_REQUEST,
-  payload: UserProfile
+  type: typeof PROFILE_UPDATE_REQUEST;
+  payload: UserProfile;
 }

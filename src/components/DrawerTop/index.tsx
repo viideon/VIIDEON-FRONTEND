@@ -41,7 +41,7 @@ const TopDrawer: React.FC<IProps> = ({ open, toggle, history }) => {
   const navigate = (location: string) => {
     history.push(location);
     toggle();
-  }
+  };
   return (
     <Drawer open={open} anchor="top" className={classes.root} onClose={toggle}>
       <div className="wrapperTopDrawer">

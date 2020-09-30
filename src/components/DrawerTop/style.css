@@ -17,7 +17,8 @@
   color: #0f2733;
 }
 
-.OptionIcons:hover .IconNameStyling, .OptionIcons:hover .dashboard{
+.OptionIcons:hover .IconNameStyling,
+.OptionIcons:hover .dashboard {
   color: #0f2733 !important;
 }
 .IconNameStyling {

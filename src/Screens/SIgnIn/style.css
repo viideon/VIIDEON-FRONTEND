@@ -6,7 +6,7 @@
     -36deg,
     #fcb317,
     #61b5b3,
-    #61b5b3 
+    #61b5b3
   ) !important;
 }
 .firstLayoutMainContainer {
@@ -19,7 +19,7 @@
   font-weight: bolder;
   font-size: 54px;
   font-family: "Poppins";
-  padding-left: 0% !important
+  padding-left: 0% !important;
 }
 
 .firstLayoutMainContainer img {
@@ -52,7 +52,7 @@
   color: #0e2633 !important;
   font-size: 55px;
   font-weight: 600;
-  font-family: 'Poppins';
+  font-family: "Poppins";
 }
 .loginDescription {
   font-family: "Open Sans";
@@ -65,7 +65,6 @@
   font-family: "Poppins", sans-serif;
   color: #406c7f !important;
   z-index: 123;
-
 }
 .account {
   font-size: 16px;
@@ -103,7 +102,6 @@
   color: #406c7f !important;
   cursor: pointer;
   z-index: 123;
-
 }
 
 .form-control:focus {
@@ -151,11 +149,13 @@
 
 @font-face {
   font-family: "Poppins";
-  src: local('Poppins'), url(../../assets//fonts/Poppins-Regular.ttf) format('ttf');
+  src: local("Poppins"),
+    url(../../assets//fonts/Poppins-Regular.ttf) format("ttf");
 }
 @font-face {
   font-family: "Open Sans";
-  src: local('Poppins'), url(../../assets//fonts/OpenSans-Regular.ttf) format('ttf');
+  src: local("Poppins"),
+    url(../../assets//fonts/OpenSans-Regular.ttf) format("ttf");
 }
 
 @media only screen and (max-width: 400px) {
@@ -179,7 +179,6 @@
     font-size: 13px;
     color: #646f79;
     z-index: 123;
-
   }
   .secondLayoutMainContainer {
     padding-bottom: 20px;

@@ -17,7 +17,7 @@
 .recordMainContainer .react-tabs__tab {
   border: none;
   margin-right: 4px;
-  background: #E0E0E0;
+  background: #e0e0e0;
   /* width: 260px; */
   /* height: 60px; */
   font-family: "Poppins";
@@ -34,7 +34,7 @@
 
 .recordMainContainer .react-tabs__tab--selected {
   background: #fcb414;
-  color: #FFFFFF;
+  color: #ffffff;
   border-bottom: 1px solid #fcb414;
   /* bottom: -1.0px; */
   border-radius: 0%;
@@ -53,7 +53,7 @@
 .uploadPanelBorder {
   border-style: dashed;
   border-radius: 1px;
-  border-color: #0F2733;
+  border-color: #0f2733;
 }
 .wrapperUploadPanel {
   min-height: 300px;
@@ -96,7 +96,6 @@
 }
 .recordMainContainer #formInput input {
   padding: 8px 0px 8px 8px !important;
-
 }
 @media only screen and (max-width: 768px) {
   .recordMainContainer {

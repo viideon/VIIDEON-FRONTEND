@@ -5,8 +5,8 @@ const REGISTRATION_FAILURE: string = "REGISTRATION_FAILURE";
 export const types = {
   REGISTRATION_REQUEST,
   REGISTRATION_SUCCESS,
-  REGISTRATION_FAILURE,
-}
+  REGISTRATION_FAILURE
+};
 export interface User {
   email: string;
   firstName: string;
@@ -23,6 +23,6 @@ export interface RegisterState {
   isSignupSuccess?: boolean;
 }
 export interface RegisterAction {
-  type: typeof REGISTRATION_REQUEST
-  payload: User
+  type: typeof REGISTRATION_REQUEST;
+  payload: User;
 }

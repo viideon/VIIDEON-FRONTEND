@@ -41,7 +41,7 @@ class Dashboard extends Component<IProps> {
         <div className="wrapperDashboard">
           <div className="dashboardTop">
             <h3 className="dashboardTopLeft">
-              Welcome, { user?.firstName || user?.lastName || user?.userName }!
+              Welcome, {user?.firstName || user?.lastName || user?.userName}!
             </h3>
           </div>
           <Grid container spacing={2} className="dashHeaderWrapper">

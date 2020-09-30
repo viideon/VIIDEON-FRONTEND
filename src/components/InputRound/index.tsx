@@ -14,7 +14,7 @@ const InputRound: React.FC<IProps> = ({
   name,
   type,
   value,
-  onBlur,
+  onBlur
 }) => {
   return (
     <div style={inputWrapper}>
@@ -47,6 +47,6 @@ const inputWrapper = {
   borderWidth: "1px",
   borderColor: "#9f55ff",
   borderRadius: "10rem",
-  justifyContent: "space-between",
+  justifyContent: "space-between"
 };
 export default InputRound;

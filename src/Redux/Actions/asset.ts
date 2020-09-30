@@ -1,42 +1,42 @@
-import { types } from '../Types/asset';
+import { types } from "../Types/asset";
 
 export function addAsset(asset: any) {
-    return {
-        type: types.ADD_ASSET,
-        payload: asset
-    }
+  return {
+    type: types.ADD_ASSET,
+    payload: asset
+  };
 }
 export function getAssets() {
-    return {
-        type: types.GET_ASSETS
-    }
+  return {
+    type: types.GET_ASSETS
+  };
 }
 export function deleteAsset(assetId: any) {
-    return {
-        type: types.DELETE_ASSET,
-        payload: assetId
-    }
+  return {
+    type: types.DELETE_ASSET,
+    payload: assetId
+  };
 }
 export function addMusicAsset(asset: any) {
-    return {
-        type: types.ADD_MUSIC,
-        payload: asset,
-    }
+  return {
+    type: types.ADD_MUSIC,
+    payload: asset
+  };
 }
 export function getMusicAsset() {
-    return {
-        type: types.GET_MUSIC
-    }
+  return {
+    type: types.GET_MUSIC
+  };
 }
 export function deleteMusicAsset(assetId: any) {
-    return {
-        type: types.DELETE_MUSIC,
-        payload: assetId
-    }
+  return {
+    type: types.DELETE_MUSIC,
+    payload: assetId
+  };
 }
 
 export function getCampaignTemplates() {
-    return {
-        type: types.GET_CAMPAIGN_TEMPLATES
-    }
+  return {
+    type: types.GET_CAMPAIGN_TEMPLATES
+  };
 }

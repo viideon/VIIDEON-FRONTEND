@@ -14,8 +14,8 @@ import Colors from "../../constants/colors";
 import VerifySuccessModal from "../../components/Modals/verifySuccessModal";
 import "./style.css";
 
-import whiteLogo from '../../assets/logo.png';
-import atom from '../../assets/atom.png';
+import whiteLogo from "../../assets/logo.png";
+import atom from "../../assets/atom.png";
 const validationSchema = Yup.object().shape({
   password: Yup.string()
     .required("Required")
@@ -94,13 +94,15 @@ class ResetPassword extends React.Component<IProps, IState> {
                 <img src={whiteLogo} />
                 VideonPro
               </div>
-              <div style={{
-                position: "fixed",
-                bottom: "-13%",
-                left: "-3%",
-                opacity: "0.5",
-              }}>
-                <img style={{ width: '30%'}} src={atom} />
+              <div
+                style={{
+                  position: "fixed",
+                  bottom: "-13%",
+                  left: "-3%",
+                  opacity: "0.5"
+                }}
+              >
+                <img style={{ width: "30%" }} src={atom} />
               </div>
             </div>
           </Grid>
@@ -144,13 +146,15 @@ class ResetPassword extends React.Component<IProps, IState> {
                   <>
                     <div className="formGroups">
                       <Label text="New Password" />
-                      <InputRoundIcon type="password"
+                      <InputRoundIcon
+                        type="password"
                         name="password"
                         placeholder="New Password"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.password}
-                        iconClass="iconKey" />
+                        iconClass="iconKey"
+                      />
                     </div>
 
                     {formik.errors.password && formik.touched.password && (
@@ -166,7 +170,8 @@ class ResetPassword extends React.Component<IProps, IState> {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.passwordConfirmation}
-                        iconClass="iconKey" />
+                        iconClass="iconKey"
+                      />
                     </div>
 
                     {formik.errors.passwordConfirmation &&
@@ -181,12 +186,16 @@ class ResetPassword extends React.Component<IProps, IState> {
                         name="Submit"
                         round={false}
                         onClick={formik.handleSubmit}
-                        style={{ 
-                          marginTop: 18, background: Colors.themePurple, color: Colors.white, width: "80%",
-                          backgroundImage: "linear-gradient(to right, #fcb317, #8bb589, #61b5b3)",
+                        style={{
+                          marginTop: 18,
+                          background: Colors.themePurple,
+                          color: Colors.white,
+                          width: "80%",
+                          backgroundImage:
+                            "linear-gradient(to right, #fcb317, #8bb589, #61b5b3)",
                           fontFamily: "Poppins",
-                          fontWeight: 'bolder',
-                          fontSize: 'larger',
+                          fontWeight: "bolder",
+                          fontSize: "larger"
                         }}
                       />
                     </div>

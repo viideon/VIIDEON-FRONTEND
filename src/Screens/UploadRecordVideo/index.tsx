@@ -27,13 +27,13 @@ import {
 } from "../../Redux/Types/videos";
 import { AuthState } from "../../Redux/Types/auth";
 import * as Constants from "../../constants/constants";
-import 'react-tabs/style/react-tabs.css';
+import "react-tabs/style/react-tabs.css";
 import { reg } from "../../constants/emailRegEx";
 import { config } from "../../config/aws";
-import VideocamIcon from '@material-ui/icons/Videocam';
+import VideocamIcon from "@material-ui/icons/Videocam";
 import "./style.css";
-import fileUploadIcon from '../../assets/uploadCircle.png';
-import Header from '../../components/Header/Header';
+import fileUploadIcon from "../../assets/uploadCircle.png";
+import Header from "../../components/Header/Header";
 
 type IProps = {
   auth: AuthState;
@@ -227,197 +227,211 @@ class UploadRecord extends Component<IProps, IState> {
     let { videoSaved, loading } = this.props.videoUser;
     return (
       <>
-      <Header styles={{backgroundImage: 'linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))'}} />
-      <div className="recordMainContainer">
-        {/* <p className="mainHeader">{Constants.CREATE_VIDEO}</p> */}
-        {/* <p className="titleHeader">{Constants.RECORD_AND_SHARE}</p> */}
-        {/* <hr /> */}
-        <Tabs defaultIndex={this.props.location.show === "upload" ? 1 : 0}>
-          <TabList>
-            <Tab>
-              <div>
-                <VideocamIcon />
-                {Constants.RECORD_WITH_CAMERA}
-              </div>
-            </Tab>
-            <Tab style={{ bottom: '-2.2px'}}>
-              <div>
-                <FaLaptop id="videoTabIcon" style={iconStyle} />
-                {Constants.UPLOAD_FROM_COMPUTER}
-              </div>
-            </Tab>
-          </TabList>
-          <TabPanel>
-            {this.state.addLogoText === false ? (
-              <VideoRecorder
-                getBlob={(blob: any) => {
-                  this.props.toggleSendVariable();
-                  this.setState({ videoRecord: blob }, () =>
-                    this.setState({ addLogoText: true })
-                  );
-                }}
-              />
-            ) : (
+        <Header
+          styles={{
+            backgroundImage:
+              "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"
+          }}
+        />
+        <div className="recordMainContainer">
+          {/* <p className="mainHeader">{Constants.CREATE_VIDEO}</p> */}
+          {/* <p className="titleHeader">{Constants.RECORD_AND_SHARE}</p> */}
+          {/* <hr /> */}
+          <Tabs defaultIndex={this.props.location.show === "upload" ? 1 : 0}>
+            <TabList>
+              <Tab>
+                <div>
+                  <VideocamIcon />
+                  {Constants.RECORD_WITH_CAMERA}
+                </div>
+              </Tab>
+              <Tab style={{ bottom: "-2.2px" }}>
+                <div>
+                  <FaLaptop id="videoTabIcon" style={iconStyle} />
+                  {Constants.UPLOAD_FROM_COMPUTER}
+                </div>
+              </Tab>
+            </TabList>
+            <TabPanel>
+              {this.state.addLogoText === false ? (
+                <VideoRecorder
+                  getBlob={(blob: any) => {
+                    this.props.toggleSendVariable();
+                    this.setState({ videoRecord: blob }, () =>
+                      this.setState({ addLogoText: true })
+                    );
+                  }}
+                />
+              ) : (
                 <AddLogoText videoToEdit={this.state.videoRecord} />
               )}
-          </TabPanel>
-          <TabPanel>
-            <div className="uploadPanelBorder">
-              <div className="wrapperUploadPanel">
-                <Dropzone onDrop={this.onDrop}>
-                  {({ getRootProps, getInputProps }) => (
-                    <section className="container">
-                      <div
-                        {...getRootProps({ className: "dropzone" })}
-                        style={{
-                          textAlign: "center",
-                          cursor: "pointer",
-                          margin: "auto",
-                          width: 100
-                        }}
-                      >
-                        <input {...getInputProps()} />
-                        <img
-                          // src={require("../../assets/upload.png")}
-                          src={fileUploadIcon}
-                          style={{ width: 80, margin: "auto" }}
-                          alt="upload"
-                        />
-                      </div>
-                      <aside>
-                        <p style={{ marginTop: 20, textAlign: "center", fontFamily: "Poppins", fontWeight: 'bold' }}>
-                          {Constants.CLICK_AND_DRAG}
-                        </p>
-                        {this.state.files.map((file: any) => (
-                          <div key={file.name}>
-                            <div className="fileInformationDiv">
-                              <p>File Name: {file.name}</p>
-                              <p>Size: {file.size} bytes</p>
-                            </div>
-                            <div id="formInput">
-                              {videoSaved === null && (
-                                <div>
-                                  {this.state.fileProgress && (
-                                    <LinearProgress
-                                      variant="determinate"
-                                      value={this.state.progressFile}
-                                    />
-                                  )}
-
-                                  <TextField
-                                    name="name"
-                                    value={this.state.title}
-                                    onChange={this.titleNameHandler}
-                                    placeholder="Give your video an amazing title"
-                                    type="text"
-                                    label="Video Title"
-                                    fullWidth
-                                    margin="normal"
-                                    InputLabelProps={{
-                                      shrink: true,
-                                    }}
-                                    style={{ margin: "40px 0px" }}
-                                  />
-                                  <ThemeButton
-                                    style={{
-                                      background: Colors.themeBlue,
-                                      color: Colors.white
-                                    }}
-                                    disabled={
-                                      this.state.videoProgress || loading
-                                    }
-                                    onClick={this.uploadFileHandler}
-                                    name="Save Video"
-                                  />
-                                </div>
-                              )}
-
-                              {videoSaved === true && (
-                                <div>
+            </TabPanel>
+            <TabPanel>
+              <div className="uploadPanelBorder">
+                <div className="wrapperUploadPanel">
+                  <Dropzone onDrop={this.onDrop}>
+                    {({ getRootProps, getInputProps }) => (
+                      <section className="container">
+                        <div
+                          {...getRootProps({ className: "dropzone" })}
+                          style={{
+                            textAlign: "center",
+                            cursor: "pointer",
+                            margin: "auto",
+                            width: 100
+                          }}
+                        >
+                          <input {...getInputProps()} />
+                          <img
+                            // src={require("../../assets/upload.png")}
+                            src={fileUploadIcon}
+                            style={{ width: 80, margin: "auto" }}
+                            alt="upload"
+                          />
+                        </div>
+                        <aside>
+                          <p
+                            style={{
+                              marginTop: 20,
+                              textAlign: "center",
+                              fontFamily: "Poppins",
+                              fontWeight: "bold"
+                            }}
+                          >
+                            {Constants.CLICK_AND_DRAG}
+                          </p>
+                          {this.state.files.map((file: any) => (
+                            <div key={file.name}>
+                              <div className="fileInformationDiv">
+                                <p>File Name: {file.name}</p>
+                                <p>Size: {file.size} bytes</p>
+                              </div>
+                              <div id="formInput">
+                                {videoSaved === null && (
                                   <div>
-                                    <EmailInstruction heading="Reciever Email" />
+                                    {this.state.fileProgress && (
+                                      <LinearProgress
+                                        variant="determinate"
+                                        value={this.state.progressFile}
+                                      />
+                                    )}
+
                                     <TextField
-                                      placeholder="Enter email address"
-                                      fullWidth
+                                      name="name"
+                                      value={this.state.title}
+                                      onChange={this.titleNameHandler}
+                                      placeholder="Give your video an amazing title"
                                       type="text"
-                                      value={this.state.recieverEmail}
-                                      name="recieverEmail"
+                                      label="Video Title"
+                                      fullWidth
+                                      margin="normal"
                                       InputLabelProps={{
                                         shrink: true
                                       }}
-                                      onChange={this.emailHandler}
+                                      style={{ margin: "40px 0px" }}
                                     />
-                                  </div>
-                                  <ThemeButton
-                                    onClick={this.submitEmail}
-                                    name={`${Constants.SEND_THROUGH_EMAIL}`}
-                                    style={{
-                                      backgroundColor: Colors.themeGreen,
-                                      color: Colors.white
-                                    }}
-                                  />
-                                  <div className="formGroupMultiple">
-                                    <EmailInstruction heading="Broadcast" />
-                                    <ChipInput
-                                      value={this.state.emails}
-                                      placeholder="Enter email and press enter"
-                                      fullWidth
-                                      onAdd={chips => this.handleChipAdd(chips)}
-                                      onDelete={chip =>
-                                        this.handleDeleteChip(chip)
-                                      }
-                                    />
-                                  </div>
-                                  <div>
                                     <ThemeButton
+                                      style={{
+                                        background: Colors.themeBlue,
+                                        color: Colors.white
+                                      }}
+                                      disabled={
+                                        this.state.videoProgress || loading
+                                      }
+                                      onClick={this.uploadFileHandler}
+                                      name="Save Video"
+                                    />
+                                  </div>
+                                )}
+
+                                {videoSaved === true && (
+                                  <div>
+                                    <div>
+                                      <EmailInstruction heading="Reciever Email" />
+                                      <TextField
+                                        placeholder="Enter email address"
+                                        fullWidth
+                                        type="text"
+                                        value={this.state.recieverEmail}
+                                        name="recieverEmail"
+                                        InputLabelProps={{
+                                          shrink: true
+                                        }}
+                                        onChange={this.emailHandler}
+                                      />
+                                    </div>
+                                    <ThemeButton
+                                      onClick={this.submitEmail}
+                                      name={`${Constants.SEND_THROUGH_EMAIL}`}
                                       style={{
                                         backgroundColor: Colors.themeGreen,
                                         color: Colors.white
                                       }}
-                                      onClick={this.sendMultipleEmail}
-                                      name="Broadcast"
+                                    />
+                                    <div className="formGroupMultiple">
+                                      <EmailInstruction heading="Broadcast" />
+                                      <ChipInput
+                                        value={this.state.emails}
+                                        placeholder="Enter email and press enter"
+                                        fullWidth
+                                        onAdd={chips =>
+                                          this.handleChipAdd(chips)
+                                        }
+                                        onDelete={chip =>
+                                          this.handleDeleteChip(chip)
+                                        }
+                                      />
+                                    </div>
+                                    <div>
+                                      <ThemeButton
+                                        style={{
+                                          backgroundColor: Colors.themeGreen,
+                                          color: Colors.white
+                                        }}
+                                        onClick={this.sendMultipleEmail}
+                                        name="Broadcast"
+                                      />
+                                    </div>
+                                    <ThemeButton
+                                      style={{
+                                        background: Colors.themeBlue,
+                                        color: Colors.white,
+                                        marginTop: "30px"
+                                      }}
+                                      onClick={this.navigateToVideos}
+                                      name="Done"
                                     />
                                   </div>
-                                  <ThemeButton
-                                    style={{
-                                      background: Colors.themeBlue,
-                                      color: Colors.white,
-                                      marginTop: "30px",
-                                    }}
-                                    onClick={this.navigateToVideos}
-                                    name="Done"
-                                  />
-                                </div>
-                              )}
+                                )}
+                              </div>
                             </div>
-                          </div>
-                        ))}
-                      </aside>
-                    </section>
-                  )}
-                </Dropzone>
-                <div style={{ marginLeft: "50%" }}>
-                  {loading && <Loading />}
-                  {this.props.progressEmail && <Loading />}
+                          ))}
+                        </aside>
+                      </section>
+                    )}
+                  </Dropzone>
+                  <div style={{ marginLeft: "50%" }}>
+                    {loading && <Loading />}
+                    {this.props.progressEmail && <Loading />}
+                  </div>
                 </div>
               </div>
-            </div>
-          </TabPanel>
-        </Tabs>
+            </TabPanel>
+          </Tabs>
 
-        <canvas
-          ref="canvas"
-          style={{ position: "absolute", left: "-2000px" }}
-        />
-        <video
-          ref="video"
-          style={{
-            opacity: 0.00001,
-            position: "absolute",
-            left: "-999px"
-          }}
-        />
-      </div>
+          <canvas
+            ref="canvas"
+            style={{ position: "absolute", left: "-2000px" }}
+          />
+          <video
+            ref="video"
+            style={{
+              opacity: 0.00001,
+              position: "absolute",
+              left: "-999px"
+            }}
+          />
+        </div>
       </>
     );
   }
@@ -425,8 +439,8 @@ class UploadRecord extends Component<IProps, IState> {
 
 const iconStyle = {
   padding: 0,
-  width: '1em',
-  height: '1em'
+  width: "1em",
+  height: "1em"
 };
 const mapStateToProps = (state: any) => {
   return {

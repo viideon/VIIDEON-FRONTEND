@@ -3,7 +3,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  Typography,
+  Typography
 } from "@material-ui/core";
 import "./style.css";
 
@@ -14,9 +14,18 @@ interface IProps {
 class VerifySuccessModal extends React.Component<IProps> {
   render() {
     return (
-      <Dialog open={this.props.open} onClose={this.props.toggle} maxWidth="sm" fullWidth>
-        <DialogTitle >Email Verified</DialogTitle>
-        <DialogContent><Typography variant="h6">Your Email has been Verified, Please Login</Typography></DialogContent>
+      <Dialog
+        open={this.props.open}
+        onClose={this.props.toggle}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>Email Verified</DialogTitle>
+        <DialogContent>
+          <Typography variant="h6">
+            Your Email has been Verified, Please Login
+          </Typography>
+        </DialogContent>
       </Dialog>
     );
   }

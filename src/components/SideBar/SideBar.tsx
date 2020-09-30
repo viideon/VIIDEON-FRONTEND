@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { UserProfile } from "../../Redux/Types/profile";
 import LogoutModal from "../Modals/logout";
 import Tooltip from "@material-ui/core/Tooltip";
-import classname from 'classnames';
+import classname from "classnames";
 
 import "./style.css";
 
@@ -15,11 +15,11 @@ type IProps = {
   user: UserProfile;
   logout: () => void;
 };
-type IState = { activeTab: string, logoutModal: boolean };
+type IState = { activeTab: string; logoutModal: boolean };
 class SideBar extends Component<IProps, IState> {
   constructor(props: any) {
     super(props);
-    this.state = { 
+    this.state = {
       activeTab: "/",
       logoutModal: false
     };
@@ -34,14 +34,15 @@ class SideBar extends Component<IProps, IState> {
     this.setState({ logoutModal: !this.state.logoutModal });
   };
   render() {
-    const { user, logout} = this.props;
+    const { user, logout } = this.props;
     const { drawer } = this.props;
     var activeSideBar = this.state.activeTab;
-    if (this.props.location.pathname !== activeSideBar) activeSideBar = this.props.location.pathname
+    if (this.props.location.pathname !== activeSideBar)
+      activeSideBar = this.props.location.pathname;
     return (
       <div className={drawer ? "MainDrawer" : "MainDrawerHide"}>
         {/* <div className="wrapperProfileSidebar"> */}
-          {/* {user && (
+        {/* {user && (
             <div className="wrapperDetails">
               <span className="wrapperAvatarSidebar">
                 <img
@@ -56,13 +57,28 @@ class SideBar extends Component<IProps, IState> {
               </span>
             </div>
           )} */}
-          {/* <SearchBar /> */}
+        {/* <SearchBar /> */}
         {/* </div> */}
-        <div className={classname({"OptionIcons": true, "dashboardOption": true, "activeSideBar": activeSideBar === "/"})} onClick={() => {this.handleChangeTab("/");}}>
+        <div
+          className={classname({
+            OptionIcons: true,
+            dashboardOption: true,
+            activeSideBar: activeSideBar === "/"
+          })}
+          onClick={() => {
+            this.handleChangeTab("/");
+          }}
+        >
           <i className="fas fa-tachometer-alt dashboard" style={iconStyle} />
           <span className="IconNameStyling">Dashboard</span>
         </div>
-        <div className={classname({"OptionIcons": true, "activeSideBar": activeSideBar === "/videos"})} onClick={() => this.handleChangeTab("/videos")}>
+        <div
+          className={classname({
+            OptionIcons: true,
+            activeSideBar: activeSideBar === "/videos"
+          })}
+          onClick={() => this.handleChangeTab("/videos")}
+        >
           <i className="fab fa-microsoft" style={iconStyle} />
           <span className="IconNameStyling">My Videos</span>
         </div>
@@ -76,21 +92,45 @@ class SideBar extends Component<IProps, IState> {
           <i className="far fa-address-book" style={iconStyle} />
           <span className="IconNameStyling">Connections</span>
         </div> */}
-        <div className={classname({"OptionIcons": true, "activeSideBar": activeSideBar === "/campaign"})} onClick={() => this.handleChangeTab("/campaign")}>
+        <div
+          className={classname({
+            OptionIcons: true,
+            activeSideBar: activeSideBar === "/campaign"
+          })}
+          onClick={() => this.handleChangeTab("/campaign")}
+        >
           <i className="far fa-flag" style={iconStyle} />
           <span className="IconNameStyling">Campaigns</span>
         </div>
-        <div className={classname({"OptionIcons": true, "activeSideBar": activeSideBar === "/configuration"})} onClick={() => this.handleChangeTab("/configuration")}>
+        <div
+          className={classname({
+            OptionIcons: true,
+            activeSideBar: activeSideBar === "/configuration"
+          })}
+          onClick={() => this.handleChangeTab("/configuration")}
+        >
           <i className="fas fa-users-cog" style={iconStyle} />
           <span className="IconNameStyling">Configuration</span>
         </div>
 
-        <div className={classname({"OptionIcons": true, "activeSideBar": activeSideBar === "/assetlibrary"})} onClick={() => this.handleChangeTab("/assetlibrary")}>
+        <div
+          className={classname({
+            OptionIcons: true,
+            activeSideBar: activeSideBar === "/assetlibrary"
+          })}
+          onClick={() => this.handleChangeTab("/assetlibrary")}
+        >
           <i className="fas fa-folder" style={iconStyle} />
           <span className="IconNameStyling">Asset Library</span>
         </div>
 
-        <div className={classname({"OptionIcons": true, "activeSideBar": activeSideBar === "/music"})} onClick={() => this.handleChangeTab("/music")}>
+        <div
+          className={classname({
+            OptionIcons: true,
+            activeSideBar: activeSideBar === "/music"
+          })}
+          onClick={() => this.handleChangeTab("/music")}
+        >
           <i className="far fa-play-circle" style={iconStyle} />
           <span className="IconNameStyling">Music</span>
         </div>
@@ -134,7 +174,7 @@ const iconStyle = {
   width: "1.5em",
   display: "inline-block",
   color: "#FFFFFF",
-  cursor: 'pointer',
+  cursor: "pointer"
 };
 const arrowIcon = {
   marginLeft: "auto",

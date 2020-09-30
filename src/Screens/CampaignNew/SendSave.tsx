@@ -12,20 +12,19 @@ import AWS from "aws-sdk";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 // import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
-import PersonIcon from '@material-ui/icons/Person';
-import AddIcon from '@material-ui/icons/Add';
-import Typography from '@material-ui/core/Typography';
-import { blue } from '@material-ui/core/colors';
-
+import Avatar from "@material-ui/core/Avatar";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ListItemText from "@material-ui/core/ListItemText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Dialog from "@material-ui/core/Dialog";
+import PersonIcon from "@material-ui/icons/Person";
+import AddIcon from "@material-ui/icons/Add";
+import Typography from "@material-ui/core/Typography";
+import { blue } from "@material-ui/core/colors";
 
 import {
   sendVideoToEmail,
@@ -44,29 +43,39 @@ import * as Constants from "../../constants/constants";
 import { reg } from "../../constants/emailRegEx";
 import { config } from "../../config/aws";
 
-
 import "./style.css";
 
-const Spread = require('../../assets/email-theme/Spread.png');
-const Streamlined = require('../../assets/email-theme/Streamlined.png');
-const SimpleBlue = require('../../assets/email-theme/SimpleBlue.png');
-const Sleek = require('../../assets/email-theme/Sleek.png');
-const SocialBusiness = require('../../assets/email-theme/SocialBusiness.png');
-const SocialImpact = require('../../assets/email-theme/SocialImpact.png');
-const ClassicDark = require('../../assets/email-theme/ClassicDark.png');
-const CorporateLight = require('../../assets/email-theme/CorporateLight.png');
-const ModernSimple = require('../../assets/email-theme/ModernSimple.png');
-const Ocean = require('../../assets/email-theme/Ocean.png');
+const Spread = require("../../assets/email-theme/Spread.png");
+const Streamlined = require("../../assets/email-theme/Streamlined.png");
+const SimpleBlue = require("../../assets/email-theme/SimpleBlue.png");
+const Sleek = require("../../assets/email-theme/Sleek.png");
+const SocialBusiness = require("../../assets/email-theme/SocialBusiness.png");
+const SocialImpact = require("../../assets/email-theme/SocialImpact.png");
+const ClassicDark = require("../../assets/email-theme/ClassicDark.png");
+const CorporateLight = require("../../assets/email-theme/CorporateLight.png");
+const ModernSimple = require("../../assets/email-theme/ModernSimple.png");
+const Ocean = require("../../assets/email-theme/Ocean.png");
 
-const availableTheme = [{ name: "Spread", avatar: Spread }, { name: "Streamlined", avatar: Streamlined }, { name: "Simple Blue", avatar: SimpleBlue }, { name: "Sleek", avatar: Sleek}, { name: "Social Business", avatar: SocialBusiness }, { name: "Social Impact", avatar: SocialImpact }, { name: "Clasic Dark", avatar: ClassicDark }, { name: "Corporate Light", avatar: CorporateLight }, { name: "Modern Simple", avatar: ModernSimple }, { name: "Ocean", avatar: Ocean }]
+const availableTheme = [
+  { name: "Spread", avatar: Spread },
+  { name: "Streamlined", avatar: Streamlined },
+  { name: "Simple Blue", avatar: SimpleBlue },
+  { name: "Sleek", avatar: Sleek },
+  { name: "Social Business", avatar: SocialBusiness },
+  { name: "Social Impact", avatar: SocialImpact },
+  { name: "Clasic Dark", avatar: ClassicDark },
+  { name: "Corporate Light", avatar: CorporateLight },
+  { name: "Modern Simple", avatar: ModernSimple },
+  { name: "Ocean", avatar: Ocean }
+];
 
-const emails = ['username@gmail.com', 'user02@gmail.com'];
+const emails = ["username@gmail.com", "user02@gmail.com"];
 
 const useStyles = makeStyles({
   avatar: {
     backgroundColor: blue[100],
-    color: blue[600],
-  },
+    color: blue[600]
+  }
 });
 
 export interface SimpleDialogProps {
@@ -89,22 +98,28 @@ function SimpleDialog(props: SimpleDialogProps) {
 
   return (
     <div className="emailTmplateDialogWrapper">
-    <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-      <DialogTitle id="simple-dialog-title">Select E-mail theme</DialogTitle>
-      <List component="div" >
-        {availableTheme.map((theme) => (
-          <ListItem button onClick={() => handleListItemClick(theme.name)} key={theme.name}>
-            <img className="avatarImage" src={theme.avatar} />
-            <ListItemText primary={theme.name} />
-          </ListItem>
-        ))}
-      </List>
-    </Dialog>
+      <Dialog
+        onClose={handleClose}
+        aria-labelledby="simple-dialog-title"
+        open={open}
+      >
+        <DialogTitle id="simple-dialog-title">Select E-mail theme</DialogTitle>
+        <List component="div">
+          {availableTheme.map(theme => (
+            <ListItem
+              button
+              onClick={() => handleListItemClick(theme.name)}
+              key={theme.name}
+            >
+              <img className="avatarImage" src={theme.avatar} />
+              <ListItemText primary={theme.name} />
+            </ListItem>
+          ))}
+        </List>
+      </Dialog>
     </div>
   );
 }
-
-
 
 interface IProps {
   history: any;
@@ -144,12 +159,12 @@ class SendSave extends React.Component<IProps> {
     videoHeight: "300px",
     open: false,
     themeName: "",
-    emailType: 'single',
+    emailType: "single"
   };
   canvas: any;
   container: any;
   s3: any;
-  
+
   componentDidMount() {
     this.props.toggleSendVariable();
     this.s3 = new AWS.S3(config);
@@ -162,10 +177,13 @@ class SendSave extends React.Component<IProps> {
   }
 
   caluclateContainerHeight = () => {
-    let calculatedVideoHeight = document.getElementById("wrapperSend")?.clientWidth ? `${document.getElementById('wrapperSend')!.clientWidth * 0.5625}px` : "300px";
+    let calculatedVideoHeight = document.getElementById("wrapperSend")
+      ?.clientWidth
+      ? `${document.getElementById("wrapperSend")!.clientWidth * 0.5625}px`
+      : "300px";
     this.setState({ videoHeight: calculatedVideoHeight });
-  }
-  
+  };
+
   saveVideo = async () => {
     if (this.state.title === "") {
       toast.warn("Enter a title to save video");
@@ -270,7 +288,7 @@ class SendSave extends React.Component<IProps> {
       const video = {
         videoId: this.props.savedVideoId,
         recieverEmail,
-        themeName,
+        themeName
       };
       this.props.sendVideoToEmail(video);
       this.setState({ recieverEmail: "" });
@@ -316,27 +334,32 @@ class SendSave extends React.Component<IProps> {
 
   handleClose = (themeName: string) => {
     const { emailType } = this.state;
-    this.setState({themeName, open: false});
-    emailType === "single" ? this.submitEmail(themeName) : this.sendMultipleEmail(themeName);
-  }
+    this.setState({ themeName, open: false });
+    emailType === "single"
+      ? this.submitEmail(themeName)
+      : this.sendMultipleEmail(themeName);
+  };
 
   handleModal = (emailType: string) => {
-    this.setState({open: true, emailType})
-  }
+    this.setState({ open: true, emailType });
+  };
 
   render() {
     let { videoSaved, loading } = this.props.videoUser;
     let { progressEmail } = this.props;
-    const { open, themeName } = this.state
+    const { open, themeName } = this.state;
     return (
       <Grid container>
         <Grid item xs={1} sm={1} md={3} lg={3}></Grid>
         <Grid item xs={10} sm={10} md={6} lg={6} id="wrapperSend">
           <h3 className="recordHeading">Save and Email Campaign</h3>
-          <div ref="container" style={{
-            width: "100%",
-            height: this.state.videoHeight
-          }}>
+          <div
+            ref="container"
+            style={{
+              width: "100%",
+              height: this.state.videoHeight
+            }}
+          >
             {this.props.previewVideo && this.props.thumbnailBlob && (
               <CanvasPlayer
                 autoPlay={false}
@@ -375,11 +398,19 @@ class SendSave extends React.Component<IProps> {
                     fullWidth
                     margin="normal"
                     InputLabelProps={{
-                      shrink: true,
+                      shrink: true
                     }}
                   />
                 </div>
-                <ThemeButton disabled={this.state.videoProgress || loading} onClick={this.saveVideo} name="Save Campaign" style={{ backgroundColor: Colors.themeBlue, color: Colors.white }} />
+                <ThemeButton
+                  disabled={this.state.videoProgress || loading}
+                  onClick={this.saveVideo}
+                  name="Save Campaign"
+                  style={{
+                    backgroundColor: Colors.themeBlue,
+                    color: Colors.white
+                  }}
+                />
               </>
             )}
             {videoSaved === true && (
@@ -398,7 +429,14 @@ class SendSave extends React.Component<IProps> {
                     onChange={this.emailHandler}
                   />
                 </div>
-                <ThemeButton name="Send Through Email" onClick={() => this.handleModal("single") }  style={{ backgroundColor: Colors.themeGreen, color: Colors.white }} />
+                <ThemeButton
+                  name="Send Through Email"
+                  onClick={() => this.handleModal("single")}
+                  style={{
+                    backgroundColor: Colors.themeGreen,
+                    color: Colors.white
+                  }}
+                />
                 <div className="formGroups">
                   <EmailInstruction heading="Broadcast" />
                   <ChipInput
@@ -409,9 +447,24 @@ class SendSave extends React.Component<IProps> {
                     onDelete={chip => this.handleDeleteChip(chip)}
                   />
                 </div>
-                <ThemeButton name="Broadcast" onClick={() => this.handleModal("multiple")} style={{ backgroundColor: Colors.themeGreen, color: Colors.white }} />
+                <ThemeButton
+                  name="Broadcast"
+                  onClick={() => this.handleModal("multiple")}
+                  style={{
+                    backgroundColor: Colors.themeGreen,
+                    color: Colors.white
+                  }}
+                />
                 <div style={{ textAlign: "end" }}>
-                  <ThemeButton name="Done" onClick={this.navigateToVideos} style={{ backgroundColor: Colors.themeBlue, color: Colors.white, width: "120px" }} />
+                  <ThemeButton
+                    name="Done"
+                    onClick={this.navigateToVideos}
+                    style={{
+                      backgroundColor: Colors.themeBlue,
+                      color: Colors.white,
+                      width: "120px"
+                    }}
+                  />
                 </div>
               </>
             )}
@@ -422,7 +475,11 @@ class SendSave extends React.Component<IProps> {
           />
         </Grid>
         <Grid item xs={1} sm={1} md={3} lg={3}></Grid>
-        <SimpleDialog selectedValue={themeName} open={open} onClose={this.handleClose} />
+        <SimpleDialog
+          selectedValue={themeName}
+          open={open}
+          onClose={this.handleClose}
+        />
       </Grid>
     );
   }

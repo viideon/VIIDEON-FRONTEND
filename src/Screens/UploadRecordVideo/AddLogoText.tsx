@@ -29,7 +29,7 @@ import * as Constants from "../../constants/constants";
 import { reg } from "../../constants/emailRegEx";
 import { EmailVideo, VideoSave, MultiEmail } from "../../Redux/Types/videos";
 import { addAsset, addMusicAsset } from "../../Redux/Actions/asset";
-import { getIconPosition } from "../../lib/helpers"
+import { getIconPosition } from "../../lib/helpers";
 import { config } from "../../config/aws";
 import "./style.css";
 
@@ -121,7 +121,7 @@ class AddLogoText extends React.Component<IProps, IState> {
       musicFile: null,
       assetUploading: false,
       musicLoadingTimeout: null,
-      musicVolume: "0.5",
+      musicVolume: "0.5"
     };
   }
   componentDidMount() {
@@ -137,17 +137,16 @@ class AddLogoText extends React.Component<IProps, IState> {
     this.ctx = this.canvas.getContext("2d");
     this.ctx2 = this.canvas2.getContext("2d");
     this.video.addEventListener("loadedmetadata", this.handleLoadedMetaData);
-    this.video.addEventListener(
-      "play",
-      this.onVideoPlay,
-      false
-    );
+    this.video.addEventListener("play", this.onVideoPlay, false);
     this.video.addEventListener("pause", this.onVideoPause);
     this.video.addEventListener("ended", this.onVideoEnd);
     this.video.addEventListener("volumechange", this.syncAudio);
   }
   onVideoPlay = () => {
-    if (this.state.backgroundMusicUrl && this.backgroundMusic.readyState !== 4) {
+    if (
+      this.state.backgroundMusicUrl &&
+      this.backgroundMusic.readyState !== 4
+    ) {
       toast.info("Adding background music to video , Please wait");
       return;
     } else {
@@ -161,7 +160,7 @@ class AddLogoText extends React.Component<IProps, IState> {
       this.video.clientWidth,
       this.video.clientHeight
     );
-  }
+  };
   handleLoadedMetaData = () => {
     this.canvas.width = this.video.clientWidth;
     this.canvas.height = this.video.clientHeight;
@@ -179,13 +178,13 @@ class AddLogoText extends React.Component<IProps, IState> {
   };
   setMusicInputRef = (ref: any) => {
     this.musicRef = ref;
-  }
+  };
   toggleMusicAssetPicker = () => {
     this.setState({ isOpenMusicPicker: !this.state.isOpenMusicPicker });
-  }
+  };
   triggerMusicUploadBtn = () => {
     this.musicRef.click();
-  }
+  };
   onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0] !== null) {
       if (!e.target.files![0].name.match(/\.(jpg|jpeg|png)$/)) {
@@ -199,7 +198,14 @@ class AddLogoText extends React.Component<IProps, IState> {
     }
   };
 
-  draw = ( video: any, img: any, context: any, context2: any, width: any, height: any) => {
+  draw = (
+    video: any,
+    img: any,
+    context: any,
+    context2: any,
+    width: any,
+    height: any
+  ) => {
     if (video.paused || video.ended) return false;
     context2.drawImage(video, 0, 0, width, height);
     canvasTxt.fontSize = (this.state.fontSize / 100) * (width - 80);
@@ -207,31 +213,71 @@ class AddLogoText extends React.Component<IProps, IState> {
     canvasTxt.vAlign = this.state.vAlign;
     canvasTxt.align = this.state.align;
     canvasTxt.lineHeight = 20;
-    canvasTxt.drawText( context2, this.state.text, 30, 30, width - 50, height - 50);
+    canvasTxt.drawText(
+      context2,
+      this.state.text,
+      30,
+      30,
+      width - 50,
+      height - 50
+    );
     let logoDimension = 0.2 * width;
-    context2.drawImage(img, this.state.logoX, this.state.logoY, logoDimension, logoDimension);
+    context2.drawImage(
+      img,
+      this.state.logoX,
+      this.state.logoY,
+      logoDimension,
+      logoDimension
+    );
     let idata = context2.getImageData(0, 0, width, height);
     let that = this;
     context.putImageData(idata, 0, 0);
-    setTimeout(function () {
+    setTimeout(function() {
       that.draw(video, img, context, context2, width, height);
     }, 0);
   };
-  updateDrawCanvas = (video: any, img: any, context: any, context2: any, width: any, height: any) => {
+  updateDrawCanvas = (
+    video: any,
+    img: any,
+    context: any,
+    context2: any,
+    width: any,
+    height: any
+  ) => {
     context2.drawImage(video, 0, 0, width, height);
     context2.fillStyle = this.state.textColor;
     canvasTxt.vAlign = this.state.vAlign;
     canvasTxt.align = this.state.align;
     canvasTxt.lineHeight = 20;
     canvasTxt.fontSize = (this.state.fontSize / 100) * (width - 80);
-    canvasTxt.drawText(context2, this.state.text, 30, 30, width - 50, height - 50);
+    canvasTxt.drawText(
+      context2,
+      this.state.text,
+      30,
+      30,
+      width - 50,
+      height - 50
+    );
     let logoDimension = 0.2 * width;
-    context2.drawImage(img, this.state.logoX, this.state.logoY, logoDimension, logoDimension);
+    context2.drawImage(
+      img,
+      this.state.logoX,
+      this.state.logoY,
+      logoDimension,
+      logoDimension
+    );
     let idata = context2.getImageData(0, 0, width, height);
     context.putImageData(idata, 0, 0);
   };
   updateCanvas = () => {
-    this.updateDrawCanvas(this.video, this.img, this.ctx, this.ctx2, this.video.clientWidth, this.video.clientHeight);
+    this.updateDrawCanvas(
+      this.video,
+      this.img,
+      this.ctx,
+      this.ctx2,
+      this.video.clientWidth,
+      this.video.clientHeight
+    );
   };
   compress(file: any) {
     this.setState({ assetUploading: true });
@@ -357,7 +403,9 @@ class AddLogoText extends React.Component<IProps, IState> {
     this.setState({ textColor: color.hex }, () => this.updateCanvas());
   };
   changeFontSize = (e: any) => {
-    this.setState({ fontSize: Number(e.target.value) }, () => this.updateCanvas());
+    this.setState({ fontSize: Number(e.target.value) }, () =>
+      this.updateCanvas()
+    );
   };
   onAssetPick = (path: any) => {
     this.setState({ logoPath: path }, () => this.updateCanvas());
@@ -433,11 +481,19 @@ class AddLogoText extends React.Component<IProps, IState> {
           return;
         }
         toast.info("Asset Uploaded");
-        this.setState({ backgroundMusicUrl: data.Location, musicFile: null, musicFileSelected: false, assetUploading: false });
-        this.props.addMusicAsset({ url: data.Location, title: this.state.musicTitle });
+        this.setState({
+          backgroundMusicUrl: data.Location,
+          musicFile: null,
+          musicFileSelected: false,
+          assetUploading: false
+        });
+        this.props.addMusicAsset({
+          url: data.Location,
+          title: this.state.musicTitle
+        });
       });
     }
-  }
+  };
   onMusicInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const audioTypes = /(\.|\/)(mp3|ogg|wav)$/i;
     let musicFile = e.target.files![0];
@@ -451,12 +507,14 @@ class AddLogoText extends React.Component<IProps, IState> {
     } else {
       toast.error("Failed to select a file try again");
     }
-  }
+  };
   onMusicAssetPick = (path: any) => {
     this.setState({ backgroundMusicUrl: path });
     toast.info("Wait while we add the music to the video");
-    this.setState({ musicLoadingTimeout: setInterval(() => this.isMusicLoaded(), 3000) });
-  }
+    this.setState({
+      musicLoadingTimeout: setInterval(() => this.isMusicLoaded(), 3000)
+    });
+  };
   uploadThumbnail = () => {
     return new Promise((resolve, reject) => {
       this.setState({ videoProgress: true, progressVideo: 0 });
@@ -510,7 +568,7 @@ class AddLogoText extends React.Component<IProps, IState> {
       const musicProps = {
         url: this.state.backgroundMusicUrl,
         musicVolume: parseFloat(this.state.musicVolume)
-      }
+      };
       const video = {
         title: this.state.title,
         url: this.state.urlRecord,
@@ -572,14 +630,14 @@ class AddLogoText extends React.Component<IProps, IState> {
   };
   onChangeMusicTitle = (e: any) => {
     this.setState({ musicTitle: e.target.value });
-  }
+  };
   isMusicLoaded = () => {
     if (this.backgroundMusic && this.backgroundMusic.readyState === 4) {
       clearInterval(this.state.musicLoadingTimeout);
       this.setState({ musicLoadingTimeout: null });
       toast.info("Music added");
     }
-  }
+  };
   handleChipAdd = (email: any) => {
     if (reg.test(email) === false) {
       toast.error("Not a valid email");
@@ -596,26 +654,30 @@ class AddLogoText extends React.Component<IProps, IState> {
     this.props.history.push("/videos");
   };
   removeListeners = () => {
-    this.video.removeEventListener("handleloadedmetadata", this.handleLoadedMetaData);
+    this.video.removeEventListener(
+      "handleloadedmetadata",
+      this.handleLoadedMetaData
+    );
     this.video.removeEventListener("pause", this.onVideoPause);
     this.video.removeEventListener("play", this.onVideoPlay);
     this.video.removeEventListener("ended", this.onVideoEnd);
     this.video.removeEventListener("volumechange", this.syncAudio);
-  }
+  };
   syncAudio = () => {
     let videoVolume = this.video.volume * 100;
-    this.backgroundMusic.volume = parseFloat(this.state.musicVolume) / 100 * videoVolume;
-  }
+    this.backgroundMusic.volume =
+      (parseFloat(this.state.musicVolume) / 100) * videoVolume;
+  };
   onAdjustMusicVolume = (e: any) => {
     this.backgroundMusic.volume = e.target.value;
     this.setState({ musicVolume: e.target.value });
-  }
+  };
   onVideoPause = () => {
     this.backgroundMusic.pause();
-  }
+  };
   onVideoEnd = () => {
     this.backgroundMusic.currentTime = 0;
-  }
+  };
   componentWillUnmount() {
     this.removeListeners();
   }
@@ -732,10 +794,7 @@ class AddLogoText extends React.Component<IProps, IState> {
               </Button>
               <h3 className="addLogoMessage">
                 Add Music
-                    <Tooltip
-                  title="upload audio music"
-                  placement="top"
-                >
+                <Tooltip title="upload audio music" placement="top">
                   <span style={iconStyle}>
                     <i className="fas fa-info"></i>
                   </span>
@@ -753,25 +812,29 @@ class AddLogoText extends React.Component<IProps, IState> {
                 ref={this.setMusicInputRef}
                 accept="audio/*"
               />
-              {musicFileSelected && <Button
-                onClick={this.uploadAndSaveMusicAsset}
-                style={{
-                  color: "#fff",
-                  width: "135px",
-                  backgroundColor: "#ff4301"
-                }}
-              >
-                Upload
-                  </Button>}
-              {!musicFileSelected && <Button
-                onClick={this.triggerMusicUploadBtn}
-                style={{
-                  color: "#fff",
-                  backgroundColor: "#ff4301"
-                }}
-              >
-                Select to Upload
-                  </Button>}
+              {musicFileSelected && (
+                <Button
+                  onClick={this.uploadAndSaveMusicAsset}
+                  style={{
+                    color: "#fff",
+                    width: "135px",
+                    backgroundColor: "#ff4301"
+                  }}
+                >
+                  Upload
+                </Button>
+              )}
+              {!musicFileSelected && (
+                <Button
+                  onClick={this.triggerMusicUploadBtn}
+                  style={{
+                    color: "#fff",
+                    backgroundColor: "#ff4301"
+                  }}
+                >
+                  Select to Upload
+                </Button>
+              )}
               <Button
                 onClick={this.toggleMusicAssetPicker}
                 style={{
@@ -781,13 +844,30 @@ class AddLogoText extends React.Component<IProps, IState> {
                 }}
               >
                 Select from Assets
-                  </Button>
+              </Button>
 
-              {musicFileSelected && <TextField type="text" placeholder='Music Title' value={this.state.musicTitle} onChange={this.onChangeMusicTitle} style={{ marginTop: "10px" }} />}
-              {backgroundMusicUrl && <div className="musicVolumeAdjust">
-                <label>Adjust music volume</label>
-                <input type="range" value={this.state.musicVolume} onChange={this.onAdjustMusicVolume}
-                  min="0" max="1" step="0.1" /> </div>}
+              {musicFileSelected && (
+                <TextField
+                  type="text"
+                  placeholder="Music Title"
+                  value={this.state.musicTitle}
+                  onChange={this.onChangeMusicTitle}
+                  style={{ marginTop: "10px" }}
+                />
+              )}
+              {backgroundMusicUrl && (
+                <div className="musicVolumeAdjust">
+                  <label>Adjust music volume</label>
+                  <input
+                    type="range"
+                    value={this.state.musicVolume}
+                    onChange={this.onAdjustMusicVolume}
+                    min="0"
+                    max="1"
+                    step="0.1"
+                  />{" "}
+                </div>
+              )}
             </div>
           </Grid>
           <Grid item xs={12} sm={12} md={6} lg={6}>
@@ -862,7 +942,7 @@ class AddLogoText extends React.Component<IProps, IState> {
                   onChange={this.changeFontSize}
                 ></input>
                 <span style={{ width: "10%", padding: "10px" }}>
-                  {Math.round(this.state.fontSize / 10 * 100)}px
+                  {Math.round((this.state.fontSize / 10) * 100)}px
                 </span>
               </div>
               <h5 className="positionTxt">
@@ -898,7 +978,7 @@ class AddLogoText extends React.Component<IProps, IState> {
                     fullWidth
                     margin="normal"
                     InputLabelProps={{
-                      shrink: true,
+                      shrink: true
                     }}
                     style={{ margin: "20px 0px" }}
                   />
@@ -966,7 +1046,7 @@ class AddLogoText extends React.Component<IProps, IState> {
                       style={{
                         background: Colors.themeBlue,
                         color: Colors.white,
-                        marginTop: "30px",
+                        marginTop: "30px"
                       }}
                       onClick={this.navigateToVideos}
                       name="Done"
@@ -984,7 +1064,12 @@ class AddLogoText extends React.Component<IProps, IState> {
           width={1280}
           style={{ display: "none" }}
         />
-        <audio src={backgroundMusicUrl} ref="backgroundMusic" loop style={{ display: "none" }} />
+        <audio
+          src={backgroundMusicUrl}
+          ref="backgroundMusic"
+          loop
+          style={{ display: "none" }}
+        />
       </div>
     );
   }
