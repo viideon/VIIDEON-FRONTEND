@@ -16,6 +16,7 @@ const hasGetUserMedia = !!navigator.getUserMedia;
 interface IProps {
   getBlob: (blob: any) => void;
   reset?: () => void;
+  interActive?: boolean;
 }
 
 class Recording extends React.Component<IProps> {
@@ -132,25 +133,26 @@ class Recording extends React.Component<IProps> {
       disableRecordBtn: false,
       showStopBtn: false,
       showQualityInput: true,
+      showRecordBtn: true,
     });
     this.stopAndGetBlob(getBlob);
   };
-  
+
   stopAndGetBlob = (getBlob: boolean) => {
     let that = this;
-    !getBlob ? 
-    this.recordVideo.stopRecording() && 
-    this.props.reset && this.props.reset()
-    :
-    this.recordVideo.stopRecording(() => {
-      window.getSeekableBlob(this.recordVideo.getBlob(), function (seekableBlob: any) {
-        that.stopStream();
-        that.props.getBlob(seekableBlob);
-        that.resultVideo.src = URL.createObjectURL(seekableBlob);
-        that.setState({ showResult: true });
+    !getBlob ?
+      this.recordVideo.stopRecording() &&
+      this.props.reset && this.props.reset()
+      :
+      this.recordVideo.stopRecording(() => {
+        window.getSeekableBlob(this.recordVideo.getBlob(), function (seekableBlob: any) {
+          that.stopStream();
+          that.props.getBlob(seekableBlob);
+          that.resultVideo.src = URL.createObjectURL(seekableBlob);
+          that.setState({ showResult: true });
+        });
+        this.setState({ recordingStatus: false });
       });
-      this.setState({recordingStatus: false});
-    });
   };
 
   trackTime = () => {
@@ -186,10 +188,10 @@ class Recording extends React.Component<IProps> {
         this.setupMedia();
       });
     } else if (value === 4) {
-      this.setState({ width: 720, height: 1350, selectValue : 4}, () => {
+      this.setState({ width: 720, height: 1350, selectValue: 4 }, () => {
         this.stopStream();
         this.setupMedia();
-      } )
+      })
     }
   };
 
@@ -210,7 +212,7 @@ class Recording extends React.Component<IProps> {
   };
 
   handleNotes = () => {
-    this.setState({note: !this.state.note})
+    this.setState({ note: !this.state.note })
   }
 
   render() {
@@ -233,7 +235,14 @@ class Recording extends React.Component<IProps> {
     return (
       <div className="customeRecWrapper">
         <div className="videoStreamWrapper">
-          <div className="NoteWrapper" style={{ display: !note? 'none': ''}}>
+          {
+            this.props.interActive && !showRecordBtn &&
+            <div className="safeAreaWrapper">
+              <div className="fcY"></div>
+              <div className="fcR"></div>
+            </div>
+          }
+          <div className="NoteWrapper" style={{ display: !note ? 'none' : '' }}>
             <TextField
               id="overlayNote"
               multiline
@@ -244,18 +253,18 @@ class Recording extends React.Component<IProps> {
             ref="video"
             muted
             autoPlay
-            style={{visibility: showResult ? "hidden" : "visible",width: "100%",height: "100%",position: "absolute",top: 0,left: 0}}
+            style={{ visibility: showResult ? "hidden" : "visible", width: "100%", height: "100%", position: "absolute", top: 0, left: 0 }}
           />
           <video
             ref="resultVideo"
             muted
             controls
-            style={{visibility: showResult ? "visible" : "hidden",width: "100%",height: "100%",position: "absolute",top: 0,left: 0}}
+            style={{ visibility: showResult ? "visible" : "hidden", width: "100%", height: "100%", position: "absolute", top: 0, left: 0 }}
           />
           {showCountdown && <Counter />}
           {showTimer && (
             <span className="timerRecording">
-              <span style={{color: "#ff0000",marginRight: "2px"}}>
+              <span style={{ color: "#ff0000", marginRight: "2px" }}>
                 <FiberManualRecordIcon />
               </span>
               <span>
@@ -277,72 +286,75 @@ class Recording extends React.Component<IProps> {
             </span>
           )}
           <Tooltip title="Stop" placement="top" arrow>
-          <div className="addNote">
-          <FormControlLabel
-            control={
-              <Switch
-                checked={note}
-                onChange={this.handleNotes}
-                name="checkedB"
-                color="primary"
+            <div className="addNote">
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={note}
+                    onChange={this.handleNotes}
+                    name="checkedB"
+                    color="primary"
+                  />
+                }
+                label="+ Notes"
               />
-            }
-            label="+ Notes"
-          />
-          </div>
+            </div>
           </Tooltip>
           <Tooltip title="Stop" placement="top" arrow>
-          <div className="stopBtnWrapper">
-            <button className="stopBtn" onClick={() => !showRecordBtn && this.stopRecord(true)}/>
-          </div>
+            <div className="stopBtnWrapper">
+              <button className="stopBtn" onClick={() => !showRecordBtn && this.stopRecord(true)} />
+            </div>
           </Tooltip>
           {/* {showRecordBtn && !isConnecting && ( */}
           <Tooltip title="Record" placement="top" arrow>
-            <button className="recordingBtn" onClick={() => showRecordBtn && this.handleRecording()}/>
+            <button className="recordingBtn" onClick={() => showRecordBtn && this.handleRecording()} />
           </Tooltip>
           {/* {showStopBtn && ( */}
           <Tooltip title="Pause" placement="top" arrow>
-          <div className="pauseBtnWrapper" onClick={() => showStopBtn && this.pauseRecorder()} >
-            <div className="pauseBtn"></div>
-            <div className="pauseBtn"></div>
-          </div>
+            <div className="pauseBtnWrapper" onClick={() => showStopBtn && this.pauseRecorder()} >
+              <div className="pauseBtn"></div>
+              <div className="pauseBtn"></div>
+            </div>
           </Tooltip>
           {/* )} */}
         </div>
+        {
+          !this.props?.interActive &&
           <div className="recordQualityInput">
-          {showQualityInput && (
-            <div className="qualityWrapper">
-              <InputLabel>Video Quality</InputLabel>
-              <Select
-                id="videoQuality"
-                onChange={this.setQuality}
-                value={this.state.selectValue}
-              >
-                <MenuItem value={1}> 1280 x 720 (High defination)</MenuItem>
-                <MenuItem value={2}>800 x 600 (Standard defination)</MenuItem>
-                <MenuItem value={3}>640 x 480 (Normal defination)</MenuItem>
-                <MenuItem value={4}>Portrait</MenuItem>
-              </Select>
-            </div>
-              )}
+            {showQualityInput && (
+              <div className="qualityWrapper">
+                <InputLabel>Video Quality</InputLabel>
+                <Select
+                  id="videoQuality"
+                  onChange={this.setQuality}
+                  value={this.state.selectValue}
+                >
+                  <MenuItem value={1}> 1280 x 720 (High defination)</MenuItem>
+                  <MenuItem value={2}>800 x 600 (Standard defination)</MenuItem>
+                  <MenuItem value={3}>640 x 480 (Normal defination)</MenuItem>
+                  <MenuItem value={4}>Portrait</MenuItem>
+                </Select>
+              </div>
+            )}
             <div className="btnWrapper">
               <Button
                 id="reset"
                 text="Reset"
-                onClick={() => {this.stopRecord(false)}}
-                style={{fontWeight: "bold",fontSize: "larger",width: "80px",borderRadius: "6px",fontFamily: "Poppins",fontWaight: "bold"}}
+                onClick={() => { this.stopRecord(false) }}
+                style={{ fontWeight: "bold", fontSize: "larger", width: "80px", borderRadius: "6px", fontFamily: "Poppins", fontWaight: "bold" }}
                 color="#FFFFFF"
                 bgColor="#FF404E"
               />
               <Button
                 id="done"
                 text="Done"
-                onClick={() => { !showRecordBtn ? this.stopRecord(true) : alert("No recording found");}}
-                style={{fontWeight: "bold",fontSize: "larger",width: "180px",borderRadius: "6px",fontFamily: "Poppins",fontWaight: "bold",backgroundImage:"linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"}}
+                onClick={() => { !showRecordBtn ? this.stopRecord(true) : alert("No recording found"); }}
+                style={{ fontWeight: "bold", fontSize: "larger", width: "180px", borderRadius: "6px", fontFamily: "Poppins", fontWaight: "bold", backgroundImage: "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))" }}
                 color="#FFFFFF"
               />
             </div>
           </div>
+        }
       </div>
     );
   }

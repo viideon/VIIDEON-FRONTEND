@@ -30,10 +30,14 @@ import "react-tabs/style/react-tabs.css";
 import { reg } from "../../constants/emailRegEx";
 import { config } from "../../config/aws";
 import VideocamIcon from "@material-ui/icons/Videocam";
-import "./style.css";
 import fileUploadIcon from "../../assets/uploadCircle.png";
 import Header from "../../components/Header/Header";
+import canvasTxt from "canvas-txt";
 
+
+import "./style.css";
+const s3 = new AWS.S3(config);
+const gifshot = require('gifshot')
 type IProps = {
   auth: AuthState;
   history: any;
@@ -63,12 +67,18 @@ type IState = {
   progressVideo: number;
   addLogoText: boolean;
   thumbnail: any;
+  thumbnailBlob: any;
+  thumbnailUrl: string;
 };
 
 class UploadRecord extends Component<IProps, IState> {
   onDrop: (files: any) => void;
   canvas: any;
   video: any;
+  img: any;
+  testRef: any;
+  thumbCanvas: any;
+  image: any;
   constructor(props: any) {
     super(props);
     this.onDrop = files => {
@@ -92,49 +102,24 @@ class UploadRecord extends Component<IProps, IState> {
       progressVideo: 0,
       emails: [],
       thumbnail: "",
-      addLogoText: false
+      addLogoText: false,
+      thumbnailBlob: '',
+      thumbnailUrl: '',
     };
   }
+
+  componentDidMount() {
+    this.img = this.image;
+    this.img.crossOrigin = "Anonymous";
+  }
+
   titleNameHandler = (event: any) => {
     this.setState({
       title: event.target.value
     });
   };
-  emailHandler = (event: any) => {
-    this.setState({
-      recieverEmail: event.target.value
-    });
-  };
+  
 
-  handleChipAdd = (email: any) => {
-    if (reg.test(email) === false) {
-      toast.error("Not a valid email");
-      return;
-    }
-    this.setState({ emails: [...this.state.emails, email] });
-  };
-  handleDeleteChip = (delEmail: any) => {
-    this.setState({
-      emails: this.state.emails.filter((email: string) => email !== delEmail)
-    });
-  };
-  sendMultipleEmail = () => {
-    if (this.state.emails.length === 0) {
-      toast.error("No email provided");
-      return;
-    } else if (!this.props.savedVideoId) {
-      toast.error("No video saved try again");
-      return;
-    } else {
-      const emails = this.state.emails.join();
-      const emailVideoObj = {
-        recieverEmail: emails,
-        videoId: this.props.savedVideoId
-      };
-      this.props.sendMultipleEmail(emailVideoObj);
-      this.setState({ emails: [] });
-    }
-  };
   uploadFileHandler = () => {
     if (this.state.title === "") {
       toast.warn("Enter a video title");
@@ -182,23 +167,6 @@ class UploadRecord extends Component<IProps, IState> {
     });
   };
 
-  submitEmail = () => {
-    if (this.props.savedVideoId === "") {
-      return toast.warn("Please save a video");
-    } else if (this.state.recieverEmail === "") {
-      return toast.warn("Add an Email");
-    } else if (reg.test(this.state.recieverEmail) === false) {
-      return toast.warn("Invalid Email");
-    } else {
-      const recieverEmail = this.state.recieverEmail;
-      const video = {
-        videoId: this.props.savedVideoId,
-        recieverEmail
-      };
-      this.props.sendVideoToEmail(video);
-      this.setState({ recieverEmail: "" });
-    }
-  };
   getThumbnailfromFile = (file: any) => {
     this.video = this.refs.video;
     this.canvas = this.refs.canvas;
@@ -216,27 +184,136 @@ class UploadRecord extends Component<IProps, IState> {
     });
   };
 
-  navigateToVideos = () => {
-    this.props.history.push("/videos");
-  };
   moveToAddLogoText = () => {
     this.setState({ addLogoText: true });
   };
+  
+  uploadVideo = () => {
+    return new Promise((resolve, reject) => {
+      this.setState({ videoProgress: true, progressVideo: 0 });
+      const options = {
+        Bucket: config.bucketName,
+        ACL: config.ACL,
+        Key: Date.now().toString() + ".webm",
+        Body: this.state.videoRecord
+      };
+      s3.upload(options, (err: any, data: any) => {
+          if (err) {
+            this.setState({ videoProgress: false });
+            reject();
+          } else {
+            this.setState({ urlRecord: data.Location, videoProgress: false });
+            resolve();
+          }
+        })
+        .on("httpUploadProgress", (progress: any) => {
+          let uploaded: number = (progress.loaded * 100) / progress.total;
+          this.setState({ progressVideo: uploaded });
+        });
+    });
+  };
+
+  getThumbnail = () => {
+    // gifshot.createGIF({'video': [this.state.videoRecord]},function(obj: any) {
+    //   if(!obj.error) {
+    //     var image = obj.image;
+    //     console.log("OBJECT: ", obj)
+    //     let animatedImage = document.createElement('img');
+    //     animatedImage.setAttribute("src", image)
+    //     document.body.appendChild(animatedImage);
+    //     console.log(animatedImage)
+    //   }else {
+    //     toast.error("ERROR WHILE GENERATING THUMBNAIL")
+    //   }
+    // });
+    return new Promise((resolve, reject) => {
+      const thumbCanvas: any = this.thumbCanvas;
+      console.log("thumbCanvas:  ",thumbCanvas)
+      console.log("testRef:  ",this.testRef)
+      const thumbnailContext = thumbCanvas.getContext("2d");
+      thumbnailContext.drawImage(this.video, 0, 0, 1280, 720);
+      thumbCanvas.toBlob((blob: any) => {
+        this.setState({ thumbnailBlob: blob });
+        resolve();
+      }, "image/jpeg");
+    });
+  };
+
+  uploadThumbnail = () => {
+    return new Promise((resolve, reject) => {
+      this.setState({ videoProgress: true, progressVideo: 0 });
+      const thumbnailOptions = {
+        Bucket: config.bucketName,
+        ACL: config.ACL,
+        Key: Date.now().toString() + "thumbnail.jpeg",
+        Body: this.state.thumbnailBlob
+      };
+      s3.upload(thumbnailOptions, (err: any, data: any) => {
+          if (err) {
+            this.setState({ videoProgress: false });
+            reject();
+          } else {
+            this.setState({
+              videoProgress: false,
+              thumbnailUrl: data.Location
+            });
+            resolve();
+          }
+        })
+        .on("httpUploadProgress", (progress: any) => {
+          let uploaded: number = (progress.loaded * 100) / progress.total;
+          this.setState({ progressVideo: uploaded });
+        });
+    });
+  };
+
+  save = async () => {
+    toast.info("Generating thumbnail ...");
+    await this.getThumbnail();
+    await this.uploadThumbnail();
+    // await this.uploadVideo();
+    return;
+  }
+
   render() {
     let { videoSaved, loading } = this.props.videoUser;
     return (
       <>
         <Header styles={{ backgroundImage: "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))" }} />
         <div className="interActiveRecorderContainer">
+          {
+
+          }
           <VideoRecorder
             getBlob={(blob: any) => {
               this.props.toggleSendVariable();
               this.setState({ videoRecord: blob });
+              this.save()
             }}
             reset={() => {this.setState({ videoRecord: null})}}
+            interActive={true}
           />
-          <canvas ref="canvas" style={{ position: "absolute", left: "-2000px" }}/>
-          <video ref="video" style={{opacity: 0.00001,position: "absolute",left: "-999px"}} />
+          <canvas ref={ref => {this.canvas = ref}} style={{ position: "absolute", left: "-2000px" }}/>
+          <video ref={ref => {this.video = ref}} style={{opacity: 0.00001,position: "absolute",left: "-999px"}} />
+          <canvas
+            ref={ref => {this.thumbCanvas = ref}}
+            height={720}
+            width={1280}
+            style={{ display: "none" }}
+          />
+          <canvas
+            ref={ref => {this.testRef = ref}}
+            height={720}
+            width={1280}
+            style={{ display: "none" }}
+          />
+          <img
+            crossOrigin="anonymous"
+            alt="logo"
+            // src={this.state.logoPath ? this.state.logoPath : null}
+            style={{ display: "none" }}
+            ref={ref => {this.image = ref}}
+          />
         </div>
       </>
     );

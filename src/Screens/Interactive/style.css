@@ -18,17 +18,11 @@
   border: none;
   margin-right: 4px;
   background: #e0e0e0;
-  /* width: 260px; */
-  /* height: 60px; */
   font-family: "Poppins";
   font-weight: bold;
-  /* bottom: 0px; */
-  /* border-bottom: 1px solid #fcb414; */
 }
 
 .interActiveRecorderContainer .react-tabs__tab div {
-  /* height: 100%; */
-  /* display: flex; */
   place-items: center;
 }
 
@@ -36,7 +30,6 @@
   background: #fcb414;
   color: #ffffff;
   border-bottom: 1px solid #fcb414;
-  /* bottom: -1.0px; */
   border-radius: 0%;
 }
 

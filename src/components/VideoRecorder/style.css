@@ -176,6 +176,7 @@
   top: 50%;
   transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
+  z-index: 2;
 }
 .recordingBtn:hover {
   background: #ff0202;
@@ -190,6 +191,7 @@
   top: 38%;
   transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
+  z-index: 2;
 }
 .stopBtn {
   color: black;
@@ -216,6 +218,7 @@
   flex-direction: row;
   justify-content: space-evenly;
   cursor: pointer;
+  z-index: 2;
 }
 .pauseBtn {
   color: black;
@@ -259,6 +262,45 @@
   font-weight: bold;
   line-height: 1;
 }
+
+.safeAreaWrapper {
+  display: flex;
+  overflow: hidden;
+  position: absolute;
+  flex-direction: row;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  top: 0;
+}
+
+.fcY {
+  width: calc((100vw - 88.8889vh) / 2);
+  height: 100%;
+  background: rgba(227, 23, 78, 0.3);
+  z-index: 1;
+  animation: 2.8s ease-in-out 0s 1 normal none running fQCAJR;
+}
+
+.fcR {
+  width: calc((100vw - 88.8889vh) / 2);
+  height: 100%;
+  background: rgba(227, 23, 78, 0.3);
+  z-index: 1;
+  animation: 2.8s ease-in-out 0s 1 normal none running bITvZI;
+}
+
+@keyframes fQCAJR {
+  0% {transform: translateX(-25vw);}
+  10% {transform: translateX(0px);}
+}
+
+@keyframes bITvZI {
+  0% {transform: translateX(25vw);}
+  10% {transform: translateX(0px);}
+}
+
 @media (max-width: 1400px) {
   .recordingBtn {
     width: 70px;
