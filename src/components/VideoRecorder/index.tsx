@@ -5,12 +5,17 @@ import { Select, MenuItem, InputLabel } from "@material-ui/core";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import Counter from "./Counter";
 import Button from "../Reusable/ActionButton";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import TextField from '@material-ui/core/TextField';
+
 import "./style.css";
 
 const hasGetUserMedia = !!navigator.getUserMedia;
 
 interface IProps {
   getBlob: (blob: any) => void;
+  reset?: () => void;
 }
 
 class Recording extends React.Component<IProps> {
@@ -32,7 +37,8 @@ class Recording extends React.Component<IProps> {
     showStopBtn: false,
     showNotSupported: false,
     deniedPermission: false,
-    pause: false
+    pause: false,
+    note: false,
   };
   recordVideo: any;
   video: any;
@@ -58,14 +64,15 @@ class Recording extends React.Component<IProps> {
     this.video = this.refs.video;
     this.requestUserMedia();
   };
+
   captureUserMedia = (callback: any) => {
     const params: any = {
       video: {
         width: {
-          min: this.state.width
+          ideal: this.state.width
         },
         height: {
-          min: this.state.height
+          ideal: this.state.height
         }
       },
       audio: true
@@ -102,6 +109,7 @@ class Recording extends React.Component<IProps> {
     });
     setTimeout(() => this.startRecord(), 3000);
   };
+
   startRecord = () => {
     this.setState({
       showCountdown: false,
@@ -116,31 +124,32 @@ class Recording extends React.Component<IProps> {
     });
   };
 
-  stopRecord = () => {
+  stopRecord = (getBlob: boolean) => {
     clearInterval(this.state.timerTimeout);
     this.setState({
       showTimer: false,
       recordingStatus: false,
       disableRecordBtn: false,
-      showStopBtn: false
+      showStopBtn: false,
+      showQualityInput: true,
     });
-    this.stopAndGetBlob();
+    this.stopAndGetBlob(getBlob);
   };
-
-  stopAndGetBlob = () => {
+  
+  stopAndGetBlob = (getBlob: boolean) => {
     let that = this;
+    !getBlob ? 
+    this.recordVideo.stopRecording() && 
+    this.props.reset && this.props.reset()
+    :
     this.recordVideo.stopRecording(() => {
-      window.getSeekableBlob(this.recordVideo.getBlob(), function(
-        seekableBlob: any
-      ) {
+      window.getSeekableBlob(this.recordVideo.getBlob(), function (seekableBlob: any) {
         that.stopStream();
         that.props.getBlob(seekableBlob);
         that.resultVideo.src = URL.createObjectURL(seekableBlob);
         that.setState({ showResult: true });
       });
-      this.setState({
-        recordingStatus: false
-      });
+      this.setState({recordingStatus: false});
     });
   };
 
@@ -152,12 +161,13 @@ class Recording extends React.Component<IProps> {
 
   stopStream = () => {
     this.localStream &&
-      this.localStream.getTracks().forEach(function(track: any) {
+      this.localStream.getTracks().forEach(function (track: any) {
         track.stop();
       });
     this.video.srcObect = null;
     this.localStream = null;
   };
+
   setQuality = (e: any) => {
     let value = e.target.value;
     if (value === 1) {
@@ -175,8 +185,14 @@ class Recording extends React.Component<IProps> {
         this.stopStream();
         this.setupMedia();
       });
+    } else if (value === 4) {
+      this.setState({ width: 720, height: 1350, selectValue : 4}, () => {
+        this.stopStream();
+        this.setupMedia();
+      } )
     }
   };
+
   componentWillUnmount() {
     this.stopStream();
   }
@@ -192,6 +208,11 @@ class Recording extends React.Component<IProps> {
     }
     this.setState({ pause: !pause });
   };
+
+  handleNotes = () => {
+    this.setState({note: !this.state.note})
+  }
+
   render() {
     const {
       count,
@@ -203,7 +224,8 @@ class Recording extends React.Component<IProps> {
       showQualityInput,
       isConnecting,
       showNotSupported,
-      deniedPermission
+      deniedPermission,
+      note,
     } = this.state;
     const min = Math.floor(count / 60) % 60;
     const hour = Math.floor(count / 3600);
@@ -211,41 +233,29 @@ class Recording extends React.Component<IProps> {
     return (
       <div className="customeRecWrapper">
         <div className="videoStreamWrapper">
+          <div className="NoteWrapper" style={{ display: !note? 'none': ''}}>
+            <TextField
+              id="overlayNote"
+              multiline
+              rows={20}
+            />
+          </div>
           <video
             ref="video"
             muted
             autoPlay
-            style={{
-              visibility: showResult ? "hidden" : "visible",
-              width: "100%",
-              height: "100%",
-              position: "absolute",
-              top: 0,
-              left: 0
-            }}
+            style={{visibility: showResult ? "hidden" : "visible",width: "100%",height: "100%",position: "absolute",top: 0,left: 0}}
           />
           <video
             ref="resultVideo"
             muted
             controls
-            style={{
-              visibility: showResult ? "visible" : "hidden",
-              width: "100%",
-              height: "100%",
-              position: "absolute",
-              top: 0,
-              left: 0
-            }}
+            style={{visibility: showResult ? "visible" : "hidden",width: "100%",height: "100%",position: "absolute",top: 0,left: 0}}
           />
           {showCountdown && <Counter />}
           {showTimer && (
             <span className="timerRecording">
-              <span
-                style={{
-                  color: "#ff0000",
-                  marginRight: "2px"
-                }}
-              >
+              <span style={{color: "#ff0000",marginRight: "2px"}}>
                 <FiberManualRecordIcon />
               </span>
               <span>
@@ -266,31 +276,41 @@ class Recording extends React.Component<IProps> {
               browser and try again
             </span>
           )}
+          <Tooltip title="Stop" placement="top" arrow>
+          <div className="addNote">
+          <FormControlLabel
+            control={
+              <Switch
+                checked={note}
+                onChange={this.handleNotes}
+                name="checkedB"
+                color="primary"
+              />
+            }
+            label="+ Notes"
+          />
+          </div>
+          </Tooltip>
+          <Tooltip title="Stop" placement="top" arrow>
+          <div className="stopBtnWrapper">
+            <button className="stopBtn" onClick={() => !showRecordBtn && this.stopRecord(true)}/>
+          </div>
+          </Tooltip>
           {/* {showRecordBtn && !isConnecting && ( */}
           <Tooltip title="Record" placement="top" arrow>
-            <button
-              className="recordingBtn"
-              onClick={() => showRecordBtn && this.handleRecording()}
-            />
+            <button className="recordingBtn" onClick={() => showRecordBtn && this.handleRecording()}/>
           </Tooltip>
           {/* {showStopBtn && ( */}
-          <div className="stopBtnWrapper">
-            <button
-              className="stopBtn"
-              onClick={() => !showRecordBtn && this.stopRecord()}
-            ></button>
-          </div>
-          <div
-            className="pauseBtnWrapper"
-            onClick={() => showStopBtn && this.pauseRecorder()}
-          >
+          <Tooltip title="Pause" placement="top" arrow>
+          <div className="pauseBtnWrapper" onClick={() => showStopBtn && this.pauseRecorder()} >
             <div className="pauseBtn"></div>
             <div className="pauseBtn"></div>
           </div>
+          </Tooltip>
           {/* )} */}
         </div>
-        {showQualityInput && (
           <div className="recordQualityInput">
+          {showQualityInput && (
             <div className="qualityWrapper">
               <InputLabel>Video Quality</InputLabel>
               <Select
@@ -301,47 +321,28 @@ class Recording extends React.Component<IProps> {
                 <MenuItem value={1}> 1280 x 720 (High defination)</MenuItem>
                 <MenuItem value={2}>800 x 600 (Standard defination)</MenuItem>
                 <MenuItem value={3}>640 x 480 (Normal defination)</MenuItem>
+                <MenuItem value={4}>Portrait</MenuItem>
               </Select>
             </div>
+              )}
             <div className="btnWrapper">
               <Button
                 id="reset"
                 text="Reset"
-                onClick={() => {
-                  alert();
-                }}
-                style={{
-                  fontWeight: "bold",
-                  fontSize: "larger",
-                  width: "80px",
-                  borderRadius: "6px",
-                  fontFamily: "Poppins",
-                  fontWaight: "bold"
-                }}
+                onClick={() => {this.stopRecord(false)}}
+                style={{fontWeight: "bold",fontSize: "larger",width: "80px",borderRadius: "6px",fontFamily: "Poppins",fontWaight: "bold"}}
                 color="#FFFFFF"
                 bgColor="#FF404E"
               />
               <Button
                 id="done"
                 text="Done"
-                onClick={() => {
-                  alert();
-                }}
-                style={{
-                  fontWeight: "bold",
-                  fontSize: "larger",
-                  width: "180px",
-                  borderRadius: "6px",
-                  fontFamily: "Poppins",
-                  fontWaight: "bold",
-                  backgroundImage:
-                    "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"
-                }}
+                onClick={() => { !showRecordBtn ? this.stopRecord(true) : alert("No recording found");}}
+                style={{fontWeight: "bold",fontSize: "larger",width: "180px",borderRadius: "6px",fontFamily: "Poppins",fontWaight: "bold",backgroundImage:"linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"}}
                 color="#FFFFFF"
               />
             </div>
           </div>
-        )}
       </div>
     );
   }

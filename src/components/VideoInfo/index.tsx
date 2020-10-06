@@ -7,8 +7,9 @@ import {
   FaShare
 } from "react-icons/fa";
 import { Tooltip } from "@material-ui/core";
-import "./style.css";
 import * as Constants from "../../constants/constants";
+import { timeDifference } from '../.././lib/helpers';
+import "./style.css";
 interface Video {
   url: string;
   thumbnail?: string;
@@ -21,6 +22,7 @@ interface Video {
   emailShareCount?: number;
   emailOpens?: number;
   ctaClicks?: any;
+  date?: any;
 }
 interface IProps {
   video?: Video;
@@ -28,6 +30,13 @@ interface IProps {
 const VideoInfo: React.FC<IProps> = ({ video }) => {
   return (
     <div>
+      <Tooltip title="Email Opens" enterDelay={0}>
+        <span className="videoDateWrapper">
+          <span className="itemsInfo">
+            {video && timeDifference(video.date)}
+          </span>
+        </span>
+      </Tooltip>
       <Tooltip title="Email Opens" enterDelay={0}>
         <span className="firstInfoContainer">
           <span className="itemsInfo">

@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 function* loginUser(action: any) {
   try {
     const result = yield loginUserApi(action.payload);
-    if (result.status === 201) {
+    if (result?.status === 201) {
       yield put({ type: types.LOGIN_SUCCESS, payload: result.data });
       yield put({
         type: profileTypes.ADD_PROFILE_DATA,
@@ -34,7 +34,7 @@ function* loginUser(action: any) {
       toast.error(result.data.message);
     }
   } catch (error) {
-    if (error.response.status === 410) {
+    if (error?.response?.status === 410) {
       yield put({
         type: types.LOGIN_FAILURE,
         payload: { isEmailNotVerified: true }

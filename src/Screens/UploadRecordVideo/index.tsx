@@ -227,16 +227,8 @@ class UploadRecord extends Component<IProps, IState> {
     let { videoSaved, loading } = this.props.videoUser;
     return (
       <>
-        <Header
-          styles={{
-            backgroundImage:
-              "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"
-          }}
-        />
+        <Header styles={{ backgroundImage: "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))" }} />
         <div className="recordMainContainer">
-          {/* <p className="mainHeader">{Constants.CREATE_VIDEO}</p> */}
-          {/* <p className="titleHeader">{Constants.RECORD_AND_SHARE}</p> */}
-          {/* <hr /> */}
           <Tabs defaultIndex={this.props.location.show === "upload" ? 1 : 0}>
             <TabList>
               <Tab>
@@ -263,8 +255,8 @@ class UploadRecord extends Component<IProps, IState> {
                   }}
                 />
               ) : (
-                <AddLogoText videoToEdit={this.state.videoRecord} />
-              )}
+                  <AddLogoText videoToEdit={this.state.videoRecord} />
+                )}
             </TabPanel>
             <TabPanel>
               <div className="uploadPanelBorder">
@@ -283,7 +275,6 @@ class UploadRecord extends Component<IProps, IState> {
                         >
                           <input {...getInputProps()} />
                           <img
-                            // src={require("../../assets/upload.png")}
                             src={fileUploadIcon}
                             style={{ width: 80, margin: "auto" }}
                             alt="upload"

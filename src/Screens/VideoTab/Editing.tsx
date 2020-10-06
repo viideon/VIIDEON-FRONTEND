@@ -159,8 +159,9 @@ class Editing extends React.Component<IProps, IState> {
     this.video.addEventListener("ended", this.onVideoEnd);
     this.video.addEventListener("volumechange", this.syncAudio);
   };
-  async componentWillReceiveProps(nextProps: any) {
+  async UNSAFE_componentWillReceiveProps(nextProps: any) {
     const { video } = nextProps;
+    alert('here I found video')
     if (video) {
       const { logoProps, textProps, musicProps } = video;
       try {
@@ -896,19 +897,21 @@ class Editing extends React.Component<IProps, IState> {
               item
               xs={12}
               sm={12}
-              md={6}
+              md={12}
               lg={6}
-              style={{ paddingRight: "5px" }}
+              // style={{ paddingRight: "5px" }}
             >
               <video ref="video" controls={videoLoaded} width="100%" />
             </Grid>
+            </Grid>
+            <Grid container style={{ position: "relative" }}>
             <Grid
               item
               xs={12}
               sm={12}
-              md={6}
+              md={12}
               lg={6}
-              style={{ paddingLeft: "5px" }}
+              // style={{ paddingLeft: "5px" }}
             >
               <canvas ref="canvas" style={{ transform: "rotate(-270px)" }} />
             </Grid>

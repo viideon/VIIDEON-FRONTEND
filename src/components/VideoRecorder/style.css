@@ -156,7 +156,7 @@
 .recordQualityInput .MuiInput-underline {
   width: 45%;
 }
-.recordQualityInput .MuiInput-underline:before {
+.recordQualityInput .MuiInput-underline:before, .recordQualityInput .MuiInput-underline:after {
   border-bottom: none;
 }
 
@@ -233,6 +233,31 @@
 
 .videoStreamWrapper button:focus {
   outline: none !important;
+}
+
+.NoteWrapper {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  padding-top: 2%;
+  background-color:rgba(0, 0, 0, 0.1);
+}
+
+.NoteWrapper .MuiFormControl-root, .NoteWrapper .MuiTextField-root {
+  display: flex;
+  position: relative;
+  left: 2vw;
+  width: 80%;
+  height: 80%;
+}
+
+#overlayNote {
+  font-family: "Poppins";
+  color: white;
+  font-weight: bold;
+  line-height: 1;
 }
 @media (max-width: 1400px) {
   .recordingBtn {
