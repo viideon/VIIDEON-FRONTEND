@@ -4,6 +4,7 @@ import Recording from "./Recording";
 import SendSave from "./SendSave";
 import AddLogoText from "./AddLogoText";
 import SelectTemplate from "./SelectTemplate";
+import Header from '../../components/Header/Header'
 
 class Campaign extends React.Component {
   state = {
@@ -108,7 +109,10 @@ class Campaign extends React.Component {
 
   render() {
     return (
+      <>
+      <Header styles={{backgroundImage:"linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"}}/>
       <div className="containerCampaign">{this.renderCampaignSteps()}</div>
+      </>
     );
   }
 }

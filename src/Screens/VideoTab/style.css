@@ -28,6 +28,21 @@
 #videoTabWrap {
   text-align: center;
 }
+
+#editingToolsWrapper {
+
+}
+
+#editingWrapper {
+  width: 80%;
+  padding: 1%;
+}
+
+#templateWrapper {
+  padding: 1%;
+  width: 80%;
+}
+
 .nav-tabs {
   border-bottom: 1px solid #ecf0f3 !important;
   margin-bottom: 15px;

@@ -33,12 +33,12 @@ const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
       <Header styles={{backgroundImage:"linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"}}/>
       <div className="wrapperVideoTab">
         <Grid container>
-          <Grid item xs={12} md={6} sm={6}>
+          <Grid item xs={12} md={6} sm={12}>
             <div className="wrapperTabVideo">
               <VideoTabHeader />
             </div>
           </Grid>
-          <Grid item xs={12} md={6} sm={6} style={{ marginTop: '1em'}}>
+          <Grid item xs={12} md={6} sm={12} style={{ marginTop: '1em'}}>
             <Tabs>
               <TabList>
                 <Tab disabled={isDisabled}>

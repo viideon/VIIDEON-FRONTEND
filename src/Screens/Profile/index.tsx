@@ -14,6 +14,8 @@ import * as Constants from "../../constants/constants";
 import { config } from "../../config/aws";
 import Loading from "../../components/Loading";
 import ThemeButton from "../../components/ThemeButton";
+import Header from '../../components/Header/Header'
+
 import "./style.css";
 
 type IProps = {
@@ -168,6 +170,8 @@ class Profile extends Component<IProps, IState> {
     const { loading, user } = this.props.profile;
     const { avatarUploading } = this.state;
     return (
+      <>
+      <Header styles={{backgroundImage:"linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"}}/>
       <div className="wrapperProfileSection">
         <div id="profilePhotoWrap">
           <div id="profilePhotoHead">
@@ -354,6 +358,7 @@ class Profile extends Component<IProps, IState> {
           </Grid>
         </div>
       </div>
+      </>
     );
   }
 }
