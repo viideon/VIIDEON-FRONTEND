@@ -156,7 +156,8 @@
 .recordQualityInput .MuiInput-underline {
   width: 45%;
 }
-.recordQualityInput .MuiInput-underline:before, .recordQualityInput .MuiInput-underline:after {
+.recordQualityInput .MuiInput-underline:before,
+.recordQualityInput .MuiInput-underline:after {
   border-bottom: none;
 }
 
@@ -245,10 +246,11 @@
   height: 100%;
   top: 0%;
   padding-top: 2%;
-  background-color:rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
-.NoteWrapper .MuiFormControl-root, .NoteWrapper .MuiTextField-root {
+.NoteWrapper .MuiFormControl-root,
+.NoteWrapper .MuiTextField-root {
   display: flex;
   position: relative;
   left: 2vw;
@@ -292,13 +294,21 @@
 }
 
 @keyframes fQCAJR {
-  0% {transform: translateX(-25vw);}
-  10% {transform: translateX(0px);}
+  0% {
+    transform: translateX(-25vw);
+  }
+  10% {
+    transform: translateX(0px);
+  }
 }
 
 @keyframes bITvZI {
-  0% {transform: translateX(25vw);}
-  10% {transform: translateX(0px);}
+  0% {
+    transform: translateX(25vw);
+  }
+  10% {
+    transform: translateX(0px);
+  }
 }
 
 @media (max-width: 1400px) {

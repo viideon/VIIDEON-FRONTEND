@@ -227,7 +227,12 @@ class UploadRecord extends Component<IProps, IState> {
     let { videoSaved, loading } = this.props.videoUser;
     return (
       <>
-        <Header styles={{ backgroundImage: "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))" }} />
+        <Header
+          styles={{
+            backgroundImage:
+              "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"
+          }}
+        />
         <div className="recordMainContainer">
           <Tabs defaultIndex={this.props.location.show === "upload" ? 1 : 0}>
             <TabList>
@@ -255,8 +260,8 @@ class UploadRecord extends Component<IProps, IState> {
                   }}
                 />
               ) : (
-                  <AddLogoText videoToEdit={this.state.videoRecord} />
-                )}
+                <AddLogoText videoToEdit={this.state.videoRecord} />
+              )}
             </TabPanel>
             <TabPanel>
               <div className="uploadPanelBorder">

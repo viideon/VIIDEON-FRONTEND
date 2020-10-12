@@ -101,7 +101,7 @@ class Signup extends React.Component<IProps, IState> {
               </div>
             </div>
           </Grid>
-          <Grid item xs={12} md={5} sm={12}>
+          <Grid item xs={12} md={5} sm={12}  style={{ zIndex: 123123123 }}>
             <div className="secondLayoutMainContainer">
               <p className="loginTwo">{Constants.REGISTER}</p>
               <div className="createAccountSignup">

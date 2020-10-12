@@ -80,19 +80,11 @@ class Signin extends React.Component<IProps, IState> {
   }
 
   componentDidUpdate(prevProps: any) {
-    if (
-      this.props.verifyState &&
-      JSON.stringify(prevProps.verifyState) !==
-        JSON.stringify(this.props.verifyState) &&
-      this.props.verifyState.VerifySuccess
-    ) {
+    if (this.props.verifyState && JSON.stringify(prevProps.verifyState) !== JSON.stringify(this.props.verifyState) && this.props.verifyState.VerifySuccess) {
       this.setState({ verifySuccessModals: true });
+      toast.info("The email is successfully verified!")
     }
-    if (
-      this.props.auth.loginError &&
-      JSON.stringify(prevProps.auth) !== JSON.stringify(this.props.auth) &&
-      this.props.auth.loginError.isEmailNotVerified
-    ) {
+    if (this.props.auth.loginError && JSON.stringify(prevProps.auth) !== JSON.stringify(this.props.auth) && this.props.auth.loginError.isEmailNotVerified) {
       this.setState({ resendVerificationEmail: true });
       this.props.resetEmailVerifiedVariable();
       setTimeout(
@@ -101,10 +93,6 @@ class Signin extends React.Component<IProps, IState> {
       );
     }
   }
-  toggleVerifyModal = () => {
-    this.setState({ verifySuccessModals: false });
-    this.props.history.push("/login");
-  };
   onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ [e.target.name]: e.target.value } as Pick<IState, any>);
   };
@@ -118,10 +106,6 @@ class Signin extends React.Component<IProps, IState> {
     const { loading } = this.props.auth;
     return (
       <div>
-        <VerifySuccessModal
-          open={this.state.verifySuccessModals}
-          toggle={this.toggleVerifyModal}
-        />
         <Grid container>
           <Grid item xs={12} md={7} sm={12} className="sm-none">
             <div className="firstLayoutContainer">

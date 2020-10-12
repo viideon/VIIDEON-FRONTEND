@@ -6,10 +6,10 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import * as Constants from "../../constants/constants";
 import { updateVideo } from "../../Redux/Actions/videos";
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { CirclePicker, ChromePicker } from "react-color";
-import TextField from '@material-ui/core/TextField';
+import TextField from "@material-ui/core/TextField";
 
 import "./style.css";
 
@@ -64,33 +64,29 @@ class Detail extends React.Component<IProps> {
     return (
       <div className="designTabWrapper">
         <Grid container>
-          <Grid item xs={2} sm={2} md={2} style={{ marginTop: '1em'}}>
-            <div> 
-              Player
+          <Grid item xs={2} sm={2} md={2} style={{ marginTop: "1em" }}>
+            <div>Player</div>
+          </Grid>
+          <Grid item xs={10} sm={10} md={10} style={{ marginTop: "1em" }}>
+            <div>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    // onChange={handleChange}
+                    name="displayLogo"
+                    color="default"
+                  />
+                }
+                label="Display company logo on video player"
+              />
             </div>
           </Grid>
-          <Grid item xs={10} sm={10} md={10} style={{ marginTop: '1em'}}>
-            <div> 
-            <FormControlLabel
-              control={
-                <Checkbox
-                  // onChange={handleChange}
-                  name="displayLogo"
-                  color="default"
-                />
-              }
-              label="Display company logo on video player"
-            />
-            </div>
+          <Grid item xs={2} sm={2} md={2} style={{ marginTop: "1em" }}>
+            <div>Logo Position</div>
           </Grid>
-          <Grid item xs={2} sm={2} md={2} style={{ marginTop: '1em'}}>
-            <div> 
-              Logo Position
-            </div>
-          </Grid>
-          <Grid item xs={10} sm={10} md={10} style={{ marginTop: '1em'}}>
-            <div> 
-            <Select
+          <Grid item xs={10} sm={10} md={10} style={{ marginTop: "1em" }}>
+            <div>
+              <Select
                 id="logoPositionSelect"
                 // onChange={this.setQuality}
                 // value={this.state.selectValue}
@@ -102,27 +98,23 @@ class Detail extends React.Component<IProps> {
               </Select>
             </div>
           </Grid>
-          <Grid item xs={2} sm={2} md={2} style={{ marginTop: '1em'}}>
-            <div> 
-              Player color
-            </div>
+          <Grid item xs={2} sm={2} md={2} style={{ marginTop: "1em" }}>
+            <div>Player color</div>
           </Grid>
-          <Grid item xs={10} sm={10} md={10} style={{ marginTop: '1em'}}>
+          <Grid item xs={10} sm={10} md={10} style={{ marginTop: "1em" }}>
             <div>
               <div className="roundWrapper">
-                <CirclePicker/>
-              </div> 
+                <CirclePicker />
+              </div>
               <div className="cromWrapper">
-                <ChromePicker/>
-              </div> 
+                <ChromePicker />
+              </div>
             </div>
           </Grid>
-          <Grid item xs={2} sm={2} md={2} style={{ marginTop: '1em'}}>
-            <div> 
-              Background
-            </div>
+          <Grid item xs={2} sm={2} md={2} style={{ marginTop: "1em" }}>
+            <div>Background</div>
           </Grid>
-          <Grid item xs={10} sm={10} md={10} style={{ marginTop: '1em'}}>
+          <Grid item xs={10} sm={10} md={10} style={{ marginTop: "1em" }}>
             <div>
               <div>Add a custom background image to your video page.</div>
               <div className="videoTabSearhcWrapper">

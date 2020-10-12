@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 import { Tooltip } from "@material-ui/core";
 import * as Constants from "../../constants/constants";
-import { timeDifference } from '../.././lib/helpers';
+import { timeDifference } from "../.././lib/helpers";
 import "./style.css";
 interface Video {
   url: string;

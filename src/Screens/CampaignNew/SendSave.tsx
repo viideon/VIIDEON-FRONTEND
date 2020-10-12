@@ -56,18 +56,7 @@ const CorporateLight = require("../../assets/email-theme/CorporateLight.png");
 const ModernSimple = require("../../assets/email-theme/ModernSimple.png");
 const Ocean = require("../../assets/email-theme/Ocean.png");
 
-const availableTheme = [
-  { name: "Spread", avatar: Spread },
-  { name: "Streamlined", avatar: Streamlined },
-  { name: "Simple Blue", avatar: SimpleBlue },
-  { name: "Sleek", avatar: Sleek },
-  { name: "Social Business", avatar: SocialBusiness },
-  { name: "Social Impact", avatar: SocialImpact },
-  { name: "Clasic Dark", avatar: ClassicDark },
-  { name: "Corporate Light", avatar: CorporateLight },
-  { name: "Modern Simple", avatar: ModernSimple },
-  { name: "Ocean", avatar: Ocean }
-];
+const { availableTheme } = require("../../constants/constants");
 
 const emails = ["username@gmail.com", "user02@gmail.com"];
 
@@ -105,7 +94,7 @@ function SimpleDialog(props: SimpleDialogProps) {
       >
         <DialogTitle id="simple-dialog-title">Select E-mail theme</DialogTitle>
         <List component="div">
-          {availableTheme.map(theme => (
+          {availableTheme.map((theme: any) => (
             <ListItem
               button
               onClick={() => handleListItemClick(theme.name)}

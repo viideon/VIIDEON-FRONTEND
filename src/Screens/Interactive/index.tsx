@@ -34,10 +34,9 @@ import fileUploadIcon from "../../assets/uploadCircle.png";
 import Header from "../../components/Header/Header";
 import canvasTxt from "canvas-txt";
 
-
 import "./style.css";
 const s3 = new AWS.S3(config);
-const gifshot = require('gifshot')
+const gifshot = require("gifshot");
 type IProps = {
   auth: AuthState;
   history: any;
@@ -103,8 +102,8 @@ class UploadRecord extends Component<IProps, IState> {
       emails: [],
       thumbnail: "",
       addLogoText: false,
-      thumbnailBlob: '',
-      thumbnailUrl: '',
+      thumbnailBlob: "",
+      thumbnailUrl: ""
     };
   }
 
@@ -118,7 +117,6 @@ class UploadRecord extends Component<IProps, IState> {
       title: event.target.value
     });
   };
-  
 
   uploadFileHandler = () => {
     if (this.state.title === "") {
@@ -187,7 +185,7 @@ class UploadRecord extends Component<IProps, IState> {
   moveToAddLogoText = () => {
     this.setState({ addLogoText: true });
   };
-  
+
   uploadVideo = () => {
     return new Promise((resolve, reject) => {
       this.setState({ videoProgress: true, progressVideo: 0 });
@@ -198,18 +196,17 @@ class UploadRecord extends Component<IProps, IState> {
         Body: this.state.videoRecord
       };
       s3.upload(options, (err: any, data: any) => {
-          if (err) {
-            this.setState({ videoProgress: false });
-            reject();
-          } else {
-            this.setState({ urlRecord: data.Location, videoProgress: false });
-            resolve();
-          }
-        })
-        .on("httpUploadProgress", (progress: any) => {
-          let uploaded: number = (progress.loaded * 100) / progress.total;
-          this.setState({ progressVideo: uploaded });
-        });
+        if (err) {
+          this.setState({ videoProgress: false });
+          reject();
+        } else {
+          this.setState({ urlRecord: data.Location, videoProgress: false });
+          resolve();
+        }
+      }).on("httpUploadProgress", (progress: any) => {
+        let uploaded: number = (progress.loaded * 100) / progress.total;
+        this.setState({ progressVideo: uploaded });
+      });
     });
   };
 
@@ -228,8 +225,8 @@ class UploadRecord extends Component<IProps, IState> {
     // });
     return new Promise((resolve, reject) => {
       const thumbCanvas: any = this.thumbCanvas;
-      console.log("thumbCanvas:  ",thumbCanvas)
-      console.log("testRef:  ",this.testRef)
+      console.log("thumbCanvas:  ", thumbCanvas);
+      console.log("testRef:  ", this.testRef);
       const thumbnailContext = thumbCanvas.getContext("2d");
       thumbnailContext.drawImage(this.video, 0, 0, 1280, 720);
       thumbCanvas.toBlob((blob: any) => {
@@ -249,21 +246,20 @@ class UploadRecord extends Component<IProps, IState> {
         Body: this.state.thumbnailBlob
       };
       s3.upload(thumbnailOptions, (err: any, data: any) => {
-          if (err) {
-            this.setState({ videoProgress: false });
-            reject();
-          } else {
-            this.setState({
-              videoProgress: false,
-              thumbnailUrl: data.Location
-            });
-            resolve();
-          }
-        })
-        .on("httpUploadProgress", (progress: any) => {
-          let uploaded: number = (progress.loaded * 100) / progress.total;
-          this.setState({ progressVideo: uploaded });
-        });
+        if (err) {
+          this.setState({ videoProgress: false });
+          reject();
+        } else {
+          this.setState({
+            videoProgress: false,
+            thumbnailUrl: data.Location
+          });
+          resolve();
+        }
+      }).on("httpUploadProgress", (progress: any) => {
+        let uploaded: number = (progress.loaded * 100) / progress.total;
+        this.setState({ progressVideo: uploaded });
+      });
     });
   };
 
@@ -273,36 +269,55 @@ class UploadRecord extends Component<IProps, IState> {
     await this.uploadThumbnail();
     // await this.uploadVideo();
     return;
-  }
+  };
 
   render() {
     let { videoSaved, loading } = this.props.videoUser;
     return (
       <>
-        <Header styles={{ backgroundImage: "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))" }} />
+        <Header
+          styles={{
+            backgroundImage:
+              "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"
+          }}
+        />
         <div className="interActiveRecorderContainer">
-          {
-
-          }
+          {}
           <VideoRecorder
             getBlob={(blob: any) => {
               this.props.toggleSendVariable();
               this.setState({ videoRecord: blob });
-              this.save()
+              this.save();
             }}
-            reset={() => {this.setState({ videoRecord: null})}}
+            reset={() => {
+              this.setState({ videoRecord: null });
+            }}
             interActive={true}
           />
-          <canvas ref={ref => {this.canvas = ref}} style={{ position: "absolute", left: "-2000px" }}/>
-          <video ref={ref => {this.video = ref}} style={{opacity: 0.00001,position: "absolute",left: "-999px"}} />
           <canvas
-            ref={ref => {this.thumbCanvas = ref}}
+            ref={ref => {
+              this.canvas = ref;
+            }}
+            style={{ position: "absolute", left: "-2000px" }}
+          />
+          <video
+            ref={ref => {
+              this.video = ref;
+            }}
+            style={{ opacity: 0.00001, position: "absolute", left: "-999px" }}
+          />
+          <canvas
+            ref={ref => {
+              this.thumbCanvas = ref;
+            }}
             height={720}
             width={1280}
             style={{ display: "none" }}
           />
           <canvas
-            ref={ref => {this.testRef = ref}}
+            ref={ref => {
+              this.testRef = ref;
+            }}
             height={720}
             width={1280}
             style={{ display: "none" }}
@@ -312,7 +327,9 @@ class UploadRecord extends Component<IProps, IState> {
             alt="logo"
             // src={this.state.logoPath ? this.state.logoPath : null}
             style={{ display: "none" }}
-            ref={ref => {this.image = ref}}
+            ref={ref => {
+              this.image = ref;
+            }}
           />
         </div>
       </>

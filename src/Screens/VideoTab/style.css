@@ -30,7 +30,6 @@
 }
 
 #editingToolsWrapper {
-
 }
 
 #editingWrapper {
@@ -79,6 +78,22 @@
   text-align: left;
 }
 
+.headerTab .editVideoTitle {
+  margin: 1em 0em;
+  font-family: "Poppins";
+  font-weight: bold;
+  color: #0f2733;
+  margin-bottom: 16px;
+  text-align: left;
+  border: none;
+  outline: none !important;
+}
+
+.editVideoTitle :focus, .editVideoTitle :active, .editVideoTitle :hover, .editVideoTitle :visited, .editVideoTitle :active {
+  border: none !important;
+  outline: none !important;
+}
+
 .wrapperVideoTab .react-tabs__tab-list {
   border-bottom: 4px solid #fcb414;
   overflow: hidden;
@@ -89,7 +104,7 @@
   font-family: "Poppins";
 }
 .wrapperVideoTab .react-tabs__tab {
-  background: #E0E0E0;
+  background: #e0e0e0;
   margin-right: 4px;
   border-radius: 0% !important;
   border: none;
@@ -101,6 +116,9 @@
 .wrapperVideoTab .videoTabIcon {
   color: black;
 }
+
+
+
 
 @media screen and (max-width: 580px) {
   #videoTabNavLink p {
@@ -191,7 +209,7 @@
 .wrapperVideoTab {
   padding: 5%;
   position: relative;
-  background: #F2F2F2;
+  background: #f2f2f2;
 }
 
 #tabVideo {
@@ -249,21 +267,28 @@
   color: #0f2733;
   margin-left: 1em;
 }
-.designTabWrapper .MuiInputBase-root, .designTabWrapper .MuiInput-root {
+.designTabWrapper .MuiInputBase-root,
+.designTabWrapper .MuiInput-root {
   width: 30%;
 }
 
-.designTabWrapper .MuiInput-underline, .designTabWrapper .Mui-focused:focus, .designTabWrapper .Mui-focused {
+.designTabWrapper .MuiInput-underline,
+.designTabWrapper .Mui-focused:focus,
+.designTabWrapper .Mui-focused {
   border: none !important;
   border-bottom: none !important;
 }
 
-.designTabWrapper .MuiInput-underline:before, .designTabWrapper .Mui-focused, .designTabWrapper .Mui-focused::after {
+.designTabWrapper .MuiInput-underline:before,
+.designTabWrapper .Mui-focused,
+.designTabWrapper .Mui-focused::after {
   border: none !important;
   border-bottom: none !important;
 }
 
-.designTabWrapper .MuiInput-underline:hover:not(.Mui-disabled):before, .designTabWrapper .Mui-focused, .designTabWrapper .Mui-focused {
+.designTabWrapper .MuiInput-underline:hover:not(.Mui-disabled):before,
+.designTabWrapper .Mui-focused,
+.designTabWrapper .Mui-focused {
   border: none !important;
   border-bottom: none !important;
 }
@@ -296,9 +321,38 @@
   margin-top: 1em;
 }
 
-.videoTabSearhcWrapper .MuiFormControl-root, .videoTabSearhcWrapper .MuiInputBase-formControl {
+.videoTabSearhcWrapper .MuiFormControl-root,
+.videoTabSearhcWrapper .MuiInputBase-formControl {
   width: 100%;
   border-radius: 8px;
   color: #0e2633;
   border-color: #0e2633;
+}
+
+
+
+.avatarImage {
+  width: 100px;
+  margin-right: 1em;
+}
+
+.headerTab .MuiDialog-paperWidthSm {
+  width: 60% !important;
+  max-width: 60% !important;
+}
+
+.headerTab .MuiListItem-root {
+  width: 250px !important;
+}
+
+.headerTab .MuiList-root,
+.headerTab .MuiList-padding {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.headerTab .MuiListItem-button {
+  box-shadow: 0px 5px 5px #888888;
+  margin: 0.5em !important;
 }

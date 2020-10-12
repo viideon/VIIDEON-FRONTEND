@@ -138,10 +138,10 @@ class Editing extends React.Component<IProps, IState> {
       setTimeout(() => this.setState({ showVideo: true }), 1000);
   }
   caluclateContainerHeight = () => {
-    let calculatedVideoHeight = document.getElementById("wrapper_main")?.clientWidth ?
-      `${document.getElementById("wrapper_main")!.clientWidth * 0.5625}px`
-      :
-      "300px";
+    let calculatedVideoHeight = document.getElementById("wrapper_main")
+      ?.clientWidth
+      ? `${document.getElementById("wrapper_main")!.clientWidth * 0.5625}px`
+      : "300px";
     this.setState({ videoHeight: calculatedVideoHeight });
   };
   setUpCanvasEditing = () => {
@@ -197,7 +197,7 @@ class Editing extends React.Component<IProps, IState> {
       }
       this.setState({ videoLoaded: true });
     }
-  }
+  };
   UNSAFE_componentWillReceiveProps(nextProps: any) {
     this.handleVideoLoaded();
   }
@@ -233,13 +233,23 @@ class Editing extends React.Component<IProps, IState> {
     this.setState({ isOpenMusicPicker: !this.state.isOpenMusicPicker });
   };
   onVideoPlay = () => {
-    if (this.state.backgroundMusicUrl && this.backgroundMusic.readyState !== 4) {
+    if (
+      this.state.backgroundMusicUrl &&
+      this.backgroundMusic.readyState !== 4
+    ) {
       toast.info("Adding background music to video , Please wait");
       return;
     } else {
       this.backgroundMusic.play();
     }
-    this.draw(this.video, this.img, this.ctx, this.ctx2, this.video.clientWidth, this.video.clientHeight);
+    this.draw(
+      this.video,
+      this.img,
+      this.ctx,
+      this.ctx2,
+      this.video.clientWidth,
+      this.video.clientHeight
+    );
   };
   isMusicLoaded = () => {
     if (this.backgroundMusic && this.backgroundMusic.readyState === 4) {
@@ -380,7 +390,14 @@ class Editing extends React.Component<IProps, IState> {
       toast.error("error in selecting file");
     }
   };
-  draw = (video: any, img: any, context: any, context2: any, width: any, height: any) => {
+  draw = (
+    video: any,
+    img: any,
+    context: any,
+    context2: any,
+    width: any,
+    height: any
+  ) => {
     if (video.paused || video.ended) return false;
     context2.drawImage(video, 0, 0, width, height);
     context2.fillStyle = this.state.textColor;
@@ -390,13 +407,26 @@ class Editing extends React.Component<IProps, IState> {
     canvasTxt.align = this.state.align;
     canvasTxt.justify = false;
     canvasTxt.lineHeight = null;
-    canvasTxt.drawText(context2, this.state.text, 30, 30, width - 50, height - 50);
+    canvasTxt.drawText(
+      context2,
+      this.state.text,
+      30,
+      30,
+      width - 50,
+      height - 50
+    );
     let logoDimension = 0.2 * width;
-    context2.drawImage(img, this.state.logoX, this.state.logoY, logoDimension, logoDimension);
+    context2.drawImage(
+      img,
+      this.state.logoX,
+      this.state.logoY,
+      logoDimension,
+      logoDimension
+    );
     let idata = context2.getImageData(0, 0, width, height);
     let that = this;
     context.putImageData(idata, 0, 0);
-    setTimeout(function () {
+    setTimeout(function() {
       that.draw(video, img, context, context2, width, height);
     }, 0);
   };
@@ -737,7 +767,9 @@ class Editing extends React.Component<IProps, IState> {
           <Grid item xs={1} md={2}></Grid>
           <Grid item xs={10} md={8} id="wrapper_main">
             <div
-              ref={ref => { this.container = ref }}
+              ref={ref => {
+                this.container = ref;
+              }}
               style={{
                 visibility: showVideo ? "visible" : "hidden",
                 width: "100%",
@@ -865,25 +897,45 @@ class Editing extends React.Component<IProps, IState> {
               </span>
             )}
             <Grid item xs={12} sm={12} md={12} lg={6}>
-              <video ref={ref => { this.video = ref }} controls={videoLoaded} width="100%" />
+              <video
+                ref={ref => {
+                  this.video = ref;
+                }}
+                controls={videoLoaded}
+                width="100%"
+              />
             </Grid>
           </Grid>
           <Grid container style={{ position: "relative" }}>
             <Grid item xs={12} sm={12} md={12} lg={6}>
-              <canvas ref={ref => { this.canvas = ref }} style={{ transform: "rotate(-270px)" }} />
+              <canvas
+                ref={ref => {
+                  this.canvas = ref;
+                }}
+                style={{ transform: "rotate(-270px)" }}
+              />
             </Grid>
           </Grid>
-          <canvas ref={ref => { this.dummyCanvas = ref }} style={{ display: "none" }} />
+          <canvas
+            ref={ref => {
+              this.dummyCanvas = ref;
+            }}
+            style={{ display: "none" }}
+          />
           <img
             crossOrigin="anonymous"
             alt="logo"
             src={this.state.logoPath ? this.state.logoPath : null}
             style={{ display: "none" }}
-            ref={ref => { this.img = ref }}
+            ref={ref => {
+              this.img = ref;
+            }}
           />
           <audio
             src={backgroundMusicUrl}
-            ref={ref => { this.backgroundMusic = ref }}
+            ref={ref => {
+              this.backgroundMusic = ref;
+            }}
             loop
             style={{ display: "none" }}
           />
@@ -1144,7 +1196,9 @@ class Editing extends React.Component<IProps, IState> {
             />
           </div>
           <canvas
-            ref={ref => { this.thumbCanvas = ref }}
+            ref={ref => {
+              this.thumbCanvas = ref;
+            }}
             height={720}
             width={1280}
             style={{ display: "none" }}

@@ -14,7 +14,7 @@ import Signup from "./Screens/Signup";
 import SignIn from "./Screens/SignIn";
 import Header from "./components/Header/Header";
 import UploadRecord from "../src/Screens/UploadRecordVideo";
-import InterActive from '../src/Screens/Interactive'
+import InterActive from "../src/Screens/Interactive";
 import Watch from "./Screens/Watch";
 import Campaign from "./Screens/CampaignNew";
 import ForgotPassword from "./Screens/ForgotPassword";
@@ -44,7 +44,7 @@ class Routes extends Component<IProps> {
               <Route exact path="/profile" component={Profile} />
               <Route exact path="/video/create" component={UploadRecord} />
               <Route exact path="/watch/:id" component={Watch} />
-              <Route exact path="/videoask" component={InterActive} />
+              <Route exact path="/chatVid" component={InterActive} />
               <Route
                 exact
                 path="/watch/:id/cta"
