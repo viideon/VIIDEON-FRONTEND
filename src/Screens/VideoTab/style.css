@@ -89,7 +89,11 @@
   outline: none !important;
 }
 
-.editVideoTitle :focus, .editVideoTitle :active, .editVideoTitle :hover, .editVideoTitle :visited, .editVideoTitle :active {
+.editVideoTitle :focus,
+.editVideoTitle :active,
+.editVideoTitle :hover,
+.editVideoTitle :visited,
+.editVideoTitle :active {
   border: none !important;
   outline: none !important;
 }
@@ -116,9 +120,6 @@
 .wrapperVideoTab .videoTabIcon {
   color: black;
 }
-
-
-
 
 @media screen and (max-width: 580px) {
   #videoTabNavLink p {
@@ -328,8 +329,6 @@
   color: #0e2633;
   border-color: #0e2633;
 }
-
-
 
 .avatarImage {
   width: 100px;

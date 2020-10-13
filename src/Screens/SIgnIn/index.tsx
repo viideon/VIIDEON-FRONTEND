@@ -80,11 +80,20 @@ class Signin extends React.Component<IProps, IState> {
   }
 
   componentDidUpdate(prevProps: any) {
-    if (this.props.verifyState && JSON.stringify(prevProps.verifyState) !== JSON.stringify(this.props.verifyState) && this.props.verifyState.VerifySuccess) {
+    if (
+      this.props.verifyState &&
+      JSON.stringify(prevProps.verifyState) !==
+        JSON.stringify(this.props.verifyState) &&
+      this.props.verifyState.VerifySuccess
+    ) {
       this.setState({ verifySuccessModals: true });
-      toast.info("The email is successfully verified!")
+      toast.info("The email is successfully verified!");
     }
-    if (this.props.auth.loginError && JSON.stringify(prevProps.auth) !== JSON.stringify(this.props.auth) && this.props.auth.loginError.isEmailNotVerified) {
+    if (
+      this.props.auth.loginError &&
+      JSON.stringify(prevProps.auth) !== JSON.stringify(this.props.auth) &&
+      this.props.auth.loginError.isEmailNotVerified
+    ) {
       this.setState({ resendVerificationEmail: true });
       this.props.resetEmailVerifiedVariable();
       setTimeout(

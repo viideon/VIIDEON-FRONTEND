@@ -42,7 +42,7 @@
   padding: 5px;
 }
 .containerCampaign {
-  margin-top: 100px;
+  margin-top: 10px;
   margin-bottom: 20px;
 }
 .wrapperBtnRecording {
@@ -189,8 +189,56 @@
 .wrapperSelectTemplate h4 {
   text-align: center;
   padding-bottom: 30px;
+  color: #fcb414;
+}
+ 
+.wrapperSelectTemplate .MuiPaper-elevation1 {
+  border-radius: 0 0 8px 8px !important;
 }
 
+.wrapperSelectTemplate .MuiCardMedia-img, .wrapperSelectTemplate .MuiCardMedia-media {
+  border: 2px solid #3b94d2;
+}
+
+.TemplateWrapperContainer .MuiTypography-h5, .TemplateWrapperContainer .MuiTypography-gutterBottom {
+  text-align: center;
+  color: #000;
+  font-weight: 500;
+  font-size: 22px;
+  font-family: "Poppins";
+}
+
+.chosenIndustry {
+  background: #FFCC01 !important;
+  color: #fff !important;
+  font-family: "Poppins" !important;
+}
+
+.chosenIndustry .MuiCardMedia-img, .chosenIndustry .MuiCardMedia-media {
+  border: 2px solid #FD7527;
+}
+
+.chosenIndustryName {
+  font-size: 28px !important ;
+  font-family: "Poppins" !important;
+  font-weight: 500 !important;
+}
+
+.changeIndustryBtn {
+  color: #FEB315 !important;
+  outline-color: #FEB315 !important;
+  border: 3px solid #FEB315 !important;
+  width: 70% !important;
+  font-family: "Poppins" !important;
+  font-size: 18px !important;
+  font-weight: bold !important;
+  height: 64px !important;
+  padding: 0% !important;
+}
+
+.campCards {
+  margin: 2%;
+}
 /* ---step recording css */
 .wrapperStep {
   border: 1px solid #cdcdcd;
@@ -206,6 +254,15 @@
 .wrapperStepExamples {
   padding: 10px 20px 10px 20px;
 }
+
+@media (max-width: 600px) {
+  .choseIndustryContainer {
+    margin-bottom: 6%;
+    padding-bottom: 6%;
+    border-bottom: 2px solid #fcb414;
+  }
+}
+
 @media (max-width: 500px) {
   .btnDoubleWrap {
     display: flex;
@@ -251,4 +308,17 @@
 .emailTmplateDialogWrapper .MuiListItem-button {
   box-shadow: 0px 5px 5px #888888;
   margin: 0.5em !important;
+}
+
+
+
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"),
+    url(../../assets//fonts/Poppins-Regular.ttf) format("ttf");
+}
+@font-face {
+  font-family: "Open Sans";
+  src: local("Poppins"),
+    url(../../assets//fonts/OpenSans-Regular.ttf) format("ttf");
 }

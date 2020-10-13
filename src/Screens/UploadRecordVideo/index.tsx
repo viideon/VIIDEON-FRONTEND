@@ -311,7 +311,6 @@ class UploadRecord extends Component<IProps, IState> {
                                         value={this.state.progressFile}
                                       />
                                     )}
-
                                     <TextField
                                       name="name"
                                       value={this.state.title}
@@ -339,7 +338,6 @@ class UploadRecord extends Component<IProps, IState> {
                                     />
                                   </div>
                                 )}
-
                                 {videoSaved === true && (
                                   <div>
                                     <div>

@@ -13,20 +13,18 @@ interface IProps {
   proceedToRecording: (template: any) => void;
   template: any;
 }
-const CampaignTemplateCard: React.FC<IProps> = ({
-  proceedToRecording,
-  template
-}) => {
+const CampaignTemplateCard: React.FC<IProps> = ({proceedToRecording, template}) => {
+  console.log(template)
   const moveToRecording = () => {
     proceedToRecording(template);
   };
   return (
-    <Card>
-      <CardActionArea>
+    <Card className="campCards">
+      <CardActionArea onClick={moveToRecording}>
         <CardMedia
           component="img"
           alt="Template Thumbnail"
-          height="140"
+          height="220"
           image={template.templateThumbnailUrl}
         />
         <CardContent style={{ maxHeight: "100px", minHeight: "100px" }}>
@@ -34,15 +32,16 @@ const CampaignTemplateCard: React.FC<IProps> = ({
             {template.name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
+            {`${template.totalSteps} shots, 30 seconds`}
             {template.templateDescription}
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
+      {/* <CardActions>
         <Button size="small" color="primary" onClick={moveToRecording}>
           Proceed
         </Button>
-      </CardActions>
+      </CardActions> */}
     </Card>
   );
 };

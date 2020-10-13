@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { config } from "../../config/aws";
-import {Grid, Tooltip, LinearProgress, TextField} from "@material-ui/core";
+import { Grid, Tooltip, LinearProgress, TextField } from "@material-ui/core";
 import Loading from "../../components/Loading";
 import ThemeButton from "../../components/ThemeButton";
 import AssetPicker from "../../components/AssetPicker";
@@ -122,7 +122,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
       musicVolume: "0.5",
       updatedThumbnailUrl: "",
       videoHeight: "300px",
-      open: true,
+      open: true
     };
   }
   container: any;
@@ -156,7 +156,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
     }
     setTimeout(() => {
       this.setUpCanvasEditing();
-    }, 100)
+    }, 100);
   };
 
   handleVideoLoaded = async () => {
@@ -169,8 +169,12 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
           let musicBlob = await res.blob();
           const audioUrl = await window.URL.createObjectURL(musicBlob);
           this.backgroundMusic.src = audioUrl;
-          this.setState({backgroundMusicUrl: musicProps.url, musicVolume: musicProps.musicVolume.toString()}, () => 
-            this.syncAudio()
+          this.setState(
+            {
+              backgroundMusicUrl: musicProps.url,
+              musicVolume: musicProps.musicVolume.toString()
+            },
+            () => this.syncAudio()
           );
         }
         const response = await fetch(video.url);
@@ -212,13 +216,23 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
     this.setState({ isOpenMusicPicker: !this.state.isOpenMusicPicker });
   };
   onVideoPlay = () => {
-    if (this.state.backgroundMusicUrl && this.backgroundMusic.readyState !== 4) {
+    if (
+      this.state.backgroundMusicUrl &&
+      this.backgroundMusic.readyState !== 4
+    ) {
       toast.info("Adding background music to video , Please wait");
       return;
     } else {
       this.backgroundMusic.play();
     }
-    this.draw(this.video,this.img,this.ctx,this.ctx2,this.video.clientWidth,this.video.clientHeight);
+    this.draw(
+      this.video,
+      this.img,
+      this.ctx,
+      this.ctx2,
+      this.video.clientWidth,
+      this.video.clientHeight
+    );
   };
   isMusicLoaded = () => {
     if (this.backgroundMusic && this.backgroundMusic.readyState === 4) {
@@ -292,7 +306,10 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
           musicFileSelected: false,
           assetUploading: false
         });
-        this.props.addMusicAsset({url: data.Location, title: this.state.musicTitle});
+        this.props.addMusicAsset({
+          url: data.Location,
+          title: this.state.musicTitle
+        });
       });
     }
   };
@@ -334,7 +351,11 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
     this.canvas.height = this.video.clientHeight;
     this.canvas2.width = this.video.clientWidth;
     this.canvas2.height = this.video.clientHeight;
-    if (this.props.video && this.props.video.logoProps && this.props.video.logoProps.position) {
+    if (
+      this.props.video &&
+      this.props.video.logoProps &&
+      this.props.video.logoProps.position
+    ) {
       this.initializeIconPosition(this.props.video.logoProps.position);
     }
   };
@@ -350,7 +371,14 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
       toast.error("error in selecting file");
     }
   };
-  draw = (video: any,img: any,context: any,context2: any,width: any,height: any) => {
+  draw = (
+    video: any,
+    img: any,
+    context: any,
+    context2: any,
+    width: any,
+    height: any
+  ) => {
     if (video.paused || video.ended) return false;
     context2.drawImage(video, 0, 0, width, height);
     context2.fillStyle = this.state.textColor;
@@ -360,31 +388,71 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
     canvasTxt.align = this.state.align;
     canvasTxt.justify = false;
     canvasTxt.lineHeight = null;
-    canvasTxt.drawText(context2,this.state.text,30,30,width - 50,height - 50);
+    canvasTxt.drawText(
+      context2,
+      this.state.text,
+      30,
+      30,
+      width - 50,
+      height - 50
+    );
     let logoDimension = 0.2 * width;
-    context2.drawImage(img,this.state.logoX,this.state.logoY,logoDimension,logoDimension);
+    context2.drawImage(
+      img,
+      this.state.logoX,
+      this.state.logoY,
+      logoDimension,
+      logoDimension
+    );
     let idata = context2.getImageData(0, 0, width, height);
     let that = this;
     context.putImageData(idata, 0, 0);
-    setTimeout(function () {
+    setTimeout(function() {
       that.draw(video, img, context, context2, width, height);
     }, 0);
   };
-  updateDrawCanvas = (video: any,img: any,context: any,context2: any,width: any,height: any) => {
+  updateDrawCanvas = (
+    video: any,
+    img: any,
+    context: any,
+    context2: any,
+    width: any,
+    height: any
+  ) => {
     context2.drawImage(video, 0, 0, width, height);
     context2.fillStyle = this.state.textColor;
     canvasTxt.vAlign = this.state.vAlign;
     canvasTxt.align = this.state.align;
     canvasTxt.lineHeight = 20;
     canvasTxt.fontSize = (this.state.fontSize / 100) * (width - 80);
-    canvasTxt.drawText(context2,this.state.text,30,30,width - 50,height - 50);
+    canvasTxt.drawText(
+      context2,
+      this.state.text,
+      30,
+      30,
+      width - 50,
+      height - 50
+    );
     let logoDimension = 0.2 * width;
-    context2.drawImage(img,this.state.logoX,this.state.logoY,logoDimension,logoDimension);
+    context2.drawImage(
+      img,
+      this.state.logoX,
+      this.state.logoY,
+      logoDimension,
+      logoDimension
+    );
     let idata = context2.getImageData(0, 0, width, height);
     context.putImageData(idata, 0, 0);
   };
   updateCanvas = () => {
-    this.updateDrawCanvas(this.video,this.img,this.ctx,this.ctx2,this.video.clientWidth,this.video.clientHeight);
+    this.updateDrawCanvas(
+      this.video,
+      this.img,
+      this.ctx,
+      this.ctx2,
+      this.video.clientWidth,
+      this.video.clientHeight
+    );
   };
   changeText = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ text: e.target.value }, () => this.updateCanvas());
@@ -571,7 +639,10 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
       };
       if (this.props.video) {
         const { video } = this.props;
-        if (JSON.stringify(video.textProps) !== JSON.stringify(textProps) || JSON.stringify(logoProps) !== JSON.stringify(video.logoProps)) {
+        if (
+          JSON.stringify(video.textProps) !== JSON.stringify(textProps) ||
+          JSON.stringify(logoProps) !== JSON.stringify(video.logoProps)
+        ) {
           toast.info("Generating new thumbnail", { autoClose: 1000 });
           await this.updateThumbnail();
           toast.info("Thumbnail generated", { autoClose: 1000 });
@@ -609,7 +680,14 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
       canvasTxt.vAlign = this.state.vAlign;
       canvasTxt.align = this.state.align;
       canvasTxt.lineHeight = 20;
-      canvasTxt.drawText(thumbnailContext,this.state.text,60,60,1280 - 120,720 - 120);
+      canvasTxt.drawText(
+        thumbnailContext,
+        this.state.text,
+        60,
+        60,
+        1280 - 120,
+        720 - 120
+      );
       thumbnailContext.drawImage(this.img, iconPos.x, iconPos.y);
       thumbCanvas.toBlob(async (blob: any) => {
         try {
@@ -642,7 +720,8 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
   };
   syncAudio = () => {
     let videoVolume = this.video.volume * 100;
-    this.backgroundMusic.volume = (parseFloat(this.state.musicVolume) / 100) * videoVolume;
+    this.backgroundMusic.volume =
+      (parseFloat(this.state.musicVolume) / 100) * videoVolume;
   };
   removeListeners = () => {
     this.video.removeEventListener("canplaythrough", this.handleLoadedMetaData);
@@ -661,10 +740,16 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
   };
   render() {
     const { type } = this.props;
-    const { videoLoaded, backgroundMusicUrl, open} = this.state;
+    const { videoLoaded, backgroundMusicUrl, open } = this.state;
     return (
       <div>
-        <Dialog fullWidth={true} maxWidth={"lg"} open={open} onClose={this.handleClose} aria-labelledby="responsive-dialog-title">
+        <Dialog
+          fullWidth={true}
+          maxWidth={"lg"}
+          open={open}
+          onClose={this.handleClose}
+          aria-labelledby="responsive-dialog-title"
+        >
           <DialogTitle id="responsive-dialog-title"> Edit {type} </DialogTitle>
           <DialogContent>
             <div className="wrapperEditLogoText">
@@ -675,52 +760,70 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
                   </span>
                 )}
                 <Grid item xs={12} sm={6} md={6} lg={6}>
-                  <video
-                    ref={this.video}
-                    controls={videoLoaded}
-                    width="100%"
-                  />
+                  <video ref={this.video} controls={videoLoaded} width="100%" />
                 </Grid>
               </Grid>
               <Grid container style={{ position: "relative" }}>
                 <Grid item xs={12} sm={6} md={6} lg={6}>
-                  <canvas ref={ref => { this.canvas = ref; }} style={{ transform: "rotate(-270px)" }} />
+                  <canvas
+                    ref={ref => {
+                      this.canvas = ref;
+                    }}
+                    style={{ transform: "rotate(-270px)" }}
+                  />
                 </Grid>
               </Grid>
-              <canvas ref={ref => { this.dummyCanvas = ref; }} style={{ display: "none" }} />
+              <canvas
+                ref={ref => {
+                  this.dummyCanvas = ref;
+                }}
+                style={{ display: "none" }}
+              />
               <img
                 crossOrigin="anonymous"
                 alt="logo"
                 src={this.state.logoPath ? this.state.logoPath : null}
                 style={{ display: "none" }}
-                ref={ref => { this.img = ref; }}
+                ref={ref => {
+                  this.img = ref;
+                }}
               />
               <audio
                 src={backgroundMusicUrl}
-                ref={ref => { this.backgroundMusic = ref; }}
+                ref={ref => {
+                  this.backgroundMusic = ref;
+                }}
                 loop
                 style={{ display: "none" }}
               />
               <Grid container>
-                <Grid item xs={12} sm={12} md={12} lg={12} style={{ display: type === "Text" ? 'none' : '' }}>
+                <Grid
+                  item
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  lg={12}
+                  style={{ display: type === "Text" ? "none" : "" }}
+                >
                   <div className="addLogoDiv">
-                    {
-                      type === "Logo" &&
+                    {type === "Logo" && (
                       <EditLogo
                         {...this.state}
-                        logoRef={(ref: any) => { this.logoRef = ref; }}
+                        logoRef={(ref: any) => {
+                          this.logoRef = ref;
+                        }}
                         toggleLogoAssetPicker={this.toggleLogoAssetPicker}
                         onLogoAssetPick={this.onLogoAssetPick}
                         onLogoFileChange={this.onLogoFileChange}
                         setIconPosition={this.setIconPosition}
-                        />
-                    }
-                    {
-                      type === "Music"
-                      &&
+                      />
+                    )}
+                    {type === "Music" && (
                       <EditMusic
                         {...this.state}
-                        musicRef={(ref: any) => { this.musicRef = ref; }}
+                        musicRef={(ref: any) => {
+                          this.musicRef = ref;
+                        }}
                         toggleMusicAssetPicker={this.toggleMusicAssetPicker}
                         onMusicAssetPick={this.onMusicAssetPick}
                         onMusicInputChange={this.onMusicInputChange}
@@ -728,12 +831,10 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
                         onChangeMusicTitle={this.onChangeMusicTitle}
                         onAdjustMusicVolume={this.onAdjustMusicVolume}
                       />
-                      
-                    }
+                    )}
                   </div>
                 </Grid>
-                {
-                  type === "Text" &&
+                {type === "Text" && (
                   <EditText
                     {...this.state}
                     changeText={this.changeText}
@@ -741,15 +842,30 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
                     changeFontSize={this.changeFontSize}
                     handleChangeColor={this.handleChangeColor}
                   />
-                }
+                )}
               </Grid>
               <div style={{ textAlign: "end" }}>
                 <ThemeButton
                   name="Update"
                   onClick={this.updateVideoLogoText}
-                  style={{border: "none",background: "#16B272",color: "rgb(255, 255, 255)",marginTop: "20px",marginBottom: "2px",outline: "none"}}/>
+                  style={{
+                    border: "none",
+                    background: "#16B272",
+                    color: "rgb(255, 255, 255)",
+                    marginTop: "20px",
+                    marginBottom: "2px",
+                    outline: "none"
+                  }}
+                />
               </div>
-              <canvas ref={ref => { this.thumbCanvas = ref; }}height={720} width={1280} style={{ display: "none" }}/>
+              <canvas
+                ref={ref => {
+                  this.thumbCanvas = ref;
+                }}
+                height={720}
+                width={1280}
+                style={{ display: "none" }}
+              />
             </div>
           </DialogContent>
         </Dialog>
@@ -759,13 +875,24 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
 }
 
 const EditText = (props: any) => {
-  const { text, fontSize, textColor, changeText, setTextPosition, changeFontSize, handleChangeColor } = props;
+  const {
+    text,
+    fontSize,
+    textColor,
+    changeText,
+    setTextPosition,
+    changeFontSize,
+    handleChangeColor
+  } = props;
   return (
     <Grid item xs={12} sm={12} md={12} lg={12}>
       <div className="addTextDiv">
         <h4 className="addLogoMessage">
           Add Text
-          <Tooltip title="enter text and play the video to see it" placement="top">
+          <Tooltip
+            title="enter text and play the video to see it"
+            placement="top"
+          >
             <span style={iconStyle}>
               <i className="fas fa-info"></i>
             </span>
@@ -780,22 +907,40 @@ const EditText = (props: any) => {
           style={{ width: "80%" }}
         />
         <h5 className="positionTxt">Change Text Position</h5>
-        <Button style={logoPositionBtn} onClick={() => setTextPosition("center")}>
+        <Button
+          style={logoPositionBtn}
+          onClick={() => setTextPosition("center")}
+        >
           Center
         </Button>
-        <Button style={logoPositionBtn} onClick={() => setTextPosition("center-bottom")}>
+        <Button
+          style={logoPositionBtn}
+          onClick={() => setTextPosition("center-bottom")}
+        >
           Center Bottom
         </Button>
-        <Button style={logoPositionBtn} onClick={() => setTextPosition("top-left")}>
+        <Button
+          style={logoPositionBtn}
+          onClick={() => setTextPosition("top-left")}
+        >
           Top Left
         </Button>
-        <Button style={logoPositionBtn} onClick={() => setTextPosition("top-right")}>
+        <Button
+          style={logoPositionBtn}
+          onClick={() => setTextPosition("top-right")}
+        >
           Top Right
         </Button>
-        <Button style={logoPositionBtn} onClick={() => setTextPosition("bottom-left")} >
+        <Button
+          style={logoPositionBtn}
+          onClick={() => setTextPosition("bottom-left")}
+        >
           Bottom Left
         </Button>
-        <Button style={logoPositionBtn} onClick={() => setTextPosition("bottom-right")}>
+        <Button
+          style={logoPositionBtn}
+          onClick={() => setTextPosition("bottom-right")}
+        >
           Bottom Right
         </Button>
         <h5 className="positionTxt">Select Font Size</h5>
@@ -819,21 +964,29 @@ const EditText = (props: any) => {
           Choose Text Color
           <span className="optionalText">(optional)</span>
         </h5>
-        <CompactPicker
-          color={textColor}
-          onChangeComplete={handleChangeColor}
-        />
+        <CompactPicker color={textColor} onChangeComplete={handleChangeColor} />
       </div>
     </Grid>
-  )
-}
+  );
+};
 const EditLogo = (props: any) => {
-  const { isOpenLogoPicker, assetUploading, toggleLogoAssetPicker, onLogoAssetPick, onLogoFileChange, setIconPosition, logoRef } = props;
+  const {
+    isOpenLogoPicker,
+    assetUploading,
+    toggleLogoAssetPicker,
+    onLogoAssetPick,
+    onLogoFileChange,
+    setIconPosition,
+    logoRef
+  } = props;
   return (
     <>
       <h3 className="addLogoMessage">
         Add Logo
-        <Tooltip title="upload a logo and play the video to see it" placement="top">
+        <Tooltip
+          title="upload a logo and play the video to see it"
+          placement="top"
+        >
           <span style={iconStyle}>
             <i className="fas fa-info"></i>
           </span>
@@ -853,30 +1006,73 @@ const EditLogo = (props: any) => {
         accept="image/x-png,image/gif,image/jpeg"
       />
       {assetUploading && <LinearProgress />}
-      <Button onClick={() => { logoRef.click() }} style={{ color: "#fff", width: "135px", backgroundColor: "#ff4301", margin: "0px 5px 10px 0px" }} >
+      <Button
+        onClick={() => {
+          logoRef.click();
+        }}
+        style={{
+          color: "#fff",
+          width: "135px",
+          backgroundColor: "#ff4301",
+          margin: "0px 5px 10px 0px"
+        }}
+      >
         Upload
       </Button>
-      <Button onClick={toggleLogoAssetPicker} style={{ color: "#fff", marginLeft: "3px", backgroundColor: "rgb(34, 185, 255)", margin: "0px 5px 10px 0px" }}>
+      <Button
+        onClick={toggleLogoAssetPicker}
+        style={{
+          color: "#fff",
+          marginLeft: "3px",
+          backgroundColor: "rgb(34, 185, 255)",
+          margin: "0px 5px 10px 0px"
+        }}
+      >
         Select from Assets
       </Button>
       <h5 className="positionTxt">Change Logo Position</h5>
-      <Button style={logoPositionBtn} onClick={() => setIconPosition("top-left")}>
+      <Button
+        style={logoPositionBtn}
+        onClick={() => setIconPosition("top-left")}
+      >
         Top Left
       </Button>
-      <Button style={logoPositionBtn} onClick={() => setIconPosition("top-right")}>
+      <Button
+        style={logoPositionBtn}
+        onClick={() => setIconPosition("top-right")}
+      >
         Top Right
       </Button>
-      <Button style={logoPositionBtn} onClick={() => setIconPosition("bottom-left")}>
+      <Button
+        style={logoPositionBtn}
+        onClick={() => setIconPosition("bottom-left")}
+      >
         Bottom Left
       </Button>
-      <Button style={logoPositionBtn} onClick={() => setIconPosition("bottom-right")}>
+      <Button
+        style={logoPositionBtn}
+        onClick={() => setIconPosition("bottom-right")}
+      >
         Bottom Right
       </Button>
     </>
-  )
-}
+  );
+};
 const EditMusic = (props: any) => {
-  const { isOpenMusicPicker, musicTitle, musicVolume, musicFileSelected, backgroundMusicUrl, toggleMusicAssetPicker, onMusicAssetPick, onMusicInputChange, uploadAndSaveMusicAsset, onChangeMusicTitle, onAdjustMusicVolume, musicRef } = props;
+  const {
+    isOpenMusicPicker,
+    musicTitle,
+    musicVolume,
+    musicFileSelected,
+    backgroundMusicUrl,
+    toggleMusicAssetPicker,
+    onMusicAssetPick,
+    onMusicInputChange,
+    uploadAndSaveMusicAsset,
+    onChangeMusicTitle,
+    onAdjustMusicVolume,
+    musicRef
+  } = props;
   return (
     <>
       <h3 className="addLogoMessage">
@@ -900,16 +1096,38 @@ const EditMusic = (props: any) => {
         accept="audio/*"
       />
       {musicFileSelected && (
-        <Button onClick={uploadAndSaveMusicAsset} style={{color: "#fff",width: "135px",backgroundColor: "#ff4301",margin: "0px 5px 10px 0px"}}>
+        <Button
+          onClick={uploadAndSaveMusicAsset}
+          style={{
+            color: "#fff",
+            width: "135px",
+            backgroundColor: "#ff4301",
+            margin: "0px 5px 10px 0px"
+          }}
+        >
           Upload
         </Button>
       )}
       {!musicFileSelected && (
-        <Button onClick={() => musicRef.click()} style={{color: "#fff",backgroundColor: "#ff4301",margin: "0px 5px 10px 0px"}}>
+        <Button
+          onClick={() => musicRef.click()}
+          style={{
+            color: "#fff",
+            backgroundColor: "#ff4301",
+            margin: "0px 5px 10px 0px"
+          }}
+        >
           Select to Upload
         </Button>
       )}
-      <Button onClick={toggleMusicAssetPicker} style={{color: "#fff",backgroundColor: "rgb(34, 185, 255)",margin: "0px 5px 10px 0px"}}>
+      <Button
+        onClick={toggleMusicAssetPicker}
+        style={{
+          color: "#fff",
+          backgroundColor: "rgb(34, 185, 255)",
+          margin: "0px 5px 10px 0px"
+        }}
+      >
         Select from Assets
       </Button>
       {musicFileSelected && (
@@ -936,11 +1154,21 @@ const EditMusic = (props: any) => {
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-const iconStyle = {fontSize: "15px",color: "#a9a9a9",marginLeft: "7px",cursor: "pointer"};
-const logoPositionBtn = {marginBottom: "10px",marginLeft: "7px",fontSize: "11px",border: "1px solid #696969"};
+const iconStyle = {
+  fontSize: "15px",
+  color: "#a9a9a9",
+  marginLeft: "7px",
+  cursor: "pointer"
+};
+const logoPositionBtn = {
+  marginBottom: "10px",
+  marginLeft: "7px",
+  fontSize: "11px",
+  border: "1px solid #696969"
+};
 
 const mapStateToProps = (state: any, ownProps: any) => {
   return {

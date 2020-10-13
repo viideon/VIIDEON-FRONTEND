@@ -12,6 +12,10 @@ code {
     monospace;
 }
 
+.cursorPointer {
+  cursor: pointer !important;
+}
+
 :root {
   font-family: "Open Sans", sans-serif !important;
   --pink-color: #ff49c3;
@@ -26,4 +30,15 @@ code {
   --purple-theme: #936ee0;
   --orange-theme: #f9686b;
   --green-theme: #44be8b;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"),
+    url(./assets//fonts/Poppins-Regular.ttf) format("ttf");
+}
+@font-face {
+  font-family: "Open Sans";
+  src: local("Poppins"),
+    url(./assets//fonts/OpenSans-Regular.ttf) format("ttf");
 }

@@ -7,6 +7,7 @@ export default {
   red: "#ff3333",
   themeGolden: "#fcb317",
   themeGradient: "linear-gradient(to right, #fcb317, #8bb589, #61b5b3)",
+  templateOrange: "#FD7527",
   themeGoldenBtn: {
     marginTop: 18,
     background: "#fcb317",

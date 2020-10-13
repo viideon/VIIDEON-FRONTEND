@@ -4,7 +4,10 @@ import Recording from "./Recording";
 import SendSave from "./SendSave";
 import AddLogoText from "./AddLogoText";
 import SelectTemplate from "./SelectTemplate";
+import Industry from "./Industry";
 import Header from "../../components/Header/Header";
+
+import "../../assets/fonts/Poppins-Regular.ttf"
 
 class Campaign extends React.Component {
   state = {
@@ -44,11 +47,19 @@ class Campaign extends React.Component {
   };
   renderCampaignSteps = () => {
     switch (this.state.currentStep) {
+      case 0:
+        return (
+          <Industry
+            moveToNextStep={this.moveToNextStep}
+            selectTemplate={this.selectTemplate}
+          />
+        );
       case 1:
         return (
           <SelectTemplate
             moveToNextStep={this.moveToNextStep}
             selectTemplate={this.selectTemplate}
+            moveBack={this.moveBack}
           />
         );
       case 2:
@@ -107,15 +118,13 @@ class Campaign extends React.Component {
     this.setState({ currentStep: nextStep });
   };
 
+  moveBack = () => {
+    this.setState({ currentStep: this.state.currentStep -1 })
+  }
   render() {
     return (
       <>
-        <Header
-          styles={{
-            backgroundImage:
-              "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"
-          }}
-        />
+        <Header styles={{backgroundImage:"linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"}}/>
         <div className="containerCampaign">{this.renderCampaignSteps()}</div>
       </>
     );

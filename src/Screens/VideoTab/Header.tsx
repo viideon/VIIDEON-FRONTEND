@@ -2,23 +2,26 @@ import React from "react";
 import { toast } from "react-toastify";
 import VideoInfo from "../../components/VideoInfo";
 import { connect } from "react-redux";
-import { CircularProgress, Grid, TextField, InputAdornment } from "@material-ui/core";
+import {
+  CircularProgress,
+  Grid,
+  TextField,
+  InputAdornment
+} from "@material-ui/core";
 import Colors from "../../constants/colors";
 import ThemeButton from "../../components/ThemeButton";
 import CanvasPlayer from "../../components/CanvasPlayer/EditingCanvas";
-import VideoEditor from './Editor';
+import VideoEditor from "./Editor";
 
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
-import DoneIcon from '@material-ui/icons/Done';
+import DoneIcon from "@material-ui/icons/Done";
 import MailIcon from "@material-ui/icons/Mail";
 import DirectionsIcon from "@material-ui/icons/Directions";
 
 import { updateVideo } from "../../Redux/Actions/videos";
-
-
 
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
@@ -85,7 +88,6 @@ function SimpleDialog(props: SimpleDialogProps) {
   );
 }
 
-
 interface Video {
   url: string;
   thumbnail?: string;
@@ -116,7 +118,7 @@ class VideoTabHeader extends React.Component<IProps> {
     title: "",
     themeName: "",
     open: false,
-    template: "",
+    template: ""
   };
   componentDidMount() {
     this.caluclateContainerHeight();
@@ -149,26 +151,26 @@ class VideoTabHeader extends React.Component<IProps> {
   }
 
   handleEditTitle = () => {
-    this.setState({ editTitle: true })
-  }
-  
+    this.setState({ editTitle: true });
+  };
+
   saveVideo = () => {
     const { video } = this.props;
     const { title } = this.state;
     let newVideo: any = video;
     newVideo.id = video?._id;
     newVideo.title = title;
-    this.props.updateVideo(newVideo)
-    this.setState({ editTitle: false })
-  }
-  
+    this.props.updateVideo(newVideo);
+    this.setState({ editTitle: false });
+  };
+
   handleInputChange = (input: any) => {
     this.setState({ title: input.value });
-  }
+  };
 
   handleTemplate = () => {
-    this.setState({ open : true})
-  }
+    this.setState({ open: true });
+  };
 
   handleCloseTemplate = (name: string) => {
     const { video } = this.props;
@@ -176,9 +178,9 @@ class VideoTabHeader extends React.Component<IProps> {
     let newVideo: any = video;
     newVideo.id = video?._id;
     newVideo.eMailTemplate = name;
-    this.props.updateVideo(newVideo)
-    this.setState({open: false})
-  }
+    this.props.updateVideo(newVideo);
+    this.setState({ open: false });
+  };
 
   render() {
     const { video } = this.props;
@@ -191,7 +193,12 @@ class VideoTabHeader extends React.Component<IProps> {
               <CircularProgress color="primary" />
             </div>
           )}
-          <div ref={ref => { this.container = ref; }} style={{ width: "100%", height: this.state.height }}>
+          <div
+            ref={ref => {
+              this.container = ref;
+            }}
+            style={{ width: "100%", height: this.state.height }}
+          >
             {video && (
               <CanvasPlayer
                 muted={false}
@@ -206,40 +213,52 @@ class VideoTabHeader extends React.Component<IProps> {
             )}
           </div>
         </Grid>
-        { editTitle ?
+        {editTitle ? (
           <>
-          <div>
-            <input 
-              className="editVideoTitle"
-              defaultValue={video && video.title}
-              onChange={(e:any) => this.handleInputChange(e.currentTarget)}
-            />
-            <DoneIcon onClick={this.saveVideo} style={{ cursor: "pointer" }} />
-          </div>
+            <div>
+              <input
+                className="editVideoTitle"
+                defaultValue={video && video.title}
+                onChange={(e: any) => this.handleInputChange(e.currentTarget)}
+              />
+              <DoneIcon
+                onClick={this.saveVideo}
+                style={{ cursor: "pointer" }}
+              />
+            </div>
           </>
-          :
+        ) : (
           <h3 className="videoTitle">
             {video && video.title}
-            <EditIcon onClick={this.handleEditTitle} style={{ cursor: "pointer" }} />
+            <EditIcon
+              onClick={this.handleEditTitle}
+              style={{ cursor: "pointer" }}
+            />
           </h3>
-        }
+        )}
         <VideoInfo video={video} />
         <Grid container xs={12} sm={12} md={12} id="editingToolsWrapper">
           <Grid item xs={12} sm={12} md={6} id="editingWrapper">
             <ThemeButton
               name="ADD CAPTIONS"
               style={Colors.themeGoldenBtn}
-              onClick={() => { this.setState({ editText: true }); }}
+              onClick={() => {
+                this.setState({ editText: true });
+              }}
             />
             <ThemeButton
               name="SELECT/EDIT LOGO"
               style={Colors.themeGoldenBtn}
-              onClick={() => { this.setState({ editLogo: true }); }}
+              onClick={() => {
+                this.setState({ editLogo: true });
+              }}
             />
             <ThemeButton
               name="SELECT MUSIC"
               style={Colors.themeGoldenBtn}
-              onClick={() => { this.setState({ editMusic: true }); }}
+              onClick={() => {
+                this.setState({ editMusic: true });
+              }}
             />
           </Grid>
           <Grid item xs={12} sm={12} md={6} id="templateWrapper">
@@ -291,18 +310,33 @@ class VideoTabHeader extends React.Component<IProps> {
           </Paper>
         </div>
         <ThemeButton style={Colors.themeGradientBtn} name="Share & Send" />
-        {
-          this.state.editText &&
-          <VideoEditor toggle={() => { this.setState({ editText: false }) }} video={video} type="Text" />
-        }
-        {
-          this.state.editLogo &&
-          <VideoEditor toggle={() => { this.setState({ editLogo: false }) }} video={video} type="Logo" />
-        }
-        {
-          this.state.editMusic &&
-          <VideoEditor toggle={() => { this.setState({ editMusic: false }) }} video={video} type="Music" />
-        }
+        {this.state.editText && (
+          <VideoEditor
+            toggle={() => {
+              this.setState({ editText: false });
+            }}
+            video={video}
+            type="Text"
+          />
+        )}
+        {this.state.editLogo && (
+          <VideoEditor
+            toggle={() => {
+              this.setState({ editLogo: false });
+            }}
+            video={video}
+            type="Logo"
+          />
+        )}
+        {this.state.editMusic && (
+          <VideoEditor
+            toggle={() => {
+              this.setState({ editMusic: false });
+            }}
+            video={video}
+            type="Music"
+          />
+        )}
         <SimpleDialog
           selectedValue={themeName}
           open={open}
@@ -345,8 +379,8 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    updateVideo: (video: any) => dispatch(updateVideo(video)),
-  }
-}
+    updateVideo: (video: any) => dispatch(updateVideo(video))
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(VideoTabHeader);

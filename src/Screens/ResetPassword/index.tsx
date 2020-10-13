@@ -106,7 +106,7 @@ class ResetPassword extends React.Component<IProps, IState> {
               </div>
             </div>
           </Grid>
-          <Grid item xs={12} md={5} sm={12} style={{ zIndex: 231231232}} >
+          <Grid item xs={12} md={5} sm={12} style={{ zIndex: 231231232 }}>
             <div className="secondLayoutMainContainer">
               <p className="loginTwo">Reset Password</p>
               <div className="createAccount">

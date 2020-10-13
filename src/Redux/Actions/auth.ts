@@ -1,6 +1,7 @@
 import { types, User, LoginAction } from "../Types/auth";
 
 export function loginUser(user: User): LoginAction {
+  user.email = user.email.toLowerCase();
   return {
     type: types.LOGIN_REQUEST,
     payload: user
@@ -17,7 +18,7 @@ export function verifyUser(token: any) {
 export function forgotPassword(email: any) {
   return {
     type: types.FORGOT_REQUEST,
-    payload: email
+    payload: email.toLowerCase()
   };
 }
 export function resetPassword(pass: any) {
@@ -29,7 +30,7 @@ export function resetPassword(pass: any) {
 export function resendEmail(email: any) {
   return {
     type: types.RESEND_EMAIL_REQUEST,
-    payload: email
+    payload: email.toLowerCase()
   };
 }
 export function resetEmailVerifiedVariable() {

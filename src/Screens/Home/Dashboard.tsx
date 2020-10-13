@@ -6,6 +6,7 @@ import PublishIcon from "@material-ui/icons/Publish";
 import ImageSearchIcon from "@material-ui/icons/ImageSearch";
 import EditIcon from "@material-ui/icons/Edit";
 import HeaderCard from "../../components/HeaderCards";
+import VoiceChatIcon from '@material-ui/icons/VoiceChat';
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import { getVideoCount, getCampaignCount } from "../../Redux/Actions/videos";
@@ -94,41 +95,50 @@ class Dashboard extends Component<IProps> {
             </Grid>
           </Grid>
           <Grid container className="wrapperActivityHome">
-            <Grid item xs={6} md={3}>
+            <Grid item xs={6} md={2}>
               <div
                 className="actionsHomePage"
                 onClick={() => this.navigate("record")}
               >
                 <VideocamIcon style={iconStyle} />
-                <h5>Record a Video</h5>
+                <h5 className="cursorPointer">Record a Video</h5>
               </div>
             </Grid>
-            <Grid item xs={6} md={3}>
+            <Grid item xs={6} md={2}>
               <div
                 className="actionsHomePage"
                 onClick={() => this.navigate("upload")}
               >
                 <PublishIcon style={iconStyle} />
-                <h5>Upload a Video</h5>
+                <h5 className="cursorPointer">Upload a Video</h5>
               </div>
             </Grid>
-            <Grid item xs={6} md={3}>
+            <Grid item xs={6} md={2}>
               <div
                 className="actionsHomePage"
                 onClick={() => this.props.history.push("/campaign/new")}
               >
                 <ImageSearchIcon style={iconStyle} />
-                <h5>Create a Campaign</h5>
+                <h5 className="cursorPointer">Create a Campaign</h5>
               </div>
             </Grid>
-            <Grid item xs={6} md={3}>
+            <Grid item xs={6} md={2}>
+              <div
+                className="actionsHomePage"
+                onClick={() => this.props.history.push("/chatvid")}
+              >
+                <VoiceChatIcon style={iconStyle} />
+                <h5 className="cursorPointer">Create a Chatvid</h5>
+              </div>
+            </Grid>
+            <Grid item xs={6} md={2}>
               <Tooltip title="Under Progress">
                 <div
                   className="actionsHomePage"
                   onClick={() => alert("Feature not created yet")}
                 >
                   <EditIcon style={iconStyle} />
-                  <h5>Edit My Message</h5>
+                  <h5 className="cursorPointer">Edit My Message</h5>
                 </div>
               </Tooltip>
             </Grid>

@@ -72,7 +72,7 @@ export const LOGIN_TO_ACCOUNT = "Login to your account";
 export const DONT_HAVE_ACCOUNT_YET = "Don't have an account yet?";
 export const CREATE_NEW = "Create one here";
 export const SIGN_UP_HERE = "Sign up here";
-export const ENTER_DETAILS = "Enter Your details bellow to continue";
+export const ENTER_DETAILS = "Enter Your details below to continue";
 export const RESEND_VERIFICATION_EMAIL_TEXT =
   "We have sent you a verification email. Please verify your account from the link given in email. If you did not receive verification email yet, you may";
 

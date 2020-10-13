@@ -104,13 +104,14 @@
 }
 @media only screen and (max-width: 550px) {
   .recordMainContainer {
-    margin-top: 22%;
+    margin-top: 15%;
+    width: 100%;
   }
 }
 
 @media only screen and (max-width: 400px) {
   .recordMainContainer {
-    margin-top: 24%;
-    width: 80%;
+    margin-top: 10%;
+    width: 100%;
   }
 }

@@ -8,6 +8,9 @@ import Button from "../Reusable/ActionButton";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import TextField from "@material-ui/core/TextField";
+import StopRoundedIcon from '@material-ui/icons/StopRounded';
+import PauseOutlinedIcon from '@material-ui/icons/PauseOutlined';
+import { toast } from 'react-toastify'
 
 import "./style.css";
 
@@ -103,6 +106,7 @@ class Recording extends React.Component<IProps> {
   };
 
   handleRecording = () => {
+    if(!this.recordVideo) return toast.error("Allow camera's access first!")
     this.setState({
       showCountdown: true,
       showRecordBtn: false,
@@ -139,15 +143,20 @@ class Recording extends React.Component<IProps> {
   };
 
   stopAndGetBlob = (getBlob: boolean) => {
+    if(!this.recordVideo) return toast.error("Camera's access denied!")
     let that = this;
-    !getBlob
-      ? this.recordVideo.stopRecording() &&
-        this.props.reset &&
-        this.props.reset()
-      : this.recordVideo.stopRecording(() => {
-          window.getSeekableBlob(this.recordVideo.getBlob(), function(
-            seekableBlob: any
-          ) {
+    if(!getBlob) {
+      try {
+        this.recordVideo.stopRecording();
+      } catch (error) {
+        console.log("error: ", error.message);
+        toast.error("No recording found");
+      }
+      this.props.reset && this.props.reset();
+    } else {
+      try {
+        this.recordVideo.stopRecording(() => {
+          window.getSeekableBlob(this.recordVideo.getBlob(), function(seekableBlob: any) {
             that.stopStream();
             that.props.getBlob(seekableBlob);
             that.resultVideo.src = URL.createObjectURL(seekableBlob);
@@ -155,6 +164,11 @@ class Recording extends React.Component<IProps> {
           });
           this.setState({ recordingStatus: false });
         });
+      } catch (error) {
+        console.log("error: ", error.message);
+        toast.error("No recording found");
+      }
+    }
   };
 
   trackTime = () => {
@@ -168,7 +182,7 @@ class Recording extends React.Component<IProps> {
       this.localStream.getTracks().forEach(function(track: any) {
         track.stop();
       });
-    this.video.srcObect = null;
+    if(this.video) this.video.srcObect = null;
     this.localStream = null;
   };
 
@@ -297,6 +311,27 @@ class Recording extends React.Component<IProps> {
             </span>
           )}
           <Tooltip title="Stop" placement="top" arrow>
+            <div className="stopBtnWrapper">
+              <StopRoundedIcon className="stopBtn" onClick={() => !showRecordBtn && this.stopRecord(true)} />
+              {/* <button
+                className="stopBtn"
+                onClick={() => !showRecordBtn && this.stopRecord(true)}
+              /> */}
+            </div>
+          </Tooltip>
+          {/* {showRecordBtn && !isConnecting && ( */}
+          <Tooltip title="Record" placement="top" arrow>
+            <FiberManualRecordIcon className="recordingBtn" onClick={() => showRecordBtn && this.handleRecording()} />
+          </Tooltip>
+          {/* {showStopBtn && ( */}
+          <Tooltip title="Pause" placement="top" arrow>
+            <div className="pauseBtnWrapper" onClick={() => showStopBtn && this.pauseRecorder()}>
+              <PauseOutlinedIcon className="pauseBtn" />
+            </div>
+          </Tooltip>
+          {/* )} */}
+        </div>
+        <Tooltip title="Add note" placement="top" arrow>
             <div className="addNote">
               <FormControlLabel
                 control={
@@ -311,33 +346,6 @@ class Recording extends React.Component<IProps> {
               />
             </div>
           </Tooltip>
-          <Tooltip title="Stop" placement="top" arrow>
-            <div className="stopBtnWrapper">
-              <button
-                className="stopBtn"
-                onClick={() => !showRecordBtn && this.stopRecord(true)}
-              />
-            </div>
-          </Tooltip>
-          {/* {showRecordBtn && !isConnecting && ( */}
-          <Tooltip title="Record" placement="top" arrow>
-            <button
-              className="recordingBtn"
-              onClick={() => showRecordBtn && this.handleRecording()}
-            />
-          </Tooltip>
-          {/* {showStopBtn && ( */}
-          <Tooltip title="Pause" placement="top" arrow>
-            <div
-              className="pauseBtnWrapper"
-              onClick={() => showStopBtn && this.pauseRecorder()}
-            >
-              <div className="pauseBtn"></div>
-              <div className="pauseBtn"></div>
-            </div>
-          </Tooltip>
-          {/* )} */}
-        </div>
         {!this.props?.interActive && (
           <div className="recordQualityInput">
             {showQualityInput && (

@@ -166,10 +166,10 @@
 }
 .recordingBtn {
   border: 12px solid #ffffff;
-  color: black;
+  color: #ff0202;
   border-radius: 50%;
-  width: 90px;
-  height: 90px;
+  width: 90px !important;
+  height: 90px !important;
   background: #ff0202;
   outline: none;
   position: absolute;
@@ -193,17 +193,19 @@
   transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
   z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .stopBtn {
-  color: black;
+  color: #0f2733;
   border-radius: 4px;
-  width: 40px;
-  height: 40px;
+  width: 40px !important;
+  height: 40px !important;
   background: #0f2733;
   outline: none;
   border: none;
   cursor: pointer;
-  margin: 16px 16px 16px 15px;
 }
 .pauseBtnWrapper {
   background: #ffffff;
@@ -216,23 +218,26 @@
   transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
   display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
   z-index: 2;
 }
 .pauseBtn {
-  color: black;
-  width: 15px;
-  height: 40px;
-  background: #0f2733;
+  color: #0f2733;
+  width: 65px !important;
+  height: 65px !important;
   outline: none;
   border: none;
   cursor: pointer;
-  margin: 16px 5px 16px 5px;
 }
 .stopBtn:hover {
   background: #ff0202;
+  color: #ff0202;
+}
+
+.pauseBtn:hover {
+  color: #ff0202;
 }
 
 .videoStreamWrapper button:focus {
@@ -313,10 +318,11 @@
 
 @media (max-width: 1400px) {
   .recordingBtn {
-    width: 70px;
-    height: 70px;
+    width: 70px !important;
+    height: 70px !important;
     right: 2%;
     top: 50%;
+    border-width: 8px;
   }
   .stopBtnWrapper {
     height: 50px;
@@ -325,9 +331,8 @@
     top: 38%;
   }
   .stopBtn {
-    width: 24px;
-    height: 24px;
-    margin: 13px 15px 15px 13px;
+    width: 28px !important;
+    height: 28px !important;
   }
   .pauseBtnWrapper {
     height: 50px;
@@ -336,9 +341,7 @@
     top: 62%;
   }
   .pauseBtn {
-    width: 12px;
-    height: 26px;
-    margin: 12px 2px 16px 2px;
+    height: 50px !important;
   }
 }
 @media (min-width: 1080px) {
@@ -354,11 +357,11 @@
 
 @media (max-width: 1080px) {
   .recordingBtn {
-    width: 50px;
-    height: 50px;
+    width: 55px !important;
+    height: 55px !important;
     right: 2%;
     top: 50%;
-    border: 6px solid #ffffff;
+    border: 5px solid #ffffff;
   }
   .stopBtnWrapper {
     height: 40px;
@@ -367,9 +370,8 @@
     top: 38%;
   }
   .stopBtn {
-    width: 25px;
-    height: 25px;
-    margin: 7px 15px 15px 8px;
+    width: 24px !important;
+    height: 24px !important;
   }
   .pauseBtnWrapper {
     height: 40px;
@@ -378,16 +380,15 @@
     top: 62%;
   }
   .pauseBtn {
-    margin: 7px -6px 7px -5px;
-    width: 8px;
+    width: 40px !important;
   }
 }
 @media (max-width: 800px) {
   .recordingBtn {
-    width: 30px;
-    height: 30px;
+    width: 40px !important;
+    height: 40px !important;
     left: 50%;
-    top: 90%;
+    top: 88%;
     border: 3px solid #ffffff;
   }
   .stopBtnWrapper {
@@ -397,9 +398,9 @@
     top: 90%;
   }
   .stopBtn {
-    width: 20px;
-    height: 20px;
-    margin: 5px 5.5px;
+    width: 18px !important;
+    height: 18px !important;
+
   }
   .pauseBtnWrapper {
     height: 30px;
@@ -408,9 +409,7 @@
     top: 90%;
   }
   .pauseBtn {
-    width: 7px;
-    margin: 4px -1px;
-    height: 22px;
+    height: 32px !important;
   }
 }
 @media (max-width: 720px) {
@@ -470,6 +469,14 @@
   }
 }
 @media (max-width: 420px) {
+  .NoteWrapper {
+    overflow: scroll;
+  }
+
+  .addNote {
+    width: 100%;
+    margin: 1%;
+  }
   .showNotSupported {
     font-size: x-small;
   }
@@ -487,19 +494,18 @@
     top: 85%;
   }
   .stopBtn {
-    width: 17px;
-    height: 17px;
-    margin: 5px 5px;
+    width: 17px !important;
+    height: 17px !important;
   }
   .pauseBtnWrapper {
     height: 27px;
     width: 27px;
     left: 65%;
     top: 85%;
+    justify-content: center !important;
+    align-items: center !important;
   }
   .pauseBtn {
-    width: 5px;
-    margin: 5px -1px;
-    height: 18px;
+    height: 25px !important;
   }
 }

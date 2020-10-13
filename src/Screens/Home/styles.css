@@ -69,6 +69,7 @@
   padding-bottom: 40px;
   margin-top: 20px;
   text-align: -webkit-center;
+  justify-content: space-between;
 }
 .wrapperDashboard {
   margin-top: 5px;

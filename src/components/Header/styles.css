@@ -15,6 +15,7 @@
   display: flex;
   align-items: center;
   padding-left: 1%;
+  margin-bottom: 10px;
 }
 .endHeader {
   width: 36%;
