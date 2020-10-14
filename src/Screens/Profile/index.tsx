@@ -212,13 +212,20 @@ class Profile extends Component<IProps, IState> {
             </div>
             <Tooltip title={`${Constants.PROFILE_PIC_INSTRUCTIONS}`}>
               <div className="profileImgLabelWrap">
-                <div className="profileBtn" onClick={() => {this.file.click()}}>
+                <div
+                  className="profileBtn"
+                  onClick={() => {
+                    this.file.click();
+                  }}
+                >
                   SELECT NEW PHOTO
                   <input
                     type="file"
                     id="profileSelectInput"
                     onChange={this.fileHandler}
-                    ref={ref => {this.file = ref}}
+                    ref={ref => {
+                      this.file = ref;
+                    }}
                   />
                 </div>
               </div>

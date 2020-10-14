@@ -34,11 +34,9 @@ code {
 
 @font-face {
   font-family: "Poppins";
-  src: local("Poppins"),
-    url(./assets//fonts/Poppins-Regular.ttf) format("ttf");
+  src: local("Poppins"), url(./assets//fonts/Poppins-Regular.ttf) format("ttf");
 }
 @font-face {
   font-family: "Open Sans";
-  src: local("Poppins"),
-    url(./assets//fonts/OpenSans-Regular.ttf) format("ttf");
+  src: local("Poppins"), url(./assets//fonts/OpenSans-Regular.ttf) format("ttf");
 }

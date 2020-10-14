@@ -14,11 +14,13 @@
   border-radius: 0 0 8px 8px !important;
 }
 
-.wrapperSelectIndustry .MuiCardMedia-img, .wrapperSelectIndustry .MuiCardMedia-media {
-  border: 2px solid #FD7527;
+.wrapperSelectIndustry .MuiCardMedia-img,
+.wrapperSelectIndustry .MuiCardMedia-media {
+  border: 2px solid #fd7527;
 }
 
-.wrapperSelectIndustry .MuiTypography-h5, .wrapperSelectIndustry .MuiTypography-gutterBottom {
+.wrapperSelectIndustry .MuiTypography-h5,
+.wrapperSelectIndustry .MuiTypography-gutterBottom {
   text-align: center;
   color: #fcb317;
   font-weight: 500;
@@ -29,7 +31,6 @@
 .wrapperSelectIndustry .MuiCardContent-root {
   padding: 6px;
 }
-
 
 @font-face {
   font-family: "Poppins";

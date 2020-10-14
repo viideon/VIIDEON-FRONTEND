@@ -8,9 +8,9 @@ import Button from "../Reusable/ActionButton";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import TextField from "@material-ui/core/TextField";
-import StopRoundedIcon from '@material-ui/icons/StopRounded';
-import PauseOutlinedIcon from '@material-ui/icons/PauseOutlined';
-import { toast } from 'react-toastify'
+import StopRoundedIcon from "@material-ui/icons/StopRounded";
+import PauseOutlinedIcon from "@material-ui/icons/PauseOutlined";
+import { toast } from "react-toastify";
 
 import "./style.css";
 
@@ -106,7 +106,7 @@ class Recording extends React.Component<IProps> {
   };
 
   handleRecording = () => {
-    if(!this.recordVideo) return toast.error("Allow camera's access first!")
+    if (!this.recordVideo) return toast.error("Allow camera's access first!");
     this.setState({
       showCountdown: true,
       showRecordBtn: false,
@@ -143,9 +143,9 @@ class Recording extends React.Component<IProps> {
   };
 
   stopAndGetBlob = (getBlob: boolean) => {
-    if(!this.recordVideo) return toast.error("Camera's access denied!")
+    if (!this.recordVideo) return toast.error("Camera's access denied!");
     let that = this;
-    if(!getBlob) {
+    if (!getBlob) {
       try {
         this.recordVideo.stopRecording();
       } catch (error) {
@@ -156,7 +156,9 @@ class Recording extends React.Component<IProps> {
     } else {
       try {
         this.recordVideo.stopRecording(() => {
-          window.getSeekableBlob(this.recordVideo.getBlob(), function(seekableBlob: any) {
+          window.getSeekableBlob(this.recordVideo.getBlob(), function(
+            seekableBlob: any
+          ) {
             that.stopStream();
             that.props.getBlob(seekableBlob);
             that.resultVideo.src = URL.createObjectURL(seekableBlob);
@@ -182,7 +184,7 @@ class Recording extends React.Component<IProps> {
       this.localStream.getTracks().forEach(function(track: any) {
         track.stop();
       });
-    if(this.video) this.video.srcObect = null;
+    if (this.video) this.video.srcObect = null;
     this.localStream = null;
   };
 
@@ -312,7 +314,10 @@ class Recording extends React.Component<IProps> {
           )}
           <Tooltip title="Stop" placement="top" arrow>
             <div className="stopBtnWrapper">
-              <StopRoundedIcon className="stopBtn" onClick={() => !showRecordBtn && this.stopRecord(true)} />
+              <StopRoundedIcon
+                className="stopBtn"
+                onClick={() => !showRecordBtn && this.stopRecord(true)}
+              />
               {/* <button
                 className="stopBtn"
                 onClick={() => !showRecordBtn && this.stopRecord(true)}
@@ -321,31 +326,37 @@ class Recording extends React.Component<IProps> {
           </Tooltip>
           {/* {showRecordBtn && !isConnecting && ( */}
           <Tooltip title="Record" placement="top" arrow>
-            <FiberManualRecordIcon className="recordingBtn" onClick={() => showRecordBtn && this.handleRecording()} />
+            <FiberManualRecordIcon
+              className="recordingBtn"
+              onClick={() => showRecordBtn && this.handleRecording()}
+            />
           </Tooltip>
           {/* {showStopBtn && ( */}
           <Tooltip title="Pause" placement="top" arrow>
-            <div className="pauseBtnWrapper" onClick={() => showStopBtn && this.pauseRecorder()}>
+            <div
+              className="pauseBtnWrapper"
+              onClick={() => showStopBtn && this.pauseRecorder()}
+            >
               <PauseOutlinedIcon className="pauseBtn" />
             </div>
           </Tooltip>
           {/* )} */}
         </div>
         <Tooltip title="Add note" placement="top" arrow>
-            <div className="addNote">
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={note}
-                    onChange={this.handleNotes}
-                    name="checkedB"
-                    color="primary"
-                  />
-                }
-                label="+ Notes"
-              />
-            </div>
-          </Tooltip>
+          <div className="addNote">
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={note}
+                  onChange={this.handleNotes}
+                  name="checkedB"
+                  color="primary"
+                />
+              }
+              label="+ Notes"
+            />
+          </div>
+        </Tooltip>
         {!this.props?.interActive && (
           <div className="recordQualityInput">
             {showQualityInput && (

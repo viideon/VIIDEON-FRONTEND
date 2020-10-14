@@ -7,7 +7,8 @@ import {
   addMusicApi,
   getMusicApi,
   deleteMusicApi,
-  getTemplatesApi
+  getTemplatesApi,
+  getIndustriesAPI
 } from "./api";
 import {
   selectID,
@@ -185,6 +186,34 @@ function* getCampaignTemplates(action: any) {
     }
   }
 }
+function* getIndustries(action: any) {
+  try {
+    const result = yield getIndustriesAPI();
+    if (result.status === 200) {
+      yield put({
+        type: types.GET_INDUSTRIES_SUCCESS,
+        payload: result.data.industries
+      });
+    } else {
+      yield put({ type: types.GET_INDUSTRIES_FAILURE });
+    }
+  } catch (error) {
+    console.log("error", error);
+    if (error.response) {
+      const errorMessage = error.response.data.message;
+      toast.error(errorMessage);
+      yield put({ type: types.GET_INDUSTRIES_FAILURE });
+    } else if (error.request) {
+      const errorMessage = "Error. Please check your internet connection.";
+      toast.error(errorMessage);
+      yield put({ type: types.GET_INDUSTRIES_FAILURE });
+    } else {
+      const errorMessage = "Unexpected error";
+      toast.error(errorMessage);
+      yield put({ type: types.GET_INDUSTRIES_FAILURE });
+    }
+  }
+}
 export function* assetWatcher() {
   yield takeEvery(types.ADD_ASSET, addUserAsset);
   yield takeEvery(types.GET_ASSETS, getUserAsset);
@@ -193,4 +222,5 @@ export function* assetWatcher() {
   yield takeEvery(types.DELETE_MUSIC, deleteMusicAsset);
   yield takeEvery(types.GET_MUSIC, getMusicAsset);
   yield takeEvery(types.GET_CAMPAIGN_TEMPLATES, getCampaignTemplates);
+  yield takeEvery(types.GET_INDUSTRIES, getIndustries);
 }

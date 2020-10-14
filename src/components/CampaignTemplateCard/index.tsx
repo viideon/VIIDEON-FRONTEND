@@ -13,8 +13,10 @@ interface IProps {
   proceedToRecording: (template: any) => void;
   template: any;
 }
-const CampaignTemplateCard: React.FC<IProps> = ({proceedToRecording, template}) => {
-  console.log(template)
+const CampaignTemplateCard: React.FC<IProps> = ({
+  proceedToRecording,
+  template
+}) => {
   const moveToRecording = () => {
     proceedToRecording(template);
   };
@@ -31,17 +33,11 @@ const CampaignTemplateCard: React.FC<IProps> = ({proceedToRecording, template}) 
           <Typography gutterBottom variant="h5" component="h2">
             {template.name}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {`${template.totalSteps} shots, 30 seconds`}
-            {template.templateDescription}
+          <Typography variant="body2" color="textSecondary" component="p" style={{ textAlign: "center" }}>
+            {`${template.totalSteps} shots, ${template.duration ? template.duration : 0} seconds`}
           </Typography>
         </CardContent>
       </CardActionArea>
-      {/* <CardActions>
-        <Button size="small" color="primary" onClick={moveToRecording}>
-          Proceed
-        </Button>
-      </CardActions> */}
     </Card>
   );
 };

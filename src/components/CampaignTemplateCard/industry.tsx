@@ -11,7 +11,10 @@ interface IProps {
   proceedToRecording: (industry: any) => void;
   industry: any;
 }
-const CampaignIndustryCard: React.FC<IProps> = ({proceedToRecording, industry}) => {
+const CampaignIndustryCard: React.FC<IProps> = ({
+  proceedToRecording,
+  industry
+}) => {
   const moveToRecording = () => {
     proceedToRecording(industry);
   };
@@ -22,7 +25,7 @@ const CampaignIndustryCard: React.FC<IProps> = ({proceedToRecording, industry}) 
           component="img"
           alt="Industry Thumbnail"
           height="200"
-          image={industry.templateThumbnailUrl}
+          image={industry.thumbnailUrl}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
@@ -34,11 +37,11 @@ const CampaignIndustryCard: React.FC<IProps> = ({proceedToRecording, industry}) 
   );
 };
 
-export const ChosedIndustry: React.FC<IProps> = ({industry}) => {
+export const ChosedIndustry: React.FC<IProps> = ({ industry }) => {
   return (
     <Card className="chosenIndustry campCards">
       <CardActionArea>
-      <CardContent>
+        <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             Industry:
           </Typography>
@@ -47,12 +50,16 @@ export const ChosedIndustry: React.FC<IProps> = ({industry}) => {
           component="img"
           alt="Industry Thumbnail"
           height="200"
-          image={industry.templateThumbnailUrl}
+          image={industry?.thumbnailUrl}
         />
         <CardContent style={{ textAlign: "center" }}>
-          <Typography className="chosenIndustryName" gutterBottom variant="h5" component="h2">
-            {/* {industry.name} */}
-            Legal
+          <Typography
+            className="chosenIndustryName"
+            gutterBottom
+            variant="h5"
+            component="h2"
+          >
+            {industry.name}
           </Typography>
         </CardContent>
       </CardActionArea>

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Grid, Typography } from "@material-ui/core";
-import { getCampaignTemplates } from "../../Redux/Actions/asset";
+import { getIndustries, selectIndustry } from "../../Redux/Actions/asset";
 import Loading from "../../components/Loading";
 import IndustryCard from "../../components/CampaignTemplateCard/industry";
 
@@ -9,21 +9,21 @@ import "./industry.css";
 
 interface IProps {
   moveToNextStep: () => void;
-  templates: any[];
+  industries: any[];
   loadingTemplates: boolean;
-  getCampaignTemplates: () => void;
-  selectTemplate: (template: any) => void;
+  getIndustries: () => void;
+  selectIndustry: (industry: any) => void;
 }
-class SelectTemplate extends React.Component<IProps> {
+class SelectIndustry extends React.Component<IProps> {
   componentDidMount() {
-    this.props.getCampaignTemplates();
+    this.props.getIndustries();
   }
-  proceedToRecording = (template: any) => {
-    // this.props.selectTemplate(template);
+  proceedToRecording = (industry: any) => {
+    this.props.selectIndustry(industry);
     this.props.moveToNextStep();
   };
   render() {
-    const { templates, loadingTemplates } = this.props;
+    const { industries, loadingTemplates } = this.props;
     return (
       <div className="wrapperSelectIndustry">
         <Typography variant="h4">Select an Industry</Typography>
@@ -33,11 +33,11 @@ class SelectTemplate extends React.Component<IProps> {
           </div>
         )}
         <Grid container spacing={2}>
-          {templates &&
-            templates.map((template: any) => (
-              <Grid item xs={12} sm={6} md={3} lg={3} key={template._id}>
+          {industries &&
+            industries.map((industry: any) => (
+              <Grid item xs={12} sm={6} md={3} lg={3} key={industry._id}>
                 <IndustryCard
-                  industry={template}
+                  industry={industry}
                   proceedToRecording={this.proceedToRecording}
                 />
               </Grid>
@@ -49,13 +49,14 @@ class SelectTemplate extends React.Component<IProps> {
 }
 const mapStateToProps = (state: any) => {
   return {
-    templates: state.asset.templates,
+    industries: state.asset.industries,
     loadingTemplates: state.asset.loadingTemplates
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    getCampaignTemplates: () => dispatch(getCampaignTemplates())
+    getIndustries: () => dispatch(getIndustries()),
+    selectIndustry: (industry: any) => dispatch(selectIndustry(industry)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(SelectTemplate);
+export default connect(mapStateToProps, mapDispatchToProps)(SelectIndustry);

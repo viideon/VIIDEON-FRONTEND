@@ -30,3 +30,7 @@ export async function getTemplates() {
 export const getTemplatesApi = () => {
   return API.get("/campaign/templates");
 };
+
+export const getIndustriesAPI = () => {
+  return API.get("/industry/");
+}

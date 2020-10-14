@@ -1,6 +1,17 @@
 import { types } from "../Types/asset";
 
-const assetsReducer = (state: any = {}, action: any) => {
+const initialState = {
+  assets: [],
+  templates: [],
+  industries: [],
+  musicAssets: [],
+  selectedIndustry: {},
+  loadingAssets: false,
+  isDeletingAsset: false,
+  loadingTemplates: false,
+}
+
+const assetsReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case types.GET_ASSETS:
       return {
@@ -68,15 +79,20 @@ const assetsReducer = (state: any = {}, action: any) => {
         isDeletingAsset: false
       };
     case types.GET_CAMPAIGN_TEMPLATES:
-      return {
-        ...state,
-        loadingTemplates: true
-      };
+      return {...state,loadingTemplates: true};
     case types.GET_CAMPAIGN_TEMPLATES_SUCCESS:
       let templates = action.payload;
       return { ...state, loadingTemplates: false, templates: templates };
     case types.GET_CAMPAIGN_TEMPLATES_FAILURE:
       return { ...state, loadingTemplates: false };
+    case types.GET_INDUSTRIES:
+      return {...state,loadingTemplates: true};
+    case types.GET_INDUSTRIES_SUCCESS:
+      return { ...state, loadingTemplates: false, industries: action.payload };
+    case types.GET_INDUSTRIES_FAILURE:
+      return { ...state, loadingTemplates: false };
+    case types.SELECT_INDUSTRY:
+      return { ...state, selectedIndustry: action.payload };
     default: {
       return state;
     }

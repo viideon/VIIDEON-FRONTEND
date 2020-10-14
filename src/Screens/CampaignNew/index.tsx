@@ -1,17 +1,18 @@
 import React from "react";
 import VideoPreview from "./VideoPreview";
 import Recording from "./Recording";
+import Overview from "./Overview";
 import SendSave from "./SendSave";
 import AddLogoText from "./AddLogoText";
 import SelectTemplate from "./SelectTemplate";
 import Industry from "./Industry";
 import Header from "../../components/Header/Header";
 
-import "../../assets/fonts/Poppins-Regular.ttf"
+import "../../assets/fonts/Poppins-Regular.ttf";
 
 class Campaign extends React.Component {
   state = {
-    currentStep: 1,
+    currentStep: 0,
     recordedVideo: "",
     editedVideo: "",
     finalVideo: "",
@@ -51,7 +52,6 @@ class Campaign extends React.Component {
         return (
           <Industry
             moveToNextStep={this.moveToNextStep}
-            selectTemplate={this.selectTemplate}
           />
         );
       case 1:
@@ -64,20 +64,29 @@ class Campaign extends React.Component {
         );
       case 2:
         return (
+          <Overview
+            moveToNextStep={this.moveToNextStep}
+            template={this.state.template}
+            moveBack={this.moveBack}
+          />
+        )
+      case 3:
+        return (
           <Recording
             moveToNextStep={this.moveToNextStep}
             saveVideo={this.saveVideo}
             template={this.state.template}
+            moveBack={this.moveBack}
           />
         );
-      case 3:
+      case 4:
         return (
           <VideoPreview
             moveToNextStep={this.moveToNextStep}
             previewVideo={this.state.recordedVideo}
           />
         );
-      case 4:
+      case 5:
         return (
           <AddLogoText
             moveToNextStep={this.moveToNextStep}
@@ -119,12 +128,17 @@ class Campaign extends React.Component {
   };
 
   moveBack = () => {
-    this.setState({ currentStep: this.state.currentStep -1 })
-  }
+    this.setState({ currentStep: this.state.currentStep - 1 });
+  };
   render() {
     return (
       <>
-        <Header styles={{backgroundImage:"linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"}}/>
+        <Header
+          styles={{
+            backgroundImage:
+              "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"
+          }}
+        />
         <div className="containerCampaign">{this.renderCampaignSteps()}</div>
       </>
     );

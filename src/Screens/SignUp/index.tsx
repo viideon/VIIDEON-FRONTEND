@@ -289,17 +289,7 @@ class Signup extends React.Component<IProps, IState> {
                             onClick={formik.handleSubmit}
                             name={Constants.REGISTER}
                             round={false}
-                            style={{
-                              marginTop: 18,
-                              background: Colors.themePurple,
-                              color: Colors.white,
-                              width: "80%",
-                              backgroundImage:
-                                "linear-gradient(to right, #fcb317, #8bb589, #61b5b3)",
-                              fontFamily: "Poppins",
-                              fontWeight: "bolder",
-                              fontSize: "larger"
-                            }}
+                            style={Colors.themeGradientBtn}
                           />
                         </div>
                       </>

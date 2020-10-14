@@ -45,7 +45,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <ToastContainer style={{ zIndex: 223123123}} />
+        <ToastContainer style={{ zIndex: 223123123 }} />
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <Routes />

@@ -40,3 +40,16 @@ export function getCampaignTemplates() {
     type: types.GET_CAMPAIGN_TEMPLATES
   };
 }
+
+export function getIndustries() {
+  return {
+    type: types.GET_INDUSTRIES,
+  }
+}
+
+export function selectIndustry(industry: any) {
+  return {
+    type: types.SELECT_INDUSTRY,
+    payload: industry
+  }
+}
