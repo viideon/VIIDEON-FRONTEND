@@ -46,7 +46,7 @@
   margin-top: 0 !important;
   margin-bottom: 0 !important;
   background: #F2F2F2;
-  height: 100%;
+  height: 100% !important;
 }
 .wrapperBtnRecording {
   display: flex;
@@ -56,7 +56,6 @@
 .overviewWrapperDiv {
   padding: 2%;
   background: #F2F2F2;
-  height: 100%;
 }
 
 .overviewWrapperDiv h4 {
@@ -69,18 +68,19 @@
 
 .descriptOfTemplate {
   margin-top: 2%;
+
 }
 .descriptOfTemplate h3 {
   font-weight: bold;
   font-family: "Poppins";
 }
 .stepGridWrapper {
-  background: #fff;
+  background: #ffffff !important;
   height: 100%;
   border-radius: 2%;
   padding: 4%;
   overflow-y: scroll;
-
+  margin: 8px !important;
 }
 .stepHead {
   height: 50px;
@@ -107,6 +107,7 @@
 }
 .viewsWrapper {
   width: 70%;
+  margin: 8px !important;
 }
 .thumbnailView {
   border: 3px solid #3b94d2;
@@ -131,13 +132,17 @@
   font-size: larger !important
 }
 .actionBTNsWrapper {
-  margin-top: 3%;
+  margin-top: 3% !important;
 }
 
 .alignRight {
   text-align: right !important;
 }
 /* -----recording screen wrapper */
+.recordingWrapperDiv {
+  padding: 2%;
+  background: #F2F2F2;
+}
 .shotNo {
   margin-left: 2% !important;
   color: #fcb317;
@@ -356,11 +361,51 @@
   padding: 10px 20px 10px 20px;
 }
 
+.choseIndustryContainer .changeIndustryBtn {
+  margin-top: 4% !important;
+}
+
+@media (max-width: 960px) {
+  .actionBTNsWrapper {
+    /* text-align: center !important; */
+  }
+  .actionBTNsWrapper .moveBackBTN {
+    /* margin: 2%; */
+    width: 50% !important;
+  }
+  .actionBTNsWrapper .alignRight {
+    /* text-align: center !important; */
+  }
+  .actionBTNsWrapper .continueBTN {
+    /* width: 50% !important; */
+    /* text-align: center !important; */
+  }
+}
+
 @media (max-width: 600px) {
   .choseIndustryContainer {
     margin-bottom: 6%;
     padding-bottom: 6%;
     border-bottom: 2px solid #fcb414;
+  }
+  .overviewWrapperDiv .actionBTNsWrapper, .recorderWrapper .actionBTNsWrapper  {
+    text-align: center !important;
+    margin-top: 8% !important;
+    margin-bottom: 4% !important;
+  }
+  .actionBTNsWrapper .moveBackBTN {
+    margin: 2%;
+    width: 80% !important;
+  }
+  .recorderWrapper .changeIndustryBtn {
+    margin: 2%;
+    width: 60% !important;
+  }
+  .actionBTNsWrapper .alignRight {
+    text-align: center !important;
+  }
+  .sm-none {
+    display: none !important;
   }
 }
 
@@ -382,6 +427,26 @@
   }
   .timerRecording span {
     font-size: 0.6em;
+  }
+  .viewsWrapper {
+    width: 100% !important;
+    padding: 2%;
+  }
+  .thumbnailView {
+    width: 100% !important;
+  }
+  .recorderWrapper {
+    padding: 2% !important;
+    margin-left: 0% !important;
+  }
+
+}
+
+@media (max-width: 400px) {
+  .overviewWrapperDiv .actionBTNsWrapper{
+    text-align: center !important;
+    margin-top: 8% !important;
+    margin-bottom: 4% !important;
   }
 }
 

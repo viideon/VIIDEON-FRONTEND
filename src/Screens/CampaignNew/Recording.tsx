@@ -163,7 +163,7 @@ class Recording extends React.Component<IProps> {
       <div className="instructionWrapper">
         <div className="wrapperStep">
           <div className="wrapperStepHeader">
-            <p>{template.steps[currentStep - 1].description}</p>
+            <p>{template?.steps[currentStep - 1].description}</p>
           </div>
         </div>
       </div>
@@ -197,7 +197,7 @@ class Recording extends React.Component<IProps> {
     const hour = Math.floor(count / 3600);
     const sec = Math.floor(count % 60);
     return (
-      <>
+      <div className="recordingWrapperDiv">
       <Typography variant="h4" className="shotNo">Shot {this.state.currentStep} </Typography>
       <Grid container>
         <Grid item xs={12} sm={12} md={6} lg={6}>
@@ -259,7 +259,7 @@ class Recording extends React.Component<IProps> {
         </Grid>
       </Grid>
       <Grid container className="actionBTNsWrapper" style={{ margin: "1%" }}>
-        <Grid container xs={12} sm={12} md={6} lg={6}>
+        <Grid container xs={12} sm={12} md={6} lg={6} className="sm-none">
         </Grid>
         <Grid container xs={12} sm={12} md={6} lg={6} >
           <Grid item xs={12} sm={4} md={4} lg={4} style={{ margin: "4px"}}>
@@ -284,7 +284,7 @@ class Recording extends React.Component<IProps> {
           </Grid>
         </Grid>
       </Grid>
-      </>
+      </div>
     );
   }
 }

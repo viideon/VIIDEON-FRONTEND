@@ -36,8 +36,8 @@ class Overview extends React.Component<IProps> {
       <div className="overviewWrapperDiv">
         <Typography variant="h4">{template.name} Overview</Typography>
         <Grid container>
-          <Grid item xs={12} sm={12} md={6} lg={6}>
-            <div className="viewsWrapper">
+          <Grid container xs={12} sm={6} md={6} lg={6}>
+            <Grid item xs={12} sm={12} md={8} lg={8} className="viewsWrapper">
               <div className="thumbnailView">
                 <CardMedia
                   component="img"
@@ -46,15 +46,15 @@ class Overview extends React.Component<IProps> {
                   image={template.templateThumbnailUrl}
                 />
               </div>
-              <div className="descriptOfTemplate">
+              <Grid item xs={12} sm={12} md={12} lg={12} className="descriptOfTemplate">
                 <h3> An overview of { template.name} style </h3>
                 <span>
                   {template.templateDescription}
                 </span>
-              </div>
-            </div>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={6}>
+          <Grid item xs={12} sm={6} md={6} lg={6}>
             <div className="stepGridWrapper">
               {
                 template.steps.map((step: any, index: number) => {
@@ -65,7 +65,7 @@ class Overview extends React.Component<IProps> {
           </Grid>
         </Grid>
         <Grid container className="actionBTNsWrapper">
-          <Grid item xs={12} sm={12} md={6} lg={6}>
+          <Grid item xs={12} sm={6} md={6} lg={6}>
             <Button
               color="default"
               className="moveBackBTN"
@@ -75,7 +75,7 @@ class Overview extends React.Component<IProps> {
               Back
             </Button>
           </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={6} className="alignRight">
+          <Grid item xs={12} sm={6} md={6} lg={6} className="alignRight">
             <Button
               color="default"
               className="continueBTN"
