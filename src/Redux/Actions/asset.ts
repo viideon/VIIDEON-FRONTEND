@@ -53,3 +53,17 @@ export function selectIndustry(industry: any) {
     payload: industry
   }
 }
+
+export function previewTemplate(setting: any) {
+  return {
+    type: types.PREVIEW_REQUEST,
+    payload: setting
+  }
+}
+
+export function saveTemplateSetting(setting: any) {
+  return {
+    type: types.SAVE_SETTINGS_REQUEST,
+    payload: setting
+  }
+}

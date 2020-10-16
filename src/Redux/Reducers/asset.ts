@@ -9,6 +9,7 @@ const initialState = {
   loadingAssets: false,
   isDeletingAsset: false,
   loadingTemplates: false,
+  preview: "",
 }
 
 const assetsReducer = (state = initialState, action: any) => {
@@ -93,6 +94,8 @@ const assetsReducer = (state = initialState, action: any) => {
       return { ...state, loadingTemplates: false };
     case types.SELECT_INDUSTRY:
       return { ...state, selectedIndustry: action.payload };
+    case types.PREVIEW_SUCCESS:
+      return { ...state, preview: action.payload }
     default: {
       return state;
     }

@@ -364,6 +364,15 @@ class Profile extends Component<IProps, IState> {
                     onClick={() => this.update()}
                     name={`${Constants.UPDATE}`}
                   />
+                  <ThemeButton
+                    style={{
+                      backgroundColor: "rgb(34, 185, 255)",
+                      color: "#fff",
+                      margin: "2%"
+                    }}
+                    onClick={() => {this.props.history.push("/template")}}
+                    name="Edit Template"
+                  />
                 </div>
 
                 <div className="progressEditing">{loading && <Loading />}</div>
@@ -383,8 +392,7 @@ const mapStateToProps = (state: any) => {
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    updateProfile: (userProfile: UserProfile) =>
-      dispatch(updateProfileUser(userProfile)),
+    updateProfile: (userProfile: UserProfile) => dispatch(updateProfileUser(userProfile)),
     addAsset: (asset: any) => dispatch(addAsset(asset))
   };
 };

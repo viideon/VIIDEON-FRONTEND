@@ -24,6 +24,7 @@ import Contacts from "./Screens/Connections/Contacts";
 import Videos from "./Screens/Home/Videos";
 import Configuration from "./Screens/Configuration";
 import CampaignList from "./Screens/Home/Campaigns";
+import Template from "./Screens/Template"
 import AssetsLibrary from "./Screens/AssetsLibrary";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import MusicAssets from "./Screens/MusicAssets";
@@ -54,6 +55,7 @@ class Routes extends Component<IProps> {
                 }}
               />
               <Route exact path="/campaign/new" component={Campaign} />
+              <Route exact path="/template/" component={Template} />
               <Route exact path="/videos" component={Videos} />
               <Route exact path="/contacts" component={Contacts} />
               <Route exact path="/campaign" component={CampaignList} />

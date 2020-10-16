@@ -97,7 +97,7 @@ class Campaign extends React.Component {
             saveThumbnailBlob={this.saveThumbnailBlob}
           />
         );
-      case 5:
+      case 6:
         return (
           <SendSave
             logoProps={this.state.logoProps}
@@ -116,6 +116,7 @@ class Campaign extends React.Component {
         return (
           <Recording
             moveToNextStep={this.moveToNextStep}
+            template={this.state.template}
             saveVideo={this.saveVideo}
           />
         );
@@ -133,12 +134,7 @@ class Campaign extends React.Component {
   render() {
     return (
       <>
-        <Header
-          styles={{
-            backgroundImage:
-              "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"
-          }}
-        />
+        <Header styles={{backgroundImage:"linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"}}/>
         <div className="containerCampaign">{this.renderCampaignSteps()}</div>
       </>
     );

@@ -8,7 +8,9 @@ import {
   getMusicApi,
   deleteMusicApi,
   getTemplatesApi,
-  getIndustriesAPI
+  getIndustriesAPI,
+  getPreviewApi,
+  saveSettingsApi
 } from "./api";
 import {
   selectID,
@@ -214,6 +216,60 @@ function* getIndustries(action: any) {
     }
   }
 }
+function* getPreview(action: any) {
+  try {
+    const result = yield getPreviewApi(action.payload);
+    if (result.status === 200) {
+      yield put({
+        type: types.PREVIEW_SUCCESS,
+        payload: result.data.template
+      });
+    } else {
+      yield put({ type: types.PREVIEW_FAILURE });
+    }
+  } catch (error) {
+    console.log("error", error);
+    if (error.response) {
+      const errorMessage = error.response.data.message;
+      toast.error(errorMessage);
+      yield put({ type: types.PREVIEW_FAILURE });
+    } else if (error.request) {
+      const errorMessage = "Error. Please check your internet connection.";
+      toast.error(errorMessage);
+      yield put({ type: types.PREVIEW_FAILURE });
+    } else {
+      const errorMessage = "Unexpected error";
+      toast.error(errorMessage);
+      yield put({ type: types.PREVIEW_FAILURE });
+    }
+  }
+}
+function* saveSettings(action: any) {
+  try {
+    const result = yield saveSettingsApi(action.payload);
+    if (result.status === 200) {
+      toast.info(result.data.message);
+    } else {
+      toast.error("Settings try again!");
+      yield put({ type: types.SAVE_SETTINGS_FAILURE });
+    }
+  } catch (error) {
+    console.log("error", error);
+    if (error.response) {
+      const errorMessage = error.response.data.message;
+      toast.error(errorMessage);
+      yield put({ type: types.SAVE_SETTINGS_FAILURE });
+    } else if (error.request) {
+      const errorMessage = "Error. Please check your internet connection.";
+      toast.error(errorMessage);
+      yield put({ type: types.SAVE_SETTINGS_FAILURE });
+    } else {
+      const errorMessage = "Unexpected error";
+      toast.error(errorMessage);
+      yield put({ type: types.SAVE_SETTINGS_FAILURE });
+    }
+  }
+}
 export function* assetWatcher() {
   yield takeEvery(types.ADD_ASSET, addUserAsset);
   yield takeEvery(types.GET_ASSETS, getUserAsset);
@@ -223,4 +279,6 @@ export function* assetWatcher() {
   yield takeEvery(types.GET_MUSIC, getMusicAsset);
   yield takeEvery(types.GET_CAMPAIGN_TEMPLATES, getCampaignTemplates);
   yield takeEvery(types.GET_INDUSTRIES, getIndustries);
+  yield takeEvery(types.PREVIEW_REQUEST, getPreview);
+  yield takeEvery(types.SAVE_SETTINGS_REQUEST, saveSettings);
 }
