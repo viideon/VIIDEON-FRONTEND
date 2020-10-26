@@ -4,7 +4,9 @@ import { connect } from "react-redux";
 import Dropzone from "react-dropzone";
 import VideoRecorder from "../../components/VideoRecorder";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { LinearProgress, TextField } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
+import { Select, MenuItem, InputLabel } from "@material-ui/core";
+
 import ThemeButton from "../../components/ThemeButton";
 import Loading from "../../components/Loading";
 import ChipInput from "material-ui-chip-input";
@@ -31,6 +33,8 @@ import { reg } from "../../constants/emailRegEx";
 import { config } from "../../config/aws";
 import VideocamIcon from "@material-ui/icons/Videocam";
 import fileUploadIcon from "../../assets/uploadCircle.png";
+import CancelIcon from '@material-ui/icons/Cancel';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Header from "../../components/Header/Header";
 import canvasTxt from "canvas-txt";
 
@@ -68,6 +72,7 @@ type IState = {
   thumbnail: any;
   thumbnailBlob: any;
   thumbnailUrl: string;
+  selectedValue: number;
 };
 
 class UploadRecord extends Component<IProps, IState> {
@@ -103,7 +108,8 @@ class UploadRecord extends Component<IProps, IState> {
       thumbnail: "",
       addLogoText: false,
       thumbnailBlob: "",
-      thumbnailUrl: ""
+      thumbnailUrl: "",
+      selectedValue: 1,
     };
   }
 
@@ -271,6 +277,7 @@ class UploadRecord extends Component<IProps, IState> {
     return;
   };
 
+  setQuality = (e: any) => this.setState({ selectedValue: e.target.value})
   render() {
     let { videoSaved, loading } = this.props.videoUser;
     return (
@@ -280,6 +287,11 @@ class UploadRecord extends Component<IProps, IState> {
             backgroundImage:
               "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"
           }}
+        />
+        <RecoderSettingHeader
+          setQuality={this.setQuality}
+          selectValue={this.state.selectedValue}
+          history={this.props.history}
         />
         <div className="interActiveRecorderContainer">
           {}
@@ -293,6 +305,7 @@ class UploadRecord extends Component<IProps, IState> {
               this.setState({ videoRecord: null });
             }}
             interActive={true}
+            quality={this.state.selectedValue}
           />
           <canvas
             ref={ref => {
@@ -335,6 +348,38 @@ class UploadRecord extends Component<IProps, IState> {
       </>
     );
   }
+}
+
+const RecoderSettingHeader = (props: any) => {
+  const { setQuality, selectValue} = props;
+  return (
+    <div className="settingHeader">
+      <Grid container>
+        <Grid item xs={12} sm={12} md={4} lg={4}>
+          <div className="qualityItemWrapper">
+            <InputLabel>Video Quality</InputLabel>
+            <Select
+              id="HeaderVideoQuality"
+              onChange={setQuality}
+              value={selectValue}
+              color={"primary"}
+            >
+              <MenuItem value={1}> 1280 x 720 (High defination)</MenuItem>
+              <MenuItem value={2}>800 x 600 (Standard defination)</MenuItem>
+              <MenuItem value={3}>640 x 480 (Normal defination)</MenuItem>
+              {/* <MenuItem value={4}>Portrait</MenuItem> */}
+            </Select>
+          </div>
+        </Grid>
+        <Grid item xs={12} sm={12} md={4} lg={4}></Grid>
+        <Grid item xs={12} sm={12} md={4} lg={4}>
+          <div className="UploadAndCancelWrapper">
+            <CloudUploadIcon className="cursorPointer" /> <p> Upload from Computer </p> <CancelIcon className="cursorPointer cancelIcon" onClick={() => props.history.push("/")} />
+          </div>
+        </Grid>
+      </Grid>
+    </div>
+  )
 }
 
 const iconStyle = {

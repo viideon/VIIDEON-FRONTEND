@@ -40,15 +40,22 @@
   text-shadow: 1px 2px rgba(0, 0, 0, 0.5);
 }
 .timerRecording {
-  color: #000;
-  background-color: #fff;
+  color: #fff !important;
+  background: rgba(70, 70, 70, 0.4) !important;
   position: absolute;
-  top: 10px;
-  left: 20px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
+
   align-items: center;
-  padding: 5px;
+  bottom: 0;
+  width: 100%;
+  top: auto !important;
+  left: auto !important;
+  margin: 0 !important;
+  font-family: "Poppins";
+  font-weight: bold;
+  font-size: xx-large;
+  z-index: 2;
 }
 .containerCampaign {
   margin-top: 100px;
@@ -165,18 +172,14 @@
   border-bottom: none;
 }
 .recordingBtn {
-  border: 12px solid #ffffff;
+  border: 4px solid #ffffff;
   color: #ff0202;
   border-radius: 50%;
   width: 90px !important;
   height: 90px !important;
+  margin: 6px;
   background: #ff0202;
   outline: none;
-  position: absolute;
-  right: 2%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
   z-index: 2;
 }
 .recordingBtn:hover {
@@ -187,22 +190,17 @@
   height: 70px;
   width: 70px;
   border-radius: 50%;
-  position: absolute;
-  right: 0%;
-  top: 38%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
   z-index: 2;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .stopBtn {
-  color: #0f2733;
+  color: #ff0202;
   border-radius: 4px;
   width: 40px !important;
   height: 40px !important;
-  background: #0f2733;
+  background: #ff0202;
   outline: none;
   border: none;
   cursor: pointer;
@@ -212,11 +210,6 @@
   height: 70px;
   width: 70px;
   border-radius: 50%;
-  position: absolute;
-  right: 0%;
-  top: 62%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -224,7 +217,16 @@
   z-index: 2;
 }
 .pauseBtn {
-  color: #0f2733;
+  color: #ffffff;
+  width: 65px !important;
+  height: 65px !important;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.cancelAction {
+  color: #ffffff;
   width: 65px !important;
   height: 65px !important;
   outline: none;
@@ -232,12 +234,12 @@
   cursor: pointer;
 }
 .stopBtn:hover {
-  background: #ff0202;
-  color: #ff0202;
+  background: #406c7f;
+  color: #406c7f;
 }
 
 .pauseBtn:hover {
-  color: #ff0202;
+  color: #406c7f;
 }
 
 .videoStreamWrapper button:focus {
@@ -285,7 +287,7 @@
 .fcY {
   width: calc((100vw - 88.8889vh) / 2);
   height: 100%;
-  background: rgba(227, 23, 78, 0.3);
+  background: rgba(253, 180, 21, 0.3);
   z-index: 1;
   animation: 2.8s ease-in-out 0s 1 normal none running fQCAJR;
 }
@@ -293,9 +295,18 @@
 .fcR {
   width: calc((100vw - 88.8889vh) / 2);
   height: 100%;
-  background: rgba(227, 23, 78, 0.3);
+  background: rgba(253, 180, 21, 0.3);
   z-index: 1;
   animation: 2.8s ease-in-out 0s 1 normal none running bITvZI;
+}
+
+.recorderActionWrapper {
+  display: flex;
+  width: 100%;
+  height: 133px;
+  justify-content: center;
+  align-items: center;
+  background: #0e2633;
 }
 
 @keyframes fQCAJR {
@@ -317,30 +328,23 @@
 }
 
 @media (max-width: 1400px) {
-  .recordingBtn {
+  .recorderActionWrapper {
+    height: auto;
+    padding: 2%;
+  }
+  .recordingBtn, .stopBtnWrapper {
     width: 70px !important;
     height: 70px !important;
-    right: 2%;
-    top: 50%;
-    border-width: 8px;
-  }
-  .stopBtnWrapper {
-    height: 50px;
-    width: 50px;
-    right: 0%;
-    top: 38%;
   }
   .stopBtn {
-    width: 28px !important;
-    height: 28px !important;
+    width: 40px !important;
+    height: 40px !important;
   }
   .pauseBtnWrapper {
     height: 50px;
     width: 50px;
-    right: 0%;
-    top: 62%;
   }
-  .pauseBtn {
+  .pauseBtn , .cancelAction{
     height: 50px !important;
   }
 }
@@ -356,50 +360,31 @@
 }
 
 @media (max-width: 1080px) {
-  .recordingBtn {
+  .recordingBtn, .stopBtnWrapper {
     width: 55px !important;
     height: 55px !important;
-    right: 2%;
-    top: 50%;
-    border: 5px solid #ffffff;
-  }
-  .stopBtnWrapper {
-    height: 40px;
-    width: 40px;
-    right: 0%;
-    top: 38%;
   }
   .stopBtn {
-    width: 24px !important;
-    height: 24px !important;
+    width: 33px !important;
+    height: 33px !important;
   }
   .pauseBtnWrapper {
     height: 40px;
     width: 40px;
-    right: 0%;
-    top: 62%;
   }
-  .pauseBtn {
+  .pauseBtn, .cancelAction {
     width: 40px !important;
   }
 }
 @media (max-width: 800px) {
-  .recordingBtn {
+  .recordingBtn, .stopBtnWrapper {
     width: 40px !important;
     height: 40px !important;
-    left: 50%;
-    top: 88%;
     border: 3px solid #ffffff;
   }
-  .stopBtnWrapper {
-    height: 30px;
-    width: 30px;
-    left: 38%;
-    top: 90%;
-  }
   .stopBtn {
-    width: 18px !important;
-    height: 18px !important;
+    width: 25px !important;
+    height: 25px !important;
   }
   .pauseBtnWrapper {
     height: 30px;
@@ -407,8 +392,12 @@
     left: 62%;
     top: 90%;
   }
-  .pauseBtn {
+  .pauseBtn, .cancelAction {
     height: 32px !important;
+  }
+  .timerRecording {
+    padding: 1px;
+    font-size: x-large;
   }
 }
 @media (max-width: 720px) {
@@ -444,9 +433,7 @@
   }
   .timerRecording {
     padding: 1px;
-  }
-  .timerRecording span {
-    font-size: 0.6em;
+    font-size: large;
   }
   .recordQualityInput {
     flex-direction: column;
@@ -504,7 +491,7 @@
     justify-content: center !important;
     align-items: center !important;
   }
-  .pauseBtn {
+  .pauseBtn, .cancelAction {
     height: 25px !important;
   }
 }

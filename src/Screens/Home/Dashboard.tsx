@@ -138,7 +138,7 @@ class Dashboard extends Component<IProps> {
                   onClick={() => alert("Feature not created yet")}
                 >
                   <EditIcon style={iconStyle} />
-                  <h5 className="cursorPointer">Edit My Message</h5>
+                  <h5 className="cursorPointer">Analytics</h5>
                 </div>
               </Tooltip>
             </Grid>

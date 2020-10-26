@@ -812,6 +812,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
                         logoRef={(ref: any) => {
                           this.logoRef = ref;
                         }}
+                        logoRefClick={() => this.logoRef.click()}
                         toggleLogoAssetPicker={this.toggleLogoAssetPicker}
                         onLogoAssetPick={this.onLogoAssetPick}
                         onLogoFileChange={this.onLogoFileChange}
@@ -824,6 +825,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
                         musicRef={(ref: any) => {
                           this.musicRef = ref;
                         }}
+                        musicRefClick={() => this.musicRef.click()}
                         toggleMusicAssetPicker={this.toggleMusicAssetPicker}
                         onMusicAssetPick={this.onMusicAssetPick}
                         onMusicInputChange={this.onMusicInputChange}
@@ -977,7 +979,8 @@ const EditLogo = (props: any) => {
     onLogoAssetPick,
     onLogoFileChange,
     setIconPosition,
-    logoRef
+    logoRef,
+    logoRefClick
   } = props;
   return (
     <>
@@ -1007,9 +1010,7 @@ const EditLogo = (props: any) => {
       />
       {assetUploading && <LinearProgress />}
       <Button
-        onClick={() => {
-          logoRef.click();
-        }}
+        onClick={logoRefClick}
         style={{
           color: "#fff",
           width: "135px",
@@ -1071,7 +1072,8 @@ const EditMusic = (props: any) => {
     uploadAndSaveMusicAsset,
     onChangeMusicTitle,
     onAdjustMusicVolume,
-    musicRef
+    musicRef,
+    musicRefClick
   } = props;
   return (
     <>
@@ -1110,7 +1112,7 @@ const EditMusic = (props: any) => {
       )}
       {!musicFileSelected && (
         <Button
-          onClick={() => musicRef.click()}
+          onClick={musicRefClick}
           style={{
             color: "#fff",
             backgroundColor: "#ff4301",

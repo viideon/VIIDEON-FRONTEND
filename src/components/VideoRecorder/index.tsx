@@ -9,7 +9,13 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import TextField from "@material-ui/core/TextField";
 import StopRoundedIcon from "@material-ui/icons/StopRounded";
+import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
+import PauseCircleFilledRoundedIcon from '@material-ui/icons/PauseCircleFilledRounded';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+
 import PauseOutlinedIcon from "@material-ui/icons/PauseOutlined";
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import { toast } from "react-toastify";
 
 import "./style.css";
@@ -20,6 +26,7 @@ interface IProps {
   getBlob: (blob: any) => void;
   reset?: () => void;
   interActive?: boolean;
+  quality?: number;
 }
 
 class Recording extends React.Component<IProps> {
@@ -52,6 +59,13 @@ class Recording extends React.Component<IProps> {
   componentDidMount() {
     this.setupMedia();
     this.resultVideo = this.refs.resultVideo;
+  }
+  
+  componentWillReceiveProps(nextProps: any) {
+    console.log(nextProps)
+    if(nextProps.quality && (this.state.selectValue !== nextProps.quality)) {
+      this.setQuality({target: {value: nextProps.quality}})
+    }
   }
 
   setupMedia = () => {
@@ -279,6 +293,7 @@ class Recording extends React.Component<IProps> {
             ref="resultVideo"
             muted
             controls
+            autoPlay
             style={{
               visibility: showResult ? "visible" : "hidden",
               width: "100%",
@@ -289,17 +304,19 @@ class Recording extends React.Component<IProps> {
             }}
           />
           {showCountdown && <Counter />}
-          {showTimer && (
-            <span className="timerRecording">
-              <span style={{ color: "#ff0000", marginRight: "2px" }}>
-                <FiberManualRecordIcon />
-              </span>
+          <span className="timerRecording">
+            {showTimer && (
               <span>
                 {`${hour}`}:{min < 10 ? `0${min}` : min}:
                 {sec < 10 ? `0${sec}` : sec}
               </span>
-            </span>
-          )}
+            )}
+            { (!showTimer && !showResult) ? 
+            (<span><ArrowDownwardIcon />Press <b style={{ color: "#ff0202", textTransform: "uppercase"}}>Record</b> to Start!<ArrowDownwardIcon /> </span>)
+            :
+            showResult && (<span>Proceed with this video?</span>)
+            }
+          </span>
           {isConnecting && <span className="loadingText">Loading ...</span>}
           {showNotSupported && (
             <span className="showNotSupported">
@@ -312,35 +329,42 @@ class Recording extends React.Component<IProps> {
               browser and try again
             </span>
           )}
-          <Tooltip title="Stop" placement="top" arrow>
-            <div className="stopBtnWrapper">
-              <StopRoundedIcon
-                className="stopBtn"
-                onClick={() => !showRecordBtn && this.stopRecord(true)}
-              />
-              {/* <button
-                className="stopBtn"
-                onClick={() => !showRecordBtn && this.stopRecord(true)}
-              /> */}
-            </div>
-          </Tooltip>
-          {/* {showRecordBtn && !isConnecting && ( */}
-          <Tooltip title="Record" placement="top" arrow>
-            <FiberManualRecordIcon
-              className="recordingBtn"
-              onClick={() => showRecordBtn && this.handleRecording()}
-            />
-          </Tooltip>
-          {/* {showStopBtn && ( */}
-          <Tooltip title="Pause" placement="top" arrow>
-            <div
-              className="pauseBtnWrapper"
-              onClick={() => showStopBtn && this.pauseRecorder()}
-            >
-              <PauseOutlinedIcon className="pauseBtn" />
-            </div>
-          </Tooltip>
-          {/* )} */}
+        </div>
+        <div className="recorderActionWrapper" style={{ background: (showStopBtn && !showResult) ? "#fdb415" : showResult ? "#ffffff" : "" }}>
+          { !showResult ? (
+            <>
+            <Tooltip title="Pause" placement="top" arrow>
+              <PauseCircleFilledRoundedIcon className="pauseBtn" onClick={() => showStopBtn && this.pauseRecorder()} />
+            </Tooltip>
+            { !showStopBtn && 
+              (<Tooltip title="Record" placement="top" arrow>
+                <FiberManualRecordIcon className="recordingBtn" onClick={() => showRecordBtn && this.handleRecording()} />
+              </Tooltip>)
+            }{ showStopBtn && 
+              (<Tooltip title="Stop" placement="top" arrow>
+                <div className="stopBtnWrapper">
+                  <StopRoundedIcon className="stopBtn" onClick={() => showStopBtn && this.stopRecord(true)}/>
+                </div>
+              </Tooltip>)
+            }
+            <Tooltip title="Cancel" placement="top" arrow>
+                <CancelRoundedIcon style={{ color: showStopBtn? "#406c7f" : ""}} className="cancelAction" />
+            </Tooltip>
+            </>
+          )
+          :
+          (
+            <>
+             <Tooltip title="Proceed" placement="top" arrow>
+                <CheckCircleIcon style={{ color: "#fdb415", background: "none", border: "none"}} className="cursorPointer recordingBtn" />
+            </Tooltip>
+             <Tooltip title="Re-record" placement="top" arrow>
+                <CancelRoundedIcon style={{ color: "#ff0000", background: "none", border: "none"}} className="cursorPointer recordingBtn" />
+            </Tooltip>
+            </>
+          )
+          }
+          
         </div>
         <Tooltip title="Add note" placement="top" arrow>
           <div className="addNote">

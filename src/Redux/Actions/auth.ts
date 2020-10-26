@@ -18,7 +18,7 @@ export function verifyUser(token: any) {
 export function forgotPassword(email: any) {
   return {
     type: types.FORGOT_REQUEST,
-    payload: email.toLowerCase()
+    payload: {email: email.email.toLowerCase()}
   };
 }
 export function resetPassword(pass: any) {
