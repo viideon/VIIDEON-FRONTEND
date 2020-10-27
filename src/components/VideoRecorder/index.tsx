@@ -25,6 +25,7 @@ const hasGetUserMedia = !!navigator.getUserMedia;
 interface IProps {
   getBlob: (blob: any) => void;
   reset?: () => void;
+  proceed?: () => void;
   interActive?: boolean;
   quality?: number;
 }
@@ -247,6 +248,17 @@ class Recording extends React.Component<IProps> {
     this.setState({ note: !this.state.note });
   };
 
+  handleReset = () => {
+    this.resultVideo.src = null;
+    this.setState({showResult: false})
+    this.props.reset && this.props.reset();
+    this.setupMedia();
+  }
+
+  handleProceed = () => {
+    this.props.proceed && this.props.proceed();
+  }
+  
   render() {
     const {
       count,
@@ -292,7 +304,7 @@ class Recording extends React.Component<IProps> {
           <video
             ref="resultVideo"
             muted
-            controls
+            controls={this.props?.interActive ? false : true || true}
             autoPlay
             style={{
               visibility: showResult ? "visible" : "hidden",
@@ -348,7 +360,7 @@ class Recording extends React.Component<IProps> {
               </Tooltip>)
             }
             <Tooltip title="Cancel" placement="top" arrow>
-                <CancelRoundedIcon style={{ color: showStopBtn? "#406c7f" : ""}} className="cancelAction" />
+                <CancelRoundedIcon style={{ color: showStopBtn? "#406c7f" : ""}} className="cancelAction" onClick={this.handleReset} />
             </Tooltip>
             </>
           )
@@ -356,10 +368,10 @@ class Recording extends React.Component<IProps> {
           (
             <>
              <Tooltip title="Proceed" placement="top" arrow>
-                <CheckCircleIcon style={{ color: "#fdb415", background: "none", border: "none"}} className="cursorPointer recordingBtn" />
+                <CheckCircleIcon style={{ color: "#fdb415", background: "none", border: "none"}} className="cursorPointer recordingBtn" onClick={this.handleProceed} />
             </Tooltip>
              <Tooltip title="Re-record" placement="top" arrow>
-                <CancelRoundedIcon style={{ color: "#ff0000", background: "none", border: "none"}} className="cursorPointer recordingBtn" />
+                <CancelRoundedIcon style={{ color: "#ff0000", background: "none", border: "none"}} className="cursorPointer recordingBtn" onClick={this.handleReset} />
             </Tooltip>
             </>
           )

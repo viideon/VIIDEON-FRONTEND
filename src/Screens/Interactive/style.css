@@ -148,6 +148,165 @@
   border-left: 2px solid;
   margin-left: 3%;
 }
+
+/* OverLay */
+.overLayWrapperTab {
+  background: #f2f2f2;
+  height: inherit;
+}
+.previewTab {
+  height: 100%;
+}
+
+.actionTab {
+  background: #ffffff;
+  height: 100%;
+  width: inherit;
+  padding: 2%;
+  padding-left: 4%;
+  padding-right: 4%;
+}
+.tabCancelHead {
+  height: 65px !important;
+  width: 65px !important;
+  color: #406c7f;
+  float: right;
+}
+
+.actionTab .topHeading {
+  color: #fdb415;
+  font-family: "Poppins";
+  font-weight: 600;
+  margin-top: 6%;
+}
+.actionTab .QuestionHeading {
+  color: #fdb415;
+  font-family: "Poppins";
+  font-weight: 600;
+}
+.actionLabels {
+  color: #406c7f;
+  font-weight: bold !important;
+  font-family: "Open Sans";
+  font-size: 1rem !important;
+}
+.actionTab #OverLayText {
+
+}
+.textOverLayWrapper {
+  padding-top: 2%;
+  padding-bottom: 5%;
+}
+.actionTab .MuiToggleButtonGroup-root {
+  align-items: center;
+  border-radius: 8px;
+}
+.actionTab .MuiDivider-flexItem {
+  color: #406c7f;
+  margin-left: 2%;
+  margin-right: 2%;
+  background: #406c7f;
+}
+.textAdjustmentWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+.textAdjustmentWrapper .MuiGrid-item {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 2%;
+  margin-top: 2%;
+}
+.textAdjustmentWrapper .MuiButtonBase-root {
+  background: #406c7f;
+  color: #ffffff;
+}
+.textAdjustmentWrapper .MuiToggleButton-root:hover {
+  background: #fdb415;
+}
+.textAdjustmentWrapper button:focus {
+  outline: none;
+  background: #fdb415;
+}
+
+.revealWrapper {
+  display: flex;
+  margin-top: 8%;
+  margin-bottom: 4%;
+  justify-content: space-between;
+
+}
+.revealWrapper .MuiTypography-root {
+  width: 45% !important;
+}
+.fitWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ToggleActionsWrapper {
+  justify-content: flex-end !important;
+  margin-top: 4% !important;
+  position: relative !important;
+  bottom: 0 !important;
+}
+.ToggleActionsWrapper .MuiGrid-item {
+  justify-content: flex-end !important;
+  text-align: end !important;
+}
+.ToggleActionsWrapper svg {
+  width: 35px !important;
+  height: 35px !important;
+}
+.BackBTN {
+  background: #ff404e !important;
+  color: #fff !important;
+  width: 80% !important;
+  height: 40px;
+  font-family: "Poppins" !important;
+  font-weight: bolder !important;
+  font-size: larger !important;
+}
+.NextBTN {
+  background-image: linear-gradient(to right, #fdb415, #8bb589, #61b5b3);
+  color: #fff !important;
+  width: 80% !important;
+  height: 40px;
+  font-family: "Poppins" !important;
+  font-weight: bolder !important;
+  font-size: larger !important;
+}
+
+/* QA */
+.optionCardWrapper {
+  border: 2px solid #3a94d2;
+  border-radius: 8px;
+  margin-top: 2%;
+}
+.optionCardWrapper .MuiGrid-grid-sm-2 {
+  text-align: center;
+  align-self: center;
+}
+.optionCardWrapper .MuiGrid-grid-sm-2 svg {
+  width: 40% !important;
+  height: 40% !important;
+  color: #3a94d2 ;
+}
+.optionCardWrapper:hover {
+  background: #fdb415;
+  border: 2px solid #fdb415;
+}
+.optionCardWrapper:hover svg, .optionCardWrapper:hover .MuiTypography-root {
+  color: #ffffff;
+}
+.cardBody .MuiTypography-root {
+  color: #3a94d2;
+  font-family: "Poppins";
+}
+.cardBody .MuiTypography-h6 {
+  font-weight: bold !important;
+}
 @media only screen and (max-width: 960px) {
   .settingHeader {
     height: auto;
