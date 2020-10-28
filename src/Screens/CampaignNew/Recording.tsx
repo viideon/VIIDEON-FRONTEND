@@ -22,6 +22,7 @@ interface IProps {
   saveVideo: (blob: any) => void;
   template: any;
   history: any;
+  isCamp?: boolean;
 }
 
 class Recording extends React.Component<IProps> {
@@ -99,6 +100,8 @@ class Recording extends React.Component<IProps> {
   };
 
   handleRecording = () => {
+    if(this.state.showCountdown) return;
+    if(!this.recordVideo || !this.localStream ) return toast.error("No camera access!")
     this.setState({
       showCountdown: true,
       disableRecordBtn: true,
@@ -185,7 +188,7 @@ class Recording extends React.Component<IProps> {
       this.localStream.getTracks().forEach(function(track: any) {
         track.stop();
       });
-    this.video.srcObect = null;
+    if(this.video) this.video.srcObect = null;
     this.localStream = null;
   };
   componentWillUnmount() {
@@ -206,7 +209,7 @@ class Recording extends React.Component<IProps> {
               <video ref="video" muted autoPlay style={{width: "100%",height: "100%",position: "absolute",top: 0,left: 0}}/>
               {this.state.showCountdown && <Counter />}
               {this.state.showTimer && (
-                <span className="timerRecording">
+                <span className="timerRecording" style={{ justifyContent: this.props.isCamp ? "center" : "space-between" }}>
                   <span
                     style={{
                       color: "#ff0000",

@@ -45,7 +45,7 @@ class ResponseType extends Component<any, RState> {
             <Typography variant="h6" className="topHeading">Alright!</Typography>
             <Typography variant="h6" className="QuestionHeading">How do you want people to asnwer?</Typography>
             
-            <Grid container className="optionCardWrapper">
+            <Grid container className="optionCardWrapper" onClick={this.props.moveToFinal}>
               <Grid item sm={2} md={2} lg={2}>
                 <PhotoLibraryIcon className="cardImg" />
               </Grid>
@@ -54,7 +54,7 @@ class ResponseType extends Component<any, RState> {
                 <Typography variant="subtitle1" >Collect video, audio, text, and emoji reacts</Typography>
               </Grid>
             </Grid>
-            <Grid container className="optionCardWrapper">
+            <Grid container className="optionCardWrapper" onClick={this.props.moveToNextStep}>
               <Grid item sm={2} md={2} lg={2}>
                 <ListIcon className="cardImg" />
               </Grid>
@@ -63,7 +63,7 @@ class ResponseType extends Component<any, RState> {
                 <Typography variant="subtitle1" >Navigate based on choices or create a poll</Typography>
               </Grid>
             </Grid>
-            <Grid container className="optionCardWrapper">
+            <Grid container className="optionCardWrapper" onClick={this.props.moveToCalendar}>
               <Grid item sm={2} md={2} lg={2}>
                 <EventNoteIcon className="cardImg" />
               </Grid>

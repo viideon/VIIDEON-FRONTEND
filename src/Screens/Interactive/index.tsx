@@ -20,6 +20,8 @@ import RecorderTab from './steps/recorder';
 import OverLayTab from './steps/overlay';
 import ResponseTypeTab from './steps/responseType';
 import MultiChoiceTab from './steps/choices';
+import CalendarTab from './steps/calendar';
+import FinalTab from './steps/final';
 
 import "./style.css";
 const s3 = new AWS.S3(config);
@@ -33,7 +35,7 @@ type IProps = {
 
 class ChatVid extends Component<IProps> {
   state = {
-    step: 0,
+    step: 1,
     video: 0,
     thumbnailBlob: 0,
     videoProgress: false,
@@ -91,30 +93,54 @@ class ChatVid extends Component<IProps> {
   };
 
   handleNext = () => {
+    this.setState({step: this.state.step+1});
+  }
 
+  handleBack = (final = false) => {
+    this.setState({step: final === true ? 2 : this.state.step-1});
   }
 
   handleProceed = (thumbnailBlob: any, video: any) => {
-    this.setState({thumbnailBlob,video, step: this.state.step + 1})
+    this.setState({thumbnailBlob,video, step: this.state.step + 1});
+  }
+
+  moveToCalender = () => {
+    this.setState({step: 4});
+  }
+  
+  moveTofinal = () => {
+    this.setState({step: 5});
+  }
+
+  createChatVid = () => {
+
   }
 
   renderSteps = () => {
     switch (this.state.step) {
       case 0:
         return (
-          <RecorderTab proceedToNext={this.handleProceed} />
+          <RecorderTab {...this.props} toggleSendVariable={this.props.toggleSendVariable} proceedToNext={this.handleProceed} />
         )
       case 1:
         return (
-          <OverLayTab {...this.props} {...this.state} next={this.handleNext} />
+          <OverLayTab {...this.props} {...this.state} moveToNextStep={this.handleNext} moveBack={this.handleBack} />
         )
       case 2:
         return (
-          <ResponseTypeTab {...this.props} {...this.state} next={this.handleNext} />
+          <ResponseTypeTab {...this.props} {...this.state} moveToFinal={this.moveTofinal} moveToNextStep={this.handleNext} moveToCalendar={this.moveToCalender} moveBack={this.handleBack}  />
         )
       case 3:
         return (
-          <MultiChoiceTab {...this.props} {...this.state} next={this.handleNext} />
+          <MultiChoiceTab {...this.props} {...this.state} moveToNextStep={this.moveTofinal} moveBack={this.handleBack} />
+        )
+      case 4:
+        return (
+          <CalendarTab {...this.props} {...this.state} moveToNextStep={this.moveTofinal} moveBack={this.handleBack} />
+        )
+      case 5:
+        return (
+          <FinalTab {...this.props} {...this.state} moveToNextStep={this.createChatVid} moveBack={this.handleBack} />
         )
       default:
         return (

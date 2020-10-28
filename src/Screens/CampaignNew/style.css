@@ -46,7 +46,7 @@
   margin-top: 0 !important;
   margin-bottom: 0 !important;
   background: #F2F2F2;
-  height: 100% !important;
+  height: inherit !important;
 }
 .wrapperBtnRecording {
   display: flex;

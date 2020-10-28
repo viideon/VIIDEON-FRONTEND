@@ -77,6 +77,7 @@ class Campaign extends React.Component {
             saveVideo={this.saveVideo}
             template={this.state.template}
             moveBack={this.moveBack}
+            isCamp={true}
           />
         );
       case 4:

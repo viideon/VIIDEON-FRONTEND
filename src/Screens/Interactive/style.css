@@ -283,6 +283,8 @@
   border: 2px solid #3a94d2;
   border-radius: 8px;
   margin-top: 2%;
+  padding: 2%;
+  cursor: pointer;
 }
 .optionCardWrapper .MuiGrid-grid-sm-2 {
   text-align: center;
@@ -306,6 +308,127 @@
 }
 .cardBody .MuiTypography-h6 {
   font-weight: bold !important;
+}
+
+/* CHOICES */
+.ChoiceCardWrapper {
+  border: 2px solid #3a94d2;
+  border-radius: 8px;
+  margin-top: 2%;
+  padding: 2%;
+  justify-content: space-between;
+}
+.ChoiceCardWrapper .MuiGrid-grid-sm-1 {
+  text-align: end;
+  cursor: pointer;
+  align-self: center;
+}
+.ChoiceTxt .MuiTypography-subtitle1 {
+  color:  #3a94d2;
+  font-family: "Poppins" !important;
+  font-weight: bold !important;
+}
+.ChoiceInput, .ChoiceInput:focus {
+  border: none !important;
+  outline: none !important;
+  width: 100%;
+}
+.ChoiceImg {
+  color: #406c7f;
+}
+.addChoice {
+  background: #3a94d2;
+  color: #ffffff;
+  border-radius: 8px;
+  margin-top: 2%;
+  padding: 2%;
+  cursor: pointer;
+}
+.addChoice .MuiGrid-grid-sm-1 {
+  align-self: center;
+}
+/* .addChoiceImg {
+
+} */
+.AddChoiceTxt .MuiTypography-subtitle1 {
+  font-size: 1.23rem;
+  font-family: "Poppins" !important;
+  font-weight: bold !important;
+}
+
+.CalendarGroupWrapper {
+  justify-content: space-between;
+}
+.CalendarGroupWrapper .MuiGrid-grid-sm-1 {
+  align-self: center;
+}
+.CalendarICON {
+  width: auto !important;
+  height: auto !important;
+  color: #3a94d2;
+}
+.addCalandarInputWrapper {
+
+}
+.linkInput {
+  width: 100%;
+  padding: 2%;
+  border-radius: 8px;
+  border: 0.5px solid #3a94d2;
+  color: #406c7f;
+  font-family: "Poppins";
+  font-weight: bold !important;
+}
+.linkInput:focus {
+  outline: none !important;
+}
+
+.finalTabHeader {
+  width: 100%;
+  height: 300px;
+  background: #fdb415;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.finalCancel {
+  position: absolute;
+  top: 61px;
+  right: 1%;
+  color: #ffffff !important;
+  width: 80px !important;
+  height: 80px !important;
+}
+.finalTabHeader .MuiTypography-h2 {
+  color: #ffffff;
+  font-family: "Poppins";
+  font-weight: bold;
+}
+.finalTabHeader .MuiTypography-subtitle1 {
+  color: #ffffff;
+  font-family: "Poppins";
+  font-weight: bold;
+  font-size: 26px;
+}
+.finalFormContainer {
+  justify-content: center;
+  text-align: center;
+}
+.EnterName {
+  border-radius: 8px;
+  border: 1px solid #fdb415;
+  background: none;
+  padding: 1%;
+  padding-left: 1.5%;
+  width: 60%;
+  font-family: "Poppins" !important;
+  font-weight: bold !important;
+  line-height: 2em !important;
+  color: #406c7f;
+}
+.EnterName:focus {
+  outline: none !important;
 }
 @media only screen and (max-width: 960px) {
   .settingHeader {

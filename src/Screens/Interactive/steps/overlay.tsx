@@ -126,7 +126,7 @@ class RecorderTab extends Component<any, RState> {
                   color="default"
                   className="NextBTN"
                   endIcon={<KeyboardArrowRightIcon />}
-                  // onClick={this.props.moveToNextStep}
+                  onClick={this.props.moveToNextStep}
                 >
                   Next Step
                 </Button>

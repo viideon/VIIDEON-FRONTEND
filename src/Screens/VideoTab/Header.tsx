@@ -173,6 +173,7 @@ class VideoTabHeader extends React.Component<IProps> {
   };
 
   handleCloseTemplate = (name: string) => {
+    if(!name) return this.setState({ open: false});
     const { video } = this.props;
     const { template } = this.state;
     let newVideo: any = video;

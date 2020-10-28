@@ -184,7 +184,6 @@ class RecorderTab extends Component<any, RState> {
   
 
   save = async () => {
-    toast.info("Generating thumbnail ...");
     await this.getThumbnail();
     // await this.uploadThumbnail();
     const { thumbnailBlob, videoRecord} = this.state;
@@ -261,7 +260,8 @@ class RecorderTab extends Component<any, RState> {
 
 
 const RecoderSettingHeader = (props: any) => {
-  const { setQuality, selectValue} = props;
+  const { setQuality, selectValue, history} = props;
+  console.log(history)
   return (
     <div className="settingHeader">
       <Grid container>
@@ -284,7 +284,7 @@ const RecoderSettingHeader = (props: any) => {
         <Grid item xs={12} sm={12} md={4} lg={4}></Grid>
         <Grid item xs={12} sm={12} md={4} lg={4}>
           <div className="UploadAndCancelWrapper">
-            <CloudUploadIcon className="cursorPointer" /> <p> Upload from Computer </p> <CancelIcon className="cursorPointer cancelIcon" onClick={() => props.history.push("/")} />
+            <CloudUploadIcon className="cursorPointer" /> <p> Upload from Computer </p> <CancelIcon className="cursorPointer cancelIcon" onClick={() => history.push("/")} />
           </div>
         </Grid>
       </Grid>

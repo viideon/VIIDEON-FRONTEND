@@ -30,13 +30,13 @@ interface IProps {
 const VideoInfo: React.FC<IProps> = ({ video }) => {
   return (
     <div>
-      <Tooltip title="Email Opens" enterDelay={0}>
+      {/* <Tooltip title="Created Date" enterDelay={0}> */}
         <span className="videoDateWrapper">
           <span className="itemsInfo">
-            {video && timeDifference(video.date)}
+            {video && timeDifference(video.date)} ago
           </span>
         </span>
-      </Tooltip>
+      {/* </Tooltip> */}
       <Tooltip title="Email Opens" enterDelay={0}>
         <span className="firstInfoContainer">
           <span className="itemsInfo">
