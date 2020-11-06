@@ -203,8 +203,8 @@ class VideoTabHeader extends React.Component<IProps> {
             {video && (
               <CanvasPlayer
                 muted={false}
-                autoPlay={false}
-                loop={false}
+                autoPlay={true}
+                loop={true}
                 src={video.url}
                 logoProps={video.logoProps}
                 textProps={video.textProps}

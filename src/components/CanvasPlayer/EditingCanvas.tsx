@@ -21,6 +21,7 @@ interface IProps {
   musicProps: any;
   thumbnail?: string;
   local?: boolean;
+  preview?: boolean;
   watched?: () => void;
 }
 interface IState {
@@ -129,12 +130,12 @@ class EditingPlayer extends React.Component<IProps, IState> {
   }
   async componentDidMount() {
     this.edContainer = this.refs.edContainer;
-    this.setCanvasDimensions();
     this.video = document.createElement("video");
     this.backgroundMusic = this.refs.backgroundMusic;
     this.edCanvas = this.refs.edCanvas;
     this.tmpCanvas = this.refs.tempCanvas;
-    this.wrapperCanvas = this.refs.wrapperCanvas;
+    this.wrapperCanvas = await this.refs.wrapperCanvas;
+    this.setCanvasDimensions();
     this.volume = this.refs.volume;
     this.timeElapsed = this.refs.timeElapsed;
     this.duration = this.refs.duration;
@@ -222,6 +223,9 @@ class EditingPlayer extends React.Component<IProps, IState> {
       this.video.addEventListener("durationchange", this.handleLoadedMetaData);
       this.seek.addEventListener("mousemove", this.updateSeekTooltip);
     }
+    if(this.props.preview) {
+      this.playpause();
+    }
   }
 
   updateSeekTooltip = (event: any) => {
@@ -293,14 +297,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
         canvasTxt.vAlign = textProps.vAlign;
         canvasTxt.align = textProps.align;
         canvasTxt.lineHeight = 20;
-        canvasTxt.drawText(
-          this.canvasTmpCtx,
-          textProps.text,
-          50,
-          50,
-          width - 100,
-          height - 100
-        );
+        canvasTxt.drawText(this.canvasTmpCtx,textProps.text,50,50,width - 100,height - 100);
       }
       let idata = this.canvasTmpCtx.getImageData(0, 0, width, height);
       this.canvasContext.putImageData(idata, 0, 0);
@@ -318,6 +315,9 @@ class EditingPlayer extends React.Component<IProps, IState> {
     this.backgroundMusic.currentTime = 0;
     this.seek.value = 0;
     this.progressBar.value = 0;
+    if(this.props.preview) {
+      this.play();
+    }
   }
   onLoadedMetaData(e: any) {
     let videoDuration = Math.round(this.video.duration);
@@ -366,7 +366,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
     );
     this.setState({
       width: persistRect.width,
-      height: persistRect.height
+      height: this.props.preview ? persistRect.height / 2 : persistRect.height
     });
   };
   initializeVolume = () => {
@@ -448,7 +448,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
             </div>
           )}
 
-          <div className="wrapperControls">
+          <div className="wrapperControls" style={{ display: this.props.preview && this.props.preview ? "none": ""}}>
             <button
               onClick={this.playpause}
               className="canvasBtn"

@@ -18,26 +18,31 @@ import EventNoteIcon from '@material-ui/icons/EventNote';
 
 import CancelIcon from '@material-ui/icons/Cancel';
 
+import PreviewTab from './preview'
 import "react-tabs/style/react-tabs.css";
 import "../style.css";
 
-type RState = {
-};
-class ResponseType extends Component<any, RState> {
-  state = {
-    fitVideo: true,
+class ResponseType extends Component<any> {
+
+  handleNext = (type: string) => {
+    this.props.onChange({ target: {name: "responseType", value: type}})
+    type === "Open-ended" ?
+    this.props.moveToFinal()
+    :
+    type === "Multiple-Choice" ?
+    this.props.moveToNextStep()
+    :
+    this.props.moveToCalendar();
   }
-  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ fitVideo: event.target.checked });
-  };
 
   render () {
     return (
       <Grid container className="overLayWrapperTab">
         <Grid container xs={12} sm={12} md={8} lg={8}>
-          <div className="previewTab">
-
-          </div>
+          <PreviewTab
+            {...this.props}
+            {...this.state}
+          />
         </Grid>
         <Grid container xs={12} sm={12} md={4} lg={4}>
           <div className="actionTab">
@@ -45,7 +50,7 @@ class ResponseType extends Component<any, RState> {
             <Typography variant="h6" className="topHeading">Alright!</Typography>
             <Typography variant="h6" className="QuestionHeading">How do you want people to asnwer?</Typography>
             
-            <Grid container className="optionCardWrapper" onClick={this.props.moveToFinal}>
+            <Grid container className="optionCardWrapper" onClick={() => this.handleNext("Open-ended")}>
               <Grid item sm={2} md={2} lg={2}>
                 <PhotoLibraryIcon className="cardImg" />
               </Grid>
@@ -54,7 +59,7 @@ class ResponseType extends Component<any, RState> {
                 <Typography variant="subtitle1" >Collect video, audio, text, and emoji reacts</Typography>
               </Grid>
             </Grid>
-            <Grid container className="optionCardWrapper" onClick={this.props.moveToNextStep}>
+            <Grid container className="optionCardWrapper" onClick={() => this.handleNext("Multiple-Choice")}>
               <Grid item sm={2} md={2} lg={2}>
                 <ListIcon className="cardImg" />
               </Grid>
@@ -63,7 +68,7 @@ class ResponseType extends Component<any, RState> {
                 <Typography variant="subtitle1" >Navigate based on choices or create a poll</Typography>
               </Grid>
             </Grid>
-            <Grid container className="optionCardWrapper" onClick={this.props.moveToCalendar}>
+            <Grid container className="optionCardWrapper" onClick={() => this.handleNext("Calendly")}>
               <Grid item sm={2} md={2} lg={2}>
                 <EventNoteIcon className="cardImg" />
               </Grid>

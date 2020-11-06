@@ -12,6 +12,8 @@ import CalendarTodayRoundedIcon from '@material-ui/icons/CalendarTodayRounded';
 
 import CancelIcon from '@material-ui/icons/Cancel';
 
+import PreviewTab from './preview';
+
 import "react-tabs/style/react-tabs.css";
 import "../style.css";
 
@@ -24,9 +26,10 @@ class Calendar extends Component<any> {
     return (
       <Grid container className="overLayWrapperTab">
         <Grid container xs={12} sm={12} md={8} lg={8}>
-          <div className="previewTab">
-
-          </div>
+          <PreviewTab
+            {...this.props}
+            {...this.state}
+          />
         </Grid>
         <Grid container xs={12} sm={12} md={4} lg={4}>
           <div className="actionTab">
@@ -44,6 +47,7 @@ class Calendar extends Component<any> {
                   name={"calendar"}
                   value={this.props.link}
                   placeholder={`Past calendly link here`}
+                  onChange={this.props.onChange}
                   className="linkInput MuiTypography-root MuiTypography-subtitle1"
                 />
               </Grid>

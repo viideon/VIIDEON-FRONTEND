@@ -1,0 +1,226 @@
+.wrapperChatvidDashboard {
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+._responseWrapper {
+  background: #ffffff;
+  padding: 10px 20px 5px 20px;
+  height: 80vh;
+  border-radius: 8px;
+}
+
+.respondersCardWrapper {
+  width: 90% !important;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 2%;
+}
+
+.respondersCardWrapper .avatarWrapper {
+  background: #fdb415;
+  border-radius: 50%;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  padding: 20%;
+  color: white;
+}
+
+.respondersCardWrapper .resCardBody {
+  align-self: center;
+}
+
+.responderName {
+  /* font-size: 0.3rem !important; */
+  color: #0e2633 !important;
+  line-height: 1 !important;
+  font-weight: bold !important;
+  font-family: "Open Sans" !important;
+}
+
+.resDetials {
+  font-size: 0.8rem !important;
+  color: #273338 !important;
+  font-family: "Open Sans" !important;
+}
+
+.link-style {
+  text-decoration: none;
+  color: none;
+  cursor: pointer;
+}
+.link-style:hover {
+  text-decoration: none;
+  color: none;
+}
+
+/* CHATVID.TSX */
+
+.dashChatvidTopHeaderWrapper {
+  margin-bottom: 2%;
+}
+.dashChatvidTopHeaderWrapper .MuiGrid-grid-lg-4 {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-end;
+
+}
+.dashChatvidTopHeaderWrapper .sendChatvidBTNWrapper {
+  display: contents;
+}
+.dashChatvidTopHeaderWrapper .sendChatvidBTNWrapper .MuiButton-contained{
+  width: 70% !important;
+  font-size: xx-large;
+  text-transform: none !important;
+  padding: 0 !important;
+  margin: 0;
+}
+.thumbnailInChatvidHead {
+  display: flex;
+  overflow: hidden;
+  object-fit: cover;
+  object-position: center;
+  height: 7em;
+  width: 7em;
+  border-radius: 13px;
+}
+.chatvidEditToolsWrapper {
+  display: flex;
+}
+
+.chatvidEditToolsWrapper div {
+  color: blue;
+  background: #ffffff;
+  margin: 1%;
+  padding: 1%;
+  padding-left: 4%;
+  border-radius: 10px;
+  padding-right: 4%;
+  display: flex;
+  cursor: pointer;
+}
+.dashChatvidTopHeaderWrapper .copyChatvidURL .MuiPaper-elevation1 {
+  border-color: #fdb415 !important;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.dashChatvidTopHeaderWrapper .copyChatvidURL .MuiPaper-elevation1 .MuiButtonBase-root{
+  background: #fdb415 !important;
+}
+.dashChatvidTopHeaderWrapper .copyChatvidURL .MuiPaper-elevation1 .MuiInputBase-root{
+  margin-left: 0.4em !important;
+  font-size: small;
+  font-weight: bold;
+}
+
+.tabsWrapperChatvid {
+  border-bottom: 6px solid #fdb415;
+}
+.tabsBTNwrapper {
+  display: flex;
+}
+.tabsBTN {
+  background: #ffffff;
+  border-radius: 6px 6px 0px 0px;
+  padding: 1%;
+  width: 10em;
+  display: flex;
+  margin-right: 2%;
+  justify-content: center;
+  font-family: "Poppins";
+  font-weight: bold;
+  cursor: pointer;
+}
+.tabsWrapperChatvid .tabsBTNwrapper .active {
+  background: #fdb415;
+  color: #ffffff;
+}
+.replyIconWrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  color: #fdb415;
+}
+.replyIconWrapper svg {
+  font-size: inherit;
+}
+
+.chatVidTabsWrapper {
+  background: #ffffff;
+  margin-top: -1px;
+  border-radius: 0px 0px 8px 8px;
+  padding: 1%;
+}
+.chatVidTabsWrapper .responderWrapper {
+  border-right: 1px solid #fdb415;
+}
+.stepAvatarWrapper {
+  background: #fdb415;
+  border-radius: 50%;
+  padding: 5%;
+  height: 3.5em;
+  width: 3.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.stepAvatarWrapper .MuiTypography-h4 {
+  color: #ffffff;
+  font-family: "Poppins";
+  font-size: 0.6rem;
+  font-weight: bold;
+}
+.stepAvatarWrapper .MuiTypography-h1 {
+  color: #ffffff;
+  font-family: "Poppins";
+  font-size: 1.7rem;
+}
+/* END Chatvid.tsx */
+@media only screen and (max-width: 768px) {
+  .wrapperHomeContent {
+    margin-left: 0px;
+    width: 100vw;
+    margin-top: 16px;
+  }
+  .wrapperHomeContentFull {
+    margin-top: 16px;
+  }
+  .wrapperChatvidDashboard {
+    margin-top: 35px;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .wrapperHomeContent {
+    margin-top: 40px;
+    width: 100vw;
+  }
+  .wrapperChatvidDashboard {
+    margin-top: 25px;
+  }
+  .wrapperHomeContentFull {
+    margin-top: 40px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .wrapperHomeContent {
+    margin-top: 40px;
+    width: 100vw;
+  }
+  .wrapperChatvidDashboard {
+    margin-top: 10px;
+  }
+  .wrapperHomeContentFull {
+    margin-top: 40px;
+  }
+  .dashboardTopLeft {
+    font-weight: 550 !important;
+    font-size: 20px !important;
+  }
+  .actionsHomePage h5 {
+    font-size: 1em !important;
+  }
+}

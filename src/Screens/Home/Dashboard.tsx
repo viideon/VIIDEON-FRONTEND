@@ -95,16 +95,16 @@ class Dashboard extends Component<IProps> {
             </Grid>
           </Grid>
           <Grid container className="wrapperActivityHome">
-            <Grid item xs={6} md={2}>
+            <Grid item xs={6} md={3}>
               <div
                 className="actionsHomePage"
-                onClick={() => this.navigate("record")}
+                onClick={() => this.props.history.push("/chatvid")}
               >
                 <VideocamIcon style={iconStyle} />
                 <h5 className="cursorPointer">Record a Video</h5>
               </div>
             </Grid>
-            <Grid item xs={6} md={2}>
+            <Grid item xs={6} md={3}>
               <div
                 className="actionsHomePage"
                 onClick={() => this.navigate("upload")}
@@ -113,7 +113,7 @@ class Dashboard extends Component<IProps> {
                 <h5 className="cursorPointer">Upload a Video</h5>
               </div>
             </Grid>
-            <Grid item xs={6} md={2}>
+            <Grid item xs={6} md={3}>
               <div
                 className="actionsHomePage"
                 onClick={() => this.props.history.push("/campaign/new")}
@@ -122,16 +122,7 @@ class Dashboard extends Component<IProps> {
                 <h5 className="cursorPointer">Create a Campaign</h5>
               </div>
             </Grid>
-            <Grid item xs={6} md={2}>
-              <div
-                className="actionsHomePage"
-                onClick={() => this.props.history.push("/chatvid")}
-              >
-                <VoiceChatIcon style={iconStyle} />
-                <h5 className="cursorPointer">Create a Chatvid</h5>
-              </div>
-            </Grid>
-            <Grid item xs={6} md={2}>
+            <Grid item xs={6} md={3}>
               <Tooltip title="Under Progress">
                 <div
                   className="actionsHomePage"

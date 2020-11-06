@@ -10,7 +10,7 @@ import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 
 
 import CancelIcon from '@material-ui/icons/Cancel';
-
+import PreviewTab from './preview'
 import "react-tabs/style/react-tabs.css";
 import "../style.css";
 
@@ -26,27 +26,30 @@ class MultiChoice extends Component<any> {
   handleChangeC = (e: any) => {
     let cats = this.state.cats;
     cats[e.target.name] = e.target.value;
-    this.setState({ cats }, () => console.log(this.state.cats))
-    console.log(this.state.cats)
+    this.setState({ cats })
+    this.props.onChange({target: {name: "choices", value: cats}})
   }
 
   addCat = (e:any) => {
     let cats = [...this.state.cats, ""];
     this.setState({ cats });
+    this.props.onChange({target: {name: "choices", value: cats}})
   }
 
   removeCat = (e: any) => {
     let cats = this.state.cats.filter((val, idx) => e !== idx);
     this.setState({cats})
+    this.props.onChange({target: {name: "choices", value: cats}})
   }
 
   render() {
     return (
       <Grid container className="overLayWrapperTab">
         <Grid container xs={12} sm={12} md={8} lg={8}>
-          <div className="previewTab">
-
-          </div>
+          <PreviewTab
+            {...this.props}
+            {...this.state}
+          />
         </Grid>
         <Grid container xs={12} sm={12} md={4} lg={4}>
           <div className="actionTab">

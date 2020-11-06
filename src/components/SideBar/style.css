@@ -91,6 +91,17 @@
   color: #0f2733;
 }
 
+/* ChatvidBar */
+.thumbnailInChatvidBar {
+  width: 3em;
+  height: 3em;
+  cursor: pointer;
+  display: flex;
+  border-radius: 18%;
+  object-fit: cover;
+  object-position: center;
+  overflow: hidden;
+}
 @media only screen and (max-width: 768px) {
   .MainDrawer {
     display: none;

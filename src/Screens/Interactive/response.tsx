@@ -7,15 +7,20 @@ import AWS from "aws-sdk";
 import Loading from "../../components/Loading";
 
 
-import {saveChatvid} from "../../Redux/Actions/chatvid";
-import { toggleSendVariable } from '../../Redux/Actions/videos';
+import {
+  saveVideo,
+  toggleSendVariable,
+} from "../../Redux/Actions/videos";
+
 import {VideoState,VideoSave,} from "../../Redux/Types/videos";
+import { getChatvid } from "../../Redux/Actions/chatvid";
 import { AuthState } from "../../Redux/Types/auth";
 import "react-tabs/style/react-tabs.css";
 
-import Header from "../../components/Header/Header";
-// steps
-import LandingQuestion from './steps/landing'
+
+
+import AnswerTypeTab from './resSteps/answerType'
+
 import RecorderTab from './steps/recorder';
 import OverLayTab from './steps/overlay';
 import ResponseTypeTab from './steps/responseType';
@@ -31,27 +36,34 @@ type IProps = {
   history: any;
   videoUser: VideoState;
   toggleSendVariable: () => void;
-  saveVideo: (video: any) => void;
+  getChatvid: (chatvidId: string) => void;
 };
 
 class ChatVid extends Component<IProps> {
   state = {
-    step: -1,
+    loading: true,
+    step: 0,
     video: 0,
+    chatvid: {},
     thumbnailBlob: 0,
-    thumbnailUrl: "",
     videoProgress: false,
-    text: "",
-    textColor: "#fff",
-    fontSize: 5,
-    vAlign: "top",
-    align: "left",
-    fitvideo: false,
-    responseType: "",
-    calendar: "",
-    urlRecord: "",
-    title: "",
-    choices: [],
+  }
+
+  componentDidMount() {
+    let chatvidId = this.props.history.location.pathname.split("/")[3];
+    if(!chatvidId) {
+      toast.error("inValidURL")
+      this.props.history.push("/")
+      return ;
+    }
+    this.props.getChatvid(chatvidId);
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
+    if(nextProps.resChatvid._id && this.state.loading) {
+      console.log("success")
+      this.setState({ loading: false, chatvid: nextProps.resChatvid })
+    }
   }
 
   uploadThumbnail = () => {
@@ -118,94 +130,46 @@ class ChatVid extends Component<IProps> {
   }
 
   moveToCalender = () => {
-    this.setState({step: 4, responseType: "Calendly"});
+    this.setState({step: 4});
   }
   
   moveTofinal = () => {
     this.setState({step: 5});
   }
 
-  onChange = (e:any) => {
-    let newState: any = this.state;
-    newState[e.target.name] = e.target.value;
-    this.setState({...newState});
-  }
+  createChatVid = () => {
 
-  createChatVid = async () => {
-    console.log(this.state)
-
-    try {
-      toast.info("Generating thumbnail ...");
-      toast.info("Saving thumbnail ...");
-      await this.uploadThumbnail();
-      toast.info("Uploading video ...");
-      await this.uploadVideo();
-      const textProps = {
-        text: this.state.text,
-        textColor: this.state.textColor,
-        fontSize: this.state.fontSize,
-        vAlign: this.state.vAlign,
-        align: this.state.align
-      };
-
-      const video = {
-        tittle: this.state.title,
-        url: this.state.urlRecord,
-        userId: this.props.auth!.user!._id,
-        thumbnail: this.state.thumbnailUrl,
-        textProps: textProps,
-        campaign: false
-      };
-      const chatvid = {
-        video,
-        fitvideo: this.state.fitvideo,
-        responseType: this.state.responseType,
-        calendar: this.state.calendar,
-        urlRecord: this.state.urlRecord,
-        tittle: this.state.title,
-        choices: this.state.choices
-      }
-      toast.info("Storign Chatvid ...");
-      this.props.saveVideo(chatvid);
-      
-    } catch (error) {
-      
-    }
   }
 
   renderSteps = () => {
     switch (this.state.step) {
-      case -1:
-        return (
-          <LandingQuestion {...this.props} toggleSendVariable={this.props.toggleSendVariable} moveToNextStep={this.handleNext} />
-        )
       case 0:
         return (
-          <RecorderTab {...this.props} toggleSendVariable={this.props.toggleSendVariable} proceedToNext={this.handleProceed} />
+          <AnswerTypeTab {...this.props} toggleSendVariable={this.props.toggleSendVariable} proceedToNext={this.handleProceed} />
         )
       case 1:
         return (
-          <OverLayTab {...this.props} {...this.state} moveToNextStep={this.handleNext} moveBack={this.handleBack} onChange={this.onChange} />
+          <OverLayTab {...this.props} {...this.state} moveToNextStep={this.handleNext} moveBack={this.handleBack} />
         )
       case 2:
         return (
-          <ResponseTypeTab {...this.props} {...this.state} onChange={this.onChange} moveToFinal={this.moveTofinal} moveToNextStep={this.handleNext} moveToCalendar={this.moveToCalender} moveBack={this.handleBack}  />
+          <ResponseTypeTab {...this.props} {...this.state} moveToFinal={this.moveTofinal} moveToNextStep={this.handleNext} moveToCalendar={this.moveToCalender} moveBack={this.handleBack}  />
         )
       case 3:
         return (
-          <MultiChoiceTab {...this.props} {...this.state} onChange={this.onChange} moveToNextStep={this.moveTofinal} moveBack={this.handleBack} />
+          <MultiChoiceTab {...this.props} {...this.state} moveToNextStep={this.moveTofinal} moveBack={this.handleBack} />
         )
       case 4:
         return (
-          <CalendarTab {...this.props} {...this.state} onChange={this.onChange} moveToNextStep={this.moveTofinal} moveBack={this.handleBack} />
+          <CalendarTab {...this.props} {...this.state} moveToNextStep={this.moveTofinal} moveBack={this.handleBack} />
         )
       case 5:
         return (
-          <FinalTab {...this.props} {...this.state} onChange={this.onChange} moveToNextStep={this.createChatVid} moveBack={this.handleBack} />
+          <FinalTab {...this.props} {...this.state} moveToNextStep={this.createChatVid} moveBack={this.handleBack} />
         )
       default:
         return (
-          <LandingQuestion {...this.props} toggleSendVariable={this.props.toggleSendVariable} moveToNextStep={this.handleNext} />
+          <RecorderTab proceedToNext={this.handleProceed} />
         )
     }
   }
@@ -213,13 +177,7 @@ class ChatVid extends Component<IProps> {
   render() {
     return (
       <>
-        <Header
-          styles={{
-            backgroundImage:
-              "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"
-          }}
-        />
-        {this.renderSteps()}
+        {!this.state.loading && this.renderSteps()}
       </>
     );
   }
@@ -234,15 +192,15 @@ const iconStyle = {
 const mapStateToProps = (state: any) => {
   return {
     auth: state.auth,
+    resChatvid: state.chatvids.resChatvid,
     videoUser: state.video,
     savedVideoId: state.video.savedVideoId,
-    progressEmail: state.video.progressEmail,
-    chatvids: state.chatvids,
+    progressEmail: state.video.progressEmail
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    saveVideo: (chatvid: any) => dispatch(saveChatvid(chatvid)),
+    getChatvid: (chatvidId: string) => dispatch(getChatvid(chatvidId)),
     toggleSendVariable: () => dispatch(toggleSendVariable()),
   }
 };

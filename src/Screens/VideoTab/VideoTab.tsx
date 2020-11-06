@@ -24,7 +24,7 @@ const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
     getVideo(params.id);
     setTimeout(() => enableLinks(false), 1000);
     return () => {
-      cleanSingleVideo();
+      // cleanSingleVideo();
     };
   }, []);
 

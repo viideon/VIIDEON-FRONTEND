@@ -41,24 +41,6 @@ class SideBar extends Component<IProps, IState> {
       activeSideBar = this.props.location.pathname;
     return (
       <div className={drawer ? "MainDrawer" : "MainDrawerHide"}>
-        {/* <div className="wrapperProfileSidebar"> */}
-        {/* {user && (
-            <div className="wrapperDetails">
-              <span className="wrapperAvatarSidebar">
-                <img
-                  src={user.url ? user.url : avatar}
-                  className="avatarSidebar"
-                  alt="avatar"
-                />
-              </span>
-              <span className="infoProfile">
-                <span className="nameInfo">{`${user.firstName} ${user.lastName}`}</span>
-                <span className="contactInfo">{user.email}</span>
-              </span>
-            </div>
-          )} */}
-        {/* <SearchBar /> */}
-        {/* </div> */}
         <div
           className={classname({
             OptionIcons: true,
@@ -71,6 +53,19 @@ class SideBar extends Component<IProps, IState> {
         >
           <i className="fas fa-tachometer-alt dashboard" style={iconStyle} />
           <span className="IconNameStyling">Dashboard</span>
+        </div>
+        <div
+          className={classname({
+            OptionIcons: true,
+            dashboardOption: true,
+            activeSideBar: activeSideBar === "/chatvids"
+          })}
+          onClick={() => {
+            this.handleChangeTab("/chatvids");
+          }}
+        >
+          <i className="fas fa-tachometer-alt dashboard" style={iconStyle} />
+          <span className="IconNameStyling">Switch to chatvid</span>
         </div>
         <div
           className={classname({
@@ -135,7 +130,7 @@ class SideBar extends Component<IProps, IState> {
           <span className="IconNameStyling">Music</span>
         </div>
 
-        <div className="footerDashboard">
+        {/* <div className="footerDashboard">
           <div className="navFooterIcons">
             <Link
               to="/profile"
@@ -164,7 +159,7 @@ class SideBar extends Component<IProps, IState> {
             toggle={this.toggleLogoutModal}
             logout={logout}
           />
-        </div>
+        </div> */}
       </div>
     );
   }

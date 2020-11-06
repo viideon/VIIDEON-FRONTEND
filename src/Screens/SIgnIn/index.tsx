@@ -120,7 +120,6 @@ class Signin extends React.Component<IProps, IState> {
             <div className="firstLayoutContainer">
               <div className="firstLayoutMainContainer">
                 <img src={whiteLogo} />
-                VideonPro
               </div>
               <div
                 style={{

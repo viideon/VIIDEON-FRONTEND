@@ -9,6 +9,140 @@
   padding-top: 0%;
 }
 
+/* PREVIEW TABSSS */
+.previewTab {
+  height: inherit;
+  padding: 1%;
+}
+.previewTabswrapper {
+  display: flex;
+  justify-content: center;
+}
+.previewTabswrapper .tabIconWrapper {
+  background: lightgrey;
+  border-radius: 50%;
+  padding: 1%;
+  color: #ffffff;
+  margin: 1%;
+  cursor: pointer !important;
+}
+.previewTabswrapper .active {
+  color: #ffffff;
+  background: #fdb415;
+  cursor: pointer !important;
+}
+
+.chatvidPreviewWrapper {
+  margin: 4%;
+}
+.chatvidPreviewWrapper svg{
+  color: #ffffff;
+}
+.chatvidPreviewWrapper .responseTypeWrapper {
+  border-radius: 0px 0px 8px 8px;
+  overflow: hidden;
+  height: 70vh !important;
+}
+.chatvidPreviewWrapper .responseTypeWrapper .mainVideoContainer {
+  background: #ffffff;
+  height: auto !important;
+}
+.chatvidPreviewWrapper .responseTypeWrapper .mainVideoContainer .MuiGrid-item{
+  margin-top: 0px !important;
+}
+.chatvidPreviewWrapper .responseTypeWrapper .optionDiv{
+  background: #ffffff;
+}
+
+.previewTopHead {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 8px 8px 0px 0px;
+  padding: 1%;
+  align-items: center;
+  background-image: linear-gradient(to right, #fcb317, #8bb589, #61b5b3);
+}
+.previewTopHead div {
+  display: flex;
+}
+.previewTopHead span {
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  margin: 4px;
+}
+.closeWindow {
+  color: red !important;
+}
+.minmizeWindow {
+  color: orange !important;
+}
+.expandWindow {
+  color: green !important;
+}
+.previewSearchHead { 
+  background: gainsboro;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  padding-left: 2%;
+  padding-right: 2%;
+}
+.previewSearchHead .MuiPaper-root {
+  height: auto;
+  box-shadow: none;
+  background: gray;
+  width: 80%;
+}
+.reverse {
+  transform: rotate(180deg);
+}
+
+
+
+.chatvidPreviewWrapper .responseTypeWrapper .IconWrapper {
+  width: 140px;
+  height: 140px;
+}
+.chatvidPreviewWrapper .responseTypeWrapper .IconWrapper .MuiTypography-h1,
+.chatvidPreviewWrapper .responseTypeWrapper .IconWrapper .MuiSvgIcon-root {
+  font-size: 4rem;
+}
+
+/* Landing  */
+.LandingQuestionWrapper {
+  /* background: beige; */
+  height: inherit;
+  align-content: center;
+  text-align: center;
+}
+.LandingQuestionWrapper .MuiGrid-item {
+  display: flex;
+  justify-content: center;
+}
+.LandingQuestionWrapper .MuiTypography-h4 {
+  font-family: "Poppins";
+  font-weight: bold;
+  font-size: 1rem;
+}
+.LandingQuestionWrapper .MuiSvgIcon-root {
+  font-size: 5em !important;
+}
+.LandingQuestionWrapper .MuiGrid-item div {
+  background: #fdb415;
+  border-radius: 50%;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 8px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+/* Recorder */
 .settingHeader {
   background: #406c7f;
   width: 100%;
@@ -125,7 +259,6 @@
   border: none !important;
   outline: none !important;
 }
-
 .UploadAndCancelWrapper {
   height: 100%;
   color: #ffffff !important;
@@ -134,14 +267,12 @@
   align-items: center;
   margin: 6px;
 }
-
 .UploadAndCancelWrapper p {
   margin: 0%;
   margin-left: 2%;
   font-size: large;
   font-weight: bold;
 }
-
 .cancelIcon {
   width: 70px !important;
   height: 50px !important;
@@ -154,10 +285,6 @@
   background: #f2f2f2;
   height: inherit;
 }
-.previewTab {
-  height: 100%;
-}
-
 .actionTab {
   background: #ffffff;
   height: 100%;
@@ -172,7 +299,6 @@
   color: #406c7f;
   float: right;
 }
-
 .actionTab .topHeading {
   color: #fdb415;
   font-family: "Poppins";
@@ -225,9 +351,10 @@
 .textAdjustmentWrapper .MuiToggleButton-root:hover {
   background: #fdb415;
 }
-.textAdjustmentWrapper button:focus {
+.textAdjustmentWrapper button:focus, .textAdjustmentWrapper .Mui-selected {
   outline: none;
-  background: #fdb415;
+  background: #fdb415 !important;
+  color: #ffffff;
 }
 
 .revealWrapper {
@@ -235,7 +362,6 @@
   margin-top: 8%;
   margin-bottom: 4%;
   justify-content: space-between;
-
 }
 .revealWrapper .MuiTypography-root {
   width: 45% !important;
@@ -244,7 +370,6 @@
   display: flex;
   justify-content: space-between;
 }
-
 .ToggleActionsWrapper {
   justify-content: flex-end !important;
   margin-top: 4% !important;
@@ -355,7 +480,6 @@
   font-family: "Poppins" !important;
   font-weight: bold !important;
 }
-
 .CalendarGroupWrapper {
   justify-content: space-between;
 }
@@ -382,7 +506,6 @@
 .linkInput:focus {
   outline: none !important;
 }
-
 .finalTabHeader {
   width: 100%;
   height: 300px;
@@ -441,15 +564,33 @@
     margin-top: 8%;
   }
 }
+@media only screen and (max-width: 640px) {
+  .LandingQuestionWrapper .MuiGrid-item {
+    flex-direction: column;
+    align-items: center;
+  }
+}
 @media only screen and (max-width: 550px) {
+  .LandingQuestionWrapper .MuiGrid-item div {
+    width: 250px;
+    height: 250px;
+  }
   .interActiveRecorderContainer {
     margin-top: 22%;
   }
-}
 
+
+}
 @media only screen and (max-width: 400px) {
   .interActiveRecorderContainer {
     margin-top: 24%;
     width: 80%;
+  }
+  .LandingQuestionWrapper .MuiGrid-item div {
+    width: 200px;
+    height: 200px;
+  }
+  .LandingQuestionWrapper .MuiTypography-h4 {
+    font-size: 0.8rem;
   }
 }

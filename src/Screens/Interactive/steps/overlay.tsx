@@ -9,7 +9,7 @@ import Slider from '@material-ui/core/Slider';
 import Tooltip from '@material-ui/core/Tooltip';
 
 
-
+import Select from '@material-ui/core/Select';
 
 import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
 import FormatAlignCenterIcon from '@material-ui/icons/FormatAlignCenter';
@@ -21,32 +21,62 @@ import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import NavigateBeforeOutlinedIcon from "@material-ui/icons/NavigateBeforeOutlined";
 
+// Preview
+import DesktopWindowsIcon from '@material-ui/icons/DesktopWindows';
+import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
+import ForwardIcon from '@material-ui/icons/Forward';
+import RefreshIcon from '@material-ui/icons/Refresh';
+import HouseIcon from '@material-ui/icons/House';
+import MenuIcon from '@material-ui/icons/Menu';
+import CallMadeIcon from '@material-ui/icons/CallMade';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+
+import { PreviewSearchBar } from '../../../components/SearchBar';
+
+// PreviewEND
+
 
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 
 import CancelIcon from '@material-ui/icons/Cancel';
 
+import PreviewTab from './preview'
 import "react-tabs/style/react-tabs.css";
 import "../style.css";
 
-type RState = {
-};
-class RecorderTab extends Component<any, RState> {
+class RecorderTab extends Component<any> {
   state = {
     fitVideo: true,
+    active: "mobile",
   }
-  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  componentDidMount() {
+  }
+  handleChange = (event: any) => {
     this.setState({ fitVideo: event.target.checked });
+    this.props.onChange({ target: { name: "fitvideo", value: event.target.checked } })
   };
 
-  render () {
+  handleVertical = (e: React.MouseEvent<HTMLElement>, newString: []) => {
+    this.props.onChange({ target: { name: "valign", value: newString } })
+  }
+  handleHorizontal = (e: React.MouseEvent<HTMLElement>, newString: []) => {
+    this.props.onChange({ target: { name: "align", value: newString } })
+  }
+
+  handleTabChange = (active: string) => {
+    this.setState({ active })
+  }
+
+  render() {
+    const { active } = this.state;
     return (
       <Grid container className="overLayWrapperTab">
         <Grid container xs={12} sm={12} md={8} lg={8}>
-          <div className="previewTab">
-
-          </div>
+          <PreviewTab
+            {...this.props}
+            {...this.state}
+          />
         </Grid>
         <Grid container xs={12} sm={12} md={4} lg={4}>
           <div className="actionTab">
@@ -54,24 +84,24 @@ class RecorderTab extends Component<any, RState> {
             <Typography variant="h6" className="topHeading">Great Video!</Typography>
             <Typography variant="h6" className="QuestionHeading">Whould you like to overlay some text?</Typography>
             <div className="textOverLayWrapper">
-              <TextField fullWidth id="OverLayText" multiline rows={10} rowsMax={10} variant="outlined" />
+              <TextField fullWidth name="text" value={this.props.text} onChange={this.props.onChange} id="OverLayText" multiline rows={10} rowsMax={10} variant="outlined" />
             </div>
             <Grid container className="textAdjustmentWrapper">
               <Grid item xs={12} sm={12} md={12} lg={6}>
                 <Typography variant="h6" className="actionLabels"> Alignement </Typography>
                 <ToggleButtonGroup
-                  // value={alignment}
                   exclusive
-                  // onChange={handleAlignment}
+                  onChange={this.handleHorizontal}
+                  value={this.props.align}
                   aria-label="text alignment"
                 >
-                  <ToggleButton value="left" aria-label="left aligned">
+                  <ToggleButton name="align" value="left" aria-label="left aligned" >
                     <FormatAlignLeftIcon />
                   </ToggleButton>
-                  <ToggleButton value="center" aria-label="centered">
+                  <ToggleButton name="align" value="center" aria-label="centered" >
                     <FormatAlignCenterIcon />
                   </ToggleButton>
-                  <ToggleButton value="right" aria-label="right aligned">
+                  <ToggleButton name="align" value="right" aria-label="right aligned" >
                     <FormatAlignRightIcon />
                   </ToggleButton>
                 </ToggleButtonGroup>
@@ -80,21 +110,59 @@ class RecorderTab extends Component<any, RState> {
               <Grid item xs={12} sm={12} md={12} lg={5}>
                 <Typography variant="h6" className="actionLabels"> Position </Typography>
                 <ToggleButtonGroup
-                  // value={alignment}
                   exclusive
-                  // onChange={handleAlignment}
-                  aria-label="text alignment"
+                  onChange={this.handleVertical}
+                  value={this.props.valign}
+                  aria-label="text vertical alignment"
                 >
-                  <ToggleButton value="left" aria-label="left aligned">
+                  <ToggleButton name="valign" value="top" aria-label="top aligned" >
                     <VerticalAlignTopIcon />
                   </ToggleButton>
-                  <ToggleButton value="center" aria-label="centered">
+                  <ToggleButton name="valign" value="center" aria-label="centered" >
                     <VerticalAlignCenterIcon />
                   </ToggleButton>
-                  <ToggleButton value="right" aria-label="right aligned">
+                  <ToggleButton name="valign" value="bottom" aria-label="bottom aligned" >
                     <VerticalAlignBottomIcon />
                   </ToggleButton>
                 </ToggleButtonGroup>
+              </Grid>
+            </Grid>
+            <Grid container className="textAdjustmentWrapper">
+              <Grid item xs={12} sm={12} md={12} lg={6}>
+                <Typography variant="h6" className="actionLabels"> Text Size </Typography>
+                <Select
+                  native
+                  // value={state.age}
+                  // onChange={handleChange}
+                  variant="outlined"
+                  inputProps={{
+                    name: 'age',
+                    id: 'age-native-simple',
+                  }}
+                >
+                  <option aria-label="None" value="" />
+                  <option value={"small"}>Small</option>
+                  <option value={"default"}>Medium</option>
+                  <option value={"large"}>Large</option>
+                </Select>
+              </Grid>
+              <Grid item xs={12} sm={12} md={12} lg={5}>
+                <Typography variant="h6" className="actionLabels"> Text Style </Typography>
+                <Select
+                  native
+                  // value={state.age}
+                  // onChange={handleChange}
+                  variant="outlined"
+                  inputProps={{
+                    name: 'age',
+                    id: 'age-native-simple',
+                  }}
+                >
+                  <option aria-label="None" value="" />
+                  <option value={"default"}>default</option>
+                  <option value={"italic"}>italic</option>
+                  <option value={"bold"}>bold</option>
+                </Select>
               </Grid>
             </Grid>
             <div className="revealWrapper">
@@ -104,14 +172,14 @@ class RecorderTab extends Component<any, RState> {
             <div className="fitWrapper">
               <Typography variant="h6" className="actionLabels"> Fit Video </Typography>
               <AntSwitch
-                // checked={state.checkedC} 
-                // onChange={handleChange}
+                checked={this.state.fitVideo}
+                onChange={this.handleChange}
                 name="fitVideo"
                 size="medium"
-               />
+              />
             </div>
             <Grid container className="ToggleActionsWrapper" style={{ margin: "1%" }}>
-              <Grid item xs={12} sm={4} md={4} lg={4} style={{ margin: "4px"}}> 
+              <Grid item xs={12} sm={4} md={4} lg={4} style={{ margin: "4px" }}>
                 <Button
                   color="default"
                   className="BackBTN"
@@ -121,7 +189,7 @@ class RecorderTab extends Component<any, RState> {
                   Back
                 </Button>
               </Grid>
-              <Grid item xs={12} sm={4} md={6} lg={6} style={{ margin: "4px"}}>
+              <Grid item xs={12} sm={4} md={6} lg={6} style={{ margin: "4px" }}>
                 <Button
                   color="default"
                   className="NextBTN"

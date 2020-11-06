@@ -249,8 +249,15 @@ class Recording extends React.Component<IProps> {
   };
 
   handleReset = () => {
+    clearInterval(this.state.timerTimeout);
     this.resultVideo.src = null;
-    this.setState({showResult: false})
+    this.setState({
+      showResult: false,
+      showStopBtn: false,
+      count: 0,
+      timerTimeout: 0,
+      showTimer: false,
+    })
     this.props.reset && this.props.reset();
     this.setupMedia();
   }
@@ -345,8 +352,24 @@ class Recording extends React.Component<IProps> {
         <div className="recorderActionWrapper" style={{ background: (showStopBtn && !showResult) ? "#fdb415" : showResult ? "#ffffff" : "" }}>
           { !showResult ? (
             <>
-            <Tooltip title="Pause" placement="top" arrow>
+            {/* <Tooltip title="Pause" placement="top" arrow>
               <PauseCircleFilledRoundedIcon className="pauseBtn" onClick={() => showStopBtn && this.pauseRecorder()} />
+            </Tooltip> */}
+            <Tooltip title="Add note" placement="top" arrow>
+              <div className="addNote">
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={note}
+                      onChange={this.handleNotes}
+                      name="checkedB"
+                      color="primary"
+                    />
+                  }
+                  label="Teleprompter"
+                  labelPlacement="bottom"
+                />
+              </div>
             </Tooltip>
             { !showStopBtn && 
               (<Tooltip title="Record" placement="top" arrow>
@@ -378,21 +401,6 @@ class Recording extends React.Component<IProps> {
           }
           
         </div>
-        <Tooltip title="Add note" placement="top" arrow>
-          <div className="addNote">
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={note}
-                  onChange={this.handleNotes}
-                  name="checkedB"
-                  color="primary"
-                />
-              }
-              label="+ Notes"
-            />
-          </div>
-        </Tooltip>
         {!this.props?.interActive && (
           <div className="recordQualityInput">
             {showQualityInput && (

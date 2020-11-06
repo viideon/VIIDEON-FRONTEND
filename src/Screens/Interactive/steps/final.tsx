@@ -17,13 +17,14 @@ import "../style.css";
 
 class FinalTab extends Component<any> {
   state = {
-    name: ''
+    title: ''
   }
 
   handleChange = (e: any) => {
     let newState: any = this.state;
     newState[e.target.name] = e.target.value;
-    this.setState({newState})
+    this.setState({...newState})
+    this.props.onChange(e);
   }
 
   render() {
@@ -39,8 +40,8 @@ class FinalTab extends Component<any> {
             <form onChange={this.handleChange}>
               <input
                 type="text"
-                name="name"
-                value={this.state.name}
+                name="title"
+                value={this.state.title}
                 placeholder="Enter title here"
                 className="EnterName MuiTypography-root MuiTypography-subtitle1"
               />

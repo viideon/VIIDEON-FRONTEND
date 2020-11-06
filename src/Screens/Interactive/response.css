@@ -1,0 +1,118 @@
+.responseTypeWrapper {
+  width: 100%;
+  height: inherit !important;
+
+  background-color: #f2f2f2;
+}
+
+.mainVideoContainer {
+  height: 100vh !important;
+  background: inherit;
+  /* width: 100%; */
+}
+.mainVideoContainer .MuiGrid-item {
+  display: flex;
+  margin-top: -66%;
+}
+.mainVideoContainer canvas {
+  object-fit: contain;
+  width: 100% !important;
+}
+.ResponseAndTypeWrapper {
+  height: inherit !important;
+  background: inherit;
+  /* width: 100%; */
+}
+.captionDiv {
+  background: #fdb415;
+  height: 50% !important;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 4%;
+}
+.captionDiv .MuiTypography-h3 {
+  font-family: "Poppins";
+  color: #ffffff;
+  font-weight: bold;
+  margin-left: 8%;
+  margin-right: 8%;
+}
+.optionDiv {
+  height: 50% !important;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 4%;
+}
+.IconWrapper {
+  border: 1px solid #fbd145;
+  border-radius: 50%;
+  width: 240px;
+  height: 240px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  color: #fdb415 !important;
+  cursor: pointer;
+}
+.IconWrapper .MuiTypography-h1 {
+  font-family: "Poppins";
+  font-weight: bold;
+}
+.IconWrapper .MuiTypography-subtitle1 {
+  font-family: "Poppins";
+  font-weight: bold;
+  font-size: x-large;
+}
+.IconWrapper .MuiSvgIcon-root {
+  font-size: 6rem;
+  color: #fdb415 !important;
+}
+
+@media only screen and (max-width: 1612px) {
+  .IconWrapper {
+    width: 200px;
+    height: 200px;
+  }
+}
+@media only screen and (max-width: 1360px) {
+  .IconWrapper {
+    width: 180px;
+    height: 180px;
+  }
+  .IconWrapper .MuiTypography-subtitle1 {
+    font-family: "Poppins";
+    font-weight: bold;
+    font-size: large;
+  }
+  .IconWrapper .MuiTypography-h1,
+  .IconWrapper .MuiSvgIcon-root {
+    font-size: 5rem;
+  }
+}
+@media only screen and (max-width: 1280px) {
+  .IconWrapper {
+    width: 160px;
+    height: 160px;
+  }
+}
+@media only screen and (max-width: 1080px) {
+  .IconWrapper {
+    width: 140px;
+    height: 140px;
+  }
+  .IconWrapper .MuiTypography-h1,
+  .IconWrapper .MuiSvgIcon-root {
+    font-size: 4rem;
+  }
+}
+@media only screen and (max-width: 960px) {
+
+}
+@media only screen and (max-width: 720px) {
+
+}
+@media only screen and (max-width: 550px) {
+  
+}

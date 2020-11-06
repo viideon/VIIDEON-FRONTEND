@@ -65,6 +65,12 @@
   display: flex;
   justify-content: center;
 }
+
+.addNote .MuiFormControlLabel-label {
+  color: #ffffff;
+  font-family: "Poppins";
+  font-size: 0.8rem !important;
+}
 /* -----recording screen wrapper */
 .customeRecWrapper {
   text-align: center;

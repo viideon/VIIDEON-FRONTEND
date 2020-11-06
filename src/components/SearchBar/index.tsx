@@ -4,6 +4,8 @@ import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
+import FavoriteIcon from '@material-ui/icons/Favorite';
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -11,15 +13,14 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: "auto",
       marginRight: "auto",
       marginTop: "5px",
+      marginBottom: "5px",
       padding: "0px 1px 0px 2px",
-      border: "3px solid #5368FA",
       display: "flex",
       alignItems: "center",
-      borderRadius: 0,
+      borderRadius: 8,
       width: "90%",
-      height: "2rem",
+      height: "3rem",
       "& .MuiIconButton-label": {
-        background: "#5368FA !important"
       },
       "& .MuiSvgIcon-root": {
         paddingTop: "0.5px",
@@ -47,17 +48,43 @@ export default function SearchBar() {
   const classes = useStyles();
   return (
     <Paper className={classes.root}>
+      <IconButton
+        type="submit"
+        className={classes.iconButton}
+        aria-label="search chatvid..."
+      >
+        <SearchIcon />
+      </IconButton>
       <InputBase
         className={classes.input}
-        placeholder="Search"
-        inputProps={{ "aria-label": "search google maps" }}
+        placeholder="Search chatvid..."
+        inputProps={{ "aria-label": "search chatvids" }}
+      />
+    </Paper>
+  );
+}
+
+export function PreviewSearchBar() {
+  const classes = useStyles();
+  return (
+    <Paper className={classes.root}>
+      <IconButton
+        type="submit"
+        className={classes.iconButton}
+        aria-label="search chatvid..."
+      >
+        <SearchIcon />
+      </IconButton>
+      <InputBase
+        className={classes.input}
+        inputProps={{ "aria-label": "search chatvids" }}
       />
       <IconButton
         type="submit"
         className={classes.iconButton}
-        aria-label="search"
+        aria-label="search chatvid..."
       >
-        <SearchIcon />
+        <FavoriteIcon />
       </IconButton>
     </Paper>
   );

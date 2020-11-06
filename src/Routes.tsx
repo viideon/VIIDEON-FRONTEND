@@ -7,27 +7,34 @@ import {
 } from "react-router-dom";
 import { connect } from "react-redux";
 import { updateVideoCta } from "./Redux/Actions/videos";
-import VideoTab from "./Screens/VideoTab/VideoTab";
-import Profile from "./Screens/Profile/index";
 import { AuthState } from "../src/Redux/Types/auth";
+
+import Watch from "./Screens/Watch";
 import Signup from "./Screens/Signup";
 import SignIn from "./Screens/SignIn";
-import Header from "./components/Header/Header";
-import UploadRecord from "../src/Screens/UploadRecordVideo";
-import InterActive from "../src/Screens/Interactive";
-import Watch from "./Screens/Watch";
+import Profile from "./Screens/Profile";
+import Template from "./Screens/Template";
 import Campaign from "./Screens/CampaignNew";
-import ForgotPassword from "./Screens/ForgotPassword";
-import ResetPassword from "./Screens/ResetPassword";
-import Dashboard from "./Screens/Home/Dashboard";
-import Contacts from "./Screens/Connections/Contacts";
-import Videos from "./Screens/Home/Videos";
-import Configuration from "./Screens/Configuration";
-import CampaignList from "./Screens/Home/Campaigns";
-import Template from "./Screens/Template"
-import AssetsLibrary from "./Screens/AssetsLibrary";
-import PrivacyPolicy from "./components/PrivacyPolicy";
 import MusicAssets from "./Screens/MusicAssets";
+import Configuration from "./Screens/Configuration";
+import AssetsLibrary from "./Screens/AssetsLibrary";
+import ResetPassword from "./Screens/ResetPassword";
+import ForgotPassword from "./Screens/ForgotPassword";
+
+import VideoTab from "./Screens/VideoTab/VideoTab";
+import InterActive from "../src/Screens/Interactive";
+import UploadRecord from "../src/Screens/UploadRecordVideo";
+import ResponseChatvid from "../src/Screens/Interactive/response";
+
+import Videos from "./Screens/Home/Videos";
+import Chatvid from "./Screens/Home/Chatvid";
+import Dashboard from "./Screens/Home/Dashboard";
+import CampaignList from "./Screens/Home/Campaigns";
+import Contacts from "./Screens/Connections/Contacts";
+import ChatvidBoard from "./Screens/Home/ChatvidBoard";
+
+import PrivacyPolicy from "./components/PrivacyPolicy";
+
 type IProps = {
   auth: AuthState;
   updateVideoCta: (id: any) => void;
@@ -41,11 +48,14 @@ class Routes extends Component<IProps> {
           <>
             <Switch>
               <Route exact path="/" component={Dashboard} />
+              <Route exact path="/chatvids/" component={ChatvidBoard} />
+              <Route exact path="/chatvids/form/:id" component={Chatvid} />
               <Route exact path="/videotab/:id" component={VideoTab} />
               <Route exact path="/profile" component={Profile} />
               <Route exact path="/video/create" component={UploadRecord} />
               <Route exact path="/watch/:id" component={Watch} />
               <Route exact path="/chatVid" component={InterActive} />
+              <Route exact path="/chatVid/res/:id" component={ResponseChatvid} />
               <Route
                 exact
                 path="/watch/:id/cta"
