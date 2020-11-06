@@ -53,7 +53,7 @@ class FinalTab extends Component<any> {
     align: "left",
     title: "",
     percentage: 0,
-    tab: 2,
+    tab: 0,
     open: false,
     ansText: "",
     ansAudio: "",
