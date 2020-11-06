@@ -27,6 +27,61 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
 import Home from "./Home";
 import "./chatvidBoard.css";
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+
+import {
+  EmailShareButton,
+  FacebookShareButton,
+  HatenaShareButton,
+  InstapaperShareButton,
+  LineShareButton,
+  LinkedinShareButton,
+  LivejournalShareButton,
+  MailruShareButton,
+  OKShareButton,
+  PinterestShareButton,
+  PocketShareButton,
+  RedditShareButton,
+  TelegramShareButton,
+  TumblrShareButton,
+  TwitterShareButton,
+  ViberShareButton,
+  VKShareButton,
+  WhatsappShareButton,
+  WorkplaceShareButton
+} from "react-share";
+
+import {
+  EmailIcon,
+  FacebookIcon,
+  FacebookMessengerIcon,
+  HatenaIcon,
+  InstapaperIcon,
+  LineIcon,
+  LinkedinIcon,
+  LivejournalIcon,
+  MailruIcon,
+  OKIcon,
+  PinterestIcon,
+  PocketIcon,
+  RedditIcon,
+  TelegramIcon,
+  TumblrIcon,
+  TwitterIcon,
+  ViberIcon,
+  VKIcon,
+  WeiboIcon,
+  WhatsappIcon,
+  WorkplaceIcon
+} from "react-share";
+
+
 type IProps = {
   history: any;
   user: any;
@@ -36,7 +91,7 @@ type IProps = {
 
 class Dashboard extends Component<IProps> {
   state = {
-    tab: 0,
+    tab: 1,
   };
   componentDidMount() {
     // this.props.getChatvids();
@@ -113,6 +168,25 @@ const ResponderCardMaker = (props: any) => {
 }
 
 const ResponderTab = (props: any) => {
+
+  const renderCard = (chatName: string, userName: string, date: any) => {
+    date = new Date(date);
+    return (
+      <Grid container className="respondersCardWrapper" style={{ background: "lightgrey" }}>
+        <Grid item xs={2} sm={2} md={2} lg={2}>
+          <div className="avatarWrapper">
+            <PersonOutlineIcon />
+          </div>
+        </Grid>
+        <Grid item xs={10} sm={10} md={10} lg={10} className="resCardBody">
+          <Typography variant="subtitle1" className="responderName">{userName || "Maisha Pace"}</Typography>
+          <Typography variant="subtitle1" className="resDetials">
+            {`${chatName} - ${date.toLocaleString()}`}
+          </Typography>
+        </Grid>
+      </Grid>
+    )
+  }
   return (
     <>
       <Grid item className="responderWrapper" xs={12} sm={12} md={4} lg={4} >
@@ -136,7 +210,9 @@ const ResponderTab = (props: any) => {
             <KeyboardArrowDownIcon />
           </IconButton>
         </Paper>
-        <ResponderCardMaker {...props.chatvid} />
+        {props.chatvid.people?.map((person: any, ind: number) => {
+          return renderCard(props.chatvid.name, person.name, props.chatvid.createdAt)
+        })}
       </Grid>
       <Grid item className="_responseWrapper" xs={12} sm={12} md={8} lg={8} >
         <Typography variant="h6"> Response on Chatvid 4 - October 20, 2020 </Typography>
@@ -146,19 +222,63 @@ const ResponderTab = (props: any) => {
 }
 
 const StepsTab = (props: any) => {
+
+  const [step, setStep]: any = React.useState(undefined);
+
+  const renderStepCar = (props: any) => {
+    return (
+      <Grid container className="respondersCardWrapper" style={{ background: "lightgrey", cursor: "pointer" }} onClick={() => setStep(props)}>
+        <Grid item xs={2} sm={2} md={2} lg={2}>
+          <div className="stepAvatarWrapper">
+            <Typography variant="h4"> STEP </Typography>
+            <Typography variant="h1"> {props.stepNo} </Typography>
+          </div>
+        </Grid>
+        <Grid item xs={10} sm={10} md={10} lg={10} className="resCardBody">
+          <Typography variant="subtitle1" className="responderName">{props.responseType || "Maisha Pace"}</Typography>
+        </Grid>
+      </Grid>
+    )
+  }
+
+  const renderReplies = (reply: any, stp: any) => {
+    return (
+      <Grid container className="replyWrapper_DASH">
+        <Grid item xs={2} sm={2} md={2} lg={2} >
+          <div className="avatarWrapper">
+            <PersonOutlineIcon />
+          </div>
+          <Typography variant="subtitle1" className="responderName">{reply.peopleId?.name || "Maisha Pace"}</Typography>
+          <Typography variant="subtitle1" className="resDetials">
+            {stp.createdAt.toLocaleString()}
+          </Typography>
+        </Grid>
+        <Grid item xs={10} sm={10} md={10} lg={10} className="replyBodyWrapperContainer" style={{ background: "#ffffff" }}>
+          {
+            reply.type === "text" &&
+            (
+              <div>
+                <Typography variant="body2" >{reply.text}</Typography>
+              </div>
+            )
+          }
+        </Grid>
+      </Grid>
+    )
+  }
   return (
     <>
       <Grid item className="responderWrapper" xs={12} sm={12} md={4} lg={4} >
         {
-          props.chatvid?.steps?.map((vid: any, ind: string) => {
-            return (
-              <ResponderCardMaker isStep={true} {...vid} name={props.chatvid.name} created={props.chatvid.createdAt} />
-            )
+          props.chatvid?.steps?.map((stp: any, ind: string) => {
+            return renderStepCar(stp);
           })
         }
       </Grid>
       <Grid item className="_responseWrapper" xs={12} sm={12} md={8} lg={8} >
-        <Typography variant="h6"> Response on Chatvid 4 - October 20, 2020 </Typography>
+        {step && step.replies.length > 0 && step.replies?.map((reply: any, ind: string) => {
+          return renderReplies(reply, step)
+        })}
       </Grid>
     </>
   )
@@ -177,7 +297,10 @@ const Metrics = (props: any) => {
   )
 }
 const InfoHeader = (props: any) => {
+  const [open, setOpen] = React.useState(false);
   const { chatvid } = props;
+  const url = `${process.env.REACT_APP_DOMAIN}/chatvid/res/${chatvid && chatvid._id}`;
+  const title = chatvid.name || " Respond my Chatvid";
   return (
     <Grid container className="dashChatvidTopHeaderWrapper">
       <Grid container xs={12} sm={12} md={8} lg={8} >
@@ -212,20 +335,59 @@ const InfoHeader = (props: any) => {
             </IconButton>
             <InputBase
               style={classes.input}
-              value={`${process.env.REACT_APP_DOMAIN}/chatvid/res/${chatvid && chatvid._id}`}
+              value={url}
               // value={`http://localhost:3000/chatvid/res/${chatvid && chatvid._id}`}
             />
             <IconButton
               type="submit"
               style={classes.iconButton}
               aria-label="edit"
-            // onClick={this.copyUrl}
+              onClick={(e) => { e.preventDefault(); setOpen(true) }}
             >
               <ShareIcon />
             </IconButton>
           </Paper>
         </div>
       </Grid>
+
+      {/* Dialog */}
+
+      <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Share on Social Media</DialogTitle>
+        <DialogContent>
+          <TwitterShareButton url={url} >
+            <TwitterIcon size={32} round={true} />
+          </TwitterShareButton>
+          <FacebookShareButton url={url}>
+            <FacebookMessengerIcon size={32} round />
+          </FacebookShareButton>
+          <WhatsappShareButton url={url} title={title}>
+            <WhatsappIcon size={32} round />
+          </WhatsappShareButton>
+          <LinkedinShareButton url={url}>
+            <LinkedinIcon size={32} round />
+          </LinkedinShareButton>
+          <EmailShareButton
+            url={url}
+            subject={title}
+            body="body"
+          >
+            <EmailIcon size={32} round />
+          </EmailShareButton>
+          <RedditShareButton
+            url={url}
+            title={title}
+            windowWidth={660}
+            windowHeight={460}
+          >
+            <RedditIcon size={32} round />
+          </RedditShareButton>
+
+
+        </DialogContent>
+      </Dialog>
+
+
     </Grid>
   )
 }

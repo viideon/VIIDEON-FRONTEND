@@ -4,6 +4,7 @@ import {
   getChatvids,
   getChatvid,
   saveChatVid,
+  replyToAChatvid,
   deleteDataAws,
 } from "./api";
 import {
@@ -63,9 +64,27 @@ function* saveChatVidSaga(action: any) {
   }
 }
 
+function* replyToAChatvidSaga(action: any) {
+  try {
+    const payload = action.payload;
+    const result = yield replyToAChatvid(payload);
+    if (result.status === 200) {
+      yield put({ type: types.REPLY_TO_CHATVID_SUCCESS });
+      toast.info("Replied Successfully!");
+    } else {
+      yield put({ type: types.REPLY_TO_CHATVID_FAILURE });
+      toast.error("Something Went Wrong");
+    }
+  } catch (error) {
+    yield put({ type: types.REPLY_TO_CHATVID_FAILURE });
+    toast.error(error.message);
+  }
+}
+
 
 export function* chatVidWatcher() {
   yield takeEvery(types.GET_CHATVIDS_REQUEST, getChatVidsSaga);
   yield takeEvery(types.GET_CHATVID_REQUEST, getChatVidSaga);
   yield takeEvery(types.SAVE_CHATVID_REQUEST, saveChatVidSaga);
+  yield takeEvery(types.REPLY_TO_CHATVID_REQUEST, replyToAChatvidSaga);
 }

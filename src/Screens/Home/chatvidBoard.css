@@ -177,6 +177,33 @@
   font-family: "Poppins";
   font-size: 1.7rem;
 }
+
+.replyWrapper_DASH {
+  border: 2px solid #fdb415;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.replyWrapper_DASH .MuiGrid-grid-xs-2{
+  background: #f2f2f2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1%;
+  justify-content: space-evenly;
+}
+.replyWrapper_DASH .avatarWrapper{
+  background: #fdb415;
+  border-radius: 50%;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  padding: 14%;
+  color: white;
+}
+.replyBodyWrapperContainer {
+
+}
 /* END Chatvid.tsx */
 @media only screen and (max-width: 768px) {
   .wrapperHomeContent {

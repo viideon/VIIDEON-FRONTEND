@@ -1,19 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
-import { config } from "../../config/aws";
-import canvasTxt from "canvas-txt";
-import AWS from "aws-sdk";
-import Loading from "../../components/Loading";
-
-
 import {
-  saveVideo,
   toggleSendVariable,
 } from "../../Redux/Actions/videos";
 
-import {VideoState,VideoSave,} from "../../Redux/Types/videos";
-import { getChatvid } from "../../Redux/Actions/chatvid";
+import { getChatvid,replyToAChatvid } from "../../Redux/Actions/chatvid";
 import { AuthState } from "../../Redux/Types/auth";
 import "react-tabs/style/react-tabs.css";
 
@@ -22,21 +14,14 @@ import "react-tabs/style/react-tabs.css";
 import AnswerTypeTab from './resSteps/answerType'
 
 import RecorderTab from './steps/recorder';
-import OverLayTab from './steps/overlay';
-import ResponseTypeTab from './steps/responseType';
-import MultiChoiceTab from './steps/choices';
-import CalendarTab from './steps/calendar';
-import FinalTab from './steps/final';
 
 import "./style.css";
-const s3 = new AWS.S3(config);
-const gifshot = require("gifshot");
 type IProps = {
   auth: AuthState;
   history: any;
-  videoUser: VideoState;
   toggleSendVariable: () => void;
   getChatvid: (chatvidId: string) => void;
+  replyToAChatvid: (reply: any) => void;
 };
 
 class ChatVid extends Component<IProps> {
@@ -66,110 +51,23 @@ class ChatVid extends Component<IProps> {
     }
   }
 
-  uploadThumbnail = () => {
-    return new Promise((resolve, reject) => {
-      this.setState({ videoProgress: true, progressVideo: 0 });
-      const options = {
-        Bucket: config.bucketName,
-        ACL: config.ACL,
-        Key: Date.now().toString() + "thumbnail.jpeg",
-        Body: this.state.thumbnailBlob
-      }
-      s3.upload(options, (err: any, data: any) => {
-        if (err) {
-          this.setState({ videoProgress: false });
-          reject();
-        } else {
-          this.setState({
-            videoProgress: false,
-            thumbnailUrl: data.Location
-          });
-          resolve();
-        }
-      }).on("httpUploadProgress", (progress: any) => {
-        let uploaded: number = (progress.loaded * 100) / progress.total;
-        this.setState({ progressVideo: uploaded });
-      });
-    });
-  };
-
-  uploadVideo = () => {
-    return new Promise((resolve, reject) => {
-      this.setState({ videoProgress: true, progressVideo: 0 });
-      const options = {
-        Bucket: config.bucketName,
-        ACL: config.ACL,
-        Key: Date.now().toString() + ".webm",
-        Body: this.state.video
-      };
-      s3.upload(options, (err: any, data: any) => {
-        if (err) {
-          this.setState({ videoProgress: false });
-          reject();
-        } else {
-          this.setState({ urlRecord: data.Location, videoProgress: false });
-          resolve();
-        }
-      }).on("httpUploadProgress", (progress: any) => {
-        let uploaded: number = (progress.loaded * 100) / progress.total;
-        this.setState({ progressVideo: uploaded });
-      });
-    });
-  };
-
   handleNext = () => {
     this.setState({step: this.state.step+1});
   }
 
-  handleBack = (final = false) => {
-    this.setState({step: final === true ? 2 : this.state.step-1});
-  }
-
-  handleProceed = (thumbnailBlob: any, video: any) => {
-    this.setState({thumbnailBlob,video, step: this.state.step + 1});
-  }
-
-  moveToCalender = () => {
-    this.setState({step: 4});
-  }
-  
-  moveTofinal = () => {
-    this.setState({step: 5});
-  }
-
-  createChatVid = () => {
-
+  sendReply = (reply: any) => {
+    this.props.replyToAChatvid(reply);
   }
 
   renderSteps = () => {
     switch (this.state.step) {
       case 0:
         return (
-          <AnswerTypeTab {...this.props} toggleSendVariable={this.props.toggleSendVariable} proceedToNext={this.handleProceed} />
-        )
-      case 1:
-        return (
-          <OverLayTab {...this.props} {...this.state} moveToNextStep={this.handleNext} moveBack={this.handleBack} />
-        )
-      case 2:
-        return (
-          <ResponseTypeTab {...this.props} {...this.state} moveToFinal={this.moveTofinal} moveToNextStep={this.handleNext} moveToCalendar={this.moveToCalender} moveBack={this.handleBack}  />
-        )
-      case 3:
-        return (
-          <MultiChoiceTab {...this.props} {...this.state} moveToNextStep={this.moveTofinal} moveBack={this.handleBack} />
-        )
-      case 4:
-        return (
-          <CalendarTab {...this.props} {...this.state} moveToNextStep={this.moveTofinal} moveBack={this.handleBack} />
-        )
-      case 5:
-        return (
-          <FinalTab {...this.props} {...this.state} moveToNextStep={this.createChatVid} moveBack={this.handleBack} />
+          <AnswerTypeTab {...this.props} toggleSendVariable={this.props.toggleSendVariable} send={this.sendReply} />
         )
       default:
         return (
-          <RecorderTab proceedToNext={this.handleProceed} />
+          <AnswerTypeTab {...this.props} toggleSendVariable={this.props.toggleSendVariable} />
         )
     }
   }
@@ -193,14 +91,12 @@ const mapStateToProps = (state: any) => {
   return {
     auth: state.auth,
     resChatvid: state.chatvids.resChatvid,
-    videoUser: state.video,
-    savedVideoId: state.video.savedVideoId,
-    progressEmail: state.video.progressEmail
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getChatvid: (chatvidId: string) => dispatch(getChatvid(chatvidId)),
+    replyToAChatvid: (reply: any) => dispatch(replyToAChatvid(reply)),
     toggleSendVariable: () => dispatch(toggleSendVariable()),
   }
 };

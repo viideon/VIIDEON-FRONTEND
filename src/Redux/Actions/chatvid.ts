@@ -28,3 +28,10 @@ export function saveChatvid(chatVid: any) {
     payload: chatVid
   }
 }
+
+export function replyToAChatvid(reply: any) {
+  return {
+    type: types.REPLY_TO_CHATVID_REQUEST,
+    payload: reply
+  }
+}

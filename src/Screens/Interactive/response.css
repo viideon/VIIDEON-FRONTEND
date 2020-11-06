@@ -70,6 +70,49 @@
   color: #fdb415 !important;
 }
 
+/* Text Response  */
+.textResponseWrappreContainer {
+  height: 100%;
+}
+.textResponseWrappreContainer .optionDiv {
+  flex-direction: column;
+  justify-content: space-between;
+}
+._response_txtField {
+  border: 2px solid #fdb415 !important;
+  border-radius: 4px;
+  outline: none !important;
+}
+._response_txtField:focus {
+  outline: none !important;
+}
+._response_txtField .MuiOutlinedInput-notchedOutline {
+  border: none !important;
+}
+._response_txtField .MuiOutlinedInput-notchedOutline:focus , ._response_txtField .MuiInputBase-formControl:focus, ._response_txtField .MuiInputBase-formControl:hover{
+  outline: none !important;
+  border: none !important;
+}
+.responseNavigationWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+.responseNavigationWrapper button {
+  width: 20% !important;
+}
+
+.AudioIconWrapper {
+  display: flex;
+  align-self: center;
+  border: 4px solid lightgrey;
+  border-radius: 50%;
+  padding: 4%;
+  cursor: pointer;
+}
+.AudioIconWrapper svg {
+  font-size: 7rem;
+  color: lightgrey;
+}
 @media only screen and (max-width: 1612px) {
   .IconWrapper {
     width: 200px;
