@@ -202,7 +202,9 @@
   color: white;
 }
 .replyBodyWrapperContainer {
-
+  align-self: center;
+  background: rgb(255, 255, 255);
+  text-align: center;
 }
 /* END Chatvid.tsx */
 @media only screen and (max-width: 768px) {

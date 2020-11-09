@@ -22,18 +22,23 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-import clsx from 'clsx';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Fab from '@material-ui/core/Fab';
 import MicOutlinedIcon from '@material-ui/icons/MicOutlined';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+
+
 
 import VideocamRoundedIcon from '@material-ui/icons/VideocamRounded';
 import VolumeUpRoundedIcon from '@material-ui/icons/VolumeUpRounded';
 import "react-tabs/style/react-tabs.css";
 import "../response.css";
 import { Email } from "aws-sdk/clients/codecommit";
+import AWS from "aws-sdk";
+import { config } from "../../../config/aws";
+const s3 = new AWS.S3(config);
 
+const MicRecorder = require('mic-recorder-to-mp3');
 
 function validateEmail(email: Email) {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -63,7 +68,7 @@ class FinalTab extends Component<any> {
   }
 
   componentDidMount() {
-    console.log(this.props.resChatvid)
+    // console.log(this.props.resChatvid)
     this.settingUPMedia();
   }
 
@@ -117,6 +122,32 @@ class FinalTab extends Component<any> {
   onVideoEnd = () => {
   };
 
+  uploadAudio = (file: any) => {
+    return new Promise((resolve, reject) => {
+      // this.setState({ videoProgress: true, progressVideo: 0 });
+      const options = {
+        Bucket: config.bucketName,
+        ACL: config.ACL,
+        Key: Date.now().toString() + "replyAudioURL.mp3",
+        Body: file
+      }
+      s3.upload(options, (err: any, data: any) => {
+        if (err) {
+          // this.setState({ videoProgress: false });
+          reject();
+        } else {
+          this.setState({
+            // videoProgress: false,
+            ansAudio: data.Location
+          });
+          resolve();
+        }
+      }).on("httpUploadProgress", (progress: any) => {
+        // let uploaded: number = (progress.loaded * 100) / progress.total;
+        // this.setState({ progressVideo: uploaded });
+      });
+    });
+  };
 
   handleChange = (e: any) => {
     let newState: any = this.state;
@@ -155,7 +186,7 @@ class FinalTab extends Component<any> {
   }
 
 
-  handleReply = () => {
+  handleReply = async () => {
     const { userEmail, userName, ansText, ansAudio, ansVideo, tab } = this.state;
     if (tab < 1) return;
     if (!validateEmail(userEmail)) return toast.error("Enter a valid Email");
@@ -185,7 +216,7 @@ class FinalTab extends Component<any> {
       case 1:
         return <TextResponse {...this.props} {...this.state} handleTabChange={this.handleTabChange} send={this.handleSend} handleTextChange={this.handleTextChange} />
       case 2:
-        return <AudioResponse {...this.props} {...this.state} handleTabChange={this.handleTabChange} />
+        return <AudioResponse {...this.props} {...this.state} handleTabChange={this.handleTabChange} send={this.handleSend} handleAnsAudio={this.uploadAudio} />
       case 3:
         return <VideoResponse {...this.props} {...this.state} handleTabChange={this.handleTabChange} />
       default:
@@ -320,17 +351,135 @@ const TextResponse = (props: any) => {
 }
 
 const AudioResponse = (props: any) => {
+  const { useState, useMemo, useEffect } = React;
   const classes = useStyles();
-  const [recording, setRecording]: any = React.useState(undefined);
-  const { handleTabChange, send } = props;
+  const [recording, setRecording]: any = useState(undefined);
+  const [timer, setTimer] = useState(120);
+  const [timeOut, setTimeOutTimer]: any = useState(0);
+  const [recorded, setRecorded] = useState(false);
+  const [audioFile, setFile]: any = useState(undefined)
+  const [player, setBFile]: any = useState(undefined)
+  const [progress, setProgress] = useState(0);
+  const { handleTabChange, send, handleAnsAudio } = props;
+  const recorder = useMemo(() => new MicRecorder({ bitRate: 128 }), []);
+
+  const handleRecording = () => {
+    setRecorded(false);
+    setProgress(0);
+    setTimer(120);
+    recorder.start()
+      .then(() => {
+        setRecording(true);
+        setTimeOutTimer(setInterval(trackTime, 1000))
+      })
+      .catch((error: any) => {
+        console.log("Error Whire recording: : ", error.message)
+        setRecording(false)
+      })
+  }
+
+  const trackTime = async () => {
+    await setTimer((time) => {
+      if (time - 1 === 0) {
+        handleStop();
+      }
+
+      setProgress((prog: number) => {
+        let ptcg = 0;
+        ptcg = (100 * (120 - (time - 1))) / 120
+        console.log(ptcg)
+        return ptcg;
+      })
+
+      return time - 1;
+    })
+  }
+
+  const handleStop = () => {
+    console.log("Stoped")
+    setRecorded(true)
+    setProgress(0)
+    setTimeOutTimer((time: any) => {
+      clearInterval(time);
+      return 0;
+    });
+    try {
+      recorder.stop()
+        .getMp3()
+        .then(([buffer, blob]: any) => {
+          const file = new File(buffer, 'chatvidAnswer.mp3', {
+            type: blob.type,
+            lastModified: Date.now()
+          });
+          console.log("CONSOLING HERE: ", blob)
+          if (blob && blob.size > 10) {
+            setFile(file);
+            setBFile(new Audio(URL.createObjectURL(file)));
+          }
+        })
+        .catch((error: any) => {
+          handleReset();
+          toast.error("something went wrong")
+          console.log("EROR: WHILRE STOP: ", error.message)
+        })
+    } catch (error) {
+      handleReset()
+      toast.error("something went wrong")
+      console.log(error.message)
+    }
+
+  }
+
+  const palayAudio = async () => {
+    if (!audioFile) { setRecording(false); return toast.error("NO recording found!"); }
+    await setProgress(progress => 0);
+    console.log("Player: ", player, audioFile)
+    progressHandler(player)
+    player.play();
+  }
+
+  const progressHandler = (player: any) => {
+    let percentage = 0;
+    if (!player && !player && !player?.currentTime) return percentage;
+    percentage = (player?.currentTime * 100) / player?.duration;
+    setProgress(percentage)
+    setTimeout(function () {
+      progressHandler(player);
+    }, 0)
+  }
+  const handleReset = () => {
+    setRecorded(false);
+    setRecording(false);
+    setFile(undefined);
+    setTimeOutTimer(0);
+    setTimer(120);
+    setProgress(0);
+  }
+
+
+  const min = Math.floor(timer / 60) % 60;
+  const sec = Math.floor(timer % 60);
 
   return (
     <div className="textResponseWrappreContainer">
       <div className="captionDiv">
-        <Typography variant="h3"> Hold the button to record </Typography>
+        <Typography variant="h3">
+          {
+            recorded ? "Preview your recording" :
+              recording ? "Reacording ..." :
+                "Hold the button to record"
+          }
+
+        </Typography>
       </div>
       <div className="optionDiv">
-        <div className="AudioIconWrapper">
+        {
+          recording &&
+          <Typography variant="h4" className="audioTimer">
+            {min < 10 ? `0${min}` : min} : {sec < 10 ? `0${sec}` : sec}
+          </Typography>
+        }
+        <div className="AudioIconWrapper" style={{ border: (recording) ? "none" : "" }}>
           {recording ?
             (
               <div className={classes.wrapper}>
@@ -340,34 +489,42 @@ const AudioResponse = (props: any) => {
                   className={classes.buttonSuccess}
                 // onClick={handleButtonClick}
                 >
-                  <PlayArrowIcon />
+                  {
+                    recorded ?
+                      <PlayArrowIcon onClick={palayAudio} />
+                      :
+                      <MicOutlinedIcon onClick={handleStop} />
+                  }
+
                 </Fab>
-                {/* {loading &&
-               } */}
-                <CircularProgress size={68} className={classes.fabProgress} />
+                <CircularProgress variant="static" size={200} value={progress} className={classes.fabProgress} />
               </div>
             )
             :
-            <MicOutlinedIcon />
+            <MicOutlinedIcon onClick={handleRecording} />
           }
         </div>
         <div className="responseNavigationWrapper">
           <Button
             color="default"
-            className="BackBTN"
+            id="fitContent"
+            className={`BackBTN ${recorded && "fitContent"}`}
             startIcon={<NavigateBeforeOutlinedIcon />}
-            onClick={() => handleTabChange(0)}
+            onClick={() => { { !recorded ? handleTabChange(0) : handleReset() } }}
           >
-            Back
+            {!recorded ? "Back" : "Record Again"}
           </Button>
-          <Button
-            color="default"
-            className="NextBTN"
-            endIcon={<KeyboardArrowRightIcon />}
-            onClick={() => send()}
-          >
-            Send
+          {
+            recorded &&
+            <Button
+              color="default"
+              className="NextBTN"
+              endIcon={<KeyboardArrowRightIcon />}
+              onClick={async() => {await handleAnsAudio(audioFile); send()}}
+            >
+              Send
           </Button>
+          }
         </div>
       </div>
     </div>

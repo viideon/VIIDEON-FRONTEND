@@ -44,9 +44,10 @@ class Routes extends Component<IProps> {
   render() {
     return (
       <Router>
-        {this.props.auth.loggedInStatus === true ? (
-          <>
-            <Switch>
+        <Switch>
+          <Route exact path="/chatVid/res/:id" component={ResponseChatvid} />
+          {this.props.auth.loggedInStatus === true ? (
+            <>
               <Route exact path="/" component={Dashboard} />
               <Route exact path="/chatvids/" component={ChatvidBoard} />
               <Route exact path="/chatvids/form/:id" component={Chatvid} />
@@ -55,7 +56,6 @@ class Routes extends Component<IProps> {
               <Route exact path="/video/create" component={UploadRecord} />
               <Route exact path="/watch/:id" component={Watch} />
               <Route exact path="/chatVid" component={InterActive} />
-              <Route exact path="/chatVid/res/:id" component={ResponseChatvid} />
               <Route
                 exact
                 path="/watch/:id/cta"
@@ -74,27 +74,28 @@ class Routes extends Component<IProps> {
               <Route exact path="/privacypolicy" component={PrivacyPolicy} />
               <Route exact path="/music" component={MusicAssets} />
               <Route exact path="*" render={() => <Redirect to="/" />} />
-            </Switch>
-          </>
-        ) : (
-          <Switch>
-            <Route exact path="/login*" component={SignIn} />
-            <Route exact path="/signup" component={Signup} />
-            <Route exact path="/forgotPassword" component={ForgotPassword} />
-            <Route exact path="/resetPassword" component={ResetPassword} />
-            <Route exact path="/privacypolicy" component={PrivacyPolicy} />
-            <Route
-              exact
-              path="/watch/:id/cta"
-              render={(props: any) => {
-                this.props.updateVideoCta(props.match.params.id);
-                return <Redirect to={`/watch/${props.match.params.id}`} />;
-              }}
-            />
-            <Route exact path="/watch/:id" component={Watch} />
-            <Route exact path="*" render={() => <Redirect to="/login" />} />
-          </Switch>
-        )}
+            </>
+          ) : (
+              <>
+                <Route exact path="/login*" component={SignIn} />
+                <Route exact path="/signup" component={Signup} />
+                <Route exact path="/forgotPassword" component={ForgotPassword} />
+                <Route exact path="/resetPassword" component={ResetPassword} />
+                <Route exact path="/privacypolicy" component={PrivacyPolicy} />
+
+                <Route
+                  exact
+                  path="/watch/:id/cta"
+                  render={(props: any) => {
+                    this.props.updateVideoCta(props.match.params.id);
+                    return <Redirect to={`/watch/${props.match.params.id}`} />;
+                  }}
+                />
+                <Route exact path="/watch/:id" component={Watch} />
+                <Route exact path="*" render={() => <Redirect to="/login" />} />
+              </>
+            )}
+        </Switch>
       </Router>
     );
   }

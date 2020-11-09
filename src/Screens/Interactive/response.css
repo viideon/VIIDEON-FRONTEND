@@ -113,6 +113,41 @@
   font-size: 7rem;
   color: lightgrey;
 }
+
+.AudioIconWrapper .makeStyles-buttonSuccess-6 .MuiSvgIcon-root{
+  color: #fdb415;
+  z-index: 2;
+  cursor: pointer;
+}
+.AudioIconWrapper .makeStyles-buttonSuccess-6 {
+  background-color: transparent !important;
+  border: none !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  box-shadow: none !important;
+}
+
+.AudioIconWrapper .makeStyles-fabProgress-7 {
+  top: -46px;
+  left: -70px;
+}
+
+.AudioIconWrapper .makeStyles-fabProgress-7 .MuiCircularProgress-svg {
+  color: #fdb415;
+  
+}
+
+.audioTimer {
+  align-self: center;
+  font-family: "Poppins";
+  font-weight: 500;
+  letter-spacing: 0em;
+
+}
+
+#fitContent {
+  width: fit-content !important;
+}
 @media only screen and (max-width: 1612px) {
   .IconWrapper {
     width: 200px;
