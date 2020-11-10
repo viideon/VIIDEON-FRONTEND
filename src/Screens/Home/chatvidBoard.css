@@ -8,15 +8,29 @@
   padding: 10px 20px 5px 20px;
   height: 80vh;
   border-radius: 8px;
+  overflow: scroll !important;
 }
 
 .respondersCardWrapper {
   width: 90% !important;
-  background: #ffffff;
+  background: #f2f2f2;
   border-radius: 8px;
   padding: 2%;
+  margin-bottom: 2%;
+  cursor: pointer;
 }
 
+.activeResponder {
+  background: #f0cc79 !important;
+  width: 100% !important;
+}
+._stepsCirclesWrapper {
+  display: flex;
+}
+._stepsCirclesWrapper .stepAvatarWrapper {
+  padding: 1%;
+  cursor: pointer;
+}
 .respondersCardWrapper .avatarWrapper {
   background: #fdb415;
   border-radius: 50%;
@@ -56,6 +70,87 @@
 }
 
 /* CHATVID.TSX */
+
+._stepsDetailsWrapper {
+  border: 2px solid #fdb415;
+  margin-top: 2%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+._stepsDetailsWrapper ._stepsDetailsHeader {
+  background: #fdb415;
+  display: flex;
+  justify-content: space-between;
+  padding: 1%;
+}
+._stepsDetailsWrapper ._stepsDetailsBody {
+  background: #ffffff;
+}
+._stepsDetailsBody .optionDiv {
+  flex-direction: column;
+  height: 100% !important;
+  justify-content: center;
+}
+._stepsDetailsBody .optionDiv .IconWrapper {
+  width: 100px;
+  height: 100px;
+  margin: 1%;
+}
+._stepsDetailsBody .optionDiv .IconWrapper .MuiTypography-h1 {
+  font-size: 2.5rem;
+}
+._stepsDetailsBody .optionDiv .IconWrapper .MuiTypography-subtitle1 {
+  font-size: medium;
+}
+._stepsDetailsBody .optionDiv .IconWrapper .MuiSvgIcon-root {
+  font-size: 3rem;
+}
+
+._stepsDetailsBody .optionDiv .IconWrapper:hover , ._stepsDetailsBody .optionDiv .IconWrapper:hover .MuiSvgIcon-root, 
+._stepsDetailsBody .optionDiv .activeIcon, ._stepsDetailsBody .optionDiv .activeIcon .MuiSvgIcon-root{
+  background: #fdb415 !important;
+  color: #ffffff !important;
+}
+
+._stepTYPEandIcon {
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+}
+._stepTYPEandIcon .MuiSvgIcon-root {
+  font-size: 2em;
+  
+}
+._stepTYPEandIcon .MuiTypography-root { 
+  font-size: 1.5rem;
+  margin-left: 8px;
+  font-weight: bold;
+}
+._step_NO {
+
+}
+._whiteCircle {
+  color: #000000;
+  background: #ffffff;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  font-weight: bold;
+  font-family: Poppins;
+  padding: 10%;
+}
+._stepsDetailsBody {
+
+}
+
+._stepsDetailsResWrapper {
+  background: #f2f2f2;
+  margin: 3% !important;
+  border-radius: 6px !important;
+  padding: 1%;
+}
+
 
 .dashChatvidTopHeaderWrapper {
   margin-bottom: 2%;
@@ -154,6 +249,7 @@
 }
 .chatVidTabsWrapper .responderWrapper {
   border-right: 1px solid #fdb415;
+  overflow: scroll !important;
 }
 .stepAvatarWrapper {
   background: #fdb415;
@@ -165,6 +261,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  margin: 2px;
 }
 .stepAvatarWrapper .MuiTypography-h4 {
   color: #ffffff;
@@ -182,6 +279,7 @@
   border: 2px solid #fdb415;
   border-radius: 8px;
   overflow: hidden;
+  margin-bottom: 2%;
 }
 .replyWrapper_DASH .MuiGrid-grid-xs-2{
   background: #f2f2f2;

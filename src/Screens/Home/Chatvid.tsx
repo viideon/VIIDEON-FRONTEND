@@ -28,11 +28,14 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import Home from "./Home";
 import "./chatvidBoard.css";
 
+import VideocamRoundedIcon from '@material-ui/icons/VideocamRounded';
+import VolumeUpRoundedIcon from '@material-ui/icons/VolumeUpRounded';
+
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+
+import PermMediaIcon from '@material-ui/icons/PermMedia';
 
 
 import {
@@ -91,7 +94,7 @@ type IProps = {
 
 class Dashboard extends Component<IProps> {
   state = {
-    tab: 1,
+    tab: 0,
   };
   componentDidMount() {
     // this.props.getChatvids();
@@ -168,11 +171,14 @@ const ResponderCardMaker = (props: any) => {
 }
 
 const ResponderTab = (props: any) => {
+  const [stp, setStp]: any = React.useState(undefined);
+  const [resPerson, setPerson] = React.useState("");
+  const [activeType, setActiveType] = React.useState(0);
 
-  const renderCard = (chatName: string, userName: string, date: any) => {
+  const renderCard = (chatName: string, userName: string, date: any, _id: string) => {
     date = new Date(date);
     return (
-      <Grid container className="respondersCardWrapper" style={{ background: "lightgrey" }}>
+      <Grid container className={`respondersCardWrapper ${resPerson === _id && "activeResponder"}`} style={{ background: "#f2f2f2" }} onClick={() => setPerson(_id)}>
         <Grid item xs={2} sm={2} md={2} lg={2}>
           <div className="avatarWrapper">
             <PersonOutlineIcon />
@@ -187,6 +193,44 @@ const ResponderTab = (props: any) => {
       </Grid>
     )
   }
+
+  const handleTabChange = (number: number) => {
+    setActiveType(number)
+  }
+
+  const renderResponse = (tab: number) => {
+    const type = tab === 1 ? "text" : tab === 2 ? "audio" : "video";
+    const res = stp.replies?.filter((reply: any) => reply.poepleId._id === resPerson && reply.type === type)
+    return (
+      <>
+        {
+          res.map((r: any, i: number) => {
+            return (
+              <>
+                {
+                  type === "text" ?
+                    <div style={{ padding: "1%" }}><Typography variant="body2" >{r.text}</Typography></div>
+                    :
+                    type === "audio" ?
+                      <div>
+                        <audio controls>
+                          <source src={r.url} type="audio/mpeg" />
+                      Your browser does not support the audio element.
+                    </audio>
+                      </div>
+                      :
+                      <div style={{ padding: "1%" }}>
+                        <video src={r.url} controls width={"100%"} />
+                      </div>
+                }
+              </>
+            )
+          })
+        }
+      </>
+    )
+  }
+
   return (
     <>
       <Grid item className="responderWrapper" xs={12} sm={12} md={4} lg={4} >
@@ -211,11 +255,58 @@ const ResponderTab = (props: any) => {
           </IconButton>
         </Paper>
         {props.chatvid.people?.map((person: any, ind: number) => {
-          return renderCard(props.chatvid.name, person.name, props.chatvid.createdAt)
+          return renderCard(props.chatvid.name, person.name, props.chatvid.createdAt, person._id)
         })}
       </Grid>
       <Grid item className="_responseWrapper" xs={12} sm={12} md={8} lg={8} >
-        <Typography variant="h6"> Response on Chatvid 4 - October 20, 2020 </Typography>
+        {resPerson &&
+          <div className="_stepsCirclesWrapper">
+            {props.chatvid?.steps?.map((step: any, ind: number) => {
+              return (
+                <>
+                  <div className="stepAvatarWrapper" onClick={() => setStp(step)}>
+                    <Typography variant="h4"> STEP </Typography>
+                    <Typography variant="h1"> {step.stepNo} </Typography>
+                  </div>
+                </>
+              )
+            })}
+          </div>
+        }
+        {stp &&
+          <Grid container className="_stepsDetailsWrapper">
+            <Grid item xs={12} sm={12} md={12} lg={12} className="_stepsDetailsHeader">
+              <div className="_stepTYPEandIcon">
+                <PermMediaIcon />
+                <Typography variant="h3"> {stp.responseType} </Typography>
+              </div>
+              <div className="_step_NO">
+                <div className="_whiteCircle"> {stp.stepNo} </div>
+              </div>
+            </Grid>
+            <Grid container className="_stepsDetailsBody">
+              <Grid item xs={12} sm={2} md={2} lg={2} className="optionDiv">
+                <div className={`IconWrapper ${activeType === 1 && "activeIcon"}`} onClick={() => { handleTabChange(1) }}>
+                  <Typography variant="h1">Tt</Typography>
+                  <Typography variant="subtitle1"> Text </Typography>
+                </div>
+                <div className={`IconWrapper ${activeType === 2 && "activeIcon"}`} onClick={() => { handleTabChange(2) }}>
+                  <VolumeUpRoundedIcon />
+                  <Typography variant="subtitle1"> Audio </Typography>
+                </div>
+                <div className={`IconWrapper ${activeType === 3 && "activeIcon"}`} onClick={() => { handleTabChange(3) }}>
+                  <VideocamRoundedIcon />
+                  <Typography variant="subtitle1"> Video </Typography>
+                </div>
+              </Grid>
+              {/*  */}
+              <Grid item xs={12} sm={8} md={8} lg={8} className="_stepsDetailsResWrapper">
+                {renderResponse(activeType)}
+              </Grid>
+
+            </Grid>
+          </Grid>
+        }
       </Grid>
     </>
   )
@@ -225,9 +316,9 @@ const StepsTab = (props: any) => {
 
   const [step, setStep]: any = React.useState(undefined);
 
-  const renderStepCar = (props: any) => {
+  const renderStepCard = (props: any) => {
     return (
-      <Grid container className="respondersCardWrapper" style={{ background: "lightgrey", cursor: "pointer" }} onClick={() => setStep(props)}>
+      <Grid container className={`respondersCardWrapper ${step === props && "activeResponder"}`} onClick={() => setStep(props)}>
         <Grid item xs={2} sm={2} md={2} lg={2}>
           <div className="stepAvatarWrapper">
             <Typography variant="h4"> STEP </Typography>
@@ -248,163 +339,160 @@ const StepsTab = (props: any) => {
           <div className="avatarWrapper">
             <PersonOutlineIcon />
           </div>
-          <Typography variant="subtitle1" className="responderName">{reply.peopleId?.name || "Maisha Pace"}</Typography>
+          <Typography variant="subtitle1" className="responderName">{reply.poepleId?.name || "Maisha Pace"}</Typography>
           <Typography variant="subtitle1" className="resDetials">
             {stp.createdAt.toLocaleString()}
           </Typography>
         </Grid>
-        <Grid item xs={10} sm={10} md={10} lg={10} className="replyBodyWrapperContainer" style={{ background: "#ffffff" }}>
+        <Grid item xs={10} sm={10} md={10} lg={10} className="replyBodyWrapperContainer" style={{ background: "#ffffff", textAlign: reply.type === "text" ? "left" : "center" }}>
           {
-            reply.type === "text" &&
-            (
-              <div>
-                <Typography variant="body2" >{reply.text}</Typography>
-              </div>
-            )
-          }
-          {
-            reply.type === "audio" &&
-            (
-              <div>
-                <audio controls>
-                  <source src={reply.url} type="audio/mpeg" />
-                  Your browser does not support the audio element.
-                </audio>
-              </div>
-            )
+            reply.type === "text" ?
+              <div style={{ padding: "1%" }}><Typography variant="body2" >{reply.text}</Typography></div>
+              :
+              reply.type === "audio" ?
+                <div>
+                  <audio controls>
+                    <source src={reply.url} type="audio/mpeg" />
+                    Your browser does not support the audio element.
+                  </audio>
+                </div>
+                :
+                <div style={{ padding: "1%" }}>
+                  <video src={reply.url} controls width={"100%"} />
+                </div>
           }
         </Grid>
       </Grid>
-            )
-          }
+    )
+  }
   return (
     <>
-            <Grid item className="responderWrapper" xs={12} sm={12} md={4} lg={4} >
-              {
-                props.chatvid?.steps?.map((stp: any, ind: string) => {
-                  return renderStepCar(stp);
-                })
-              }
-            </Grid>
-            <Grid item className="_responseWrapper" xs={12} sm={12} md={8} lg={8} >
-              {step && step.replies.length > 0 && step.replies?.map((reply: any, ind: string) => {
-                return renderReplies(reply, step)
-              })}
-            </Grid>
-          </>
+      <Grid item className="responderWrapper" xs={12} sm={12} md={4} lg={4} >
+        {
+          props.chatvid?.steps?.map((stp: any, ind: string) => {
+            return renderStepCard(stp);
+          })
+        }
+      </Grid>
+      <Grid item className="_responseWrapper" xs={12} sm={12} md={8} lg={8} >
+        {step && step.replies.length > 0 && step.replies?.map((reply: any, ind: string) => {
+          return renderReplies(reply, step)
+        })}
+      </Grid>
+    </>
   )
 }
 
 const Metrics = (props: any) => {
   return (
     <>
-            <Grid item className="responderWrapper" xs={12} sm={12} md={4} lg={4} >
-              <ResponderCardMaker {...props.chatvid} />
-            </Grid>
-            <Grid item className="_responseWrapper" xs={12} sm={12} md={8} lg={8} >
-              <Typography variant="h6"> Response on Chatvid 4 - October 20, 2020 </Typography>
-            </Grid>
-          </>
+      <Grid item className="responderWrapper" xs={12} sm={12} md={4} lg={4} >
+        <ResponderCardMaker {...props.chatvid} />
+      </Grid>
+      <Grid item className="_responseWrapper" xs={12} sm={12} md={8} lg={8} >
+        <Typography variant="h6"> Response on Chatvid 4 - October 20, 2020 </Typography>
+      </Grid>
+    </>
   )
 }
 const InfoHeader = (props: any) => {
   const [open, setOpen] = React.useState(false);
-  const {chatvid} = props;
+  const { chatvid } = props;
   const url = `${process.env.REACT_APP_DOMAIN}/chatvid/res/${chatvid && chatvid._id}`;
   const title = chatvid.name || " Respond my Chatvid";
   return (
     <Grid container className="dashChatvidTopHeaderWrapper">
-            <Grid container xs={12} sm={12} md={8} lg={8} >
-              <Grid item xs={1} sm={1} md={2} lg={2} >
-                <div className="thumbnailInChatvidHead">
-                  <img src={chatvid?.thumbnail} />
-                </div>
-              </Grid>
-              <Grid item xs={10} sm={10} md={8} lg={8} >
-                <Typography variant="h3"> {chatvid?.name} </Typography>
-                <div className="chatvidEditToolsWrapper">
-                  <div> <EditIcon /> Edit </div>
-                  <div> <SettingsRoundedIcon /> Settings</div>
-                  <div> <SwapCallsIcon /> Connect</div>
-                  <div> <FileCopyIcon /> Export</div>
-                </div>
-              </Grid>
-            </Grid>
-            <Grid container xs={12} sm={12} md={4} lg={4} >
-              <div className="sendChatvidBTNWrapper">
-                <ThemeButton style={Colors.themeGradientBtn} name="Send Chatvid" />
-              </div>
-              <div className="copyChatvidURL">
-                <Paper component="form" style={classes.root}>
-                  <IconButton
-                    type="submit"
-                    style={classes.iconButton}
-                    aria-label="edit"
-                  // onClick={this.copyUrl}
-                  >
-                    <AttachFileIcon />
-                  </IconButton>
-                  <InputBase
-                    style={classes.input}
-                    value={url}
-                  // value={`http://localhost:3000/chatvid/res/${chatvid && chatvid._id}`}
-                  />
-                  <IconButton
-                    type="submit"
-                    style={classes.iconButton}
-                    aria-label="edit"
-                    onClick={(e) => { e.preventDefault(); setOpen(true) }}
-                  >
-                    <ShareIcon />
-                  </IconButton>
-                </Paper>
-              </div>
-            </Grid>
+      <Grid container xs={12} sm={12} md={8} lg={8} >
+        <Grid item xs={1} sm={1} md={2} lg={2} >
+          <div className="thumbnailInChatvidHead">
+            <img src={chatvid?.thumbnail} />
+          </div>
+        </Grid>
+        <Grid item xs={10} sm={10} md={8} lg={8} >
+          <Typography variant="h3"> {chatvid?.name} </Typography>
+          <div className="chatvidEditToolsWrapper">
+            <div> <EditIcon /> Edit </div>
+            <div> <SettingsRoundedIcon /> Settings</div>
+            <div> <SwapCallsIcon /> Connect</div>
+            <div> <FileCopyIcon /> Export</div>
+          </div>
+        </Grid>
+      </Grid>
+      <Grid container xs={12} sm={12} md={4} lg={4} >
+        <div className="sendChatvidBTNWrapper">
+          <ThemeButton style={Colors.themeGradientBtn} name="Send Chatvid" />
+        </div>
+        <div className="copyChatvidURL">
+          <Paper component="form" style={classes.root}>
+            <IconButton
+              type="submit"
+              style={classes.iconButton}
+              aria-label="edit"
+            // onClick={this.copyUrl}
+            >
+              <AttachFileIcon />
+            </IconButton>
+            <InputBase
+              style={classes.input}
+              value={url}
+            // value={`http://localhost:3000/chatvid/res/${chatvid && chatvid._id}`}
+            />
+            <IconButton
+              type="submit"
+              style={classes.iconButton}
+              aria-label="edit"
+              onClick={(e) => { e.preventDefault(); setOpen(true) }}
+            >
+              <ShareIcon />
+            </IconButton>
+          </Paper>
+        </div>
+      </Grid>
 
-            {/* Dialog */}
+      {/* Dialog */}
 
-            <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby="form-dialog-title">
-              <DialogTitle id="form-dialog-title">Share on Social Media</DialogTitle>
-              <DialogContent>
-                <TwitterShareButton url={url} >
-                  <TwitterIcon size={32} round={true} />
-                </TwitterShareButton>
-                <FacebookShareButton url={url}>
-                  <FacebookMessengerIcon size={32} round />
-                </FacebookShareButton>
-                <WhatsappShareButton url={url} title={title}>
-                  <WhatsappIcon size={32} round />
-                </WhatsappShareButton>
-                <LinkedinShareButton url={url}>
-                  <LinkedinIcon size={32} round />
-                </LinkedinShareButton>
-                <EmailShareButton
-                  url={url}
-                  subject={title}
-                  body="body"
-                >
-                  <EmailIcon size={32} round />
-                </EmailShareButton>
-                <RedditShareButton
-                  url={url}
-                  title={title}
-                  windowWidth={660}
-                  windowHeight={460}
-                >
-                  <RedditIcon size={32} round />
-                </RedditShareButton>
-
-
-              </DialogContent>
-            </Dialog>
+      <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Share on Social Media</DialogTitle>
+        <DialogContent>
+          <TwitterShareButton url={url} >
+            <TwitterIcon size={32} round={true} />
+          </TwitterShareButton>
+          <FacebookShareButton url={url}>
+            <FacebookMessengerIcon size={32} round />
+          </FacebookShareButton>
+          <WhatsappShareButton url={url} title={title}>
+            <WhatsappIcon size={32} round />
+          </WhatsappShareButton>
+          <LinkedinShareButton url={url}>
+            <LinkedinIcon size={32} round />
+          </LinkedinShareButton>
+          <EmailShareButton
+            url={url}
+            subject={title}
+            body="body"
+          >
+            <EmailIcon size={32} round />
+          </EmailShareButton>
+          <RedditShareButton
+            url={url}
+            title={title}
+            windowWidth={660}
+            windowHeight={460}
+          >
+            <RedditIcon size={32} round />
+          </RedditShareButton>
 
 
-          </Grid>
+        </DialogContent>
+      </Dialog>
+
+
+    </Grid>
   )
 }
 const classes = {
-            root: {
-            display: "flex",
+  root: {
+    display: "flex",
     marginTop: "1em",
     alignItems: "center",
     width: "100%",
@@ -413,13 +501,13 @@ const classes = {
     borderColor: "#fdb415"
   },
   input: {
-            flex: 1,
+    flex: 1,
     marginLeft: "1em",
     color: "#406c7f",
     fontFamily: "Open Sans"
   },
   iconButton: {
-            padding: 10,
+    padding: 10,
     borderRadius: 0,
     background: "#fdb415",
     color: "white"
@@ -428,13 +516,13 @@ const classes = {
 
 const mapStateToProps = (state: any) => {
   return {
-            user: state.auth.user,
+    user: state.auth.user,
     chatvid: state.chatvids.selectedChatvid,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-            getChatvids: () => dispatch(getChatvids()),
+    getChatvids: () => dispatch(getChatvids()),
   };
 };
 

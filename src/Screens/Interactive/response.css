@@ -148,6 +148,18 @@
 #fitContent {
   width: fit-content !important;
 }
+
+/* Video Response */
+.ResponseAndTypeWrapper .customeRecWrapper .videoStreamWrapper .safeAreaWrapper {
+  display: none;
+}
+
+.videoResponseWrappreContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+}
 @media only screen and (max-width: 1612px) {
   .IconWrapper {
     width: 200px;

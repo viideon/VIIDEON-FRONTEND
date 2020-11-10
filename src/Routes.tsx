@@ -44,11 +44,11 @@ class Routes extends Component<IProps> {
   render() {
     return (
       <Router>
-        <Switch>
-          <Route exact path="/chatVid/res/:id" component={ResponseChatvid} />
-          {this.props.auth.loggedInStatus === true ? (
-            <>
+        {this.props.auth.loggedInStatus === true ? (
+          <>
+            <Switch>
               <Route exact path="/" component={Dashboard} />
+              <Route exact path="/chatVid/res/:id" component={ResponseChatvid} />
               <Route exact path="/chatvids/" component={ChatvidBoard} />
               <Route exact path="/chatvids/form/:id" component={Chatvid} />
               <Route exact path="/videotab/:id" component={VideoTab} />
@@ -74,9 +74,12 @@ class Routes extends Component<IProps> {
               <Route exact path="/privacypolicy" component={PrivacyPolicy} />
               <Route exact path="/music" component={MusicAssets} />
               <Route exact path="*" render={() => <Redirect to="/" />} />
-            </>
-          ) : (
-              <>
+            </Switch>
+          </>
+        ) : (
+            <>
+              <Switch>
+                <Route exact path="/chatVid/res/:id" component={ResponseChatvid} />
                 <Route exact path="/login*" component={SignIn} />
                 <Route exact path="/signup" component={Signup} />
                 <Route exact path="/forgotPassword" component={ForgotPassword} />
@@ -93,9 +96,9 @@ class Routes extends Component<IProps> {
                 />
                 <Route exact path="/watch/:id" component={Watch} />
                 <Route exact path="*" render={() => <Redirect to="/login" />} />
-              </>
-            )}
-        </Switch>
+              </Switch>
+            </>
+          )}
       </Router>
     );
   }

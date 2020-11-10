@@ -65,6 +65,8 @@ class FinalTab extends Component<any> {
     ansVideo: "",
     userName: "",
     userEmail: "",
+    videoOBJ: {},
+    audioOBJ: {},
   }
 
   componentDidMount() {
@@ -177,9 +179,35 @@ class FinalTab extends Component<any> {
   handleTextChange = (event: any) => {
     let state: any = this.state;
     state[event.target.name] = event.target.value;
-    console.log(state)
     this.setState({ ...state })
   }
+
+  uploadVideo = (file: any) => {
+    toast.info("Uploading ...")
+    return new Promise((resolve, reject) => {
+      const options = {
+        Bucket: config.bucketName,
+        ACL: config.ACL,
+        Key: Date.now().toString() + "replyVideoURL.mp3",
+        Body: file
+      }
+      s3.upload(options, (err: any, data: any) => {
+        if (err) {
+          toast.error("something went wrong. Please try again later!")
+          reject();
+        } else {
+          this.setState({
+            ansVideo: data.Location
+          });
+          toast.info("Uploaded")
+          resolve();
+        }
+      }).on("httpUploadProgress", (progress: any) => {
+        // let uploaded: number = (progress.loaded * 100) / progress.total;
+        // this.setState({ progressVideo: uploaded });
+      });
+    });
+  };
 
   handleSend = () => {
     this.setState({ open: !this.state.open })
@@ -218,7 +246,7 @@ class FinalTab extends Component<any> {
       case 2:
         return <AudioResponse {...this.props} {...this.state} handleTabChange={this.handleTabChange} send={this.handleSend} handleAnsAudio={this.uploadAudio} />
       case 3:
-        return <VideoResponse {...this.props} {...this.state} handleTabChange={this.handleTabChange} />
+        return <VideoResponse {...this.props} {...this.state} handleTabChange={this.handleTabChange} send={this.handleSend} handleAnsVideo={this.uploadVideo} />
       default:
         return <OpenEndedType {...this.props} {...this.state} handleTabChange={this.handleTabChange} />
     }
@@ -295,11 +323,11 @@ const OpenEndedType = (props: any) => {
           <Typography variant="subtitle1"> Text </Typography>
         </div>
         <div className="IconWrapper" onClick={() => { handleTabChange(2) }}>
-          <VideocamRoundedIcon />
+          <VolumeUpRoundedIcon />
           <Typography variant="subtitle1"> Audio </Typography>
         </div>
         <div className="IconWrapper" onClick={() => { handleTabChange(3) }}>
-          <VolumeUpRoundedIcon />
+          <VideocamRoundedIcon />
           <Typography variant="subtitle1"> Video </Typography>
         </div>
       </div>
@@ -387,7 +415,6 @@ const AudioResponse = (props: any) => {
       setProgress((prog: number) => {
         let ptcg = 0;
         ptcg = (100 * (120 - (time - 1))) / 120
-        console.log(ptcg)
         return ptcg;
       })
 
@@ -396,7 +423,6 @@ const AudioResponse = (props: any) => {
   }
 
   const handleStop = () => {
-    console.log("Stoped")
     setRecorded(true)
     setProgress(0)
     setTimeOutTimer((time: any) => {
@@ -411,7 +437,6 @@ const AudioResponse = (props: any) => {
             type: blob.type,
             lastModified: Date.now()
           });
-          console.log("CONSOLING HERE: ", blob)
           if (blob && blob.size > 10) {
             setFile(file);
             setBFile(new Audio(URL.createObjectURL(file)));
@@ -433,7 +458,6 @@ const AudioResponse = (props: any) => {
   const palayAudio = async () => {
     if (!audioFile) { setRecording(false); return toast.error("NO recording found!"); }
     await setProgress(progress => 0);
-    console.log("Player: ", player, audioFile)
     progressHandler(player)
     player.play();
   }
@@ -520,7 +544,7 @@ const AudioResponse = (props: any) => {
               color="default"
               className="NextBTN"
               endIcon={<KeyboardArrowRightIcon />}
-              onClick={async() => {await handleAnsAudio(audioFile); send()}}
+              onClick={async () => { await handleAnsAudio(audioFile); send() }}
             >
               Send
           </Button>
@@ -532,25 +556,67 @@ const AudioResponse = (props: any) => {
 }
 
 const VideoResponse = (props: any) => {
-  const [videoRecord, setVideRecord] = React.useState(null)
+  const [videoURL, setURL] = React.useState("")
+  const [videoRecord, setVideoRecord] = React.useState(null);
+  const [recorded, setRecorded] = React.useState(false);
 
 
-  const { handleTabChange } = props;
+  const handleReset = () => {
+    setURL("")
+    setVideoRecord(null)
+    setRecorded(false)
+  }
+
+  const { handleTabChange, send, handleAnsVideo } = props;
   return (
-    <>
+    <div className="videoResponseWrappreContainer">
       <div>
-        <VideoRecorder
-          getBlob={(blob: any) => {
-            props.toggleSendVariable();
-            setVideRecord(blob)
-          }}
-          reset={() => { setVideRecord(null); handleTabChange(0) }}
-          // proceed={this.save}
-          interActive={true}
-        // quality={this.state.selectedValue}
-        />
+        {
+          recorded && videoRecord ? 
+          (
+            <video src={videoURL } controls width={"100%"} />
+          )
+          :
+          (
+            <VideoRecorder
+              getBlob={(blob: any) => {
+                props.toggleSendVariable();
+                setVideoRecord(blob);
+                setURL(URL.createObjectURL(blob))
+                setRecorded(true);
+              }}
+              reset={() => { setVideoRecord(null); handleTabChange(0) }}
+              // proceed={this.save}
+              interActive={true}
+            // quality={this.state.selectedValue}
+            />
+          )
+
+        }
       </div>
-    </>
+      {
+        recorded &&
+        <div className="responseNavigationWrapper">
+          <Button
+            color="default"
+            id="fitContent"
+            className={`BackBTN ${recorded && "fitContent"}`}
+            startIcon={<NavigateBeforeOutlinedIcon />}
+            onClick={() => { { !recorded ? handleTabChange(0) : handleReset() } }}
+          >
+            {!recorded ? "Back" : "Record Again"}
+          </Button>
+          <Button
+            color="default"
+            className="NextBTN"
+            endIcon={<KeyboardArrowRightIcon />}
+          onClick={async () => { await handleAnsVideo(videoRecord); send() }}
+          >
+            Send
+          </Button>
+        </div>
+      }
+    </div>
   )
 }
 
