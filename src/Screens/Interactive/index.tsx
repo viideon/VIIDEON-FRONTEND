@@ -47,7 +47,7 @@ class ChatVid extends Component<IProps> {
     vAlign: "top",
     align: "left",
     fitvideo: false,
-    responseType: "",
+    responseType: "Open-ended",
     calendar: "",
     urlRecord: "",
     title: "",

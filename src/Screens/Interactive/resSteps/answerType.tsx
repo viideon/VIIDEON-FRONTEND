@@ -65,6 +65,8 @@ class FinalTab extends Component<any> {
     ansVideo: "",
     userName: "",
     userEmail: "",
+    choiceId: "",
+    calendar: "",
     videoOBJ: {},
     audioOBJ: {},
   }
@@ -213,34 +215,42 @@ class FinalTab extends Component<any> {
     this.setState({ open: !this.state.open })
   }
 
+  handleChoiceAndCalender = (value: string, type: string) => {
+    let state: any = this.state;
+    state[type] = value;
+    this.setState({ ...state})
+  }
 
   handleReply = async () => {
-    const { userEmail, userName, ansText, ansAudio, ansVideo, tab } = this.state;
-    if (tab < 1) return;
+    const { userEmail, userName, ansText, ansAudio, ansVideo, tab, choiceId, calendar } = this.state;
+    const { resChatvid, auth } = this.props;
     if (!validateEmail(userEmail)) return toast.error("Enter a valid Email");
     if (!userName) return toast.error("Enter a valid Email");
     toast.info("Repling....")
+    const type = resChatvid.steps[0].responseType === "Multiple-Choice" ? "choice" : resChatvid.steps[0].responseType === "Open-ended" ? (tab === 1 ? "text" : tab === 2 ? "audio" : "video") : "calendar" ;
     let people: any = {
       email: userEmail,
       name: userName,
     }
-    if (this.props.auth.user?._id) {
-      people.userId = this.props.auth.user?._id;
+    if (auth.user?._id) {
+      people.userId = auth.user?._id;
     }
     const reply = {
-      chatvidId: this.props.resChatvid?._id,
-      stepId: this.props.resChatvid.steps[0]._id,
+      chatvidId: resChatvid._id,
+      stepId: resChatvid.steps[0]._id,
       text: ansText,
       url: (ansVideo ? ansVideo : ansAudio) || "",
-      type: tab === 1 ? "text" : tab === 2 ? "audio" : "video",
+      type: type,
+      choiceId: choiceId,
+      calendar: calendar,
     }
     this.props.send({ people, reply })
   }
 
-  renderTabs = () => {
-    switch (this.state.tab) {
+  renderTabs = (tab: number) => {
+    switch (tab) {
       case 0:
-        return <OpenEndedType {...this.props} {...this.state} handleTabChange={this.handleTabChange} />
+        return <OpenEndedType {...this.props} {...this.state} handleTabChange={this.handleTabChange} send={this.handleSend} handleChoice={this.handleChoiceAndCalender} />
       case 1:
         return <TextResponse {...this.props} {...this.state} handleTabChange={this.handleTabChange} send={this.handleSend} handleTextChange={this.handleTextChange} />
       case 2:
@@ -253,7 +263,7 @@ class FinalTab extends Component<any> {
   }
 
   render() {
-    const { open } = this.state;
+    const { open, tab } = this.state;
     return (
       <Grid container className="responseTypeWrapper">
         <Grid container className="mainVideoContainer" xs={12} sm={12} md={6} lg={6}>
@@ -264,7 +274,7 @@ class FinalTab extends Component<any> {
         </Grid>
         <Grid container className="ResponseAndTypeWrapper" xs={12} sm={12} md={6} lg={6}>
           <Grid item xs={12} sm={12} md={12} lg={12}>
-            {this.renderTabs()}
+            {this.renderTabs(tab)}
           </Grid>
         </Grid>
 
@@ -311,25 +321,66 @@ class FinalTab extends Component<any> {
 }
 
 const OpenEndedType = (props: any) => {
-  const { handleTabChange } = props;
+  const { handleChoice, handleTabChange, send, resChatvid, preview, resType } = props;
+  const { steps, userId } = resChatvid;
+  let { responseType, choices } = steps[0];
+  if (preview) {
+    responseType = resType;
+    choices = props.choices;
+  }
   return (
     <>
       <div className="captionDiv">
-        <Typography variant="h3"> How would you like to answer?</Typography>
+        <Typography variant="h3">
+          {responseType === "Open-ended" ?
+            "How would you like to answer?"
+            :
+            responseType === "Multiple-Choice" ?
+              "Choose a response"
+              :
+              `Schedule a meeting with ${userId.firstName || userId.lastName}.`
+          }
+
+        </Typography>
       </div>
       <div className="optionDiv">
-        <div className="IconWrapper" onClick={() => { handleTabChange(1) }}>
-          <Typography variant="h1">Tt</Typography>
-          <Typography variant="subtitle1"> Text </Typography>
-        </div>
-        <div className="IconWrapper" onClick={() => { handleTabChange(2) }}>
-          <VolumeUpRoundedIcon />
-          <Typography variant="subtitle1"> Audio </Typography>
-        </div>
-        <div className="IconWrapper" onClick={() => { handleTabChange(3) }}>
-          <VideocamRoundedIcon />
-          <Typography variant="subtitle1"> Video </Typography>
-        </div>
+        {responseType === "Open-ended" ?
+          (
+            <>
+              <div className="IconWrapper" onClick={() => { handleTabChange(1) }}>
+                <Typography variant="h1">Tt</Typography>
+                <Typography variant="subtitle1"> Text </Typography>
+              </div>
+              <div className="IconWrapper" onClick={() => { handleTabChange(2) }}>
+                <VolumeUpRoundedIcon />
+                <Typography variant="subtitle1"> Audio </Typography>
+              </div>
+              <div className="IconWrapper" onClick={() => { handleTabChange(3) }}>
+                <VideocamRoundedIcon />
+                <Typography variant="subtitle1"> Video </Typography>
+              </div>
+            </>
+          )
+          :
+          responseType === "Multiple-Choice" ?
+            (
+              <div className="optionsWraper">
+                {choices && choices.length > 0 && choices.map((choice: any, ind: number) => {
+                  return (<div className="_choiceOption" onClick={() => {handleChoice(choice._id, "choiceId"); send()}}>
+                    <Typography variant="h5" > {preview ? choice : choice.text} </Typography>
+                  </div>)
+                })}
+
+              </div>
+            )
+            :
+            (
+              <>
+                <Button> Book a meeting </Button>
+              </>
+            )
+        }
+
       </div>
     </>
   )
@@ -572,25 +623,25 @@ const VideoResponse = (props: any) => {
     <div className="videoResponseWrappreContainer">
       <div>
         {
-          recorded && videoRecord ? 
-          (
-            <video src={videoURL } controls width={"100%"} />
-          )
-          :
-          (
-            <VideoRecorder
-              getBlob={(blob: any) => {
-                props.toggleSendVariable();
-                setVideoRecord(blob);
-                setURL(URL.createObjectURL(blob))
-                setRecorded(true);
-              }}
-              reset={() => { setVideoRecord(null); handleTabChange(0) }}
-              // proceed={this.save}
-              interActive={true}
-            // quality={this.state.selectedValue}
-            />
-          )
+          recorded && videoRecord ?
+            (
+              <video src={videoURL} controls width={"100%"} />
+            )
+            :
+            (
+              <VideoRecorder
+                getBlob={(blob: any) => {
+                  props.toggleSendVariable();
+                  setVideoRecord(blob);
+                  setURL(URL.createObjectURL(blob))
+                  setRecorded(true);
+                }}
+                reset={() => { setVideoRecord(null); handleTabChange(0) }}
+                // proceed={this.save}
+                interActive={true}
+              // quality={this.state.selectedValue}
+              />
+            )
 
         }
       </div>
@@ -610,7 +661,7 @@ const VideoResponse = (props: any) => {
             color="default"
             className="NextBTN"
             endIcon={<KeyboardArrowRightIcon />}
-          onClick={async () => { await handleAnsVideo(videoRecord); send() }}
+            onClick={async () => { await handleAnsVideo(videoRecord); send() }}
           >
             Send
           </Button>

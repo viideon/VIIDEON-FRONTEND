@@ -45,6 +45,10 @@
   align-self: center;
 }
 
+.chosed {
+  color: #ffffff;
+  background: #fdb415;
+}
 .responderName {
   /* font-size: 0.3rem !important; */
   color: #0e2633 !important;
@@ -304,6 +308,13 @@
   background: rgb(255, 255, 255);
   text-align: center;
 }
+
+
+
+._stepTabsChoices {}
+._choicePrcWrapper {}
+._s {}
+._P {}
 /* END Chatvid.tsx */
 @media only screen and (max-width: 768px) {
   .wrapperHomeContent {

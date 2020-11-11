@@ -37,7 +37,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import PermMediaIcon from '@material-ui/icons/PermMedia';
 
-
 import {
   EmailShareButton,
   FacebookShareButton,
@@ -83,6 +82,7 @@ import {
   WhatsappIcon,
   WorkplaceIcon
 } from "react-share";
+import choices from "../Interactive/steps/choices";
 
 
 type IProps = {
@@ -203,31 +203,40 @@ const ResponderTab = (props: any) => {
     const res = stp.replies?.filter((reply: any) => reply.poepleId._id === resPerson && reply.type === type)
     return (
       <>
-        {
-          res.map((r: any, i: number) => {
-            return (
-              <>
-                {
-                  type === "text" ?
-                    <div style={{ padding: "1%" }}><Typography variant="body2" >{r.text}</Typography></div>
+        {res.map((r: any, i: number) => {
+          return (
+            <>
+              {
+                type === "text" ?
+                  <div style={{ padding: "1%" }}><Typography variant="body2" >{r.text}</Typography></div>
+                  :
+                  type === "audio" ?
+                    <div>
+                      <audio controls>
+                        <source src={r.url} type="audio/mpeg" />
+                        Your browser does not support the audio element.
+                      </audio>
+                    </div>
                     :
-                    type === "audio" ?
-                      <div>
-                        <audio controls>
-                          <source src={r.url} type="audio/mpeg" />
-                      Your browser does not support the audio element.
-                    </audio>
-                      </div>
-                      :
-                      <div style={{ padding: "1%" }}>
-                        <video src={r.url} controls width={"100%"} />
-                      </div>
-                }
-              </>
-            )
-          })
+                    <div style={{ padding: "1%" }}>
+                      <video src={r.url} controls width={"100%"} />
+                    </div>
+              }
+            </>
+          )
+        })
         }
       </>
+    )
+  }
+
+  const renderChoices = (choice: any, ind: number) => {
+    const { replies } = choice;
+    const isActive = replies && replies?.filter((reply: any) => reply === resPerson) || false;
+    return (
+      <div className={`_choiceOption ${isActive && 'chosed'}`} key={ind}>
+        <Typography variant="h5" > {choice.text} </Typography>
+      </div>
     )
   }
 
@@ -285,23 +294,33 @@ const ResponderTab = (props: any) => {
               </div>
             </Grid>
             <Grid container className="_stepsDetailsBody">
-              <Grid item xs={12} sm={2} md={2} lg={2} className="optionDiv">
-                <div className={`IconWrapper ${activeType === 1 && "activeIcon"}`} onClick={() => { handleTabChange(1) }}>
-                  <Typography variant="h1">Tt</Typography>
-                  <Typography variant="subtitle1"> Text </Typography>
-                </div>
-                <div className={`IconWrapper ${activeType === 2 && "activeIcon"}`} onClick={() => { handleTabChange(2) }}>
-                  <VolumeUpRoundedIcon />
-                  <Typography variant="subtitle1"> Audio </Typography>
-                </div>
-                <div className={`IconWrapper ${activeType === 3 && "activeIcon"}`} onClick={() => { handleTabChange(3) }}>
-                  <VideocamRoundedIcon />
-                  <Typography variant="subtitle1"> Video </Typography>
-                </div>
-              </Grid>
+
+              {stp.responseType === "Open-ended" &&
+                <Grid item xs={12} sm={2} md={2} lg={2} className="optionDiv">
+                  <div className={`IconWrapper ${activeType === 1 && "activeIcon"}`} onClick={() => { handleTabChange(1) }}>
+                    <Typography variant="h1">Tt</Typography>
+                    <Typography variant="subtitle1"> Text </Typography>
+                  </div>
+                  <div className={`IconWrapper ${activeType === 2 && "activeIcon"}`} onClick={() => { handleTabChange(2) }}>
+                    <VolumeUpRoundedIcon />
+                    <Typography variant="subtitle1"> Audio </Typography>
+                  </div>
+                  <div className={`IconWrapper ${activeType === 3 && "activeIcon"}`} onClick={() => { handleTabChange(3) }}>
+                    <VideocamRoundedIcon />
+                    <Typography variant="subtitle1"> Video </Typography>
+                  </div>
+                </Grid>
+              }
+
               {/*  */}
               <Grid item xs={12} sm={8} md={8} lg={8} className="_stepsDetailsResWrapper">
-                {renderResponse(activeType)}
+                {stp.responseType === "Open-ended" ?
+                  renderResponse(activeType) :
+                  stp.responseType === "Multiple-Choice" ?
+                    stp.choices.map((choice: any, index: number) => {
+                      return renderChoices(choice, index)
+                    }) : ""
+                }
               </Grid>
 
             </Grid>
@@ -313,7 +332,6 @@ const ResponderTab = (props: any) => {
 }
 
 const StepsTab = (props: any) => {
-
   const [step, setStep]: any = React.useState(undefined);
 
   const renderStepCard = (props: any) => {
@@ -365,6 +383,27 @@ const StepsTab = (props: any) => {
       </Grid>
     )
   }
+
+  const renderChoices = (choice: any, participents: number, ind: number) => {
+    const { replies } = choice;
+    participents = participents > 0 ? participents : 1 ;
+    let percentage = Math.round(((replies ? replies?.length : 0) * 100) / participents  )
+    return (
+      <div className={`_choiceOption _stepTabsChoices`} key={ind}>
+        <Typography variant="h5" > {choice.text} </Typography>
+        <div className="_choicePrcWrapper">
+          <div className="_s">
+            <Typography variant="h3">
+              {percentage} %
+            </Typography>
+          </div>
+          <div className="_P">
+            <PersonOutlineIcon /> {choice.replies?.length || 0}
+          </div>
+        </div>
+      </div>
+    )
+  }
   return (
     <>
       <Grid item className="responderWrapper" xs={12} sm={12} md={4} lg={4} >
@@ -375,9 +414,15 @@ const StepsTab = (props: any) => {
         }
       </Grid>
       <Grid item className="_responseWrapper" xs={12} sm={12} md={8} lg={8} >
-        {step && step.replies.length > 0 && step.replies?.map((reply: any, ind: string) => {
-          return renderReplies(reply, step)
-        })}
+        {step && step.responseType === "Open-ended" && step.replies.length > 0
+          && step.replies?.map((reply: any, ind: string) => {
+            return renderReplies(reply, step)
+          })}
+        {step && step.responseType === "Multiple-Choice" &&
+          step.choices.map((choice: any, ind: any) => {
+            return renderChoices(choice, props.chatvid.people.length, ind);
+          })
+        }
       </Grid>
     </>
   )
@@ -434,8 +479,8 @@ const InfoHeader = (props: any) => {
             </IconButton>
             <InputBase
               style={classes.input}
-              value={url}
-            // value={`http://localhost:3000/chatvid/res/${chatvid && chatvid._id}`}
+              // value={url}
+              value={`http://localhost:3000/chatvid/res/${chatvid && chatvid._id}`}
             />
             <IconButton
               type="submit"

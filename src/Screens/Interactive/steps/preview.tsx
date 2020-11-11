@@ -57,6 +57,9 @@ const ChatvidPreviewTab = (props: any) => {
           overlayTxt={props.text}
           align={props.align}
           valign={props.valign}
+          resType={props.responseType}
+          choices={props.choices}
+          preview={true}
         />
       </div>
     </div>

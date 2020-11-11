@@ -16,7 +16,6 @@ function* getChatVidsSaga(action: any) {
   try {
     let userId = yield select(selectID);
     const result = yield getChatvids(userId);
-    console.log('result', result)
     if (result.status === 200) {
       yield put({ type: types.GET_CHATVIDS_SUCCESS, payload: result.data.message });
     } else {
@@ -31,7 +30,6 @@ function* getChatVidsSaga(action: any) {
 function* getChatVidSaga(action: any) {
   try {
     const result = yield getChatvid(action.payload);
-    console.log('result', result)
     if (result.status === 200) {
       yield put({ type: types.GET_CHATVID_SUCCESS, payload: result.data.message[0] });
     } else {

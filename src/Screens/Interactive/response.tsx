@@ -46,7 +46,7 @@ class ChatVid extends Component<IProps> {
 
   UNSAFE_componentWillReceiveProps(nextProps: any) {
     if(nextProps.resChatvid._id && this.state.loading) {
-      console.log("success")
+      console.log(nextProps.resChatvid)
       this.setState({ loading: false, chatvid: nextProps.resChatvid })
     }
   }

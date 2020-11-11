@@ -52,6 +52,7 @@ class RecorderTab extends Component<any> {
   }
   componentDidMount() {
   }
+  
   handleChange = (event: any) => {
     this.setState({ fitVideo: event.target.checked });
     this.props.onChange({ target: { name: "fitvideo", value: event.target.checked } })

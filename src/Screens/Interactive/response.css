@@ -160,6 +160,27 @@
   justify-content: space-evenly;
   height: 100%;
 }
+
+
+/* Multple choice */
+.optionsWraper {
+
+}
+._choiceOption {
+  border: 1.5px solid #fdb415;
+  border-radius: 8px;
+  padding: 3%;
+  margin: 2%;
+  display: flex;
+  align-items: center;
+  color: #fdb415;
+  cursor: pointer;
+}
+._choiceOption .MuiTypography-h5 {
+  font-family: "Poppins";
+  font-weight: bold;
+
+}
 @media only screen and (max-width: 1612px) {
   .IconWrapper {
     width: 200px;

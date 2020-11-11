@@ -24,6 +24,10 @@ import "../style.css";
 
 class ResponseType extends Component<any> {
 
+  componentDidMount() {
+    console.log("PROPS: ", this.props.choices)
+  }
+
   handleNext = (type: string) => {
     this.props.onChange({ target: {name: "responseType", value: type}})
     type === "Open-ended" ?
