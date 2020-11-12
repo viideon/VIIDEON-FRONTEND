@@ -154,7 +154,8 @@ class ChatVid extends Component<IProps> {
         userId: this.props.auth!.user!._id,
         thumbnail: this.state.thumbnailUrl,
         textProps: textProps,
-        campaign: false
+        campaign: false,
+        isChatvid: true,
       };
       const chatvid = {
         video,

@@ -479,8 +479,8 @@ const InfoHeader = (props: any) => {
             </IconButton>
             <InputBase
               style={classes.input}
-              // value={url}
-              value={`http://localhost:3000/chatvid/res/${chatvid && chatvid._id}`}
+              value={url}
+              // value={`http://localhost:3000/chatvid/res/${chatvid && chatvid._id}`}
             />
             <IconButton
               type="submit"

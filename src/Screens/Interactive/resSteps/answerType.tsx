@@ -36,8 +36,10 @@ import "../response.css";
 import { Email } from "aws-sdk/clients/codecommit";
 import AWS from "aws-sdk";
 import { config } from "../../../config/aws";
-const s3 = new AWS.S3(config);
 
+import { InlineWidget } from "react-calendly";
+
+const s3 = new AWS.S3(config);
 const MicRecorder = require('mic-recorder-to-mp3');
 
 function validateEmail(email: Email) {
@@ -91,6 +93,9 @@ class FinalTab extends Component<any> {
     }
     if (nextProps.fontSize && nextProps.fontSize !== this.state.fontSize) {
       this.setState({ fontSize: nextProps.fontSize })
+    }
+    if (nextProps.calendar && nextProps.calendar !== this.state.calendar) {
+      this.setState({ calendar: nextProps.calendar })
     }
   }
 
@@ -218,7 +223,7 @@ class FinalTab extends Component<any> {
   handleChoiceAndCalender = (value: string, type: string) => {
     let state: any = this.state;
     state[type] = value;
-    this.setState({ ...state})
+    this.setState({ ...state })
   }
 
   handleReply = async () => {
@@ -227,7 +232,7 @@ class FinalTab extends Component<any> {
     if (!validateEmail(userEmail)) return toast.error("Enter a valid Email");
     if (!userName) return toast.error("Enter a valid Email");
     toast.info("Repling....")
-    const type = resChatvid.steps[0].responseType === "Multiple-Choice" ? "choice" : resChatvid.steps[0].responseType === "Open-ended" ? (tab === 1 ? "text" : tab === 2 ? "audio" : "video") : "calendar" ;
+    const type = resChatvid.steps[0].responseType === "Multiple-Choice" ? "choice" : resChatvid.steps[0].responseType === "Open-ended" ? (tab === 1 ? "text" : tab === 2 ? "audio" : "video") : "calendar";
     let people: any = {
       email: userEmail,
       name: userName,
@@ -321,12 +326,13 @@ class FinalTab extends Component<any> {
 }
 
 const OpenEndedType = (props: any) => {
-  const { handleChoice, handleTabChange, send, resChatvid, preview, resType } = props;
+  const { handleChoice, handleTabChange, send, resChatvid, preview, resType, } = props;
   const { steps, userId } = resChatvid;
-  let { responseType, choices } = steps[0];
+  let { responseType, choices, calendar } = steps ? steps[0] : {responseType: "", choices: "", calendar: ""};
   if (preview) {
     responseType = resType;
     choices = props.choices;
+    calendar = props.calendar
   }
   return (
     <>
@@ -366,7 +372,7 @@ const OpenEndedType = (props: any) => {
             (
               <div className="optionsWraper">
                 {choices && choices.length > 0 && choices.map((choice: any, ind: number) => {
-                  return (<div className="_choiceOption" onClick={() => {handleChoice(choice._id, "choiceId"); send()}}>
+                  return (<div className="_choiceOption" onClick={() => { handleChoice(choice._id, "choiceId"); send() }}>
                     <Typography variant="h5" > {preview ? choice : choice.text} </Typography>
                   </div>)
                 })}
@@ -376,7 +382,17 @@ const OpenEndedType = (props: any) => {
             :
             (
               <>
-                <Button> Book a meeting </Button>
+                {
+                  calendar &&
+                  <InlineWidget
+                    // url="https://calendly.com/hafizquraishi/30min"
+                    url={calendar}
+                    styles={{ width: "100%", height: "100%" }}
+                  />
+
+                }
+
+                {/* <Button> Book a meeting </Button> */}
               </>
             )
         }
@@ -566,9 +582,9 @@ const AudioResponse = (props: any) => {
                 >
                   {
                     recorded ?
-                      <PlayArrowIcon onClick={palayAudio} />
+                      <PlayArrowIcon className="PlayIcons" onClick={palayAudio} />
                       :
-                      <MicOutlinedIcon onClick={handleStop} />
+                      <MicOutlinedIcon className="RecordingIcons" onClick={handleStop} />
                   }
 
                 </Fab>

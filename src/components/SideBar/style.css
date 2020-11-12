@@ -9,6 +9,10 @@
   padding-top: 5em;
   margin-left: 0;
   transition: left 1s cubic-bezier(0.82, 0.085, 0.395, 0.895);
+
+  overflow-y: scroll;
+  margin-bottom: 5%;
+  padding-bottom: 5%;
 }
 .MainDrawerHide {
   transform: translateX(-1000px);
@@ -92,6 +96,12 @@
 }
 
 /* ChatvidBar */
+
+.chatvidScroollingBar {
+  overflow: scroll;
+  padding-bottom: 35%;
+  margin-bottom: 25%;
+}
 .thumbnailInChatvidBar {
   width: 3em;
   height: 3em;

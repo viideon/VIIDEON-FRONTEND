@@ -40,6 +40,7 @@
     "moment": "2.24.0",
     "react": "^16.13.0",
     "react-aspect-ratio": "^1.0.42",
+    "react-calendly": "^1.1.4",
     "react-circular-progressbar": "^2.0.3",
     "react-color": "^2.18.0",
     "react-dom": "^16.13.0",

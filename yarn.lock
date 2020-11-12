@@ -10019,6 +10019,11 @@ react-aspect-ratio@^1.0.42:
   resolved "https://registry.yarnpkg.com/react-aspect-ratio/-/react-aspect-ratio-1.0.46.tgz#9dedbc07ce0b2a8d1b1b69f2302b8f39f6b47aa6"
   integrity sha512-IEsNJQt8jaroQyw5qQg/6hTroMwtlDdi5sqwXGy0+26/7sJQgQBibAzYeCjzz/So1WsAUI1Nk5P9AvpQuWqQCg==
 
+react-calendly@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/react-calendly/-/react-calendly-1.1.4.tgz#04a04518442499665d64d2357aad5620869b3d50"
+  integrity sha512-UjtOTzoDas9ow0SjWJprJueqWkOcb8IFttk07bB87yY71hcgtgp4Pm+Jf30gO/4oNBA88pipjl4du2sl4gi+Aw==
+
 react-circular-progressbar@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/react-circular-progressbar/-/react-circular-progressbar-2.0.3.tgz#fa8eb59f8db168d2904bae4590641792c80f5991"

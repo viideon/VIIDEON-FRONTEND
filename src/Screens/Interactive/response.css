@@ -109,6 +109,13 @@
   padding: 4%;
   cursor: pointer;
 }
+.AudioIconWrapper .PlayIcons {
+  color: #fdb415;
+}
+.AudioIconWrapper .RecordingIcons {
+  font-size: 7rem;
+  color: lightgrey;
+}
 .AudioIconWrapper svg {
   font-size: 7rem;
   color: lightgrey;
@@ -163,9 +170,9 @@
 
 
 /* Multple choice */
-.optionsWraper {
+/* .optionsWraper {
 
-}
+} */
 ._choiceOption {
   border: 1.5px solid #fdb415;
   border-radius: 8px;

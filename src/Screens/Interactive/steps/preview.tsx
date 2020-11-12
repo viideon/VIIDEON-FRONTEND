@@ -59,6 +59,7 @@ const ChatvidPreviewTab = (props: any) => {
           valign={props.valign}
           resType={props.responseType}
           choices={props.choices}
+          calendar={props.calendar}
           preview={true}
         />
       </div>

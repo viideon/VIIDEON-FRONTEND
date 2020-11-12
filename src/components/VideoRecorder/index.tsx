@@ -131,6 +131,7 @@ class Recording extends React.Component<IProps> {
   };
 
   startRecord = () => {
+    if(!this.recordVideo || this.state.showCountdown === false) return;
     this.setState({
       showCountdown: false,
       recordingStatus: true,
@@ -250,6 +251,7 @@ class Recording extends React.Component<IProps> {
 
   handleReset = () => {
     clearInterval(this.state.timerTimeout);
+    this.recordVideo = null;
     this.resultVideo.src = null;
     this.setState({
       showResult: false,
@@ -257,7 +259,15 @@ class Recording extends React.Component<IProps> {
       count: 0,
       timerTimeout: 0,
       showTimer: false,
+      showRecordBtn: true,
+      showCountdown: false,
+      recordingStatus: false,
     })
+    try {
+      this.recordVideo && this.recordVideo.stopRecording();
+    } catch (error) {
+      console.log("err: in stoping: ", error.message)
+    }
     this.props.reset && this.props.reset();
     this.setupMedia();
   }
