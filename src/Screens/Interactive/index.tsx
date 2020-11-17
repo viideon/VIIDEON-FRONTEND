@@ -7,9 +7,9 @@ import AWS from "aws-sdk";
 import Loading from "../../components/Loading";
 
 
-import {saveChatvid} from "../../Redux/Actions/chatvid";
+import { saveChatvid, addStepToChatvid } from "../../Redux/Actions/chatvid";
 import { toggleSendVariable } from '../../Redux/Actions/videos';
-import {VideoState,VideoSave,} from "../../Redux/Types/videos";
+import { VideoState, VideoSave, } from "../../Redux/Types/videos";
 import { AuthState } from "../../Redux/Types/auth";
 import "react-tabs/style/react-tabs.css";
 
@@ -30,8 +30,10 @@ type IProps = {
   auth: AuthState;
   history: any;
   videoUser: VideoState;
+  chatvids: any;
   toggleSendVariable: () => void;
   saveVideo: (video: any) => void;
+  addStepToChatvid: (step: any) => void;
 };
 
 class ChatVid extends Component<IProps> {
@@ -50,8 +52,17 @@ class ChatVid extends Component<IProps> {
     responseType: "Open-ended",
     calendar: "",
     urlRecord: "",
-    title: "",
+    tittle: "",
     choices: [],
+    isAddStep: false,
+    chatvidId: "",
+  }
+
+  componentDidMount() {
+    let pathname = this.props.history.location.pathname.split('/');
+    if (pathname[1] == "chatvid" && pathname[2] === "step") {
+      this.setState({ isAddStep: true, chatvidId: pathname[3], tittle: this.props.chatvids.selectedChatvid.name })
+    }
   }
 
   uploadThumbnail = () => {
@@ -106,34 +117,36 @@ class ChatVid extends Component<IProps> {
   };
 
   handleNext = () => {
-    this.setState({step: this.state.step+1});
+    this.setState({ step: this.state.step + 1 });
   }
 
   handleBack = (final = false) => {
-    this.setState({step: final === true ? 2 : this.state.step-1});
+    this.setState({ step: final === true ? 2 : this.state.step - 1 });
   }
 
   handleProceed = (thumbnailBlob: any, video: any) => {
-    this.setState({thumbnailBlob,video, step: this.state.step + 1});
+    this.setState({ thumbnailBlob, video, step: this.state.step + 1 });
   }
 
   moveToCalender = () => {
-    this.setState({step: 4, responseType: "Calendly"});
-  }
-  
-  moveTofinal = () => {
-    this.setState({step: 5});
+    this.setState({ step: 4, responseType: "Calendly" });
   }
 
-  onChange = (e:any) => {
+  moveTofinal = () => {
+    if(this.state.isAddStep && this.state.chatvidId) {
+      this.createChatVid();
+    }else {
+      this.setState({ step: 5 });
+    }
+  }
+
+  onChange = (e: any) => {
     let newState: any = this.state;
     newState[e.target.name] = e.target.value;
-    this.setState({...newState});
+    this.setState({ ...newState });
   }
 
   createChatVid = async () => {
-    console.log(this.state)
-
     try {
       toast.info("Generating thumbnail ...");
       toast.info("Saving thumbnail ...");
@@ -147,9 +160,8 @@ class ChatVid extends Component<IProps> {
         vAlign: this.state.vAlign,
         align: this.state.align
       };
-
       const video = {
-        tittle: this.state.title,
+        tittle: this.state.tittle,
         url: this.state.urlRecord,
         userId: this.props.auth!.user!._id,
         thumbnail: this.state.thumbnailUrl,
@@ -157,20 +169,26 @@ class ChatVid extends Component<IProps> {
         campaign: false,
         isChatvid: true,
       };
-      const chatvid = {
+      let chatvid: any = {
         video,
         fitvideo: this.state.fitvideo,
         responseType: this.state.responseType,
         calendar: this.state.calendar,
         urlRecord: this.state.urlRecord,
-        tittle: this.state.title,
+        tittle: this.state.tittle,
         choices: this.state.choices
       }
+      if (this.state.isAddStep && this.state.chatvidId) {
+        chatvid.chatvidId = this.state.chatvidId;
+        chatvid.stepNo = this.props.chatvids.selectedChatvid.steps.length + 1;
+        toast.info(`Adding step to ${this.props.chatvids.selectedChatvid.name}`);
+        console.log("STEP", chatvid);
+        return this.props.addStepToChatvid(chatvid);
+      }
       toast.info("Storign Chatvid ...");
-      this.props.saveVideo(chatvid);
-      
+      !this.state.isAddStep && this.props.saveVideo(chatvid);
     } catch (error) {
-      
+
     }
   }
 
@@ -190,7 +208,7 @@ class ChatVid extends Component<IProps> {
         )
       case 2:
         return (
-          <ResponseTypeTab {...this.props} {...this.state} onChange={this.onChange} moveToFinal={this.moveTofinal} moveToNextStep={this.handleNext} moveToCalendar={this.moveToCalender} moveBack={this.handleBack}  />
+          <ResponseTypeTab {...this.props} {...this.state} onChange={this.onChange} moveToFinal={this.moveTofinal} moveToNextStep={this.handleNext} moveToCalendar={this.moveToCalender} moveBack={this.handleBack} />
         )
       case 3:
         return (
@@ -210,7 +228,7 @@ class ChatVid extends Component<IProps> {
         )
     }
   }
-  
+
   render() {
     return (
       <>
@@ -244,6 +262,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     saveVideo: (chatvid: any) => dispatch(saveChatvid(chatvid)),
+    addStepToChatvid: (step: any) => dispatch(addStepToChatvid(step)),
     toggleSendVariable: () => dispatch(toggleSendVariable()),
   }
 };

@@ -35,3 +35,10 @@ export function replyToAChatvid(reply: any) {
     payload: reply
   }
 }
+
+export function addStepToChatvid(step: any) {
+  return {
+    type: types.ADD_STEP_TO_CHATVID_REQUEST,
+    payload: step
+  }
+}

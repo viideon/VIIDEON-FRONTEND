@@ -56,6 +56,7 @@ class Routes extends Component<IProps> {
               <Route exact path="/video/create" component={UploadRecord} />
               <Route exact path="/watch/:id" component={Watch} />
               <Route exact path="/chatVid" component={InterActive} />
+              <Route exact path="/chatVid/step/:id" component={InterActive} />
               <Route
                 exact
                 path="/watch/:id/cta"

@@ -5,6 +5,7 @@ import {
   getChatvid,
   saveChatVid,
   replyToAChatvid,
+  addStepToChatvid,
   deleteDataAws,
 } from "./api";
 import {
@@ -62,6 +63,26 @@ function* saveChatVidSaga(action: any) {
   }
 }
 
+function* addChatvidStep(action: any) {
+  try {
+    let userId = yield select(selectID);
+    const payload = action.payload;
+    payload.userId = userId;
+    const result = yield addStepToChatvid(payload);
+    if (result.status === 200) {
+      yield put({ type: types.ADD_STEP_TO_CHATVID_SUCCESS });
+      yield put({ type: types.GET_CHATVIDS_REQUEST})
+      toast.info("Added Successfully!");
+    } else {
+      yield put({ type: types.ADD_STEP_TO_CHATVID_FAILURE });
+      toast.error("Something Went Wrong");
+    }
+  } catch (error) {
+    yield put({ type: types.ADD_STEP_TO_CHATVID_FAILURE });
+    toast.error(error.message);
+  }
+}
+
 function* replyToAChatvidSaga(action: any) {
   try {
     const payload = action.payload;
@@ -85,4 +106,5 @@ export function* chatVidWatcher() {
   yield takeEvery(types.GET_CHATVID_REQUEST, getChatVidSaga);
   yield takeEvery(types.SAVE_CHATVID_REQUEST, saveChatVidSaga);
   yield takeEvery(types.REPLY_TO_CHATVID_REQUEST, replyToAChatvidSaga);
+  yield takeEvery(types.ADD_STEP_TO_CHATVID_REQUEST, addChatvidStep);
 }

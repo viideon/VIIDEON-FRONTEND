@@ -71,6 +71,7 @@ class FinalTab extends Component<any> {
     calendar: "",
     videoOBJ: {},
     audioOBJ: {},
+    currentStepNo: 0,
   }
 
   componentDidMount() {
@@ -105,7 +106,7 @@ class FinalTab extends Component<any> {
       if (this.props.video) {
         this.videoRef.src = URL.createObjectURL(this.props.video);
       } else {
-        let url = this.props.resChatvid.steps[0].videoId.url;
+        let url = this.props.resChatvid.steps[this.state.currentStepNo].videoId.url;
         this.videoRef.src = url;
       }
       this.videoRef.addEventListener("loadedmetadata", this.handleLoadedMetaData);
@@ -227,12 +228,14 @@ class FinalTab extends Component<any> {
   }
 
   handleReply = async () => {
-    const { userEmail, userName, ansText, ansAudio, ansVideo, tab, choiceId, calendar } = this.state;
+    const { userEmail, userName, ansText, ansAudio, ansVideo, tab, choiceId, calendar, currentStepNo } = this.state;
     const { resChatvid, auth } = this.props;
     if (!validateEmail(userEmail)) return toast.error("Enter a valid Email");
     if (!userName) return toast.error("Enter a valid Email");
     toast.info("Repling....")
-    const type = resChatvid.steps[0].responseType === "Multiple-Choice" ? "choice" : resChatvid.steps[0].responseType === "Open-ended" ? (tab === 1 ? "text" : tab === 2 ? "audio" : "video") : "calendar";
+    const type = resChatvid.steps[currentStepNo].responseType === "Multiple-Choice" ?
+      "choice" : resChatvid.steps[currentStepNo].responseType === "Open-ended" ?
+        (tab === 1 ? "text" : tab === 2 ? "audio" : "video") : "calendar";
     let people: any = {
       email: userEmail,
       name: userName,
@@ -242,14 +245,19 @@ class FinalTab extends Component<any> {
     }
     const reply = {
       chatvidId: resChatvid._id,
-      stepId: resChatvid.steps[0]._id,
+      stepId: resChatvid.steps[currentStepNo]._id,
       text: ansText,
       url: (ansVideo ? ansVideo : ansAudio) || "",
       type: type,
       choiceId: choiceId,
       calendar: calendar,
     }
-    this.props.send({ people, reply })
+    this.props.send({ people, reply, open: false, tab: 0 });
+    if (this.props.resChatvid.steps.length > 1 && this.props.resChatvid.steps.length != currentStepNo + 1) {
+      this.setState({ currentStepNo: currentStepNo + 1, tab: 0, open: false }, () => {
+        this.settingUPMedia();
+      });
+    }
   }
 
   renderTabs = (tab: number) => {
@@ -274,7 +282,7 @@ class FinalTab extends Component<any> {
         <Grid container className="mainVideoContainer" xs={12} sm={12} md={6} lg={6}>
           <BorderLinearProgress variant="determinate" value={this.state.percentage} />
           <Grid item xs={12} sm={12} md={12} lg={12}>
-            <video ref={ref => this.videoRef = ref} muted autoPlay loop width="100%" />
+            <video ref={ref => this.videoRef = ref} autoPlay width="100%" />
           </Grid>
         </Grid>
         <Grid container className="ResponseAndTypeWrapper" xs={12} sm={12} md={6} lg={6}>
@@ -327,12 +335,13 @@ class FinalTab extends Component<any> {
 
 const OpenEndedType = (props: any) => {
   const { handleChoice, handleTabChange, send, resChatvid, preview, resType, } = props;
-  const { steps, userId } = resChatvid;
-  let { responseType, choices, calendar } = steps ? steps[0] : {responseType: "", choices: "", calendar: ""};
+  let { steps, userId } = resChatvid;
+  let { responseType, choices, calendar } = steps ? steps[props.currentStepNo] : { responseType: "", choices: "", calendar: "" };
   if (preview) {
     responseType = resType;
     choices = props.choices;
-    calendar = props.calendar
+    calendar = props.calendar;
+    userId = props.auth.user
   }
   return (
     <>

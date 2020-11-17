@@ -22,6 +22,8 @@ import SwapCallsIcon from '@material-ui/icons/SwapCalls';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import ReplayIcon from '@material-ui/icons/Replay';
 
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
@@ -94,7 +96,7 @@ type IProps = {
 
 class Dashboard extends Component<IProps> {
   state = {
-    tab: 0,
+    tab: 1,
   };
   componentDidMount() {
     // this.props.getChatvids();
@@ -386,8 +388,8 @@ const StepsTab = (props: any) => {
 
   const renderChoices = (choice: any, participents: number, ind: number) => {
     const { replies } = choice;
-    participents = participents > 0 ? participents : 1 ;
-    let percentage = Math.round(((replies ? replies?.length : 0) * 100) / participents  )
+    participents = participents > 0 ? participents : 1;
+    let percentage = Math.round(((replies ? replies?.length : 0) * 100) / participents)
     return (
       <div className={`_choiceOption _stepTabsChoices`} key={ind}>
         <Typography variant="h5" > {choice.text} </Typography>
@@ -412,6 +414,13 @@ const StepsTab = (props: any) => {
             return renderStepCard(stp);
           })
         }
+
+        <Grid container className="AddMoreSteps" onClick={() => props.history.push(`/chatvid/step/${props.chatvid?._id}`)}>
+          <AddCircleIcon />
+          <Typography variant="subtitle1">Add more steps</Typography>
+        </Grid>
+
+
       </Grid>
       <Grid item className="_responseWrapper" xs={12} sm={12} md={8} lg={8} >
         {step && step.responseType === "Open-ended" && step.replies.length > 0
@@ -420,7 +429,7 @@ const StepsTab = (props: any) => {
           })}
         {step && step.responseType === "Multiple-Choice" &&
           step.choices.map((choice: any, ind: any) => {
-            return renderChoices(choice, props.chatvid.people.length, ind);
+            return renderChoices(choice, step.replies.length, ind);
           })
         }
       </Grid>
@@ -480,7 +489,7 @@ const InfoHeader = (props: any) => {
             <InputBase
               style={classes.input}
               value={url}
-              // value={`http://localhost:3000/chatvid/res/${chatvid && chatvid._id}`}
+            // value={`http://localhost:3000/chatvid/res/${chatvid && chatvid._id}`}
             />
             <IconButton
               type="submit"

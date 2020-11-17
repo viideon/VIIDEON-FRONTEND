@@ -315,6 +315,17 @@
 ._choicePrcWrapper {}
 ._s {}
 ._P {}
+
+
+.AddMoreSteps {
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #fdb415;
+  padding: 2%;
+  color: #fdb415;
+  cursor: pointer;
+  border-radius: 8px;
+}
 /* END Chatvid.tsx */
 @media only screen and (max-width: 768px) {
   .wrapperHomeContent {

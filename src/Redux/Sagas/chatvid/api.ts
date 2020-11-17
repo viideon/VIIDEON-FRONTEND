@@ -5,6 +5,9 @@ import { config } from "../../../config/aws";
 export function saveChatVid(chatvid: any) {
   return API.post("/chatvid/", chatvid);
 }
+export function addStepToChatvid(step:any) {
+  return API.patch('/chatvid/', step)
+}
 export function getChatvids(userId: string) {
   return API.get(`/chatvid/?userId=${userId}`);
 }
