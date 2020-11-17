@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import classname from "classnames";
 import { getEmailConfigurations } from "../../Redux/Actions/email";
@@ -39,21 +39,21 @@ class Home extends Component<IProps> {
     const isChatvid = (this.props.history.location.pathname.indexOf("/chatvids")) > -1 ? true : false;
     console.log("isChatvid:", isChatvid)
     return (
-      <div className={classname({ videonAppWrapper: isChatvid ? false: true, videonChatvidAppWrapper: isChatvid })}>
+      <div className={classname({ videonAppWrapper: isChatvid ? false : true, videonChatvidAppWrapper: isChatvid })}>
         <Header />
         {
           !isChatvid ?
-          <SideBar
-            history={this.props.history}
-            location={this.props.location}
-            logout={logout}
-          />
-          :
-          <ChatVidBar
-            history={this.props.history}
-            location={this.props.location}
-            logout={logout}
-          />
+            <SideBar
+              history={this.props.history}
+              location={this.props.location}
+              logout={logout}
+            />
+            :
+            <ChatVidBar
+              history={this.props.history}
+              location={this.props.location}
+              logout={logout}
+            />
         }
         <div
           className={drawer ? "wrapperHomeContent" : "wrapperHomeContentFull"}
@@ -64,9 +64,7 @@ class Home extends Component<IProps> {
     );
   }
 }
-const iconStyle = {
-  cursor: "pointer"
-};
+
 const mapStateToProps = (state: any) => {
   return {
     drawer: state.drawer.drawer

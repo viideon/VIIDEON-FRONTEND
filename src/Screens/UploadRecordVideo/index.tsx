@@ -9,7 +9,7 @@ import { LinearProgress, TextField } from "@material-ui/core";
 import ThemeButton from "../../components/ThemeButton";
 import Loading from "../../components/Loading";
 import ChipInput from "material-ui-chip-input";
-import { FaCamera, FaLaptop } from "react-icons/fa";
+import { FaLaptop } from "react-icons/fa";
 import EmailInstruction from "../../components/Reusable/EmailInstruction";
 import { toast } from "react-toastify";
 import Colors from "../../constants/colors";

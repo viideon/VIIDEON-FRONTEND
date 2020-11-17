@@ -4,7 +4,6 @@ import Header from "../../components/Header/Header";
 import AWS from "aws-sdk";
 import { config } from "../../config/aws";
 import { Grid, Typography, CardMedia, Button, LinearProgress, TextField } from "@material-ui/core";
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -104,12 +103,12 @@ class Overview extends React.Component<IProps> {
   onChange = (e: any) => {
     let newState: any = this.state;
     newState[e.target.name] = e.target.value;
-    this.setState({newState});
+    this.setState({ newState });
   }
 
   getPrivew = () => {
     const { name, colors, text, img } = this.state;
-    if(!name) return toast.error("choose a template first")
+    if (!name) return toast.error("choose a template first")
     let settings = {
       name,
       colors,
@@ -120,7 +119,7 @@ class Overview extends React.Component<IProps> {
   }
 
   storeLogo = (logoBlob: any) => {
-    this.setState({assetUploading: false, logoBlob, img: URL.createObjectURL(logoBlob)})
+    this.setState({ assetUploading: false, logoBlob, img: URL.createObjectURL(logoBlob) })
   };
 
   uploadLogo = () => {
@@ -149,12 +148,12 @@ class Overview extends React.Component<IProps> {
   }
 
   onColorChagne = (colors: any) => {
-    this.setState({colors})
+    this.setState({ colors })
   }
 
   saveSettings = () => {
     const { name, colors, text, img } = this.state;
-    if(!name) return toast.error("choose a template first")
+    if (!name) return toast.error("choose a template first")
     let settings = {
       name,
       colors,
@@ -167,7 +166,7 @@ class Overview extends React.Component<IProps> {
   }
 
   render() {
-    const { colors, name, img, text, assetUploading } = this.state;
+    const { name, img, text, assetUploading } = this.state;
     return (
       <>
         <Header styles={{ backgroundImage: "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))" }} />
@@ -193,9 +192,9 @@ class Overview extends React.Component<IProps> {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={12} md={12} lg={12} style={{ overflow: "scroll", marginTop: "10px"}}>
+              <Grid item xs={12} sm={12} md={12} lg={12} style={{ overflow: "scroll", marginTop: "10px" }}>
                 {
-                this.props.preview &&<div dangerouslySetInnerHTML={{__html: this.props.preview}}></div>
+                  this.props.preview && <div dangerouslySetInnerHTML={{ __html: this.props.preview }}></div>
                 }
               </Grid>
             </Grid>
@@ -211,9 +210,9 @@ class Overview extends React.Component<IProps> {
                       <div className="logoIMG" style={{ width: "180px", height: "180px" }}><InsertPhotoIcon /></div>
                   }
                 </Grid>
-                <Grid xs={12} sm={4} style={{ alignSelf: "flex-end"}}>
+                <Grid xs={12} sm={4} style={{ alignSelf: "flex-end" }}>
                   <input type="file" ref={ref => { this.fileRef = ref }} onChange={this.onFileChange} style={{ display: 'none' }} />
-                  <Button style={{ border: "1px solid #fcb41f", background: "transparent", color: "#fcb41f" , width: "80%", marginBottom: "9px"}} onClick={() => this.fileRef.click()}> Chose file </Button>
+                  <Button style={{ border: "1px solid #fcb41f", background: "transparent", color: "#fcb41f", width: "80%", marginBottom: "9px" }} onClick={() => this.fileRef.click()}> Chose file </Button>
                   <Button style={{ background: "#fcb41f", color: "#fff", width: "80%" }} onClick={this.uploadLogo}> Upload Logo </Button>
                   <p style={{ fontSize: "smaller" }}>*Image must be less than 2mb</p>
                 </Grid>
@@ -243,7 +242,7 @@ class Overview extends React.Component<IProps> {
 const Colors = (props: any) => {
   const { useState } = React;
   const { colors, onColorChagne } = props;
-  const {background, primary, accent, link, text1, text2} = colors;
+  const { background, primary, accent, link, text1, text2 } = colors;
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const openColorChanger = (name: string) => {
@@ -261,31 +260,31 @@ const Colors = (props: any) => {
     <Grid container xs={12} sm={12} md={12} lg={12}>
       <Grid container xs={12} sm={12} md={12} lg={12}>
         <Grid item xs={12} sm={6} md={6} lg={6} className="colorCircleWrapper">
-          <div className="colorCircles" onClick={() => {openColorChanger("primary")}} style={{ color: primary ? primary : "" , background: primary ? primary : ""}}></div>
+          <div className="colorCircles" onClick={() => { openColorChanger("primary") }} style={{ color: primary ? primary : "", background: primary ? primary : "" }}></div>
           <p className="colorName">Primary Color</p>
         </Grid>
         <Grid item xs={12} sm={6} md={6} lg={6} className="colorCircleWrapper">
-          <div className="colorCircles" onClick={() => {openColorChanger("background")}} style={{ color: background ? background : "" , background: background ? background : ""}}></div>
+          <div className="colorCircles" onClick={() => { openColorChanger("background") }} style={{ color: background ? background : "", background: background ? background : "" }}></div>
           <p className="colorName">Background Color</p>
         </Grid>
       </Grid>
       <Grid container xs={12} sm={12} md={12} lg={12}>
         <Grid item xs={12} sm={6} md={6} lg={6} className="colorCircleWrapper">
-          <div className="colorCircles" onClick={() => {openColorChanger("text1")}} style={{ color: text1 ? text1 : "" , background: text1 ? text1 : ""}}></div>
+          <div className="colorCircles" onClick={() => { openColorChanger("text1") }} style={{ color: text1 ? text1 : "", background: text1 ? text1 : "" }}></div>
           <p className="colorName">Text 1</p>
         </Grid>
         <Grid item xs={12} sm={6} md={6} lg={6} className="colorCircleWrapper">
-          <div className="colorCircles" onClick={() => {openColorChanger("accent")}} style={{ color: accent ? accent : "" , background: accent ? accent : ""}}></div>
+          <div className="colorCircles" onClick={() => { openColorChanger("accent") }} style={{ color: accent ? accent : "", background: accent ? accent : "" }}></div>
           <p className="colorName">Accent</p>
         </Grid>
       </Grid>
       <Grid container xs={12} sm={12} md={12} lg={12}>
         <Grid item xs={12} sm={6} md={6} lg={6} className="colorCircleWrapper">
-          <div className="colorCircles" onClick={() => {openColorChanger("text2")}} style={{ color: text2 ? text2 : "" , background: text2 ? text2 : ""}}></div>
+          <div className="colorCircles" onClick={() => { openColorChanger("text2") }} style={{ color: text2 ? text2 : "", background: text2 ? text2 : "" }}></div>
           <p className="colorName">Text 2</p>
         </Grid>
         <Grid item xs={12} sm={6} md={6} lg={6} className="colorCircleWrapper">
-          <div className="colorCircles" onClick={() => {openColorChanger("link")}} style={{ color: link ? link : "" , background: link ? link : ""}}></div>
+          <div className="colorCircles" onClick={() => { openColorChanger("link") }} style={{ color: link ? link : "", background: link ? link : "" }}></div>
           <p className="colorName">Links</p>
         </Grid>
       </Grid>

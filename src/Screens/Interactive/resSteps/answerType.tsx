@@ -1,10 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import canvasTxt from "canvas-txt";
-
-import CanvasPlayer from '../../../components/CanvasPlayer/EditingCanvas'
-
-
 import VideoRecorder from "../../../components/VideoRecorder";
 
 
@@ -56,8 +51,8 @@ class FinalTab extends Component<any> {
     text: this.props.overlayTxt ? this.props.overlayTxt : "Hello this is David from ViideOn!",
     textColor: "#fff",
     fontSize: 5,
-    vAlign: "top",
-    align: "left",
+    vAlign: "center",
+    align: "center",
     title: "",
     percentage: 0,
     tab: 0,
@@ -72,14 +67,15 @@ class FinalTab extends Component<any> {
     videoOBJ: {},
     audioOBJ: {},
     currentStepNo: 0,
+    isFull: false,
   }
 
   componentDidMount() {
-    // console.log(this.props.resChatvid)
     this.settingUPMedia();
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: any) {
+    console.log(nextProps.align, nextProps.valign, nextProps.isFull)
     if (nextProps.overlayTxt && nextProps.overlayTxt !== this.state.text) {
       this.setState({ text: nextProps.overlayTxt })
     }
@@ -98,11 +94,14 @@ class FinalTab extends Component<any> {
     if (nextProps.calendar && nextProps.calendar !== this.state.calendar) {
       this.setState({ calendar: nextProps.calendar })
     }
+    if (nextProps.isFull && nextProps.isFull !== this.state.isFull) {
+      this.setState({ isFull: nextProps.isFull })
+    }
   }
 
   settingUPMedia = () => {
     if (this.videoRef) {
-      this.videoRef = this.videoRef;
+      const { text, align, vAlign, } = this.props.resChatvid.steps[this.state.currentStepNo].videoId.textProps;
       if (this.props.video) {
         this.videoRef.src = URL.createObjectURL(this.props.video);
       } else {
@@ -113,6 +112,8 @@ class FinalTab extends Component<any> {
       this.videoRef.addEventListener("play", this.onVideoPlay, false);
       this.videoRef.addEventListener("pause", this.onVideoPause);
       this.videoRef.addEventListener("ended", this.onVideoEnd);
+
+      this.setState({ text, align, vAlign, isFull: this.props.resChatvid.steps[this.state.currentStepNo].isFull || true });
     } else {
       setTimeout(() => {
         this.settingUPMedia()
@@ -181,6 +182,7 @@ class FinalTab extends Component<any> {
   }
 
   handleTabChange = (tab: number) => {
+    if(this.props.history.location.pathname === "/chatvid") return "";
     this.setState({ tab })
   }
 
@@ -218,16 +220,19 @@ class FinalTab extends Component<any> {
   };
 
   handleSend = () => {
+    if(this.props.history.location.pathname === "/chatvid") return "";
     this.setState({ open: !this.state.open })
   }
 
   handleChoiceAndCalender = (value: string, type: string) => {
+    if(this.props.history.location.pathname === "/chatvid") return "";
     let state: any = this.state;
     state[type] = value;
     this.setState({ ...state })
   }
 
   handleReply = async () => {
+    if(this.props.history.location.pathname === "/chatvid") return "";
     const { userEmail, userName, ansText, ansAudio, ansVideo, tab, choiceId, calendar, currentStepNo } = this.state;
     const { resChatvid, auth } = this.props;
     if (!validateEmail(userEmail)) return toast.error("Enter a valid Email");
@@ -253,8 +258,9 @@ class FinalTab extends Component<any> {
       calendar: calendar,
     }
     this.props.send({ people, reply, open: false, tab: 0 });
-    if (this.props.resChatvid.steps.length > 1 && this.props.resChatvid.steps.length != currentStepNo + 1) {
-      this.setState({ currentStepNo: currentStepNo + 1, tab: 0, open: false }, () => {
+    if (resChatvid.steps.length > 1 && resChatvid.steps.length !== currentStepNo + 1) {
+      const { text, align, vAlign } = resChatvid.steps[this.state.currentStepNo].videoId.textProps;
+      this.setState({ currentStepNo: currentStepNo + 1, tab: 0, open: false, align, vAlign, text, isFull: resChatvid.steps[this.state.currentStepNo].isFull }, () => {
         this.settingUPMedia();
       });
     }
@@ -276,13 +282,27 @@ class FinalTab extends Component<any> {
   }
 
   render() {
-    const { open, tab } = this.state;
+    const { open, tab, text, align, vAlign } = this.state;
+    const { preview, resChatvid, isFull } = this.props;
+    const justifyContent = align === "left" ? "flex-start" : align === "right" ? "flex-end" : "center";
+    const alignItems = vAlign === "top" ? "flex-start" : vAlign === "bottom" ? "flex-end" : "center";
+    const isFit = preview ? isFull : resChatvid.steps[this.state.currentStepNo].isFull;
+
     return (
       <Grid container className="responseTypeWrapper">
         <Grid container className="mainVideoContainer" xs={12} sm={12} md={6} lg={6}>
           <BorderLinearProgress variant="determinate" value={this.state.percentage} />
           <Grid item xs={12} sm={12} md={12} lg={12}>
-            <video ref={ref => this.videoRef = ref} autoPlay width="100%" />
+            <div
+              className="overLayText"
+              style={{
+                alignItems,
+                justifyContent
+              }}
+            >
+              <Typography variant="h4" style={{}} > {text} </Typography>
+            </div>
+            <video ref={ref => this.videoRef = ref} className={`${isFit ? "videoFULL" : ""}`} autoPlay width="100%" />
           </Grid>
         </Grid>
         <Grid container className="ResponseAndTypeWrapper" xs={12} sm={12} md={6} lg={6}>
@@ -394,7 +414,6 @@ const OpenEndedType = (props: any) => {
                 {
                   calendar &&
                   <InlineWidget
-                    // url="https://calendly.com/hafizquraishi/30min"
                     url={calendar}
                     styles={{ width: "100%", height: "100%" }}
                   />
@@ -455,7 +474,7 @@ const TextResponse = (props: any) => {
 }
 
 const AudioResponse = (props: any) => {
-  const { useState, useMemo, useEffect } = React;
+  const { useState, useMemo } = React;
   const classes = useStyles();
   const [recording, setRecording]: any = useState(undefined);
   const [timer, setTimer] = useState(120);
@@ -610,7 +629,7 @@ const AudioResponse = (props: any) => {
             id="fitContent"
             className={`BackBTN ${recorded && "fitContent"}`}
             startIcon={<NavigateBeforeOutlinedIcon />}
-            onClick={() => { { !recorded ? handleTabChange(0) : handleReset() } }}
+            onClick={() => { !recorded ? handleTabChange(0) : handleReset() }}
           >
             {!recorded ? "Back" : "Record Again"}
           </Button>
@@ -636,7 +655,6 @@ const VideoResponse = (props: any) => {
   const [videoRecord, setVideoRecord] = React.useState(null);
   const [recorded, setRecorded] = React.useState(false);
 
-
   const handleReset = () => {
     setURL("")
     setVideoRecord(null)
@@ -649,25 +667,20 @@ const VideoResponse = (props: any) => {
       <div>
         {
           recorded && videoRecord ?
-            (
-              <video src={videoURL} controls width={"100%"} />
-            )
+            (<video src={videoURL} controls width={"100%"} />)
             :
-            (
-              <VideoRecorder
-                getBlob={(blob: any) => {
-                  props.toggleSendVariable();
-                  setVideoRecord(blob);
-                  setURL(URL.createObjectURL(blob))
-                  setRecorded(true);
-                }}
-                reset={() => { setVideoRecord(null); handleTabChange(0) }}
-                // proceed={this.save}
-                interActive={true}
-              // quality={this.state.selectedValue}
-              />
-            )
-
+            (<VideoRecorder
+              getBlob={(blob: any) => {
+                props.toggleSendVariable();
+                setVideoRecord(blob);
+                setURL(URL.createObjectURL(blob))
+                setRecorded(true);
+              }}
+              reset={() => { setVideoRecord(null); handleTabChange(0) }}
+              // proceed={this.save}
+              interActive={true}
+            // quality={this.state.selectedValue}
+            />)
         }
       </div>
       {
@@ -678,7 +691,7 @@ const VideoResponse = (props: any) => {
             id="fitContent"
             className={`BackBTN ${recorded && "fitContent"}`}
             startIcon={<NavigateBeforeOutlinedIcon />}
-            onClick={() => { { !recorded ? handleTabChange(0) : handleReset() } }}
+            onClick={() => { !recorded ? handleTabChange(0) : handleReset() }}
           >
             {!recorded ? "Back" : "Record Again"}
           </Button>
@@ -749,11 +762,6 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const iconStyle = {
-  padding: 0,
-  width: "1em",
-  height: "1em"
-};
 const mapStateToProps = (state: any) => {
   return {
     auth: state.auth,

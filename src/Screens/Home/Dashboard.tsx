@@ -6,7 +6,6 @@ import PublishIcon from "@material-ui/icons/Publish";
 import ImageSearchIcon from "@material-ui/icons/ImageSearch";
 import EditIcon from "@material-ui/icons/Edit";
 import HeaderCard from "../../components/HeaderCards";
-import VoiceChatIcon from "@material-ui/icons/VoiceChat";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import { getVideoCount, getCampaignCount } from "../../Redux/Actions/videos";

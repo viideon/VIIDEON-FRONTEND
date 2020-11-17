@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Card,
-  CardActionArea,
-  CardActions,
-  CardContent,
-  Button,
-  CardMedia,
-  Typography
-} from "@material-ui/core";
+import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@material-ui/core";
 
 interface IProps {
   proceedToRecording: (template: any) => void;

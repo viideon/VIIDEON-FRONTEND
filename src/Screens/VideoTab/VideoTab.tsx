@@ -4,11 +4,10 @@ import { getVideo, cleanSingleVideo } from "../../Redux/Actions/videos";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import Grid from "@material-ui/core/Grid";
 import "react-tabs/style/react-tabs.css";
-import { FaInfo, FaChartLine, FaCut, FaShare } from "react-icons/fa";
+import { FaInfo, FaChartLine, FaShare } from "react-icons/fa";
 import PaletteIcon from "@material-ui/icons/Palette";
 import VideoTabHeader from "./Header";
 import Detail from "./Detail";
-import Editing from "./Editing";
 import Share from "./Share";
 import Analytics from "./Analytics";
 import Design from "./Design";
@@ -19,14 +18,12 @@ const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
   const [isDisabled, enableLinks] = useState(true);
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
-  useEffect(() => {
     getVideo(params.id);
     setTimeout(() => enableLinks(false), 1000);
     return () => {
       // cleanSingleVideo();
     };
-  }, []);
+  }, [getVideo, params.id]);
 
   return (
     <>

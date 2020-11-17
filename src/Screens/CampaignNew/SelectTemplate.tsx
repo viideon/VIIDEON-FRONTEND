@@ -37,30 +37,16 @@ class SelectTemplate extends React.Component<IProps> {
           </div>
         )}
         <Grid container>
-          <Grid
-            container
-            xs={12}
-            sm={4}
-            md={3}
-            lg={3}
-            className="choseIndustryContainer"
-          >
+          <Grid container xs={12} sm={4} md={3} lg={3} className="choseIndustryContainer">
             {industry && (
               <Grid item xs={12} sm={12} md={10} lg={10}>
                 <ChosedIndustry
                   industry={industry}
-                  proceedToRecording={() => {}}
+                  proceedToRecording={() => { }}
                 />
               </Grid>
             )}
-            <Grid
-              item
-              xs={12}
-              sm={12}
-              md={10}
-              lg={10}
-              style={{ textAlign: "center" }}
-            >
+            <Grid item xs={12} sm={12} md={10} lg={10} style={{ textAlign: "center" }}>
               <Button
                 variant="outlined"
                 color="default"
@@ -72,26 +58,20 @@ class SelectTemplate extends React.Component<IProps> {
               </Button>
             </Grid>
           </Grid>
-          <Grid
-            container
-            xs={12}
-            sm={8}
-            md={9}
-            lg={9}
-            className="TemplateWrapperContainer"
-          >
+          <Grid container xs={12} sm={8} md={9} lg={9} className="TemplateWrapperContainer">
             {templates &&
               templates.map((template: any) => {
-                if(industry._id === template.industryId) {
+                if (industry._id === template.industryId) {
                   return (
-                  <Grid item xs={12} sm={6} md={4} lg={4} key={template._id}>
-                    <CampaignTemplateCard
-                      template={template}
-                      proceedToRecording={this.proceedToRecording}
-                    />
-                  </Grid>
+                    <Grid item xs={12} sm={6} md={4} lg={4} key={template._id}>
+                      <CampaignTemplateCard
+                        template={template}
+                        proceedToRecording={this.proceedToRecording}
+                      />
+                    </Grid>
                   )
                 }
+                return ""
               })}
           </Grid>
         </Grid>

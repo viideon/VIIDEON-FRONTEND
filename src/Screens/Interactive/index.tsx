@@ -2,14 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { config } from "../../config/aws";
-import canvasTxt from "canvas-txt";
 import AWS from "aws-sdk";
-import Loading from "../../components/Loading";
-
 
 import { saveChatvid, addStepToChatvid } from "../../Redux/Actions/chatvid";
 import { toggleSendVariable } from '../../Redux/Actions/videos';
-import { VideoState, VideoSave, } from "../../Redux/Types/videos";
+import { VideoState } from "../../Redux/Types/videos";
 import { AuthState } from "../../Redux/Types/auth";
 import "react-tabs/style/react-tabs.css";
 
@@ -25,7 +22,6 @@ import FinalTab from './steps/final';
 
 import "./style.css";
 const s3 = new AWS.S3(config);
-const gifshot = require("gifshot");
 type IProps = {
   auth: AuthState;
   history: any;
@@ -48,7 +44,7 @@ class ChatVid extends Component<IProps> {
     fontSize: 5,
     vAlign: "top",
     align: "left",
-    fitvideo: false,
+    fitvideo: true,
     responseType: "Open-ended",
     calendar: "",
     urlRecord: "",
@@ -60,7 +56,7 @@ class ChatVid extends Component<IProps> {
 
   componentDidMount() {
     let pathname = this.props.history.location.pathname.split('/');
-    if (pathname[1] == "chatvid" && pathname[2] === "step") {
+    if (pathname[1] === "chatvid" && pathname[2] === "step") {
       this.setState({ isAddStep: true, chatvidId: pathname[3], tittle: this.props.chatvids.selectedChatvid.name })
     }
   }
@@ -133,9 +129,9 @@ class ChatVid extends Component<IProps> {
   }
 
   moveTofinal = () => {
-    if(this.state.isAddStep && this.state.chatvidId) {
+    if (this.state.isAddStep && this.state.chatvidId) {
       this.createChatVid();
-    }else {
+    } else {
       this.setState({ step: 5 });
     }
   }
@@ -244,12 +240,6 @@ class ChatVid extends Component<IProps> {
   }
 }
 
-
-const iconStyle = {
-  padding: 0,
-  width: "1em",
-  height: "1em"
-};
 const mapStateToProps = (state: any) => {
   return {
     auth: state.auth,

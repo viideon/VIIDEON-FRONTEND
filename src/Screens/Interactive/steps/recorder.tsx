@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { Grid, Select, MenuItem, InputLabel } from "@material-ui/core";
-import { toast } from "react-toastify";
-import Dropzone from "react-dropzone";
 import CancelIcon from '@material-ui/icons/Cancel';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
@@ -11,8 +9,6 @@ import VideoRecorder from "../../../components/VideoRecorder";
 
 import "react-tabs/style/react-tabs.css";
 import "../style.css";
-
-const gifshot = require("gifshot");
 
 type RState = {
   file: any;
@@ -292,11 +288,6 @@ const RecoderSettingHeader = (props: any) => {
   )
 }
 
-const iconStyle = {
-  padding: 0,
-  width: "1em",
-  height: "1em"
-};
 const mapStateToProps = (state: any) => {
   return {
     auth: state.auth,

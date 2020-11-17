@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import { UserProfile } from "../../Redux/Types/profile";
 import { selectChatvid } from '../../Redux/Actions/chatvid';
-import LogoutModal from "../Modals/logout";
-import Tooltip from "@material-ui/core/Tooltip";
 import classname from "classnames";
 import Colors from '../../constants/colors';
 
@@ -44,7 +41,6 @@ class SideBar extends Component<IProps, IState> {
     this.handleChangeTab(`/chatvids/form/${chatvid._id}`);
   }
   render() {
-    const { user, logout } = this.props;
     const { drawer } = this.props;
     var activeSideBar = this.state.activeTab;
     if (this.props.location.pathname !== activeSideBar)
@@ -83,7 +79,7 @@ class SideBar extends Component<IProps, IState> {
                 >
                   {vids.thumbnail ?
                     <div className="thumbnailInChatvidBar">
-                      <img src={vids.thumbnail} />
+                      <img src={vids.thumbnail} alt="thumbnail" />
                     </div>
                     :
                     <i className="fab fa-microsoft" style={iconStyle} />
@@ -105,20 +101,7 @@ const iconStyle = {
   color: "#FFFFFF",
   cursor: "pointer"
 };
-const thumbnailStyle = {
-  width: "3em",
-  height: "3em",
-  cursor: "pointer",
-  display: "flex",
-  objectFit: "cover",
-  borderRadius: "18%",
-  objectPosition: "center",
-  overflow: "hidden",
-}
-const arrowIcon = {
-  marginLeft: "auto",
-  marginRight: "12px"
-};
+
 const mapStateToProps = (state: any) => {
   return {
     user: state.profile.user,

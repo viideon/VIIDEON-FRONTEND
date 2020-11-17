@@ -10,12 +10,10 @@ import Switch from "@material-ui/core/Switch";
 import TextField from "@material-ui/core/TextField";
 import StopRoundedIcon from "@material-ui/icons/StopRounded";
 import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
-import PauseCircleFilledRoundedIcon from '@material-ui/icons/PauseCircleFilledRounded';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
-import PauseOutlinedIcon from "@material-ui/icons/PauseOutlined";
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+
 import { toast } from "react-toastify";
 
 import "./style.css";
@@ -362,9 +360,6 @@ class Recording extends React.Component<IProps> {
         <div className="recorderActionWrapper" style={{ background: (showStopBtn && !showResult) ? "#fdb415" : showResult ? "#ffffff" : "" }}>
           { !showResult ? (
             <>
-            {/* <Tooltip title="Pause" placement="top" arrow>
-              <PauseCircleFilledRoundedIcon className="pauseBtn" onClick={() => showStopBtn && this.pauseRecorder()} />
-            </Tooltip> */}
             <Tooltip title="Add note" placement="top" arrow>
               <div className="addNote">
                 <FormControlLabel

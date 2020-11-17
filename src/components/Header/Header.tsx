@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import MenuIcon from "@material-ui/icons/Menu";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -67,14 +67,14 @@ const Header: React.FC<IProps> = ({
         {location.pathname !== "/" ? (
           <Tooltip title="Redirect to Dashboard">
             <h3 className="headerStyle" onClick={navigateHome}>
-              <img style={{ width: "40%" }} src={whiteLogo} />
+              <img style={{ width: "40%" }} src={whiteLogo} alt="logo" />
             </h3>
           </Tooltip>
         ) : (
-          <h3 className="headerStyle" onClick={navigateHome}>
-            <img style={{ width: "40%" }} src={whiteLogo} />
-          </h3>
-        )}
+            <h3 className="headerStyle" onClick={navigateHome}>
+              <img style={{ width: "40%" }} src={whiteLogo} alt="logo" />
+            </h3>
+          )}
         <MenuIcon
           onClick={() => {
             toggle();

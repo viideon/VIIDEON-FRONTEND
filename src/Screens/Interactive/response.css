@@ -23,6 +23,18 @@
   background: inherit;
   /* width: 100%; */
 }
+.overLayText {
+  display: flex;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  padding: 1%;
+  width: calc(100% - 50%);
+  color: #fdb415;
+}
+.videoFULL {
+  object-fit: cover !important;
+}
 .captionDiv {
   background: #fdb415;
   height: 50% !important;

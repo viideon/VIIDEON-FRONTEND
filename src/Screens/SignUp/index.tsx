@@ -25,10 +25,7 @@ const validationSchema = Yup.object().shape({
     .min(6, "Password must be 6 characters long"),
   email: Yup.string()
     .required("Enter Email")
-    .matches(
-      /([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)\@gmail([\.])com/g,
-      "Please enter a gmail account"
-    ),
+    .matches(/([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)\@gmail([\.])com/g, "Please enter a gmail account"),
   passwordConfirmation: Yup.string()
     .required("Enter Confirm Password ")
     .oneOf([Yup.ref("password")], "Passwords must match"),
@@ -59,7 +56,7 @@ class Signup extends React.Component<IProps, IState> {
     if (
       nextProps.registerUser.isSignupSuccess &&
       nextProps.registerUser.isSignupSuccess !==
-        this.props.registerUser.isSignupSuccess
+      this.props.registerUser.isSignupSuccess
     ) {
       this.props.history.push("/");
     }
@@ -86,7 +83,7 @@ class Signup extends React.Component<IProps, IState> {
           <Grid item xs={12} md={7} sm={12} className="sm-none">
             <div className="firstLayoutContainer">
               <div className="firstLayoutMainContainer">
-                <img src={whiteLogo} />
+                <img src={whiteLogo} alt="logo" />
               </div>
               <div
                 style={{
@@ -96,7 +93,7 @@ class Signup extends React.Component<IProps, IState> {
                   opacity: "0.5"
                 }}
               >
-                <img style={{ width: "30%" }} src={atom} />
+                <img style={{ width: "30%" }} src={atom} alt="logo" />
               </div>
             </div>
           </Grid>

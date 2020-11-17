@@ -47,8 +47,13 @@
   background: #ffffff;
   height: auto !important;
 }
-.chatvidPreviewWrapper .responseTypeWrapper .mainVideoContainer .MuiGrid-item{
+/* .chatvidPreviewWrapper .responseTypeWrapper .mainVideoContainer .MuiGrid-item{
   margin-top: 0px !important;
+} */
+.chatvidPreviewWrapper .responseTypeWrapper .mainVideoContainer .MuiGrid-item .overLayText{
+  width: calc(100% - 70%);
+  top: auto;
+  height: 70%
 }
 .chatvidPreviewWrapper .responseTypeWrapper .optionDiv{
   background: #ffffff;

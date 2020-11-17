@@ -2,12 +2,7 @@ import React from "react";
 import { toast } from "react-toastify";
 import VideoInfo from "../../components/VideoInfo";
 import { connect } from "react-redux";
-import {
-  CircularProgress,
-  Grid,
-  TextField,
-  InputAdornment
-} from "@material-ui/core";
+import { CircularProgress, Grid, } from "@material-ui/core";
 import Colors from "../../constants/colors";
 import ThemeButton from "../../components/ThemeButton";
 import CanvasPlayer from "../../components/CanvasPlayer/EditingCanvas";
@@ -23,27 +18,13 @@ import DirectionsIcon from "@material-ui/icons/Directions";
 
 import { updateVideo } from "../../Redux/Actions/videos";
 
-import { makeStyles } from "@material-ui/core/styles";
-import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
-import PersonIcon from "@material-ui/icons/Person";
-import AddIcon from "@material-ui/icons/Add";
-import Typography from "@material-ui/core/Typography";
-import { blue } from "@material-ui/core/colors";
 
 const { availableTheme } = require("../../constants/constants");
-
-const useStyles = makeStyles({
-  avatar: {
-    backgroundColor: blue[100],
-    color: blue[600]
-  }
-});
 
 export interface SimpleDialogProps {
   open: boolean;
@@ -52,7 +33,6 @@ export interface SimpleDialogProps {
 }
 
 function SimpleDialog(props: SimpleDialogProps) {
-  const classes = useStyles();
   const { onClose, selectedValue, open } = props;
 
   const handleClose = () => {
@@ -78,7 +58,7 @@ function SimpleDialog(props: SimpleDialogProps) {
               onClick={() => handleListItemClick(theme.name)}
               key={theme.name}
             >
-              <img className="avatarImage" src={theme.avatar} />
+              <img className="avatarImage" src={theme.avatar} alt="avatar" />
               <ListItemText primary={theme.name} />
             </ListItem>
           ))}
@@ -138,7 +118,7 @@ class VideoTabHeader extends React.Component<IProps> {
     navigator.permissions
       .query({ name: "clipboard-write" as PermissionName })
       .then(result => {
-        if (result.state == "granted" || result.state == "prompt") {
+        if (result.state === "granted" || result.state === "prompt") {
           navigator.clipboard.writeText(newClip);
         }
       });
@@ -173,9 +153,8 @@ class VideoTabHeader extends React.Component<IProps> {
   };
 
   handleCloseTemplate = (name: string) => {
-    if(!name) return this.setState({ open: false});
+    if (!name) return this.setState({ open: false });
     const { video } = this.props;
-    const { template } = this.state;
     let newVideo: any = video;
     newVideo.id = video?._id;
     newVideo.eMailTemplate = name;
@@ -229,14 +208,14 @@ class VideoTabHeader extends React.Component<IProps> {
             </div>
           </>
         ) : (
-          <h3 className="videoTitle">
-            {video && video.title}
-            <EditIcon
-              onClick={this.handleEditTitle}
-              style={{ cursor: "pointer" }}
-            />
-          </h3>
-        )}
+            <h3 className="videoTitle">
+              {video && video.title}
+              <EditIcon
+                onClick={this.handleEditTitle}
+                style={{ cursor: "pointer" }}
+              />
+            </h3>
+          )}
         <VideoInfo video={video} />
         <Grid container xs={12} sm={12} md={12} id="editingToolsWrapper">
           <Grid item xs={12} sm={12} md={6} id="editingWrapper">

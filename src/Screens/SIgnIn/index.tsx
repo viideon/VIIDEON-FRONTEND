@@ -4,7 +4,6 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import { connect } from "react-redux";
 import InputRoundIcon from "../../components/InputRound/InputRoundIcon";
-import Label from "../../components/Reusable/Label";
 import Alert from "@material-ui/lab/Alert";
 import { toast } from "react-toastify";
 import * as Constants from "../../constants/constants";
@@ -18,7 +17,6 @@ import {
 import { User } from "../../Redux/Types/auth";
 import Loading from "../../components/Loading";
 import ThemeButton from "../../components/ThemeButton";
-import VerifySuccessModal from "../../components/Modals/verifySuccessModal";
 import Colors from "../../constants/colors";
 import "./style.css";
 
@@ -83,7 +81,7 @@ class Signin extends React.Component<IProps, IState> {
     if (
       this.props.verifyState &&
       JSON.stringify(prevProps.verifyState) !==
-        JSON.stringify(this.props.verifyState) &&
+      JSON.stringify(this.props.verifyState) &&
       this.props.verifyState.VerifySuccess
     ) {
       this.setState({ verifySuccessModals: true });
@@ -119,7 +117,7 @@ class Signin extends React.Component<IProps, IState> {
           <Grid item xs={12} md={7} sm={12} className="sm-none">
             <div className="firstLayoutContainer">
               <div className="firstLayoutMainContainer">
-                <img src={whiteLogo} />
+                <img src={whiteLogo} alt="logo" />
               </div>
               <div
                 style={{
@@ -129,7 +127,7 @@ class Signin extends React.Component<IProps, IState> {
                   opacity: "0.5"
                 }}
               >
-                <img style={{ width: "30%" }} src={atom} />
+                <img style={{ width: "30%" }} src={atom} alt="logo" />
               </div>
             </div>
           </Grid>

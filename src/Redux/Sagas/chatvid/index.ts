@@ -1,4 +1,4 @@
-import { put, takeEvery, takeLatest, call, select } from "redux-saga/effects";
+import { put, takeEvery, select } from "redux-saga/effects";
 import { types } from "../../Types/chatvid";
 import {
   getChatvids,
@@ -6,7 +6,6 @@ import {
   saveChatVid,
   replyToAChatvid,
   addStepToChatvid,
-  deleteDataAws,
 } from "./api";
 import {
   selectID,

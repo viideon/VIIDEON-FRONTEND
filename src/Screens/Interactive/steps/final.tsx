@@ -1,15 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { Grid, Typography, TextField, Divider, Button } from "@material-ui/core";
-
-import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import NavigateBeforeOutlinedIcon from "@material-ui/icons/NavigateBeforeOutlined";
-import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
-
-import CalendarTodayRoundedIcon from '@material-ui/icons/CalendarTodayRounded';
-
+import { Grid, Typography, Button } from "@material-ui/core";
 import CancelIcon from '@material-ui/icons/Cancel';
 
 import "react-tabs/style/react-tabs.css";
@@ -75,11 +67,6 @@ class FinalTab extends Component<any> {
   }
 }
 
-const iconStyle = {
-  padding: 0,
-  width: "1em",
-  height: "1em"
-};
 const mapStateToProps = (state: any) => {
   return {
     auth: state.auth,

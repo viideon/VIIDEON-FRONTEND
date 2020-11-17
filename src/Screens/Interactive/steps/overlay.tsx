@@ -4,10 +4,8 @@ import { connect } from "react-redux";
 import { Grid, Typography, TextField, Divider, Button } from "@material-ui/core";
 
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
-import Switch, { SwitchClassKey, SwitchProps } from '@material-ui/core/Switch';
+import Switch from '@material-ui/core/Switch';
 import Slider from '@material-ui/core/Slider';
-import Tooltip from '@material-ui/core/Tooltip';
-
 
 import Select from '@material-ui/core/Select';
 
@@ -20,20 +18,6 @@ import VerticalAlignCenterIcon from '@material-ui/icons/VerticalAlignCenter';
 import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import NavigateBeforeOutlinedIcon from "@material-ui/icons/NavigateBeforeOutlined";
-
-// Preview
-import DesktopWindowsIcon from '@material-ui/icons/DesktopWindows';
-import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
-import ForwardIcon from '@material-ui/icons/Forward';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import HouseIcon from '@material-ui/icons/House';
-import MenuIcon from '@material-ui/icons/Menu';
-import CallMadeIcon from '@material-ui/icons/CallMade';
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
-
-import { PreviewSearchBar } from '../../../components/SearchBar';
-
-// PreviewEND
 
 
 import ToggleButton from '@material-ui/lab/ToggleButton';
@@ -70,7 +54,6 @@ class RecorderTab extends Component<any> {
   }
 
   render() {
-    const { active } = this.state;
     return (
       <Grid container className="overLayWrapperTab">
         <Grid container xs={12} sm={12} md={8} lg={8}>
@@ -282,12 +265,6 @@ const PrettoSlider = withStyles({
   },
 })(Slider);
 
-
-const iconStyle = {
-  padding: 0,
-  width: "1em",
-  height: "1em"
-};
 const mapStateToProps = (state: any) => {
   return {
     auth: state.auth,

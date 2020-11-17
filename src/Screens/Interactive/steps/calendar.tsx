@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { Grid, Typography, TextField, Divider, Button } from "@material-ui/core";
+import { Grid, Typography, Button } from "@material-ui/core";
 
-import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import NavigateBeforeOutlinedIcon from "@material-ui/icons/NavigateBeforeOutlined";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 
@@ -82,11 +80,6 @@ class Calendar extends Component<any> {
   }
 }
 
-const iconStyle = {
-  padding: 0,
-  width: "1em",
-  height: "1em"
-};
 const mapStateToProps = (state: any) => {
   return {
     auth: state.auth,

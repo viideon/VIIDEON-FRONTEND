@@ -22,10 +22,10 @@ const ChatvidPreviewTab = (props: any) => {
   return (
     <div className="previewTab">
       <div className="previewTabswrapper">
-        <div className={`${active == "mobile" && "active"} tabIconWrapper`} onClick={() => setActive("mobile")}>
+        <div className={`${active === "mobile" && "active"} tabIconWrapper`} onClick={() => setActive("mobile")}>
           <PhoneIphoneIcon />
         </div>
-        <div className={`${active == "web" && "active"} tabIconWrapper`} onClick={() => setActive("web")}>
+        <div className={`${active === "web" && "active"} tabIconWrapper`} onClick={() => setActive("web")}>
           <DesktopWindowsIcon />
         </div>
       </div>
@@ -61,6 +61,8 @@ const ChatvidPreviewTab = (props: any) => {
           choices={props.choices}
           calendar={props.calendar}
           preview={true}
+          isFull={props.fitvideo}
+          history={props.history}
         />
       </div>
     </div>

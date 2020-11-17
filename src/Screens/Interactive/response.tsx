@@ -80,12 +80,6 @@ class ChatVid extends Component<IProps> {
   }
 }
 
-
-const iconStyle = {
-  padding: 0,
-  width: "1em",
-  height: "1em"
-};
 const mapStateToProps = (state: any) => {
   return {
     auth: state.auth,

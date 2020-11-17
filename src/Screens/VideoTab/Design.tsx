@@ -1,10 +1,7 @@
 import React from "react";
-import { Select, MenuItem, Grid, Tooltip } from "@material-ui/core";
-import Loading from "../../components/Loading";
-import HelpIcon from "@material-ui/icons/Help";
+import { Select, MenuItem, Grid } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import * as Constants from "../../constants/constants";
 import { updateVideo } from "../../Redux/Actions/videos";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -46,7 +43,7 @@ class Detail extends React.Component<IProps> {
     clearTimeout(this.state.typingTimeout);
     this.setState({
       description: e.target.value,
-      typingTimeout: setTimeout(function() {
+      typingTimeout: setTimeout(function () {
         that.triggerUpdate(that.state.description);
       }, 2000)
     });
@@ -60,7 +57,6 @@ class Detail extends React.Component<IProps> {
     this.props.updateVideo(video);
   };
   render() {
-    const { loading } = this.props;
     return (
       <div className="designTabWrapper">
         <Grid container>
@@ -88,8 +84,8 @@ class Detail extends React.Component<IProps> {
             <div>
               <Select
                 id="logoPositionSelect"
-                // onChange={this.setQuality}
-                // value={this.state.selectValue}
+              // onChange={this.setQuality}
+              // value={this.state.selectValue}
               >
                 <MenuItem value={"top-left"}> top left </MenuItem>
                 <MenuItem value={"top-right"}> top right </MenuItem>

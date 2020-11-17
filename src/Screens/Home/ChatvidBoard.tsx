@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { getChatvids } from "../../Redux/Actions/chatvid";
 
 import { Grid, Typography } from "@material-ui/core";
@@ -27,7 +27,6 @@ class Dashboard extends Component<IProps> {
     this.props.history.push({ pathname: "/video/create", show: show });
   };
   render() {
-    const { user } = this.props;
     return (
       <Home>
         <Grid container className="wrapperChatvidDashboard">
@@ -57,11 +56,6 @@ class Dashboard extends Component<IProps> {
   }
 }
 
-const iconStyle = {
-  fontSize: "50px",
-  cursor: "pointer",
-  color: "#FFFFFF"
-};
 const mapStateToProps = (state: any) => {
   return {
     user: state.auth.user,

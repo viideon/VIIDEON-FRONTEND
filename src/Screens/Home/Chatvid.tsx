@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { getChatvids } from "../../Redux/Actions/chatvid";
 import classname from 'classnames';
 import Colors from '../../constants/colors';
 import ThemeButton from '../../components/ThemeButton'
 
-import { Grid, Typography, CardMedia } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 
 import Paper from "@material-ui/core/Paper";
@@ -42,50 +42,20 @@ import PermMediaIcon from '@material-ui/icons/PermMedia';
 import {
   EmailShareButton,
   FacebookShareButton,
-  HatenaShareButton,
-  InstapaperShareButton,
-  LineShareButton,
   LinkedinShareButton,
-  LivejournalShareButton,
-  MailruShareButton,
-  OKShareButton,
-  PinterestShareButton,
-  PocketShareButton,
   RedditShareButton,
-  TelegramShareButton,
-  TumblrShareButton,
   TwitterShareButton,
-  ViberShareButton,
-  VKShareButton,
   WhatsappShareButton,
-  WorkplaceShareButton
 } from "react-share";
 
 import {
   EmailIcon,
-  FacebookIcon,
   FacebookMessengerIcon,
-  HatenaIcon,
-  InstapaperIcon,
-  LineIcon,
   LinkedinIcon,
-  LivejournalIcon,
-  MailruIcon,
-  OKIcon,
-  PinterestIcon,
-  PocketIcon,
   RedditIcon,
-  TelegramIcon,
-  TumblrIcon,
   TwitterIcon,
-  ViberIcon,
-  VKIcon,
-  WeiboIcon,
   WhatsappIcon,
-  WorkplaceIcon
 } from "react-share";
-import choices from "../Interactive/steps/choices";
-
 
 type IProps = {
   history: any;
@@ -111,7 +81,6 @@ class Dashboard extends Component<IProps> {
   }
   render() {
     const { tab } = this.state;
-    const { chatvid } = this.props;
     return (
       <Home>
         <InfoHeader {...this.props} />
@@ -202,7 +171,7 @@ const ResponderTab = (props: any) => {
 
   const renderResponse = (tab: number) => {
     const type = tab === 1 ? "text" : tab === 2 ? "audio" : "video";
-    const res = stp.replies?.filter((reply: any) => reply.poepleId._id === resPerson && reply.type === type)
+    const res = stp.replies?.filter((reply: any) => reply.peopleId._id === resPerson && reply.type === type)
     return (
       <>
         {res.map((r: any, i: number) => {
@@ -232,9 +201,10 @@ const ResponderTab = (props: any) => {
     )
   }
 
-  const renderChoices = (choice: any, ind: number) => {
-    const { replies } = choice;
-    const isActive = replies && replies?.filter((reply: any) => reply === resPerson) || false;
+  const renderChoices = (choice: any, ind: number, repl: any) => {
+    const { replies } = choice
+    let isActive = false;
+    replies?.filter((reply: any) => { if (reply.peopleId === resPerson) { isActive = true; } return reply });
     return (
       <div className={`_choiceOption ${isActive && 'chosed'}`} key={ind}>
         <Typography variant="h5" > {choice.text} </Typography>
@@ -320,7 +290,7 @@ const ResponderTab = (props: any) => {
                   renderResponse(activeType) :
                   stp.responseType === "Multiple-Choice" ?
                     stp.choices.map((choice: any, index: number) => {
-                      return renderChoices(choice, index)
+                      return renderChoices(choice, index, stp.replies)
                     }) : ""
                 }
               </Grid>
@@ -459,7 +429,7 @@ const InfoHeader = (props: any) => {
       <Grid container xs={12} sm={12} md={8} lg={8} >
         <Grid item xs={1} sm={1} md={2} lg={2} >
           <div className="thumbnailInChatvidHead">
-            <img src={chatvid?.thumbnail} />
+            <img src={chatvid?.thumbnail} alt="thumbnail" />
           </div>
         </Grid>
         <Grid item xs={10} sm={10} md={8} lg={8} >
