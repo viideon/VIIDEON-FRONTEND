@@ -214,7 +214,7 @@ const ResponderTab = (props: any) => {
 
   let unique: any = {};
   const responders: any = props.chatvid.people?.filter((person: any, index: number) => { if (!unique[person._id]) { unique[person._id] = person; return person } })
-    return (
+  return (
     <>
       <Grid item className="responderWrapper" xs={12} sm={12} md={4} lg={4} >
         <Paper style={{ ...classes.root, overflow: "hidden", height: "36px", border: "none", marginBottom: "3%", background: "#f2f2f2", width: "90%" }}>
