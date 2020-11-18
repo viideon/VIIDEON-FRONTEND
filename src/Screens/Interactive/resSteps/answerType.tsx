@@ -75,18 +75,21 @@ class FinalTab extends Component<any> {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: any) {
-    console.log(nextProps.align, nextProps.valign, nextProps.isFull)
-    if (nextProps.overlayTxt && nextProps.overlayTxt !== this.state.text) {
+    this.settingTextProps(nextProps)
+  }
+
+  settingTextProps = (nextProps: any) => {
+    if (nextProps.overlayTxt) {
       this.setState({ text: nextProps.overlayTxt })
     }
-    if (nextProps.fontSize && nextProps.fontSize !== this.state.fontSize) {
+    if (nextProps.fontSize) {
       this.setState({ fontSize: nextProps.fontSize })
     }
-    if (nextProps.align && nextProps.align !== this.state.align) {
+    if (nextProps.align) {
       this.setState({ align: nextProps.align })
     }
-    if (nextProps.valign && nextProps.valign !== this.state.vAlign) {
-      this.setState({ vAlign: nextProps.valign })
+    if (nextProps.vAlign && nextProps.vAlign !== this.state.vAlign) {
+      this.setState({ vAlign: nextProps.vAlign })
     }
     if (nextProps.fontSize && nextProps.fontSize !== this.state.fontSize) {
       this.setState({ fontSize: nextProps.fontSize })
@@ -94,26 +97,25 @@ class FinalTab extends Component<any> {
     if (nextProps.calendar && nextProps.calendar !== this.state.calendar) {
       this.setState({ calendar: nextProps.calendar })
     }
-    if (nextProps.isFull && nextProps.isFull !== this.state.isFull) {
+    if (nextProps.isFull) {
       this.setState({ isFull: nextProps.isFull })
     }
   }
-
   settingUPMedia = () => {
     if (this.videoRef) {
-      const { text, align, vAlign, } = this.props.resChatvid.steps[this.state.currentStepNo].videoId.textProps;
       if (this.props.video) {
         this.videoRef.src = URL.createObjectURL(this.props.video);
+        this.settingTextProps(this.props);
       } else {
         let url = this.props.resChatvid.steps[this.state.currentStepNo].videoId.url;
         this.videoRef.src = url;
+        const { text, align, vAlign, } = this.props.resChatvid.steps[this.state.currentStepNo].videoId.textProps;
+        this.setState({ text, align, vAlign, isFull: this.props.resChatvid.steps[this.state.currentStepNo].isFull || true });
       }
       this.videoRef.addEventListener("loadedmetadata", this.handleLoadedMetaData);
       this.videoRef.addEventListener("play", this.onVideoPlay, false);
       this.videoRef.addEventListener("pause", this.onVideoPause);
       this.videoRef.addEventListener("ended", this.onVideoEnd);
-
-      this.setState({ text, align, vAlign, isFull: this.props.resChatvid.steps[this.state.currentStepNo].isFull || true });
     } else {
       setTimeout(() => {
         this.settingUPMedia()
@@ -232,7 +234,7 @@ class FinalTab extends Component<any> {
   }
 
   handleReply = async () => {
-    if(this.props.history.location.pathname === "/chatvid") return "";
+    if(this.props.history.location.pathname === "/chatvid" || this.props.preview) return "";
     const { userEmail, userName, ansText, ansAudio, ansVideo, tab, choiceId, calendar, currentStepNo } = this.state;
     const { resChatvid, auth } = this.props;
     if (!validateEmail(userEmail)) return toast.error("Enter a valid Email");

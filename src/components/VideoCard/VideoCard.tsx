@@ -18,6 +18,7 @@ interface Video {
   views?: number;
   watch?: number;
   emailShareCount?: number;
+  isChatvid?: boolean;
 }
 type IProps = {
   title: string;
@@ -60,6 +61,9 @@ const VideoCard: FC<IProps> = ({
     setOpen(false);
   };
   const deleteAction = () => {
+    if(video?.isChatvid) {
+      return toast.error("Can't delete chatvid!")
+    }
     deleteVideo(id);
   };
   const copyUrl = () => {

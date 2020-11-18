@@ -20,6 +20,10 @@
   cursor: pointer;
 }
 
+.wrapperChatvidDashboard .respondersCardWrapper {
+  background: #ffffff;
+}
+
 .activeResponder {
   background: #f0cc79 !important;
   width: 100% !important;
@@ -251,9 +255,12 @@
   border-radius: 0px 0px 8px 8px;
   padding: 1%;
 }
-.chatVidTabsWrapper .responderWrapper {
+.responderWrapper {
   border-right: 1px solid #fdb415;
   overflow: scroll !important;
+}
+.wrapperChatvidDashboard .responderWrapper {
+  height: 80vh;
 }
 .stepAvatarWrapper {
   background: #fdb415;

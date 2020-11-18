@@ -171,7 +171,7 @@ const ResponderTab = (props: any) => {
 
   const renderResponse = (tab: number) => {
     const type = tab === 1 ? "text" : tab === 2 ? "audio" : "video";
-    const res = stp.replies?.filter((reply: any) => reply.peopleId._id === resPerson && reply.type === type)
+    const res = stp.replies?.filter((reply: any) => reply?.peopleId?._id === resPerson && reply.type === type)
     return (
       <>
         {res.map((r: any, i: number) => {
@@ -212,7 +212,9 @@ const ResponderTab = (props: any) => {
     )
   }
 
-  return (
+  let unique: any = {};
+  const responders: any = props.chatvid.people?.filter((person: any, index: number) => { if (!unique[person._id]) { unique[person._id] = person; return person } })
+    return (
     <>
       <Grid item className="responderWrapper" xs={12} sm={12} md={4} lg={4} >
         <Paper style={{ ...classes.root, overflow: "hidden", height: "36px", border: "none", marginBottom: "3%", background: "#f2f2f2", width: "90%" }}>
@@ -235,7 +237,7 @@ const ResponderTab = (props: any) => {
             <KeyboardArrowDownIcon />
           </IconButton>
         </Paper>
-        {props.chatvid.people?.map((person: any, ind: number) => {
+        {responders?.map((person: any, ind: number) => {
           return renderCard(props.chatvid.name, person.name, props.chatvid.createdAt, person._id)
         })}
       </Grid>
@@ -323,13 +325,14 @@ const StepsTab = (props: any) => {
   }
 
   const renderReplies = (reply: any, stp: any) => {
+    console.log("Reply ::  => ", reply)
     return (
       <Grid container className="replyWrapper_DASH">
         <Grid item xs={2} sm={2} md={2} lg={2} >
           <div className="avatarWrapper">
             <PersonOutlineIcon />
           </div>
-          <Typography variant="subtitle1" className="responderName">{reply.poepleId?.name || "Maisha Pace"}</Typography>
+          <Typography variant="subtitle1" className="responderName">{reply.peopleId?.name || "Maisha Pace"}</Typography>
           <Typography variant="subtitle1" className="resDetials">
             {stp.createdAt.toLocaleString()}
           </Typography>

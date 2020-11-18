@@ -43,7 +43,7 @@ class RecorderTab extends Component<any> {
   };
 
   handleVertical = (e: React.MouseEvent<HTMLElement>, newString: []) => {
-    this.props.onChange({ target: { name: "valign", value: newString } })
+    this.props.onChange({ target: { name: "vAlign", value: newString } })
   }
   handleHorizontal = (e: React.MouseEvent<HTMLElement>, newString: []) => {
     this.props.onChange({ target: { name: "align", value: newString } })

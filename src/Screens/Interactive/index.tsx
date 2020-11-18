@@ -48,7 +48,7 @@ class ChatVid extends Component<IProps> {
     responseType: "Open-ended",
     calendar: "",
     urlRecord: "",
-    tittle: "",
+    title: "",
     choices: [],
     isAddStep: false,
     chatvidId: "",
@@ -57,7 +57,7 @@ class ChatVid extends Component<IProps> {
   componentDidMount() {
     let pathname = this.props.history.location.pathname.split('/');
     if (pathname[1] === "chatvid" && pathname[2] === "step") {
-      this.setState({ isAddStep: true, chatvidId: pathname[3], tittle: this.props.chatvids.selectedChatvid.name })
+      this.setState({ isAddStep: true, chatvidId: pathname[3], title: this.props.chatvids.selectedChatvid.name })
     }
   }
 
@@ -157,7 +157,7 @@ class ChatVid extends Component<IProps> {
         align: this.state.align
       };
       const video = {
-        tittle: this.state.tittle,
+        title: this.state.title,
         url: this.state.urlRecord,
         userId: this.props.auth!.user!._id,
         thumbnail: this.state.thumbnailUrl,
@@ -171,7 +171,7 @@ class ChatVid extends Component<IProps> {
         responseType: this.state.responseType,
         calendar: this.state.calendar,
         urlRecord: this.state.urlRecord,
-        tittle: this.state.tittle,
+        title: this.state.title,
         choices: this.state.choices
       }
       if (this.state.isAddStep && this.state.chatvidId) {

@@ -56,7 +56,7 @@ const ChatvidPreviewTab = (props: any) => {
           video={props.video}
           overlayTxt={props.text}
           align={props.align}
-          valign={props.valign}
+          vAlign={props.vAlign}
           resType={props.responseType}
           choices={props.choices}
           calendar={props.calendar}

@@ -12,13 +12,17 @@ import "./chatvidBoard.css";
 type IProps = {
   history: any;
   user: any;
+  chatvids: any;
   getChatvids: () => void;
 };
 
 class Dashboard extends Component<IProps> {
   state = {
     showDashboard: true,
-    showVideos: false
+    showVideos: false,
+    responders: [],
+    selectedChatvid: {},
+    selectedPerson: {},
   };
   componentDidMount() {
     this.props.getChatvids();
@@ -26,6 +30,22 @@ class Dashboard extends Component<IProps> {
   navigate = (show?: string) => {
     this.props.history.push({ pathname: "/video/create", show: show });
   };
+
+  renderResponders = (person: any, chatName: string, date: any, ind: number, chatvidIndex: number) => {
+    return (
+      <Grid container className="respondersCardWrapper" key={ind}>
+        <Grid item xs={2} sm={2} md={2} lg={2}>
+          <div className="avatarWrapper">
+            <PersonOutlineIcon />
+          </div>
+        </Grid>
+        <Grid item xs={10} sm={10} md={10} lg={10} className="resCardBody">
+          <Typography variant="subtitle1" className="responderName"> {person.name || "Maisha Pace"} </Typography>
+          <Typography variant="subtitle1" className="resDetials"> {`${chatName} - ${date.toLocaleString()}`} </Typography>
+        </Grid>
+      </Grid>
+    )
+  }
   render() {
     return (
       <Home>
@@ -34,17 +54,12 @@ class Dashboard extends Component<IProps> {
             <div>
               <Typography variant="h6"> Responders </Typography>
             </div>
-            <Grid container className="respondersCardWrapper">
-              <Grid item xs={2} sm={2} md={2} lg={2}>
-                <div className="avatarWrapper">
-                  <PersonOutlineIcon />
-                </div>
-              </Grid>
-              <Grid item xs={10} sm={10} md={10} lg={10} className="resCardBody">
-                <Typography variant="subtitle1" className="responderName">Maisha Pace</Typography>
-                <Typography variant="subtitle1" className="resDetials">29 Oct via Chatvid 4 - October 20, 2020</Typography>
-              </Grid>
-            </Grid>
+            {this.props.chatvids?.map((chatvid: any, index: number) => {
+              return chatvid.people?.map((person: any, ind: number) => {
+                return this.renderResponders(person, chatvid.name, new Date(chatvid.createdAt), ind, index)
+              })
+            })}
+
           </Grid>
           <Grid item className="_responseWrapper" xs={12} sm={12} md={8} lg={8} >
             <Typography variant="h6"> Response on Chatvid 4 - October 20, 2020 </Typography>
