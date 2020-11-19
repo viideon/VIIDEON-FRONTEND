@@ -89,6 +89,8 @@ class SideBar extends Component<IProps, IState> {
               )
             })
           }
+
+          
         </div>
       </div>
     );

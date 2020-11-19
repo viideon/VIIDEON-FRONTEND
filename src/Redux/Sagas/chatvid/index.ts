@@ -6,6 +6,8 @@ import {
   saveChatVid,
   replyToAChatvid,
   addStepToChatvid,
+  saveMetrics,
+  getMetrics,
 } from "./api";
 import {
   selectID,
@@ -70,7 +72,7 @@ function* addChatvidStep(action: any) {
     const result = yield addStepToChatvid(payload);
     if (result.status === 200) {
       yield put({ type: types.ADD_STEP_TO_CHATVID_SUCCESS });
-      yield put({ type: types.GET_CHATVIDS_REQUEST})
+      yield put({ type: types.GET_CHATVIDS_REQUEST })
       toast.info("Added Successfully!");
     } else {
       yield put({ type: types.ADD_STEP_TO_CHATVID_FAILURE });
@@ -99,6 +101,33 @@ function* replyToAChatvidSaga(action: any) {
   }
 }
 
+function* saveMetricsSaga(action: any) {
+  try {
+    const payload = action.payload;
+    const result = yield saveMetrics(payload);
+    if (result.status === 200) {
+      yield put({ type: types.SAVE_ANALYTICS_CHATVID_SUCCESS });
+    } else {
+      yield put({ type: types.SAVE_ANALYTICS_CHATVID_FAILURE });
+    }
+  } catch (error) {
+    yield put({ type: types.SAVE_ANALYTICS_CHATVID_FAILURE });
+  }
+}
+
+function* getMetricsData(action: any) {
+  try {
+    const payload = action.payload;
+    const result = yield getMetrics(payload);
+    if (result.status === 200) {
+      return yield put({ type: types.GET_ANALYTICS_CHATVID_SUCCESS });
+    }
+    throw({ message: "Failed"});
+  } catch (error) {
+    yield put({ type: types.GET_ANALYTICS_CHATVID_FAILURE });
+  }
+}
+
 
 export function* chatVidWatcher() {
   yield takeEvery(types.GET_CHATVIDS_REQUEST, getChatVidsSaga);
@@ -106,4 +135,6 @@ export function* chatVidWatcher() {
   yield takeEvery(types.SAVE_CHATVID_REQUEST, saveChatVidSaga);
   yield takeEvery(types.REPLY_TO_CHATVID_REQUEST, replyToAChatvidSaga);
   yield takeEvery(types.ADD_STEP_TO_CHATVID_REQUEST, addChatvidStep);
+  yield takeEvery(types.SAVE_ANALYTICS_CHATVID_REQUEST, saveMetricsSaga);
+  yield takeEvery(types.GET_ANALYTICS_CHATVID_REQUEST, getMetricsData);
 }

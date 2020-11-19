@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import VideoRecorder from "../../../components/VideoRecorder";
+import { deviceType } from 'react-device-detect';
+
+import { saveAnalytics } from '../../../Redux/Actions/chatvid';
 
 
 import { createStyles, withStyles, Theme, makeStyles } from '@material-ui/core/styles';
@@ -26,6 +29,7 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 
 import VideocamRoundedIcon from '@material-ui/icons/VideocamRounded';
 import VolumeUpRoundedIcon from '@material-ui/icons/VolumeUpRounded';
+
 import "react-tabs/style/react-tabs.css";
 import "../response.css";
 import { Email } from "aws-sdk/clients/codecommit";
@@ -40,6 +44,14 @@ const MicRecorder = require('mic-recorder-to-mp3');
 function validateEmail(email: Email) {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
+}
+
+var analyticsPayload = {
+  deviceType: "",
+  chatvidId: "",
+  isAnswered: false,
+  isInteracted: false,
+  isCompleted: false,
 }
 
 class FinalTab extends Component<any> {
@@ -72,6 +84,11 @@ class FinalTab extends Component<any> {
 
   componentDidMount() {
     this.settingUPMedia();
+    if (!this.props.preview) {
+      analyticsPayload.deviceType = deviceType === "browser" ? "desktop" : deviceType;
+      analyticsPayload.chatvidId = this.props.resChatvid._id;
+      this.props.saveAnalytics(analyticsPayload)
+    }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: any) {
@@ -116,6 +133,7 @@ class FinalTab extends Component<any> {
       this.videoRef.addEventListener("play", this.onVideoPlay, false);
       this.videoRef.addEventListener("pause", this.onVideoPause);
       this.videoRef.addEventListener("ended", this.onVideoEnd);
+      // this.videoRef.play();
     } else {
       setTimeout(() => {
         this.settingUPMedia()
@@ -184,7 +202,7 @@ class FinalTab extends Component<any> {
   }
 
   handleTabChange = (tab: number) => {
-    if(this.props.history.location.pathname === "/chatvid") return "";
+    if (this.props.history.location.pathname === "/chatvid") return "";
     this.setState({ tab })
   }
 
@@ -222,19 +240,19 @@ class FinalTab extends Component<any> {
   };
 
   handleSend = () => {
-    if(this.props.history.location.pathname === "/chatvid") return "";
+    if (this.props.history.location.pathname === "/chatvid") return "";
     this.setState({ open: !this.state.open })
   }
 
   handleChoiceAndCalender = (value: string, type: string) => {
-    if(this.props.history.location.pathname === "/chatvid") return "";
+    if (this.props.history.location.pathname === "/chatvid") return "";
     let state: any = this.state;
     state[type] = value;
     this.setState({ ...state })
   }
 
   handleReply = async () => {
-    if(this.props.history.location.pathname === "/chatvid" || this.props.preview) return "";
+    if (this.props.history.location.pathname === "/chatvid" || this.props.preview) return "";
     const { userEmail, userName, ansText, ansAudio, ansVideo, tab, choiceId, calendar, currentStepNo } = this.state;
     const { resChatvid, auth } = this.props;
     if (!validateEmail(userEmail)) return toast.error("Enter a valid Email");
@@ -264,7 +282,21 @@ class FinalTab extends Component<any> {
       const { text, align, vAlign } = resChatvid.steps[this.state.currentStepNo].videoId.textProps;
       this.setState({ currentStepNo: currentStepNo + 1, tab: 0, open: false, align, vAlign, text, isFull: resChatvid.steps[this.state.currentStepNo].isFull }, () => {
         this.settingUPMedia();
+
+        analyticsPayload.deviceType = deviceType === "browser" ? "desktop" : deviceType;
+        analyticsPayload.chatvidId = this.props.resChatvid._id;
+        analyticsPayload.isInteracted = true;
+        this.props.saveAnalytics(analyticsPayload);
+
       });
+    }
+
+    if (resChatvid.steps.length === currentStepNo + 1) {
+      analyticsPayload.deviceType = deviceType === "browser" ? "desktop" : deviceType;
+      analyticsPayload.chatvidId = this.props.resChatvid._id;
+      analyticsPayload.isInteracted = true;
+      analyticsPayload.isCompleted = true;
+      this.props.saveAnalytics(analyticsPayload);
     }
   }
 
@@ -304,7 +336,7 @@ class FinalTab extends Component<any> {
             >
               <Typography variant="h4" style={{}} > {text} </Typography>
             </div>
-            <video ref={ref => this.videoRef = ref} className={`${isFit ? "videoFULL" : ""}`} autoPlay width="100%" />
+            <video id="iframVideo" ref={ref => this.videoRef = ref} className={`${isFit ? "videoFULL" : ""}`} autoPlay loop width="100%" />
           </Grid>
         </Grid>
         <Grid container className="ResponseAndTypeWrapper" xs={12} sm={12} md={6} lg={6}>
@@ -772,6 +804,7 @@ const mapStateToProps = (state: any) => {
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    saveAnalytics: (payload: any) => dispatch(saveAnalytics(payload)),
   }
 };
 

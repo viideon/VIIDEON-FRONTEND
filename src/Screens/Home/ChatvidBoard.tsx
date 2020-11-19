@@ -47,7 +47,7 @@ class Dashboard extends Component<IProps> {
   renderResponders = (person: any, chatName: string, date: any, ind: number, chatvidIndex: number) => {
     const { selectedPerson, selectedChatvid }: any = this.state;
     return (
-      <Grid container className={`respondersCardWrapper ${(selectedPerson?._id && selectedChatvid?._id) && (selectedPerson?._id === person?._id) && (selectedChatvid?._id === this.props.chatvids[chatvidIndex]?._id) && "activeResponder"}`} key={ind} onClick={() => { this.handleCheck(chatvidIndex, person) }}>
+      <Grid container  key={ind} className={`respondersCardWrapper ${(selectedPerson?._id && selectedChatvid?._id) && (selectedPerson?._id === person?._id) && (selectedChatvid?._id === this.props.chatvids[chatvidIndex]?._id) && "activeResponder"}`} onClick={() => { this.handleCheck(chatvidIndex, person) }}>
         <Grid item xs={2} sm={2} md={2} lg={2}>
           <div className="avatarWrapper">
             <PersonOutlineIcon />
@@ -117,7 +117,9 @@ class Dashboard extends Component<IProps> {
               <Typography variant="h6"> Responders </Typography>
             </div>
             {this.props.chatvids?.map((chatvid: any, index: number) => {
-              return chatvid.people?.map((person: any, ind: number) => {
+              let unique: any = {};
+              const people = chatvid.people?.filter((person: any) => (!unique[person._id]) && (unique[person._id] = person) && (person) )
+              return people?.map((person: any, ind: number) => {
                 return this.renderResponders(person, chatvid.name, new Date(chatvid.createdAt), ind, index)
               })
             })}
@@ -134,7 +136,7 @@ class Dashboard extends Component<IProps> {
                 {selectedChatvid?.steps?.map((step: any, ind: number) => {
                   return (
                     <>
-                      <div className="stepAvatarWrapper" key={ind} onClick={() => this.setStp(step)}>
+                      <div className="stepAvatarWrapper" key={step.stepNo} onClick={() => this.setStp(step)}>
                         <Typography variant="h4"> STEP </Typography>
                         <Typography variant="h1"> {step.stepNo} </Typography>
                       </div>

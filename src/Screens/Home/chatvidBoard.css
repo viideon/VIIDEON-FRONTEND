@@ -248,6 +248,10 @@
 .replyIconWrapper svg {
   font-size: inherit;
 }
+.tabsWrapperChatvid .replyIconWrapper svg {
+  font-size: 2rem;
+  cursor: pointer;
+}
 
 .chatVidTabsWrapper {
   background: #ffffff;

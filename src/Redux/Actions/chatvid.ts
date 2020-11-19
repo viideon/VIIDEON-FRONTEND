@@ -42,3 +42,17 @@ export function addStepToChatvid(step: any) {
     payload: step
   }
 }
+
+export function saveAnalytics(payload: any) {
+  return {
+    type: types.SAVE_ANALYTICS_CHATVID_REQUEST,
+    payload
+  }
+}
+
+export function getAnalytics(chatvidId: any) {
+  return {
+    type: types.GET_ANALYTICS_CHATVID_REQUEST,
+    payload: chatvidId
+  }
+}

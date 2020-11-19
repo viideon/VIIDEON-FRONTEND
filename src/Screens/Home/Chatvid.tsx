@@ -57,6 +57,14 @@ import {
   WhatsappIcon,
 } from "react-share";
 
+import DevicesOtherIcon from '@material-ui/icons/DevicesOther';
+import DesktopMacIcon from '@material-ui/icons/DesktopMac';
+import TabletMacIcon from '@material-ui/icons/TabletMac';
+import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import { Line } from 'react-chartjs-2';
+
+
 type IProps = {
   history: any;
   user: any;
@@ -66,11 +74,11 @@ type IProps = {
 
 class Dashboard extends Component<IProps> {
   state = {
-    tab: 1,
+    tab: 2,
   };
   componentDidMount() {
     // this.props.getChatvids();
-    console.log(this.props.chatvid)
+    // console.log(this.props.chatvid)
   }
   navigate = (show?: string) => {
     this.props.history.push({ pathname: "/video/create", show: show });
@@ -91,7 +99,7 @@ class Dashboard extends Component<IProps> {
             <div className={classname({ tabsBTN: true, active: tab === 2 ? true : false })} onClick={() => this.handleTab(2)}>Metrics</div>
           </Grid>
           <Grid item md={4} lg={4} className="replyIconWrapper" >
-            <ReplayIcon />
+            <ReplayIcon onClick={() => this.props.getChatvids()} />
           </Grid>
         </Grid>
 
@@ -111,36 +119,6 @@ class Dashboard extends Component<IProps> {
   }
 }
 
-const ResponderCardMaker = (props: any) => {
-  const { isStep } = props;
-  let date = new Date(props.createdAt);
-  return (
-    <Grid container className="respondersCardWrapper" style={{ background: "lightgrey" }}>
-      <Grid item xs={2} sm={2} md={2} lg={2}>
-        {
-          isStep ?
-            <div className="stepAvatarWrapper">
-              <Typography variant="h4"> STEP </Typography>
-              <Typography variant="h1"> {props.stepNo} </Typography>
-            </div>
-            :
-            <div className="avatarWrapper">
-              <PersonOutlineIcon />
-            </div>
-        }
-      </Grid>
-      <Grid item xs={10} sm={10} md={10} lg={10} className="resCardBody">
-        <Typography variant="subtitle1" className="responderName">{(isStep ? props.responseType : props.name) || "Maisha Pace"}</Typography>
-        {!isStep &&
-          <Typography variant="subtitle1" className="resDetials">
-            {`${props.name} - ${date.toLocaleString()}`}
-          </Typography>
-        }
-      </Grid>
-    </Grid>
-  )
-}
-
 const ResponderTab = (props: any) => {
   const [stp, setStp]: any = React.useState(undefined);
   const [resPerson, setPerson] = React.useState("");
@@ -149,7 +127,7 @@ const ResponderTab = (props: any) => {
   const renderCard = (chatName: string, userName: string, date: any, _id: string) => {
     date = new Date(date);
     return (
-      <Grid container className={`respondersCardWrapper ${resPerson === _id && "activeResponder"}`} style={{ background: "#f2f2f2" }} onClick={() => setPerson(_id)}>
+      <Grid container key={_id} className={`respondersCardWrapper ${resPerson === _id && "activeResponder"}`} style={{ background: "#f2f2f2" }} onClick={() => setPerson(_id)}>
         <Grid item xs={2} sm={2} md={2} lg={2}>
           <div className="avatarWrapper">
             <PersonOutlineIcon />
@@ -325,7 +303,6 @@ const StepsTab = (props: any) => {
   }
 
   const renderReplies = (reply: any, stp: any) => {
-    console.log("Reply ::  => ", reply)
     return (
       <Grid container className="replyWrapper_DASH">
         <Grid item xs={2} sm={2} md={2} lg={2} >
@@ -411,17 +388,115 @@ const StepsTab = (props: any) => {
 }
 
 const Metrics = (props: any) => {
+  const [active, setActive] = React.useState("");
   return (
     <>
       <Grid item className="responderWrapper" xs={12} sm={12} md={4} lg={4} >
-        <ResponderCardMaker {...props.chatvid} />
+
+        <Grid container className={`respondersCardWrapper ${active === "all" && "activeResponder"}`} onClick={() => setActive("all")}>
+          <Grid item xs={2} sm={2} md={2} lg={2}>
+            <div className="stepAvatarWrapper">
+              <DevicesOtherIcon />
+            </div>
+          </Grid>
+          <Grid item xs={10} sm={10} md={10} lg={10} className="resCardBody">
+            <Typography variant="subtitle1" className="responderName"> All devices</Typography>
+          </Grid>
+        </Grid>
+
+        <Grid container className={`respondersCardWrapper ${active === "desktop" && "activeResponder"}`} onClick={() => setActive("desktop")}>
+          <Grid item xs={2} sm={2} md={2} lg={2}>
+            <div className="stepAvatarWrapper">
+              <DesktopMacIcon />
+            </div>
+          </Grid>
+          <Grid item xs={10} sm={10} md={10} lg={10} className="resCardBody">
+            <Typography variant="subtitle1" className="responderName"> Desktop </Typography>
+          </Grid>
+        </Grid>
+
+        <Grid container className={`respondersCardWrapper ${active === "tablet" && "activeResponder"}`} onClick={() => setActive("tablet")}>
+          <Grid item xs={2} sm={2} md={2} lg={2}>
+            <div className="stepAvatarWrapper">
+              <TabletMacIcon />
+            </div>
+          </Grid>
+          <Grid item xs={10} sm={10} md={10} lg={10} className="resCardBody">
+            <Typography variant="subtitle1" className="responderName">Tablet</Typography>
+          </Grid>
+        </Grid>
+
+        <Grid container className={`respondersCardWrapper ${active === "mobile" && "activeResponder"}`} onClick={() => setActive("mobile")}>
+          <Grid item xs={2} sm={2} md={2} lg={2}>
+            <div className="stepAvatarWrapper">
+              <PhoneIphoneIcon />
+            </div>
+          </Grid>
+          <Grid item xs={10} sm={10} md={10} lg={10} className="resCardBody">
+            <Typography variant="subtitle1" className="responderName"> Mobile</Typography>
+          </Grid>
+        </Grid>
+
+        <Grid container className={`respondersCardWrapper ${active === "others" && "activeResponder"}`} onClick={() => setActive("others")}>
+          <Grid item xs={2} sm={2} md={2} lg={2}>
+            <div className="stepAvatarWrapper">
+              <MoreHorizIcon />
+            </div>
+          </Grid>
+          <Grid item xs={10} sm={10} md={10} lg={10} className="resCardBody">
+            <Typography variant="subtitle1" className="responderName"> Others</Typography>
+          </Grid>
+        </Grid>
+
+
       </Grid>
       <Grid item className="_responseWrapper" xs={12} sm={12} md={8} lg={8} >
         <Typography variant="h6"> Response on Chatvid 4 - October 20, 2020 </Typography>
+        <div className="chartBoard"></div>
+        <div className="chartGraph">
+          <Chart {...props} active={active} />
+        </div>
       </Grid>
     </>
   )
 }
+
+const Chart = (props: any) => {
+  const state = {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'Jully', 'August', 'September', 'October', 'November', 'December'],
+    datasets: [
+      {
+        label: `${props.active.toUpperCase()}`,
+        fill: false,
+        // lineTension: 0.5,
+        backgroundColor: 'rgba(85,92,92,1)',
+        borderColor: '#fdb415',
+        borderWidth: 2,
+        data: [0, 66, 70, 41, 96, 4, 66, 70, 41, 96, 4, 66, 70, 41, 96]
+      }
+    ]
+  }
+
+  return (
+    <div>
+      <Line
+        data={state}
+        options={{
+          // title:{
+          //   display:true,
+          //   text:'Average Rainfall per month',
+          //   fontSize:20
+          // },
+          // legend:{
+          //   display:true,
+          //   position:'right'
+          // }
+        }}
+      />
+    </div>
+  );
+}
+
 const InfoHeader = (props: any) => {
   const [open, setOpen] = React.useState(false);
   const { chatvid } = props;

@@ -37,7 +37,6 @@ class Home extends Component<IProps> {
   render() {
     const { drawer, logout } = this.props;
     const isChatvid = (this.props.history.location.pathname.indexOf("/chatvids")) > -1 ? true : false;
-    console.log("isChatvid:", isChatvid)
     return (
       <div className={classname({ videonAppWrapper: isChatvid ? false : true, videonChatvidAppWrapper: isChatvid })}>
         <Header />
