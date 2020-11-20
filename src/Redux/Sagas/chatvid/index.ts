@@ -120,9 +120,8 @@ function* getMetricsData(action: any) {
     const payload = action.payload;
     const result = yield getMetrics(payload);
     if (result.status === 200) {
-      return yield put({ type: types.GET_ANALYTICS_CHATVID_SUCCESS });
+      return yield put({ type: types.GET_ANALYTICS_CHATVID_SUCCESS, payload: result.data.stats });
     }
-    throw({ message: "Failed"});
   } catch (error) {
     yield put({ type: types.GET_ANALYTICS_CHATVID_FAILURE });
   }

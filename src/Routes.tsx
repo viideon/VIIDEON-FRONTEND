@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { updateVideoCta } from "./Redux/Actions/videos";
 import { AuthState } from "../src/Redux/Types/auth";
@@ -25,6 +20,7 @@ import VideoTab from "./Screens/VideoTab/VideoTab";
 import InterActive from "../src/Screens/Interactive";
 import UploadRecord from "../src/Screens/UploadRecordVideo";
 import ResponseChatvid from "../src/Screens/Interactive/response";
+import EditChatvid from "../src/Screens/Interactive/edit";
 
 import Videos from "./Screens/Home/Videos";
 import Chatvid from "./Screens/Home/Chatvid";
@@ -51,6 +47,7 @@ class Routes extends Component<IProps> {
               <Route exact path="/chatVid/res/:id" component={ResponseChatvid} />
               <Route exact path="/chatvids/" component={ChatvidBoard} />
               <Route exact path="/chatvids/form/:id" component={Chatvid} />
+              <Route exact path="/chatvids/edit/:id" component={EditChatvid} />
               <Route exact path="/videotab/:id" component={VideoTab} />
               <Route exact path="/profile" component={Profile} />
               <Route exact path="/video/create" component={UploadRecord} />
@@ -74,7 +71,7 @@ class Routes extends Component<IProps> {
               <Route exact path="/assetlibrary" component={AssetsLibrary} />
               <Route exact path="/privacypolicy" component={PrivacyPolicy} />
               <Route exact path="/music" component={MusicAssets} />
-              <Route exact path="*" render={() => <Redirect to="/" />} />
+              {/* <Route exact path="*" render={() => <Redirect to="/" />} /> */}
             </Switch>
           </>
         ) : (

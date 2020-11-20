@@ -15,7 +15,7 @@ export function getChatvid(chatvidId: string) {
   };
 }
 
-export function selectChatvid(chatvid:any) {
+export function selectChatvid(chatvid: any) {
   return {
     type: types.SELECT_CHATVID,
     payload: chatvid,
@@ -50,9 +50,9 @@ export function saveAnalytics(payload: any) {
   }
 }
 
-export function getAnalytics(chatvidId: any) {
+export function getAnalytics(chatvidId: string, dateFrom: any, dateTo: any, deviceType: any) {
   return {
     type: types.GET_ANALYTICS_CHATVID_REQUEST,
-    payload: chatvidId
+    payload: { chatvidId, dateFrom, dateTo, deviceType }
   }
 }

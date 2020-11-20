@@ -5,6 +5,7 @@ let initialState: any = {
   chatvids: [],
   resChatvid: {},
   selectedChatvid: {},
+  stats: {}
 };
 const chatvidReducer = (state = initialState, action: any) => {
   switch (action.type) {
@@ -16,6 +17,8 @@ const chatvidReducer = (state = initialState, action: any) => {
       return { ...state, resChatvid: action.payload }
     case types.SELECT_CHATVID:
       return { ...state, selectedChatvid: action.payload }
+    case types.GET_ANALYTICS_CHATVID_SUCCESS:
+      return { ...state, stats: action.payload}
     default: {
       return state;
     }

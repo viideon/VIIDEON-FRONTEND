@@ -5,7 +5,7 @@ import { config } from "../../../config/aws";
 export function saveChatVid(chatvid: any) {
   return API.post("/chatvid/", chatvid);
 }
-export function addStepToChatvid(step:any) {
+export function addStepToChatvid(step: any) {
   return API.patch('/chatvid/', step)
 }
 export function getChatvids(userId: string) {
@@ -20,8 +20,8 @@ export function replyToAChatvid(chatvid: any) {
 export function saveMetrics(payload: any) {
   return API.post(`/chatvid/metrics`, payload);
 }
-export function getMetrics(_id: string) {
-  return API.get(`/chatvid/metrics/${_id}`);
+export function getMetrics(payload: any) {
+  return API.post(`/chatvid/metrics/${payload.chatvidId}`, payload);
 }
 
 
@@ -36,7 +36,7 @@ export async function deleteDataAws(imageUrl: any) {
         Bucket: config.bucketName,
         Key: imageUrl
       };
-      s3.deleteObject(options, () => {});
-    } catch (e) {}
+      s3.deleteObject(options, () => { });
+    } catch (e) { }
   }
 }

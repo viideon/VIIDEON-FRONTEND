@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { getChatvids } from "../../Redux/Actions/chatvid";
+import { getChatvids, getAnalytics } from "../../Redux/Actions/chatvid";
 import classname from 'classnames';
 import Colors from '../../constants/colors';
 import ThemeButton from '../../components/ThemeButton'
@@ -64,20 +64,27 @@ import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { Line } from 'react-chartjs-2';
 
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+import { BorderColor } from "@material-ui/icons";
+
 
 type IProps = {
   history: any;
   user: any;
   chatvid: any;
   getChatvids: () => void;
+  getAnalytics: (_id: string, dateFrom: any, dateTo: any, deviceType: string) => void;
 };
 
 class Dashboard extends Component<IProps> {
   state = {
-    tab: 2,
+    tab: 0,
   };
   componentDidMount() {
     // this.props.getChatvids();
+    // this.props.getAnalytics(this.props.chatvid._id, new Date(), new Date(), "all");
     // console.log(this.props.chatvid)
   }
   navigate = (show?: string) => {
@@ -389,11 +396,26 @@ const StepsTab = (props: any) => {
 
 const Metrics = (props: any) => {
   const [active, setActive] = React.useState("");
+  const [startDate, setStartDate] = React.useState(new Date());
+  const [endDate, setEndDate]: any = React.useState(null);
+
+  const onChange = (dates: any) => {
+    const [start, end] = dates;
+    setStartDate(start);
+    setEndDate(end);
+    props.getAnalytics(props.chatvid._id, start, end, active ? active : "all");
+  };
+
+  const onTypeChange = (type: string) => {
+    setActive(type);
+    props.getAnalytics(props.chatvid._id, startDate, endDate, type);
+  }
+
   return (
     <>
       <Grid item className="responderWrapper" xs={12} sm={12} md={4} lg={4} >
 
-        <Grid container className={`respondersCardWrapper ${active === "all" && "activeResponder"}`} onClick={() => setActive("all")}>
+        <Grid container className={`respondersCardWrapper ${active === "all" && "activeResponder"}`} onClick={() => onTypeChange("all")}>
           <Grid item xs={2} sm={2} md={2} lg={2}>
             <div className="stepAvatarWrapper">
               <DevicesOtherIcon />
@@ -404,7 +426,7 @@ const Metrics = (props: any) => {
           </Grid>
         </Grid>
 
-        <Grid container className={`respondersCardWrapper ${active === "desktop" && "activeResponder"}`} onClick={() => setActive("desktop")}>
+        <Grid container className={`respondersCardWrapper ${active === "desktop" && "activeResponder"}`} onClick={() => onTypeChange("desktop")}>
           <Grid item xs={2} sm={2} md={2} lg={2}>
             <div className="stepAvatarWrapper">
               <DesktopMacIcon />
@@ -415,7 +437,7 @@ const Metrics = (props: any) => {
           </Grid>
         </Grid>
 
-        <Grid container className={`respondersCardWrapper ${active === "tablet" && "activeResponder"}`} onClick={() => setActive("tablet")}>
+        <Grid container className={`respondersCardWrapper ${active === "tablet" && "activeResponder"}`} onClick={() => onTypeChange("tablet")}>
           <Grid item xs={2} sm={2} md={2} lg={2}>
             <div className="stepAvatarWrapper">
               <TabletMacIcon />
@@ -426,7 +448,7 @@ const Metrics = (props: any) => {
           </Grid>
         </Grid>
 
-        <Grid container className={`respondersCardWrapper ${active === "mobile" && "activeResponder"}`} onClick={() => setActive("mobile")}>
+        <Grid container className={`respondersCardWrapper ${active === "mobile" && "activeResponder"}`} onClick={() => onTypeChange("mobile")}>
           <Grid item xs={2} sm={2} md={2} lg={2}>
             <div className="stepAvatarWrapper">
               <PhoneIphoneIcon />
@@ -437,7 +459,7 @@ const Metrics = (props: any) => {
           </Grid>
         </Grid>
 
-        <Grid container className={`respondersCardWrapper ${active === "others" && "activeResponder"}`} onClick={() => setActive("others")}>
+        <Grid container className={`respondersCardWrapper ${active === "others" && "activeResponder"}`} onClick={() => onTypeChange("others")}>
           <Grid item xs={2} sm={2} md={2} lg={2}>
             <div className="stepAvatarWrapper">
               <MoreHorizIcon />
@@ -451,10 +473,61 @@ const Metrics = (props: any) => {
 
       </Grid>
       <Grid item className="_responseWrapper" xs={12} sm={12} md={8} lg={8} >
-        <Typography variant="h6"> Response on Chatvid 4 - October 20, 2020 </Typography>
-        <div className="chartBoard"></div>
-        <div className="chartGraph">
-          <Chart {...props} active={active} />
+        <div className="chartBoardContainer">
+
+          <div className="chartBoard">
+            <div className="_StatsContainer">
+              <Typography variant="subtitle1"> 2% </Typography>
+              <Typography variant="h3"> {props.stats.landed || 0} </Typography>
+            </div>
+            <div className="_statsLabel">
+              <Typography variant="h6">Landed</Typography>
+            </div>
+          </div>
+          {/*  Interacted  */}
+          <div className="chartBoard">
+            <div className="_StatsContainer">
+              <Typography variant="subtitle1"> 2% </Typography>
+              <Typography variant="h3"> {props.stats.interacted || 0} </Typography>
+            </div>
+            <div className="_statsLabel">
+              <Typography variant="h6">Interacted</Typography>
+            </div>
+          </div>
+          {/*  Answered  */}
+          <div className="chartBoard">
+            <div className="_StatsContainer">
+              <Typography variant="subtitle1"> 2% </Typography>
+              <Typography variant="h3"> {props.stats.answered || 0} </Typography>
+            </div>
+            <div className="_statsLabel">
+              <Typography variant="h6">Answered</Typography>
+            </div>
+          </div>
+          {/*  Completed  */}
+          <div className="chartBoard">
+            <div className="_StatsContainer">
+              <Typography variant="subtitle1"> 2% </Typography>
+              <Typography variant="h3"> {props.stats.completed || 0} </Typography>
+            </div>
+            <div className="_statsLabel">
+              <Typography variant="h6">Completed</Typography>
+            </div>
+          </div>
+
+        </div>
+        <div className="chartGraphContainer">
+          <DatePicker
+            selected={startDate}
+            onChange={onChange}
+            startDate={startDate}
+            endDate={endDate}
+            selectsRange
+            inline
+          />
+          <div className="graphContainer">
+            <Chart {...props} active={active} />
+          </div>
         </div>
       </Grid>
     </>
@@ -462,19 +535,48 @@ const Metrics = (props: any) => {
 }
 
 const Chart = (props: any) => {
-  const state = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'Jully', 'August', 'September', 'October', 'November', 'December'],
-    datasets: [
+  if (props.active === "all") {
+    var datasets = [
       {
-        label: `${props.active.toUpperCase()}`,
+        label: 'Desktop',
         fill: false,
-        // lineTension: 0.5,
-        backgroundColor: 'rgba(85,92,92,1)',
+        backgroundColor: '#fdb415',
         borderColor: '#fdb415',
         borderWidth: 2,
-        data: [0, 66, 70, 41, 96, 4, 66, 70, 41, 96, 4, 66, 70, 41, 96]
+        data: props.stats.datasets.desktop
+      },
+      {
+        label: 'Tablet',
+        fill: false,
+        backgroundColor: '#ff3333',
+        borderColor: '#ff3333',
+        borderWidth: 3,
+        data: props.stats.datasets.tablet
+      },
+      {
+        label: 'Mobile',
+        fill: false,
+        backgroundColor: '#61b5b3',
+        borderColor: '#61b5b3',
+        borderWidth: 4,
+        data: props.stats.datasets.mobile
       }
     ]
+  } else {
+    var datasets = [
+      {
+        label: `${props.active}`,
+        fill: false,
+        backgroundColor: '#fdb415',
+        borderColor: '#fdb415',
+        borderWidth: 2,
+        data: props.stats.datasets[props.active]
+      },
+    ]
+  }
+  const state = {
+    // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'Jully', 'August', 'September', 'October', 'November', 'December'],
+    datasets: datasets,
   }
 
   return (
@@ -491,6 +593,19 @@ const Chart = (props: any) => {
           //   display:true,
           //   position:'right'
           // }
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }],
+            xAxes: [{
+              type: 'time',
+              time: {
+                unit: 'day'
+              }
+            }]
+          }
         }}
       />
     </div>
@@ -513,7 +628,7 @@ const InfoHeader = (props: any) => {
         <Grid item xs={10} sm={10} md={8} lg={8} >
           <Typography variant="h3"> {chatvid?.name} </Typography>
           <div className="chatvidEditToolsWrapper">
-            <div> <EditIcon /> Edit </div>
+            <div onClick={() => props.history.push(`/chatvids/edit/${chatvid && chatvid._id}`)}> <EditIcon /> Edit </div>
             <div> <SettingsRoundedIcon /> Settings</div>
             <div> <SwapCallsIcon /> Connect</div>
             <div> <FileCopyIcon /> Export</div>
@@ -620,11 +735,13 @@ const mapStateToProps = (state: any) => {
   return {
     user: state.auth.user,
     chatvid: state.chatvids.selectedChatvid,
+    stats: state.chatvids.stats,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getChatvids: () => dispatch(getChatvids()),
+    getAnalytics: (_id: string, dateFrom: any, dateTo: any, deviceType: string) => dispatch(getAnalytics(_id, dateFrom, dateTo, deviceType))
   };
 };
 
