@@ -18,13 +18,14 @@ type IProps = {
   logout: () => void;
   selectChatvid: (chatvid: any) => void;
 };
-type IState = { activeTab: string; logoutModal: boolean };
+type IState = { activeTab: string; logoutModal: boolean, search: string };
 class SideBar extends Component<IProps, IState> {
   constructor(props: any) {
     super(props);
     this.state = {
       activeTab: "/",
-      logoutModal: false
+      logoutModal: false,
+      search: "",
     };
   }
 
@@ -40,6 +41,16 @@ class SideBar extends Component<IProps, IState> {
     this.props.selectChatvid(chatvid)
     this.handleChangeTab(`/chatvids/form/${chatvid._id}`);
   }
+  renderChatvids = (chatvids: any) => {
+    const { search } = this.state;
+    if(!search) return chatvids;
+    const regex =  RegExp(`${search.toLowerCase()}*`)
+    const filteredChatvids = chatvids?.filter((vids: any) => regex.test(vids?.name?.toLowerCase()))
+    return filteredChatvids || []
+  }
+  handleChange = (event: any) => {
+    this.setState({ search: event.target.value})
+  }
   render() {
     const { drawer } = this.props;
     var activeSideBar = this.state.activeTab;
@@ -47,7 +58,7 @@ class SideBar extends Component<IProps, IState> {
       activeSideBar = this.props.location.pathname;
     return (
       <div className={drawer ? "MainDrawer" : "MainDrawerHide"}>
-        <SearchBar />
+        <SearchBar onChange={this.handleChange} />
         <ThemeButton
           round={false}
           name="Create Chatvid"
@@ -67,7 +78,7 @@ class SideBar extends Component<IProps, IState> {
         <div className="chatvidScroollingBar">
           {
             this.props.chatvids && this.props.chatvids.length > 0 &&
-            this.props.chatvids.map((vids: any, index: string) => {
+            this.renderChatvids(this.props.chatvids).map((vids: any, index: string) => {
               return (
                 <div
                   key={index}
@@ -77,9 +88,9 @@ class SideBar extends Component<IProps, IState> {
                   })}
                   onClick={() => this.handleChatvid(vids)}
                 >
-                  {vids.thumbnail ?
+                  {vids.steps[0]?.videoId?.thumbnail ?
                     <div className="thumbnailInChatvidBar">
-                      <img src={vids.thumbnail} alt="thumbnail" />
+                      <img src={vids.steps[0]?.videoId?.thumbnail} alt="thumbnail" />
                     </div>
                     :
                     <i className="fab fa-microsoft" style={iconStyle} />

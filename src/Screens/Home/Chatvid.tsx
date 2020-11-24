@@ -91,6 +91,11 @@ class Dashboard extends Component<IProps> {
     this.props.history.push({ pathname: "/video/create", show: show });
   };
 
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
+    if(this.props.chatvid?._id !== nextProps.chatvid?._id) {
+      this.setState({tab: 0})
+    }
+  }
   handleTab = (tab: number) => {
     this.setState({ tab });
   }
@@ -398,6 +403,9 @@ const Metrics = (props: any) => {
   const [active, setActive] = React.useState("");
   const [startDate, setStartDate] = React.useState(new Date());
   const [endDate, setEndDate]: any = React.useState(null);
+  React.useEffect(() => {
+    onTypeChange("all");
+  }, [])
 
   const onChange = (dates: any) => {
     const [start, end] = dates;
@@ -526,7 +534,7 @@ const Metrics = (props: any) => {
             inline
           />
           <div className="graphContainer">
-            <Chart {...props} active={active} />
+            {active && <Chart {...props} active={active} />}
           </div>
         </div>
       </Grid>
@@ -543,7 +551,7 @@ const Chart = (props: any) => {
         backgroundColor: '#fdb415',
         borderColor: '#fdb415',
         borderWidth: 2,
-        data: props.stats.datasets.desktop
+        data: props.stats.datasets?.desktop || []
       },
       {
         label: 'Tablet',
@@ -551,7 +559,7 @@ const Chart = (props: any) => {
         backgroundColor: '#ff3333',
         borderColor: '#ff3333',
         borderWidth: 3,
-        data: props.stats.datasets.tablet
+        data: props.stats.datasets?.tablet || []
       },
       {
         label: 'Mobile',
@@ -559,7 +567,7 @@ const Chart = (props: any) => {
         backgroundColor: '#61b5b3',
         borderColor: '#61b5b3',
         borderWidth: 4,
-        data: props.stats.datasets.mobile
+        data: props.stats.datasets?.mobile || []
       }
     ]
   } else {
@@ -570,7 +578,7 @@ const Chart = (props: any) => {
         backgroundColor: '#fdb415',
         borderColor: '#fdb415',
         borderWidth: 2,
-        data: props.stats.datasets[props.active]
+        data: props.stats?.datasets[props.active] || []
       },
     ]
   }
@@ -637,7 +645,7 @@ const InfoHeader = (props: any) => {
       </Grid>
       <Grid container xs={12} sm={12} md={4} lg={4} >
         <div className="sendChatvidBTNWrapper">
-          <ThemeButton style={Colors.themeGradientBtn} name="Send Chatvid" />
+          <ThemeButton style={Colors.themeGradientBtn} name="Send Chatvid" onClick={() => setOpen(true)} />
         </div>
         <div className="copyChatvidURL">
           <Paper component="form" style={classes.root}>

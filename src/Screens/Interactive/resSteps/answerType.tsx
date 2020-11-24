@@ -60,7 +60,7 @@ class FinalTab extends Component<any> {
   ctx: any;
   // STATE Declaration!
   state = {
-    text: this.props.overlayTxt ? this.props.overlayTxt : "Hello this is David from ViideOn!",
+    text: this.props.overlayTxt ? this.props.overlayTxt : "",
     textColor: "#fff",
     fontSize: 5,
     vAlign: "center",
@@ -96,9 +96,9 @@ class FinalTab extends Component<any> {
   }
 
   settingTextProps = (nextProps: any) => {
-    if (nextProps.overlayTxt) {
-      this.setState({ text: nextProps.overlayTxt })
-    }
+    // if (nextProps.overlayTxt) {
+    //   this.setState({ text: nextProps.overlayTxt })
+    // }
     if (nextProps.fontSize) {
       this.setState({ fontSize: nextProps.fontSize })
     }
@@ -202,7 +202,7 @@ class FinalTab extends Component<any> {
   }
 
   handleTabChange = (tab: number) => {
-    if (this.props.history.location.pathname === "/chatvid") return "";
+    if (this.props.history.location.pathname.indexOf("/chatvid/step/") > -1 || this.props.preview) return "";
     this.setState({ tab })
   }
 
@@ -240,19 +240,19 @@ class FinalTab extends Component<any> {
   };
 
   handleSend = () => {
-    if (this.props.history.location.pathname === "/chatvid") return "";
+    if (this.props.history.location.pathname.indexOf("/chatvid/step/") > -1 || this.props.preview) return "";
     this.setState({ open: !this.state.open })
   }
 
   handleChoiceAndCalender = (value: string, type: string) => {
-    if (this.props.history.location.pathname === "/chatvid") return "";
+    if (this.props.history.location.pathname.indexOf("/chatvid/step/") > -1 || this.props.preview) return "";
     let state: any = this.state;
     state[type] = value;
     this.setState({ ...state })
   }
 
   handleReply = async () => {
-    if (this.props.history.location.pathname === "/chatvid" || this.props.preview) return "";
+    if (this.props.history.location.pathname.indexOf("/chatvid/step/") > -1|| this.props.preview) return "";
     const { userEmail, userName, ansText, ansAudio, ansVideo, tab, choiceId, calendar, currentStepNo } = this.state;
     const { resChatvid, auth } = this.props;
     if (!validateEmail(userEmail)) return toast.error("Enter a valid Email");
@@ -317,7 +317,7 @@ class FinalTab extends Component<any> {
 
   render() {
     const { open, tab, text, align, vAlign } = this.state;
-    const { preview, resChatvid, isFull } = this.props;
+    const { preview, resChatvid, isFull, overlayTxt } = this.props;
     const justifyContent = align === "left" ? "flex-start" : align === "right" ? "flex-end" : "center";
     const alignItems = vAlign === "top" ? "flex-start" : vAlign === "bottom" ? "flex-end" : "center";
     const isFit = preview ? isFull : resChatvid.steps[this.state.currentStepNo].isFull;
@@ -334,7 +334,7 @@ class FinalTab extends Component<any> {
                 justifyContent
               }}
             >
-              <Typography variant="h4" style={{}} > {text} </Typography>
+              <Typography variant="h4" style={{}} > {overlayTxt ? overlayTxt : text} </Typography>
             </div>
             <video id="iframVideo" ref={ref => this.videoRef = ref} className={`${isFit ? "videoFULL" : ""}`} autoPlay loop width="100%" />
           </Grid>

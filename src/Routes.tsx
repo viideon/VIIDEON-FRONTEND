@@ -71,7 +71,7 @@ class Routes extends Component<IProps> {
               <Route exact path="/assetlibrary" component={AssetsLibrary} />
               <Route exact path="/privacypolicy" component={PrivacyPolicy} />
               <Route exact path="/music" component={MusicAssets} />
-              {/* <Route exact path="*" render={() => <Redirect to="/" />} /> */}
+              <Route exact path="*" render={() => <Redirect to="/" />} />
             </Switch>
           </>
         ) : (

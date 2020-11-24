@@ -1,5 +1,6 @@
 import { put, takeEvery, select } from "redux-saga/effects";
 import { types } from "../../Types/chatvid";
+import { push } from 'react-router-redux';
 import {
   getChatvids,
   getChatvid,
@@ -54,6 +55,7 @@ function* saveChatVidSaga(action: any) {
       yield put({ type: types.SAVE_CHATVID_SUCCESS });
       yield put({ type: types.GET_CHATVIDS_REQUEST });
       toast.info("Chatvid saved successfully!");
+      yield put(push("/chatvids"));
     } else {
       yield put({ type: types.SAVE_CHATVID_FAILURE });
       toast.error("Something Went Wrong");

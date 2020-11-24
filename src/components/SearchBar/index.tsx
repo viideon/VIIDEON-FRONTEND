@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function SearchBar() {
+export default function SearchBar(props: any) {
   const classes = useStyles();
   return (
     <Paper className={classes.root}>
@@ -57,6 +57,7 @@ export default function SearchBar() {
       </IconButton>
       <InputBase
         className={classes.input}
+        onChange={props.onChange}
         placeholder="Search chatvid..."
         inputProps={{ "aria-label": "search chatvids" }}
       />

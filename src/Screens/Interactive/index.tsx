@@ -129,6 +129,7 @@ class ChatVid extends Component<IProps> {
   }
 
   moveTofinal = () => {
+    if(this.state.responseType === "Calendly" && !this.state.calendar) return toast.error("Add a link first!")
     if (this.state.isAddStep && this.state.chatvidId) {
       this.createChatVid();
     } else {
@@ -144,8 +145,7 @@ class ChatVid extends Component<IProps> {
 
   createChatVid = async () => {
     try {
-      toast.info("Generating thumbnail ...");
-      toast.info("Saving thumbnail ...");
+      toast.info("Uploading thumbnail ...");
       await this.uploadThumbnail();
       toast.info("Uploading video ...");
       await this.uploadVideo();
@@ -178,10 +178,9 @@ class ChatVid extends Component<IProps> {
         chatvid.chatvidId = this.state.chatvidId;
         chatvid.stepNo = this.props.chatvids.selectedChatvid.steps.length + 1;
         toast.info(`Adding step to ${this.props.chatvids.selectedChatvid.name}`);
-        console.log("STEP", chatvid);
         return this.props.addStepToChatvid(chatvid);
       }
-      toast.info("Storign Chatvid ...");
+      toast.info("Storing Chatvid ...");
       !this.state.isAddStep && this.props.saveVideo(chatvid);
     } catch (error) {
 

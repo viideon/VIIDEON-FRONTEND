@@ -8,12 +8,7 @@ import Alert from "@material-ui/lab/Alert";
 import { toast } from "react-toastify";
 import * as Constants from "../../constants/constants";
 import { reg } from "../../constants/emailRegEx";
-import {
-  loginUser,
-  verifyUser,
-  resendEmail,
-  resetEmailVerifiedVariable
-} from "../../Redux/Actions/auth";
+import { loginUser, verifyUser, resendEmail, resetEmailVerifiedVariable } from "../../Redux/Actions/auth";
 import { User } from "../../Redux/Types/auth";
 import Loading from "../../components/Loading";
 import ThemeButton from "../../components/ThemeButton";
@@ -75,23 +70,18 @@ class Signin extends React.Component<IProps, IState> {
     if (code) {
       this.props.verifyUser({ token: code });
     }
+    if (this.props.auth.loggedInStatus && this.props.auth.user._id && this.props.auth.token) {
+      this.props.history.push('/')
+    }
   }
 
   componentDidUpdate(prevProps: any) {
-    if (
-      this.props.verifyState &&
-      JSON.stringify(prevProps.verifyState) !==
-      JSON.stringify(this.props.verifyState) &&
-      this.props.verifyState.VerifySuccess
-    ) {
+    if (this.props.auth.loggedInStatus && this.props.auth.user._id && this.props.auth.token) this.props.history.push('/');
+    if (this.props.verifyState && JSON.stringify(prevProps.verifyState) !== JSON.stringify(this.props.verifyState) && this.props.verifyState.VerifySuccess) {
       this.setState({ verifySuccessModals: true });
       toast.info("The email is successfully verified!");
     }
-    if (
-      this.props.auth.loginError &&
-      JSON.stringify(prevProps.auth) !== JSON.stringify(this.props.auth) &&
-      this.props.auth.loginError.isEmailNotVerified
-    ) {
+    if (this.props.auth.loginError && JSON.stringify(prevProps.auth) !== JSON.stringify(this.props.auth) && this.props.auth.loginError.isEmailNotVerified) {
       this.setState({ resendVerificationEmail: true });
       this.props.resetEmailVerifiedVariable();
       setTimeout(
