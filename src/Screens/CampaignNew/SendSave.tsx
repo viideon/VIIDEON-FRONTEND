@@ -12,32 +12,15 @@ import AWS from "aws-sdk";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 
-import { makeStyles } from "@material-ui/core/styles";
 // import Button from '@material-ui/core/Button';
-import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
-import PersonIcon from "@material-ui/icons/Person";
-import AddIcon from "@material-ui/icons/Add";
-import Typography from "@material-ui/core/Typography";
-import { blue } from "@material-ui/core/colors";
 
-import {
-  sendVideoToEmail,
-  saveVideo,
-  sendMultipleEmails,
-  toggleSendVariable
-} from "../../Redux/Actions/videos";
-import {
-  VideoState,
-  EmailVideo,
-  VideoSave,
-  MultiEmail
-} from "../../Redux/Types/videos";
+import { sendVideoToEmail, saveVideo, sendMultipleEmails, toggleSendVariable } from "../../Redux/Actions/videos";
+import { VideoState, EmailVideo, VideoSave, MultiEmail } from "../../Redux/Types/videos";
 import { AuthState } from "../../Redux/Types/auth";
 import * as Constants from "../../constants/constants";
 import { reg } from "../../constants/emailRegEx";
@@ -45,38 +28,7 @@ import { config } from "../../config/aws";
 
 import "./style.css";
 
-const Spread = require("../../assets/email-theme/Spread.png");
-const Streamlined = require("../../assets/email-theme/Streamlined.png");
-const SimpleBlue = require("../../assets/email-theme/SimpleBlue.png");
-const Sleek = require("../../assets/email-theme/Sleek.png");
-const SocialBusiness = require("../../assets/email-theme/SocialBusiness.png");
-const SocialImpact = require("../../assets/email-theme/SocialImpact.png");
-const ClassicDark = require("../../assets/email-theme/ClassicDark.png");
-const CorporateLight = require("../../assets/email-theme/CorporateLight.png");
-const ModernSimple = require("../../assets/email-theme/ModernSimple.png");
-const Ocean = require("../../assets/email-theme/Ocean.png");
-
-const availableTheme = [
-  { name: "Spread", avatar: Spread },
-  { name: "Streamlined", avatar: Streamlined },
-  { name: "Simple Blue", avatar: SimpleBlue },
-  { name: "Sleek", avatar: Sleek },
-  { name: "Social Business", avatar: SocialBusiness },
-  { name: "Social Impact", avatar: SocialImpact },
-  { name: "Clasic Dark", avatar: ClassicDark },
-  { name: "Corporate Light", avatar: CorporateLight },
-  { name: "Modern Simple", avatar: ModernSimple },
-  { name: "Ocean", avatar: Ocean }
-];
-
-const emails = ["username@gmail.com", "user02@gmail.com"];
-
-const useStyles = makeStyles({
-  avatar: {
-    backgroundColor: blue[100],
-    color: blue[600]
-  }
-});
+const { availableTheme } = require("../../constants/constants");
 
 export interface SimpleDialogProps {
   open: boolean;
@@ -85,7 +37,6 @@ export interface SimpleDialogProps {
 }
 
 function SimpleDialog(props: SimpleDialogProps) {
-  const classes = useStyles();
   const { onClose, selectedValue, open } = props;
 
   const handleClose = () => {
@@ -105,13 +56,13 @@ function SimpleDialog(props: SimpleDialogProps) {
       >
         <DialogTitle id="simple-dialog-title">Select E-mail theme</DialogTitle>
         <List component="div">
-          {availableTheme.map(theme => (
+          {availableTheme.map((theme: any) => (
             <ListItem
               button
               onClick={() => handleListItemClick(theme.name)}
               key={theme.name}
             >
-              <img className="avatarImage" src={theme.avatar} />
+              <img className="avatarImage" src={theme.avatar} alt="avatar" />
               <ListItemText primary={theme.name} />
             </ListItem>
           ))}

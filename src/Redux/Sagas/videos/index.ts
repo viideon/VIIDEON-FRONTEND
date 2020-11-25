@@ -217,12 +217,10 @@ function* searchUserVideos(action: any) {
 function* updateVideo(action: any) {
   try {
     const result = yield call(updateUserVideo, action.payload);
-
     if (result.status === 200) {
       const responseVideo = result.data.video;
       yield put({ type: types.UPDATE_VIDEO_SUCCESS, payload: responseVideo });
       toast.info("Updated");
-      window.location.reload(true);
     } else {
       toast.error("Update failed, please try again");
       yield put({

@@ -10,6 +10,7 @@ import videoReducer from "./videos";
 import profileReducer from "./profile";
 import emailReducer from "./email";
 import assetReducer from "./asset";
+import chatvidReducer from './chatvid'
 const expireTime = 24 * 60 * 60 * 1000;
 const expirationKey = "expirationKey";
 
@@ -30,16 +31,20 @@ const videoPersistConfig = {
     "emailShareCount",
     "emailOpenCount",
     "ctaCount",
-    "watchCount"
+    "watchCount",
+    "singleVideo"
   ],
-  blacklist: ["isVideoUpdated", "videoSaved", "videos", "singleVideo"]
+  blacklist: ["isVideoUpdated", "videoSaved", "videos",]
 };
 const profilePersistConfig = {
   key: "profile",
   storage: storage,
   blacklist: ["loading"]
 };
-
+const chatvidPersisConfig = {
+  key: "chatvids",
+  storage: storage,
+}
 const appReducer = combineReducers({
   register: registerReducer,
   drawer: drawerReducer,
@@ -47,7 +52,8 @@ const appReducer = combineReducers({
   video: persistReducer(videoPersistConfig, videoReducer),
   profile: persistReducer(profilePersistConfig, profileReducer),
   email: emailReducer,
-  asset: assetReducer
+  asset: assetReducer,
+  chatvids: persistReducer(chatvidPersisConfig, chatvidReducer)
 });
 
 const rootReducer = (state: any, action: any) => {

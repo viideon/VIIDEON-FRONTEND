@@ -90,6 +90,8 @@ class Editing extends React.Component<IProps, IState> {
   s3: any;
   ctx: any;
   ctx2: any;
+  dummyCanvas: any;
+  thumbCanvas: any;
   constructor(props: any) {
     super(props);
     this.state = {
@@ -130,7 +132,6 @@ class Editing extends React.Component<IProps, IState> {
     this.s3 = new AWS.S3(config);
     this.setUpCanvasEditing();
     this._isMounted = true;
-    this.container = this.refs.container;
     this.caluclateContainerHeight();
     window.addEventListener("resize", this.caluclateContainerHeight);
     this._isMounted &&
@@ -144,13 +145,9 @@ class Editing extends React.Component<IProps, IState> {
     this.setState({ videoHeight: calculatedVideoHeight });
   };
   setUpCanvasEditing = () => {
-    this.video = this.refs.video;
-    this.backgroundMusic = this.refs.backgroundMusic;
-    this.canvas = this.refs.canvas;
-    this.canvas2 = this.refs.dummyCanvas;
-    this.img = this.refs.image;
     this.video.crossOrigin = "Anonymous";
     this.img.crossOrigin = "Anonymous";
+    this.canvas2 = this.dummyCanvas;
     this.ctx = this.canvas.getContext("2d");
     this.ctx2 = this.canvas2.getContext("2d");
     this.video.addEventListener("canplaythrough", this.handleLoadedMetaData);
@@ -158,9 +155,11 @@ class Editing extends React.Component<IProps, IState> {
     this.video.addEventListener("play", this.onVideoPlay);
     this.video.addEventListener("ended", this.onVideoEnd);
     this.video.addEventListener("volumechange", this.syncAudio);
+    this.handleVideoLoaded();
   };
-  async componentWillReceiveProps(nextProps: any) {
-    const { video } = nextProps;
+
+  handleVideoLoaded = async () => {
+    const { video } = this.props;
     if (video) {
       const { logoProps, textProps, musicProps } = video;
       try {
@@ -198,6 +197,9 @@ class Editing extends React.Component<IProps, IState> {
       }
       this.setState({ videoLoaded: true });
     }
+  };
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
+    this.handleVideoLoaded();
   }
   onAdjustMusicVolume = (e: any) => {
     this.backgroundMusic.volume = e.target.value;
@@ -687,7 +689,7 @@ class Editing extends React.Component<IProps, IState> {
   };
   updateThumbnail = () => {
     return new Promise((resolve, reject) => {
-      const thumbCanvas: any = this.refs.thumbCanvas;
+      const thumbCanvas = this.thumbCanvas;
       const thumbnailContext = thumbCanvas.getContext("2d");
       const iconPos = getIconPosition(this.state.iconPos);
       thumbnailContext.drawImage(this.video, 0, 0, 1280, 720);
@@ -765,7 +767,9 @@ class Editing extends React.Component<IProps, IState> {
           <Grid item xs={1} md={2}></Grid>
           <Grid item xs={10} md={8} id="wrapper_main">
             <div
-              ref="container"
+              ref={ref => {
+                this.container = ref;
+              }}
               style={{
                 visibility: showVideo ? "visible" : "hidden",
                 width: "100%",
@@ -892,38 +896,46 @@ class Editing extends React.Component<IProps, IState> {
                 <Loading />
               </span>
             )}
-            <Grid
-              item
-              xs={12}
-              sm={12}
-              md={6}
-              lg={6}
-              style={{ paddingRight: "5px" }}
-            >
-              <video ref="video" controls={videoLoaded} width="100%" />
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              sm={12}
-              md={6}
-              lg={6}
-              style={{ paddingLeft: "5px" }}
-            >
-              <canvas ref="canvas" style={{ transform: "rotate(-270px)" }} />
+            <Grid item xs={12} sm={12} md={12} lg={6}>
+              <video
+                ref={ref => {
+                  this.video = ref;
+                }}
+                controls={videoLoaded}
+                width="100%"
+              />
             </Grid>
           </Grid>
-          <canvas ref="dummyCanvas" style={{ display: "none" }} />
+          <Grid container style={{ position: "relative" }}>
+            <Grid item xs={12} sm={12} md={12} lg={6}>
+              <canvas
+                ref={ref => {
+                  this.canvas = ref;
+                }}
+                style={{ transform: "rotate(-270px)" }}
+              />
+            </Grid>
+          </Grid>
+          <canvas
+            ref={ref => {
+              this.dummyCanvas = ref;
+            }}
+            style={{ display: "none" }}
+          />
           <img
             crossOrigin="anonymous"
             alt="logo"
             src={this.state.logoPath ? this.state.logoPath : null}
             style={{ display: "none" }}
-            ref="image"
+            ref={ref => {
+              this.img = ref;
+            }}
           />
           <audio
             src={backgroundMusicUrl}
-            ref="backgroundMusic"
+            ref={ref => {
+              this.backgroundMusic = ref;
+            }}
             loop
             style={{ display: "none" }}
           />
@@ -1184,7 +1196,9 @@ class Editing extends React.Component<IProps, IState> {
             />
           </div>
           <canvas
-            ref="thumbCanvas"
+            ref={ref => {
+              this.thumbCanvas = ref;
+            }}
             height={720}
             width={1280}
             style={{ display: "none" }}

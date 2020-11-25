@@ -30,3 +30,15 @@ export async function getTemplates() {
 export const getTemplatesApi = () => {
   return API.get("/campaign/templates");
 };
+
+export const getIndustriesAPI = () => {
+  return API.get("/industry/");
+}
+
+export const getPreviewApi = (settings: any) => {
+  return API.post("/user/preview/", {settings});
+}
+
+export const saveSettingsApi = (settings: any) => {
+  return API.post("/user/template/", {settings});
+}

@@ -7,7 +7,7 @@ import persistedReducer from "./Redux/Reducers";
 import rootSaga from "./Redux/Sagas/index";
 import Routes from "./Routes";
 import { PersistGate } from "redux-persist/integration/react";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 toast.configure({
@@ -45,6 +45,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <ToastContainer style={{ zIndex: 223123123 }} />
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <Routes />

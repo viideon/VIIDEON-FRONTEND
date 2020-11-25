@@ -9,7 +9,7 @@ import { LinearProgress, TextField } from "@material-ui/core";
 import ThemeButton from "../../components/ThemeButton";
 import Loading from "../../components/Loading";
 import ChipInput from "material-ui-chip-input";
-import { FaCamera, FaLaptop } from "react-icons/fa";
+import { FaLaptop } from "react-icons/fa";
 import EmailInstruction from "../../components/Reusable/EmailInstruction";
 import { toast } from "react-toastify";
 import Colors from "../../constants/colors";
@@ -234,9 +234,6 @@ class UploadRecord extends Component<IProps, IState> {
           }}
         />
         <div className="recordMainContainer">
-          {/* <p className="mainHeader">{Constants.CREATE_VIDEO}</p> */}
-          {/* <p className="titleHeader">{Constants.RECORD_AND_SHARE}</p> */}
-          {/* <hr /> */}
           <Tabs defaultIndex={this.props.location.show === "upload" ? 1 : 0}>
             <TabList>
               <Tab>
@@ -283,7 +280,6 @@ class UploadRecord extends Component<IProps, IState> {
                         >
                           <input {...getInputProps()} />
                           <img
-                            // src={require("../../assets/upload.png")}
                             src={fileUploadIcon}
                             style={{ width: 80, margin: "auto" }}
                             alt="upload"
@@ -315,7 +311,6 @@ class UploadRecord extends Component<IProps, IState> {
                                         value={this.state.progressFile}
                                       />
                                     )}
-
                                     <TextField
                                       name="name"
                                       value={this.state.title}
@@ -343,7 +338,6 @@ class UploadRecord extends Component<IProps, IState> {
                                     />
                                   </div>
                                 )}
-
                                 {videoSaved === true && (
                                   <div>
                                     <div>

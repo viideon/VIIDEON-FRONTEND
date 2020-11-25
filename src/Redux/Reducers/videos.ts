@@ -173,8 +173,8 @@ const videoReducer = (state = initialState, action: any) => {
       return { ...state, showDeleteDialog: true };
     case types.UPDATE_VIDEOS_AFTEREDELETE:
       return { ...state, videos: action.payload };
-    case types.CLEAN_SINGLEVIDEO:
-      return { ...state, singleVideo: null };
+    // case types.CLEAN_SINGLEVIDEO:
+    //   return { ...state, singleVideo: null };
     default: {
       return state;
     }

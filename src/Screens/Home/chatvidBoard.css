@@ -1,0 +1,415 @@
+.wrapperChatvidDashboard {
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+._responseWrapper {
+  background: #ffffff;
+  padding: 10px 20px 5px 20px;
+  height: 80vh;
+  border-radius: 8px;
+  overflow: scroll !important;
+}
+
+.respondersCardWrapper {
+  width: 90% !important;
+  background: #f2f2f2;
+  border-radius: 8px;
+  padding: 2%;
+  margin-bottom: 2%;
+  cursor: pointer;
+}
+
+.wrapperChatvidDashboard .respondersCardWrapper {
+  background: #ffffff;
+}
+
+.activeResponder {
+  background: #f0cc79 !important;
+  width: 100% !important;
+}
+._stepsCirclesWrapper {
+  display: flex;
+}
+._stepsCirclesWrapper .stepAvatarWrapper {
+  padding: 1%;
+  cursor: pointer;
+}
+.respondersCardWrapper .avatarWrapper {
+  background: #fdb415;
+  border-radius: 50%;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  padding: 20%;
+  color: white;
+}
+
+.respondersCardWrapper .resCardBody {
+  align-self: center;
+}
+
+.chosed {
+  color: #ffffff;
+  background: #fdb415;
+}
+.responderName {
+  /* font-size: 0.3rem !important; */
+  color: #0e2633 !important;
+  line-height: 1 !important;
+  font-weight: bold !important;
+  font-family: "Open Sans" !important;
+}
+
+.resDetials {
+  font-size: 0.8rem !important;
+  color: #273338 !important;
+  font-family: "Open Sans" !important;
+}
+
+.link-style {
+  text-decoration: none;
+  color: none;
+  cursor: pointer;
+}
+.link-style:hover {
+  text-decoration: none;
+  color: none;
+}
+
+/* CHATVID.TSX */
+
+._stepsDetailsWrapper {
+  border: 2px solid #fdb415;
+  margin-top: 2%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+._stepsDetailsWrapper ._stepsDetailsHeader {
+  background: #fdb415;
+  display: flex;
+  justify-content: space-between;
+  padding: 1%;
+}
+._stepsDetailsWrapper ._stepsDetailsBody {
+  background: #ffffff;
+}
+._stepsDetailsBody .optionDiv {
+  flex-direction: column;
+  height: 100% !important;
+  justify-content: center;
+}
+._stepsDetailsBody .optionDiv .IconWrapper {
+  width: 100px;
+  height: 100px;
+  margin: 1%;
+}
+._stepsDetailsBody .optionDiv .IconWrapper .MuiTypography-h1 {
+  font-size: 2.5rem;
+}
+._stepsDetailsBody .optionDiv .IconWrapper .MuiTypography-subtitle1 {
+  font-size: medium;
+}
+._stepsDetailsBody .optionDiv .IconWrapper .MuiSvgIcon-root {
+  font-size: 3rem;
+}
+
+._stepsDetailsBody .optionDiv .IconWrapper:hover , ._stepsDetailsBody .optionDiv .IconWrapper:hover .MuiSvgIcon-root, 
+._stepsDetailsBody .optionDiv .activeIcon, ._stepsDetailsBody .optionDiv .activeIcon .MuiSvgIcon-root{
+  background: #fdb415 !important;
+  color: #ffffff !important;
+}
+
+._stepTYPEandIcon {
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+}
+._stepTYPEandIcon .MuiSvgIcon-root {
+  font-size: 2em;
+  
+}
+._stepTYPEandIcon .MuiTypography-root { 
+  font-size: 1.5rem;
+  margin-left: 8px;
+  font-weight: bold;
+}
+._step_NO {
+
+}
+._whiteCircle {
+  color: #000000;
+  background: #ffffff;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  font-weight: bold;
+  font-family: Poppins;
+  padding: 10%;
+}
+._stepsDetailsBody {
+
+}
+
+._stepsDetailsResWrapper {
+  background: #f2f2f2;
+  margin: 3% !important;
+  border-radius: 6px !important;
+  padding: 1%;
+}
+
+
+.dashChatvidTopHeaderWrapper {
+  margin-bottom: 2%;
+}
+.dashChatvidTopHeaderWrapper .MuiGrid-grid-lg-4 {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-end;
+
+}
+.dashChatvidTopHeaderWrapper .sendChatvidBTNWrapper {
+  display: contents;
+}
+.dashChatvidTopHeaderWrapper .sendChatvidBTNWrapper .MuiButton-contained{
+  width: 70% !important;
+  font-size: xx-large;
+  text-transform: none !important;
+  padding: 0 !important;
+  margin: 0;
+}
+.thumbnailInChatvidHead {
+  display: flex;
+  overflow: hidden;
+  object-fit: cover;
+  object-position: center;
+  height: 7em;
+  width: 7em;
+  border-radius: 13px;
+}
+.chatvidEditToolsWrapper {
+  display: flex;
+}
+
+.chatvidEditToolsWrapper div {
+  color: blue;
+  background: #ffffff;
+  margin: 1%;
+  padding: 1%;
+  padding-left: 4%;
+  border-radius: 10px;
+  padding-right: 4%;
+  display: flex;
+  cursor: pointer;
+}
+.dashChatvidTopHeaderWrapper .copyChatvidURL .MuiPaper-elevation1 {
+  border-color: #fdb415 !important;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.dashChatvidTopHeaderWrapper .copyChatvidURL .MuiPaper-elevation1 .MuiButtonBase-root{
+  background: #fdb415 !important;
+}
+.dashChatvidTopHeaderWrapper .copyChatvidURL .MuiPaper-elevation1 .MuiInputBase-root{
+  margin-left: 0.4em !important;
+  font-size: small;
+  font-weight: bold;
+}
+
+.tabsWrapperChatvid {
+  border-bottom: 6px solid #fdb415;
+}
+.tabsBTNwrapper {
+  display: flex;
+}
+.tabsBTN {
+  background: #ffffff;
+  border-radius: 6px 6px 0px 0px;
+  padding: 1%;
+  width: 10em;
+  display: flex;
+  margin-right: 2%;
+  justify-content: center;
+  font-family: "Poppins";
+  font-weight: bold;
+  cursor: pointer;
+}
+.tabsWrapperChatvid .tabsBTNwrapper .active {
+  background: #fdb415;
+  color: #ffffff;
+}
+.replyIconWrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  color: #fdb415;
+}
+.replyIconWrapper svg {
+  font-size: inherit;
+}
+.tabsWrapperChatvid .replyIconWrapper svg {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.chatVidTabsWrapper {
+  background: #ffffff;
+  margin-top: -1px;
+  border-radius: 0px 0px 8px 8px;
+  padding: 1%;
+}
+.responderWrapper {
+  border-right: 1px solid #fdb415;
+  overflow: scroll !important;
+}
+.wrapperChatvidDashboard .responderWrapper {
+  height: 80vh;
+}
+.stepAvatarWrapper {
+  background: #fdb415;
+  border-radius: 50%;
+  padding: 5%;
+  height: 3.5em;
+  width: 3.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 2px;
+}
+.stepAvatarWrapper .MuiTypography-h4 {
+  color: #ffffff;
+  font-family: "Poppins";
+  font-size: 0.6rem;
+  font-weight: bold;
+}
+.stepAvatarWrapper .MuiTypography-h1 {
+  color: #ffffff;
+  font-family: "Poppins";
+  font-size: 1.7rem;
+}
+
+.replyWrapper_DASH {
+  border: 2px solid #fdb415;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 2%;
+}
+.replyWrapper_DASH .MuiGrid-grid-xs-2{
+  background: #f2f2f2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1%;
+  justify-content: space-evenly;
+}
+.replyWrapper_DASH .avatarWrapper{
+  background: #fdb415;
+  border-radius: 50%;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  padding: 14%;
+  color: white;
+}
+.replyBodyWrapperContainer {
+  align-self: center;
+  background: rgb(255, 255, 255);
+  text-align: center;
+}
+
+
+
+._stepTabsChoices {}
+._choicePrcWrapper {}
+._s {}
+._P {}
+
+
+.AddMoreSteps {
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #fdb415;
+  padding: 2%;
+  color: #fdb415;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+
+
+/* METRICS */
+
+.chartBoardContainer {
+  background: #fdb415;
+  display: flex;
+  border-radius: 8px;
+  box-shadow: 0px 2px 8px -4px #000000;
+  color: #ffffff;
+  justify-content: space-around;
+}
+.chartBoard {
+  display: flex;
+  flex-direction: column;
+  padding: 1%;
+  align-items: flex-end;
+}
+._StatsContainer {
+  display: flex;
+  padding-right: 6%;
+}
+._statsLabel {
+
+}
+.chartGraphContainer {
+  padding: 1%;
+}
+/* END Chatvid.tsx */
+@media only screen and (max-width: 768px) {
+  .wrapperHomeContent {
+    margin-left: 0px;
+    width: 100vw;
+    margin-top: 16px;
+  }
+  .wrapperHomeContentFull {
+    margin-top: 16px;
+  }
+  .wrapperChatvidDashboard {
+    margin-top: 35px;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .wrapperHomeContent {
+    margin-top: 40px;
+    width: 100vw;
+  }
+  .wrapperChatvidDashboard {
+    margin-top: 25px;
+  }
+  .wrapperHomeContentFull {
+    margin-top: 40px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .wrapperHomeContent {
+    margin-top: 40px;
+    width: 100vw;
+  }
+  .wrapperChatvidDashboard {
+    margin-top: 10px;
+  }
+  .wrapperHomeContentFull {
+    margin-top: 40px;
+  }
+  .dashboardTopLeft {
+    font-weight: 550 !important;
+    font-size: 20px !important;
+  }
+  .actionsHomePage h5 {
+    font-size: 1em !important;
+  }
+}

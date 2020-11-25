@@ -25,10 +25,7 @@ const validationSchema = Yup.object().shape({
     .min(6, "Password must be 6 characters long"),
   email: Yup.string()
     .required("Enter Email")
-    .matches(
-      /([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)\@gmail([\.])com/g,
-      "Please enter a gmail account"
-    ),
+    .matches(/([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)\@gmail([\.])com/g, "Please enter a gmail account"),
   passwordConfirmation: Yup.string()
     .required("Enter Confirm Password ")
     .oneOf([Yup.ref("password")], "Passwords must match"),
@@ -59,7 +56,7 @@ class Signup extends React.Component<IProps, IState> {
     if (
       nextProps.registerUser.isSignupSuccess &&
       nextProps.registerUser.isSignupSuccess !==
-        this.props.registerUser.isSignupSuccess
+      this.props.registerUser.isSignupSuccess
     ) {
       this.props.history.push("/");
     }
@@ -86,8 +83,7 @@ class Signup extends React.Component<IProps, IState> {
           <Grid item xs={12} md={7} sm={12} className="sm-none">
             <div className="firstLayoutContainer">
               <div className="firstLayoutMainContainer">
-                <img src={whiteLogo} />
-                VideonPro
+                <img src={whiteLogo} alt="logo" />
               </div>
               <div
                 style={{
@@ -97,11 +93,11 @@ class Signup extends React.Component<IProps, IState> {
                   opacity: "0.5"
                 }}
               >
-                <img style={{ width: "30%" }} src={atom} />
+                <img style={{ width: "30%" }} src={atom} alt="logo" />
               </div>
             </div>
           </Grid>
-          <Grid item xs={12} md={5} sm={12}>
+          <Grid item xs={12} md={5} sm={12} style={{ zIndex: 123123123 }}>
             <div className="secondLayoutMainContainer">
               <p className="loginTwo">{Constants.REGISTER}</p>
               <div className="createAccountSignup">
@@ -289,17 +285,7 @@ class Signup extends React.Component<IProps, IState> {
                             onClick={formik.handleSubmit}
                             name={Constants.REGISTER}
                             round={false}
-                            style={{
-                              marginTop: 18,
-                              background: Colors.themePurple,
-                              color: Colors.white,
-                              width: "80%",
-                              backgroundImage:
-                                "linear-gradient(to right, #fcb317, #8bb589, #61b5b3)",
-                              fontFamily: "Poppins",
-                              fontWeight: "bolder",
-                              fontSize: "larger"
-                            }}
+                            style={Colors.themeGradientBtn}
                           />
                         </div>
                       </>

@@ -9,6 +9,10 @@
   padding-top: 5em;
   margin-left: 0;
   transition: left 1s cubic-bezier(0.82, 0.085, 0.395, 0.895);
+
+  overflow-y: scroll;
+  margin-bottom: 5%;
+  padding-bottom: 5%;
 }
 .MainDrawerHide {
   transform: translateX(-1000px);
@@ -91,6 +95,23 @@
   color: #0f2733;
 }
 
+/* ChatvidBar */
+
+.chatvidScroollingBar {
+  overflow: scroll;
+  padding-bottom: 35%;
+  margin-bottom: 25%;
+}
+.thumbnailInChatvidBar {
+  width: 3em;
+  height: 3em;
+  cursor: pointer;
+  display: flex;
+  border-radius: 18%;
+  object-fit: cover;
+  object-position: center;
+  overflow: hidden;
+}
 @media only screen and (max-width: 768px) {
   .MainDrawer {
     display: none;

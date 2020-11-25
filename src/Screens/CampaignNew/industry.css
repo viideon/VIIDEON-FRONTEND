@@ -1,0 +1,44 @@
+.wrapperSelectIndustry {
+  padding: 10px 20px;
+}
+
+.wrapperSelectIndustry h4 {
+  text-align: center;
+  padding-bottom: 30px;
+  color: #fcb414;
+  border-bottom: 6px solid #fcb414;
+  margin-bottom: 1.8%;
+}
+
+.wrapperSelectIndustry .MuiPaper-elevation1 {
+  border-radius: 0 0 8px 8px !important;
+}
+
+.wrapperSelectIndustry .MuiCardMedia-img,
+.wrapperSelectIndustry .MuiCardMedia-media {
+  border: 2px solid #fd7527;
+}
+
+.wrapperSelectIndustry .MuiTypography-h5,
+.wrapperSelectIndustry .MuiTypography-gutterBottom {
+  text-align: center;
+  color: #fcb317;
+  font-weight: 500;
+  font-size: 22px;
+  font-family: "Poppins";
+}
+
+.wrapperSelectIndustry .MuiCardContent-root {
+  padding: 6px;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"),
+    url(../../assets//fonts/Poppins-Regular.ttf) format("ttf");
+}
+@font-face {
+  font-family: "Open Sans";
+  src: local("Poppins"),
+    url(../../assets//fonts/OpenSans-Regular.ttf) format("ttf");
+}

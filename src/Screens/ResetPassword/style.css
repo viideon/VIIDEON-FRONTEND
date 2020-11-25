@@ -32,6 +32,10 @@
 .secondLayoutMainContainer {
   padding-left: 10%;
   padding-right: 10%;
+  z-index: 223123123 !important;
+}
+.zIndex {
+  z-index: 223123123 !important;
 }
 .loginTwo {
   padding-top: 15%;

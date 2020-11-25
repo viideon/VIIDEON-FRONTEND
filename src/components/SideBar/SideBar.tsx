@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import { UserProfile } from "../../Redux/Types/profile";
-import LogoutModal from "../Modals/logout";
-import Tooltip from "@material-ui/core/Tooltip";
 import classname from "classnames";
 
 import "./style.css";
@@ -34,31 +31,12 @@ class SideBar extends Component<IProps, IState> {
     this.setState({ logoutModal: !this.state.logoutModal });
   };
   render() {
-    const { user, logout } = this.props;
     const { drawer } = this.props;
     var activeSideBar = this.state.activeTab;
     if (this.props.location.pathname !== activeSideBar)
       activeSideBar = this.props.location.pathname;
     return (
       <div className={drawer ? "MainDrawer" : "MainDrawerHide"}>
-        {/* <div className="wrapperProfileSidebar"> */}
-        {/* {user && (
-            <div className="wrapperDetails">
-              <span className="wrapperAvatarSidebar">
-                <img
-                  src={user.url ? user.url : avatar}
-                  className="avatarSidebar"
-                  alt="avatar"
-                />
-              </span>
-              <span className="infoProfile">
-                <span className="nameInfo">{`${user.firstName} ${user.lastName}`}</span>
-                <span className="contactInfo">{user.email}</span>
-              </span>
-            </div>
-          )} */}
-        {/* <SearchBar /> */}
-        {/* </div> */}
         <div
           className={classname({
             OptionIcons: true,
@@ -71,6 +49,19 @@ class SideBar extends Component<IProps, IState> {
         >
           <i className="fas fa-tachometer-alt dashboard" style={iconStyle} />
           <span className="IconNameStyling">Dashboard</span>
+        </div>
+        <div
+          className={classname({
+            OptionIcons: true,
+            dashboardOption: true,
+            activeSideBar: activeSideBar === "/chatvids"
+          })}
+          onClick={() => {
+            this.handleChangeTab("/chatvids");
+          }}
+        >
+          <i className="fas fa-tachometer-alt dashboard" style={iconStyle} />
+          <span className="IconNameStyling">Switch to chatvid</span>
         </div>
         <div
           className={classname({
@@ -134,37 +125,6 @@ class SideBar extends Component<IProps, IState> {
           <i className="far fa-play-circle" style={iconStyle} />
           <span className="IconNameStyling">Music</span>
         </div>
-
-        <div className="footerDashboard">
-          <div className="navFooterIcons">
-            <Link
-              to="/profile"
-              className="link-style"
-              style={{ color: "black" }}
-            >
-              <Tooltip title="Profile">
-                <span>
-                  <i className="fas fa-cog" style={iconStyle}></i>
-                </span>
-              </Tooltip>
-            </Link>
-            <Tooltip title="Under Progress">
-              <span>
-                <i className="fas fa-envelope" style={iconStyle}></i>
-              </span>
-            </Tooltip>
-            <Tooltip title="Log out">
-              <span onClick={() => this.toggleLogoutModal()}>
-                <i className="fas fa-power-off" style={iconStyle}></i>
-              </span>
-            </Tooltip>
-          </div>
-          <LogoutModal
-            open={this.state.logoutModal}
-            toggle={this.toggleLogoutModal}
-            logout={logout}
-          />
-        </div>
       </div>
     );
   }
@@ -175,10 +135,6 @@ const iconStyle = {
   display: "inline-block",
   color: "#FFFFFF",
   cursor: "pointer"
-};
-const arrowIcon = {
-  marginLeft: "auto",
-  marginRight: "12px"
 };
 const mapStateToProps = (state: any) => {
   return {

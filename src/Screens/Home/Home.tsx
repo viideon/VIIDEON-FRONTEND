@@ -1,10 +1,12 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import classname from "classnames";
 import { getEmailConfigurations } from "../../Redux/Actions/email";
 import { getAssets, getMusicAsset } from "../../Redux/Actions/asset";
 import { logout } from "../../Redux/Actions/auth";
 import SideBar from "../../components/SideBar/SideBar";
+import ChatVidBar from '../../components/SideBar/chatvidBar'
 // import Tooltip from "@material-ui/core/Tooltip";
 // import LogoutModal from "../../components/Modals/logout";
 import Header from "../../components/Header/Header";
@@ -34,14 +36,24 @@ class Home extends Component<IProps> {
   };
   render() {
     const { drawer, logout } = this.props;
+    const isChatvid = (this.props.history.location.pathname.indexOf("/chatvids")) > -1 ? true : false;
     return (
-      <div className="videonAppWrapper">
+      <div className={classname({ videonAppWrapper: isChatvid ? false : true, videonChatvidAppWrapper: isChatvid })}>
         <Header />
-        <SideBar
-          history={this.props.history}
-          location={this.props.location}
-          logout={logout}
-        />
+        {
+          !isChatvid ?
+            <SideBar
+              history={this.props.history}
+              location={this.props.location}
+              logout={logout}
+            />
+            :
+            <ChatVidBar
+              history={this.props.history}
+              location={this.props.location}
+              logout={logout}
+            />
+        }
         <div
           className={drawer ? "wrapperHomeContent" : "wrapperHomeContentFull"}
         >
@@ -51,9 +63,7 @@ class Home extends Component<IProps> {
     );
   }
 }
-const iconStyle = {
-  cursor: "pointer"
-};
+
 const mapStateToProps = (state: any) => {
   return {
     drawer: state.drawer.drawer

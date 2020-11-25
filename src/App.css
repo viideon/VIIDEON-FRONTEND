@@ -2,6 +2,10 @@ body {
   font-family: "Open Sans", sans-serif !important;
 }
 
+.cursorPointer {
+  cursor: pointer !important;
+}
+
 @media only screen and (max-width: 620px) {
   .sm-none {
     display: none !important;

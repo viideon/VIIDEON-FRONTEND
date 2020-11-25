@@ -5,6 +5,7 @@ import { videoWatcher } from "./videos/index";
 import { profileWatcher } from "./profile/index";
 import { emailWatcher } from "./email/index";
 import { assetWatcher } from "./asset/index";
+import { chatVidWatcher } from './chatvid'
 
 export default function* rootSaga() {
   yield all([
@@ -13,6 +14,7 @@ export default function* rootSaga() {
     fork(videoWatcher),
     fork(profileWatcher),
     fork(emailWatcher),
-    fork(assetWatcher)
+    fork(assetWatcher),
+    fork(chatVidWatcher)
   ]);
 }

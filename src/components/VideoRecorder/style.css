@@ -40,15 +40,22 @@
   text-shadow: 1px 2px rgba(0, 0, 0, 0.5);
 }
 .timerRecording {
-  color: #000;
-  background-color: #fff;
+  color: #fff !important;
+  background: rgba(70, 70, 70, 0.4) !important;
   position: absolute;
-  top: 10px;
-  left: 20px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
+
   align-items: center;
-  padding: 5px;
+  bottom: 0;
+  width: 100%;
+  top: auto !important;
+  left: auto !important;
+  margin: 0 !important;
+  font-family: "Poppins";
+  font-weight: bold;
+  font-size: xx-large;
+  z-index: 2;
 }
 .containerCampaign {
   margin-top: 100px;
@@ -57,6 +64,12 @@
 .wrapperBtnRecording {
   display: flex;
   justify-content: center;
+}
+
+.addNote .MuiFormControlLabel-label {
+  color: #ffffff;
+  font-family: "Poppins";
+  font-size: 0.8rem !important;
 }
 /* -----recording screen wrapper */
 .customeRecWrapper {
@@ -156,7 +169,8 @@
 .recordQualityInput .MuiInput-underline {
   width: 45%;
 }
-.recordQualityInput .MuiInput-underline:before {
+.recordQualityInput .MuiInput-underline:before,
+.recordQualityInput .MuiInput-underline:after {
   border-bottom: none;
 }
 
@@ -164,18 +178,15 @@
   border-bottom: none;
 }
 .recordingBtn {
-  border: 12px solid #ffffff;
-  color: black;
+  border: 4px solid #ffffff;
+  color: #ff0202;
   border-radius: 50%;
-  width: 90px;
-  height: 90px;
+  width: 90px !important;
+  height: 90px !important;
+  margin: 6px;
   background: #ff0202;
   outline: none;
-  position: absolute;
-  right: 2%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
+  z-index: 2;
 }
 .recordingBtn:hover {
   background: #ff0202;
@@ -185,83 +196,162 @@
   height: 70px;
   width: 70px;
   border-radius: 50%;
-  position: absolute;
-  right: 0%;
-  top: 38%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .stopBtn {
-  color: black;
+  color: #ff0202;
   border-radius: 4px;
-  width: 40px;
-  height: 40px;
-  background: #0f2733;
+  width: 40px !important;
+  height: 40px !important;
+  background: #ff0202;
   outline: none;
   border: none;
   cursor: pointer;
-  margin: 16px 16px 16px 15px;
 }
 .pauseBtnWrapper {
   background: #ffffff;
   height: 70px;
   width: 70px;
   border-radius: 50%;
-  position: absolute;
-  right: 0%;
-  top: 62%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
   display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
+  z-index: 2;
 }
 .pauseBtn {
-  color: black;
-  width: 15px;
-  height: 40px;
-  background: #0f2733;
+  color: #ffffff;
+  width: 65px !important;
+  height: 65px !important;
   outline: none;
   border: none;
   cursor: pointer;
-  margin: 16px 5px 16px 5px;
+}
+
+.cancelAction {
+  color: #ffffff;
+  width: 65px !important;
+  height: 65px !important;
+  outline: none;
+  border: none;
+  cursor: pointer;
 }
 .stopBtn:hover {
-  background: #ff0202;
+  background: #406c7f;
+  color: #406c7f;
+}
+
+.pauseBtn:hover {
+  color: #406c7f;
 }
 
 .videoStreamWrapper button:focus {
   outline: none !important;
 }
-@media (max-width: 1400px) {
-  .recordingBtn {
-    width: 70px;
-    height: 70px;
-    right: 2%;
-    top: 50%;
+
+.NoteWrapper {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  padding-top: 2%;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.NoteWrapper .MuiFormControl-root,
+.NoteWrapper .MuiTextField-root {
+  display: flex;
+  position: relative;
+  left: 2vw;
+  width: 80%;
+  height: 80%;
+}
+
+#overlayNote {
+  font-family: "Poppins";
+  color: white;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.safeAreaWrapper {
+  display: flex;
+  overflow: hidden;
+  position: absolute;
+  flex-direction: row;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  top: 0;
+}
+
+.fcY {
+  width: calc((100vw - 88.8889vh) / 2);
+  height: 100%;
+  background: rgba(253, 180, 21, 0.3);
+  z-index: 1;
+  animation: 2.8s ease-in-out 0s 1 normal none running fQCAJR;
+}
+
+.fcR {
+  width: calc((100vw - 88.8889vh) / 2);
+  height: 100%;
+  background: rgba(253, 180, 21, 0.3);
+  z-index: 1;
+  animation: 2.8s ease-in-out 0s 1 normal none running bITvZI;
+}
+
+.recorderActionWrapper {
+  display: flex;
+  width: 100%;
+  height: 133px;
+  justify-content: center;
+  align-items: center;
+  background: #0e2633;
+}
+
+@keyframes fQCAJR {
+  0% {
+    transform: translateX(-25vw);
   }
-  .stopBtnWrapper {
-    height: 50px;
-    width: 50px;
-    right: 0%;
-    top: 38%;
+  10% {
+    transform: translateX(0px);
+  }
+}
+
+@keyframes bITvZI {
+  0% {
+    transform: translateX(25vw);
+  }
+  10% {
+    transform: translateX(0px);
+  }
+}
+
+@media (max-width: 1400px) {
+  .recorderActionWrapper {
+    height: auto;
+    padding: 2%;
+  }
+  .recordingBtn, .stopBtnWrapper {
+    width: 70px !important;
+    height: 70px !important;
   }
   .stopBtn {
-    width: 24px;
-    height: 24px;
-    margin: 13px 15px 15px 13px;
+    width: 40px !important;
+    height: 40px !important;
   }
   .pauseBtnWrapper {
     height: 50px;
     width: 50px;
-    right: 0%;
-    top: 62%;
   }
-  .pauseBtn {
-    width: 12px;
-    height: 26px;
-    margin: 12px 2px 16px 2px;
+  .pauseBtn , .cancelAction{
+    height: 50px !important;
   }
 }
 @media (min-width: 1080px) {
@@ -276,53 +366,31 @@
 }
 
 @media (max-width: 1080px) {
-  .recordingBtn {
-    width: 50px;
-    height: 50px;
-    right: 2%;
-    top: 50%;
-    border: 6px solid #ffffff;
-  }
-  .stopBtnWrapper {
-    height: 40px;
-    width: 40px;
-    right: 0%;
-    top: 38%;
+  .recordingBtn, .stopBtnWrapper {
+    width: 55px !important;
+    height: 55px !important;
   }
   .stopBtn {
-    width: 25px;
-    height: 25px;
-    margin: 7px 15px 15px 8px;
+    width: 33px !important;
+    height: 33px !important;
   }
   .pauseBtnWrapper {
     height: 40px;
     width: 40px;
-    right: 0%;
-    top: 62%;
   }
-  .pauseBtn {
-    margin: 7px -6px 7px -5px;
-    width: 8px;
+  .pauseBtn, .cancelAction {
+    width: 40px !important;
   }
 }
 @media (max-width: 800px) {
-  .recordingBtn {
-    width: 30px;
-    height: 30px;
-    left: 50%;
-    top: 90%;
+  .recordingBtn, .stopBtnWrapper {
+    width: 40px !important;
+    height: 40px !important;
     border: 3px solid #ffffff;
   }
-  .stopBtnWrapper {
-    height: 30px;
-    width: 30px;
-    left: 38%;
-    top: 90%;
-  }
   .stopBtn {
-    width: 20px;
-    height: 20px;
-    margin: 5px 5.5px;
+    width: 25px !important;
+    height: 25px !important;
   }
   .pauseBtnWrapper {
     height: 30px;
@@ -330,10 +398,12 @@
     left: 62%;
     top: 90%;
   }
-  .pauseBtn {
-    width: 7px;
-    margin: 4px -1px;
-    height: 22px;
+  .pauseBtn, .cancelAction {
+    height: 32px !important;
+  }
+  .timerRecording {
+    padding: 1px;
+    font-size: x-large;
   }
 }
 @media (max-width: 720px) {
@@ -369,9 +439,7 @@
   }
   .timerRecording {
     padding: 1px;
-  }
-  .timerRecording span {
-    font-size: 0.6em;
+    font-size: large;
   }
   .recordQualityInput {
     flex-direction: column;
@@ -393,6 +461,14 @@
   }
 }
 @media (max-width: 420px) {
+  .NoteWrapper {
+    overflow: scroll;
+  }
+
+  .addNote {
+    width: 100%;
+    margin: 1%;
+  }
   .showNotSupported {
     font-size: x-small;
   }
@@ -410,19 +486,18 @@
     top: 85%;
   }
   .stopBtn {
-    width: 17px;
-    height: 17px;
-    margin: 5px 5px;
+    width: 17px !important;
+    height: 17px !important;
   }
   .pauseBtnWrapper {
     height: 27px;
     width: 27px;
     left: 65%;
     top: 85%;
+    justify-content: center !important;
+    align-items: center !important;
   }
-  .pauseBtn {
-    width: 5px;
-    margin: 5px -1px;
-    height: 18px;
+  .pauseBtn, .cancelAction {
+    height: 25px !important;
   }
 }

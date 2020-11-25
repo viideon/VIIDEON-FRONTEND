@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { getVideo, cleanSingleVideo } from "../../Redux/Actions/videos";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import Grid from "@material-ui/core/Grid";
 import "react-tabs/style/react-tabs.css";
-import { FaInfo, FaChartLine, FaCut, FaShare } from "react-icons/fa";
+import { FaInfo, FaChartLine, FaShare } from "react-icons/fa";
+import PaletteIcon from "@material-ui/icons/Palette";
 import VideoTabHeader from "./Header";
 import Detail from "./Detail";
-import Editing from "./Editing";
 import Share from "./Share";
 import Analytics from "./Analytics";
+import Design from "./Design";
 import Header from "../../components/Header/Header";
 import "./style.css";
 
@@ -16,62 +18,80 @@ const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
   const [isDisabled, enableLinks] = useState(true);
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
-  useEffect(() => {
     getVideo(params.id);
     setTimeout(() => enableLinks(false), 1000);
     return () => {
-      cleanSingleVideo();
+      // cleanSingleVideo();
     };
-  }, []);
+  }, [getVideo, params.id]);
 
   return (
     <>
-      <Header />
+      <Header
+        styles={{
+          backgroundImage:
+            "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"
+        }}
+      />
       <div className="wrapperVideoTab">
-        <br />
-        <br />
-        <VideoTabHeader />
-        <Tabs>
-          <TabList>
-            <Tab>
-              <span className="videoTabIcon">
-                <FaCut />
-              </span>
-              Editing
-            </Tab>
-            <Tab disabled={isDisabled}>
-              <span className="videoTabIcon">
-                <FaInfo />
-              </span>
-              Details
-            </Tab>
-            <Tab disabled={isDisabled}>
-              <span className="videoTabIcon">
-                <FaChartLine />
-              </span>
-              Analytics
-            </Tab>
-            <Tab disabled={isDisabled}>
-              <span className="videoTabIcon">
-                <FaShare />
-              </span>
-              Share
-            </Tab>
-          </TabList>
-          <TabPanel forceRender>
-            <Editing videoId={params.id} />
-          </TabPanel>
-          <TabPanel>
-            <Detail />
-          </TabPanel>
-          <TabPanel>
-            <Analytics />
-          </TabPanel>
-          <TabPanel>
-            <Share />
-          </TabPanel>
-        </Tabs>
+        <Grid container>
+          <Grid item xs={12} md={6} sm={12}>
+            <div className="wrapperTabVideo">
+              <VideoTabHeader />
+            </div>
+          </Grid>
+          <Grid item xs={12} md={6} sm={12} style={{ marginTop: "1em" }}>
+            <Tabs>
+              <TabList>
+                <Tab disabled={isDisabled}>
+                  <div className="videoTabIcon">
+                    <FaInfo />
+                  </div>
+                  <div>DETAILS</div>
+                </Tab>
+                <Tab disabled={isDisabled}>
+                  <div className="videoTabIcon">
+                    <FaChartLine />
+                  </div>
+                  <div>ANALYTICS</div>
+                </Tab>
+                {/* <Tab>
+                  <div className="videoTabIcon">
+                    <FaCut />
+                  </div>
+                  <div>EDITING</div>
+                </Tab> */}
+                <Tab>
+                  <div className="videoTabIcon">
+                    <PaletteIcon />
+                  </div>
+                  <div>EDITING</div>
+                </Tab>
+                <Tab disabled={isDisabled}>
+                  <div className="videoTabIcon">
+                    <FaShare />
+                  </div>
+                  <div>SHARE</div>
+                </Tab>
+              </TabList>
+              <TabPanel forceRender>
+                <Detail />
+              </TabPanel>
+              <TabPanel>
+                <Analytics />
+              </TabPanel>
+              {/* <TabPanel>
+                <Editing videoId={params.id} />
+              </TabPanel> */}
+              <TabPanel>
+                <Design />
+              </TabPanel>
+              <TabPanel>
+                <Share />
+              </TabPanel>
+            </Tabs>
+          </Grid>
+        </Grid>
       </div>
     </>
   );

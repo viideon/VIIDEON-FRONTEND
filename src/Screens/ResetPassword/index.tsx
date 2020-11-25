@@ -91,8 +91,7 @@ class ResetPassword extends React.Component<IProps, IState> {
           <Grid item xs={12} md={7} sm={12} className="sm-none">
             <div className="firstLayoutContainer">
               <div className="firstLayoutMainContainer">
-                <img src={whiteLogo} />
-                VideonPro
+                <img src={whiteLogo} alt="logo" />
               </div>
               <div
                 style={{
@@ -102,11 +101,11 @@ class ResetPassword extends React.Component<IProps, IState> {
                   opacity: "0.5"
                 }}
               >
-                <img style={{ width: "30%" }} src={atom} />
+                <img style={{ width: "30%" }} src={atom} alt="logo"/>
               </div>
             </div>
           </Grid>
-          <Grid item xs={12} md={5} sm={12}>
+          <Grid item xs={12} md={5} sm={12} style={{ zIndex: 231231232 }}>
             <div className="secondLayoutMainContainer">
               <p className="loginTwo">Reset Password</p>
               <div className="createAccount">
@@ -210,13 +209,6 @@ class ResetPassword extends React.Component<IProps, IState> {
   }
 }
 
-const inputStyle = {
-  borderRadius: "10rem",
-  borderWidth: 0,
-  borderColor: "white",
-  boxShadow: "white"
-};
-const iconStyle = { width: "5%", margin: 10 };
 const mapStateToProps = (state: any) => {
   return {
     auth: state.auth

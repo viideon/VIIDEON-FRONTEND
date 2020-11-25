@@ -72,7 +72,7 @@ export const LOGIN_TO_ACCOUNT = "Login to your account";
 export const DONT_HAVE_ACCOUNT_YET = "Don't have an account yet?";
 export const CREATE_NEW = "Create one here";
 export const SIGN_UP_HERE = "Sign up here";
-export const ENTER_DETAILS = "Enter Your details bellow to continue";
+export const ENTER_DETAILS = "Enter Your details below to continue";
 export const RESEND_VERIFICATION_EMAIL_TEXT =
   "We have sent you a verification email. Please verify your account from the link given in email. If you did not receive verification email yet, you may";
 
@@ -135,3 +135,37 @@ export const CONCLUSION_INSTRUCTION_EXAMPLE_TWO =
   "Call me for a free consultation where I can show you how to solve this problem.";
 export const CONCLUSION_INSTRUCTION_Q_FOUR =
   " Tell your audience about why you are the right choice for patients";
+
+export const availableTheme = [
+  { name: "Spread", avatar: require("../assets/email-theme/Spread.png") },
+  {
+    name: "Streamlined",
+    avatar: require("../assets/email-theme/Streamlined.png")
+  },
+  {
+    name: "Simple Blue",
+    avatar: require("../assets/email-theme/SimpleBlue.png")
+  },
+  { name: "Sleek", avatar: require("../assets/email-theme/Sleek.png") },
+  {
+    name: "Social Business",
+    avatar: require("../assets/email-theme/SocialBusiness.png")
+  },
+  {
+    name: "Social Impact",
+    avatar: require("../assets/email-theme/SocialImpact.png")
+  },
+  {
+    name: "Clasic Dark",
+    avatar: require("../assets/email-theme/ClassicDark.png")
+  },
+  {
+    name: "Corporate Light",
+    avatar: require("../assets/email-theme/CorporateLight.png")
+  },
+  {
+    name: "Modern Simple",
+    avatar: require("../assets/email-theme/ModernSimple.png")
+  },
+  { name: "Ocean", avatar: require("../assets/email-theme/Ocean.png") }
+];

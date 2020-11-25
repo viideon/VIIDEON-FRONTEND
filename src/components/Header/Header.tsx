@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import MenuIcon from "@material-ui/icons/Menu";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -67,16 +67,14 @@ const Header: React.FC<IProps> = ({
         {location.pathname !== "/" ? (
           <Tooltip title="Redirect to Dashboard">
             <h3 className="headerStyle" onClick={navigateHome}>
-              <img style={{ width: "50px" }} src={whiteLogo} />
-              videonPRO
+              <img style={{ width: "40%" }} src={whiteLogo} alt="logo" />
             </h3>
           </Tooltip>
         ) : (
-          <h3 className="headerStyle" onClick={navigateHome}>
-            <img style={{ width: "50px" }} src={whiteLogo} />
-            videonPRO
-          </h3>
-        )}
+            <h3 className="headerStyle" onClick={navigateHome}>
+              <img style={{ width: "40%" }} src={whiteLogo} alt="logo" />
+            </h3>
+          )}
         <MenuIcon
           onClick={() => {
             toggle();
@@ -86,7 +84,8 @@ const Header: React.FC<IProps> = ({
         />
         <TopDrawer open={drawerOpen} toggle={toggle} />
 
-        {(location.pathname === "/" ||
+        {/* {(location.pathname === "/" ||
+          location.pathname === "/chatvids" ||
           location.pathname === "/videos" ||
           location.pathname === "/configuration" ||
           location.pathname === "/campaign" ||
@@ -98,7 +97,7 @@ const Header: React.FC<IProps> = ({
             style={{ color: "#fff" }}
             id="hamburgerSide"
           />
-        )}
+        )} */}
       </div>
       <div className="endHeader">
         <div className="wrapperEnd">

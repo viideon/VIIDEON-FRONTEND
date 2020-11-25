@@ -84,9 +84,5 @@ const iconStyle = {
   display: "inline-block",
   color: "#b4bcc8"
 };
-const arrowIcon = {
-  marginLeft: "auto",
-  marginRight: "12px"
-};
 
 export default withRouter<any, any>(TopDrawer);

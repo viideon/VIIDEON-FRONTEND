@@ -14,6 +14,8 @@ import * as Constants from "../../constants/constants";
 import { config } from "../../config/aws";
 import Loading from "../../components/Loading";
 import ThemeButton from "../../components/ThemeButton";
+import Header from "../../components/Header/Header";
+
 import "./style.css";
 
 type IProps = {
@@ -41,6 +43,7 @@ type IState = {
 };
 class Profile extends Component<IProps, IState> {
   s3: any = new AWS.S3(config);
+  file: any;
   constructor(props: any) {
     super(props);
     this.state = {
@@ -168,192 +171,217 @@ class Profile extends Component<IProps, IState> {
     const { loading, user } = this.props.profile;
     const { avatarUploading } = this.state;
     return (
-      <div className="wrapperProfileSection">
-        <div id="profilePhotoWrap">
-          <div id="profilePhotoHead">
-            <h4>{Constants.PROFILE_PHOTO} </h4>
-            <i>
-              <Tooltip title={`${Constants.PROFILE_PIC_INSTRUCTIONS}`}>
-                <span>
-                  <FaInfoCircle id="infoCircleStyle" />
-                </span>
-              </Tooltip>
-            </i>
-            <p id="uploadProfilePara">{Constants.UPLOAD_DESCRIPTION}</p>
-          </div>
-          <hr />
-          <div id="profileImgWrap">
-            {this.state.url === "" ? (
-              <img
-                src={user!.url ? user!.url : profileImg}
-                alt="profileImg"
-                id="profileImgStyle"
-              />
-            ) : (
-              <img
-                src={this.state.url ? this.state.url : profileImg}
-                alt="profileImg"
-                id="profileImgStyle"
-              />
-            )}
-            <div className="progressEditing">
-              {avatarUploading && <Loading />}
+      <>
+        <Header
+          styles={{
+            backgroundImage:
+              "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"
+          }}
+        />
+        <div className="wrapperProfileSection">
+          <div id="profilePhotoWrap">
+            <div id="profilePhotoHead">
+              <h4>{Constants.PROFILE_PHOTO} </h4>
+              <i>
+                <Tooltip title={`${Constants.PROFILE_PIC_INSTRUCTIONS}`}>
+                  <span>
+                    <FaInfoCircle id="infoCircleStyle" />
+                  </span>
+                </Tooltip>
+              </i>
+              <p id="uploadProfilePara">{Constants.UPLOAD_DESCRIPTION}</p>
             </div>
-          </div>
-          <Tooltip title={`${Constants.PROFILE_PIC_INSTRUCTIONS}`}>
-            <div className="profileImgLabelWrap">
-              <div className="profileBtn">
-                SELECT NEW PHOTO
-                <input
-                  type="file"
-                  id="profileSelectInput"
-                  onChange={this.fileHandler}
+            <hr />
+            <div id="profileImgWrap">
+              {this.state.url === "" ? (
+                <img
+                  src={user!.url ? user!.url : profileImg}
+                  alt="profileImg"
+                  id="profileImgStyle"
                 />
+              ) : (
+                <img
+                  src={this.state.url ? this.state.url : profileImg}
+                  alt="profileImg"
+                  id="profileImgStyle"
+                />
+              )}
+              <div className="progressEditing">
+                {avatarUploading && <Loading />}
               </div>
             </div>
-          </Tooltip>
-        </div>
-        <div id="yourProfileWrap">
-          <h4 id="yourProfielHead">{Constants.YOUR_PROFILE}</h4>
-          <hr />
-          <Grid container>
-            <Grid xs={1} sm={1} md={2} lg={2} item></Grid>
-            <Grid item xs={10} sm={10} md={8} lg={8}>
-              <div className="formProfile">
-                <TextField
-                  name="firstName"
-                  value={this.state.firstName}
-                  onChange={this.onChange}
-                  label="First Name"
-                  fullWidth
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                />
-                <TextField
-                  name="lastName"
-                  value={this.state.lastName}
-                  onChange={this.onChange}
-                  label="Last Name"
-                  fullWidth
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                />
-                <TextField
-                  name="userName"
-                  value={this.state.userName}
-                  onChange={this.onChange}
-                  label="User Name"
-                  fullWidth
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                />
-                <TextField
-                  name="email"
-                  value={this.state.email}
-                  onChange={this.onChange}
-                  label="E-mail Address"
-                  fullWidth
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                />
-
-                <TextField
-                  name="mobileNumber"
-                  value={this.state.mobileNumber}
-                  onChange={this.onChange}
-                  label="Mobile Number"
-                  fullWidth
-                  margin="normal"
-                  type="text"
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                />
-                <TextField
-                  select
-                  name="timeZone"
-                  label="Time Zone"
-                  fullWidth
-                  value={this.state.timeZone}
-                  onChange={this.onChange}
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                  SelectProps={{
-                    native: true
+            <Tooltip title={`${Constants.PROFILE_PIC_INSTRUCTIONS}`}>
+              <div className="profileImgLabelWrap">
+                <div
+                  className="profileBtn"
+                  onClick={() => {
+                    this.file.click();
                   }}
                 >
-                  {Object.entries(TimeZone).map((key: any, value) => {
-                    return (
-                      <option key={key} value={key}>
-                        {key}
-                      </option>
-                    );
-                  })}
-                </TextField>
-
-                <TextField
-                  name="businessPhone"
-                  value={this.state.businessPhone}
-                  onChange={this.onChange}
-                  label="Business Phone"
-                  fullWidth
-                  margin="normal"
-                  type="text"
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                />
-                <TextField
-                  name="webAddress"
-                  value={this.state.webAddress}
-                  onChange={this.onChange}
-                  label="Web Address"
-                  fullWidth
-                  margin="normal"
-                  type="text"
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                />
-                <TextField
-                  type="text"
-                  name="title"
-                  value={this.state.title}
-                  onChange={this.onChange}
-                  label="Web Address"
-                  fullWidth
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                  style={{ marginBottom: "30px" }}
-                />
-
-                <ThemeButton
-                  style={{
-                    backgroundColor: "rgb(34, 185, 255)",
-                    color: "#fff"
-                  }}
-                  onClick={() => this.update()}
-                  name={`${Constants.UPDATE}`}
-                />
+                  SELECT NEW PHOTO
+                  <input
+                    type="file"
+                    id="profileSelectInput"
+                    onChange={this.fileHandler}
+                    ref={ref => {
+                      this.file = ref;
+                    }}
+                  />
+                </div>
               </div>
+            </Tooltip>
+          </div>
+          <div id="yourProfileWrap">
+            <h4 id="yourProfielHead">{Constants.YOUR_PROFILE}</h4>
+            <hr />
+            <Grid container>
+              <Grid xs={1} sm={1} md={2} lg={2} item></Grid>
+              <Grid item xs={10} sm={10} md={8} lg={8}>
+                <div className="formProfile">
+                  <TextField
+                    name="firstName"
+                    value={this.state.firstName}
+                    onChange={this.onChange}
+                    label="First Name"
+                    fullWidth
+                    margin="normal"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
+                  <TextField
+                    name="lastName"
+                    value={this.state.lastName}
+                    onChange={this.onChange}
+                    label="Last Name"
+                    fullWidth
+                    margin="normal"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
+                  <TextField
+                    name="userName"
+                    value={this.state.userName}
+                    onChange={this.onChange}
+                    label="User Name"
+                    fullWidth
+                    margin="normal"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
+                  <TextField
+                    name="email"
+                    value={this.state.email}
+                    onChange={this.onChange}
+                    label="E-mail Address"
+                    fullWidth
+                    margin="normal"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
 
-              <div className="progressEditing">{loading && <Loading />}</div>
+                  <TextField
+                    name="mobileNumber"
+                    value={this.state.mobileNumber}
+                    onChange={this.onChange}
+                    label="Mobile Number"
+                    fullWidth
+                    margin="normal"
+                    type="text"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
+                  <TextField
+                    select
+                    name="timeZone"
+                    label="Time Zone"
+                    fullWidth
+                    value={this.state.timeZone}
+                    onChange={this.onChange}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    SelectProps={{
+                      native: true
+                    }}
+                  >
+                    {Object.entries(TimeZone).map((key: any, value) => {
+                      return (
+                        <option key={key} value={key}>
+                          {key}
+                        </option>
+                      );
+                    })}
+                  </TextField>
+
+                  <TextField
+                    name="businessPhone"
+                    value={this.state.businessPhone}
+                    onChange={this.onChange}
+                    label="Business Phone"
+                    fullWidth
+                    margin="normal"
+                    type="text"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
+                  <TextField
+                    name="webAddress"
+                    value={this.state.webAddress}
+                    onChange={this.onChange}
+                    label="Web Address"
+                    fullWidth
+                    margin="normal"
+                    type="text"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
+                  <TextField
+                    type="text"
+                    name="title"
+                    value={this.state.title}
+                    onChange={this.onChange}
+                    label="Web Address"
+                    fullWidth
+                    margin="normal"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    style={{ marginBottom: "30px" }}
+                  />
+
+                  <ThemeButton
+                    style={{
+                      backgroundColor: "rgb(34, 185, 255)",
+                      color: "#fff"
+                    }}
+                    onClick={() => this.update()}
+                    name={`${Constants.UPDATE}`}
+                  />
+                  <ThemeButton
+                    style={{
+                      backgroundColor: "rgb(34, 185, 255)",
+                      color: "#fff",
+                      margin: "2%"
+                    }}
+                    onClick={() => {this.props.history.push("/template")}}
+                    name="Edit Template"
+                  />
+                </div>
+
+                <div className="progressEditing">{loading && <Loading />}</div>
+              </Grid>
+              <Grid xs={1} sm={1} md={2} lg={2} item></Grid>
             </Grid>
-            <Grid xs={1} sm={1} md={2} lg={2} item></Grid>
-          </Grid>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 }
@@ -364,8 +392,7 @@ const mapStateToProps = (state: any) => {
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    updateProfile: (userProfile: UserProfile) =>
-      dispatch(updateProfileUser(userProfile)),
+    updateProfile: (userProfile: UserProfile) => dispatch(updateProfileUser(userProfile)),
     addAsset: (asset: any) => dispatch(addAsset(asset))
   };
 };

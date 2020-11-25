@@ -74,6 +74,7 @@ progress::-moz-progress-bar {
 .wrapperCanvas {
   position: relative;
   background: #000;
+  height: 100%;
 }
 .thumbnailWrapper {
   width: 100%;

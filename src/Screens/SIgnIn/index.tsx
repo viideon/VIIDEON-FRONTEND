@@ -4,21 +4,14 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import { connect } from "react-redux";
 import InputRoundIcon from "../../components/InputRound/InputRoundIcon";
-import Label from "../../components/Reusable/Label";
 import Alert from "@material-ui/lab/Alert";
 import { toast } from "react-toastify";
 import * as Constants from "../../constants/constants";
 import { reg } from "../../constants/emailRegEx";
-import {
-  loginUser,
-  verifyUser,
-  resendEmail,
-  resetEmailVerifiedVariable
-} from "../../Redux/Actions/auth";
+import { loginUser, verifyUser, resendEmail, resetEmailVerifiedVariable } from "../../Redux/Actions/auth";
 import { User } from "../../Redux/Types/auth";
 import Loading from "../../components/Loading";
 import ThemeButton from "../../components/ThemeButton";
-import VerifySuccessModal from "../../components/Modals/verifySuccessModal";
 import Colors from "../../constants/colors";
 import "./style.css";
 
@@ -77,22 +70,18 @@ class Signin extends React.Component<IProps, IState> {
     if (code) {
       this.props.verifyUser({ token: code });
     }
+    if (this.props.auth.loggedInStatus && this.props.auth.user._id && this.props.auth.token) {
+      this.props.history.push('/')
+    }
   }
 
   componentDidUpdate(prevProps: any) {
-    if (
-      this.props.verifyState &&
-      JSON.stringify(prevProps.verifyState) !==
-        JSON.stringify(this.props.verifyState) &&
-      this.props.verifyState.VerifySuccess
-    ) {
+    if (this.props.auth.loggedInStatus && this.props.auth.user._id && this.props.auth.token) this.props.history.push('/');
+    if (this.props.verifyState && JSON.stringify(prevProps.verifyState) !== JSON.stringify(this.props.verifyState) && this.props.verifyState.VerifySuccess) {
       this.setState({ verifySuccessModals: true });
+      toast.info("The email is successfully verified!");
     }
-    if (
-      this.props.auth.loginError &&
-      JSON.stringify(prevProps.auth) !== JSON.stringify(this.props.auth) &&
-      this.props.auth.loginError.isEmailNotVerified
-    ) {
+    if (this.props.auth.loginError && JSON.stringify(prevProps.auth) !== JSON.stringify(this.props.auth) && this.props.auth.loginError.isEmailNotVerified) {
       this.setState({ resendVerificationEmail: true });
       this.props.resetEmailVerifiedVariable();
       setTimeout(
@@ -101,10 +90,6 @@ class Signin extends React.Component<IProps, IState> {
       );
     }
   }
-  toggleVerifyModal = () => {
-    this.setState({ verifySuccessModals: false });
-    this.props.history.push("/login");
-  };
   onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ [e.target.name]: e.target.value } as Pick<IState, any>);
   };
@@ -118,16 +103,11 @@ class Signin extends React.Component<IProps, IState> {
     const { loading } = this.props.auth;
     return (
       <div>
-        <VerifySuccessModal
-          open={this.state.verifySuccessModals}
-          toggle={this.toggleVerifyModal}
-        />
         <Grid container>
           <Grid item xs={12} md={7} sm={12} className="sm-none">
             <div className="firstLayoutContainer">
               <div className="firstLayoutMainContainer">
-                <img src={whiteLogo} />
-                VideonPro
+                <img src={whiteLogo} alt="logo" />
               </div>
               <div
                 style={{
@@ -137,7 +117,7 @@ class Signin extends React.Component<IProps, IState> {
                   opacity: "0.5"
                 }}
               >
-                <img style={{ width: "30%" }} src={atom} />
+                <img style={{ width: "30%" }} src={atom} alt="logo" />
               </div>
             </div>
           </Grid>
