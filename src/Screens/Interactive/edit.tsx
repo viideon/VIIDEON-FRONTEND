@@ -4,8 +4,7 @@ import { toast } from "react-toastify";
 import { config } from "../../config/aws";
 import AWS from "aws-sdk";
 
-import { saveChatvid, addStepToChatvid } from "../../Redux/Actions/chatvid";
-import { toggleSendVariable } from '../../Redux/Actions/videos';
+import { updateJump } from "../../Redux/Actions/chatvid";
 import { VideoState } from "../../Redux/Types/videos";
 import { AuthState } from "../../Redux/Types/auth";
 import "react-tabs/style/react-tabs.css";
@@ -21,17 +20,11 @@ import StepButton from '@material-ui/core/StepButton';
 
 
 import { makeStyles, Theme, createStyles, withStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import Check from '@material-ui/icons/Check';
-import SettingsIcon from '@material-ui/icons/Settings';
-import GroupAddIcon from '@material-ui/icons/GroupAdd';
-import VideoLabelIcon from '@material-ui/icons/VideoLabel';
-import StepConnector from '@material-ui/core/StepConnector';
-import Button from '@material-ui/core/Button';
-import { StepIconProps } from '@material-ui/core/StepIcon';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+
+import { ChatvidRedirectionLogics } from '../../components/SearchBar'
 // end stepper
 
 
@@ -44,9 +37,7 @@ type IProps = {
   videoUser: VideoState;
   chatvids: any;
   chatvid: any;
-  toggleSendVariable: () => void;
-  saveVideo: (video: any) => void;
-  addStepToChatvid: (step: any) => void;
+  updateStepJump: (step: any) => void;
 };
 
 class ChatVid extends Component<IProps> {
@@ -119,6 +110,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       width: '100%',
+      overflow: 'scroll'
     },
     button: {
       marginRight: theme.spacing(1),
@@ -133,140 +125,8 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-
-const QontoConnector = withStyles({
-  alternativeLabel: {
-    top: 10,
-    left: 'calc(-50% + 16px)',
-    right: 'calc(50% + 16px)',
-  },
-  active: {
-    '& $line': {
-      borderColor: '#784af4',
-    },
-  },
-  completed: {
-    '& $line': {
-      borderColor: '#784af4',
-    },
-  },
-  line: {
-    borderColor: '#eaeaf0',
-    borderTopWidth: 3,
-    borderRadius: 1,
-  },
-})(StepConnector);
-
-const useQontoStepIconStyles = makeStyles({
-  root: {
-    color: '#eaeaf0',
-    display: 'flex',
-    height: 22,
-    alignItems: 'center',
-  },
-  active: {
-    color: '#784af4',
-  },
-  circle: {
-    width: 8,
-    height: 8,
-    borderRadius: '50%',
-    backgroundColor: 'currentColor',
-  },
-  completed: {
-    color: '#784af4',
-    zIndex: 1,
-    fontSize: 18,
-  },
-});
-
-function QontoStepIcon(props: StepIconProps) {
-  const classes = useQontoStepIconStyles();
-  const { active, completed } = props;
-
-  return (
-    <div
-      className={clsx(classes.root, {
-        [classes.active]: active,
-      })}
-    >
-      {completed ? <Check className={classes.completed} /> : <div className={classes.circle} />}
-    </div>
-  );
-}
-
-const ColorlibConnector = withStyles({
-  alternativeLabel: {
-    top: 22,
-  },
-  active: {
-    '& $line': {
-      backgroundImage:
-        'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
-    },
-  },
-  completed: {
-    '& $line': {
-      backgroundImage:
-        'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
-    },
-  },
-  line: {
-    height: 3,
-    border: 0,
-    backgroundColor: '#eaeaf0',
-    borderRadius: 1,
-  },
-})(StepConnector);
-
-const useColorlibStepIconStyles = makeStyles({
-  root: {
-    backgroundColor: '#ccc',
-    zIndex: 1,
-    color: '#fff',
-    width: 50,
-    height: 50,
-    display: 'flex',
-    borderRadius: '50%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  active: {
-    backgroundImage:
-      'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
-    boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
-  },
-  completed: {
-    backgroundImage:
-      'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
-  },
-});
-
-function ColorlibStepIcon(props: StepIconProps) {
-  const classes = useColorlibStepIconStyles();
-  const { active, completed } = props;
-
-  const icons: { [index: string]: React.ReactElement } = {
-    1: <SettingsIcon />,
-    2: <GroupAddIcon />,
-    3: <VideoLabelIcon />,
-  };
-
-  return (
-    <div
-      className={clsx(classes.root, {
-        [classes.active]: active,
-        [classes.completed]: completed,
-      })}
-    >
-      {icons[String(props.icon)]}
-    </div>
-  );
-}
-
-
 const makemeSteps = (chatvid: any) => {
-  var stpArray: any = [...Array((chatvid.steps.length * 2 + 1)).keys()]
+  var stpArray: any = [...Array((chatvid.steps.length * 2)).keys()]
   var ind = 0
   const newStepArray: any = stpArray.map((item: any, index: number) => {
     if (!(index % 2)) {
@@ -275,7 +135,7 @@ const makemeSteps = (chatvid: any) => {
     }
     return item;
   })
-  console.log(newStepArray)
+  // console.log(newStepArray)
 
   return newStepArray
 }
@@ -284,8 +144,10 @@ function HorizontalNonLinearStepper(props: any) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState<{ [k: number]: boolean }>({});
-  const [steps, setSteps]: any = React.useState(makemeSteps(props.chatvid))
+  const [steps, setSteps]: any = React.useState(makemeSteps(props.chatvid));
+  const [editSteps, setEditSteps]: any = React.useState({});
   // const { steps } = props.chatvid;
+  const upperCaseAlp = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
   const totalSteps = () => {
     return steps.length;
@@ -313,41 +175,70 @@ function HorizontalNonLinearStepper(props: any) {
     setActiveStep(newActiveStep);
   };
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
   const handleStep = (step: number) => () => {
     setActiveStep(step);
+    props.history.push(`/chatvid/step/${props.chatvid._id}/${step}`)
   };
 
-  const handleComplete = () => {
-    const newCompleted = completed;
-    newCompleted[activeStep] = true;
-    setCompleted(newCompleted);
-    handleNext();
-  };
 
-  const handleReset = () => {
-    setActiveStep(0);
-    setCompleted({});
-  };
+  const handleJump = async (stepId: any, index: number, jumpTo: number) => {
+    console.log("stepId: ",stepId, "stepIndex: ", index, "jumpto: ", jumpTo)
+    editSteps[stepId] = { jumpTo: jumpTo}
+    await setEditSteps({...editSteps})
+    let step: any = {
+      _id: stepId,
+      jumpTo
+    }
+    props.updateStepJump(step)
+  }
+  const handleChoiceJump = async (stepId: string, choiceId: string, choiceInd: number, stepInd: number, value: number) => {
+    console.log("stepId: ",stepId, "choiceId: ",choiceId, "choiceIndex: ", choiceInd, "stepIndex: ", stepInd, "jumpto: ", value)
+    if(!editSteps[stepId]) editSteps[stepId] = {};
+    editSteps[stepId][choiceId] = {};
+    editSteps[stepId][choiceId] = { jumpTo : value};
+    await setEditSteps((oldSteps: any) => { return {...oldSteps, ...editSteps}})
+    let step: any = {
+      _id: stepId,
+      jumpChoice: {},
+    }
+    step.jumpChoice[choiceId] = value;
+    props.updateStepJump(step)
+  }
+
+  const renderLogic = (step: any, length: number, index: number) => {
+    return (
+      <>
+        {step.responseType === "Multiple-Choice" ?
+          step.choices.map((choice: any, ind: number) => {
+            return <ChatvidRedirectionLogics text={`If option ${upperCaseAlp[ind]} jump to`} onChange={(event: number) => handleChoiceJump(step._id, choice._id, ind, index, event)} choiceInd={ind} length={length} index={index} />
+          })
+          :
+          (<ChatvidRedirectionLogics text="Always move to " onChange={(event: number) => handleJump(step._id, index, event)} length={length} index={index} />)
+        }
+      </>
+    )
+  }
 
   return (
     <div className={classes.root}>
       <Stepper nonLinear activeStep={activeStep}>
         {steps && steps.map((step: any, index: number) => (
           <Step key={index}>
-            {step?.videoId?.thumbnail &&
-              <div className="thumbnaiForStepper">
+            {step?.videoId?.thumbnail ?
+              (<div className="thumbnaiForStepper">
                 <img src={step?.videoId?.thumbnail} alt="thumbnail" className="thumbnail" />
-              </div>
+              </div>)
+              :
+              (<>
+                <div className="stepLogicContainer">
+                  {renderLogic(steps[index - 1], props.chatvid.steps.length, index - 1)}
+                </div>
+              </>)
             }
             {!isNaN(step) ?
-              <StepButton icon={<VideoLabelIcon />} onClick={handleStep(index)} completed={true} />
+              <StepButton children={"ADD STEP"} icon={<AddCircleIcon />} onClick={handleStep(index)} completed={true} />
               :
-              <StepButton children={index} completed={true} />
-
+              <StepButton completed={true} />
             }
           </Step>
         ))}
@@ -368,9 +259,7 @@ const mapStateToProps = (state: any) => {
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    saveVideo: (chatvid: any) => dispatch(saveChatvid(chatvid)),
-    addStepToChatvid: (step: any) => dispatch(addStepToChatvid(step)),
-    toggleSendVariable: () => dispatch(toggleSendVariable()),
+    updateStepJump: (step: any) => dispatch(updateJump(step))
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ChatVid);

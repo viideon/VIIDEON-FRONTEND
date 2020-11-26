@@ -41,7 +41,7 @@ class ChatVid extends Component<IProps> {
     videoProgress: false,
     text: "",
     textColor: "#fff",
-    fontSize: 5,
+    fontSize: "xx-large",
     vAlign: "top",
     align: "left",
     fitvideo: true,
@@ -52,12 +52,17 @@ class ChatVid extends Component<IProps> {
     choices: [],
     isAddStep: false,
     chatvidId: "",
+    stepNo: 0,
+    reveal: [0, 100],
   }
 
   componentDidMount() {
     let pathname = this.props.history.location.pathname.split('/');
     if (pathname[1] === "chatvid" && pathname[2] === "step") {
       this.setState({ isAddStep: true, chatvidId: pathname[3], title: this.props.chatvids.selectedChatvid.name })
+    }
+    if (pathname.length === 5) {
+      this.setState({ stepNo: (pathname[4] - 1) === 0 ? pathname[4] : pathname[4] - 1 })
     }
   }
 
@@ -129,7 +134,7 @@ class ChatVid extends Component<IProps> {
   }
 
   moveTofinal = () => {
-    if(this.state.responseType === "Calendly" && !this.state.calendar) return toast.error("Add a link first!")
+    if (this.state.responseType === "Calendly" && !this.state.calendar) return toast.error("Add a link first!")
     if (this.state.isAddStep && this.state.chatvidId) {
       this.createChatVid();
     } else {
@@ -141,6 +146,7 @@ class ChatVid extends Component<IProps> {
     let newState: any = this.state;
     newState[e.target.name] = e.target.value;
     this.setState({ ...newState });
+
   }
 
   createChatVid = async () => {
@@ -154,7 +160,8 @@ class ChatVid extends Component<IProps> {
         textColor: this.state.textColor,
         fontSize: this.state.fontSize,
         vAlign: this.state.vAlign,
-        align: this.state.align
+        align: this.state.align,
+        reveal: this.state.reveal
       };
       const video = {
         title: this.state.title,
@@ -176,7 +183,7 @@ class ChatVid extends Component<IProps> {
       }
       if (this.state.isAddStep && this.state.chatvidId) {
         chatvid.chatvidId = this.state.chatvidId;
-        chatvid.stepNo = this.props.chatvids.selectedChatvid.steps.length + 1;
+        chatvid.stepNo = this.state.stepNo ? this.state.stepNo : this.props.chatvids.selectedChatvid.steps.length + 1;
         toast.info(`Adding step to ${this.props.chatvids.selectedChatvid.name}`);
         return this.props.addStepToChatvid(chatvid);
       }

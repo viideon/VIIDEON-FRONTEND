@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import getBlobDuration from 'get-blob-duration'
 
 import { Grid, Typography, TextField, Divider, Button } from "@material-ui/core";
 
@@ -33,10 +34,12 @@ class RecorderTab extends Component<any> {
   state = {
     fitVideo: true,
     active: "mobile",
+    duration: 100,
   }
   componentDidMount() {
+    this.getMaxDuration(this.props.video)
   }
-  
+
   handleChange = (event: any) => {
     this.setState({ fitVideo: event.target.checked });
     this.props.onChange({ target: { name: "fitvideo", value: event.target.checked } })
@@ -51,6 +54,15 @@ class RecorderTab extends Component<any> {
 
   handleTabChange = (active: string) => {
     this.setState({ active })
+  }
+
+  getMaxDuration = async (blob: any) => {
+    const duration = await getBlobDuration(blob);
+    this.setState({ duration })
+  }
+
+  handleFade = (event: any, value: any) => {
+    this.props.onChange({ target: { name: "reveal", value: value } })
   }
 
   render() {
@@ -116,18 +128,16 @@ class RecorderTab extends Component<any> {
                 <Typography variant="h6" className="actionLabels"> Text Size </Typography>
                 <Select
                   native
-                  // value={state.age}
-                  // onChange={handleChange}
+                  onChange={this.props.onChange}
                   variant="outlined"
                   inputProps={{
-                    name: 'age',
-                    id: 'age-native-simple',
+                    name: 'fontSize',
+                    id: 'fonst-size-native-simple',
                   }}
                 >
-                  <option aria-label="None" value="" />
-                  <option value={"small"}>Small</option>
-                  <option value={"default"}>Medium</option>
-                  <option value={"large"}>Large</option>
+                  <option value={"x-large"}>Small</option>
+                  <option value={"xx-large"}>Medium</option>
+                  <option value={"xxx-large"}>Large</option>
                 </Select>
               </Grid>
               <Grid item xs={12} sm={12} md={12} lg={5}>
@@ -138,8 +148,8 @@ class RecorderTab extends Component<any> {
                   // onChange={handleChange}
                   variant="outlined"
                   inputProps={{
-                    name: 'age',
-                    id: 'age-native-simple',
+                    name: 'fontStyle',
+                    id: 'style-native-simple',
                   }}
                 >
                   <option aria-label="None" value="" />
@@ -149,10 +159,18 @@ class RecorderTab extends Component<any> {
                 </Select>
               </Grid>
             </Grid>
+            {/* reveal */}
             <div className="revealWrapper">
               <Typography variant="h6" className="actionLabels"> Text reveal/ fade </Typography>
-              <PrettoSlider valueLabelDisplay="auto" aria-label="pretto slider" defaultValue={[10, 20]} />
+              <PrettoSlider
+                valueLabelDisplay="auto"
+                aria-label="pretto slider"
+                defaultValue={this.props.reveal}
+                max={this.state.duration}
+                onChange={this.handleFade}
+              />
             </div>
+            {/* reveal */}
             <div className="fitWrapper">
               <Typography variant="h6" className="actionLabels"> Fit Video </Typography>
               <AntSwitch

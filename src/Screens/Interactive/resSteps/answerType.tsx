@@ -62,7 +62,7 @@ class FinalTab extends Component<any> {
   state = {
     text: this.props.overlayTxt ? this.props.overlayTxt : "",
     textColor: "#fff",
-    fontSize: 5,
+    fontSize: "xx-large",
     vAlign: "center",
     align: "center",
     title: "",
@@ -80,6 +80,7 @@ class FinalTab extends Component<any> {
     audioOBJ: {},
     currentStepNo: 0,
     isFull: false,
+    display: "",
   }
 
   componentDidMount() {
@@ -126,8 +127,8 @@ class FinalTab extends Component<any> {
       } else {
         let url = this.props.resChatvid.steps[this.state.currentStepNo].videoId.url;
         this.videoRef.src = url;
-        const { text, align, vAlign, } = this.props.resChatvid.steps[this.state.currentStepNo].videoId.textProps;
-        this.setState({ text, align, vAlign, isFull: this.props.resChatvid.steps[this.state.currentStepNo].isFull || true });
+        const { text, align, vAlign, fontSize } = this.props.resChatvid.steps[this.state.currentStepNo].videoId.textProps;
+        this.setState({ text, align, vAlign, fontSize: fontSize ? fontSize : "xx-large", isFull: this.props.resChatvid.steps[this.state.currentStepNo].isFull || true });
       }
       this.videoRef.addEventListener("loadedmetadata", this.handleLoadedMetaData);
       this.videoRef.addEventListener("play", this.onVideoPlay, false);
@@ -190,6 +191,17 @@ class FinalTab extends Component<any> {
     let percentage = 0;
     if (!this.videoRef && !this.videoRef && !this.videoRef?.currentTime) return percentage;
     percentage = (this.videoRef?.currentTime * 100) / this.videoRef?.duration;
+    let { reveal } = this.props.resChatvid.steps[this.state.currentStepNo].videoId.textProps;
+    if (this.props.preview) {
+      reveal = this.props.reveal;
+    }
+    if (reveal) {
+      if ((this.videoRef?.currentTime >= reveal[0]) && (this.videoRef?.currentTime <= reveal[1])) {
+        this.state.display === "none" && this.setState({ display: "" });
+      } else {
+        this.state.display === "" && this.setState({ display: "none" });
+      }
+    }
     this.setState({ percentage })
     let that = this;
     setTimeout(function () {
@@ -251,8 +263,12 @@ class FinalTab extends Component<any> {
     this.setState({ ...state })
   }
 
+  handleJumpAndMove = () => {
+
+  }
+
   handleReply = async () => {
-    if (this.props.history.location.pathname.indexOf("/chatvid/step/") > -1|| this.props.preview) return "";
+    if (this.props.history.location.pathname.indexOf("/chatvid/step/") > -1 || this.props.preview) return "";
     const { userEmail, userName, ansText, ansAudio, ansVideo, tab, choiceId, calendar, currentStepNo } = this.state;
     const { resChatvid, auth } = this.props;
     if (!validateEmail(userEmail)) return toast.error("Enter a valid Email");
@@ -279,19 +295,68 @@ class FinalTab extends Component<any> {
     }
     this.props.send({ people, reply, open: false, tab: 0 });
     if (resChatvid.steps.length > 1 && resChatvid.steps.length !== currentStepNo + 1) {
-      const { text, align, vAlign } = resChatvid.steps[this.state.currentStepNo].videoId.textProps;
-      this.setState({ currentStepNo: currentStepNo + 1, tab: 0, open: false, align, vAlign, text, isFull: resChatvid.steps[this.state.currentStepNo].isFull }, () => {
+      const { text, align, vAlign, fontSize } = resChatvid.steps[this.state.currentStepNo].videoId.textProps;
+      if (type === "choice") {
+        if (resChatvid.steps[currentStepNo].jumpChoice[choiceId]) {
+          this.setState({
+            currentStepNo: resChatvid.steps[currentStepNo].jumpChoice[choiceId] - 1
+          })
+        } else {
+          this.setState({
+            currentStepNo: currentStepNo + 1,
+          })
+        }
+      } else {
+        if (resChatvid.steps[currentStepNo].jumpTo) {
+          this.setState({
+            currentStepNo: resChatvid.steps[currentStepNo].jumpTo - 1
+          })
+        } else {
+          this.setState({
+            currentStepNo: currentStepNo + 1,
+          })
+        }
+      }
+      this.setState({ tab: 0, open: false, align, vAlign, fontSize: fontSize ? fontSize : "xx-large", text, isFull: resChatvid.steps[this.state.currentStepNo].isFull }, () => {
         this.settingUPMedia();
-
         analyticsPayload.deviceType = deviceType === "browser" ? "desktop" : deviceType;
         analyticsPayload.chatvidId = this.props.resChatvid._id;
         analyticsPayload.isInteracted = true;
         this.props.saveAnalytics(analyticsPayload);
-
       });
     }
-
     if (resChatvid.steps.length === currentStepNo + 1) {
+      if (resChatvid.steps.length > 1) {
+        const { text, align, vAlign, fontSize } = resChatvid.steps[this.state.currentStepNo].videoId.textProps;
+        if (resChatvid.steps[currentStepNo].responseType === "Multiple-Choice") {
+          if (resChatvid.steps[currentStepNo].jumpChoice[choiceId]) {
+            this.setState({
+              currentStepNo: resChatvid.steps[currentStepNo].jumpChoice[choiceId] - 1
+            })
+          } else {
+            this.setState({
+              currentStepNo: currentStepNo + 1,
+            })
+          }
+        } else {
+          if (resChatvid.steps[currentStepNo].jumpTo) {
+            this.setState({
+              currentStepNo: resChatvid.steps[currentStepNo].jumpTo - 1
+            })
+          } else {
+            this.setState({
+              currentStepNo: currentStepNo + 1,
+            })
+          }
+        }
+        this.setState({ tab: 0, open: false, align, vAlign, fontSize: fontSize ? fontSize : "xx-large", text, isFull: resChatvid.steps[this.state.currentStepNo].isFull }, () => {
+          this.settingUPMedia();
+          analyticsPayload.deviceType = deviceType === "browser" ? "desktop" : deviceType;
+          analyticsPayload.chatvidId = this.props.resChatvid._id;
+          analyticsPayload.isInteracted = true;
+          this.props.saveAnalytics(analyticsPayload);
+        });
+      }
       analyticsPayload.deviceType = deviceType === "browser" ? "desktop" : deviceType;
       analyticsPayload.chatvidId = this.props.resChatvid._id;
       analyticsPayload.isInteracted = true;
@@ -316,12 +381,11 @@ class FinalTab extends Component<any> {
   }
 
   render() {
-    const { open, tab, text, align, vAlign } = this.state;
+    const { open, tab, text, align, vAlign, fontSize, display } = this.state;
     const { preview, resChatvid, isFull, overlayTxt } = this.props;
     const justifyContent = align === "left" ? "flex-start" : align === "right" ? "flex-end" : "center";
     const alignItems = vAlign === "top" ? "flex-start" : vAlign === "bottom" ? "flex-end" : "center";
     const isFit = preview ? isFull : resChatvid.steps[this.state.currentStepNo].isFull;
-
     return (
       <Grid container className="responseTypeWrapper">
         <Grid container className="mainVideoContainer" xs={12} sm={12} md={6} lg={6}>
@@ -331,10 +395,11 @@ class FinalTab extends Component<any> {
               className="overLayText"
               style={{
                 alignItems,
-                justifyContent
+                justifyContent,
+                display
               }}
             >
-              <Typography variant="h4" style={{}} > {overlayTxt ? overlayTxt : text} </Typography>
+              <Typography variant="h4" style={{ fontSize: fontSize ? fontSize : "xx-large" }} > {overlayTxt ? overlayTxt : text} </Typography>
             </div>
             <video id="iframVideo" ref={ref => this.videoRef = ref} className={`${isFit ? "videoFULL" : ""}`} autoPlay loop width="100%" />
           </Grid>

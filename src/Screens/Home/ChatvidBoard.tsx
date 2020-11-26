@@ -136,9 +136,9 @@ class Dashboard extends Component<IProps> {
                 {selectedChatvid?.steps?.map((step: any, ind: number) => {
                   return (
                     <>
-                      <div className="stepAvatarWrapper" key={step.stepNo} onClick={() => this.setStp(step)}>
+                      <div className="stepAvatarWrapper" key={ind} onClick={() => this.setStp(step)}>
                         <Typography variant="h4"> STEP </Typography>
-                        <Typography variant="h1"> {step.stepNo} </Typography>
+                        <Typography variant="h1"> {ind+1} </Typography>
                       </div>
                     </>
                   )

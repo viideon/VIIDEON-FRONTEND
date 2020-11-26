@@ -108,9 +108,11 @@
   cursor: pointer;
   display: flex;
   border-radius: 18%;
-  object-fit: cover;
-  object-position: center;
   overflow: hidden;
+}
+.thumbnailInChatvidBar img {
+  width: 100%;
+  object-fit: cover;
 }
 @media only screen and (max-width: 768px) {
   .MainDrawer {

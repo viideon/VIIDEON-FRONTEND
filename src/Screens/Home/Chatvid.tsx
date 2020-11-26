@@ -92,8 +92,8 @@ class Dashboard extends Component<IProps> {
   };
 
   UNSAFE_componentWillReceiveProps(nextProps: any) {
-    if(this.props.chatvid?._id !== nextProps.chatvid?._id) {
-      this.setState({tab: 0})
+    if (this.props.chatvid?._id !== nextProps.chatvid?._id) {
+      this.setState({ tab: 0 })
     }
   }
   handleTab = (tab: number) => {
@@ -133,6 +133,7 @@ class Dashboard extends Component<IProps> {
 
 const ResponderTab = (props: any) => {
   const [stp, setStp]: any = React.useState(undefined);
+  const [stpIndex, setIndex]: any = React.useState(0);
   const [resPerson, setPerson] = React.useState("");
   const [activeType, setActiveType] = React.useState(0);
 
@@ -237,9 +238,9 @@ const ResponderTab = (props: any) => {
             {props.chatvid?.steps?.map((step: any, ind: number) => {
               return (
                 <>
-                  <div className="stepAvatarWrapper" onClick={() => setStp(step)}>
+                  <div className="stepAvatarWrapper" onClick={() => {setStp(step); setIndex(ind)}}>
                     <Typography variant="h4"> STEP </Typography>
-                    <Typography variant="h1"> {step.stepNo} </Typography>
+                    <Typography variant="h1"> {ind + 1} </Typography>
                   </div>
                 </>
               )
@@ -254,7 +255,7 @@ const ResponderTab = (props: any) => {
                 <Typography variant="h3"> {stp.responseType} </Typography>
               </div>
               <div className="_step_NO">
-                <div className="_whiteCircle"> {stp.stepNo} </div>
+                <div className="_whiteCircle"> {stpIndex + 1} </div>
               </div>
             </Grid>
             <Grid container className="_stepsDetailsBody">
@@ -298,13 +299,13 @@ const ResponderTab = (props: any) => {
 const StepsTab = (props: any) => {
   const [step, setStep]: any = React.useState(undefined);
 
-  const renderStepCard = (props: any) => {
+  const renderStepCard = (props: any, ind: number) => {
     return (
       <Grid container className={`respondersCardWrapper ${step === props && "activeResponder"}`} onClick={() => setStep(props)}>
         <Grid item xs={2} sm={2} md={2} lg={2}>
           <div className="stepAvatarWrapper">
             <Typography variant="h4"> STEP </Typography>
-            <Typography variant="h1"> {props.stepNo} </Typography>
+            <Typography variant="h1"> {ind + 1} </Typography>
           </div>
         </Grid>
         <Grid item xs={10} sm={10} md={10} lg={10} className="resCardBody">
@@ -372,8 +373,8 @@ const StepsTab = (props: any) => {
     <>
       <Grid item className="responderWrapper" xs={12} sm={12} md={4} lg={4} >
         {
-          props.chatvid?.steps?.map((stp: any, ind: string) => {
-            return renderStepCard(stp);
+          props.chatvid?.steps?.map((stp: any, ind: number) => {
+            return renderStepCard(stp, ind);
           })
         }
 
@@ -386,7 +387,7 @@ const StepsTab = (props: any) => {
       </Grid>
       <Grid item className="_responseWrapper" xs={12} sm={12} md={8} lg={8} >
         {step && step.responseType === "Open-ended" && step.replies.length > 0
-          && step.replies?.map((reply: any, ind: string) => {
+          && step.replies?.map((reply: any, ind: number) => {
             return renderReplies(reply, step)
           })}
         {step && step.responseType === "Multiple-Choice" &&

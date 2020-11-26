@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { toast } from 'react-toastify'
 
 import { Grid, Select, MenuItem, InputLabel } from "@material-ui/core";
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -68,9 +69,9 @@ class RecorderTab extends Component<any, RState> {
       thumbnailUrl: "",
       selectedValue: 1,
     };
-    
+
   }
-  
+
 
   componentDidMount() {
     this.img = this.image;
@@ -131,8 +132,6 @@ class RecorderTab extends Component<any, RState> {
   // };
 
   getThumbnailfromFile = (file: any) => {
-    this.video = this.refs.video;
-    this.canvas = this.refs.canvas;
     this.video.src = URL.createObjectURL(file);
     this.video.currentTime = 3;
     this.canvas.width = 1280;
@@ -151,45 +150,19 @@ class RecorderTab extends Component<any, RState> {
     this.setState({ addLogoText: true });
   };
 
-
-
-  getThumbnail = () => {
-    // gifshot.createGIF({'video': [this.state.videoRecord]},function(obj: any) {
-    //   if(!obj.error) {
-    //     var image = obj.image;
-    //     console.log("OBJECT: ", obj)
-    //     let animatedImage = document.createElement('img');
-    //     animatedImage.setAttribute("src", image)
-    //     document.body.appendChild(animatedImage);
-    //     console.log(animatedImage)
-    //   }else {
-    //     toast.error("ERROR WHILE GENERATING THUMBNAIL")
-    //   }
-    // });
-    return new Promise((resolve, reject) => {
-      const thumbCanvas: any = this.thumbCanvas;
-      const thumbnailContext = thumbCanvas.getContext("2d");
-      thumbnailContext.drawImage(this.video, 0, 0, 1280, 720);
-      thumbCanvas.toBlob((blob: any) => {
-        this.setState({ thumbnailBlob: blob });
-        resolve();
-      }, "image/jpeg");
-    });
-  };
-
-  
-
   save = async () => {
-    await this.getThumbnail();
-    // await this.uploadThumbnail();
-    const { thumbnailBlob, videoRecord} = this.state;
-    this.props.proceedToNext(thumbnailBlob, videoRecord);
-    // await this.uploadVideo();
+    toast.info("Wait! we are getting things ready!")
+    await this.getThumbnailfromFile(this.state.videoRecord);
+    setTimeout(() => {
+      const { thumbnail, thumbnailBlob, videoRecord } = this.state;
+      console.log("thumnnai", thumbnail)
+      this.props.proceedToNext(thumbnail, videoRecord);
+    }, 3000)
     return;
   };
 
-  setQuality = (e: any) => this.setState({ selectedValue: e.target.value})
-  render () {
+  setQuality = (e: any) => this.setState({ selectedValue: e.target.value })
+  render() {
     return (
       <>
         <RecoderSettingHeader
@@ -198,7 +171,7 @@ class RecorderTab extends Component<any, RState> {
           history={this.props.history}
         />
         <div className="interActiveRecorderContainer">
-          {}
+          { }
           <VideoRecorder
             getBlob={(blob: any) => {
               this.props.toggleSendVariable();
@@ -256,7 +229,7 @@ class RecorderTab extends Component<any, RState> {
 
 
 const RecoderSettingHeader = (props: any) => {
-  const { setQuality, selectValue, history} = props;
+  const { setQuality, selectValue, history } = props;
   console.log(history)
   return (
     <div className="settingHeader">

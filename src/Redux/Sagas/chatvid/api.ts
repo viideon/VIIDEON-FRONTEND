@@ -17,6 +17,9 @@ export function getChatvid(chatvidId: string) {
 export function replyToAChatvid(chatvid: any) {
   return API.post(`/chatvid/reply`, chatvid);
 }
+export function updateStepJump(step: any) {
+  return API.patch(`/chatvid/step`, step);
+}
 export function saveMetrics(payload: any) {
   return API.post(`/chatvid/metrics`, payload);
 }

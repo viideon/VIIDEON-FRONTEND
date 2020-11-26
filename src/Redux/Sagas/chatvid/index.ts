@@ -9,6 +9,7 @@ import {
   addStepToChatvid,
   saveMetrics,
   getMetrics,
+  updateStepJump,
 } from "./api";
 import {
   selectID,
@@ -103,6 +104,20 @@ function* replyToAChatvidSaga(action: any) {
   }
 }
 
+function* updateJumpSaga(action: any) {
+  try {
+    const payload = action.payload;
+    const result = yield updateStepJump(payload);
+    if (result.status === 200) {
+      toast.info("Updated!")
+    } else {
+      toast.warn("something went wrong!")
+    }
+  } catch (error) {
+    toast.warn("something went wrong!")
+  }
+}
+
 function* saveMetricsSaga(action: any) {
   try {
     const payload = action.payload;
@@ -136,6 +151,7 @@ export function* chatVidWatcher() {
   yield takeEvery(types.SAVE_CHATVID_REQUEST, saveChatVidSaga);
   yield takeEvery(types.REPLY_TO_CHATVID_REQUEST, replyToAChatvidSaga);
   yield takeEvery(types.ADD_STEP_TO_CHATVID_REQUEST, addChatvidStep);
+  yield takeEvery(types.UPDATE_CHATVID_JUMP, updateJumpSaga);
   yield takeEvery(types.SAVE_ANALYTICS_CHATVID_REQUEST, saveMetricsSaga);
   yield takeEvery(types.GET_ANALYTICS_CHATVID_REQUEST, getMetricsData);
 }

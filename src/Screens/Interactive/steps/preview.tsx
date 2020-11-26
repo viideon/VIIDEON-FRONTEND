@@ -63,6 +63,8 @@ const ChatvidPreviewTab = (props: any) => {
           preview={true}
           isFull={props.fitvideo}
           history={props.history}
+          fontSize={props.fontSize}
+          reveal={props.reveal}
         />
       </div>
     </div>

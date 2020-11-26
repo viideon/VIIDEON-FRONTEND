@@ -56,3 +56,10 @@ export function getAnalytics(chatvidId: string, dateFrom: any, dateTo: any, devi
     payload: { chatvidId, dateFrom, dateTo, deviceType }
   }
 }
+
+export function updateJump(payload: any) {
+  return {
+    type: types.UPDATE_CHATVID_JUMP,
+    payload
+  }
+}
