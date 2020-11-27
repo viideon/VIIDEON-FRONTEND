@@ -191,11 +191,13 @@ class FinalTab extends Component<any> {
     let percentage = 0;
     if (!this.videoRef && !this.videoRef && !this.videoRef?.currentTime) return percentage;
     percentage = (this.videoRef?.currentTime * 100) / this.videoRef?.duration;
-    let { reveal } = this.props.resChatvid.steps[this.state.currentStepNo].videoId.textProps;
+    let reveal = [];
     if (this.props.preview) {
       reveal = this.props.reveal;
+    } else {
+      reveal = this.props.resChatvid.steps[this.state.currentStepNo].videoId.textProps;
     }
-    if (reveal) {
+    if (reveal && reveal.length > 0) {
       if ((this.videoRef?.currentTime >= reveal[0]) && (this.videoRef?.currentTime <= reveal[1])) {
         this.state.display === "none" && this.setState({ display: "" });
       } else {
