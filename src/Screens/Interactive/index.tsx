@@ -36,6 +36,7 @@ class ChatVid extends Component<IProps> {
   state = {
     step: -1,
     video: 0,
+    uploaded: false,
     thumbnailBlob: 0,
     thumbnailUrl: "",
     videoProgress: false,
@@ -145,8 +146,9 @@ class ChatVid extends Component<IProps> {
   onChange = (e: any) => {
     let newState: any = this.state;
     newState[e.target.name] = e.target.value;
-    this.setState({ ...newState });
-
+    this.setState({ ...newState }, () => {
+      console.log(this.state)
+    });
   }
 
   createChatVid = async () => {
@@ -198,11 +200,11 @@ class ChatVid extends Component<IProps> {
     switch (this.state.step) {
       case -1:
         return (
-          <LandingQuestion {...this.props} toggleSendVariable={this.props.toggleSendVariable} moveToNextStep={this.handleNext} />
+          <LandingQuestion {...this.props} toggleSendVariable={this.props.toggleSendVariable} moveToNextStep={this.handleNext} onChange={this.onChange} />
         )
       case 0:
         return (
-          <RecorderTab {...this.props} toggleSendVariable={this.props.toggleSendVariable} proceedToNext={this.handleProceed} />
+          <RecorderTab {...this.props} {...this.state} toggleSendVariable={this.props.toggleSendVariable} proceedToNext={this.handleProceed} onChange={this.onChange} />
         )
       case 1:
         return (

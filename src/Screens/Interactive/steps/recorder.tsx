@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { toast } from 'react-toastify'
+import { isVideo } from '../../../constants/constants'
 
 import { Grid, Select, MenuItem, InputLabel } from "@material-ui/core";
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -72,7 +73,6 @@ class RecorderTab extends Component<any, RState> {
 
   }
 
-
   componentDidMount() {
     this.img = this.image;
     this.img.crossOrigin = "Anonymous";
@@ -84,55 +84,8 @@ class RecorderTab extends Component<any, RState> {
     });
   };
 
-  // uploadFileHandler = () => {
-  //   if (this.state.title === "") {
-  //     toast.warn("Enter a video title");
-  //     return;
-  //   }
-  //   this.setState({ fileProgress: true, progressFile: 0 });
-  //   let s3 = new AWS.S3(config);
-  //   const options = {
-  //     Bucket: config.bucketName,
-  //     ACL: config.ACL,
-  //     Key: Date.now().toString() + this.state.files[0].name,
-  //     Body: this.state.files[0]
-  //   };
-  //   const thumbnailOptions = {
-  //     Bucket: config.bucketName,
-  //     ACL: config.ACL,
-  //     Key: Date.now().toString() + ".jpeg",
-  //     Body: this.state.thumbnail
-  //   };
-  //   s3.upload(options, (err: any, data: any) => {
-  //     if (err) {
-  //       this.setState({ fileProgress: false });
-  //       toast.error(err);
-  //       return;
-  //     }
-  //     this.setState({ urlRecord: data.Location });
-  //     s3.upload(thumbnailOptions, (err: any, data: any) => {
-  //       if (err) {
-  //         toast.error(err);
-  //         return;
-  //       }
-  //       const video = {
-  //         title: this.state.title,
-  //         url: this.state.urlRecord,
-  //         userId: this.props.auth!.user!._id,
-  //         thumbnail: data.Location,
-  //         campaign: false
-  //       };
-  //       this.setState({ fileProgress: false });
-  //       this.props.saveVideo(video);
-  //     });
-  //   }).on("httpUploadProgress", progress => {
-  //     let uploaded: number = (progress.loaded * 100) / progress.total;
-  //     this.setState({ progressFile: uploaded });
-  //   });
-  // };
-
   getThumbnailfromFile = (file: any) => {
-    this.video.src = URL.createObjectURL(file);
+    this.video.src = this.props.uploaded ? file : URL.createObjectURL(file);
     this.video.currentTime = 3;
     this.canvas.width = 1280;
     this.canvas.height = 720;
@@ -152,11 +105,10 @@ class RecorderTab extends Component<any, RState> {
 
   save = async () => {
     toast.info("Wait! we are getting things ready!")
-    await this.getThumbnailfromFile(this.state.videoRecord);
+    await this.getThumbnailfromFile(this.props.uploaded ? this.props.video : this.state.videoRecord);
     setTimeout(() => {
       const { thumbnail, thumbnailBlob, videoRecord } = this.state;
-      console.log("thumnnai", thumbnail)
-      this.props.proceedToNext(thumbnail, videoRecord);
+      this.props.proceedToNext(thumbnail, this.props.uploaded ? this.props.video : videoRecord);
     }, 3000)
     return;
   };
@@ -169,6 +121,7 @@ class RecorderTab extends Component<any, RState> {
           setQuality={this.setQuality}
           selectValue={this.state.selectedValue}
           history={this.props.history}
+          {...this.props}
         />
         <div className="interActiveRecorderContainer">
           { }
@@ -178,11 +131,15 @@ class RecorderTab extends Component<any, RState> {
               this.setState({ videoRecord: blob });
             }}
             reset={() => {
+              this.props.onChange({ target: { name: "uploaded", value: false } })
+              this.props.onChange({ target: { name: "video", value: 0 } })
               this.setState({ videoRecord: null });
             }}
             proceed={this.save}
             interActive={true}
             quality={this.state.selectedValue}
+            uploaded={this.props.uploaded}
+            video={this.props.video}
           />
           <canvas
             ref={ref => {
@@ -229,8 +186,38 @@ class RecorderTab extends Component<any, RState> {
 
 
 const RecoderSettingHeader = (props: any) => {
+  const videElm = React.useRef(null)
   const { setQuality, selectValue, history } = props;
-  console.log(history)
+
+  React.useEffect(() => {
+    if(!props.uploaded) {
+      const elm: any = document.getElementById("inputVideo");
+      if(elm) {
+        elm.src = null;
+      }
+    }
+  }, [props.uploaded])
+  
+  const handleUploadFile = (file: any) => {
+    if(!file) return;
+    if (isVideo(file.target.files[0])) {
+      toast.info("Added");
+      props.onChange({ target: { name: "video", value: file.target.files[0] } })
+      props.onChange({ target: { name: "uploaded", value: true } })
+      props.toggleSendVariable();
+    }else {
+      toast.error("Invalid file type!")
+    }
+
+  }
+
+  const click = (event: any) => {
+    const elm: any = document.getElementById("inputVideo");
+    if(elm) {
+      elm.click();
+    }
+  }
+
   return (
     <div className="settingHeader">
       <Grid container>
@@ -253,9 +240,10 @@ const RecoderSettingHeader = (props: any) => {
         <Grid item xs={12} sm={12} md={4} lg={4}></Grid>
         <Grid item xs={12} sm={12} md={4} lg={4}>
           <div className="UploadAndCancelWrapper">
-            <CloudUploadIcon className="cursorPointer" /> <p> Upload from Computer </p> <CancelIcon className="cursorPointer cancelIcon" onClick={() => history.push("/")} />
+            <CloudUploadIcon className="cursorPointer" onClick={click} /> <p> Upload from Computer </p> <CancelIcon className="cursorPointer cancelIcon" onClick={() => history.push("/")} />
           </div>
         </Grid>
+        <input style={{ display: "none" }} ref={videElm} type="file" id="inputVideo" name="video" accept="video/*" onChange={handleUploadFile} />
       </Grid>
     </div>
   )

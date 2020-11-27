@@ -33,7 +33,7 @@ const VideoInfo: React.FC<IProps> = ({ video }) => {
       {/* <Tooltip title="Created Date" enterDelay={0}> */}
         <span className="videoDateWrapper">
           <span className="itemsInfo">
-            {video && timeDifference(video.date)} ago
+            {video && timeDifference(video.date)}
           </span>
         </span>
       {/* </Tooltip> */}

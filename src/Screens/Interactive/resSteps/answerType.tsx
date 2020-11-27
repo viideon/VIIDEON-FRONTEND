@@ -119,6 +119,7 @@ class FinalTab extends Component<any> {
       this.setState({ isFull: nextProps.isFull })
     }
   }
+  
   settingUPMedia = () => {
     if (this.videoRef) {
       if (this.props.video) {
@@ -500,7 +501,7 @@ const OpenEndedType = (props: any) => {
           :
           responseType === "Multiple-Choice" ?
             (
-              <div className="optionsWraper">
+              <div className="optionsWrapper">
                 {choices && choices.length > 0 && choices.map((choice: any, ind: number) => {
                   return (<div className="_choiceOption" onClick={() => { handleChoice(choice._id, "choiceId"); send() }}>
                     <Typography variant="h5" > {preview ? choice : choice.text} </Typography>

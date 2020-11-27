@@ -182,9 +182,9 @@
 
 
 /* Multple choice */
-/* .optionsWraper {
-
-} */
+.optionsWrapper {
+  width: 100%;
+}
 ._choiceOption {
   border: 1.5px solid #fdb415;
   border-radius: 8px;

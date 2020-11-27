@@ -54,6 +54,8 @@ const ChatvidPreviewTab = (props: any) => {
         </div>
         <AnswerTypeTab
           video={props.video}
+          vidBlob={props.video}
+          uploaded={props.uploaded}
           overlayTxt={props.text}
           align={props.align}
           vAlign={props.vAlign}

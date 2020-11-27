@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const thumbnailDefault =
   "https://dubb.sfo2.digitaloceanspaces.com/videos/2019-12-14/8cf4b1479cf7010087580d802818402b/1576283646_preview.png";
 
@@ -169,3 +170,19 @@ export const availableTheme = [
   },
   { name: "Ocean", avatar: require("../assets/email-theme/Ocean.png") }
 ];
+
+export function isVideo(file) {
+  var ext = getExtension(file.type);
+  switch (ext.toLowerCase()) {
+    case "video/m4v":
+    case "video/avi":
+    case "video/mpg":
+    case "video/mp4":
+      return true;
+  }
+  return false;
+}
+function getExtension(filename) {
+  var parts = filename.split(".");
+  return parts[parts.length - 1];
+}

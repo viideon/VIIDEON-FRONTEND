@@ -182,7 +182,6 @@ function HorizontalNonLinearStepper(props: any) {
 
 
   const handleJump = async (stepId: any, index: number, jumpTo: number) => {
-    console.log("stepId: ",stepId, "stepIndex: ", index, "jumpto: ", jumpTo)
     editSteps[stepId] = { jumpTo: jumpTo}
     await setEditSteps({...editSteps})
     let step: any = {
@@ -192,7 +191,6 @@ function HorizontalNonLinearStepper(props: any) {
     props.updateStepJump(step)
   }
   const handleChoiceJump = async (stepId: string, choiceId: string, choiceInd: number, stepInd: number, value: number) => {
-    console.log("stepId: ",stepId, "choiceId: ",choiceId, "choiceIndex: ", choiceInd, "stepIndex: ", stepInd, "jumpto: ", value)
     if(!editSteps[stepId]) editSteps[stepId] = {};
     editSteps[stepId][choiceId] = {};
     editSteps[stepId][choiceId] = { jumpTo : value};
