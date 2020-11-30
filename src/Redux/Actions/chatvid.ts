@@ -22,10 +22,11 @@ export function selectChatvid(chatvid: any) {
   }
 }
 
-export function saveChatvid(chatVid: any) {
+export function saveChatvid(chatVid: any, history: any) {
   return {
     type: types.SAVE_CHATVID_REQUEST,
-    payload: chatVid
+    payload: chatVid,
+    history,
   }
 }
 
@@ -36,10 +37,11 @@ export function replyToAChatvid(reply: any) {
   }
 }
 
-export function addStepToChatvid(step: any) {
+export function addStepToChatvid(step: any, history: any) {
   return {
     type: types.ADD_STEP_TO_CHATVID_REQUEST,
-    payload: step
+    payload: step,
+    history,
   }
 }
 

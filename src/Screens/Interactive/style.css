@@ -617,6 +617,13 @@
   justify-content: space-between;
 
 }
+.stepLogicContainer {
+  margin-bottom: 12px;
+}
+#edit-chatvid-select-jump-to {
+  background: transparent;
+  border: transparent;
+}
 
 /* Edit End */
 @media only screen and (max-width: 960px) {

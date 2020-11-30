@@ -6,6 +6,8 @@ import classname from 'classnames';
 import Colors from '../../constants/colors';
 import ThemeButton from '../../components/ThemeButton'
 
+import { toast } from 'react-toastify';
+
 import { Grid, Typography } from "@material-ui/core";
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 
@@ -238,7 +240,7 @@ const ResponderTab = (props: any) => {
             {props.chatvid?.steps?.map((step: any, ind: number) => {
               return (
                 <>
-                  <div className="stepAvatarWrapper" onClick={() => {setStp(step); setIndex(ind)}}>
+                  <div className="stepAvatarWrapper" onClick={() => { setStp(step); setIndex(ind) }}>
                     <Typography variant="h4"> STEP </Typography>
                     <Typography variant="h1"> {ind + 1} </Typography>
                   </div>
@@ -626,6 +628,12 @@ const InfoHeader = (props: any) => {
   const { chatvid } = props;
   const url = `${process.env.REACT_APP_DOMAIN}/chatvid/res/${chatvid && chatvid._id}`;
   const title = chatvid.name || " Respond my Chatvid";
+
+  const copyUrl = () => {
+    navigator.clipboard.writeText(url);
+    toast.info("Url copied to clipboard");
+  };
+
   return (
     <Grid container className="dashChatvidTopHeaderWrapper">
       <Grid container xs={12} sm={12} md={8} lg={8} >
@@ -638,9 +646,9 @@ const InfoHeader = (props: any) => {
           <Typography variant="h3"> {chatvid?.name} </Typography>
           <div className="chatvidEditToolsWrapper">
             <div onClick={() => props.history.push(`/chatvids/edit/${chatvid && chatvid._id}`)}> <EditIcon /> Edit </div>
-            <div> <SettingsRoundedIcon /> Settings</div>
-            <div> <SwapCallsIcon /> Connect</div>
-            <div> <FileCopyIcon /> Export</div>
+            <div onClick={() => alert('under progress')}> <SettingsRoundedIcon /> Settings</div>
+            <div onClick={() => alert('under progress')}> <SwapCallsIcon /> Connect</div>
+            <div onClick={() => alert('under progress')}> <FileCopyIcon /> Export</div>
           </div>
         </Grid>
       </Grid>
@@ -653,8 +661,8 @@ const InfoHeader = (props: any) => {
             <IconButton
               type="submit"
               style={classes.iconButton}
-              aria-label="edit"
-            // onClick={this.copyUrl}
+              aria-label="copy url"
+              onClick={copyUrl}
             >
               <AttachFileIcon />
             </IconButton>

@@ -145,17 +145,17 @@ class RecorderTab extends Component<any> {
                 <Select
                   native
                   // value={state.age}
-                  // onChange={handleChange}
+                  onChange={this.props.onStyle}
                   variant="outlined"
                   inputProps={{
                     name: 'fontStyle',
                     id: 'style-native-simple',
                   }}
                 >
-                  <option aria-label="None" value="" />
                   <option value={"default"}>default</option>
-                  <option value={"italic"}>italic</option>
-                  <option value={"bold"}>bold</option>
+                  <option value={"fontStyle"}>italic</option>
+                  <option value={"textDecoration"}>underline</option>
+                  <option value={"fontWeight"}>bold</option>
                 </Select>
               </Grid>
             </Grid>

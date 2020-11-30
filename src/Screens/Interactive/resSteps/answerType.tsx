@@ -46,6 +46,13 @@ function validateEmail(email: Email) {
   return re.test(String(email).toLowerCase());
 }
 
+function isEmpty(obj: any) {
+  for (var prop in obj) {
+    if (obj.hasOwnProperty(prop))
+      return false;
+  }
+  return true;
+}
 var analyticsPayload = {
   deviceType: "",
   chatvidId: "",
@@ -119,7 +126,7 @@ class FinalTab extends Component<any> {
       this.setState({ isFull: nextProps.isFull })
     }
   }
-  
+
   settingUPMedia = () => {
     if (this.videoRef) {
       if (this.props.video) {
@@ -274,6 +281,7 @@ class FinalTab extends Component<any> {
     if (this.props.history.location.pathname.indexOf("/chatvid/step/") > -1 || this.props.preview) return "";
     const { userEmail, userName, ansText, ansAudio, ansVideo, tab, choiceId, calendar, currentStepNo } = this.state;
     const { resChatvid, auth } = this.props;
+    const { text, align, vAlign, fontSize } = resChatvid.steps[this.state.currentStepNo].videoId.textProps;
     if (!validateEmail(userEmail)) return toast.error("Enter a valid Email");
     if (!userName) return toast.error("Enter a valid Email");
     toast.info("Repling....")
@@ -284,9 +292,7 @@ class FinalTab extends Component<any> {
       email: userEmail,
       name: userName,
     }
-    if (auth.user?._id) {
-      people.userId = auth.user?._id;
-    }
+    if (auth.user?._id) people.userId = auth.user?._id;
     const reply = {
       chatvidId: resChatvid._id,
       stepId: resChatvid.steps[currentStepNo]._id,
@@ -297,28 +303,16 @@ class FinalTab extends Component<any> {
       calendar: calendar,
     }
     this.props.send({ people, reply, open: false, tab: 0 });
-    if (resChatvid.steps.length > 1 && resChatvid.steps.length !== currentStepNo + 1) {
-      const { text, align, vAlign, fontSize } = resChatvid.steps[this.state.currentStepNo].videoId.textProps;
+    // steps are greater than 1 and less than last step
+    if ((resChatvid.steps.length > 1) && (currentStepNo + 1 < resChatvid.steps.length)) {
       if (type === "choice") {
-        if (resChatvid.steps[currentStepNo].jumpChoice[choiceId]) {
-          this.setState({
-            currentStepNo: resChatvid.steps[currentStepNo].jumpChoice[choiceId] - 1
-          })
-        } else {
-          this.setState({
-            currentStepNo: currentStepNo + 1,
-          })
-        }
+        if (!isEmpty(resChatvid.steps[currentStepNo].jumpChoice) && resChatvid.steps[currentStepNo].jumpChoice[choiceId]) {
+          this.setState({currentStepNo: resChatvid.steps[currentStepNo].jumpChoice[choiceId] - 1})
+        } else {this.setState({currentStepNo: currentStepNo + 1})}
       } else {
         if (resChatvid.steps[currentStepNo].jumpTo) {
-          this.setState({
-            currentStepNo: resChatvid.steps[currentStepNo].jumpTo - 1
-          })
-        } else {
-          this.setState({
-            currentStepNo: currentStepNo + 1,
-          })
-        }
+          this.setState({currentStepNo: resChatvid.steps[currentStepNo].jumpTo - 1})
+        } else {this.setState({currentStepNo: currentStepNo + 1})}
       }
       this.setState({ tab: 0, open: false, align, vAlign, fontSize: fontSize ? fontSize : "xx-large", text, isFull: resChatvid.steps[this.state.currentStepNo].isFull }, () => {
         this.settingUPMedia();
@@ -328,29 +322,17 @@ class FinalTab extends Component<any> {
         this.props.saveAnalytics(analyticsPayload);
       });
     }
+    // Last step
     if (resChatvid.steps.length === currentStepNo + 1) {
       if (resChatvid.steps.length > 1) {
-        const { text, align, vAlign, fontSize } = resChatvid.steps[this.state.currentStepNo].videoId.textProps;
         if (resChatvid.steps[currentStepNo].responseType === "Multiple-Choice") {
-          if (resChatvid.steps[currentStepNo].jumpChoice[choiceId]) {
-            this.setState({
-              currentStepNo: resChatvid.steps[currentStepNo].jumpChoice[choiceId] - 1
-            })
-          } else {
-            this.setState({
-              currentStepNo: currentStepNo + 1,
-            })
-          }
+          if (!isEmpty(resChatvid.steps[currentStepNo].jumpChoice) && resChatvid.steps[currentStepNo].jumpChoice[choiceId]) {
+            this.setState({currentStepNo: resChatvid.steps[currentStepNo].jumpChoice[choiceId] - 1})
+          } else {this.setState({currentStepNo: currentStepNo + 1})}
         } else {
           if (resChatvid.steps[currentStepNo].jumpTo) {
-            this.setState({
-              currentStepNo: resChatvid.steps[currentStepNo].jumpTo - 1
-            })
-          } else {
-            this.setState({
-              currentStepNo: currentStepNo + 1,
-            })
-          }
+            this.setState({currentStepNo: resChatvid.steps[currentStepNo].jumpTo - 1})
+          } else {this.setState({currentStepNo: currentStepNo + 1})}
         }
         this.setState({ tab: 0, open: false, align, vAlign, fontSize: fontSize ? fontSize : "xx-large", text, isFull: resChatvid.steps[this.state.currentStepNo].isFull }, () => {
           this.settingUPMedia();
@@ -366,6 +348,10 @@ class FinalTab extends Component<any> {
       analyticsPayload.isCompleted = true;
       this.props.saveAnalytics(analyticsPayload);
     }
+  }
+
+  handleJumping = () => {
+
   }
 
   renderTabs = (tab: number) => {
@@ -384,8 +370,8 @@ class FinalTab extends Component<any> {
   }
 
   render() {
-    const { open, tab, text, align, vAlign, fontSize, display } = this.state;
-    const { preview, resChatvid, isFull, overlayTxt } = this.props;
+    const { open, tab, text, align, vAlign, fontSize, display, } = this.state;
+    const { preview, resChatvid, isFull, overlayTxt, fontWeight, fontStyle, textDecoration } = this.props;
     const justifyContent = align === "left" ? "flex-start" : align === "right" ? "flex-end" : "center";
     const alignItems = vAlign === "top" ? "flex-start" : vAlign === "bottom" ? "flex-end" : "center";
     const isFit = preview ? isFull : resChatvid.steps[this.state.currentStepNo].isFull;
@@ -402,7 +388,7 @@ class FinalTab extends Component<any> {
                 display
               }}
             >
-              <Typography variant="h4" style={{ fontSize: fontSize ? fontSize : "xx-large" }} > {overlayTxt ? overlayTxt : text} </Typography>
+              <Typography variant="h4" style={{ fontSize: fontSize ? fontSize : "x-large", fontWeight: fontWeight ? "bold" : "normal", fontStyle: fontStyle ? "italic" : "", textDecoration: textDecoration ? "underline" : "none" }} > {overlayTxt ? overlayTxt : text} </Typography>
             </div>
             <video id="iframVideo" ref={ref => this.videoRef = ref} className={`${isFit ? "videoFULL" : ""}`} autoPlay loop width="100%" />
           </Grid>
@@ -687,7 +673,7 @@ const AudioResponse = (props: any) => {
         <Typography variant="h3">
           {
             recorded ? "Preview your recording" :
-              recording ? "Reacording ..." :
+              recording ? "Recording ..." :
                 "Hold the button to record"
           }
 
@@ -849,8 +835,8 @@ const useStyles = makeStyles((theme: Theme) =>
     fabProgress: {
       color: "#fdb415",
       position: 'absolute',
-      top: -6,
-      left: -6,
+      top: -70,
+      left: -70,
       zIndex: 1,
     },
     buttonProgress: {

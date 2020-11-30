@@ -21,6 +21,7 @@ import CalendarTab from './steps/calendar';
 import FinalTab from './steps/final';
 
 import "./style.css";
+import { createFalse } from "typescript";
 const s3 = new AWS.S3(config);
 type IProps = {
   auth: AuthState;
@@ -28,8 +29,8 @@ type IProps = {
   videoUser: VideoState;
   chatvids: any;
   toggleSendVariable: () => void;
-  saveVideo: (video: any) => void;
-  addStepToChatvid: (step: any) => void;
+  saveVideo: (video: any, history: any) => void;
+  addStepToChatvid: (step: any, history: any) => void;
 };
 
 class ChatVid extends Component<IProps> {
@@ -55,6 +56,9 @@ class ChatVid extends Component<IProps> {
     chatvidId: "",
     stepNo: 0,
     reveal: [0, 100],
+    fontWeight: false,
+    textDecoration: false,
+    fontStyle: false,
   }
 
   componentDidMount() {
@@ -146,12 +150,22 @@ class ChatVid extends Component<IProps> {
   onChange = (e: any) => {
     let newState: any = this.state;
     newState[e.target.name] = e.target.value;
-    this.setState({ ...newState }, () => {
-      console.log(this.state)
-    });
+    this.setState({ ...newState });
+  }
+
+  onStyle = (e: any) => {
+    let newState: any = this.state;
+    newState.fontStyle = false;
+    newState.fontWeight = false;
+    newState.textDecoration = false;
+    if(e.target.value !== "default") newState[e.target.value] = true;
+    this.setState({ ...newState })
   }
 
   createChatVid = async () => {
+    const { responseType } = this.state;
+    if (responseType === "Calendly" && !this.state.calendar) return toast.warn("Add a url first")
+    if (responseType === "Multiple-Choice" && this.state.choices.length < 1) return toast.warn("Add Choice(s) first")
     try {
       toast.info("Uploading thumbnail ...");
       await this.uploadThumbnail();
@@ -163,7 +177,10 @@ class ChatVid extends Component<IProps> {
         fontSize: this.state.fontSize,
         vAlign: this.state.vAlign,
         align: this.state.align,
-        reveal: this.state.reveal
+        reveal: this.state.reveal,
+        fontWeight: this.state.fontWeight,
+        fontStyle: this.state.fontStyle,
+        textDecoration: this.state.textDecoration
       };
       const video = {
         title: this.state.title,
@@ -187,10 +204,10 @@ class ChatVid extends Component<IProps> {
         chatvid.chatvidId = this.state.chatvidId;
         chatvid.stepNo = this.state.stepNo ? this.state.stepNo : this.props.chatvids.selectedChatvid.steps.length + 1;
         toast.info(`Adding step to ${this.props.chatvids.selectedChatvid.name}`);
-        return this.props.addStepToChatvid(chatvid);
+        return this.props.addStepToChatvid(chatvid, this.props.history);
       }
       toast.info("Storing Chatvid ...");
-      !this.state.isAddStep && this.props.saveVideo(chatvid);
+      !this.state.isAddStep && this.props.saveVideo(chatvid, this.props.history);
     } catch (error) {
 
     }
@@ -208,7 +225,7 @@ class ChatVid extends Component<IProps> {
         )
       case 1:
         return (
-          <OverLayTab {...this.props} {...this.state} moveToNextStep={this.handleNext} moveBack={this.handleBack} onChange={this.onChange} />
+          <OverLayTab {...this.props} {...this.state} moveToNextStep={this.handleNext} moveBack={this.handleBack} onChange={this.onChange} onStyle={this.onStyle} />
         )
       case 2:
         return (
@@ -259,8 +276,8 @@ const mapStateToProps = (state: any) => {
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    saveVideo: (chatvid: any) => dispatch(saveChatvid(chatvid)),
-    addStepToChatvid: (step: any) => dispatch(addStepToChatvid(step)),
+    saveVideo: (chatvid: any, history: any) => dispatch(saveChatvid(chatvid, history)),
+    addStepToChatvid: (step: any, history: any) => dispatch(addStepToChatvid(step, history)),
     toggleSendVariable: () => dispatch(toggleSendVariable()),
   }
 };

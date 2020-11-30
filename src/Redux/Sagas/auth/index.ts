@@ -10,6 +10,7 @@ import {
   loginUserApi
 } from "./api";
 import { toast } from "react-toastify";
+import history from '../../../history';
 function* loginUser(action: any) {
   try {
     const result = yield loginUserApi(action.payload);
@@ -19,7 +20,8 @@ function* loginUser(action: any) {
         type: profileTypes.ADD_PROFILE_DATA,
         payload: result.data
       });
-      yield put(push("/"));
+      history.push("/")
+      // yield put(push("/"));
     } else if (result.status === 410) {
       yield put({
         type: types.LOGIN_FAILURE,

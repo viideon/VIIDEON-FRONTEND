@@ -11,6 +11,11 @@ import profileReducer from "./profile";
 import emailReducer from "./email";
 import assetReducer from "./asset";
 import chatvidReducer from './chatvid'
+
+import { routerReducer } from 'react-router-redux'
+
+
+
 const expireTime = 24 * 60 * 60 * 1000;
 const expirationKey = "expirationKey";
 
@@ -53,7 +58,8 @@ const appReducer = combineReducers({
   profile: persistReducer(profilePersistConfig, profileReducer),
   email: emailReducer,
   asset: assetReducer,
-  chatvids: persistReducer(chatvidPersisConfig, chatvidReducer)
+  chatvids: persistReducer(chatvidPersisConfig, chatvidReducer),
+  routing: routerReducer
 });
 
 const rootReducer = (state: any, action: any) => {

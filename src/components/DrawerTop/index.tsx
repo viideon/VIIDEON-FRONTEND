@@ -47,10 +47,17 @@ const TopDrawer: React.FC<IProps> = ({ open, toggle, history }) => {
       <div className="wrapperTopDrawer">
         <div
           className="OptionIcons dashboardOptionTop"
-          onClick={() => navigate("/dashboard")}
+          onClick={() => navigate("/")}
         >
           <i className="fas fa-tachometer-alt dashboard" style={iconStyle} />
           <span className="IconNameStyling">Dashboard</span>
+        </div>
+        <div
+          className="OptionIcons dashboardOptionTop"
+          onClick={() => navigate("/chatvids")}
+        >
+          <i className="fas fa-tachometer-alt dashboard" style={iconStyle} />
+          <span className="IconNameStyling">Chatvids</span>
         </div>
         <div className="OptionIcons" onClick={() => navigate("/videos")}>
           <i className="fab fa-microsoft" style={iconStyle} />

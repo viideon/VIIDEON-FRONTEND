@@ -85,7 +85,7 @@ class RecorderTab extends Component<any, RState> {
   };
 
   getThumbnailfromFile = (file: any) => {
-    this.video.src = this.props.uploaded ? file : URL.createObjectURL(file);
+    this.video.src = URL.createObjectURL(file);
     this.video.currentTime = 3;
     this.canvas.width = 1280;
     this.canvas.height = 720;
@@ -93,7 +93,10 @@ class RecorderTab extends Component<any, RState> {
       setTimeout(() => {
         this.canvas.getContext("2d").drawImage(this.video, 0, 0, 1280, 720);
         this.canvas.toBlob((blob: any) => {
-          this.setState({ thumbnail: blob });
+          this.setState({ thumbnail: blob }, () => {
+          const { thumbnail,  videoRecord } = this.state;
+            this.props.proceedToNext(thumbnail, this.props.uploaded ? this.props.video : videoRecord);
+          });
         }, "image/jpeg");
       }, 2000);
     });
@@ -106,11 +109,6 @@ class RecorderTab extends Component<any, RState> {
   save = async () => {
     toast.info("Wait! we are getting things ready!")
     await this.getThumbnailfromFile(this.props.uploaded ? this.props.video : this.state.videoRecord);
-    setTimeout(() => {
-      const { thumbnail, thumbnailBlob, videoRecord } = this.state;
-      this.props.proceedToNext(thumbnail, this.props.uploaded ? this.props.video : videoRecord);
-    }, 3000)
-    return;
   };
 
   setQuality = (e: any) => this.setState({ selectedValue: e.target.value })
@@ -190,22 +188,22 @@ const RecoderSettingHeader = (props: any) => {
   const { setQuality, selectValue, history } = props;
 
   React.useEffect(() => {
-    if(!props.uploaded) {
+    if (!props.uploaded) {
       const elm: any = document.getElementById("inputVideo");
-      if(elm) {
+      if (elm) {
         elm.src = null;
       }
     }
   }, [props.uploaded])
-  
+
   const handleUploadFile = (file: any) => {
-    if(!file) return;
+    if (!file) return;
     if (isVideo(file.target.files[0])) {
       toast.info("Added");
       props.onChange({ target: { name: "video", value: file.target.files[0] } })
       props.onChange({ target: { name: "uploaded", value: true } })
       props.toggleSendVariable();
-    }else {
+    } else {
       toast.error("Invalid file type!")
     }
 
@@ -213,7 +211,7 @@ const RecoderSettingHeader = (props: any) => {
 
   const click = (event: any) => {
     const elm: any = document.getElementById("inputVideo");
-    if(elm) {
+    if (elm) {
       elm.click();
     }
   }

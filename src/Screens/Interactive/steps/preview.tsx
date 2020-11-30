@@ -67,6 +67,9 @@ const ChatvidPreviewTab = (props: any) => {
           history={props.history}
           fontSize={props.fontSize}
           reveal={props.reveal}
+          fontStyle={props.fontStyle}
+          fontWeight={props.fontWeight}
+          textDecoration={props.textDecoration}
         />
       </div>
     </div>

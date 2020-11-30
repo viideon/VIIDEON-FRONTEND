@@ -10,6 +10,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
 toast.configure({
   autoClose: 4000,
   pauseOnHover: false,
@@ -33,7 +34,7 @@ if (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
   enhancer = compose(applyMiddleware(sagaMiddleware));
 }
 
-const store = createStore(persistedReducer, {}, enhancer);
+export const store = createStore(persistedReducer, {}, enhancer);
 const persistor = persistStore(store);
 
 class App extends Component {

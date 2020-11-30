@@ -221,7 +221,7 @@ function HorizontalNonLinearStepper(props: any) {
     <div className={classes.root}>
       <Stepper nonLinear activeStep={activeStep}>
         {steps && steps.map((step: any, index: number) => (
-          <Step key={index}>
+          <Step key={index} style={{ marginRight: !isNaN(step) ? "4%" : ""}}>
             {step?.videoId?.thumbnail ?
               (<div className="thumbnaiForStepper">
                 <img src={step?.videoId?.thumbnail} alt="thumbnail" className="thumbnail" />

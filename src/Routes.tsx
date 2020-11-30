@@ -30,6 +30,7 @@ import Contacts from "./Screens/Connections/Contacts";
 import ChatvidBoard from "./Screens/Home/ChatvidBoard";
 
 import PrivacyPolicy from "./components/PrivacyPolicy";
+import { store } from './App';
 
 type IProps = {
   auth: AuthState;
@@ -39,7 +40,7 @@ type IProps = {
 class Routes extends Component<IProps> {
   render() {
     return (
-      <Router>
+      <Router >
         {this.props.auth.loggedInStatus === true ? (
           <>
             <Switch>

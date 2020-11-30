@@ -57,6 +57,7 @@ function* saveChatVidSaga(action: any) {
       yield put({ type: types.GET_CHATVIDS_REQUEST });
       toast.info("Chatvid saved successfully!");
       yield put(push("/chatvids"));
+      action.history.push("/chatvids")
     } else {
       yield put({ type: types.SAVE_CHATVID_FAILURE });
       toast.error("Something Went Wrong");
@@ -77,6 +78,7 @@ function* addChatvidStep(action: any) {
       yield put({ type: types.ADD_STEP_TO_CHATVID_SUCCESS });
       yield put({ type: types.GET_CHATVIDS_REQUEST })
       toast.info("Added Successfully!");
+      action.history.push("/chatvids");
     } else {
       yield put({ type: types.ADD_STEP_TO_CHATVID_FAILURE });
       toast.error("Something Went Wrong");

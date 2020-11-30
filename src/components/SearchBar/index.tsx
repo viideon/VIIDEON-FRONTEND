@@ -10,9 +10,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import { withStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import NativeSelect from '@material-ui/core/NativeSelect';
 
 // END LOGICS
 
@@ -22,11 +20,11 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: "auto",
       marginRight: "auto",
       marginTop: "5px",
-      marginBottom: "5px",
+      marginBottom: "10px",
       padding: "0px 1px 0px 2px",
       display: "flex",
       alignItems: "center",
-      borderRadius: 8,
+      borderRadius: 16,
       width: "max-content",
       height: "3rem",
       background: "#f2f2f2",
@@ -73,6 +71,18 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     "& .MuiIconButton-root:hover": {
       backgroundColor: "transparent !important"
+    },
+    selector: {
+      padding: "10px 5px 10px 10px",
+      borderRadius: 0,
+      background: "#fdb415",
+    },
+    labelStyle: {
+      marginBottom: "0%",
+      color: "#000000",
+      width: "140px",
+      padding: "8px",
+      fontSize: "smaller"
     }
   })
 );
@@ -112,6 +122,7 @@ export function PreviewSearchBar() {
       <InputBase
         className={classes.input}
         inputProps={{ "aria-label": "search chatvids" }}
+        disabled
       />
       <IconButton
         type="submit"
@@ -134,15 +145,17 @@ export function ChatvidRedirectionLogics(props: any) {
   };
   return (
     <Paper className={classes.logicRoot}>
-      {props.text}
+      <InputLabel className={classes.labelStyle} >
+        {props.text}
+      </InputLabel>
       <IconButton
         type="submit"
-        className={classes.iconButton}
+        className={classes.selector}
         aria-label="search chatvid..."
       >
         <Select
           labelId="demo-customized-select-label"
-          id="demo-customized-select"
+          id="edit-chatvid-select-jump-to"
           value={age}
           onChange={handleChange}
           input={<BootstrapInput />}

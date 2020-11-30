@@ -151,7 +151,7 @@
   left: -70px;
 }
 
-.AudioIconWrapper .makeStyles-fabProgress-7 .MuiCircularProgress-svg {
+.AudioIconWrapper .makeStyles-fabProgress-7 .MuiCircularProgress-svg, .AudioIconWrapper .MuiCircularProgress-colorPrimary{
   color: #fdb415;
   
 }

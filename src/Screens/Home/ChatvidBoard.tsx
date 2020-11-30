@@ -29,6 +29,7 @@ class Dashboard extends Component<IProps> {
     selectedPerson: {},
     step: {},
     activeType: 0,
+    stpIndex: 0,
   };
   componentDidMount() {
     this.props.getChatvids();
@@ -41,7 +42,7 @@ class Dashboard extends Component<IProps> {
     this.setState({ selectedChatvid: this.props.chatvids[index], selectedPerson: person })
   }
 
-  setStp = (step: any) => this.setState({ step })
+  setStp = (step: any, stpIndex: number) => this.setState({ step, stpIndex })
   handleTabChange = (activeType: number) => this.setState({ activeType })
 
   renderResponders = (person: any, chatName: string, date: any, ind: number, chatvidIndex: number) => {
@@ -136,7 +137,7 @@ class Dashboard extends Component<IProps> {
                 {selectedChatvid?.steps?.map((step: any, ind: number) => {
                   return (
                     <>
-                      <div className="stepAvatarWrapper" key={ind} onClick={() => this.setStp(step)}>
+                      <div className="stepAvatarWrapper" key={ind} onClick={() => this.setStp(step, ind+1)}>
                         <Typography variant="h4"> STEP </Typography>
                         <Typography variant="h1"> {ind+1} </Typography>
                       </div>
@@ -153,7 +154,7 @@ class Dashboard extends Component<IProps> {
                     <Typography variant="h3"> {step.responseType} </Typography>
                   </div>
                   <div className="_step_NO">
-                    <div className="_whiteCircle"> {step.stepNo} </div>
+                    <div className="_whiteCircle"> {this.state.stpIndex} </div>
                   </div>
                 </Grid>
                 <Grid container className="_stepsDetailsBody">
