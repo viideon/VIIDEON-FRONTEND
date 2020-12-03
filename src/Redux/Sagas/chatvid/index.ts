@@ -76,7 +76,7 @@ function* addChatvidStep(action: any) {
     const result = yield addStepToChatvid(payload);
     if (result.status === 200) {
       yield put({ type: types.ADD_STEP_TO_CHATVID_SUCCESS });
-      yield put({ type: types.GET_CHATVIDS_REQUEST })
+    //  yield put({ type: types.GET_CHATVIDS_REQUEST })
       toast.info("Added Successfully!");
       action.history.push("/chatvids");
     } else {
@@ -84,6 +84,7 @@ function* addChatvidStep(action: any) {
       toast.error("Something Went Wrong");
     }
   } catch (error) {
+    console.log("error is", error.message)
     yield put({ type: types.ADD_STEP_TO_CHATVID_FAILURE });
     toast.error(error.message);
   }

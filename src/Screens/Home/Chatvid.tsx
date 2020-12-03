@@ -380,7 +380,7 @@ const StepsTab = (props: any) => {
           })
         }
 
-        <Grid container className="AddMoreSteps" onClick={() => props.history.push(`/chatvid/step/${props.chatvid?._id}`)}>
+        <Grid container className="AddMoreSteps" onClick={() => props.history.push(`/chatvid/step/${props.chatvid?._id}/${props?.chatvid?.steps?.[0] ? props?.chatvid?.steps.length + 1 : 0}`)}>
           <AddCircleIcon />
           <Typography variant="subtitle1">Add more steps</Typography>
         </Grid>
