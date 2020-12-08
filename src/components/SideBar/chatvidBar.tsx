@@ -53,9 +53,9 @@ class SideBar extends Component<IProps, IState> {
   }
   render() {
     const { drawer } = this.props;
-    var activeSideBar = this.state.activeTab;
-    if (this.props.location.pathname !== activeSideBar)
-      activeSideBar = this.props.location.pathname;
+    var activeSideBar2 = this.state.activeTab;
+    if (this.props.location.pathname !== activeSideBar2)
+      activeSideBar2 = this.props.location.pathname;
     return (
       <div className={drawer ? "MainDrawer" : "MainDrawerHide"}>
         <SearchBar onChange={this.handleChange} />
@@ -63,17 +63,31 @@ class SideBar extends Component<IProps, IState> {
           round={false}
           name="Create Chatvid"
           onClick={() => this.props.history.push('/chatvid')}
-          style={{ ...Colors.themeGradientBtn, width: "90%", marginLeft: "5%", marginBottom: "10%" }}
+          style={{ ...Colors.themeGradientBtn, width: "95%", marginLeft: "3%", marginBottom: "10%" }}
         />
         <div
           className={classname({
             OptionIcons: true,
-            activeSideBar: activeSideBar === "/chatvids"
+            activeSideBar2: activeSideBar2 === "/chatvids"
           })}
           onClick={() => this.handleChangeTab("/chatvids")}
         >
-          <i className="fab fa-microsoft" style={iconStyle} />
-          <span className="IconNameStyling">All Interactions</span>
+          {/* <i className="fab fa-microsoft" style={iconStyle} />   */}
+          <span className="" style={{color:"black",fontWeight:"bold"}}>
+          <img
+                              src="/images/messagesicon.png"
+                              width="25px"
+                              alt="edit"
+                              style={{
+                                 margin: '4px 4px 8px 4px',
+                              }}/>
+            All Interactions<img
+                              src="/images/rightarrow.png"
+                              width="16px"
+                              alt="edit"
+                              style={{
+                                 margin: '4px 4px 2px 14px',
+                              }}/></span>
         </div>
         <div className="chatvidScroollingBar">
           {
@@ -84,7 +98,7 @@ class SideBar extends Component<IProps, IState> {
                   key={index}
                   className={classname({
                     OptionIcons: true,
-                    activeSideBar: activeSideBar === `/chatvids/form/${vids._id}`
+                    activeSideBar2: activeSideBar2 === `/chatvids/form/${vids._id}`
                   })}
                   onClick={() => this.handleChatvid(vids)}
                 >
@@ -95,7 +109,7 @@ class SideBar extends Component<IProps, IState> {
                     :
                     <i className="fab fa-microsoft" style={iconStyle} />
                   }
-                  <span className="IconNameStyling">{vids.name} </span>
+                  <span className="IconNameStyling2">{vids.name} </span>
                 </div>
               )
             })

@@ -204,6 +204,7 @@ function HorizontalNonLinearStepper(props: any) {
   }
 
   const renderLogic = (step: any, length: number, index: number) => {
+    
     return (
       <>
         {step.responseType === "Multiple-Choice" ?

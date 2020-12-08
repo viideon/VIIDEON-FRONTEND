@@ -140,7 +140,20 @@ const Header: React.FC<IProps> = ({
             className="avatarWrapperHeader"
           >
             <img src={image} className="avatarNav" alt="avatar" />
+            
           </span>
+          <span
+            onClick={handleClickPopup}
+            style={{ cursor: "pointer" }}
+          >
+          <img
+                              src="/images/downarrow.png"
+                              width="12px"
+                              alt="edit"
+                              style={{
+                                 marginLeft:"-15px"
+                              }}/>
+                              </span>
         </div>
       </div>
     </div>

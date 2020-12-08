@@ -5,7 +5,7 @@ import { updateVideoCta } from "./Redux/Actions/videos";
 import { AuthState } from "../src/Redux/Types/auth";
 
 import Watch from "./Screens/Watch";
-import Signup from "./Screens/Signup";
+import Signup from "./Screens/SignUp";
 import SignIn from "./Screens/SignIn";
 import Profile from "./Screens/Profile";
 import Template from "./Screens/Template";
