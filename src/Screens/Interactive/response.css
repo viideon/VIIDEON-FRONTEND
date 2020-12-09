@@ -1,7 +1,7 @@
 .responseTypeWrapper {
   width: 100%;
   height: inherit !important;
-
+  flex-direction: row;
   background-color: #f2f2f2;
 }
 
@@ -12,7 +12,7 @@
 }
 .mainVideoContainer .MuiGrid-item {
   display: flex;
-  margin-top: -66%;
+  /* margin-top: -66%; */
 }
 .mainVideoContainer canvas {
   object-fit: contain;
@@ -34,6 +34,7 @@
 }
 .videoFULL {
   object-fit: cover !important;
+  margin-top: inherit
 }
 .captionDiv {
   background: #fdb415;
@@ -245,4 +246,10 @@
 }
 @media only screen and (max-width: 550px) {
   
+}
+
+@media only screen and (max-width: 600px) {
+  .mainVideoContainer{
+    margin-top: 1px;
+  }
 }

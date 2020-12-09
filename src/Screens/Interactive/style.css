@@ -41,8 +41,6 @@
 }
 .chatvidPreviewWrapper .responseTypeWrapper {
   border-radius: 0px 0px 8px 8px;
-  overflow: hidden;
-  height: 680px !important;
 }
 .chatvidPreviewWrapper .responseTypeWrapper .mainVideoContainer {
   background: #ffffff;
@@ -399,7 +397,7 @@
   height: 40px;
   font-family: "Poppins" !important;
   font-weight: bolder !important;
-  font-size: larger !important;
+  font-size: small !important;
 }
 .NextBTN {
   background-image: linear-gradient(to right, #fdb415, #8bb589, #61b5b3);
@@ -408,7 +406,7 @@
   height: 40px;
   font-family: "Poppins" !important;
   font-weight: bolder !important;
-  font-size: larger !important;
+  font-size: small !important;
 }
 
 /* QA */
@@ -665,5 +663,11 @@
   }
   .LandingQuestionWrapper .MuiTypography-h4 {
     font-size: 0.8rem;
+  }
+}
+@media screen and (min-width: 1000px) {
+  .chatvidPreviewWrapper .responseTypeWrapper {
+    overflow: hidden !important;
+    height: 680px !important;
   }
 }

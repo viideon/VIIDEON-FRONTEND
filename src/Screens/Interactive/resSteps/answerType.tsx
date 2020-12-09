@@ -379,7 +379,7 @@ class FinalTab extends Component<any> {
       <Grid container className="responseTypeWrapper">
         <Grid container className="mainVideoContainer" xs={12} sm={12} md={6} lg={6}>
           <BorderLinearProgress variant="determinate" value={this.state.percentage} />
-          <Grid item xs={12} sm={12} md={12} lg={12}>
+          <Grid style={{height: "100%"}} item xs={12} sm={12} md={12} lg={12}>
             <div
               className="overLayText"
               style={{
@@ -390,7 +390,7 @@ class FinalTab extends Component<any> {
             >
               <Typography variant="h4" style={{ fontSize: fontSize ? fontSize : "x-large", fontWeight: fontWeight ? "bold" : "normal", fontStyle: fontStyle ? "italic" : "", textDecoration: textDecoration ? "underline" : "none" }} > {overlayTxt ? overlayTxt : text} </Typography>
             </div>
-            <video id="iframVideo" ref={ref => this.videoRef = ref} className={`${isFit ? "videoFULL" : ""}`} autoPlay loop width="100%" />
+            <video id="iframVideo" ref={ref => this.videoRef = ref} className={`${isFit ? "videoFULL" : ""}`} controls controlsList="nodownload nofullscreen noremoteplayback" width="100%" />
           </Grid>
         </Grid>
         <Grid container className="ResponseAndTypeWrapper" xs={12} sm={12} md={6} lg={6}>
