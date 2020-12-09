@@ -94,7 +94,8 @@ class SideBar extends Component<IProps, IState> {
             this.props.chatvids && this.props.chatvids.length > 0 &&
             this.renderChatvids(this.props.chatvids).map((vids: any, index: string) => {
               return (
-                <div
+                <div>
+                {vids.steps[0]?.videoId &&(<div
                   key={index}
                   className={classname({
                     OptionIcons: true,
@@ -102,6 +103,7 @@ class SideBar extends Component<IProps, IState> {
                   })}
                   onClick={() => this.handleChatvid(vids)}
                 >
+                  
                   {vids.steps[0]?.videoId?.thumbnail ?
                     <div className="thumbnailInChatvidBar">
                       <img src={vids.steps[0]?.videoId?.thumbnail} alt="thumbnail" />
@@ -109,7 +111,8 @@ class SideBar extends Component<IProps, IState> {
                     :
                     <i className="fab fa-microsoft" style={iconStyle} />
                   }
-                  <span className="IconNameStyling2">{vids.name} </span>
+                  <span className="IconNameStyling2" style={{padding:"10px"}}>{vids.name} </span>
+                </div>)}
                 </div>
               )
             })
