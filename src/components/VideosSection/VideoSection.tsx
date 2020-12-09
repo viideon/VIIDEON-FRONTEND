@@ -252,6 +252,12 @@ const ListViewCard: React.FC<IPropsListCard> = ({
   const deleteAction = () => {
     deleteVideo(id);
   };
+  // const deleteAction = () => {
+  //   if(video?.isChatvid) {
+  //     return toast.error("Can't delete chatvid!")
+  //   }
+  //   deleteVideo(id);
+  // };
   const calculateDays = () => {
     let currentTime = moment(moment().toDate());
     let videoAddedTime = moment(date).format("YYYY-MM-DD HH:mm");

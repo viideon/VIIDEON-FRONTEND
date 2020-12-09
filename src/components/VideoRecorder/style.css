@@ -84,6 +84,7 @@
   font-weight: 700;
   padding: 10px 0px 5px 0px;
   color: #0071bc;
+  
   margin-bottom: 15px;
 }
 
@@ -260,11 +261,12 @@
   top: 0%;
   padding-top: 2%;
   background-color: rgba(0, 0, 0, 0.1);
+  
 }
 
 .NoteWrapper .MuiFormControl-root,
 .NoteWrapper .MuiTextField-root {
-  display: flex;
+  /* display: flex; */
   position: relative;
   left: 2vw;
   width: 80%;
@@ -272,10 +274,16 @@
 }
 
 #overlayNote {
+  text-align: center;
+  /* background-color: blueviolet; */
+  position: relative;
+  top:80%;
   font-family: "Poppins";
-  color: white;
-  font-weight: bold;
-  line-height: 1;
+  color: rgb(233, 219, 219);
+  font-size: 20px;
+  /* font-weight: bold; */
+  /* line-height: 1; */
+
 }
 
 .safeAreaWrapper {
@@ -313,6 +321,7 @@
   justify-content: center;
   align-items: center;
   background: #0e2633;
+  ;
 }
 
 @keyframes fQCAJR {

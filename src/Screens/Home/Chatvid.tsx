@@ -255,6 +255,7 @@ const ResponderTab = (props: any) => {
               <div className="_stepTYPEandIcon">
                 <PermMediaIcon />
                 <Typography variant="h3"> {stp.responseType} </Typography>
+                {console.log(stp.responseType)}
               </div>
               <div className="_step_NO">
                 <div className="_whiteCircle"> {stpIndex + 1} </div>
