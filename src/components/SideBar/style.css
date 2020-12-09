@@ -116,7 +116,7 @@
 /* ChatvidBar */
 
 .chatvidScroollingBar {
-  overflow: scroll;
+  overflow: hidden;
   padding-bottom: 35%;
   margin-bottom: 25%;
 }
