@@ -10,7 +10,7 @@
   margin-left: 0;
   transition: left 1s cubic-bezier(0.82, 0.085, 0.395, 0.895);
 
-  overflow-y: scroll;
+  overflow-y: hidden;
   margin-bottom: 5%;
   padding-bottom: 5%;
 }
@@ -126,7 +126,7 @@
   cursor: pointer;
   display: flex;
   border-radius: 18%;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 .thumbnailInChatvidBar img {
   width: 100%;

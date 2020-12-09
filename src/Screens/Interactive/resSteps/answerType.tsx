@@ -453,10 +453,13 @@ const OpenEndedType = (props: any) => {
   }
   return (
     <>
+    <div className="preview"><p className="previewText"></p>
+    
+      </div>
       <div className="captionDiv">
         <Typography variant="h3">
           {responseType === "Open-ended" ?
-            "How would you like to answer?"
+            "How Would You like to answer?"
             :
             responseType === "Multiple-Choice" ?
               "Choose a response"
@@ -465,11 +468,15 @@ const OpenEndedType = (props: any) => {
           }
 
         </Typography>
+       
       </div>
-      <div className="optionDiv">
+      <div style={{background:"white", marginTop:"-15px"}}><div className="previewTitle"><p>This is your preview of what your contact will see and be able to make a choice of responding by text, audio, or a video</p></div>
+      <div className="optionDiv"> 
+     
         {responseType === "Open-ended" ?
           (
             <>
+            
               <div className="IconWrapper" onClick={() => { handleTabChange(1) }}>
                 <Typography variant="h1">Tt</Typography>
                 <Typography variant="subtitle1"> Text </Typography>
@@ -513,7 +520,8 @@ const OpenEndedType = (props: any) => {
             )
         }
 
-      </div>
+      </div></div>
+      
     </>
   )
 }

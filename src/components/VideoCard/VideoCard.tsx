@@ -61,10 +61,12 @@ const VideoCard: FC<IProps> = ({
     setOpen(false);
   };
   const deleteAction = () => {
-    if(video?.isChatvid) {
-      return toast.error("Can't delete chatvid!")
-    }
     deleteVideo(id);
+    toast.error(`Video Deleted successfully of title ${title} `)
+    // if(video?.isChatvid) {
+    //   return toast.error(`Can't delete chatvid! of title ${title} `)
+    // }
+    // deleteVideo(id);
   };
   const copyUrl = () => {
     navigator.clipboard.writeText(
@@ -126,4 +128,9 @@ const mapStateToProps = (state: any) => {
     deletingVideo: state.video.deletingVideo
   };
 };
-export default connect(mapStateToProps)(VideoCard);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    // deleteVideo: (title: any) => dispatch(deleteVideo(id)),
+  };
+};
+export default connect(mapStateToProps,mapDispatchToProps)(VideoCard);

@@ -56,7 +56,7 @@
 }
 .chatvidPreviewWrapper .responseTypeWrapper .optionDiv{
   background: #ffffff;
-  overflow: scroll;
+  overflow: hidden;
   padding-bottom: 10%;
 }
 
@@ -387,8 +387,8 @@
   text-align: end !important;
 }
 .ToggleActionsWrapper svg {
-  width: 35px !important;
-  height: 35px !important;
+  /* width: 35px !important;
+  height: 35px !important; */
 }
 .BackBTN {
   background: #ff404e !important;
