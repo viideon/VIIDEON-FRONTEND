@@ -21,6 +21,12 @@
   padding-top: 1em;
   overflow: hidden;
 }
+.chatVidInfoGrid{
+  justify-content: space-evenly;
+}
+.chatVidInfoShareOptions{
+  align-items: center
+}
 .CardComponent {
   padding: 10px;
 }

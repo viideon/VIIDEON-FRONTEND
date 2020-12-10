@@ -264,7 +264,7 @@ const ResponderTab = (props: any) => {
             <Grid container className="_stepsDetailsBody">
 
               {stp.responseType === "Open-ended" &&
-                <Grid item xs={12} sm={2} md={2} lg={2} className="optionDiv">
+                <Grid item xs={12} sm={2} md={2} lg={2} className="optionDiv" style={{overflow: "unset"}}>
                   <div className={`IconWrapper ${activeType === 1 && "activeIcon"}`} onClick={() => { handleTabChange(1) }}>
                     <Typography variant="h1">Tt</Typography>
                     <Typography variant="subtitle1"> Text </Typography>
@@ -325,8 +325,8 @@ const StepsTab = (props: any) => {
           <div className="avatarWrapper">
             <PersonOutlineIcon />
           </div>
-          <Typography variant="subtitle1" className="responderName">{reply.peopleId?.name || "Maisha Pace"}</Typography>
-          <Typography variant="subtitle1" className="resDetials">
+          <Typography variant="subtitle1" className="openEndName">{reply.peopleId?.name || "Maisha Pace"}</Typography>
+          <Typography variant="subtitle1" className="openEndDetails">
             {stp.createdAt.toLocaleString()}
           </Typography>
         </Grid>
@@ -358,7 +358,12 @@ const StepsTab = (props: any) => {
     let percentage = Math.round(((replies ? replies?.length : 0) * 100) / participents)
     return (
       <div className={`_choiceOption _stepTabsChoices`} key={ind}>
-        <Typography variant="h5" > {choice.text} </Typography>
+         {/* <div className="_choiceProgressBar" style={{width:`${percentage}%`, backgroundColor:'red', height:"100%"}}>
+        </div>
+        <Typography variant="h5"  style={{wid}}> {choice.text} </Typography> */}
+        <div className="_choiceProgressBar" style={{width:`${percentage}%`, backgroundColor:'#f0cc79'}}>
+        <Typography variant="h5" style={{width: "25rem", overflow: "hidden"}}> {choice.text} </Typography>
+        </div>
         <div className="_choicePrcWrapper">
           <div className="_s">
             <Typography variant="h3">
@@ -637,7 +642,7 @@ const InfoHeader = (props: any) => {
 
   return (
     <Grid container className="dashChatvidTopHeaderWrapper">
-      <Grid container xs={12} sm={12} md={8} lg={8} >
+      <Grid className="chatVidInfoGrid" container xs={12} sm={12} md={8} lg={8} >
         <Grid item xs={1} sm={1} md={2} lg={2} >
           <div className="thumbnailInChatvidHead">
             <img src={chatvid?.thumbnail} alt="thumbnail" />
@@ -653,7 +658,7 @@ const InfoHeader = (props: any) => {
           </div>
         </Grid>
       </Grid>
-      <Grid container xs={12} sm={12} md={4} lg={4} >
+      <Grid className="chatVidInfoShareOptions" container xs={12} sm={12} md={4} lg={4} >
         <div className="sendChatvidBTNWrapper">
           <ThemeButton style={Colors.themeGradientBtn} name="Send Chatvid" onClick={() => setOpen(true)} />
         </div>

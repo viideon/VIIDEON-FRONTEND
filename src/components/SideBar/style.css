@@ -116,9 +116,10 @@
 /* ChatvidBar */
 
 .chatvidScroollingBar {
-  overflow: hidden;
+  overflow: scroll;
   padding-bottom: 35%;
   margin-bottom: 25%;
+  height: 100% !important;
 }
 .thumbnailInChatvidBar {
   width: 3em;
