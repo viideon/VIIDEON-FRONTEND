@@ -78,13 +78,13 @@ class RecorderTab extends Component<any> {
           <div className="actionTab">
             <CancelIcon className="tabCancelHead" onClick={() => this.props.history.push("/")} />
             <Typography variant="h6" className="topHeading">Great Video!</Typography>
-            <Typography variant="h6" className="QuestionHeading">Whould you like to overlay some text?</Typography>
+            <Typography variant="h6" className="QuestionHeading">Would you like to overlay some text?</Typography>
             <div className="textOverLayWrapper">
               <TextField fullWidth name="text" value={this.props.text} onChange={this.props.onChange} id="OverLayText" multiline rows={10} rowsMax={10} variant="outlined" />
             </div>
             <Grid container className="textAdjustmentWrapper">
               <Grid item xs={12} sm={12} md={12} lg={6}>
-                <Typography variant="h6" className="actionLabels"> Alignement </Typography>
+                <Typography variant="h6" className="actionLabels"> Alignment </Typography>
                 <ToggleButtonGroup
                   exclusive
                   onChange={this.handleHorizontal}

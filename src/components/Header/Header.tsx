@@ -101,12 +101,12 @@ const Header: React.FC<IProps> = ({
       </div>
       <div className="endHeader">
         <div className="wrapperEnd">
-          {/* <Tooltip title="Under Progress">
+          {/* <Tooltip title="Feature Coming Soon">
             <span>
               <i className="fas fa-envelope" style={iconStyle}></i>
             </span>
           </Tooltip> */}
-          <Tooltip title="Under Progress">
+          <Tooltip title="Feature Coming Soon">
             <span>
               <i className="fas fa-bell" style={iconStyle}></i>
             </span>
@@ -120,7 +120,7 @@ const Header: React.FC<IProps> = ({
           </Tooltip>
 
           <span>
-            <Tooltip title="Under Progress">
+            <Tooltip title="Feature Coming Soon">
               <i className="fas fa-cog" style={iconStyle}></i>
             </Tooltip>
             <Menu

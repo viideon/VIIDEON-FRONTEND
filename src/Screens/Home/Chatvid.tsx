@@ -5,7 +5,6 @@ import { getChatvids, getAnalytics } from "../../Redux/Actions/chatvid";
 import classname from 'classnames';
 import Colors from '../../constants/colors';
 import ThemeButton from '../../components/ThemeButton'
-
 import { toast } from 'react-toastify';
 
 import { Grid, Typography } from "@material-ui/core";
@@ -79,7 +78,6 @@ type IProps = {
   getChatvids: () => void;
   getAnalytics: (_id: string, dateFrom: any, dateTo: any, deviceType: string) => void;
 };
-
 class Dashboard extends Component<IProps> {
   state = {
     tab: 0,
@@ -652,9 +650,9 @@ const InfoHeader = (props: any) => {
           <Typography variant="h3"> {chatvid?.name} </Typography>
           <div className="chatvidEditToolsWrapper">
             <div onClick={() => props.history.push(`/chatvids/edit/${chatvid && chatvid._id}`)}> <EditIcon /> Edit </div>
-            <div onClick={() => alert('under progress')}> <SettingsRoundedIcon /> Settings</div>
-            <div onClick={() => alert('under progress')}> <SwapCallsIcon /> Connect</div>
-            <div onClick={() => alert('under progress')}> <FileCopyIcon /> Export</div>
+            <div onClick={() => alert('Feature Coming Soon')}> <SettingsRoundedIcon /> Settings</div>
+            <div onClick={() => alert('Feature Coming Soon')}> <SwapCallsIcon /> Connect</div>
+            <div onClick={() => alert('Feature Coming Soon')}> <FileCopyIcon /> Export</div>
           </div>
         </Grid>
       </Grid>
@@ -709,7 +707,7 @@ const InfoHeader = (props: any) => {
           <EmailShareButton
             url={url}
             subject={title}
-            body="body"
+            body={""}
           >
             <EmailIcon size={32} round />
           </EmailShareButton>

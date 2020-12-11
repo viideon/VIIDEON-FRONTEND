@@ -73,8 +73,8 @@ class SideBar extends Component<IProps, IState> {
           <i className="fab fa-microsoft" style={iconStyle} />
           <span className="IconNameStyling">My Videos</span>
         </div>
-        {/* <Tooltip title="Under Progress" enterDelay={0}>
-          <div className={classname({"OptionIcons": true, "activeSideBar": activeSideBar === "/"})} onClick={() => alert("Under Progress")}>
+        {/* <Tooltip title="Feature Coming Soon" enterDelay={0}>
+          <div className={classname({"OptionIcons": true, "activeSideBar": activeSideBar === "/"})} onClick={() => alert("Feature Coming Soon")}>
             <i className="fa fa-envelope" style={iconStyle} />
             <span className="IconNameStyling">My Messages</span>
           </div>

@@ -9,6 +9,15 @@ import HeaderCard from "../../components/HeaderCards";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import { getVideoCount, getCampaignCount } from "../../Redux/Actions/videos";
+import {
+  getEmailConfigurations
+} from "../../Redux/Actions/email";
+import Button from '@material-ui/core/Button';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import Styles from "./styles";
 import "./styles.css";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -18,24 +27,28 @@ type IProps = {
   campaignCount: number;
   viewCount: number;
   user: any;
+  getEmailConfigurations: () => void;
   getVideoCount: () => void;
   getCampaignCount: () => void;
 };
-
 class Dashboard extends Component<IProps> {
   state = {
     showDashboard: true,
-    showVideos: false
+    showVideos: false,
+    emailNoteOpen: true,
   };
   componentDidMount() {
     this.props.getVideoCount();
     this.props.getCampaignCount();
+    this.props.getEmailConfigurations();
   }
   navigate = (show?: string) => {
     this.props.history.push({ pathname: "/video/create", show: show });
   };
+
   render() {
     const { user } = this.props;
+    console.log("props here", this.props)
     return (
       <Home>
         <div className="wrapperDashboard">
@@ -56,7 +69,7 @@ class Dashboard extends Component<IProps> {
               </Link>
             </Grid>
             <Grid item xs={6} md={3}>
-              <Tooltip title="Under Progress">
+              <Tooltip title="Feature Coming Soon">
                 <div onClick={() => alert("Feature not created yet")}>
                   <HeaderCard
                     styles={Styles.headerCardTwo}
@@ -81,7 +94,7 @@ class Dashboard extends Component<IProps> {
             </Grid>
 
             <Grid item xs={6} md={3}>
-              <Tooltip title="Under Progress">
+              <Tooltip title="Feature Coming Soon">
                 <div onClick={() => alert("Feature not created yet")}>
                   <HeaderCard
                     styles={Styles.headerCardFour}
@@ -122,7 +135,7 @@ class Dashboard extends Component<IProps> {
               </div>
             </Grid>
             <Grid item xs={6} md={3}>
-              <Tooltip title="Under Progress">
+              <Tooltip title="Feature Coming Soon">
                 <div
                   className="actionsHomePage"
                   onClick={() => alert("Feature not created yet")}
@@ -134,6 +147,29 @@ class Dashboard extends Component<IProps> {
             </Grid>
           </Grid>
         </div>
+
+        <Dialog
+          open={this.state.emailNoteOpen}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle style={{color: "#fdb415"}} id="alert-dialog-title">
+            {"Kindly configure your gmail"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              By configuring gmail you can enjoy all the features of VIDEON PRO.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => this.props.history.push(`/configuration`)} variant="outlined" color="primary">
+              Configure
+            </Button>
+            <Button onClick={() => this.setState({ emailNoteOpen: false })} color="secondary" variant="outlined">
+              Later
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Home>
     );
   }
@@ -142,20 +178,21 @@ class Dashboard extends Component<IProps> {
 const iconStyle = {
   fontSize: "50px",
   cursor: "pointer",
-  color: "#FFFFFF"
+  color: "#FFFFFF",
 };
 const mapStateToProps = (state: any) => {
   return {
     videoCount: state.video.videoCount - state.video.campaignCount,
     viewCount: state.video.viewCount,
     campaignCount: state.video.campaignCount,
-    user: state.auth.user
+    user: state.auth.user,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    getEmailConfigurations: () => dispatch(getEmailConfigurations()),
     getVideoCount: () => dispatch(getVideoCount()),
-    getCampaignCount: () => dispatch(getCampaignCount())
+    getCampaignCount: () => dispatch(getCampaignCount()),
   };
 };
 

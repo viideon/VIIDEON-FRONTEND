@@ -26,6 +26,7 @@ const emailReducer = (state = initialState, action: any) => {
         loading: true
       };
     case types.GET_USER_EMAIL_CONFIG_SUCCESS:
+      //console.log("email configurations in reducer", state.emailConfigurations)
       return {
         ...state,
         emailConfigurations: [...action.payload],
