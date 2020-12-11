@@ -5,20 +5,22 @@ let initialState: any = {
   chatvids: [],
   resChatvid: {},
   selectedChatvid: {},
-  stats: {}
+  stats: {},
 };
 const chatvidReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case authTypes.LOUGOUT:
       return { ...initialState };
     case types.GET_CHATVIDS_SUCCESS:
-      return { ...state, chatvids: action.payload }
+      return { ...state, chatvids: action.payload };
     case types.GET_CHATVID_SUCCESS:
-      return { ...state, resChatvid: action.payload }
+      return { ...state, resChatvid: action.payload };
     case types.SELECT_CHATVID:
-      return { ...state, selectedChatvid: action.payload }
+      return { ...state, selectedChatvid: action.payload };
     case types.GET_ANALYTICS_CHATVID_SUCCESS:
-      return { ...state, stats: action.payload}
+      return { ...state, stats: action.payload };
+    case types.DELETE_CHATVID_SUCCESS:
+      return { ...state, chatvids: action.payload };
     default: {
       return state;
     }

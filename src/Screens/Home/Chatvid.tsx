@@ -18,9 +18,13 @@ import AttachFileIcon from '@material-ui/icons/AttachFile';
 import ShareIcon from '@material-ui/icons/Share';
 
 import EditIcon from '@material-ui/icons/Edit';
-import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
-import SwapCallsIcon from '@material-ui/icons/SwapCalls';
+import DeleteIcon from '@material-ui/icons/DeleteOutlined';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
+
+import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
+
+import SwapCallsIcon from '@material-ui/icons/SwapCalls';
+
 import ReplayIcon from '@material-ui/icons/Replay';
 
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -68,7 +72,7 @@ import { Line } from 'react-chartjs-2';
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { BorderColor } from "@material-ui/icons";
+import { BorderColor, Chat } from "@material-ui/icons";
 
 
 type IProps = {
@@ -627,7 +631,11 @@ const Chart = (props: any) => {
   );
 }
 
+
 const InfoHeader = (props: any) => {
+  const handleDeleteChatvid=(chatvid:any)=>{
+    console.log(chatvid)
+  }
   const [open, setOpen] = React.useState(false);
   const { chatvid } = props;
   const url = `${process.env.REACT_APP_DOMAIN}/chatvid/res/${chatvid && chatvid._id}`;
@@ -644,6 +652,7 @@ const InfoHeader = (props: any) => {
         <Grid item xs={1} sm={1} md={2} lg={2} >
           <div className="thumbnailInChatvidHead">
             <img src={chatvid?.thumbnail} alt="thumbnail" />
+
           </div>
         </Grid>
         <Grid item xs={10} sm={10} md={8} lg={8} >
@@ -654,6 +663,7 @@ const InfoHeader = (props: any) => {
             <div onClick={() => alert('Feature Coming Soon')}> <SwapCallsIcon /> Connect</div>
             <div onClick={() => alert('Feature Coming Soon')}> <FileCopyIcon /> Export</div>
           </div>
+          
         </Grid>
       </Grid>
       <Grid className="chatVidInfoShareOptions" container xs={12} sm={12} md={4} lg={4} >

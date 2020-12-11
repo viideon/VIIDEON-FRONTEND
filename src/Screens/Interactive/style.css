@@ -10,6 +10,16 @@
 }
 
 /* PREVIEW TABSSS */
+.textpreview{
+  background: white;
+  margin-left: 10px;
+  font-size: 20px;
+  margin: 0px;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  color:#fdb415
+}
 .previewTab {
   height: inherit;
   padding: 1%;

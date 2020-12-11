@@ -9,6 +9,7 @@ import {
   addStepToChatvid,
   saveMetrics,
   getMetrics,
+  chatVidDelete,
   updateStepJump,
 } from "./api";
 import {
@@ -147,7 +148,18 @@ function* getMetricsData(action: any) {
   }
 }
 
-
+function* deleteChatVid(action: any) {
+  try {
+    const payload = action.payload;
+    const result = yield chatVidDelete(payload);
+    if (result.status === 200) {
+      return yield put({ type: types.DELETE_CHATVID_SUCCESS });
+    }
+  } catch (error) {
+    yield put({ type: types.DELETE_CHATVID_FAILURE });
+    toast.error(error.message || "There is some error.");
+  }
+}
 export function* chatVidWatcher() {
   yield takeEvery(types.GET_CHATVIDS_REQUEST, getChatVidsSaga);
   yield takeEvery(types.GET_CHATVID_REQUEST, getChatVidSaga);
@@ -157,4 +169,5 @@ export function* chatVidWatcher() {
   yield takeEvery(types.UPDATE_CHATVID_JUMP, updateJumpSaga);
   yield takeEvery(types.SAVE_ANALYTICS_CHATVID_REQUEST, saveMetricsSaga);
   yield takeEvery(types.GET_ANALYTICS_CHATVID_REQUEST, getMetricsData);
+  yield takeEvery(types.DELETE_CHATVID_REQUEST, deleteChatVid);
 }

@@ -67,12 +67,12 @@ const Header: React.FC<IProps> = ({
         {location.pathname !== "/" ? (
           <Tooltip title="Redirect to Dashboard">
             <h3 className="headerStyle" onClick={navigateHome}>
-              <img style={{ width: "40%" }} src={whiteLogo} alt="logo" />
+              <img className="logoIcon" src={whiteLogo} alt="logo" />
             </h3>
           </Tooltip>
         ) : (
             <h3 className="headerStyle" onClick={navigateHome}>
-              <img style={{ width: "40%" }} src={whiteLogo} alt="logo" />
+              <img className="logoIcon" src={whiteLogo} alt="logo" />
             </h3>
           )}
         <MenuIcon
@@ -150,9 +150,7 @@ const Header: React.FC<IProps> = ({
                               src="/images/downarrow.png"
                               width="12px"
                               alt="edit"
-                              style={{
-                                 marginLeft:"-15px"
-                              }}/>
+                              className="arrowIcon" />
                               </span>
         </div>
       </div>

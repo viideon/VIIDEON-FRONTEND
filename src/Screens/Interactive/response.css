@@ -22,6 +22,7 @@
   height: inherit !important;
   background: inherit;
   /* width: 100%; */
+  /* background-color: white; */
 }
 .overLayText {
   display: flex;
@@ -58,6 +59,21 @@ position: absolute;
   justify-content: center;
   padding: 2%;
 }
+.mobilecaptionDiv{
+  background: none;
+  height: 50% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2%;
+}
+.mobilecaptionDiv .MuiTypography-h3 {
+  font-family: "Poppins";
+  color: #fdb415;
+  font-weight: bold;
+  font-size: 18px;
+  
+}
 .captionDiv .MuiTypography-h3 {
   font-family: "Poppins";
   color: #ffffff;
@@ -81,6 +97,19 @@ position: absolute;
   justify-content: space-evenly;
   padding: 4%;
 }
+.mobileoptionDiv{
+  height: 50% !important;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-evenly;
+  
+}
+.mobileType{
+  position: absoulte;
+  height: 70%;
+    display: flex;
+    align-items: flex-end;
+}
 .IconWrapper {
   border: 1px solid #fbd145;
   border-radius: 50%;
@@ -97,6 +126,10 @@ position: absolute;
   font-family: "Poppins";
   font-weight: bold;
 }
+.mobileIconWrapper .MuiTypography-h1 {
+  font-family: "Poppins";
+  font-weight: bold;
+}
 .IconWrapper .MuiTypography-subtitle1 {
   font-family: "Poppins";
   font-weight: bold;
@@ -106,6 +139,8 @@ position: absolute;
   font-size: 6rem;
   color: #fdb415 !important;
 }
+
+
 
 /* Text Response  */
 .textResponseWrappreContainer {
@@ -207,7 +242,25 @@ position: absolute;
 .ResponseAndTypeWrapper .customeRecWrapper .videoStreamWrapper .safeAreaWrapper {
   display: none;
 }
-
+.videoResponseRight{
+  height: 100%;
+}
+.mobileIconWrapper{
+  border: 1px solid #fbd145;
+  border-radius: 50%;
+  width: 100px;
+  height: 130px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  color: white !important;
+  cursor: pointer;
+  background-color:#fbd145 ;
+}
+.mobileIconWrapper .MuiTypography-h1{
+  font-size: 2rem;
+}
 .videoResponseWrappreContainer {
   display: flex;
   flex-direction: column;

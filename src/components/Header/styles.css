@@ -66,11 +66,35 @@
   width: 100%;
   height: 100%;
 }
+.logoIcon {
+  width: 40%;
+}
+.arrowIcon{
+  margin-left: -20px;
+}
+@media only screen and (max-width: 1150px){
+  .arrowIcon{
+    margin-left: -10px;
+  }
+}
+@media only screen and (max-width: 900px){
+  .arrowIcon{
+    margin-left: -5px;
+  }
+}
 
 @media only screen and (max-width: 768px) {
   .wrapperEnd {
     width: 90%;
     margin-left: 10px;
+  }
+  .logoIcon {
+    width: 45%;
+  }
+  .startHeader {
+    /* width: 40%; */
+    padding-left: 6%;
+    margin-bottom: 0px;
   }
   .headerStyle {
     font-size: 1rem !important;
@@ -85,9 +109,13 @@
   }
 }
 @media (max-width: 480px) {
+  .logoIcon {
+    width: 45%;
+  }
   .startHeader {
-    width: 20%;
-    padding-left: 5%;
+    width: 45%;
+    padding-left: 10%;
+    /* margin-bottom: 5px; */
   }
   .centerHeader {
     width: 30%;
