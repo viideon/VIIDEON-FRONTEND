@@ -17,9 +17,16 @@ import AnswerTypeTab from '../resSteps/answerType'
 import "../style.css";
 import "../response.css"
 
+
+const mobileView=()=>{
+    
+}
 const ChatvidPreviewTab = (props: any) => {
   const [active, setActive] = useState("web");
+  
   return (
+    <div>
+      
     <div className="previewTab">
       <div className="previewTabswrapper">
         <div className={`${active === "mobile" && "active"} tabIconWrapper`} onClick={() => setActive("mobile")}>
@@ -29,8 +36,10 @@ const ChatvidPreviewTab = (props: any) => {
           <DesktopWindowsIcon />
         </div>
       </div>
+     
       <div className="chatvidPreviewWrapper">
-        <div className="previewTopHead">
+      <p className="textpreview" style={{width:`${active== "mobile" ? "50%":""}`,margin:`${active== "mobile" ? "auto":""}`}}>This is your preview of what your contact will see and be able to make a choice of responding by text, audio, or a video</p>
+        <div className="previewTopHead" style={{width:`${active== "mobile" ? "50%":""}`,margin:`${active== "mobile" ? "auto":""}`}}>
           <div>
             <span>
               <FiberManualRecordIcon className="closeWindow" />
@@ -44,7 +53,7 @@ const ChatvidPreviewTab = (props: any) => {
           </div>
           <CallMadeIcon />
         </div>
-        <div className="previewSearchHead">
+        <div className="previewSearchHead" style={{width:`${active== "mobile" ? "50%":""}`,margin:`${active== "mobile" ? "auto":""}`}}>
           <ForwardIcon className="reverse" />
           <ForwardIcon />
           <RefreshIcon />
@@ -53,6 +62,7 @@ const ChatvidPreviewTab = (props: any) => {
           <MenuIcon />
         </div>
         <AnswerTypeTab
+          screenType={active}
           video={props.video}
           vidBlob={props.video}
           uploaded={props.uploaded}
@@ -72,6 +82,7 @@ const ChatvidPreviewTab = (props: any) => {
           textDecoration={props.textDecoration}
         />
       </div>
+    </div>
     </div>
   )
 }

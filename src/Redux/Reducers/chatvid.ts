@@ -19,6 +19,8 @@ const chatvidReducer = (state = initialState, action: any) => {
       return { ...state, selectedChatvid: action.payload }
     case types.GET_ANALYTICS_CHATVID_SUCCESS:
       return { ...state, stats: action.payload}
+      case types.DELETE_CHATVID_SUCCESS:
+      return { ...state, chatvids: action.payload }
     default: {
       return state;
     }

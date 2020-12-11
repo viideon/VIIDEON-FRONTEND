@@ -65,3 +65,10 @@ export function updateJump(payload: any) {
     payload
   }
 }
+
+export function deletechatvid(payload: any) {
+  return {
+    type: types.DELETE_CHATVID_REQUEST,
+    payload
+  }
+}

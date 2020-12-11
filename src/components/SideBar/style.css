@@ -127,7 +127,8 @@
   cursor: pointer;
   display: flex;
   border-radius: 18%;
-  /* overflow: hidden; */
+  
+  
 }
 .thumbnailInChatvidBar img {
   width: 100%;

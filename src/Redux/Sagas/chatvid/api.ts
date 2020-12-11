@@ -26,6 +26,9 @@ export function saveMetrics(payload: any) {
 export function getMetrics(payload: any) {
   return API.post(`/chatvid/metrics/${payload.chatvidId}`, payload);
 }
+export function chatVidDelete(payload: any) {
+  // return API.post(`/chatvid/metrics/${payload.chatvidId}`, payload);
+}
 
 
 
