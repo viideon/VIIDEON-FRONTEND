@@ -3,8 +3,10 @@ import { connect } from "react-redux";
 import { UserProfile } from "../../Redux/Types/profile";
 import { selectChatvid } from '../../Redux/Actions/chatvid';
 import classname from "classnames";
+import DeleteDialog from "../Reusable/DeleteDialog";
+import { Grid, Menu, MenuItem } from "@material-ui/core";
 import Colors from '../../constants/colors';
-
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 import SearchBar from '../SearchBar'
 import ThemeButton from '../ThemeButton'
 import "./style.css";
@@ -18,7 +20,7 @@ type IProps = {
   logout: () => void;
   selectChatvid: (chatvid: any) => void;
 };
-type IState = { activeTab: string; logoutModal: boolean, search: string };
+type IState = { activeTab: string; logoutModal: boolean, search: string,  deleteDialog: boolean, vidMenu: boolean};
 class SideBar extends Component<IProps, IState> {
   constructor(props: any) {
     super(props);
@@ -26,6 +28,8 @@ class SideBar extends Component<IProps, IState> {
       activeTab: "/",
       logoutModal: false,
       search: "",
+      deleteDialog: false,
+      vidMenu: false,
     };
   }
 
@@ -51,6 +55,26 @@ class SideBar extends Component<IProps, IState> {
   handleChange = (event: any) => {
     this.setState({ search: event.target.value})
   }
+  openDeleteDialog = () => {
+    this.setState({
+      deleteDialog: true,
+    })
+  };
+  closeDeleteDialog = () => {
+    this.setState({
+      deleteDialog: false,
+    })
+  };
+  handleVidMenu = () => {
+    this.setState({
+      vidMenu: !this.state.vidMenu,
+    })
+  };
+  deleteAction = () => {
+    console.log("delete video with ID")
+    // deleteVideo(id);
+    // toast.error(`Video Deleted successfully of title ${title} `)
+  };
   render() {
     const { drawer } = this.props;
     var activeSideBar2 = this.state.activeTab;
@@ -112,6 +136,27 @@ class SideBar extends Component<IProps, IState> {
                     <i className="fab fa-microsoft" style={iconStyle} />
                   }
                   <span className="IconNameStyling2" style={{padding:"10px"}}>{vids.name} </span>
+                  <span className="vertIcon">
+                    <MoreVertIcon />
+                  </span>
+                  <Menu
+            id="menuVideoCard"
+            anchorEl={null}
+            keepMounted
+            open={false}
+            onClose={this.handleVidMenu}
+          >
+            <MenuItem >View</MenuItem>
+            <MenuItem>Edit</MenuItem>
+            <MenuItem>Copy url</MenuItem>
+            <MenuItem>Delete</MenuItem>
+          </Menu>
+          {/* <DeleteDialog
+            //open={open}
+            // deletingVideo={deletingVideo}
+            // deleteVideo={deleteAction}
+            // closeDeleteDialog={closeDeleteDialog}
+          /> */}
                 </div>)}
                 </div>
               )

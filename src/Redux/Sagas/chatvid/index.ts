@@ -137,6 +137,7 @@ function* saveMetricsSaga(action: any) {
 }
 
 function* getMetricsData(action: any) {
+  console.log("getAnalytics in saga")
   try {
     const payload = action.payload;
     const result = yield getMetrics(payload);
@@ -153,6 +154,8 @@ function* deleteChatVid(action: any) {
     const payload = action.payload;
     const result = yield chatVidDelete(payload);
     if (result.status === 200) {
+      toast.success(result.data?.message || "Succesful.");
+      action.history.push("/chatvids")
       return yield put({ type: types.DELETE_CHATVID_SUCCESS });
     }
   } catch (error) {

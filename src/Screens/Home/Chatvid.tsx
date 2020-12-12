@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { getChatvids, getAnalytics } from "../../Redux/Actions/chatvid";
+import { getChatvids, getAnalytics, deletechatvid } from "../../Redux/Actions/chatvid";
 import classname from 'classnames';
 import Colors from '../../constants/colors';
 import ThemeButton from '../../components/ThemeButton'
@@ -79,6 +79,7 @@ type IProps = {
   history: any;
   user: any;
   chatvid: any;
+  deletechatvid: (_id: string , history: any) => void;
   getChatvids: () => void;
   getAnalytics: (_id: string, dateFrom: any, dateTo: any, deviceType: string) => void;
 };
@@ -634,7 +635,7 @@ const Chart = (props: any) => {
 
 const InfoHeader = (props: any) => {
   const handleDeleteChatvid=(chatvid:any)=>{
-    console.log(chatvid)
+    props.deletechatvid(chatvid, props.history)
   }
   const [open, setOpen] = React.useState(false);
   const { chatvid } = props;
@@ -658,10 +659,11 @@ const InfoHeader = (props: any) => {
         <Grid item xs={10} sm={10} md={8} lg={8} >
           <Typography variant="h3"> {chatvid?.name} </Typography>
           <div className="chatvidEditToolsWrapper">
-            <div onClick={() => props.history.push(`/chatvids/edit/${chatvid && chatvid._id}`)}> <EditIcon /> Edit </div>
+            <div onClick={() => props.history.push(`/chatvids/edit/${chatvid && chatvid._id}`)}> <EditIcon /> Edit </div> 
+            <div onClick={() => alert('Feature Coming Soon')}> <FileCopyIcon /> Duplicate</div>
             <div onClick={() => alert('Feature Coming Soon')}> <SettingsRoundedIcon /> Settings</div>
-            <div onClick={() => alert('Feature Coming Soon')}> <SwapCallsIcon /> Connect</div>
-            <div onClick={() => alert('Feature Coming Soon')}> <FileCopyIcon /> Export</div>
+            <div onClick={()=>handleDeleteChatvid(chatvid._id)}> <DeleteIcon /> Delete</div>
+
           </div>
           
         </Grid>
@@ -771,6 +773,7 @@ const mapStateToProps = (state: any) => {
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    deletechatvid: (_id: string, history: any) => dispatch(deletechatvid(_id, history)),
     getChatvids: () => dispatch(getChatvids()),
     getAnalytics: (_id: string, dateFrom: any, dateTo: any, deviceType: string) => dispatch(getAnalytics(_id, dateFrom, dateTo, deviceType))
   };
