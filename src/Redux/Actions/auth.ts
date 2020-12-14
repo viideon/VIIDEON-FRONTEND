@@ -15,6 +15,7 @@ export function verifyUser(token: any) {
   };
 }
 
+
 export function forgotPassword(email: any) {
   return {
     type: types.FORGOT_REQUEST,
@@ -31,6 +32,12 @@ export function resendEmail(email: any) {
   return {
     type: types.RESEND_EMAIL_REQUEST,
     payload: email.toLowerCase()
+  };
+}
+export function isEmailConfigured() {
+  return {
+    type: types.IS_EMAIL_CONFIGURED,
+    
   };
 }
 export function resetEmailVerifiedVariable() {

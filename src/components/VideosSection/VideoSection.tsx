@@ -4,7 +4,7 @@ import moment from "moment";
 import {
   Grid,
   // Checkbox,
-  Tooltip
+  Tooltip,
   // OutlinedInput,
 } from "@material-ui/core";
 import DeleteDialog from "../Reusable/DeleteDialog";
@@ -13,7 +13,7 @@ import {
   resetPage,
   searchUserVideos,
   deleteVideo,
-  emptyPage
+  emptyPage,
 } from "../../Redux/Actions/videos";
 import { thumbnailDefault } from "../../constants/constants";
 import VideoCard from "../VideoCard/VideoCard";
@@ -44,7 +44,7 @@ class VideoSection extends Component<IProps> {
   state = {
     searchText: "",
     gridView: true,
-    deleteDialog: false
+    deleteDialog: false,
   };
   constructor(props: any) {
     super(props);
@@ -75,7 +75,7 @@ class VideoSection extends Component<IProps> {
     if (e.target.value) {
       this.props.searchUserVideos({
         title: e.target.value,
-        videoType: this.props.videoType
+        videoType: this.props.videoType,
       });
     } else {
       this.props.emptyPage();
@@ -103,7 +103,7 @@ class VideoSection extends Component<IProps> {
   closeDeleteDialog = () => {
     this.setState({ deleteDialog: false });
   };
-  
+
   render() {
     const { userVideos, loadingVideos } = this.props;
     // const myvideos = userVideos.filter(c=> !c.isChatvid)
@@ -153,20 +153,22 @@ class VideoSection extends Component<IProps> {
         {gridView ? (
           <Grid container spacing={3}>
             {userVideos &&
-              userVideos.filter(c=> !c.isChatvid).map((video: any) => (
-                <Grid item xs={12} sm={6} md={4} lg={4} key={video._id}>
-                  <VideoCard
-                    title={video.title}
-                    url={video.url}
-                    thumbnail={video.thumbnail}
-                    id={video._id}
-                    deleteVideo={this.deleteVideo}
-                    date={video.date}
-                    video={video}
-                    onClick={() => this.navigateToVideoTab(video._id)}
-                  />
-                </Grid>
-              ))}
+              userVideos
+                .filter((c) => !c.isChatvid)
+                .map((video: any) => (
+                  <Grid item xs={12} sm={6} md={4} lg={4} key={video._id}>
+                    <VideoCard
+                      title={video.title}
+                      url={video.url}
+                      thumbnail={video.thumbnail}
+                      id={video._id}
+                      deleteVideo={this.deleteVideo}
+                      date={video.date}
+                      video={video}
+                      onClick={() => this.navigateToVideoTab(video._id)}
+                    />
+                  </Grid>
+                ))}
           </Grid>
         ) : (
           <div className="listWrapper">
@@ -185,18 +187,20 @@ class VideoSection extends Component<IProps> {
               </thead>
               <tbody>
                 {userVideos &&
-                  userVideos.filter(c=> !c.isChatvid).map((video: any) => (
-                    <ListViewCard
-                      key={video._id}
-                      date={video.date}
-                      title={video.title}
-                      thumbnail={video.thumbnail}
-                      deletingVideo={this.props.deletingVideo}
-                      deleteVideo={this.deleteVideo}
-                      id={video._id}
-                      navigateToVideo={this.navigateToVideoTab}
-                    />
-                  ))}
+                  userVideos
+                    .filter((c) => !c.isChatvid)
+                    .map((video: any) => (
+                      <ListViewCard
+                        key={video._id}
+                        date={video.date}
+                        title={video.title}
+                        thumbnail={video.thumbnail}
+                        deletingVideo={this.props.deletingVideo}
+                        deleteVideo={this.deleteVideo}
+                        id={video._id}
+                        navigateToVideo={this.navigateToVideoTab}
+                      />
+                    ))}
               </tbody>
             </table>
           </div>
@@ -219,7 +223,7 @@ const mapStateToProps = (state: any) => {
     loadingVideos: state.video.loadingVideos,
     loadMore: state.video.loadMore,
     deletingVideo: state.video.deletingVideo,
-    showDeleteDialog: state.video.showDeleteDialog
+    showDeleteDialog: state.video.showDeleteDialog,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
@@ -228,7 +232,7 @@ const mapDispatchToProps = (dispatch: any) => {
     resetPage: () => dispatch(resetPage()),
     deleteVideo: (id: any) => dispatch(deleteVideo(id)),
     searchUserVideos: (title: any) => dispatch(searchUserVideos(title)),
-    emptyPage: () => dispatch(emptyPage())
+    emptyPage: () => dispatch(emptyPage()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(VideoSection);
@@ -250,7 +254,7 @@ const ListViewCard: React.FC<IPropsListCard> = ({
   id,
   date,
   deletingVideo,
-  navigateToVideo
+  navigateToVideo,
 }) => {
   const [open, setOpen] = React.useState(false);
   const deleteAction = () => {

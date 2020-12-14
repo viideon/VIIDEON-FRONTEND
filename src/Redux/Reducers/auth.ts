@@ -1,6 +1,8 @@
 import { types, AuthState } from "../Types/auth";
 
-let initialState: AuthState = {};
+let initialState: AuthState = {
+  isEmailConfigured: false
+};
 
 const authReducer = (state = initialState, action: any) => {
   switch (action.type) {
@@ -9,6 +11,12 @@ const authReducer = (state = initialState, action: any) => {
         ...state,
         loading: true,
         loginError: false
+      };
+
+      case types.IS_EMAIL_CONFIGURED:
+      return {
+        ...state,
+        isEmailConfigured:true
       };
 
     case types.LOGIN_SUCCESS:

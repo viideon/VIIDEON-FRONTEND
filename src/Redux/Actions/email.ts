@@ -10,6 +10,8 @@ export function getEmailConfigurations() {
     type: types.GET_USER_EMAIL_CONFIG
   };
 }
+
+
 export function deleteEmailConfig(id: any) {
   return {
     type: types.DELETE_USER_CONFIG,

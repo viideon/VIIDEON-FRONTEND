@@ -22,6 +22,8 @@ const RESET_REQUEST: string = "RESET_REQUEST";
 const RESET_SUCCESS: string = "RESET_SUCCESS";
 const RESET_FAILURE: string = "RESET_FAILURE";
 
+const IS_EMAIL_CONFIGURED: string = "IS_EMAIL_CONFIGURED";
+
 const RESET_FORGOT_SUCCESS_VARIABLE: string = "RESET_FORGOT_SUCCESS_VARIABLE";
 const RESET_EMAIL_VERIFIED_VARIABLE: string = "RESET_EMAIL_VERIFIED_VARIABLE";
 
@@ -46,7 +48,8 @@ export const types = {
   RESEND_EMAIL_REQUEST,
   RESEND_EMAIL_SUCCESS,
   RESET_FORGOT_SUCCESS_VARIABLE,
-  RESET_EMAIL_VERIFIED_VARIABLE
+  RESET_EMAIL_VERIFIED_VARIABLE,
+  IS_EMAIL_CONFIGURED
 };
 interface Us {
   _id: string;
@@ -75,6 +78,7 @@ export interface AuthState {
   loading?: boolean;
   loginError?: string;
   token?: string;
+  isEmailConfigured: boolean
 }
 export interface LoginAction {
   type: typeof LOGIN_REQUEST;

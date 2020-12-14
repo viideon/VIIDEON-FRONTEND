@@ -9,15 +9,14 @@ import HeaderCard from "../../components/HeaderCards";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import { getVideoCount, getCampaignCount } from "../../Redux/Actions/videos";
-import {
-  getEmailConfigurations
-} from "../../Redux/Actions/email";
-import Button from '@material-ui/core/Button';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import { getEmailConfigurations } from "../../Redux/Actions/email";
+import { isEmailConfigured } from "../../Redux/Actions/auth";
+import Button from "@material-ui/core/Button";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import Styles from "./styles";
 import "./styles.css";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -27,15 +26,17 @@ type IProps = {
   campaignCount: number;
   viewCount: number;
   user: any;
+  auth: any;
   getEmailConfigurations: () => void;
   getVideoCount: () => void;
   getCampaignCount: () => void;
+  isEmailConfigured: () => void;
 };
 class Dashboard extends Component<IProps> {
   state = {
     showDashboard: true,
     showVideos: false,
-    emailNoteOpen: true,
+    emailNoteOpen: !this.props?.auth?.isEmailConfigured,
   };
   componentDidMount() {
     this.props.getVideoCount();
@@ -45,10 +46,13 @@ class Dashboard extends Component<IProps> {
   navigate = (show?: string) => {
     this.props.history.push({ pathname: "/video/create", show: show });
   };
-
+  EmailConfigStatus = () => {
+    this.props.isEmailConfigured();
+    this.props.history.push("/");
+  };
   render() {
-    const { user } = this.props;
-    console.log("props here", this.props)
+    const { user, auth } = this.props;
+
     return (
       <Home>
         <div className="wrapperDashboard">
@@ -149,11 +153,11 @@ class Dashboard extends Component<IProps> {
         </div>
 
         <Dialog
-          open={this.state.emailNoteOpen}
+          open={!auth.isEmailConfigured}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle style={{color: "#fdb415"}} id="alert-dialog-title">
+          <DialogTitle style={{ color: "#fdb415" }} id="alert-dialog-title">
             {"Kindly configure your gmail"}
           </DialogTitle>
           <DialogContent>
@@ -162,10 +166,18 @@ class Dashboard extends Component<IProps> {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => this.props.history.push(`/configuration`)} variant="outlined" color="primary">
+            <Button
+              onClick={() => this.props.history.push(`/configuration`)}
+              variant="outlined"
+              color="primary"
+            >
               Configure
             </Button>
-            <Button onClick={() => this.setState({ emailNoteOpen: false })} color="secondary" variant="outlined">
+            <Button
+              onClick={() => this.EmailConfigStatus()}
+              color="secondary"
+              variant="outlined"
+            >
               Later
             </Button>
           </DialogActions>
@@ -186,6 +198,7 @@ const mapStateToProps = (state: any) => {
     viewCount: state.video.viewCount,
     campaignCount: state.video.campaignCount,
     user: state.auth.user,
+    auth: state.auth,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
@@ -193,6 +206,7 @@ const mapDispatchToProps = (dispatch: any) => {
     getEmailConfigurations: () => dispatch(getEmailConfigurations()),
     getVideoCount: () => dispatch(getVideoCount()),
     getCampaignCount: () => dispatch(getCampaignCount()),
+    isEmailConfigured: () => dispatch(isEmailConfigured()),
   };
 };
 
