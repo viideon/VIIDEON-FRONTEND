@@ -127,8 +127,8 @@
 .mobileIconWrapper {
   border: 1px solid #fbd145;
   border-radius: 50%;
-  width: 140px;
-  height: 120px;
+  width: 115px;
+  height: 105px;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -145,7 +145,6 @@
 }
 .mobileIconWrapper .MuiTypography-subtitle1 {
   font-family: "Poppins";
-  font-size: x-large;
 }
 .IconWrapper .MuiTypography-subtitle1 {
   font-family: "Poppins";
