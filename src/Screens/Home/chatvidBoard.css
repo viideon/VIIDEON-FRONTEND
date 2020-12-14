@@ -67,7 +67,6 @@
   color: #273338 !important;
   font-family: "Open Sans" !important;
   margin-left: 1.5rem !important;
-
 }
 .openEndDetails {
   font-size: 0.8rem !important;
@@ -128,8 +127,10 @@
   font-size: 3rem;
 }
 
-._stepsDetailsBody .optionDiv .IconWrapper:hover , ._stepsDetailsBody .optionDiv .IconWrapper:hover .MuiSvgIcon-root, 
-._stepsDetailsBody .optionDiv .activeIcon, ._stepsDetailsBody .optionDiv .activeIcon .MuiSvgIcon-root{
+._stepsDetailsBody .optionDiv .IconWrapper:hover,
+._stepsDetailsBody .optionDiv .IconWrapper:hover .MuiSvgIcon-root,
+._stepsDetailsBody .optionDiv .activeIcon,
+._stepsDetailsBody .optionDiv .activeIcon .MuiSvgIcon-root {
   background: #fdb415 !important;
   color: #ffffff !important;
 }
@@ -141,15 +142,13 @@
 }
 ._stepTYPEandIcon .MuiSvgIcon-root {
   font-size: 2em;
-  
 }
-._stepTYPEandIcon .MuiTypography-root { 
+._stepTYPEandIcon .MuiTypography-root {
   font-size: 1.5rem;
   margin-left: 8px;
   font-weight: bold;
 }
 ._step_NO {
-
 }
 ._whiteCircle {
   color: #000000;
@@ -164,7 +163,6 @@
 }
 ._stepsDetailsBody {
   justify-content: space-between;
-
 }
 
 ._stepsDetailsResWrapper {
@@ -174,7 +172,6 @@
   padding: 1%;
 }
 
-
 .dashChatvidTopHeaderWrapper {
   margin-bottom: 2%;
 }
@@ -182,12 +179,11 @@
   display: flex;
   flex-direction: column;
   align-content: flex-end;
-
 }
 .dashChatvidTopHeaderWrapper .sendChatvidBTNWrapper {
   display: contents;
 }
-.dashChatvidTopHeaderWrapper .sendChatvidBTNWrapper .MuiButton-contained{
+.dashChatvidTopHeaderWrapper .sendChatvidBTNWrapper .MuiButton-contained {
   width: 70% !important;
   font-size: xx-large;
   text-transform: none !important;
@@ -229,10 +225,16 @@
   border-radius: 8px;
   overflow: hidden;
 }
-.dashChatvidTopHeaderWrapper .copyChatvidURL .MuiPaper-elevation1 .MuiButtonBase-root{
+.dashChatvidTopHeaderWrapper
+  .copyChatvidURL
+  .MuiPaper-elevation1
+  .MuiButtonBase-root {
   background: #fdb415 !important;
 }
-.dashChatvidTopHeaderWrapper .copyChatvidURL .MuiPaper-elevation1 .MuiInputBase-root{
+.dashChatvidTopHeaderWrapper
+  .copyChatvidURL
+  .MuiPaper-elevation1
+  .MuiInputBase-root {
   margin-left: 0.4em !important;
   font-size: small;
   font-weight: bold;
@@ -317,7 +319,7 @@
   overflow: hidden;
   margin-bottom: 2%;
 }
-.replyWrapper_DASH .MuiGrid-grid-xs-2{
+.replyWrapper_DASH .MuiGrid-grid-xs-2 {
   background: #f2f2f2;
   display: flex;
   flex-direction: column;
@@ -326,7 +328,7 @@
   padding: 1%;
   justify-content: center;
 }
-.replyWrapper_DASH .avatarWrapper{
+.replyWrapper_DASH .avatarWrapper {
   background: #fdb415;
   border-radius: 50%;
   width: fit-content;
@@ -341,20 +343,18 @@
   text-align: center;
 }
 
-
-
 ._stepTabsChoices {
   justify-content: space-between;
   padding: 0px;
   max-height: 65px !important;
 }
-._choiceProgressBar{
-/* background-color: #f0cc79; */
-padding: 2.5%;
-border-bottom-left-radius: 7px;
-border-top-left-radius: 7px;
+._choiceProgressBar {
+  /* background-color: #f0cc79; */
+  padding: 2.5%;
+  border-bottom-left-radius: 7px;
+  border-top-left-radius: 7px;
 }
-._choiceProgressBar h5{
+._choiceProgressBar h5 {
   margin: 1px;
   color: #000000;
   font-weight: 400 !important;
@@ -367,18 +367,16 @@ border-top-left-radius: 7px;
   width: 95px;
   border-bottom-right-radius: 7px;
   border-top-right-radius: 7px;
-
 }
 ._s h3 {
- font-size: 1.5rem;
- font-weight: 400;
- color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #ffffff;
 }
 ._P {
   color: #ffffff;
   font-weight: 400;
 }
-
 
 .AddMoreSteps {
   justify-content: center;
@@ -389,8 +387,6 @@ border-top-left-radius: 7px;
   cursor: pointer;
   border-radius: 8px;
 }
-
-
 
 /* METRICS */
 
@@ -413,12 +409,16 @@ border-top-left-radius: 7px;
   padding-right: 6%;
 }
 ._statsLabel {
-
 }
 .chartGraphContainer {
   padding: 1%;
 }
 /* END Chatvid.tsx */
+@media only screen and (max-width: 1100px) {
+  .chatVidInfoShareOptions {
+    margin-left: 1px;
+  }
+}
 @media only screen and (max-width: 768px) {
   .wrapperHomeContent {
     margin-left: 0px;
@@ -430,6 +430,10 @@ border-top-left-radius: 7px;
   }
   .wrapperChatvidDashboard {
     margin-top: 35px;
+  }
+  .dashChatvidTopHeaderWrapper .MuiGrid-grid-lg-4 {
+    flex-direction: column;
+    align-content: flex-end;
   }
 }
 
@@ -467,14 +471,10 @@ border-top-left-radius: 7px;
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
-  
   ._choiceProgressBar {
     max-width: 80% !important;
-}
-  
+  }
 }
 @media (min-width: 1025px) and (max-width: 1280px) {
-  
   /* CSS */
-  
 }
