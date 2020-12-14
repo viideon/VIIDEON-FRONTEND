@@ -27,14 +27,7 @@ export function getMetrics(payload: any) {
   return API.post(`/chatvid/metrics/${payload.chatvidId}`, payload);
 }
 export function chatVidDelete(payload: any) {
-
-    console.log("api",payload)
-  
-  
-  // return API.delete("/chatvid", {
-  //   params: { chatvidId: payload }
-  // });
-  
+  return API.delete(`/chatvid/delete/${payload}`);
 }
 
 

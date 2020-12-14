@@ -43,15 +43,15 @@ class ResponseType extends Component<any> {
           <div className="actionTab">
             <CancelIcon className="tabCancelHead" onClick={() => this.props.history.push("/")} />
             <Typography variant="h6" className="topHeading">Alright!</Typography>
-            <Typography variant="h6" className="QuestionHeading">How do you want people to asnwer?</Typography>
+            <Typography variant="h6" className="QuestionHeading">How would you like people to answer?</Typography>
 
-            <Grid container className="optionCardWrapper" onClick={() => this.handleNext("Open-ended")}>
+            <Grid container className="optionCardWrapper" style={{backgroundColor: "#f0cc79"}} onClick={() => this.handleNext("Open-ended")}>
               <Grid item sm={2} md={2} lg={2}>
                 <PhotoLibraryIcon className="cardImg" />
               </Grid>
               <Grid item sm={10} md={10} lg={10} className="cardBody">
-                <Typography variant="h6">Open-ended</Typography>
-                <Typography variant="subtitle1" >Collect video, audio, text, and emoji reacts</Typography>
+                <Typography variant="h6">Video, Audio, or Text</Typography>
+                <Typography variant="subtitle1" >Collect video, audio, text</Typography>
               </Grid>
             </Grid>
             <Grid container className="optionCardWrapper" onClick={() => this.handleNext("Multiple-Choice")}>

@@ -137,6 +137,7 @@ function* saveMetricsSaga(action: any) {
 }
 
 function* getMetricsData(action: any) {
+  console.log("getAnalytics in saga")
   try {
     const payload = action.payload;
     const result = yield getMetrics(payload);
@@ -152,11 +153,14 @@ function* deleteChatVid(action: any) {
   try {
     const payload = action.payload;
     const result = yield chatVidDelete(payload);
-    // if (result.status === 200) {
-    //   return yield put({ type: types.DELETE_CHATVID_SUCCESS });
-    // }
+    if (result.status === 200) {
+      toast.success(result.data?.message || "Succesful.");
+      action.history.push("/chatvids")
+      return yield put({ type: types.DELETE_CHATVID_SUCCESS });
+    }
   } catch (error) {
-    // yield put({  });
+    yield put({ type: types.DELETE_CHATVID_FAILURE });
+    toast.error(error.message || "There is some error.");
   }
 }
 export function* chatVidWatcher() {

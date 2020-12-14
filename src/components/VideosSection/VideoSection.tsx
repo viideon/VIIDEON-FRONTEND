@@ -30,7 +30,7 @@ type IProps = {
   getUserVideos?: any;
   searchUserVideos: (title: any) => void;
   resetPage: () => void;
-  userVideos: object[];
+  userVideos: Array<any>;
   loadingVideos: boolean;
   loadMore: boolean;
   deleteVideo: (id: any) => void;
@@ -103,8 +103,12 @@ class VideoSection extends Component<IProps> {
   closeDeleteDialog = () => {
     this.setState({ deleteDialog: false });
   };
+  
   render() {
     const { userVideos, loadingVideos } = this.props;
+    // const myvideos = userVideos.filter(c=> !c.isChatvid)
+    // console.log("userVideos videos", userVideos)
+    // console.log("myvideos videos", myvideos)
     const { gridView } = this.state;
     let videoTitle;
     if (this.props.videoType === "allVideos") {
@@ -149,7 +153,7 @@ class VideoSection extends Component<IProps> {
         {gridView ? (
           <Grid container spacing={3}>
             {userVideos &&
-              userVideos.map((video: any) => (
+              userVideos.filter(c=> !c.isChatvid).map((video: any) => (
                 <Grid item xs={12} sm={6} md={4} lg={4} key={video._id}>
                   <VideoCard
                     title={video.title}
@@ -181,7 +185,7 @@ class VideoSection extends Component<IProps> {
               </thead>
               <tbody>
                 {userVideos &&
-                  userVideos.map((video: any) => (
+                  userVideos.filter(c=> !c.isChatvid).map((video: any) => (
                     <ListViewCard
                       key={video._id}
                       date={video.date}

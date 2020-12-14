@@ -66,9 +66,10 @@ export function updateJump(payload: any) {
   }
 }
 
-export function deletechatvid(payload: any) {
+export function deletechatvid(payload: any , history: any) {
   return {
     type: types.DELETE_CHATVID_REQUEST,
-    payload
+    payload,
+    history,
   }
 }

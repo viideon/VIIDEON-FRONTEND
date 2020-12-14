@@ -9,9 +9,6 @@ import {
 import classname from "classnames";
 import Colors from "../../constants/colors";
 import ThemeButton from "../../components/ThemeButton";
-
-import DeleteDialog from "../../components/Reusable/DeleteDialog";
-
 import { toast } from "react-toastify";
 
 import { Grid, Typography } from "@material-ui/core";
@@ -85,6 +82,7 @@ type IProps = {
   history: any;
   user: any;
   chatvid: any;
+  deletechatvid: (_id: string, history: any) => void;
   getChatvids: () => void;
   getAnalytics: (
     _id: string,
@@ -92,9 +90,7 @@ type IProps = {
     dateTo: any,
     deviceType: string
   ) => void;
-  deletechatvid: (_id: string) => void;
 };
-
 class Dashboard extends Component<IProps> {
   state = {
     tab: 0,
@@ -843,8 +839,8 @@ const Chart = (props: any) => {
 };
 
 const InfoHeader = (props: any) => {
-  const handleDeleteChatvid = (id: any) => {
-    props.deletechatvid(id);
+  const handleDeleteChatvid = (chatvid: any) => {
+    props.deletechatvid(chatvid, props.history);
   };
   const [open, setOpen] = React.useState(false);
   const { chatvid } = props;
@@ -876,27 +872,17 @@ const InfoHeader = (props: any) => {
               {" "}
               <EditIcon /> Edit{" "}
             </div>
-            <div onClick={() => alert("under progress")}>
+            <div onClick={() => alert("Feature Coming Soon")}>
               {" "}
               <FileCopyIcon /> Duplicate
             </div>
-            <div onClick={() => alert("under progress")}>
+            <div onClick={() => alert("Feature Coming Soon")}>
               {" "}
               <SettingsRoundedIcon /> Settings
             </div>
-            <div
-              onClick={() => {
-                if (
-                  window.confirm(
-                    "Are you sure? you want to delete your account permanently"
-                  )
-                ) {
-                  handleDeleteChatvid(chatvid._id);
-                }
-              }}
-            >
+            <div onClick={() => handleDeleteChatvid(chatvid._id)}>
               {" "}
-              <DeleteIcon /> Delete{" "}
+              <DeleteIcon /> Delete
             </div>
           </div>
         </Grid>
@@ -967,7 +953,7 @@ const InfoHeader = (props: any) => {
           <LinkedinShareButton url={url}>
             <LinkedinIcon size={32} round />
           </LinkedinShareButton>
-          <EmailShareButton url={url} subject={title} body="body">
+          <EmailShareButton url={url} subject={title} body={""}>
             <EmailIcon size={32} round />
           </EmailShareButton>
           <RedditShareButton
@@ -1016,6 +1002,8 @@ const mapStateToProps = (state: any) => {
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    deletechatvid: (_id: string, history: any) =>
+      dispatch(deletechatvid(_id, history)),
     getChatvids: () => dispatch(getChatvids()),
     getAnalytics: (
       _id: string,
@@ -1023,7 +1011,6 @@ const mapDispatchToProps = (dispatch: any) => {
       dateTo: any,
       deviceType: string
     ) => dispatch(getAnalytics(_id, dateFrom, dateTo, deviceType)),
-    deletechatvid: (_id: string) => dispatch(deletechatvid(_id)),
   };
 };
 
