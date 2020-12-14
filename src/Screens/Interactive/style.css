@@ -10,15 +10,15 @@
 }
 
 /* PREVIEW TABSSS */
-.textpreview{
+.textpreview {
   background: white;
   margin-left: 10px;
   font-size: 20px;
   margin: 0px;
-    text-align: center;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-  color:#fdb415
+  text-align: center;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  color: #fdb415;
 }
 .previewTab {
   height: inherit;
@@ -46,7 +46,7 @@
 .chatvidPreviewWrapper {
   margin: 4%;
 }
-.chatvidPreviewWrapper svg{
+.chatvidPreviewWrapper svg {
   color: #ffffff;
 }
 .chatvidPreviewWrapper .responseTypeWrapper {
@@ -59,12 +59,27 @@
 /* .chatvidPreviewWrapper .responseTypeWrapper .mainVideoContainer .MuiGrid-item{
   margin-top: 0px !important;
 } */
-.chatvidPreviewWrapper .responseTypeWrapper .mainVideoContainer .MuiGrid-item .overLayText{
+.chatvidPreviewWrapper
+  .responseTypeWrapper
+  .mainVideoContainer
+  .MuiGrid-item
+  .overLayText {
   width: calc(100% - 70%);
   top: auto;
-  height: 70%
+  height: 90%;
 }
-.chatvidPreviewWrapper .responseTypeWrapper .optionDiv{
+.videoText {
+  min-height: 40%;
+  max-height: 40%;
+  min-width: 100%;
+  overflow-wrap: anywhere;
+  overflow: auto;
+}
+.videoScreen {
+  min-height: 40%;
+  max-height: 40%;
+}
+.chatvidPreviewWrapper .responseTypeWrapper .optionDiv {
   background: #ffffff;
   overflow: hidden;
   padding-bottom: 10%;
@@ -96,7 +111,7 @@
 .expandWindow {
   color: green !important;
 }
-.previewSearchHead { 
+.previewSearchHead {
   background: gainsboro;
   display: flex;
   align-items: center;
@@ -113,8 +128,6 @@
 .reverse {
   transform: rotate(180deg);
 }
-
-
 
 .chatvidPreviewWrapper .responseTypeWrapper .IconWrapper {
   width: 140px;
@@ -253,7 +266,6 @@
   align-items: center;
   height: 100% !important;
   margin: 6px;
-
 }
 .qualityItemWrapper .MuiFormLabel-root {
   color: #ffffff;
@@ -271,7 +283,12 @@
 .qualityItemWrapper svg {
   color: #ffffff !important;
 }
-.qualityItemWrapper .MuiInputBase-root ::after, .qualityItemWrapper .MuiInputBase-root :active, .qualityItemWrapper .MuiInputBase-root :focus, .qualityItemWrapper .MuiInputBase-root :hover, .qualityItemWrapper .MuiInputBase-root :visited, .qualityItemWrapper .MuiInputBase-root ::before {
+.qualityItemWrapper .MuiInputBase-root ::after,
+.qualityItemWrapper .MuiInputBase-root :active,
+.qualityItemWrapper .MuiInputBase-root :focus,
+.qualityItemWrapper .MuiInputBase-root :hover,
+.qualityItemWrapper .MuiInputBase-root :visited,
+.qualityItemWrapper .MuiInputBase-root ::before {
   border: none !important;
   outline: none !important;
 }
@@ -333,7 +350,6 @@
   font-size: 1rem !important;
 }
 .actionTab #OverLayText {
-
 }
 .textOverLayWrapper {
   padding-top: 2%;
@@ -367,7 +383,8 @@
 .textAdjustmentWrapper .MuiToggleButton-root:hover {
   background: #fdb415;
 }
-.textAdjustmentWrapper button:focus, .textAdjustmentWrapper .Mui-selected {
+.textAdjustmentWrapper button:focus,
+.textAdjustmentWrapper .Mui-selected {
   outline: none;
   background: #fdb415 !important;
   color: #ffffff;
@@ -434,13 +451,14 @@
 .optionCardWrapper .MuiGrid-grid-sm-2 svg {
   width: 40% !important;
   height: 40% !important;
-  color: #3a94d2 ;
+  color: #3a94d2;
 }
 .optionCardWrapper:hover {
   background: #fdb415;
   border: 2px solid #fdb415;
 }
-.optionCardWrapper:hover svg, .optionCardWrapper:hover .MuiTypography-root {
+.optionCardWrapper:hover svg,
+.optionCardWrapper:hover .MuiTypography-root {
   color: #ffffff;
 }
 .cardBody .MuiTypography-root {
@@ -465,11 +483,12 @@
   align-self: center;
 }
 .ChoiceTxt .MuiTypography-subtitle1 {
-  color:  #3a94d2;
+  color: #3a94d2;
   font-family: "Poppins" !important;
   font-weight: bold !important;
 }
-.ChoiceInput, .ChoiceInput:focus {
+.ChoiceInput,
+.ChoiceInput:focus {
   border: none !important;
   outline: none !important;
   width: 100%;
@@ -508,7 +527,6 @@
   color: #3a94d2;
 }
 .addCalandarInputWrapper {
-
 }
 .linkInput {
   width: 100%;
@@ -572,13 +590,10 @@
 
 /* Edit chatvid */
 .EditChatvidMainContainer {
-
 }
 .EditChatvidMainContainer .finalTabHeader {
-  
 }
 .EditChatvidMainContainer .finalTabHeader .finalCancel {
-
 }
 .stepperWrapperContainer {
   display: flex;
@@ -623,7 +638,6 @@
 .EditChatvidMainContainer .MuiStepLabel-horizontal {
   flex-direction: column-reverse;
   justify-content: space-between;
-
 }
 .stepLogicContainer {
   margin-bottom: 12px;
@@ -659,8 +673,6 @@
   .interActiveRecorderContainer {
     margin-top: 22%;
   }
-
-
 }
 @media only screen and (max-width: 400px) {
   .interActiveRecorderContainer {
@@ -679,5 +691,11 @@
   .chatvidPreviewWrapper .responseTypeWrapper {
     overflow: hidden !important;
     height: 680px !important;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .previewTabswrapper {
+    display: none;
   }
 }

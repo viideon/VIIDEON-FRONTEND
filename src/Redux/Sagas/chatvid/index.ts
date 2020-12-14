@@ -152,9 +152,9 @@ function* deleteChatVid(action: any) {
   try {
     const payload = action.payload;
     const result = yield chatVidDelete(payload);
-    if (result.status === 200) {
-      return yield put({ type: types.DELETE_CHATVID_SUCCESS });
-    }
+    // if (result.status === 200) {
+    //   return yield put({ type: types.DELETE_CHATVID_SUCCESS });
+    // }
   } catch (error) {
     // yield put({  });
   }

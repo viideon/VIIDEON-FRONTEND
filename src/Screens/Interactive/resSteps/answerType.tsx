@@ -560,31 +560,33 @@ class FinalTab extends Component<any> {
             <div
               className="overLayText"
               style={{
-                alignItems,
-                justifyContent,
-                display
-                
+                display: "flex",
+                flexDirection: "column",
               }}
             >
-<div>
-
-              <Typography
-                variant="h4"
-                style={{
-                  fontSize: fontSize ? fontSize : "x-large",
-                  fontWeight: fontWeight ? "bold" : "normal",
-                  fontStyle: fontStyle ? "italic" : "",
-                  textDecoration: textDecoration ? "underline" : "none",
-                }}
-              >
-                {" "}
-                {overlayTxt ? overlayTxt : text}{" "}
-              </Typography>
+              <div className="videoText">
+                <Typography
+                  variant="h4"
+                  style={{
+                    fontSize: fontSize ? fontSize : "x-large",
+                    fontWeight: fontWeight ? "bold" : "normal",
+                    fontStyle: fontStyle ? "italic" : "",
+                    textDecoration: textDecoration ? "underline" : "none",
+                  }}
+                >
+                  {" "}
+                  {overlayTxt ? overlayTxt : text}{" "}
+                </Typography>
               </div>
               {this.props.screenType !== "web" && (
-                <div className="mobileType">
-                  {/* <h1>How would u like to answer</h1> */}
-                  <MobileOpenEndedType />
+                <div className="videoScreen">
+                  <MobileOpenEndedType
+                    {...this.props}
+                    {...this.state}
+                    handleTabChange={this.handleTabChange}
+                    send={this.handleSend}
+                    handleChoice={this.handleChoiceAndCalender}
+                  />
                 </div>
               )}
             </div>
@@ -662,29 +664,130 @@ class FinalTab extends Component<any> {
     );
   }
 }
+// const MobileOpenEndedType = (props: any) => {
+//   return (
+
+//       <div>
+//         <div className=" mobilecaptionDiv">
+//           <Typography variant="h3">How Would You like to answer?</Typography>
+//         </div>
+//         <div className="mobileoptionDiv">
+//           <div className="mobileIconWrapper">
+//             <Typography variant="h1">Tt</Typography>
+//             <Typography variant="subtitle1"> Text </Typography>
+//           </div>
+//           <div className="mobileIconWrapper">
+//             <VolumeUpRoundedIcon />
+//             <Typography variant="subtitle1"> Audio </Typography>
+//           </div>
+//           <div className="mobileIconWrapper">
+//             <VideocamRoundedIcon />
+//             <Typography variant="subtitle1"> Video </Typography>
+//           </div>
+//         </div>
+//       </div>
+
+//   );
+// };
 const MobileOpenEndedType = (props: any) => {
+  const {
+    handleChoice,
+    handleTabChange,
+    send,
+    resChatvid,
+    preview,
+    resType,
+    screenType,
+  } = props;
+
+  let { steps, userId } = resChatvid;
+  let { responseType, choices, calendar } = steps
+    ? steps[props.currentStepNo]
+    : { responseType: "", choices: "", calendar: "" };
+  if (preview) {
+    responseType = resType;
+    choices = props.choices;
+    calendar = props.calendar;
+    userId = props.auth.user;
+  }
   return (
-    
-      <div>
-        <div className=" mobilecaptionDiv">
-          <Typography variant="h3">How Would You like to answer?</Typography>
-        </div>
-        <div className="mobileoptionDiv">
-          <div className="mobileIconWrapper">
-            <Typography variant="h1">Tt</Typography>
-            <Typography variant="subtitle1"> Text </Typography>
-          </div>
-          <div className="mobileIconWrapper">
-            <VolumeUpRoundedIcon />
-            <Typography variant="subtitle1"> Audio </Typography>
-          </div>
-          <div className="mobileIconWrapper">
-            <VideocamRoundedIcon />
-            <Typography variant="subtitle1"> Video </Typography>
-          </div>
-        </div>
+    <>
+      <div className="mobilecaptionDiv">
+        <Typography variant="h3">
+          {responseType === "Open-ended"
+            ? "How Would You like to answer?"
+            : responseType === "Multiple-Choice"
+            ? "Choose a response"
+            : `Schedule a meeting with ${userId.firstName || userId.lastName}.`}
+        </Typography>
       </div>
-    
+
+      <div className="mobileoptionDiv">
+        {responseType === "Open-ended" ? (
+          <>
+            <div
+              className="mobileIconWrapper"
+              onClick={() => {
+                handleTabChange(1);
+              }}
+            >
+              <Typography variant="h1">Tt</Typography>
+              <Typography variant="subtitle1"> Text </Typography>
+            </div>
+            <div
+              className="mobileIconWrapper"
+              onClick={() => {
+                handleTabChange(2);
+              }}
+            >
+              <VolumeUpRoundedIcon style={{ fontSize: "50px" }} />
+              <Typography variant="subtitle1"> Audio </Typography>
+            </div>
+            <div
+              className="mobileIconWrapper"
+              onClick={() => {
+                handleTabChange(3);
+              }}
+            >
+              <VideocamRoundedIcon style={{ fontSize: "50px" }} />
+              <Typography variant="subtitle1"> Video </Typography>
+            </div>
+          </>
+        ) : responseType === "Multiple-Choice" ? (
+          <div className="optionsWrapper">
+            {choices &&
+              choices.length > 0 &&
+              choices.map((choice: any, ind: number) => {
+                return (
+                  <div
+                    className="_choiceOption"
+                    onClick={() => {
+                      handleChoice(choice._id, "choiceId");
+                      send();
+                    }}
+                  >
+                    <Typography variant="h5">
+                      {" "}
+                      {preview ? choice : choice.text}{" "}
+                    </Typography>
+                  </div>
+                );
+              })}
+          </div>
+        ) : (
+          <>
+            {calendar && (
+              <InlineWidget
+                url={calendar}
+                styles={{ width: "100%", height: "100%" }}
+              />
+            )}
+
+            {/* <Button> Book a meeting </Button> */}
+          </>
+        )}
+      </div>
+    </>
   );
 };
 
@@ -712,9 +815,7 @@ const OpenEndedType = (props: any) => {
   return (
     <>
       <div style={{ height: "100%", backgroundColor: "white" }}>
-        <div className="preview">
-          
-        </div>
+        <div className="preview"></div>
         <div className="captionDiv">
           <Typography variant="h3">
             {responseType === "Open-ended"
