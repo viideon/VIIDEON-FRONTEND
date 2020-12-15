@@ -5,6 +5,7 @@ import {
   getChatvids,
   getAnalytics,
   deletechatvid,
+  mobileViewChatVid
 } from "../../Redux/Actions/chatvid";
 import classname from "classnames";
 import Colors from "../../constants/colors";
@@ -82,8 +83,10 @@ type IProps = {
   history: any;
   user: any;
   chatvid: any;
+  mobileView:any
   deletechatvid: (_id: string, history: any) => void;
   getChatvids: () => void;
+  mobileViewChatVid:(v:any)=>void;
   getAnalytics: (
     _id: string,
     dateFrom: any,
@@ -854,39 +857,46 @@ const InfoHeader = (props: any) => {
   };
 
   return (
+    <>
+    <div className="shuffleButton" >
+      <button className="backButton" onClick={()=>props.mobileViewChatVid("showSideBar")}>Back</button>
+    </div>
     <Grid container className="dashChatvidTopHeaderWrapper">
+    
       <Grid className="chatVidInfoGrid" container xs={12} sm={12} md={8} lg={8}>
-        <Grid item xs={1} sm={1} md={2} lg={2}>
+        <Grid className="thumbnail" item xs={2} sm={2} md={2} lg={2}>
           <div className="thumbnailInChatvidHead">
             <img src={chatvid?.thumbnail} alt="thumbnail" />
           </div>
         </Grid>
-        <Grid item xs={10} sm={10} md={8} lg={8}>
-          <Typography variant="h3"> {chatvid?.name} </Typography>
-          <div className="chatvidEditToolsWrapper">
-            <div
-              onClick={() =>
-                props.history.push(`/chatvids/edit/${chatvid && chatvid._id}`)
-              }
-            >
-              {" "}
-              <EditIcon /> Edit{" "}
+        <Grid className="chatVidShareOptions" item xs={10} sm={10} md={8} lg={8}>
+            <Typography variant="h3"> {chatvid?.name} </Typography>
+            <div className="chatvidEditToolsWrapper">
+              <div
+                onClick={() =>
+                  props.history.push(`/chatvids/edit/${chatvid && chatvid._id}`)
+                }
+              >
+                {" "}
+                <EditIcon /> Edit{" "}
+              </div>
+              <div onClick={() => alert("Feature Coming Soon")}>
+                {" "}
+                <FileCopyIcon /> Duplicate
+              </div>
+              <div onClick={() => alert("Feature Coming Soon")}>
+                {" "}
+                <SettingsRoundedIcon /> Settings
+              </div>
+              <div onClick={() => handleDeleteChatvid(chatvid._id)}>
+                {" "}
+                <DeleteIcon /> Delete
+              </div>
             </div>
-            <div onClick={() => alert("Feature Coming Soon")}>
-              {" "}
-              <FileCopyIcon /> Duplicate
-            </div>
-            <div onClick={() => alert("Feature Coming Soon")}>
-              {" "}
-              <SettingsRoundedIcon /> Settings
-            </div>
-            <div onClick={() => handleDeleteChatvid(chatvid._id)}>
-              {" "}
-              <DeleteIcon /> Delete
-            </div>
-          </div>
         </Grid>
+        
       </Grid>
+      
       <Grid
         className="chatVidInfoShareOptions"
         container
@@ -953,7 +963,7 @@ const InfoHeader = (props: any) => {
           <LinkedinShareButton url={url}>
             <LinkedinIcon size={32} round />
           </LinkedinShareButton>
-          <EmailShareButton url={url} subject={title} body={""}>
+          <EmailShareButton url={url} subject={title} body={"a"}>
             <EmailIcon size={32} round />
           </EmailShareButton>
           <RedditShareButton
@@ -967,6 +977,7 @@ const InfoHeader = (props: any) => {
         </DialogContent>
       </Dialog>
     </Grid>
+    </>
   );
 };
 const classes = {
@@ -998,6 +1009,7 @@ const mapStateToProps = (state: any) => {
     user: state.auth.user,
     chatvid: state.chatvids.selectedChatvid,
     stats: state.chatvids.stats,
+    mobileView:state.chatvids.mobileViewChatVid
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
@@ -1005,6 +1017,7 @@ const mapDispatchToProps = (dispatch: any) => {
     deletechatvid: (_id: string, history: any) =>
       dispatch(deletechatvid(_id, history)),
     getChatvids: () => dispatch(getChatvids()),
+    mobileViewChatVid: (v:any) => dispatch(mobileViewChatVid(v)),
     getAnalytics: (
       _id: string,
       dateFrom: any,

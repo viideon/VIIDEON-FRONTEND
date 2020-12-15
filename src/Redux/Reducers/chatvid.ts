@@ -6,6 +6,7 @@ let initialState: any = {
   resChatvid: {},
   selectedChatvid: {},
   stats: {},
+  mobileViewChatVid:"desktop"
 };
 const chatvidReducer = (state = initialState, action: any) => {
   switch (action.type) {
@@ -21,6 +22,8 @@ const chatvidReducer = (state = initialState, action: any) => {
       return { ...state, stats: action.payload };
     case types.DELETE_CHATVID_SUCCESS:
       return { ...state, chatvids: action.payload };
+      case types.MOBILE_VIEW_CHAT_VID:
+      return { ...state, mobileViewChatVid: action.payload };
     default: {
       return state;
     }

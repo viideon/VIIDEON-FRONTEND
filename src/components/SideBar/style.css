@@ -11,8 +11,8 @@
   transition: left 1s cubic-bezier(0.82, 0.085, 0.395, 0.895);
 
   overflow-y: hidden;
-  margin-bottom: 5%;
-  padding-bottom: 5%;
+  margin-bottom: 10%;
+  /* padding-bottom: 5%; */
 }
 .vertIcon {
   cursor: pointer;
@@ -141,7 +141,18 @@
 }
 @media only screen and (max-width: 768px) {
   .MainDrawer {
-    display: none;
-    transform: translateX(-1000%);
+    /* display: none;
+    transform: translateX(-1000%); */
+    width:100%
+    
   }
+  .wrapperHomeContent{
+    /* display:none */
+  }
+  .maindrawer{
+    display:none
+  }
+  /* .wrapperBody{
+    display:none
+  } */
 }

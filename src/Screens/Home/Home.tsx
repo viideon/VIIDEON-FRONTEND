@@ -19,6 +19,7 @@ type IProps = {
   location?: any;
   getAssets: () => void;
   getMusicAsset: () => void;
+  mobileview:any
 };
 
 class Home extends Component<IProps> {
@@ -54,8 +55,13 @@ class Home extends Component<IProps> {
               logout={logout}
             />
         }
+        {console.log("in home",this.props.mobileview)}
+        
         <div
           className={drawer ? "wrapperHomeContent" : "wrapperHomeContentFull"}
+          style={{
+            display: this.props.mobileview === "showSideBar" ? "none" : "inherit"
+          }}
         >
           {this.props.children}
         </div>
@@ -66,7 +72,8 @@ class Home extends Component<IProps> {
 
 const mapStateToProps = (state: any) => {
   return {
-    drawer: state.drawer.drawer
+    drawer: state.drawer.drawer,
+    mobileview:state.chatvids.mobileViewChatVid
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
