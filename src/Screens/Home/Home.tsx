@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import classname from "classnames";
 import { getEmailConfigurations } from "../../Redux/Actions/email";
 import { getAssets, getMusicAsset } from "../../Redux/Actions/asset";
 import { logout } from "../../Redux/Actions/auth";
 import SideBar from "../../components/SideBar/SideBar";
-import ChatVidBar from '../../components/SideBar/chatvidBar'
+import ChatVidBar from "../../components/SideBar/chatvidBar";
 // import Tooltip from "@material-ui/core/Tooltip";
 // import LogoutModal from "../../components/Modals/logout";
 import Header from "../../components/Header/Header";
@@ -19,7 +19,7 @@ type IProps = {
   location?: any;
   getAssets: () => void;
   getMusicAsset: () => void;
-  mobileview:any
+  mobileview: any;
 };
 
 class Home extends Component<IProps> {
@@ -29,38 +29,57 @@ class Home extends Component<IProps> {
     this.props.getAssets();
     this.props.getMusicAsset();
   }
+
   state = {
-    logoutModal: false
+    logoutModal: false,
   };
   toggleLogoutModal = () => {
     this.setState({ logoutModal: !this.state.logoutModal });
   };
+  // location = useLocation();
   render() {
     const { drawer, logout } = this.props;
-    const isChatvid = (this.props.history.location.pathname.indexOf("/chatvids")) > -1 ? true : false;
+    const isChatvid =
+      this.props.history.location.pathname.indexOf("/chatvids") > -1
+        ? true
+        : false;
     return (
-      <div className={classname({ videonAppWrapper: isChatvid ? false : true, videonChatvidAppWrapper: isChatvid })}>
+      <div
+        className={classname({
+          videonAppWrapper: isChatvid ? false : true,
+          videonChatvidAppWrapper: isChatvid,
+        })}
+      >
         <Header />
-        {
-          !isChatvid ?
-            <SideBar
-              history={this.props.history}
-              location={this.props.location}
-              logout={logout}
-            />
-            :
-            <ChatVidBar
-              history={this.props.history}
-              location={this.props.location}
-              logout={logout}
-            />
-        }
-        {console.log("in home",this.props.mobileview)}
-        
+        {!isChatvid ? (
+          <SideBar
+            history={this.props.history}
+            location={this.props.location}
+            logout={logout}
+          />
+        ) : (
+          <ChatVidBar
+            history={this.props.history}
+            location={this.props.location}
+            logout={logout}
+          />
+        )}
+        {console.log(
+          "in home",
+          this.props.mobileview,
+          this.props.location.pathname[2]
+        )}
+
         <div
-          className={drawer ? "wrapperHomeContent" : "wrapperHomeContentFull"}
+          className={`chatvidBody ${
+            drawer ? "wrapperHomeContent" : "wrapperHomeContentFull"
+          }`}
           style={{
-            display: this.props.mobileview === "showSideBar" ? "none" : "inherit"
+            display:
+              this.props.mobileview === "showSideBar" &&
+              this.props.location.pathname[2] == "h"
+                ? "none"
+                : "inherit",
           }}
         >
           {this.props.children}
@@ -73,7 +92,7 @@ class Home extends Component<IProps> {
 const mapStateToProps = (state: any) => {
   return {
     drawer: state.drawer.drawer,
-    mobileview:state.chatvids.mobileViewChatVid
+    mobileview: state.chatvids.mobileViewChatVid,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
@@ -81,7 +100,7 @@ const mapDispatchToProps = (dispatch: any) => {
     getEmailConfigurations: () => dispatch(getEmailConfigurations()),
     logout: () => dispatch(logout()),
     getAssets: () => dispatch(getAssets()),
-    getMusicAsset: () => dispatch(getMusicAsset())
+    getMusicAsset: () => dispatch(getMusicAsset()),
   };
 };
 

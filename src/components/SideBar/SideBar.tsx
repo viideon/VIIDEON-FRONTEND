@@ -18,7 +18,7 @@ class SideBar extends Component<IProps, IState> {
     super(props);
     this.state = {
       activeTab: "/",
-      logoutModal: false
+      logoutModal: false,
     };
   }
 
@@ -36,12 +36,14 @@ class SideBar extends Component<IProps, IState> {
     if (this.props.location.pathname !== activeSideBar)
       activeSideBar = this.props.location.pathname;
     return (
-      <div className={drawer ? "MainDrawer" : "MainDrawerHide"}>
+      <div
+        className={`sidebarMain ${drawer ? "MainDrawer" : "MainDrawerHide"}`}
+      >
         <div
           className={classname({
             OptionIcons: true,
             dashboardOption: true,
-            activeSideBar: activeSideBar === "/"
+            activeSideBar: activeSideBar === "/",
           })}
           onClick={() => {
             this.handleChangeTab("/");
@@ -54,7 +56,7 @@ class SideBar extends Component<IProps, IState> {
           className={classname({
             OptionIcons: true,
             dashboardOption: true,
-            activeSideBar: activeSideBar === "/chatvids"
+            activeSideBar: activeSideBar === "/chatvids",
           })}
           onClick={() => {
             this.handleChangeTab("/chatvids");
@@ -66,7 +68,7 @@ class SideBar extends Component<IProps, IState> {
         <div
           className={classname({
             OptionIcons: true,
-            activeSideBar: activeSideBar === "/videos"
+            activeSideBar: activeSideBar === "/videos",
           })}
           onClick={() => this.handleChangeTab("/videos")}
         >
@@ -86,7 +88,7 @@ class SideBar extends Component<IProps, IState> {
         <div
           className={classname({
             OptionIcons: true,
-            activeSideBar: activeSideBar === "/campaign"
+            activeSideBar: activeSideBar === "/campaign",
           })}
           onClick={() => this.handleChangeTab("/campaign")}
         >
@@ -96,7 +98,7 @@ class SideBar extends Component<IProps, IState> {
         <div
           className={classname({
             OptionIcons: true,
-            activeSideBar: activeSideBar === "/configuration"
+            activeSideBar: activeSideBar === "/configuration",
           })}
           onClick={() => this.handleChangeTab("/configuration")}
         >
@@ -107,7 +109,7 @@ class SideBar extends Component<IProps, IState> {
         <div
           className={classname({
             OptionIcons: true,
-            activeSideBar: activeSideBar === "/assetlibrary"
+            activeSideBar: activeSideBar === "/assetlibrary",
           })}
           onClick={() => this.handleChangeTab("/assetlibrary")}
         >
@@ -118,7 +120,7 @@ class SideBar extends Component<IProps, IState> {
         <div
           className={classname({
             OptionIcons: true,
-            activeSideBar: activeSideBar === "/music"
+            activeSideBar: activeSideBar === "/music",
           })}
           onClick={() => this.handleChangeTab("/music")}
         >
@@ -134,12 +136,12 @@ const iconStyle = {
   width: "1.5em",
   display: "inline-block",
   color: "#FFFFFF",
-  cursor: "pointer"
+  cursor: "pointer",
 };
 const mapStateToProps = (state: any) => {
   return {
     user: state.profile.user,
-    drawer: state.drawer.drawer
+    drawer: state.drawer.drawer,
   };
 };
 

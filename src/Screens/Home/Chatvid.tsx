@@ -5,7 +5,7 @@ import {
   getChatvids,
   getAnalytics,
   deletechatvid,
-  mobileViewChatVid
+  mobileViewChatVid,
 } from "../../Redux/Actions/chatvid";
 import classname from "classnames";
 import Colors from "../../constants/colors";
@@ -83,10 +83,10 @@ type IProps = {
   history: any;
   user: any;
   chatvid: any;
-  mobileView:any
+  mobileView: any;
   deletechatvid: (_id: string, history: any) => void;
   getChatvids: () => void;
-  mobileViewChatVid:(v:any)=>void;
+  mobileViewChatVid: (v: any) => void;
   getAnalytics: (
     _id: string,
     dateFrom: any,
@@ -119,6 +119,14 @@ class Dashboard extends Component<IProps> {
     const { tab } = this.state;
     return (
       <Home>
+        <div className="shuffleButton">
+          <button
+            className="backButton"
+            onClick={() => this.props.mobileViewChatVid("showSideBar")}
+          >
+            Back
+          </button>
+        </div>
         <InfoHeader {...this.props} />
         <Grid container className="tabsWrapperChatvid">
           <Grid item xs={12} sm={12} md={8} lg={8} className="tabsBTNwrapper">
@@ -858,18 +866,28 @@ const InfoHeader = (props: any) => {
 
   return (
     <>
-    <div className="shuffleButton" >
-      <button className="backButton" onClick={()=>props.mobileViewChatVid("showSideBar")}>Back</button>
-    </div>
-    <Grid container className="dashChatvidTopHeaderWrapper">
-    
-      <Grid className="chatVidInfoGrid" container xs={12} sm={12} md={8} lg={8}>
-        <Grid className="thumbnail" item xs={2} sm={2} md={2} lg={2}>
-          <div className="thumbnailInChatvidHead">
-            <img src={chatvid?.thumbnail} alt="thumbnail" />
-          </div>
-        </Grid>
-        <Grid className="chatVidShareOptions" item xs={10} sm={10} md={8} lg={8}>
+      <Grid container className="dashChatvidTopHeaderWrapper">
+        <Grid
+          className="chatVidInfoGrid"
+          container
+          xs={12}
+          sm={12}
+          md={8}
+          lg={8}
+        >
+          <Grid className="thumbnail" item xs={2} sm={2} md={2} lg={2}>
+            <div className="thumbnailInChatvidHead">
+              <img src={chatvid?.thumbnail} alt="thumbnail" />
+            </div>
+          </Grid>
+          <Grid
+            className="chatVidShareOptions"
+            item
+            xs={10}
+            sm={10}
+            md={8}
+            lg={8}
+          >
             <Typography variant="h3"> {chatvid?.name} </Typography>
             <div className="chatvidEditToolsWrapper">
               <div
@@ -893,90 +911,91 @@ const InfoHeader = (props: any) => {
                 <DeleteIcon /> Delete
               </div>
             </div>
+          </Grid>
         </Grid>
-        
-      </Grid>
-      
-      <Grid
-        className="chatVidInfoShareOptions"
-        container
-        xs={12}
-        sm={12}
-        md={4}
-        lg={4}
-      >
-        <div className="sendChatvidBTNWrapper">
-          <ThemeButton
-            style={Colors.themeGradientBtn}
-            name="Send Chatvid"
-            onClick={() => setOpen(true)}
-          />
-        </div>
-        <div className="copyChatvidURL">
-          <Paper component="form" style={classes.root}>
-            <IconButton
-              type="submit"
-              style={classes.iconButton}
-              aria-label="copy url"
-              onClick={copyUrl}
-            >
-              <AttachFileIcon />
-            </IconButton>
-            <InputBase
-              style={classes.input}
-              value={url}
-              // value={`http://localhost:3000/chatvid/res/${chatvid && chatvid._id}`}
+
+        <Grid
+          className="chatVidInfoShareOptions"
+          container
+          xs={12}
+          sm={12}
+          md={4}
+          lg={4}
+        >
+          <div className="sendChatvidBTNWrapper">
+            <ThemeButton
+              style={Colors.themeGradientBtn}
+              name="Send Chatvid"
+              onClick={() => setOpen(true)}
             />
-            <IconButton
-              type="submit"
-              style={classes.iconButton}
-              aria-label="edit"
-              onClick={(e) => {
-                e.preventDefault();
-                setOpen(true);
-              }}
+          </div>
+          <div className="copyChatvidURL">
+            <Paper component="form" style={classes.root}>
+              <IconButton
+                type="submit"
+                style={classes.iconButton}
+                aria-label="copy url"
+                onClick={copyUrl}
+              >
+                <AttachFileIcon />
+              </IconButton>
+              <InputBase
+                style={classes.input}
+                value={url}
+                // value={`http://localhost:3000/chatvid/res/${chatvid && chatvid._id}`}
+              />
+              <IconButton
+                type="submit"
+                style={classes.iconButton}
+                aria-label="edit"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setOpen(true);
+                }}
+              >
+                <ShareIcon />
+              </IconButton>
+            </Paper>
+          </div>
+        </Grid>
+
+        {/* Dialog */}
+
+        <Dialog
+          open={open}
+          onClose={() => setOpen(false)}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">
+            Share on Social Media
+          </DialogTitle>
+          <DialogContent>
+            <TwitterShareButton url={url}>
+              <TwitterIcon size={32} round={true} />
+            </TwitterShareButton>
+            <FacebookShareButton url={url}>
+              <FacebookMessengerIcon size={32} round />
+            </FacebookShareButton>
+            <WhatsappShareButton url={url} title={title}>
+              <WhatsappIcon size={32} round />
+            </WhatsappShareButton>
+            <LinkedinShareButton url={url}>
+              <LinkedinIcon size={32} round />
+            </LinkedinShareButton>
+            <EmailShareButton url={url} subject={title} body={"a"}>
+              <EmailIcon size={32} round />
+            </EmailShareButton>
+            <RedditShareButton
+              url={url}
+              title={title}
+              windowWidth={660}
+              windowHeight={460}
             >
-              <ShareIcon />
-            </IconButton>
-          </Paper>
-        </div>
+              <RedditIcon size={32} round />
+            </RedditShareButton>
+          </DialogContent>
+        </Dialog>
       </Grid>
-
-      {/* Dialog */}
-
-      <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">Share on Social Media</DialogTitle>
-        <DialogContent>
-          <TwitterShareButton url={url}>
-            <TwitterIcon size={32} round={true} />
-          </TwitterShareButton>
-          <FacebookShareButton url={url}>
-            <FacebookMessengerIcon size={32} round />
-          </FacebookShareButton>
-          <WhatsappShareButton url={url} title={title}>
-            <WhatsappIcon size={32} round />
-          </WhatsappShareButton>
-          <LinkedinShareButton url={url}>
-            <LinkedinIcon size={32} round />
-          </LinkedinShareButton>
-          <EmailShareButton url={url} subject={title} body={"a"}>
-            <EmailIcon size={32} round />
-          </EmailShareButton>
-          <RedditShareButton
-            url={url}
-            title={title}
-            windowWidth={660}
-            windowHeight={460}
-          >
-            <RedditIcon size={32} round />
-          </RedditShareButton>
-        </DialogContent>
-      </Dialog>
-    </Grid>
     </>
   );
 };
@@ -1009,7 +1028,7 @@ const mapStateToProps = (state: any) => {
     user: state.auth.user,
     chatvid: state.chatvids.selectedChatvid,
     stats: state.chatvids.stats,
-    mobileView:state.chatvids.mobileViewChatVid
+    mobileView: state.chatvids.mobileViewChatVid,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
@@ -1017,7 +1036,7 @@ const mapDispatchToProps = (dispatch: any) => {
     deletechatvid: (_id: string, history: any) =>
       dispatch(deletechatvid(_id, history)),
     getChatvids: () => dispatch(getChatvids()),
-    mobileViewChatVid: (v:any) => dispatch(mobileViewChatVid(v)),
+    mobileViewChatVid: (v: any) => dispatch(mobileViewChatVid(v)),
     getAnalytics: (
       _id: string,
       dateFrom: any,

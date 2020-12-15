@@ -209,7 +209,6 @@
   display: flex;
 }
 
-
 .chatvidEditToolsWrapper div {
   color: blue;
   background: #ffffff;
@@ -414,36 +413,34 @@
 .chartGraphContainer {
   padding: 1%;
 }
-.shuffleButton{display:none}
-.backButton{
+.shuffleButton {
+  display: none;
+}
+.backButton {
   float: right;
-    margin: 5px;
-    border: navajowhite;
-    width: 20%;
-    border-radius: 12px;
-    height: 14%;
-    height: 45px;
-    background: #dde1e4;
+  margin: 5px;
+  border: navajowhite;
+  width: 20%;
+  border-radius: 12px;
+  height: 14%;
+  height: 45px;
+  background: #dde1e4;
 }
 /* END Chatvid.tsx */
-@media (max-width: 1213px), (min-width: 1099px){
-
+@media (max-width: 1213px), (min-width: 1099px) {
 }
 @media only screen and (max-width: 1230px) {
-  .chatVidInfoShareOptions{
-    margin-left:1px;
-    max-width:35%;
+  .chatVidInfoShareOptions {
+    margin-left: 1px;
+    max-width: 35%;
   }
-  .chatvidEditToolsWrapper{
-    display:grid;
+  .chatvidEditToolsWrapper {
+    display: grid;
   }
-  .dashChatvidTopHeaderWrapper{
-    margin-left:1px;
+  .dashChatvidTopHeaderWrapper {
+    margin-left: 1px;
   }
 }
-
-
-
 
 @media (min-width: 768px) and (max-width: 1024px) {
   ._choiceProgressBar {
@@ -454,35 +451,32 @@
   /* CSS */
 }
 
-
-
-
-
-
 @media only screen and (min-width: 1226px) {
-  .chatVidInfoShareOptions{
-    max-width:35%
+  .chatVidInfoShareOptions {
+    max-width: 35%;
   }
 }
 @media only screen and (min-width: 992px) {
-  .MainDrawer{
-    display: inherit !important
+  .MainDrawer {
+    display: inherit !important;
   }
-  .wrapperHomeContent{
-    display: inherit !important
+  .wrapperHomeContent {
+    display: inherit !important;
   }
 }
 @media only screen and (min-width: 769px) {
-  .MainDrawer{
-    display: inherit !important
+  .MainDrawer {
+    display: inherit !important;
   }
-  .wrapperHomeContent{
-    display: inherit !important
+  .wrapperHomeContent {
+    display: inherit !important;
   }
 }
 
 @media only screen and (max-width: 768px) {
-  .shuffleButton{display:inherit}
+  .shuffleButton {
+    display: inherit;
+  }
   .wrapperHomeContent {
     margin-left: 0px;
     /* width: 100vw; */
@@ -499,43 +493,45 @@
     flex-direction: column;
     align-content: flex-end;
   }
-  .replyIconWrapper {width:100%;}
-  .thumbnailInChatvidHead{
-    position:relative;
-    top:9%;
-    height:10em
+  .replyIconWrapper {
+    width: 100%;
   }
-  .backButton{width:100%}
-  .chatVidInfoShareOptions{
-    position:relative;
-    left:-10%
+  .thumbnailInChatvidHead {
+    position: relative;
+    top: 9%;
+    height: 10em;
   }
-  
+  .backButton {
+    width: 100%;
+  }
+  .chatVidInfoShareOptions {
+    position: relative;
+    left: -10%;
+  }
+  .sidebarMain {
+    display: none;
+  }
 }
 /* Tablet Media Query */
-@media only screen
-and (min-device-width: 600px) 
- and (max-width: 767px) {
+@media only screen and (min-device-width: 600px) and (max-width: 767px) {
   .chatVidInfoGrid {
     display: flex !important;
-    justify-content: space-between !important
+    justify-content: space-between !important;
   }
-  .chatVidShareOptions{
+  .chatVidShareOptions {
     max-width: 70% !important;
     flex-basis: 70% !important;
   }
-  .replyIconWrappe{
-    width:100% !important;
-    float:right !important;
+  .replyIconWrappe {
+    width: 100% !important;
+    float: right !important;
   }
-
 }
-@media (min-width: 600px){
-.chatVidShareOptions{
+@media (min-width: 600px) {
+  .chatVidShareOptions {
     max-width: 70% !important;
     flex-basis: 70% !important;
   }
-  
 }
 @media only screen and (max-width: 550px) {
   .wrapperHomeContent {
@@ -568,27 +564,31 @@ and (min-device-width: 600px)
   .actionsHomePage h5 {
     font-size: 1em !important;
   }
-  .thumbnail{
-    max-width:inherit
+  .thumbnail {
+    max-width: inherit;
   }
-  .replyIconWrapper {width:100%;}
+  .replyIconWrapper {
+    width: 100%;
+  }
   .chatVidInfoGrid {
-    position:relative;
-    left:-10%
+    position: relative;
+    left: -10%;
   }
-  .thumbnailInChatvidHead{
-    position:relative;
-    top:12%
+  .thumbnailInChatvidHead {
+    position: relative;
+    top: 12%;
   }
-  .backButton{width:100%}
-  .chatVidInfoShareOptions{
-    position:relative;
-    left:-4%
+  .backButton {
+    width: 100%;
+  }
+  .chatVidInfoShareOptions {
+    position: relative;
+    left: -4%;
   }
 }
 
-@media (min-width: 400px){
-.chatVidShareOptions{
+@media (min-width: 400px) {
+  .chatVidShareOptions {
     max-width: 57% !important;
     flex-basis: 57% !important;
   }
@@ -596,17 +596,14 @@ and (min-device-width: 600px)
 
 /* Mobile Media Query */
 /* Portrait and Landscape */
-@media only screen 
-  and (min-device-width: 320px) 
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2) {
-.chatVidShareOptions{
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+  .chatVidShareOptions {
     max-width: 50% !important;
     flex-basis: 70% !important;
     position: relative;
     left: 15%;
   }
   .dashChatvidTopHeaderWrapper {
-    min-width:100%
+    min-width: 100%;
   }
 }
