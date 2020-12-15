@@ -568,6 +568,7 @@ class FinalTab extends Component<any> {
                 <Typography
                   variant="h4"
                   style={{
+                    // textAlign: align ? align : "left",
                     fontSize: fontSize ? fontSize : "x-large",
                     fontWeight: fontWeight ? "bold" : "normal",
                     fontStyle: fontStyle ? "italic" : "",

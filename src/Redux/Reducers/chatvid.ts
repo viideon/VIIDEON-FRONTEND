@@ -6,7 +6,7 @@ let initialState: any = {
   resChatvid: {},
   selectedChatvid: {},
   stats: {},
-  mobileViewChatVid:"desktop"
+  mobileViewChatVid:"showSideBar"
 };
 const chatvidReducer = (state = initialState, action: any) => {
   switch (action.type) {
