@@ -502,13 +502,15 @@
   .replyIconWrapper {width:100%;}
   .thumbnailInChatvidHead{
     position:relative;
-    top:25%
+    top:9%;
+    height:10em
   }
   .backButton{width:100%}
   .chatVidInfoShareOptions{
     position:relative;
     left:-18%
   }
+  
 }
 /* Tablet Media Query */
 @media only screen
