@@ -906,8 +906,17 @@ const InfoHeader = (props: any) => {
                 {" "}
                 <SettingsRoundedIcon /> Settings
               </div>
-              <div onClick={() => handleDeleteChatvid(chatvid._id)}>
-                {" "}
+              <div
+                onClick={() => {
+                  if (
+                    window.confirm(
+                      "Are you sure? you want to delete this ChatVid?"
+                    )
+                  ) {
+                    handleDeleteChatvid(chatvid._id);
+                  }
+                }}
+              >
                 <DeleteIcon /> Delete
               </div>
             </div>

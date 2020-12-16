@@ -124,7 +124,7 @@
   overflow: scroll;
   padding-bottom: 35%;
   margin-bottom: 25%;
-  height: 100% !important;
+  height: 64% !important;
 }
 .thumbnailInChatvidBar {
   width: 3em;
@@ -132,8 +132,6 @@
   cursor: pointer;
   display: flex;
   border-radius: 18%;
-  
-  
 }
 .thumbnailInChatvidBar img {
   width: 100%;
@@ -143,14 +141,13 @@
   .MainDrawer {
     /* display: none;
     transform: translateX(-1000%); */
-    width:100%
-    
+    width: 100%;
   }
-  .wrapperHomeContent{
+  .wrapperHomeContent {
     /* display:none */
   }
-  .maindrawer{
-    display:none
+  .maindrawer {
+    display: none;
   }
   /* .wrapperBody{
     display:none

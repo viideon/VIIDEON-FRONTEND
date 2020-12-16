@@ -39,7 +39,7 @@ const VideoCard: FC<IProps> = ({
   id,
   date,
   deletingVideo,
-  video
+  video,
 }) => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -61,9 +61,9 @@ const VideoCard: FC<IProps> = ({
     setOpen(false);
   };
   const deleteAction = () => {
-    console.log(id)
+    console.log(id);
     deleteVideo(id);
-    toast.error(`Video Deleted successfully of title ${title} `)
+    // toast.error(`Video Deleted successfully of title ${title} `)
     // if(video?.isChatvid) {
     //   return toast.error(`Can't delete chatvid! of title ${title} `)
     // }
@@ -126,7 +126,7 @@ const VideoCard: FC<IProps> = ({
 };
 const mapStateToProps = (state: any) => {
   return {
-    deletingVideo: state.video.deletingVideo
+    deletingVideo: state.video.deletingVideo,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
@@ -134,4 +134,4 @@ const mapDispatchToProps = (dispatch: any) => {
     // deleteVideo: (title: any) => dispatch(deleteVideo(id)),
   };
 };
-export default connect(mapStateToProps,mapDispatchToProps)(VideoCard);
+export default connect(mapStateToProps, mapDispatchToProps)(VideoCard);
