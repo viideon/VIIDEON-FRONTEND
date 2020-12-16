@@ -95,7 +95,7 @@ class RecorderTab extends Component<any> {
                 fullWidth
                 name="text"
                 inputProps={{
-                  maxLength: 150,
+                  maxLength: 100,
                 }}
                 value={this.props.text}
                 onChange={this.props.onChange}

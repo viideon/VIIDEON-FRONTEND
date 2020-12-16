@@ -511,6 +511,7 @@ class FinalTab extends Component<any> {
   };
 
   render() {
+    console.log("props here", this.props?.location?.pathname);
     const { open, tab, text, align, vAlign, fontSize, display } = this.state;
     const {
       preview,
@@ -568,6 +569,8 @@ class FinalTab extends Component<any> {
                 <Typography
                   variant="h4"
                   style={{
+                    display: "flex",
+                    height: "100%",
                     justifyContent: justifyContent ? justifyContent : "",
                     alignItems: alignItems ? alignItems : "",
                     // textAlign: align ? align : "left",
@@ -581,8 +584,15 @@ class FinalTab extends Component<any> {
                   {overlayTxt ? overlayTxt : text}{" "}
                 </Typography>
               </div>
-              {this.props.screenType !== "web" && (
-                <div className="videoScreen">
+              {this.props.screenType !== "web" ? (
+                <div
+                  className="videoScreen"
+                  style={{
+                    display: this.props?.location?.pathname ? "none" : "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-evenly",
+                  }}
+                >
                   <MobileOpenEndedType
                     {...this.props}
                     {...this.state}
@@ -591,6 +601,8 @@ class FinalTab extends Component<any> {
                     handleChoice={this.handleChoiceAndCalender}
                   />
                 </div>
+              ) : (
+                <></>
               )}
             </div>
 
@@ -611,7 +623,12 @@ class FinalTab extends Component<any> {
           sm={12}
           md={6}
           lg={6}
-          style={{ display: this.props.screenType == "web" ? "block" : "none" }}
+          style={{
+            display:
+              this.props.screenType == "web" || this.props?.location?.pathname
+                ? "block"
+                : "none",
+          }}
         >
           <Grid
             className="videoResponseRight"
