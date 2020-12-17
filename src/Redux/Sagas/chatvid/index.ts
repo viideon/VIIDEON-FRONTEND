@@ -1,4 +1,4 @@
-import { put, takeEvery, select } from "redux-saga/effects";
+import { put, takeEvery, select,takeLatest } from "redux-saga/effects";
 import { types } from "../../Types/chatvid";
 import { push } from 'react-router-redux';
 import {
@@ -54,11 +54,12 @@ function* saveChatVidSaga(action: any) {
     payload.userId = userId;
     const result = yield saveChatVid(payload);
     if (result.status === 200) {
-      yield put({ type: types.SAVE_CHATVID_SUCCESS });
-      yield put({ type: types.GET_CHATVIDS_REQUEST });
       toast.info("Chatvid saved successfully!");
       yield put(push("/chatvids"));
       action.history.push("/chatvids")
+      yield put({ type: types.SAVE_CHATVID_SUCCESS });
+      yield put({ type: types.GET_CHATVIDS_REQUEST });
+      
     } else {
       yield put({ type: types.SAVE_CHATVID_FAILURE });
       toast.error("Something Went Wrong");
@@ -166,7 +167,7 @@ function* deleteChatVid(action: any) {
 export function* chatVidWatcher() {
   yield takeEvery(types.GET_CHATVIDS_REQUEST, getChatVidsSaga);
   yield takeEvery(types.GET_CHATVID_REQUEST, getChatVidSaga);
-  yield takeEvery(types.SAVE_CHATVID_REQUEST, saveChatVidSaga);
+  yield takeLatest(types.SAVE_CHATVID_REQUEST, saveChatVidSaga);
   yield takeEvery(types.REPLY_TO_CHATVID_REQUEST, replyToAChatvidSaga);
   yield takeEvery(types.ADD_STEP_TO_CHATVID_REQUEST, addChatvidStep);
   yield takeEvery(types.UPDATE_CHATVID_JUMP, updateJumpSaga);
