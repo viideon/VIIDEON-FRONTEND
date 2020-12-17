@@ -536,7 +536,7 @@ class FinalTab extends Component<any> {
         : "center";
     const isFit = preview
       ? isFull
-      : resChatvid.steps[this.state.currentStepNo].isFull;
+      : resChatvid?.steps[this.state.currentStepNo]?.isFull;
     return (
       <Grid
         container
@@ -828,9 +828,11 @@ const OpenEndedType = (props: any) => {
   } = props;
 
   let { steps, userId } = resChatvid;
+
   let { responseType, choices, calendar } = steps
     ? steps[props.currentStepNo]
     : { responseType: "", choices: "", calendar: "" };
+  // console.log("steps ", steps[props.currentStepNo]);
   if (preview) {
     responseType = resType;
     choices = props.choices;
