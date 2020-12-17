@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import { connect } from "react-redux";
 import { updateVideoCta } from "./Redux/Actions/videos";
 import { AuthState } from "../src/Redux/Types/auth";
@@ -30,7 +35,7 @@ import Contacts from "./Screens/Connections/Contacts";
 import ChatvidBoard from "./Screens/Home/ChatvidBoard";
 
 import PrivacyPolicy from "./components/PrivacyPolicy";
-import { store } from './App';
+import { store } from "./App";
 
 type IProps = {
   auth: AuthState;
@@ -40,12 +45,16 @@ type IProps = {
 class Routes extends Component<IProps> {
   render() {
     return (
-      <Router >
+      <Router>
         {this.props.auth.loggedInStatus === true ? (
           <>
             <Switch>
               <Route exact path="/" component={Dashboard} />
-              <Route exact path="/chatVid/res/:id" component={ResponseChatvid} />
+              <Route
+                exact
+                path="/chatVid/res/:id"
+                component={ResponseChatvid}
+              />
               <Route exact path="/chatvids/" component={ChatvidBoard} />
               <Route exact path="/chatvids/form/:id" component={Chatvid} />
               <Route exact path="/chatvids/edit/:id" component={EditChatvid} />
@@ -76,40 +85,44 @@ class Routes extends Component<IProps> {
             </Switch>
           </>
         ) : (
-            <>
-              <Switch>
-                <Route exact path="/chatVid/res/:id" component={ResponseChatvid} />
-                <Route exact path="/login*" component={SignIn} />
-                <Route exact path="/signup" component={Signup} />
-                <Route exact path="/forgotPassword" component={ForgotPassword} />
-                <Route exact path="/resetPassword" component={ResetPassword} />
-                <Route exact path="/privacypolicy" component={PrivacyPolicy} />
+          <>
+            <Switch>
+              <Route
+                exact
+                path="/chatVid/res/:id"
+                component={ResponseChatvid}
+              />
+              <Route exact path="/login*" component={SignIn} />
+              <Route exact path="/signup" component={Signup} />
+              <Route exact path="/forgotPassword" component={ForgotPassword} />
+              <Route exact path="/resetPassword" component={ResetPassword} />
+              <Route exact path="/privacypolicy" component={PrivacyPolicy} />
 
-                <Route
-                  exact
-                  path="/watch/:id/cta"
-                  render={(props: any) => {
-                    this.props.updateVideoCta(props.match.params.id);
-                    return <Redirect to={`/watch/${props.match.params.id}`} />;
-                  }}
-                />
-                <Route exact path="/watch/:id" component={Watch} />
-                <Route exact path="*" render={() => <Redirect to="/login" />} />
-              </Switch>
-            </>
-          )}
+              <Route
+                exact
+                path="/watch/:id/cta"
+                render={(props: any) => {
+                  this.props.updateVideoCta(props.match.params.id);
+                  return <Redirect to={`/watch/${props.match.params.id}`} />;
+                }}
+              />
+              <Route exact path="/watch/:id" component={Watch} />
+              <Route exact path="*" render={() => <Redirect to="/login" />} />
+            </Switch>
+          </>
+        )}
       </Router>
     );
   }
 }
 const mapStateToProps = (state: any) => {
   return {
-    auth: state.auth
+    auth: state.auth,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    updateVideoCta: (id: any) => dispatch(updateVideoCta(id))
+    updateVideoCta: (id: any) => dispatch(updateVideoCta(id)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Routes);
