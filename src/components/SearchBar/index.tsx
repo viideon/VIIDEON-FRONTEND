@@ -4,13 +4,13 @@ import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteIcon from "@material-ui/icons/Favorite";
 
 // LOGICS
-import { withStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
+import { withStyles } from "@material-ui/core/styles";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
 
 // END LOGICS
 
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: "auto",
       marginRight: "auto",
       marginTop: "5px",
-      marginBottom: "10px",
+      marginBottom: "13px",
       padding: "0px 1px 0px 2px",
       display: "flex",
       alignItems: "center",
@@ -28,17 +28,16 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "max-content",
       height: "3rem",
       background: "#f2f2f2",
-      overflow: "scroll",
-      "& .MuiIconButton-label": {
-      },
+      overflow: "hidden",
+      "& .MuiIconButton-label": {},
       "& .MuiSvgIcon-root": {
         paddingTop: "0.5px",
         fontSize: "1.2rem",
-        transition: "none"
+        transition: "none",
       },
       "& .MuiIconButton-root:hover": {
-        backgroundColor: "#f2f2f2 !important"
-      }
+        backgroundColor: "#f2f2f2 !important",
+      },
     },
     root: {
       marginLeft: "auto",
@@ -51,26 +50,25 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: 8,
       width: "90%",
       height: "3rem",
-      "& .MuiIconButton-label": {
-      },
+      "& .MuiIconButton-label": {},
       "& .MuiSvgIcon-root": {
         paddingTop: "0.5px",
         fontSize: "1.2rem",
-        transition: "none"
+        transition: "none",
       },
       "& .MuiIconButton-root:hover": {
-        backgroundColor: "transparent !important"
-      }
+        backgroundColor: "transparent !important",
+      },
     },
     input: {
       marginLeft: theme.spacing(1),
-      flex: 1
+      flex: 1,
     },
     iconButton: {
-      padding: "10px 5px 10px 10px"
+      padding: "10px 5px 10px 10px",
     },
     "& .MuiIconButton-root:hover": {
-      backgroundColor: "transparent !important"
+      backgroundColor: "transparent !important",
     },
     selector: {
       padding: "10px 5px 10px 10px",
@@ -82,8 +80,8 @@ const useStyles = makeStyles((theme: Theme) =>
       color: "#000000",
       width: "140px",
       padding: "8px",
-      fontSize: "smaller"
-    }
+      fontSize: "smaller",
+    },
   })
 );
 
@@ -137,17 +135,15 @@ export function PreviewSearchBar() {
 
 export function ChatvidRedirectionLogics(props: any) {
   const classes = useStyles();
-  const [age, setAge] = React.useState('');
+  const [age, setAge] = React.useState("");
   const choiceRedirection = [...Array(props.length).keys()];
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setAge(event.target.value as string);
-    props.onChange(event.target.value)
+    props.onChange(event.target.value);
   };
   return (
     <Paper className={classes.logicRoot}>
-      <InputLabel className={classes.labelStyle} >
-        {props.text}
-      </InputLabel>
+      <InputLabel className={classes.labelStyle}>{props.text}</InputLabel>
       <IconButton
         type="submit"
         className={classes.selector}
@@ -161,11 +157,8 @@ export function ChatvidRedirectionLogics(props: any) {
           input={<BootstrapInput />}
         >
           {choiceRedirection.map((item: any, index: number) => {
-            return (
-              <MenuItem value={index + 1}>{index + 1}</MenuItem>
-            )
-          })
-          }
+            return <MenuItem value={index + 1}>{index + 1}</MenuItem>;
+          })}
         </Select>
       </IconButton>
     </Paper>
@@ -175,36 +168,36 @@ export function ChatvidRedirectionLogics(props: any) {
 const BootstrapInput = withStyles((theme: Theme) =>
   createStyles({
     root: {
-      'label + &': {
+      "label + &": {
         marginTop: theme.spacing(3),
       },
     },
     input: {
       borderRadius: 4,
-      position: 'relative',
+      position: "relative",
       backgroundColor: theme.palette.background.paper,
-      border: '1px solid #ced4da',
+      border: "1px solid #ced4da",
       fontSize: 16,
-      padding: '10px 26px 10px 12px',
-      transition: theme.transitions.create(['border-color', 'box-shadow']),
+      padding: "10px 26px 10px 12px",
+      transition: theme.transitions.create(["border-color", "box-shadow"]),
       // Use the system font instead of the default Roboto font.
       fontFamily: [
-        '-apple-system',
-        'BlinkMacSystemFont',
+        "-apple-system",
+        "BlinkMacSystemFont",
         '"Segoe UI"',
-        'Roboto',
+        "Roboto",
         '"Helvetica Neue"',
-        'Arial',
-        'sans-serif',
+        "Arial",
+        "sans-serif",
         '"Apple Color Emoji"',
         '"Segoe UI Emoji"',
         '"Segoe UI Symbol"',
-      ].join(','),
-      '&:focus': {
+      ].join(","),
+      "&:focus": {
         borderRadius: 4,
-        borderColor: '#80bdff',
-        boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+        borderColor: "#80bdff",
+        boxShadow: "0 0 0 0.2rem rgba(0,123,255,.25)",
       },
     },
-  }),
+  })
 )(InputBase);
