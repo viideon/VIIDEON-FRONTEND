@@ -511,7 +511,6 @@ class FinalTab extends Component<any> {
   };
 
   render() {
-    console.log("props here", this.props?.location?.pathname);
     const { open, tab, text, align, vAlign, fontSize, display } = this.state;
     const {
       preview,
@@ -521,6 +520,7 @@ class FinalTab extends Component<any> {
       fontWeight,
       fontStyle,
       textDecoration,
+      dispaly,
     } = this.props;
     const justifyContent =
       align === "left"
@@ -565,11 +565,16 @@ class FinalTab extends Component<any> {
                 flexDirection: "column",
               }}
             >
-              <div className="videoText">
+              <div
+                className="videoText"
+                style={{
+                  minHeight: this.props.screenType == "web" ? "90%" : "55%",
+                }}
+              >
                 <Typography
                   variant="h4"
                   style={{
-                    display: "flex",
+                    display: display ? display : "flex",
                     height: "100%",
                     justifyContent: justifyContent ? justifyContent : "",
                     alignItems: alignItems ? alignItems : "",
