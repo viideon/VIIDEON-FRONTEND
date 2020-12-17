@@ -302,7 +302,8 @@
 }
 
 .fcY {
-  width: calc((100vw - 88.8889vh) / 2);
+  /* width: calc((100vw - 88.8889vh) / 2); */
+  width: 25%;
   height: 100%;
   background: rgba(253, 180, 21, 0.3);
   z-index: 1;
@@ -310,7 +311,8 @@
 }
 
 .fcR {
-  width: calc((100vw - 88.8889vh) / 2);
+  /* width: calc((100vw - 88.8889vh) / 2); */
+  width: 25%;
   height: 100%;
   background: rgba(253, 180, 21, 0.3);
   z-index: 1;
