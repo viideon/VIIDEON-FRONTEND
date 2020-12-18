@@ -62,6 +62,7 @@ class Dashboard extends Component<IProps> {
             </h3>
           </div>
           <Grid container spacing={2} className="dashHeaderWrapper">
+            {console.log(this.props.videoCount)}
             <Grid item xs={6} md={3}>
               <Link to="/videos" className="link-style">
                 <HeaderCard
