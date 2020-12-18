@@ -241,7 +241,10 @@ class FinalTab extends Component<any> {
     this.videoRef = null;
   }
 
-  handleTabChange = (tab: number) => {
+  handleTabChange = (tab: number, isBack: string) => {
+    if (isBack && isBack == "resPage") {
+      window.location.reload();
+    }
     if (
       this.props.history.location.pathname.indexOf("/chatvid/step/") > -1 ||
       this.props.preview
@@ -452,6 +455,10 @@ class FinalTab extends Component<any> {
       analyticsPayload.isInteracted = true;
       analyticsPayload.isCompleted = true;
       this.props.saveAnalytics(analyticsPayload);
+    }
+    //check if its a final step is done
+    if (resChatvid.steps.length === currentStepNo + 1) {
+      this.props.history.push("/");
     }
   };
 
@@ -1124,7 +1131,10 @@ const AudioResponse = (props: any) => {
               />
             </div>
           ) : (
-            <MicOutlinedIcon onClick={handleRecording} />
+            <MicOutlinedIcon
+              className="RecordingIcons"
+              onClick={handleRecording}
+            />
           )}
         </div>
         <div className="responseNavigationWrapper">
@@ -1134,7 +1144,7 @@ const AudioResponse = (props: any) => {
             className={`BackBTN ${recorded && "fitContent"}`}
             startIcon={<NavigateBeforeOutlinedIcon />}
             onClick={() => {
-              !recorded ? handleTabChange(0) : handleReset();
+              !recorded ? handleTabChange(0, "resPage") : handleReset();
             }}
           >
             {!recorded ? "Back" : "Record Again"}

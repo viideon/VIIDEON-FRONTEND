@@ -50,7 +50,9 @@ class Dashboard extends Component<IProps> {
   };
 
   setStp = (step: any, stpIndex: number) => this.setState({ step, stpIndex });
-  handleTabChange = (activeType: number) => this.setState({ activeType });
+  handleTabChange = (activeType: number) => {
+    this.setState({ activeType });
+  };
 
   renderResponders = (
     person: any,
