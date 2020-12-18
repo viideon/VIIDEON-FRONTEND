@@ -689,31 +689,6 @@ class FinalTab extends Component<any> {
     );
   }
 }
-// const MobileOpenEndedType = (props: any) => {
-//   return (
-
-//       <div>
-//         <div className=" mobilecaptionDiv">
-//           <Typography variant="h3">How Would You like to answer?</Typography>
-//         </div>
-//         <div className="mobileoptionDiv">
-//           <div className="mobileIconWrapper">
-//             <Typography variant="h1">Tt</Typography>
-//             <Typography variant="subtitle1"> Text </Typography>
-//           </div>
-//           <div className="mobileIconWrapper">
-//             <VolumeUpRoundedIcon />
-//             <Typography variant="subtitle1"> Audio </Typography>
-//           </div>
-//           <div className="mobileIconWrapper">
-//             <VideocamRoundedIcon />
-//             <Typography variant="subtitle1"> Video </Typography>
-//           </div>
-//         </div>
-//       </div>
-
-//   );
-// };
 const MobileOpenEndedType = (props: any) => {
   const {
     handleChoice,
@@ -1015,6 +990,7 @@ const AudioResponse = (props: any) => {
   };
 
   const handleStop = () => {
+    setRecording(true);
     setRecorded(true);
     setProgress(0);
     setTimeOutTimer((time: any) => {

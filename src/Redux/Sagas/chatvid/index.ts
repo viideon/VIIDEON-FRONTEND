@@ -54,12 +54,11 @@ function* saveChatVidSaga(action: any) {
     payload.userId = userId;
     const result = yield saveChatVid(payload);
     if (result.status === 200) {
+      yield put({ type: types.SAVE_CHATVID_SUCCESS });
+      yield put({ type: types.GET_CHATVIDS_REQUEST });
       toast.info("Chatvid saved successfully!");
       yield put(push("/chatvids"));
       action.history.push("/chatvids")
-      yield put({ type: types.SAVE_CHATVID_SUCCESS });
-      yield put({ type: types.GET_CHATVIDS_REQUEST });
-      
     } else {
       yield put({ type: types.SAVE_CHATVID_FAILURE });
       toast.error("Something Went Wrong");
