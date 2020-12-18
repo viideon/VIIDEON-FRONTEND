@@ -153,3 +153,6 @@
     display:none
   } */
 }
+.MuiPaper-elevation8 {
+  box-shadow: none !important;
+}

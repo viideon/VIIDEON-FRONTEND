@@ -61,7 +61,6 @@ const VideoCard: FC<IProps> = ({
     setOpen(false);
   };
   const deleteAction = () => {
-    console.log(id);
     deleteVideo(id);
     // toast.error(`Video Deleted successfully of title ${title} `)
     // if(video?.isChatvid) {

@@ -29,6 +29,7 @@ type IState = {
   deleteDialog: boolean;
   vidMenu: boolean;
   isMobileView: boolean;
+  anchorEl: null | HTMLElement;
 };
 class SideBar extends Component<IProps, IState> {
   constructor(props: any) {
@@ -40,6 +41,7 @@ class SideBar extends Component<IProps, IState> {
       deleteDialog: false,
       vidMenu: false,
       isMobileView: false,
+      anchorEl: null,
     };
   }
 
@@ -82,10 +84,16 @@ class SideBar extends Component<IProps, IState> {
       vidMenu: !this.state.vidMenu,
     });
   };
-  deleteAction = () => {
-    console.log("delete video with ID");
+  deleteAction = (id: string) => {
+    console.log("delete video with ID", id);
     // deleteVideo(id);
     // toast.error(`Video Deleted successfully of title ${title} `)
+  };
+  handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+  handleClose = () => {
+    this.setState({ anchorEl: null });
   };
   render() {
     const { drawer } = this.props;
@@ -139,7 +147,6 @@ class SideBar extends Component<IProps, IState> {
             />
           </span>
         </div>
-        {console.log("mobileview", this.props.mobileview)}
         <div className="chatvidScroollingBar">
           {this.props.chatvids &&
             this.props.chatvids.length > 0 &&
@@ -176,27 +183,24 @@ class SideBar extends Component<IProps, IState> {
                         >
                           {vids.name}{" "}
                         </span>
-                        <span className="vertIcon">
+                        {/* <span className="vertIcon" onClick={this.handleClick}>
                           <MoreVertIcon style={{ color: "#000" }} />
-                        </span>
+                        </span> */}
+
                         <Menu
                           id="menuVideoCard"
-                          anchorEl={null}
+                          anchorEl={this.state.anchorEl}
                           keepMounted
-                          open={false}
-                          onClose={this.handleVidMenu}
+                          open={Boolean(this.state.anchorEl)}
+                          onClose={this.handleClose}
                         >
                           <MenuItem>View</MenuItem>
                           <MenuItem>Edit</MenuItem>
                           <MenuItem>Copy url</MenuItem>
-                          <MenuItem>Delete</MenuItem>
+                          <MenuItem onClick={() => this.deleteAction(vids._id)}>
+                            Delete
+                          </MenuItem>
                         </Menu>
-                        {/* <DeleteDialog
-            //open={open}
-            // deletingVideo={deletingVideo}
-            // deleteVideo={deleteAction}
-            // closeDeleteDialog={closeDeleteDialog}
-          /> */}
                       </div>
                     )}
                   </div>
