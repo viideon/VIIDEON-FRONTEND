@@ -7,10 +7,10 @@ import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import NavigateBeforeOutlinedIcon from "@material-ui/icons/NavigateBeforeOutlined";
 import Counter from "./Counter";
-import MicIcon from '@material-ui/icons/Mic';
-import ClosedCaptionIcon from '@material-ui/icons/ClosedCaption';
-import VideoCallIcon from '@material-ui/icons/VideoCall';
-import VideocamOffIcon from '@material-ui/icons/VideocamOff';
+import MicIcon from "@material-ui/icons/Mic";
+import ClosedCaptionIcon from "@material-ui/icons/ClosedCaption";
+import VideoCallIcon from "@material-ui/icons/VideoCall";
+import VideocamOffIcon from "@material-ui/icons/VideocamOff";
 import "./style.css";
 
 const hasGetUserMedia = !!navigator.getUserMedia;
@@ -40,7 +40,7 @@ class Recording extends React.Component<IProps> {
     selectValue: 1,
     showQualityInput: true,
     currentStep: 1,
-    totalSteps: 1
+    totalSteps: 1,
   };
   recordVideo: any;
   video: any;
@@ -67,16 +67,16 @@ class Recording extends React.Component<IProps> {
     const params: any = {
       video: {
         width: {
-          min: this.state.width
+          min: this.state.width,
         },
         height: {
-          min: this.state.height
-        }
+          min: this.state.height,
+        },
       },
-      audio: true
+      audio: true,
     };
 
-    navigator.getUserMedia(params, callback, error => {
+    navigator.getUserMedia(params, callback, (error) => {
       if (error.name === "NotAllowedError") {
         toast.info(
           "You have denied permission for recording, Please enable them in your browser to record a video"
@@ -90,7 +90,7 @@ class Recording extends React.Component<IProps> {
     this.captureUserMedia((stream: any) => {
       this.recordVideo = RecordRTC(stream, {
         type: "video/webm",
-        mimeType: "video/webm;codecs=vp9"
+        mimeType: "video/webm;codecs=vp9",
       });
       this.localStream = stream;
       this.video.srcObject = this.localStream;
@@ -99,21 +99,26 @@ class Recording extends React.Component<IProps> {
   };
 
   handleRecording = () => {
-    if(this.state.showCountdown) return;
-    if(!this.recordVideo || !this.localStream ) return toast.error("No camera access!")
+    if (this.state.showCountdown) return;
+    if (!this.recordVideo || !this.localStream)
+      return toast.error("No camera access!");
     this.setState({
       showCountdown: true,
       disableRecordBtn: true,
-      showQualityInput: false
+      showQualityInput: false,
     });
     setTimeout(() => this.startRecord(), 3000);
+    setTimeout(
+      () => this.stopRecord(),
+      parseInt(this.props.template.duration) * 1000 + 4000
+    );
   };
   startRecord = () => {
     this.setState({
       showCountdown: false,
       recordingStatus: true,
       showTimer: true,
-      count: 0
+      count: 0,
     });
     if (this.state.currentStep === 1) {
       this.recordVideo.startRecording();
@@ -121,7 +126,7 @@ class Recording extends React.Component<IProps> {
       this.recordVideo.resumeRecording();
     }
     this.setState({
-      timerTimeout: setInterval(this.trackTime, 1000)
+      timerTimeout: setInterval(this.trackTime, 1000),
     });
   };
 
@@ -130,7 +135,7 @@ class Recording extends React.Component<IProps> {
     this.setState({
       showTimer: false,
       recordingStatus: false,
-      disableRecordBtn: false
+      disableRecordBtn: false,
     });
     this.recordVideo.pauseRecording();
 
@@ -152,7 +157,7 @@ class Recording extends React.Component<IProps> {
         });
 
         this.setState({
-          recordingStatus: false
+          recordingStatus: false,
         });
         this.props.moveToNextStep();
       });
@@ -173,7 +178,7 @@ class Recording extends React.Component<IProps> {
   };
   trackTime = () => {
     this.setState({
-      count: this.state.count + 1
+      count: this.state.count + 1,
     });
   };
 
@@ -187,7 +192,7 @@ class Recording extends React.Component<IProps> {
       this.localStream.getTracks().forEach(function(track: any) {
         track.stop();
       });
-    if(this.video) this.video.srcObect = null;
+    if (this.video) this.video.srcObect = null;
     this.localStream = null;
   };
   componentWillUnmount() {
@@ -200,92 +205,147 @@ class Recording extends React.Component<IProps> {
     const sec = Math.floor(count % 60);
     return (
       <div className="recordingWrapperDiv">
-      <Typography variant="h4" className="shotNo">Shot {this.state.currentStep} </Typography>
-      <Grid container>
-        <Grid item xs={12} sm={12} md={6} lg={6}>
-          <div className="recorderWrapper">
-            <div className="videoStreamWrapper">
-              <video ref="video" muted autoPlay style={{width: "100%",height: "100%",position: "absolute",top: 0,left: 0}}/>
-              {this.state.showCountdown && <Counter />}
-              {this.state.showTimer && (
-                <span className="timerRecording" style={{ justifyContent: this.props.isCamp ? "center" : "space-between" }}>
+        <Typography variant="h4" className="shotNo">
+          Shot {this.state.currentStep}{" "}
+        </Typography>
+        <Grid container>
+          <Grid item xs={12} sm={12} md={6} lg={6}>
+            <div className="recorderWrapper">
+              <div className="videoStreamWrapper">
+                <video
+                  ref="video"
+                  muted
+                  autoPlay
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                  }}
+                />
+                {this.state.showCountdown && <Counter />}
+                {this.state.showTimer && (
                   <span
+                    className="timerRecording"
                     style={{
-                      color: "#ff0000",
-                      marginRight: "2px"
+                      justifyContent: this.props.isCamp
+                        ? "center"
+                        : "space-between",
                     }}
                   >
-                    <FiberManualRecordIcon />
+                    <span
+                      style={{
+                        color: "#ff0000",
+                        marginRight: "2px",
+                      }}
+                    >
+                      <FiberManualRecordIcon />
+                    </span>
+                    <span>
+                      {`${hour}`}:{min < 10 ? `0${min}` : min}:
+                      {sec < 10 ? `0${sec}` : sec}
+                    </span>
                   </span>
-                  <span>
-                    {`${hour}`}:{min < 10 ? `0${min}` : min}:
-                    {sec < 10 ? `0${sec}` : sec}
-                  </span>
-                </span>
-              )}
-              {this.state.isConnecting && (
-                <span className="loadingText">Loading ...</span>
-              )}
+                )}
+                {this.state.isConnecting && (
+                  <span className="loadingText">Loading ...</span>
+                )}
+              </div>
+              <div className="btnDoubleWrap">
+                <Button
+                  variant="contained"
+                  size="large"
+                  style={{
+                    background: "#fff",
+                    color: "#fcb414",
+                    alignSelf: "center",
+                    margin: "2%",
+                    borderRadius: "50%",
+                    height: "70px",
+                  }}
+                  disabled={this.state.disableRecordBtn}
+                >
+                  <MicIcon />
+                </Button>
+                <Button
+                  onClick={() => {
+                    this.state.recordingStatus
+                      ? this.stopRecord()
+                      : this.handleRecording();
+                  }}
+                  variant="contained"
+                  size="large"
+                  style={{
+                    background: "#fcb414",
+                    color: "#fff",
+                    margin: "2%",
+                    borderRadius: "50%",
+                    height: "100px",
+                    width: "100px",
+                  }}
+                  // disabled={this.state.disableRecordBtn}
+                >
+                  {this.state.recordingStatus ? (
+                    <VideocamOffIcon />
+                  ) : (
+                    <VideoCallIcon />
+                  )}
+                </Button>
+                <Button
+                  variant="contained"
+                  size="large"
+                  style={{
+                    background: "#fff",
+                    color: "#fcb414",
+                    alignSelf: "center",
+                    margin: "2%",
+                    borderRadius: "50%",
+                    height: "70px",
+                  }}
+                  disabled={this.state.disableRecordBtn}
+                >
+                  <ClosedCaptionIcon />
+                </Button>
+              </div>
             </div>
-            <div className="btnDoubleWrap">
-              <Button
-                variant="contained"
-                size="large"
-                style={{ background: "#fff", color: "#fcb414", alignSelf: "center", margin: "2%", borderRadius: "50%", height: '70px' }}
-                disabled={this.state.disableRecordBtn}
-              >
-                <MicIcon />
-              </Button>
-              <Button
-                onClick={() => {this.state.recordingStatus ? this.stopRecord() : this.handleRecording()}}
-                variant="contained"
-                size="large"
-                style={{ background: "#fcb414", color: "#fff", margin: "2%", borderRadius: "50%", height: '100px', width: "100px"}}
-                // disabled={this.state.disableRecordBtn}
-              >
-                {this.state.recordingStatus ? <VideocamOffIcon /> : <VideoCallIcon />}
-              </Button>
-              <Button
-                variant="contained"
-                size="large"
-                style={{ background: "#fff", color: "#fcb414", alignSelf: "center", margin: "2%", borderRadius: "50%", height: '70px' }}
-                disabled={this.state.disableRecordBtn}
-              >
-                <ClosedCaptionIcon />
-              </Button>
-            </div>
-          </div>
-        </Grid>
-        <Grid item xs={12} sm={12} md={6} lg={6}>
-          {this.showRecInstructions()}
-        </Grid>
-      </Grid>
-      <Grid container className="actionBTNsWrapper" style={{ margin: "1%" }}>
-        <Grid container xs={12} sm={12} md={6} lg={6} className="sm-none">
-        </Grid>
-        <Grid container xs={12} sm={12} md={6} lg={6} >
-          <Grid item xs={12} sm={4} md={4} lg={4} style={{ margin: "4px"}}>
-            <Button
-              color="default"
-              className="changeIndustryBtn"
-              startIcon={<NavigateBeforeOutlinedIcon />}
-              onClick={this.props.moveBack}
-            >
-              Back
-            </Button>
           </Grid>
-          <Grid item xs={12} sm={4} md={5} lg={5} style={{ margin: "4px"}}>
-            <Button
-              color="default"
-              className="continueBTN"
-              endIcon={<KeyboardArrowRightIcon />}
-              // onClick={this.props.moveToNextStep}
-            >
-              Next Shot
-            </Button>
+          <Grid item xs={12} sm={12} md={6} lg={6}>
+            {this.showRecInstructions()}
           </Grid>
         </Grid>
-      </Grid>
+        <Grid container className="actionBTNsWrapper" style={{ margin: "1%" }}>
+          <Grid
+            container
+            xs={12}
+            sm={12}
+            md={6}
+            lg={6}
+            className="sm-none"
+          ></Grid>
+          <Grid container xs={12} sm={12} md={6} lg={6}>
+            <Grid item xs={12} sm={4} md={4} lg={4} style={{ margin: "4px" }}>
+              <Button
+                color="default"
+                className="changeIndustryBtn"
+                startIcon={<NavigateBeforeOutlinedIcon />}
+                onClick={this.props.moveBack}
+              >
+                Back
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={4} md={5} lg={5} style={{ margin: "4px" }}>
+              <Button
+                color="default"
+                className="continueBTN"
+                endIcon={<KeyboardArrowRightIcon />}
+                // onClick={this.props.moveToNextStep}
+              >
+                Next Shot
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
       </div>
     );
   }
