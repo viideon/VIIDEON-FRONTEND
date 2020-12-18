@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { UserProfile } from "../../Redux/Types/profile";
-import { selectChatvid,mobileViewChatVid } from "../../Redux/Actions/chatvid";
+import { selectChatvid, mobileViewChatVid } from "../../Redux/Actions/chatvid";
 import classname from "classnames";
 import DeleteDialog from "../Reusable/DeleteDialog";
 import { Grid, Menu, MenuItem } from "@material-ui/core";
@@ -17,10 +17,10 @@ type IProps = {
   drawer: boolean;
   user: UserProfile;
   chatvids: any;
-  mobileview:any
+  mobileview: any;
   logout: () => void;
   selectChatvid: (chatvid: any) => void;
-  mobileViewChatVid:(v:any)=>void
+  mobileViewChatVid: (v: any) => void;
 };
 type IState = {
   activeTab: string;
@@ -28,7 +28,7 @@ type IState = {
   search: string;
   deleteDialog: boolean;
   vidMenu: boolean;
-  isMobileView:boolean
+  isMobileView: boolean;
 };
 class SideBar extends Component<IProps, IState> {
   constructor(props: any) {
@@ -39,8 +39,7 @@ class SideBar extends Component<IProps, IState> {
       search: "",
       deleteDialog: false,
       vidMenu: false,
-      isMobileView:false
-      
+      isMobileView: false,
     };
   }
 
@@ -94,9 +93,12 @@ class SideBar extends Component<IProps, IState> {
     if (this.props.location.pathname !== activeSideBar2)
       activeSideBar2 = this.props.location.pathname;
     return (
-      <div className={drawer ? "MainDrawer" : "MainDrawerHide" } style={{
-        display: this.props.mobileview === "showChatVid" ? "none" : "inherit"
-      }}>
+      <div
+        className={drawer ? "MainDrawer" : "MainDrawerHide"}
+        style={{
+          display: this.props.mobileview === "showChatVid" ? "none" : "inherit",
+        }}
+      >
         <SearchBar onChange={this.handleChange} />
         <ThemeButton
           round={false}
@@ -154,9 +156,8 @@ class SideBar extends Component<IProps, IState> {
                             activeSideBar2 === `/chatvids/form/${vids._id}`,
                         })}
                         onClick={() => {
-                          this.props.mobileViewChatVid("showChatVid")
-                          this.handleChatvid(vids)
-                        
+                          this.props.mobileViewChatVid("showChatVid");
+                          this.handleChatvid(vids);
                         }}
                       >
                         {vids.steps[0]?.videoId?.thumbnail ? (
@@ -220,13 +221,13 @@ const mapStateToProps = (state: any) => {
     user: state.profile.user,
     drawer: state.drawer.drawer,
     chatvids: state.chatvids.chatvids,
-    mobileview:state.chatvids.mobileViewChatVid
+    mobileview: state.chatvids.mobileViewChatVid,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
     selectChatvid: (chatvid: any) => dispatch(selectChatvid(chatvid)),
-    mobileViewChatVid: (v:any) => dispatch(mobileViewChatVid(v)),
+    mobileViewChatVid: (v: any) => dispatch(mobileViewChatVid(v)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SideBar);
