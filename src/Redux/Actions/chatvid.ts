@@ -81,3 +81,9 @@ export function mobileViewChatVid(payload:any) {
     payload
   };
 }
+export function emailVideo(payload: any) {
+  return {
+    type: types.EMAIL_VIDEO,
+    payload
+  }
+}

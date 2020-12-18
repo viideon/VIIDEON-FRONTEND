@@ -6,13 +6,14 @@ import {
   getAnalytics,
   deletechatvid,
   mobileViewChatVid,
+  emailVideo,
 } from "../../Redux/Actions/chatvid";
 import classname from "classnames";
 import Colors from "../../constants/colors";
 import ThemeButton from "../../components/ThemeButton";
 import { toast } from "react-toastify";
 
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography, TextField, Button } from "@material-ui/core";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 
 import Paper from "@material-ui/core/Paper";
@@ -36,6 +37,9 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogActions from "@material-ui/core/DialogActions";
 
 import Home from "./Home";
 import "./chatvidBoard.css";
@@ -87,6 +91,7 @@ type IProps = {
   deletechatvid: (_id: string, history: any) => void;
   getChatvids: () => void;
   mobileViewChatVid: (v: any) => void;
+  emailVideo: (obj: any) => void;
   getAnalytics: (
     _id: string,
     dateFrom: any,
@@ -98,6 +103,8 @@ class Dashboard extends Component<IProps> {
   state = {
     tab: 0,
   };
+  url1 = `${process.env.REACT_APP_DOMAIN}/chatvid/res/${this.props.chatvid
+    ._id && this.props.chatvid._id}`;
   componentDidMount() {
     // this.props.getChatvids();
     // this.props.getAnalytics(this.props.chatvid._id, new Date(), new Date(), "all");
@@ -197,7 +204,9 @@ const ResponderTab = (props: any) => {
         className={`respondersCardWrapper ${resPerson === _id &&
           "activeResponder"}`}
         style={{ background: "#f2f2f2" }}
-        onClick={() => setPerson(_id)}
+        onClick={() => {
+          setPerson(_id);
+        }}
       >
         <Grid item xs={2} sm={2} md={2} lg={2}>
           <div className="avatarWrapper">
@@ -853,6 +862,8 @@ const InfoHeader = (props: any) => {
     props.deletechatvid(chatvid, props.history);
   };
   const [open, setOpen] = React.useState(false);
+  const [open1, setOpen1] = React.useState(false);
+  const [email, setEmail] = React.useState("");
   const { chatvid } = props;
   const url = `${process.env.REACT_APP_DOMAIN}/chatvid/res/${chatvid &&
     chatvid._id}`;
@@ -863,6 +874,21 @@ const InfoHeader = (props: any) => {
     toast.info("Url copied to clipboard");
   };
 
+  const handleChange = (e: any) => setEmail(e.target.value);
+  function validateEmail(email: any) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+  const handleShare = () => {
+    if (!validateEmail(email)) return toast.error("Enter a valid Email");
+    props.emailVideo({
+      email: email,
+      videoThumnail: props.chatvid && props.chatvid.thumbnail,
+      videoLink: url,
+    });
+    setOpen1(false);
+    toast.info("Video Shared on Your Email");
+  };
   return (
     <>
       <Grid container className="dashChatvidTopHeaderWrapper">
@@ -990,9 +1016,10 @@ const InfoHeader = (props: any) => {
             <LinkedinShareButton url={url}>
               <LinkedinIcon size={32} round />
             </LinkedinShareButton>
-            <EmailShareButton url={url} subject={title} body={"a"}>
+            <EmailShareButton url="" onClick={() => setOpen1(true)}>
               <EmailIcon size={32} round />
             </EmailShareButton>
+
             <RedditShareButton
               url={url}
               title={title}
@@ -1002,6 +1029,38 @@ const InfoHeader = (props: any) => {
               <RedditIcon size={32} round />
             </RedditShareButton>
           </DialogContent>
+        </Dialog>
+
+        {/* Dialog */}
+        <Dialog
+          open={open1}
+          onClose={() => setOpen1(false)}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">Share Video</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Enter your Email to Share video
+            </DialogContentText>
+            <form onChange={handleChange}>
+              <TextField
+                margin="dense"
+                id="email"
+                label="Email Address"
+                type="email"
+                name="userEmail"
+                fullWidth
+              />
+            </form>
+          </DialogContent>
+          <DialogActions>
+            <Button color="primary" onClick={() => setOpen1(false)}>
+              Cancel
+            </Button>
+            <Button color="primary" onClick={() => handleShare()}>
+              Share
+            </Button>
+          </DialogActions>
         </Dialog>
       </Grid>
     </>
@@ -1045,6 +1104,7 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(deletechatvid(_id, history)),
     getChatvids: () => dispatch(getChatvids()),
     mobileViewChatVid: (v: any) => dispatch(mobileViewChatVid(v)),
+    emailVideo: (obj: any) => dispatch(emailVideo(obj)),
     getAnalytics: (
       _id: string,
       dateFrom: any,

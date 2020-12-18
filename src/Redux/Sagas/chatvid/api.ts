@@ -29,6 +29,10 @@ export function getMetrics(payload: any) {
 export function chatVidDelete(payload: any) {
   return API.delete(`/chatvid/delete/${payload}`);
 }
+export function emailVideoSend(payload: any) {
+  console.log("in api payload",payload)
+  return API.post(`/user/emailvideo`, payload);
+}
 
 
 
