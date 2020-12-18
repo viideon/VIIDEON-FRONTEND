@@ -35,6 +35,8 @@ const UPDATE_CHATVID_JUMP: string = "UPDATE_CHATVID_JUMP";
 
 const MOBILE_VIEW_CHAT_VID: string = "MOBILE_VIEW_CHAT_VID";
 
+const EMAIL_VIDEO: string = "EMAIL_VIDEO";
+
 export const types = {
   SAVE_CHATVID_REQUEST,
   SAVE_CHATVID_SUCCESS,
@@ -69,6 +71,8 @@ export const types = {
 
   SELECT_CHATVID,
   UPDATE_CHATVID_JUMP,
+
+  EMAIL_VIDEO,
 
   MOBILE_VIEW_CHAT_VID
 };

@@ -11,6 +11,7 @@ import {
   getMetrics,
   chatVidDelete,
   updateStepJump,
+  emailVideoSend,
 } from "./api";
 import {
   selectID,
@@ -163,6 +164,27 @@ function* deleteChatVid(action: any) {
     toast.error(error.message || "There is some error.");
   }
 }
+
+function* emailVideo(action: any) {
+  try {
+    const payload = action.payload;
+    // payload.userId = userId;
+    console.log(payload)
+    const result = yield emailVideoSend(payload);
+    if (result.status === 200) {
+      // yield put({ type: types.ADD_STEP_TO_CHATVID_SUCCESS });
+      toast.success("Successfully");
+
+    } else {
+      // yield put({ type: types.ADD_STEP_TO_CHATVID_FAILURE });
+      toast.error("Something Went Wrong");
+    }
+  } catch (error) {
+    // console.log("error is", error.message)
+    yield put({ type: types.ADD_STEP_TO_CHATVID_FAILURE });
+    // toast.error(error.message);
+  }
+}
 export function* chatVidWatcher() {
   yield takeEvery(types.GET_CHATVIDS_REQUEST, getChatVidsSaga);
   yield takeEvery(types.GET_CHATVID_REQUEST, getChatVidSaga);
@@ -173,4 +195,5 @@ export function* chatVidWatcher() {
   yield takeEvery(types.SAVE_ANALYTICS_CHATVID_REQUEST, saveMetricsSaga);
   yield takeEvery(types.GET_ANALYTICS_CHATVID_REQUEST, getMetricsData);
   yield takeEvery(types.DELETE_CHATVID_REQUEST, deleteChatVid);
+  yield takeEvery(types.EMAIL_VIDEO, emailVideo);
 }

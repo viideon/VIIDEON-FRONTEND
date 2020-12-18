@@ -1,5 +1,11 @@
 import React from "react";
-import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@material-ui/core";
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Typography,
+} from "@material-ui/core";
 
 interface IProps {
   proceedToRecording: (template: any) => void;
@@ -7,9 +13,10 @@ interface IProps {
 }
 const CampaignTemplateCard: React.FC<IProps> = ({
   proceedToRecording,
-  template
+  template,
 }) => {
   const moveToRecording = () => {
+    console.log("template is ", template);
     proceedToRecording(template);
   };
   return (
@@ -25,8 +32,15 @@ const CampaignTemplateCard: React.FC<IProps> = ({
           <Typography gutterBottom variant="h5" component="h2">
             {template.name}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p" style={{ textAlign: "center" }}>
-            {`${template.totalSteps} shots, ${template.duration ? template.duration : 0} seconds`}
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            component="p"
+            style={{ textAlign: "center" }}
+          >
+            {`${template.totalSteps} shots, ${
+              template.duration ? template.duration : 0
+            } seconds`}
           </Typography>
         </CardContent>
       </CardActionArea>

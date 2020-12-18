@@ -43,13 +43,19 @@ class Dashboard extends Component<IProps> {
   };
 
   handleCheck = (index: number, person: any) => {
+    const chatVid = this.props.chatvids[index];
+    const step = chatVid.steps[0];
     this.setState({
       selectedChatvid: this.props.chatvids[index],
       selectedPerson: person,
+      step: {},
+      stpIndex: 0,
     });
   };
 
-  setStp = (step: any, stpIndex: number) => this.setState({ step, stpIndex });
+  setStp = (step: any, stpIndex: number) => {
+    this.setState({ step, stpIndex });
+  };
   handleTabChange = (activeType: number) => {
     this.setState({ activeType });
   };
@@ -74,6 +80,7 @@ class Dashboard extends Component<IProps> {
             "activeResponder"}`}
           onClick={() => {
             this.handleCheck(chatvidIndex, person);
+            console.log(person);
           }}
         >
           <Grid item xs={2} sm={2} md={2} lg={2}>

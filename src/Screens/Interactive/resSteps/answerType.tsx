@@ -1096,6 +1096,7 @@ const AudioResponse = (props: any) => {
                   <MicOutlinedIcon
                     className="RecordingIcons"
                     onClick={handleStop}
+                    style={{ position: "relative", zIndex: 1 }}
                   />
                 )}
               </Fab>
@@ -1103,6 +1104,7 @@ const AudioResponse = (props: any) => {
                 variant="static"
                 size={200}
                 value={progress}
+                style={{ position: "absolute", zIndex: 0 }}
                 className={classes.fabProgress}
               />
             </div>

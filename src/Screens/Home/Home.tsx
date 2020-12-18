@@ -66,8 +66,8 @@ class Home extends Component<IProps> {
         )}
         {console.log(
           "in home",
-          this.props.mobileview,
-          this.props.location.pathname[2]
+
+          this.props.history
         )}
 
         <div
