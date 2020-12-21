@@ -80,7 +80,6 @@ class Dashboard extends Component<IProps> {
             "activeResponder"}`}
           onClick={() => {
             this.handleCheck(chatvidIndex, person);
-            console.log(person);
           }}
         >
           <Grid item xs={2} sm={2} md={2} lg={2}>

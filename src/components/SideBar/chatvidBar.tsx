@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { UserProfile } from "../../Redux/Types/profile";
-import { selectChatvid, mobileViewChatVid } from "../../Redux/Actions/chatvid";
+import {
+  selectChatvid,
+  mobileViewChatVid,
+  deletechatvid,
+} from "../../Redux/Actions/chatvid";
 import classname from "classnames";
 import DeleteDialog from "../Reusable/DeleteDialog";
 import { Grid, Menu, MenuItem } from "@material-ui/core";
@@ -10,6 +14,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import SearchBar from "../SearchBar";
 import ThemeButton from "../ThemeButton";
 import "./style.css";
+import { boolean } from "yup";
 
 type IProps = {
   history: any;
@@ -19,6 +24,7 @@ type IProps = {
   chatvids: any;
   mobileview: any;
   logout: () => void;
+  deletechatvid: (_id: string, history: any) => void;
   selectChatvid: (chatvid: any) => void;
   mobileViewChatVid: (v: any) => void;
 };
@@ -30,6 +36,8 @@ type IState = {
   vidMenu: boolean;
   isMobileView: boolean;
   anchorEl: null | HTMLElement;
+  isMenu: boolean;
+  currentChatvid: any;
 };
 class SideBar extends Component<IProps, IState> {
   constructor(props: any) {
@@ -42,9 +50,10 @@ class SideBar extends Component<IProps, IState> {
       vidMenu: false,
       isMobileView: false,
       anchorEl: null,
+      isMenu: false,
+      currentChatvid: "",
     };
   }
-
   handleChangeTab = (path: string) => {
     this.setState({ activeTab: path });
     this.props.history.push(path);
@@ -54,8 +63,13 @@ class SideBar extends Component<IProps, IState> {
     this.setState({ logoutModal: !this.state.logoutModal });
   };
   handleChatvid = (chatvid: any) => {
-    this.props.selectChatvid(chatvid);
-    this.handleChangeTab(`/chatvids/form/${chatvid._id}`);
+    if (!this.state.isMenu) {
+      this.props.selectChatvid(chatvid);
+      this.handleChangeTab(`/chatvids/form/${chatvid._id}`);
+      this.setState({
+        currentChatvid: chatvid,
+      });
+    }
   };
   renderChatvids = (chatvids: any) => {
     const { search } = this.state;
@@ -85,15 +99,14 @@ class SideBar extends Component<IProps, IState> {
     });
   };
   deleteAction = (id: string) => {
-    console.log("delete video with ID", id);
-    // deleteVideo(id);
-    // toast.error(`Video Deleted successfully of title ${title} `)
+    this.setState({ anchorEl: null });
+    this.props.deletechatvid(id, this.props.history);
   };
   handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    this.setState({ anchorEl: event.currentTarget });
+    this.setState({ anchorEl: event.currentTarget, isMenu: true });
   };
   handleClose = () => {
-    this.setState({ anchorEl: null });
+    this.setState({ anchorEl: null, isMenu: false });
   };
   render() {
     const { drawer } = this.props;
@@ -183,24 +196,36 @@ class SideBar extends Component<IProps, IState> {
                         >
                           {vids.name}{" "}
                         </span>
-                        {/* <span className="vertIcon" onClick={this.handleClick}>
+                        <span className="vertIcon" onClick={this.handleClick}>
                           <MoreVertIcon style={{ color: "#000" }} />
-                        </span> */}
+                        </span>
 
-                        <Menu
-                          id="menuVideoCard"
-                          anchorEl={this.state.anchorEl}
-                          keepMounted
-                          open={Boolean(this.state.anchorEl)}
-                          onClose={this.handleClose}
-                        >
-                          <MenuItem>View</MenuItem>
-                          <MenuItem>Edit</MenuItem>
-                          <MenuItem>Copy url</MenuItem>
-                          <MenuItem onClick={() => this.deleteAction(vids._id)}>
-                            Delete
-                          </MenuItem>
-                        </Menu>
+                        {this.state.currentChatvid._id === vids._id && (
+                          <Menu
+                            id="menuVideoCard"
+                            anchorEl={this.state.anchorEl}
+                            keepMounted
+                            open={Boolean(this.state.anchorEl)}
+                            onClose={this.handleClose}
+                          >
+                            <MenuItem
+                              onClick={() =>
+                                this.props.history.push(
+                                  `/chatvids/edit/${vids && vids._id}`
+                                )
+                              }
+                            >
+                              Edit
+                            </MenuItem>
+                            <MenuItem
+                              onClick={() =>
+                                this.deleteAction(this.state.currentChatvid._id)
+                              }
+                            >
+                              Delete
+                            </MenuItem>
+                          </Menu>
+                        )}
                       </div>
                     )}
                   </div>
@@ -230,6 +255,8 @@ const mapStateToProps = (state: any) => {
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    deletechatvid: (_id: string, history: any) =>
+      dispatch(deletechatvid(_id, history)),
     selectChatvid: (chatvid: any) => dispatch(selectChatvid(chatvid)),
     mobileViewChatVid: (v: any) => dispatch(mobileViewChatVid(v)),
   };
