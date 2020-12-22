@@ -34,6 +34,7 @@ class Dashboard extends Component<IProps> {
     step: {},
     activeType: 0,
     stpIndex: 0,
+    chatvidsSort: [],
   };
   componentDidMount() {
     this.props.getChatvids();
@@ -45,7 +46,22 @@ class Dashboard extends Component<IProps> {
   handleCheck = (index: number, person: any) => {
     const chatVid = this.props.chatvids[index];
     console.log(index);
+    console.log("chatvidbord", chatVid.steps);
     const step = chatVid.steps[0];
+    chatVid.steps.map((step: any) => {
+      if (step.responseType === "Multiple-Choice") {
+        if (step.replies.length > 0) return this.setState({ step: step || {} });
+      }
+      if (step.responseType === "Open-ended") {
+        step.replies?.map((reply: any) => {
+          console.log(reply);
+          if (reply.type == "text") return this.setState({ activeType: 1 });
+          if (reply.type == "audio") return this.setState({ activeType: 2 });
+          if (reply.type == "video") return this.setState({ activeType: 3 });
+        });
+      }
+    });
+
     this.setState({
       selectedChatvid: this.props.chatvids[index],
       selectedPerson: person,
@@ -56,6 +72,15 @@ class Dashboard extends Component<IProps> {
 
   setStp = (step: any, stpIndex: number) => {
     this.setState({ step, stpIndex });
+    console.log("setstp", step);
+    if (step.responseType === "Open-ended") {
+      step.replies?.map((reply: any) => {
+        console.log(reply);
+        if (reply.type == "text") return this.setState({ activeType: 1 });
+        if (reply.type == "audio") return this.setState({ activeType: 2 });
+        if (reply.type == "video") return this.setState({ activeType: 3 });
+      });
+    }
   };
   handleTabChange = (activeType: number) => {
     this.setState({ activeType });
@@ -81,7 +106,6 @@ class Dashboard extends Component<IProps> {
             "activeResponder"}`}
           onClick={() => {
             this.handleCheck(chatvidIndex, person);
-            console.log(person);
           }}
         >
           <Grid item xs={2} sm={2} md={2} lg={2}>
@@ -178,6 +202,8 @@ class Dashboard extends Component<IProps> {
             <div>
               <Typography variant="h6"> Responders </Typography>
             </div>
+            {console.log(this.props.chatvids)}
+
             {this.props.chatvids?.map((chatvid: any, index: number) => {
               let unique: any = {};
               const people = chatvid.people?.filter(
@@ -185,13 +211,10 @@ class Dashboard extends Component<IProps> {
                   !unique[person._id] && (unique[person._id] = person) && person
               );
               return people?.map((person: any, ind: number) => {
-                {
-                  console.log("chatvid is", chatvid);
-                }
                 return this.renderResponders(
                   person,
                   chatvid.name,
-                  new Date(chatvid.createdAt),
+                  new Date(chatvid.updatedAt),
                   ind,
                   index
                 );
@@ -204,7 +227,7 @@ class Dashboard extends Component<IProps> {
                 {" "}
                 Response on{" "}
                 {`${selectedChatvid.name} - ${new Date(
-                  selectedChatvid.createdAt
+                  selectedChatvid.updatedAt
                 ).toLocaleString()}`}{" "}
               </Typography>
             )}
@@ -216,6 +239,7 @@ class Dashboard extends Component<IProps> {
                       <div
                         className="stepAvatarWrapper"
                         key={ind}
+                        style={{ opacity: this.state.step === step ? 1 : 0.6 }}
                         onClick={() => {
                           this.setStp(step, ind + 1);
                         }}
@@ -255,6 +279,7 @@ class Dashboard extends Component<IProps> {
                       md={2}
                       lg={2}
                       className="optionDiv"
+                      style={{ overflow: "unset" }}
                     >
                       <div
                         className={`IconWrapper ${activeType === 1 &&

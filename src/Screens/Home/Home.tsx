@@ -64,7 +64,6 @@ class Home extends Component<IProps> {
             logout={logout}
           />
         )}
-
         <div
           className={`chatvidBody ${
             drawer ? "wrapperHomeContent" : "wrapperHomeContentFull"

@@ -23,7 +23,11 @@ function* getChatVidsSaga(action: any) {
     let userId = yield select(selectID);
     const result = yield getChatvids(userId);
     if (result.status === 200) {
-      yield put({ type: types.GET_CHATVIDS_SUCCESS, payload: result.data.message });
+      let chatvidsorted = result.data.message.sort((a:any,b:any)=>{
+        return +new Date(b.updatedAt)- +new Date(a.updatedAt)
+      })
+console.log("saga",chatvidsorted)
+      yield put({ type: types.GET_CHATVIDS_SUCCESS, payload: chatvidsorted });
     } else {
       yield put({ type: types.GET_CHATVIDS_FAILURE });
       toast.error("Something Went Wrong");

@@ -134,6 +134,7 @@ class ChatVid extends Component<IProps> {
 
   handleBack = (final = false) => {
     this.setState({ step: final === true ? 2 : this.state.step - 1 });
+    this.setState({ choices: [] });
   };
 
   handleProceed = (thumbnailBlob: any, video: any) => {
@@ -145,8 +146,15 @@ class ChatVid extends Component<IProps> {
   };
 
   moveTofinal = () => {
+    console.log("in step index", this.state);
     if (this.state.responseType === "Calendly" && !this.state.calendar)
       return toast.error("Add a link first!");
+    if (
+      this.state.responseType === "Multiple-Choice" &&
+      this.state.choices.length < 2
+    ) {
+      return toast.error("Adda atleast two multiple choices");
+    }
     if (this.state.isAddStep && this.state.chatvidId) {
       this.createChatVid();
     } else {

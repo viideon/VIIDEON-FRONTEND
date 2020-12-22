@@ -8,6 +8,7 @@ let initialState: any = {
   stats: {},
   mobileViewChatVid:"showChatVid"
 };
+let sortedChatvid:any=[]
 const chatvidReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case authTypes.LOUGOUT:

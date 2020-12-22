@@ -328,7 +328,7 @@ const ResponderTab = (props: any) => {
           return renderCard(
             props.chatvid.name,
             person.name,
-            props.chatvid.createdAt,
+            props.chatvid.updatedAt || props.chatvid.createdAt,
             person._id
           );
         })}
@@ -860,6 +860,7 @@ const Chart = (props: any) => {
 
 const InfoHeader = (props: any) => {
   const handleDeleteChatvid = (chatvid: any) => {
+    console.log(props.chatvid._id, chatvid);
     props.deletechatvid(chatvid, props.history);
   };
   const [open, setOpen] = React.useState(false);
