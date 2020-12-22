@@ -64,11 +64,6 @@ class Home extends Component<IProps> {
             logout={logout}
           />
         )}
-        {console.log(
-          "in home",
-
-          this.props.history
-        )}
 
         <div
           className={`chatvidBody ${

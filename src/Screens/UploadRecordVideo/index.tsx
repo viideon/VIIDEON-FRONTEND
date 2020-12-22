@@ -17,13 +17,13 @@ import {
   sendVideoToEmail,
   saveVideo,
   toggleSendVariable,
-  sendMultipleEmails
+  sendMultipleEmails,
 } from "../../Redux/Actions/videos";
 import {
   VideoState,
   EmailVideo,
   VideoSave,
-  MultiEmail
+  MultiEmail,
 } from "../../Redux/Types/videos";
 import { AuthState } from "../../Redux/Types/auth";
 import * as Constants from "../../constants/constants";
@@ -72,7 +72,7 @@ class UploadRecord extends Component<IProps, IState> {
   video: any;
   constructor(props: any) {
     super(props);
-    this.onDrop = files => {
+    this.onDrop = (files) => {
       this.props.toggleSendVariable();
       this.getThumbnailfromFile(files[0]);
       this.setState({ files });
@@ -93,17 +93,17 @@ class UploadRecord extends Component<IProps, IState> {
       progressVideo: 0,
       emails: [],
       thumbnail: "",
-      addLogoText: false
+      addLogoText: false,
     };
   }
   titleNameHandler = (event: any) => {
     this.setState({
-      title: event.target.value
+      title: event.target.value,
     });
   };
   emailHandler = (event: any) => {
     this.setState({
-      recieverEmail: event.target.value
+      recieverEmail: event.target.value,
     });
   };
 
@@ -116,7 +116,7 @@ class UploadRecord extends Component<IProps, IState> {
   };
   handleDeleteChip = (delEmail: any) => {
     this.setState({
-      emails: this.state.emails.filter((email: string) => email !== delEmail)
+      emails: this.state.emails.filter((email: string) => email !== delEmail),
     });
   };
   sendMultipleEmail = () => {
@@ -130,7 +130,7 @@ class UploadRecord extends Component<IProps, IState> {
       const emails = this.state.emails.join();
       const emailVideoObj = {
         recieverEmail: emails,
-        videoId: this.props.savedVideoId
+        videoId: this.props.savedVideoId,
       };
       this.props.sendMultipleEmail(emailVideoObj);
       this.setState({ emails: [] });
@@ -141,19 +141,22 @@ class UploadRecord extends Component<IProps, IState> {
       toast.warn("Enter a video title");
       return;
     }
+    this.setState({
+      title: "",
+    });
     this.setState({ fileProgress: true, progressFile: 0 });
     let s3 = new AWS.S3(config);
     const options = {
       Bucket: config.bucketName,
       ACL: config.ACL,
       Key: Date.now().toString() + this.state.files[0].name,
-      Body: this.state.files[0]
+      Body: this.state.files[0],
     };
     const thumbnailOptions = {
       Bucket: config.bucketName,
       ACL: config.ACL,
       Key: Date.now().toString() + ".jpeg",
-      Body: this.state.thumbnail
+      Body: this.state.thumbnail,
     };
     s3.upload(options, (err: any, data: any) => {
       if (err) {
@@ -172,12 +175,12 @@ class UploadRecord extends Component<IProps, IState> {
           url: this.state.urlRecord,
           userId: this.props.auth!.user!._id,
           thumbnail: data.Location,
-          campaign: false
+          campaign: false,
         };
         this.setState({ fileProgress: false });
         this.props.saveVideo(video);
       });
-    }).on("httpUploadProgress", progress => {
+    }).on("httpUploadProgress", (progress) => {
       let uploaded: number = (progress.loaded * 100) / progress.total;
       this.setState({ progressFile: uploaded });
     });
@@ -194,7 +197,7 @@ class UploadRecord extends Component<IProps, IState> {
       const recieverEmail = this.state.recieverEmail;
       const video = {
         videoId: this.props.savedVideoId,
-        recieverEmail
+        recieverEmail,
       };
       this.props.sendVideoToEmail(video);
       this.setState({ recieverEmail: "" });
@@ -230,7 +233,7 @@ class UploadRecord extends Component<IProps, IState> {
         <Header
           styles={{
             backgroundImage:
-              "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"
+              "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))",
           }}
         />
         <div className="recordMainContainer">
@@ -275,7 +278,7 @@ class UploadRecord extends Component<IProps, IState> {
                             textAlign: "center",
                             cursor: "pointer",
                             margin: "auto",
-                            width: 100
+                            width: 100,
                           }}
                         >
                           <input {...getInputProps()} />
@@ -291,7 +294,7 @@ class UploadRecord extends Component<IProps, IState> {
                               marginTop: 20,
                               textAlign: "center",
                               fontFamily: "Poppins",
-                              fontWeight: "bold"
+                              fontWeight: "bold",
                             }}
                           >
                             {Constants.CLICK_AND_DRAG}
@@ -321,14 +324,14 @@ class UploadRecord extends Component<IProps, IState> {
                                       fullWidth
                                       margin="normal"
                                       InputLabelProps={{
-                                        shrink: true
+                                        shrink: true,
                                       }}
                                       style={{ margin: "40px 0px" }}
                                     />
                                     <ThemeButton
                                       style={{
                                         background: Colors.themeBlue,
-                                        color: Colors.white
+                                        color: Colors.white,
                                       }}
                                       disabled={
                                         this.state.videoProgress || loading
@@ -349,7 +352,7 @@ class UploadRecord extends Component<IProps, IState> {
                                         value={this.state.recieverEmail}
                                         name="recieverEmail"
                                         InputLabelProps={{
-                                          shrink: true
+                                          shrink: true,
                                         }}
                                         onChange={this.emailHandler}
                                       />
@@ -359,7 +362,7 @@ class UploadRecord extends Component<IProps, IState> {
                                       name={`${Constants.SEND_THROUGH_EMAIL}`}
                                       style={{
                                         backgroundColor: Colors.themeGreen,
-                                        color: Colors.white
+                                        color: Colors.white,
                                       }}
                                     />
                                     <div className="formGroupMultiple">
@@ -368,10 +371,10 @@ class UploadRecord extends Component<IProps, IState> {
                                         value={this.state.emails}
                                         placeholder="Enter email and press enter"
                                         fullWidth
-                                        onAdd={chips =>
+                                        onAdd={(chips) =>
                                           this.handleChipAdd(chips)
                                         }
-                                        onDelete={chip =>
+                                        onDelete={(chip) =>
                                           this.handleDeleteChip(chip)
                                         }
                                       />
@@ -380,7 +383,7 @@ class UploadRecord extends Component<IProps, IState> {
                                       <ThemeButton
                                         style={{
                                           backgroundColor: Colors.themeGreen,
-                                          color: Colors.white
+                                          color: Colors.white,
                                         }}
                                         onClick={this.sendMultipleEmail}
                                         name="Broadcast"
@@ -390,7 +393,7 @@ class UploadRecord extends Component<IProps, IState> {
                                       style={{
                                         background: Colors.themeBlue,
                                         color: Colors.white,
-                                        marginTop: "30px"
+                                        marginTop: "30px",
                                       }}
                                       onClick={this.navigateToVideos}
                                       name="Done"
@@ -422,7 +425,7 @@ class UploadRecord extends Component<IProps, IState> {
             style={{
               opacity: 0.00001,
               position: "absolute",
-              left: "-999px"
+              left: "-999px",
             }}
           />
         </div>
@@ -434,14 +437,14 @@ class UploadRecord extends Component<IProps, IState> {
 const iconStyle = {
   padding: 0,
   width: "1em",
-  height: "1em"
+  height: "1em",
 };
 const mapStateToProps = (state: any) => {
   return {
     auth: state.auth,
     videoUser: state.video,
     savedVideoId: state.video.savedVideoId,
-    progressEmail: state.video.progressEmail
+    progressEmail: state.video.progressEmail,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
@@ -450,7 +453,7 @@ const mapDispatchToProps = (dispatch: any) => {
     saveVideo: (video: VideoSave) => dispatch(saveVideo(video)),
     toggleSendVariable: () => dispatch(toggleSendVariable()),
     sendMultipleEmail: (emailVideoObj: MultiEmail) =>
-      dispatch(sendMultipleEmails(emailVideoObj))
+      dispatch(sendMultipleEmails(emailVideoObj)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(UploadRecord);

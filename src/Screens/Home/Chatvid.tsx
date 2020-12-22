@@ -568,6 +568,7 @@ const StepsTab = (props: any) => {
             )
           }
         >
+          {console.log("steps in chatvid", props?.chatvid?.steps)}
           <AddCircleIcon />
           <Typography variant="subtitle1">Add more steps</Typography>
         </Grid>

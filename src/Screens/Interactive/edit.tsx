@@ -11,25 +11,39 @@ import "react-tabs/style/react-tabs.css";
 
 import Header from "../../components/Header/Header";
 import { Grid, Typography } from "@material-ui/core";
-import CancelIcon from '@material-ui/icons/Cancel';
+import CancelIcon from "@material-ui/icons/Cancel";
 import "./style.css";
 
-
 // stepper
-import StepButton from '@material-ui/core/StepButton';
+import StepButton from "@material-ui/core/StepButton";
 
+import {
+  makeStyles,
+  Theme,
+  createStyles,
+  withStyles,
+} from "@material-ui/core/styles";
+import Stepper from "@material-ui/core/Stepper";
+import Step from "@material-ui/core/Step";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 
-import { makeStyles, Theme, createStyles, withStyles } from '@material-ui/core/styles';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-
-import { ChatvidRedirectionLogics } from '../../components/SearchBar'
+import { ChatvidRedirectionLogics } from "../../components/SearchBar";
 // end stepper
 
-
-var month = ["January", "February", "March", "April", "May", "June", "July",
-  "August", "September", "October", "November", "December"];
+var month = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 const s3 = new AWS.S3(config);
 type IProps = {
   auth: AuthState;
@@ -60,12 +74,16 @@ class ChatVid extends Component<IProps> {
     choices: [],
     isAddStep: false,
     chatvidId: "",
-  }
+  };
 
   componentDidMount() {
-    let pathname = this.props.history.location.pathname.split('/');
+    let pathname = this.props.history.location.pathname.split("/");
     if (pathname[1] === "chatvid" && pathname[2] === "step") {
-      this.setState({ isAddStep: true, chatvidId: pathname[3], title: this.props.chatvids.selectedChatvid.name })
+      this.setState({
+        isAddStep: true,
+        chatvidId: pathname[3],
+        title: this.props.chatvids.selectedChatvid.name,
+      });
     }
   }
 
@@ -78,13 +96,16 @@ class ChatVid extends Component<IProps> {
         <Header
           styles={{
             backgroundImage:
-              "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"
+              "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))",
           }}
         />
         <Grid container className="EditChatvidMainContainer">
           <div className="finalTabHeader">
-            <CancelIcon className="finalCancel cursorPointer" onClick={() => this.props.history.push(`/chatvids/form/${_id}`)} />
-            <Typography variant="subtitle1" >{`${name} - ${date}`} </Typography>
+            <CancelIcon
+              className="finalCancel cursorPointer"
+              onClick={() => this.props.history.push(`/chatvids/form/${_id}`)}
+            />
+            <Typography variant="subtitle1">{`${name} - ${date}`} </Typography>
           </div>
           <div className="stepperWrapperContainer">
             {/* {
@@ -104,50 +125,79 @@ class ChatVid extends Component<IProps> {
   }
 }
 
-// Stepper  
+// Stepper
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: '100%',
-      overflow: 'scroll'
+      width: "100%",
+      overflow: "scroll",
     },
     button: {
       marginRight: theme.spacing(1),
     },
     completed: {
-      display: 'inline-block',
+      display: "inline-block",
     },
     instructions: {
       marginTop: theme.spacing(1),
       marginBottom: theme.spacing(1),
     },
-  }),
+  })
 );
 
 const makemeSteps = (chatvid: any) => {
-  var stpArray: any = [...Array((chatvid.steps.length * 2)).keys()]
-  var ind = 0
+  var stpArray: any = [...Array(chatvid.steps.length * 2).keys()];
+  var ind = 0;
   const newStepArray: any = stpArray.map((item: any, index: number) => {
     if (!(index % 2)) {
       item = chatvid.steps[ind];
       ind++;
     }
     return item;
-  })
+  });
   // console.log(newStepArray)
 
-  return newStepArray
-}
+  return newStepArray;
+};
 
 function HorizontalNonLinearStepper(props: any) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-  const [completed, setCompleted] = React.useState<{ [k: number]: boolean }>({});
+  const [completed, setCompleted] = React.useState<{ [k: number]: boolean }>(
+    {}
+  );
   const [steps, setSteps]: any = React.useState(makemeSteps(props.chatvid));
   const [editSteps, setEditSteps]: any = React.useState({});
   // const { steps } = props.chatvid;
-  const upperCaseAlp = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+  const upperCaseAlp = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+  ];
 
   const totalSteps = () => {
     return steps.length;
@@ -169,78 +219,128 @@ function HorizontalNonLinearStepper(props: any) {
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
         ? // It's the last step, but not all steps have been completed,
-        // find the first step that has been completed
-        steps.findIndex((step: any, i: number) => !(i in completed))
+          // find the first step that has been completed
+          steps.findIndex((step: any, i: number) => !(i in completed))
         : activeStep + 1;
     setActiveStep(newActiveStep);
   };
 
   const handleStep = (step: number) => () => {
+    console.log("steps in handle with props ", props?.chatvid?.steps);
+    console.log("steps in handle with ", steps);
+    console.log("step is ", step);
+    const index = steps.findIndex((x: any) => x == step);
+    console.log("index is ", index);
+    const obj = steps[index - 1];
+    console.log("obj is ", obj);
+    const newIndex = props?.chatvid?.steps.findIndex(
+      (x: any) => x._id === obj._id
+    );
+
+    console.log("newIndex is ", newIndex);
     setActiveStep(step);
-    props.history.push(`/chatvid/step/${props.chatvid._id}/${step}`)
+    props.history.push(`/chatvid/step/${props.chatvid._id}/${newIndex + 2}`);
   };
 
-
   const handleJump = async (stepId: any, index: number, jumpTo: number) => {
-    editSteps[stepId] = { jumpTo: jumpTo}
-    await setEditSteps({...editSteps})
+    editSteps[stepId] = { jumpTo: jumpTo };
+    await setEditSteps({ ...editSteps });
     let step: any = {
       _id: stepId,
-      jumpTo
-    }
-    props.updateStepJump(step)
-  }
-  const handleChoiceJump = async (stepId: string, choiceId: string, choiceInd: number, stepInd: number, value: number) => {
-    if(!editSteps[stepId]) editSteps[stepId] = {};
+      jumpTo,
+    };
+    props.updateStepJump(step);
+  };
+  const handleChoiceJump = async (
+    stepId: string,
+    choiceId: string,
+    choiceInd: number,
+    stepInd: number,
+    value: number
+  ) => {
+    if (!editSteps[stepId]) editSteps[stepId] = {};
     editSteps[stepId][choiceId] = {};
-    editSteps[stepId][choiceId] = { jumpTo : value};
-    await setEditSteps((oldSteps: any) => { return {...oldSteps, ...editSteps}})
+    editSteps[stepId][choiceId] = { jumpTo: value };
+    await setEditSteps((oldSteps: any) => {
+      return { ...oldSteps, ...editSteps };
+    });
     let step: any = {
       _id: stepId,
       jumpChoice: {},
-    }
+    };
     step.jumpChoice[choiceId] = value;
-    props.updateStepJump(step)
-  }
+    props.updateStepJump(step);
+  };
 
   const renderLogic = (step: any, length: number, index: number) => {
-    
     return (
       <>
-        {step.responseType === "Multiple-Choice" ?
+        {step.responseType === "Multiple-Choice" ? (
           step.choices.map((choice: any, ind: number) => {
-            return <ChatvidRedirectionLogics text={`If option ${upperCaseAlp[ind]} jump to`} onChange={(event: number) => handleChoiceJump(step._id, choice._id, ind, index, event)} choiceInd={ind} length={length} index={index} />
+            return (
+              <ChatvidRedirectionLogics
+                text={`If option ${upperCaseAlp[ind]} jump to`}
+                onChange={(event: number) =>
+                  handleChoiceJump(step._id, choice._id, ind, index, event)
+                }
+                choiceInd={ind}
+                length={length}
+                index={index}
+              />
+            );
           })
-          :
-          (<ChatvidRedirectionLogics text="Always move to " onChange={(event: number) => handleJump(step._id, index, event)} length={length} index={index} />)
-        }
+        ) : (
+          <ChatvidRedirectionLogics
+            text="Always move to "
+            onChange={(event: number) => handleJump(step._id, index, event)}
+            length={length}
+            index={index}
+          />
+        )}
       </>
-    )
-  }
+    );
+  };
 
   return (
     <div className={classes.root}>
       <Stepper nonLinear activeStep={activeStep}>
-        {steps && steps.map((step: any, index: number) => (
-          <Step key={index} style={{ marginRight: !isNaN(step) ? "4%" : ""}}>
-            {step?.videoId?.thumbnail ?
-              (<div className="thumbnaiForStepper">
-                <img src={step?.videoId?.thumbnail} alt="thumbnail" className="thumbnail" />
-              </div>)
-              :
-              (<>
-                <div className="stepLogicContainer">
-                  {renderLogic(steps[index - 1], props.chatvid.steps.length, index - 1)}
+        {console.log("steps in edit", steps)}
+        {console.log("steps in edit with props", props?.chatvid?.steps)}
+        {steps &&
+          steps.map((step: any, index: number) => (
+            <Step key={index} style={{ marginRight: !isNaN(step) ? "4%" : "" }}>
+              {step?.videoId?.thumbnail ? (
+                <div className="thumbnaiForStepper">
+                  <img
+                    src={step?.videoId?.thumbnail}
+                    alt="thumbnail"
+                    className="thumbnail"
+                  />
                 </div>
-              </>)
-            }
-            {!isNaN(step) ?
-              <StepButton children={"ADD STEP"} icon={<AddCircleIcon />} onClick={handleStep(index)} completed={true} />
-              :
-              <StepButton completed={true} />
-            }
-          </Step>
-        ))}
+              ) : (
+                <>
+                  <div className="stepLogicContainer">
+                    {renderLogic(
+                      steps[index - 1],
+                      props.chatvid.steps.length,
+                      index - 1
+                    )}
+                  </div>
+                </>
+              )}
+
+              {!isNaN(step) ? (
+                <StepButton
+                  children={"ADD STEP"}
+                  icon={<AddCircleIcon />}
+                  onClick={handleStep(index)}
+                  completed={true}
+                />
+              ) : (
+                <StepButton completed={true} />
+              )}
+            </Step>
+          ))}
       </Stepper>
     </div>
   );
@@ -258,7 +358,7 @@ const mapStateToProps = (state: any) => {
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    updateStepJump: (step: any) => dispatch(updateJump(step))
-  }
+    updateStepJump: (step: any) => dispatch(updateJump(step)),
+  };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ChatVid);

@@ -9,10 +9,10 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import TextField from "@material-ui/core/TextField";
 import StopRoundedIcon from "@material-ui/icons/StopRounded";
-import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import CancelRoundedIcon from "@material-ui/icons/CancelRounded";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 
 import { toast } from "react-toastify";
 
@@ -50,7 +50,8 @@ class Recording extends React.Component<IProps> {
     showNotSupported: false,
     deniedPermission: false,
     pause: false,
-    note: false
+    note: false,
+    isClicked: false,
   };
   recordVideo: any;
   video: any;
@@ -64,8 +65,8 @@ class Recording extends React.Component<IProps> {
   }
 
   componentWillReceiveProps(nextProps: any) {
-    if (nextProps.quality && (this.state.selectValue !== nextProps.quality)) {
-      this.setQuality({ target: { value: nextProps.quality } })
+    if (nextProps.quality && this.state.selectValue !== nextProps.quality) {
+      this.setQuality({ target: { value: nextProps.quality } });
     }
     this.handleUploaded(nextProps);
   }
@@ -73,8 +74,8 @@ class Recording extends React.Component<IProps> {
   handleUploaded = (props: any) => {
     if (!this.resultVideo) {
       setTimeout(() => {
-        this.handleUploaded(props)
-      }, 50)
+        this.handleUploaded(props);
+      }, 50);
     } else if (props.uploaded) {
       if (props.video) {
         this.resultVideo.src = URL.createObjectURL(props.video);
@@ -90,8 +91,7 @@ class Recording extends React.Component<IProps> {
         });
       }
     }
-
-  }
+  };
 
   setupMedia = () => {
     if (this.resultVideo) {
@@ -102,34 +102,38 @@ class Recording extends React.Component<IProps> {
         this.setState({
           showNotSupported: true,
           isConnecting: false,
-          showRecordBtn: false
+          showRecordBtn: false,
         });
         return;
       }
       this.video = this.refs.video;
       this.requestUserMedia();
-    } else { setTimeout(() => { this.setupMedia() }, 500) }
+    } else {
+      setTimeout(() => {
+        this.setupMedia();
+      }, 500);
+    }
   };
 
   captureUserMedia = (callback: any) => {
     const params: any = {
       video: {
         width: {
-          ideal: this.state.width
+          ideal: this.state.width,
         },
         height: {
-          ideal: this.state.height
-        }
+          ideal: this.state.height,
+        },
       },
-      audio: true
+      audio: true,
     };
 
-    navigator.getUserMedia(params, callback, error => {
+    navigator.getUserMedia(params, callback, (error) => {
       if (error.name === "NotAllowedError") {
         this.setState({
           deniedPermission: true,
           isConnecting: false,
-          showRecordBtn: false
+          showRecordBtn: false,
         });
       }
     });
@@ -139,7 +143,7 @@ class Recording extends React.Component<IProps> {
     this.captureUserMedia((stream: any) => {
       this.recordVideo = RecordRTC(stream, {
         type: "video/webm",
-        mimeType: "video/webm;codecs=vp8"
+        mimeType: "video/webm;codecs=vp8",
       });
       this.localStream = stream;
       this.video.srcObject = this.localStream;
@@ -152,7 +156,7 @@ class Recording extends React.Component<IProps> {
     this.setState({
       showCountdown: true,
       showRecordBtn: false,
-      showQualityInput: false
+      showQualityInput: false,
     });
     setTimeout(() => this.startRecord(), 3000);
   };
@@ -164,11 +168,11 @@ class Recording extends React.Component<IProps> {
       recordingStatus: true,
       showTimer: true,
       showStopBtn: true,
-      count: 0
+      count: 0,
     });
     this.recordVideo.startRecording();
     this.setState({
-      timerTimeout: setInterval(this.trackTime, 1000)
+      timerTimeout: setInterval(this.trackTime, 1000),
     });
   };
 
@@ -180,7 +184,7 @@ class Recording extends React.Component<IProps> {
       disableRecordBtn: false,
       showStopBtn: false,
       showQualityInput: true,
-      showRecordBtn: true
+      showRecordBtn: true,
     });
     this.stopAndGetBlob(getBlob);
   };
@@ -199,7 +203,7 @@ class Recording extends React.Component<IProps> {
     } else {
       try {
         this.recordVideo.stopRecording(() => {
-          window.getSeekableBlob(this.recordVideo.getBlob(), function (
+          window.getSeekableBlob(this.recordVideo.getBlob(), function(
             seekableBlob: any
           ) {
             that.stopStream();
@@ -218,13 +222,13 @@ class Recording extends React.Component<IProps> {
 
   trackTime = () => {
     this.setState({
-      count: this.state.count + 1
+      count: this.state.count + 1,
     });
   };
 
   stopStream = () => {
     this.localStream &&
-      this.localStream.getTracks().forEach(function (track: any) {
+      this.localStream.getTracks().forEach(function(track: any) {
         track.stop();
       });
     if (this.video) this.video.srcObect = null;
@@ -289,21 +293,25 @@ class Recording extends React.Component<IProps> {
       showRecordBtn: true,
       showCountdown: false,
       recordingStatus: false,
-    })
+    });
     try {
       this.recordVideo && this.recordVideo.stopRecording();
     } catch (error) {
-      console.log("err: in stoping: ", error.message)
+      console.log("err: in stoping: ", error.message);
     }
     this.props.reset && this.props.reset();
     setTimeout(() => {
       this.setupMedia();
-    }, 220)
-  }
+    }, 220);
+  };
 
   handleProceed = () => {
-    this.props.proceed && this.props.proceed();
-  }
+    const { isClicked } = this.state;
+    if (!isClicked) {
+      this.props.proceed && this.props.proceed();
+      this.setState({ isClicked: true });
+    }
+  };
 
   render() {
     const {
@@ -317,7 +325,7 @@ class Recording extends React.Component<IProps> {
       isConnecting,
       showNotSupported,
       deniedPermission,
-      note
+      note,
     } = this.state;
     const min = Math.floor(count / 60) % 60;
     const hour = Math.floor(count / 3600);
@@ -344,7 +352,7 @@ class Recording extends React.Component<IProps> {
               height: "100%",
               position: "absolute",
               top: 0,
-              left: 0
+              left: 0,
             }}
           />
           <video
@@ -357,7 +365,7 @@ class Recording extends React.Component<IProps> {
               height: "100%",
               position: "absolute",
               top: 0,
-              left: 0
+              left: 0,
             }}
           />
           {showCountdown && <Counter />}
@@ -368,11 +376,19 @@ class Recording extends React.Component<IProps> {
                 {sec < 10 ? `0${sec}` : sec}
               </span>
             )}
-            {(!showTimer && !showResult) ?
-              (<span><ArrowDownwardIcon />Press <b style={{ color: "#ff0202", textTransform: "uppercase" }}>Record</b> to Start!<ArrowDownwardIcon /> </span>)
-              :
-              showResult && (<span>Proceed with this video?</span>)
-            }
+            {!showTimer && !showResult ? (
+              <span>
+                <ArrowDownwardIcon />
+                Press{" "}
+                <b style={{ color: "#ff0202", textTransform: "uppercase" }}>
+                  Record
+                </b>{" "}
+                to Start!
+                <ArrowDownwardIcon />{" "}
+              </span>
+            ) : (
+              showResult && <span>Proceed with this video?</span>
+            )}
           </span>
           {isConnecting && <span className="loadingText">Loading ...</span>}
           {showNotSupported && (
@@ -387,7 +403,17 @@ class Recording extends React.Component<IProps> {
             </span>
           )}
         </div>
-        <div className="recorderActionWrapper" style={{ background: (showStopBtn && !showResult) ? "#fdb415" : showResult ? "#ffffff" : "" }}>
+        <div
+          className="recorderActionWrapper"
+          style={{
+            background:
+              showStopBtn && !showResult
+                ? "#fdb415"
+                : showResult
+                ? "#ffffff"
+                : "",
+          }}
+        >
           {!showResult ? (
             <>
               <Tooltip title="Add note" placement="top" arrow>
@@ -406,35 +432,59 @@ class Recording extends React.Component<IProps> {
                   />
                 </div>
               </Tooltip>
-              {!showStopBtn &&
-                (<Tooltip title="Record" placement="top" arrow>
-                  <FiberManualRecordIcon className="recordingBtn" onClick={() => showRecordBtn && this.handleRecording()} />
-                </Tooltip>)
-              }{showStopBtn &&
-                (<Tooltip title="Stop" placement="top" arrow>
+              {!showStopBtn && (
+                <Tooltip title="Record" placement="top" arrow>
+                  <FiberManualRecordIcon
+                    className="recordingBtn"
+                    onClick={() => showRecordBtn && this.handleRecording()}
+                  />
+                </Tooltip>
+              )}
+              {showStopBtn && (
+                <Tooltip title="Stop" placement="top" arrow>
                   <div className="stopBtnWrapper">
-                    <StopRoundedIcon className="stopBtn" onClick={() => showStopBtn && this.stopRecord(true)} />
+                    <StopRoundedIcon
+                      className="stopBtn"
+                      onClick={() => showStopBtn && this.stopRecord(true)}
+                    />
                   </div>
-                </Tooltip>)
-              }
+                </Tooltip>
+              )}
               <Tooltip title="Cancel" placement="top" arrow>
-                <CancelRoundedIcon style={{ color: showStopBtn ? "#406c7f" : "" }} className="cancelAction" onClick={this.handleReset} />
+                <CancelRoundedIcon
+                  style={{ color: showStopBtn ? "#406c7f" : "" }}
+                  className="cancelAction"
+                  onClick={this.handleReset}
+                />
               </Tooltip>
             </>
-          )
-            :
-            (
-              <>
-                <Tooltip title="Proceed" placement="top" arrow>
-                  <CheckCircleIcon style={{ color: "#fdb415", background: "none", border: "none" }} className="cursorPointer recordingBtn" onClick={this.handleProceed} />
-                </Tooltip>
-                <Tooltip title="Re-record" placement="top" arrow>
-                  <CancelRoundedIcon style={{ color: "#ff0000", background: "none", border: "none" }} className="cursorPointer recordingBtn" onClick={this.handleReset} />
-                </Tooltip>
-              </>
-            )
-          }
-
+          ) : (
+            <>
+              <Tooltip title="Proceed" placement="top" arrow>
+                <CheckCircleIcon
+                  style={{
+                    color: "#fdb415",
+                    background: "none",
+                    border: "none",
+                  }}
+                  // disabled={true}
+                  className="cursorPointer recordingBtn"
+                  onClick={this.handleProceed}
+                />
+              </Tooltip>
+              <Tooltip title="Re-record" placement="top" arrow>
+                <CancelRoundedIcon
+                  style={{
+                    color: "#ff0000",
+                    background: "none",
+                    border: "none",
+                  }}
+                  className="cursorPointer recordingBtn"
+                  onClick={this.handleReset}
+                />
+              </Tooltip>
+            </>
+          )}
         </div>
         {!this.props?.interActive && (
           <div className="recordQualityInput">
@@ -466,7 +516,7 @@ class Recording extends React.Component<IProps> {
                   width: "80px",
                   borderRadius: "6px",
                   fontFamily: "Poppins",
-                  fontWaight: "bold"
+                  fontWaight: "bold",
                 }}
                 color="#FFFFFF"
                 bgColor="#FF404E"
@@ -487,7 +537,7 @@ class Recording extends React.Component<IProps> {
                   fontFamily: "Poppins",
                   fontWaight: "bold",
                   backgroundImage:
-                    "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"
+                    "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))",
                 }}
                 color="#FFFFFF"
               />

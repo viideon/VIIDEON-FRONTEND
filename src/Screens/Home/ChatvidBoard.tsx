@@ -44,11 +44,12 @@ class Dashboard extends Component<IProps> {
 
   handleCheck = (index: number, person: any) => {
     const chatVid = this.props.chatvids[index];
+    console.log(index);
     const step = chatVid.steps[0];
     this.setState({
       selectedChatvid: this.props.chatvids[index],
       selectedPerson: person,
-      step: {},
+      step: step || {},
       stpIndex: 0,
     });
   };
@@ -184,6 +185,9 @@ class Dashboard extends Component<IProps> {
                   !unique[person._id] && (unique[person._id] = person) && person
               );
               return people?.map((person: any, ind: number) => {
+                {
+                  console.log("chatvid is", chatvid);
+                }
                 return this.renderResponders(
                   person,
                   chatvid.name,
@@ -212,7 +216,9 @@ class Dashboard extends Component<IProps> {
                       <div
                         className="stepAvatarWrapper"
                         key={ind}
-                        onClick={() => this.setStp(step, ind + 1)}
+                        onClick={() => {
+                          this.setStp(step, ind + 1);
+                        }}
                       >
                         <Typography variant="h4"> STEP </Typography>
                         <Typography variant="h1"> {ind + 1} </Typography>
