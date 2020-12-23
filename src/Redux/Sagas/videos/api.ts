@@ -3,6 +3,7 @@ import AWS from "aws-sdk";
 import { config } from "../../../config/aws";
 
 export async function saveVideo(video: any) {
+  console.log("video in api",video)
   return API.post("/video", video);
 }
 export async function updateVideoViews(id: any) {

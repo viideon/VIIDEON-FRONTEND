@@ -189,6 +189,25 @@ const ResponderTab = (props: any) => {
   const [stpIndex, setIndex]: any = React.useState(0);
   const [resPerson, setPerson] = React.useState("");
   const [activeType, setActiveType] = React.useState(0);
+  const handlecheck = (_id: any) => {
+    setPerson(_id);
+    // console.log("single chatvid", props.chatvid);
+    // const step = props.chatvid?.steps[0];
+    // props.chatvid?.steps.map((step: any) => {
+    //   if (step.responseType === "Multiple-Choice") {
+    //     if (step.replies.length > 0) return setStp((step = step || undefined));
+    //   }
+    //   if (step.responseType === "Open-ended") {
+    //     step.replies?.map((reply: any) => {
+    //       console.log(reply);
+    //       if (reply.type == "text") return setActiveType(1);
+    //       if (reply.type == "audio") return setActiveType(2);
+    //       if (reply.type == "video") return setActiveType(3);
+    //     });
+    //   }
+    // });
+    // setStp(step);
+  };
 
   const renderCard = (
     chatName: string,
@@ -205,7 +224,7 @@ const ResponderTab = (props: any) => {
           "activeResponder"}`}
         style={{ background: "#f2f2f2" }}
         onClick={() => {
-          setPerson(_id);
+          handlecheck(_id);
         }}
       >
         <Grid item xs={2} sm={2} md={2} lg={2}>
@@ -328,7 +347,7 @@ const ResponderTab = (props: any) => {
           return renderCard(
             props.chatvid.name,
             person.name,
-            props.chatvid.updatedAt || props.chatvid.createdAt,
+            props.chatvid.createdAt,
             person._id
           );
         })}
@@ -341,6 +360,7 @@ const ResponderTab = (props: any) => {
                 <>
                   <div
                     className="stepAvatarWrapper"
+                    style={{ opacity: step === stp ? 1 : 0.6 }}
                     onClick={() => {
                       setStp(step);
                       setIndex(ind);

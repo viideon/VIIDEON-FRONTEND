@@ -222,6 +222,7 @@ class ChatVid extends Component<IProps> {
         chatvid.stepNo = this.state.stepNo
           ? this.state.stepNo
           : this.props.chatvids.selectedChatvid.steps.length + 1;
+
         toast.info(
           `Adding step to ${this.props.chatvids.selectedChatvid.name}`
         );

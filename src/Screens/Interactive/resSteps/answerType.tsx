@@ -356,7 +356,10 @@ class FinalTab extends Component<any> {
       choiceId: choiceId,
       calendar: calendar,
     };
+
     this.props.send({ people, reply, open: false, tab: 0 });
+    this.setState({ ansText: "" });
+
     // steps are greater than 1 and less than last step
     if (
       resChatvid.steps.length > 1 &&
@@ -688,7 +691,7 @@ class FinalTab extends Component<any> {
               Cancel
             </Button>
             <Button onClick={this.handleReply} color="primary">
-              Reply
+              Replyay
             </Button>
           </DialogActions>
         </Dialog>
