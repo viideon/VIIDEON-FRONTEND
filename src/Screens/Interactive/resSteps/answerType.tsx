@@ -231,7 +231,7 @@ class FinalTab extends Component<any> {
       }
     }
     this.setState({ percentage });
-    let that = this;
+    let that: any = this;
     setTimeout(function() {
       that.calculateDuration();
     }, 0);

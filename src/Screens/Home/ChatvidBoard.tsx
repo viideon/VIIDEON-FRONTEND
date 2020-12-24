@@ -211,7 +211,6 @@ class Dashboard extends Component<IProps> {
                   !unique[person._id] && (unique[person._id] = person) && person
               );
               return people?.map((person: any, ind: number) => {
-                console.log("person in chatvid board ", person);
                 return this.renderResponders(
                   person,
                   chatvid.name,

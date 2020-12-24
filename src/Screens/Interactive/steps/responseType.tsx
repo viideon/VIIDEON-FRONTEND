@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import { Grid, Typography, Button } from "@material-ui/core";
 
@@ -21,10 +23,11 @@ class ResponseType extends Component<any> {
   };
 
   handleNext = (type: string) => {
-    this.setState({ isClicked: true });
-
+    console.log("history in response", this.props.history.location.pathname);
     this.props.onChange({ target: { name: "responseType", value: type } });
     if (type === "Open-ended") {
+      this.props.history.location.pathname !== "/chatvid" &&
+        this.setState({ isClicked: true });
       return this.props.moveToFinal();
     } else if (type === "Multiple-Choice") {
       return this.props.moveToNextStep();
@@ -32,7 +35,9 @@ class ResponseType extends Component<any> {
   };
   handleBack = () => {
     const { isClicked } = this.state;
-    if (!isClicked) return this.props.moveBack;
+    if (!isClicked) {
+      return this.props.moveBack;
+    }
   };
 
   render() {
@@ -111,7 +116,7 @@ class ResponseType extends Component<any> {
                   color="default"
                   className="BackBTN"
                   startIcon={<NavigateBeforeOutlinedIcon />}
-                  onClick={() => this.handleBack()}
+                  onClick={this.handleBack()}
                 >
                   Back
                 </Button>
@@ -136,4 +141,6 @@ const mapDispatchToProps = (dispatch: any) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResponseType);
+export default withRouter<any, any>(
+  connect(mapStateToProps, mapDispatchToProps)(ResponseType)
+);

@@ -1,25 +1,34 @@
 import React from "react";
-import { connect } from "react-redux"
+import { connect } from "react-redux";
 import Header from "../../components/Header/Header";
 import AWS from "aws-sdk";
 import { config } from "../../config/aws";
-import { Grid, Typography, CardMedia, Button, LinearProgress, TextField } from "@material-ui/core";
-import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
-import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import {
+  Grid,
+  Typography,
+  CardMedia,
+  Button,
+  LinearProgress,
+  TextField,
+} from "@material-ui/core";
+import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 import { availableTheme } from "../../constants/constants";
-import { toast } from 'react-toastify';
-import { SketchPicker } from 'react-color';
+import { toast } from "react-toastify";
+import { SketchPicker } from "react-color";
 
-import Dialog from '@material-ui/core/Dialog';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import MuiDialogContent from '@material-ui/core/DialogContent';
-import MuiDialogActions from '@material-ui/core/DialogActions';
+import Dialog from "@material-ui/core/Dialog";
+import MuiDialogTitle from "@material-ui/core/DialogTitle";
+import MuiDialogContent from "@material-ui/core/DialogContent";
+import MuiDialogActions from "@material-ui/core/DialogActions";
 
-
-import { previewTemplate, saveTemplateSetting } from '../../Redux/Actions/asset';
+import {
+  previewTemplate,
+  saveTemplateSetting,
+} from "../../Redux/Actions/asset";
 import "./style.css";
 
 const s3 = new AWS.S3(config);
@@ -45,14 +54,12 @@ class Overview extends React.Component<IProps> {
       accent: "",
       link: "",
       text1: "",
-      text2: ""
+      text2: "",
     },
   };
 
-  componentDidMount() {
-  }
-  componentWillUnmount() {
-  }
+  componentDidMount() {}
+  componentWillUnmount() {}
 
   renderStep = (step: any, index: number) => {
     return (
@@ -60,8 +67,8 @@ class Overview extends React.Component<IProps> {
         <h4> {index + 1} </h4>
         <Typography variant="h5">{step.title}</Typography>
       </div>
-    )
-  }
+    );
+  };
 
   onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0] !== null) {
@@ -104,22 +111,26 @@ class Overview extends React.Component<IProps> {
     let newState: any = this.state;
     newState[e.target.name] = e.target.value;
     this.setState({ newState });
-  }
+  };
 
   getPrivew = () => {
     const { name, colors, text, img } = this.state;
-    if (!name) return toast.error("choose a template first")
+    if (!name) return toast.error("choose a template first");
     let settings = {
       name,
       colors,
       text,
-      logoUrl: img
-    }
+      logoUrl: img,
+    };
     this.props.getPreview(settings);
-  }
+  };
 
   storeLogo = (logoBlob: any) => {
-    this.setState({ assetUploading: false, logoBlob, img: URL.createObjectURL(logoBlob) })
+    this.setState({
+      assetUploading: false,
+      logoBlob,
+      img: URL.createObjectURL(logoBlob),
+    });
   };
 
   uploadLogo = () => {
@@ -131,7 +142,7 @@ class Overview extends React.Component<IProps> {
         Bucket: config.bucketName,
         ACL: config.ACL,
         Key: Date.now().toString() + "logo.jpeg",
-        Body: logoBlob
+        Body: logoBlob,
       };
       s3.upload(logoOptions, (err: any, data: any) => {
         if (err) {
@@ -145,94 +156,216 @@ class Overview extends React.Component<IProps> {
         resolve();
       });
     });
-  }
+  };
 
   onColorChagne = (colors: any) => {
-    this.setState({ colors })
-  }
+    this.setState({ colors });
+  };
 
   saveSettings = () => {
     const { name, colors, text, img } = this.state;
-    if (!name) return toast.error("choose a template first")
+    if (!name) return toast.error("choose a template first");
     let settings = {
       name,
       colors,
       text,
       logoUrl: img,
-      userId: this.props.user
-    }
+      userId: this.props.user,
+    };
     this.props.saveSettings(settings);
-    toast.info("Saving Settings")
-  }
+    toast.info("Saving Settings");
+  };
 
   render() {
     const { name, img, text, assetUploading } = this.state;
     return (
       <>
-        <Header styles={{ backgroundImage: "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))" }} />
+        <Header
+          styles={{
+            backgroundImage:
+              "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))",
+          }}
+        />
         <div className="templatePrefWrapper">
           <Grid container>
-            <Grid container xs={12} sm={12} md={5} lg={5} className="tempPreviewWrapper">
-              <Grid item xs={12} sm={12} md={12} lg={12} >
+            <Grid
+              container
+              xs={12}
+              sm={12}
+              md={5}
+              lg={5}
+              className="tempPreviewWrapper"
+            >
+              <Grid item xs={12} sm={12} md={12} lg={12}>
                 <Typography variant="h4">Template Preview</Typography>
-                <FormControl variant="outlined" fullWidth >
-                  <InputLabel id="selectTemplateTheme">Select Template</InputLabel>
+                <FormControl
+                  variant="outlined"
+                  fullWidth
+                  style={{ marginTop: "10px" }}
+                >
+                  <InputLabel
+                    id="selectTemplateTheme"
+                    style={{ marginTop: "-8px" }}
+                  >
+                    Select Template
+                  </InputLabel>
                   <Select
                     labelId="selectTemplateTheme"
                     id="selectTemplate"
                     name="name"
                     value={name}
+                    style={{ fontSize: "0.6rem" }}
                     onChange={this.onChange}
                   >
-                    {
-                      availableTheme && availableTheme.map((theme, index) => {
-                        return <MenuItem key={index} value={theme.name}> {theme.name} </MenuItem>
-                      })
-                    }
+                    {availableTheme &&
+                      availableTheme.map((theme, index) => {
+                        return (
+                          <MenuItem
+                            key={index}
+                            value={theme.name}
+                            style={{ fontSize: "11px" }}
+                          >
+                            {" "}
+                            {theme.name}{" "}
+                          </MenuItem>
+                        );
+                      })}
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={12} md={12} lg={12} style={{ overflow: "scroll", marginTop: "10px" }}>
-                {
-                  this.props.preview && <div dangerouslySetInnerHTML={{ __html: this.props.preview }}></div>
-                }
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                md={12}
+                lg={12}
+                style={{ overflow: "scroll", marginTop: "10px" }}
+              >
+                {this.props.preview && (
+                  <div
+                    dangerouslySetInnerHTML={{ __html: this.props.preview }}
+                  ></div>
+                )}
               </Grid>
             </Grid>
-            <Grid item xs={12} sm={12} md={5} lg={5} className="tempEditToolsWrapper">
-              <Grid container xs={12} sm={12} md={12} lg={12} className="tempEditLogoWrapper">
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={5}
+              lg={5}
+              className="tempEditToolsWrapper"
+            >
+              <Grid
+                container
+                xs={12}
+                sm={12}
+                md={12}
+                lg={12}
+                className="tempEditLogoWrapper"
+              >
                 {assetUploading && <LinearProgress />}
                 <Typography variant="h4">Logo</Typography>
-                <Grid xs={12} sm={4} >
-                  {
-                    img ?
-                      <CardMedia component="img" height="180" className="logoIMGs" image={img || ""} />
-                      :
-                      <div className="logoIMG" style={{ width: "180px", height: "180px" }}><InsertPhotoIcon /></div>
-                  }
+                <Grid xs={12} sm={4}>
+                  {img ? (
+                    <CardMedia
+                      component="img"
+                      height="180"
+                      className="logoIMGs"
+                      image={img || ""}
+                    />
+                  ) : (
+                    <div
+                      className="logoIMG"
+                      style={{ width: "180px", height: "180px" }}
+                    >
+                      <InsertPhotoIcon />
+                    </div>
+                  )}
                 </Grid>
-                <Grid xs={12} sm={4} style={{ alignSelf: "flex-end" }}>
-                  <input type="file" ref={ref => { this.fileRef = ref }} onChange={this.onFileChange} style={{ display: 'none' }} />
-                  <Button style={{ border: "1px solid #fcb41f", background: "transparent", color: "#fcb41f", width: "80%", marginBottom: "9px" }} onClick={() => this.fileRef.click()}> Chose file </Button>
-                  <Button style={{ background: "#fcb41f", color: "#fff", width: "80%" }} onClick={this.uploadLogo}> Upload Logo </Button>
-                  <p style={{ fontSize: "smaller" }}>*Image must be less than 2mb</p>
+                <Grid
+                  xs={12}
+                  sm={4}
+                  style={{ alignSelf: "flex-end", marginLeft: "30px" }}
+                >
+                  <input
+                    type="file"
+                    ref={(ref) => {
+                      this.fileRef = ref;
+                    }}
+                    onChange={this.onFileChange}
+                    style={{ display: "none" }}
+                  />
+                  <Button
+                    style={{
+                      border: "1px solid #fcb41f",
+                      background: "transparent",
+                      color: "#fcb41f",
+                      width: "80%",
+                      marginBottom: "9px",
+                    }}
+                    onClick={() => this.fileRef.click()}
+                  >
+                    {" "}
+                    Chose file{" "}
+                  </Button>
+                  <Button
+                    style={{
+                      background: "#fcb41f",
+                      color: "#fff",
+                      width: "80%",
+                    }}
+                    onClick={this.uploadLogo}
+                  >
+                    {" "}
+                    Upload Logo{" "}
+                  </Button>
+                  <p style={{ fontSize: "smaller" }}>
+                    *Image must be less than 2mb
+                  </p>
                 </Grid>
               </Grid>
-              <Grid container xs={12} sm={12} md={12} lg={12} className="tempEditColorWrapper">
+              <Grid
+                container
+                xs={12}
+                sm={12}
+                md={12}
+                lg={12}
+                className="tempEditColorWrapper"
+              >
                 <Typography variant="h4">Colors</Typography>
                 <p>Click a color to change</p>
                 <Colors {...this.state} onColorChagne={this.onColorChagne} />
               </Grid>
-              <Grid container xs={12} sm={12} md={12} lg={12} className="tempEditMessageWrapper">
+              <Grid
+                container
+                xs={12}
+                sm={12}
+                md={12}
+                lg={12}
+                className="tempEditMessageWrapper"
+              >
                 <Typography variant="h4">Edit Message</Typography>
                 <p>Click the editor below to change your message</p>
                 <Grid item xs={12} sm={12} md={12} lg={12}>
-                  <TextField rowsMax={5} multiline fullWidth name="text" value={text} onChange={this.onChange} id="editMessage" variant="outlined" />
+                  <TextField
+                    rowsMax={5}
+                    multiline
+                    fullWidth
+                    name="text"
+                    value={text}
+                    onChange={this.onChange}
+                    id="editMessage"
+                    variant="outlined"
+                  />
                 </Grid>
-                <ActionBtns onPreview={this.getPrivew} saveSettings={this.saveSettings} />
+                <ActionBtns
+                  onPreview={this.getPrivew}
+                  saveSettings={this.saveSettings}
+                />
               </Grid>
             </Grid>
           </Grid>
-
         </div>
       </>
     );
@@ -246,63 +379,110 @@ const Colors = (props: any) => {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const openColorChanger = (name: string) => {
-    setName(name)
-    setOpen(true)
-  }
+    setName(name);
+    setOpen(true);
+  };
   const handlePicker = (color: any) => {
     let newColor = colors;
     newColor[name] = color.hex;
     onColorChagne(newColor);
     setName("");
     setOpen(false);
-  }
+  };
   return (
     <Grid container xs={12} sm={12} md={12} lg={12}>
       <Grid container xs={12} sm={12} md={12} lg={12}>
         <Grid item xs={12} sm={6} md={6} lg={6} className="colorCircleWrapper">
-          <div className="colorCircles" onClick={() => { openColorChanger("primary") }} style={{ color: primary ? primary : "", background: primary ? primary : "" }}></div>
+          <div
+            className="colorCircles"
+            onClick={() => {
+              openColorChanger("primary");
+            }}
+            style={{
+              color: primary ? primary : "",
+              background: primary ? primary : "",
+            }}
+          ></div>
           <p className="colorName">Primary Color</p>
         </Grid>
         <Grid item xs={12} sm={6} md={6} lg={6} className="colorCircleWrapper">
-          <div className="colorCircles" onClick={() => { openColorChanger("background") }} style={{ color: background ? background : "", background: background ? background : "" }}></div>
+          <div
+            className="colorCircles"
+            onClick={() => {
+              openColorChanger("background");
+            }}
+            style={{
+              color: background ? background : "",
+              background: background ? background : "",
+            }}
+          ></div>
           <p className="colorName">Background Color</p>
         </Grid>
       </Grid>
       <Grid container xs={12} sm={12} md={12} lg={12}>
         <Grid item xs={12} sm={6} md={6} lg={6} className="colorCircleWrapper">
-          <div className="colorCircles" onClick={() => { openColorChanger("text1") }} style={{ color: text1 ? text1 : "", background: text1 ? text1 : "" }}></div>
+          <div
+            className="colorCircles"
+            onClick={() => {
+              openColorChanger("text1");
+            }}
+            style={{
+              color: text1 ? text1 : "",
+              background: text1 ? text1 : "",
+            }}
+          ></div>
           <p className="colorName">Text 1</p>
         </Grid>
         <Grid item xs={12} sm={6} md={6} lg={6} className="colorCircleWrapper">
-          <div className="colorCircles" onClick={() => { openColorChanger("accent") }} style={{ color: accent ? accent : "", background: accent ? accent : "" }}></div>
+          <div
+            className="colorCircles"
+            onClick={() => {
+              openColorChanger("accent");
+            }}
+            style={{
+              color: accent ? accent : "",
+              background: accent ? accent : "",
+            }}
+          ></div>
           <p className="colorName">Accent</p>
         </Grid>
       </Grid>
       <Grid container xs={12} sm={12} md={12} lg={12}>
         <Grid item xs={12} sm={6} md={6} lg={6} className="colorCircleWrapper">
-          <div className="colorCircles" onClick={() => { openColorChanger("text2") }} style={{ color: text2 ? text2 : "", background: text2 ? text2 : "" }}></div>
+          <div
+            className="colorCircles"
+            onClick={() => {
+              openColorChanger("text2");
+            }}
+            style={{
+              color: text2 ? text2 : "",
+              background: text2 ? text2 : "",
+            }}
+          ></div>
           <p className="colorName">Text 2</p>
         </Grid>
         <Grid item xs={12} sm={6} md={6} lg={6} className="colorCircleWrapper">
-          <div className="colorCircles" onClick={() => { openColorChanger("link") }} style={{ color: link ? link : "", background: link ? link : "" }}></div>
+          <div
+            className="colorCircles"
+            onClick={() => {
+              openColorChanger("link");
+            }}
+            style={{ color: link ? link : "", background: link ? link : "" }}
+          ></div>
           <p className="colorName">Links</p>
         </Grid>
       </Grid>
       <ColorPickerDialog open={open} handlePicker={handlePicker} name={name} />
     </Grid>
-  )
-}
+  );
+};
 
 const ActionBtns = (props: any) => {
   const { onPreview, saveSettings } = props;
   return (
     <Grid container className="actionBTNsWrapper">
       <Grid item xs={12} sm={6} md={6} lg={6}>
-        <Button
-          color="default"
-          className="previewBTN"
-          onClick={onPreview}
-        >
+        <Button color="default" className="previewBTN" onClick={onPreview}>
           Previews
         </Button>
       </Grid>
@@ -316,19 +496,26 @@ const ActionBtns = (props: any) => {
         </Button>
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
 const ColorPickerDialog = (props: any) => {
   const { open, name, handlePicker } = props;
   const [color, setColor]: any = React.useState();
   return (
-    <Dialog onClose={handlePicker} aria-labelledby="customized-dialog-title" open={open}>
+    <Dialog
+      onClose={handlePicker}
+      aria-labelledby="customized-dialog-title"
+      open={open}
+    >
       <MuiDialogTitle id="customized-dialog-title">
         Pick {name} color
       </MuiDialogTitle>
       <MuiDialogContent>
-        <SketchPicker color={color} onChangeComplete={(color: any) => setColor(color)} />
+        <SketchPicker
+          color={color}
+          onChangeComplete={(color: any) => setColor(color)}
+        />
       </MuiDialogContent>
       <MuiDialogActions>
         <Button onClick={() => handlePicker(color)} color="primary">
@@ -336,20 +523,20 @@ const ColorPickerDialog = (props: any) => {
         </Button>
       </MuiDialogActions>
     </Dialog>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state: any) => {
   return {
     preview: state.asset.preview,
     user: state.auth.user,
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getPreview: (settings: any) => dispatch(previewTemplate(settings)),
     saveSettings: (settings: any) => dispatch(saveTemplateSetting(settings)),
-  }
-}
+  };
+};
 export default connect(mapStateToProps, mapDispatchToProps)(Overview);

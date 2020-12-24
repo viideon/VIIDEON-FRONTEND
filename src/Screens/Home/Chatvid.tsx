@@ -499,6 +499,8 @@ const StepsTab = (props: any) => {
           </Typography>
           <Typography variant="subtitle1" className="openEndDetails">
             {stp.createdAt.toLocaleString()}
+
+            {/* {new Date(stp.createdAt).toLocaleString()} */}
           </Typography>
         </Grid>
         <Grid
@@ -551,7 +553,7 @@ const StepsTab = (props: any) => {
         >
           <Typography
             variant="h5"
-            style={{ width: "25rem", overflow: "hidden" }}
+            style={{ width: "35rem", overflow: "hidden" }}
           >
             {" "}
             {choice.text}{" "}

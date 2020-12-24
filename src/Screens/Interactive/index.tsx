@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { config } from "../../config/aws";
+import { withRouter } from "react-router-dom";
 import AWS from "aws-sdk";
 
 import { saveChatvid, addStepToChatvid } from "../../Redux/Actions/chatvid";
@@ -59,6 +60,7 @@ class ChatVid extends Component<IProps> {
     fontWeight: false,
     textDecoration: false,
     fontStyle: false,
+    isClicked: false,
   };
 
   componentDidMount() {
@@ -133,8 +135,14 @@ class ChatVid extends Component<IProps> {
   };
 
   handleBack = (final = false) => {
-    this.setState({ step: final === true ? 2 : this.state.step - 1 });
-    this.setState({ choices: [] });
+    const { isClicked } = this.state;
+    if (!isClicked) {
+      this.setState({ step: final === true ? 2 : this.state.step - 1 });
+      this.setState({ choices: [] });
+    }
+    if (isClicked) {
+      return toast.error("Wait for your Response");
+    }
   };
 
   handleProceed = (thumbnailBlob: any, video: any) => {
@@ -146,6 +154,10 @@ class ChatVid extends Component<IProps> {
   };
 
   moveTofinal = () => {
+    const { isClicked } = this.state;
+    if (isClicked) {
+      return toast.error("Wait for your Response");
+    }
     console.log("in step index", this.state);
     if (this.state.responseType === "Calendly" && !this.state.calendar)
       return toast.error("Add a link first!");
@@ -156,6 +168,8 @@ class ChatVid extends Component<IProps> {
       return toast.error("Adda atleast two multiple choices");
     }
     if (this.state.isAddStep && this.state.chatvidId) {
+      this.props.history.location.pathname !== "/chatvid" &&
+        this.setState({ isClicked: true });
       this.createChatVid();
     } else {
       this.setState({ step: 5 });
@@ -354,4 +368,6 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 connect(mapStateToProps, mapDispatchToProps)(RecorderTab);
-export default connect(mapStateToProps, mapDispatchToProps)(ChatVid);
+export default withRouter<any, any>(
+  connect(mapStateToProps, mapDispatchToProps)(ChatVid)
+);
