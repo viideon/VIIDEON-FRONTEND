@@ -15,6 +15,13 @@ import VolumeUpRoundedIcon from "@material-ui/icons/VolumeUpRounded";
 import PermMediaIcon from "@material-ui/icons/PermMedia";
 
 import "./chatvidBoard.css";
+
+function sortByResponse(data: any) {
+  let chatvidsorted: any = data.sort((a: any, b: any) => {
+    return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+  });
+  return chatvidsorted;
+}
 type IProps = {
   history: any;
   user: any;
@@ -23,8 +30,18 @@ type IProps = {
   chatvids: any;
   getChatvids: () => void;
 };
-
-class Dashboard extends Component<IProps> {
+type IState = {
+  showDashboard: boolean;
+  showVideos: boolean;
+  responders: any;
+  selectedChatvid: any;
+  selectedPerson: any;
+  step: any;
+  activeType: number;
+  stpIndex: number;
+  chatvidsSort: any;
+};
+class Dashboard extends Component<IProps, IState> {
   state = {
     showDashboard: true,
     showVideos: false,
@@ -45,16 +62,23 @@ class Dashboard extends Component<IProps> {
 
   handleCheck = (index: number, person: any) => {
     const chatVid = this.props.chatvids[index];
-    console.log(index);
-    console.log("chatvidbord", chatVid.steps);
+    // console.log(index);
+    console.log("chatvidbord", chatVid);
+    // console.log("chatvidbord person", person);
+
     const step = chatVid.steps[0];
+
     chatVid.steps.map((step: any) => {
       if (step.responseType === "Multiple-Choice") {
         if (step.replies.length > 0) return this.setState({ step: step || {} });
       }
       if (step.responseType === "Open-ended") {
-        step.replies?.map((reply: any) => {
-          console.log(reply);
+        let personResponse = step.replies?.filter(
+          (reply: any) => reply?.peopleId?._id === person._id
+        );
+        console.log("PersonResponse", personResponse);
+        personResponse?.map((reply: any) => {
+          console.log("reply type is ", reply.type);
           if (reply.type == "text") return this.setState({ activeType: 1 });
           if (reply.type == "audio") return this.setState({ activeType: 2 });
           if (reply.type == "video") return this.setState({ activeType: 3 });
@@ -71,15 +95,22 @@ class Dashboard extends Component<IProps> {
   };
 
   setStp = (step: any, stpIndex: number) => {
+    const { selectedPerson }: any = this.state;
     this.setState({ step, stpIndex });
-    console.log("setstp", step);
+    console.log("setstp", step, "stepIndex", stpIndex);
+    console.log("selected person in step", selectedPerson._id);
     if (step.responseType === "Open-ended") {
-      step.replies?.map((reply: any) => {
-        console.log(reply);
+      let personResponse1 = step.replies?.filter(
+        (reply: any) => reply?.peopleId?._id === selectedPerson._id
+      );
+      console.log("response in step ", personResponse1);
+      personResponse1?.map((reply: any) => {
+        console.log("step reply ", reply);
         if (reply.type == "text") return this.setState({ activeType: 1 });
         if (reply.type == "audio") return this.setState({ activeType: 2 });
         if (reply.type == "video") return this.setState({ activeType: 3 });
       });
+      if (personResponse1.length === 0) return this.setState({ activeType: 0 });
     }
   };
   handleTabChange = (activeType: number) => {
@@ -206,11 +237,19 @@ class Dashboard extends Component<IProps> {
 
             {this.props.chatvids?.map((chatvid: any, index: number) => {
               let unique: any = {};
+              console.log(
+                "🚀 ~ file: ChatvidBoard.tsx ~ line 240 ~ Dashboard ~ {this.props.chatvids?.map ~ unique",
+                unique
+              );
+
               const people = chatvid.people?.filter(
-                (person: any) =>
+                (person: any, index: number) =>
                   !unique[person._id] && (unique[person._id] = person) && person
               );
-              return people?.map((person: any, ind: number) => {
+              console.log("people in chatbord", people);
+
+              return sortByResponse(people)?.map((person: any, ind: number) => {
+                // console.log("person in chatbord", person);
                 return this.renderResponders(
                   person,
                   chatvid.name,
@@ -227,7 +266,7 @@ class Dashboard extends Component<IProps> {
                 {" "}
                 Response on{" "}
                 {`${selectedChatvid.name} - ${new Date(
-                  selectedChatvid.updatedAt
+                  selectedChatvid.createdAt
                 ).toLocaleString()}`}{" "}
               </Typography>
             )}

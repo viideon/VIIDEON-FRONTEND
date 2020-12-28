@@ -138,13 +138,21 @@ class FinalTab extends Component<any> {
         let url = this.props.resChatvid.steps[this.state.currentStepNo].videoId
           .url;
         this.videoRef.src = url;
-        const { text, align, vAlign, fontSize } = this.props.resChatvid.steps[
+        const {
+          text,
+          align,
+          vAlign,
+          fontSize,
+          reveal,
+        } = this.props.resChatvid.steps[
           this.state.currentStepNo
         ].videoId.textProps;
+        console.log("first reveal", reveal);
         this.setState({
           text,
           align,
           vAlign,
+          reveal,
           fontSize: fontSize ? fontSize : "xx-large",
           isFull:
             this.props.resChatvid.steps[this.state.currentStepNo].isFull ||
@@ -218,8 +226,10 @@ class FinalTab extends Component<any> {
       reveal = this.props.reveal;
     } else {
       reveal = this.props.resChatvid.steps[this.state.currentStepNo].videoId
-        .textProps;
+        .textProps.reveal;
+      // reveal = this.state.reveal;
     }
+    // console.log("calculationg ", reveal.reveal, this.videoRef);
     if (reveal && reveal.length > 0) {
       if (
         this.videoRef?.currentTime >= reveal[0] &&
@@ -325,13 +335,27 @@ class FinalTab extends Component<any> {
       calendar,
       currentStepNo,
     } = this.state;
-    const { resChatvid, auth } = this.props;
+    const { resChatvid, auth, selectedChatvid } = this.props;
     const { text, align, vAlign, fontSize } = resChatvid.steps[
       this.state.currentStepNo
     ].videoId.textProps;
     if (!validateEmail(userEmail)) return toast.error("Enter a valid Email");
     if (!userName) return toast.error("Enter a valid Email");
+    console.log("before Replying", userEmail);
+    console.log("before replying selecetd chatvid", selectedChatvid);
+    let selected = [];
+    selected = selectedChatvid?.people?.filter((p: any) => {
+      return p.email === userEmail;
+    });
+    if (selected.length !== 0)
+      return toast.error(
+        "You have Submitted Respone with this email Please Use Another...."
+      );
+
+    console.log("before Replying selected email", selected);
+
     toast.info("Repling....");
+
     const type =
       resChatvid.steps[currentStepNo].responseType === "Multiple-Choice"
         ? "choice"
@@ -691,7 +715,7 @@ class FinalTab extends Component<any> {
               Cancel
             </Button>
             <Button onClick={this.handleReply} color="primary">
-              Replyay
+              Reply
             </Button>
           </DialogActions>
         </Dialog>
@@ -831,7 +855,7 @@ const OpenEndedType = (props: any) => {
         <div className="captionDiv">
           <Typography variant="h3">
             {responseType === "Open-ended"
-              ? "How Would You like to answer?"
+              ? "How Would You like to answer a?"
               : responseType === "Multiple-Choice"
               ? "Choose a response"
               : `Schedule a meeting with ${userId.firstName ||
@@ -1271,6 +1295,7 @@ const mapStateToProps = (state: any) => {
   return {
     auth: state.auth,
     resChatvid: state.chatvids.resChatvid,
+    selectedChatvid: state.chatvids.selectedChatvid,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {

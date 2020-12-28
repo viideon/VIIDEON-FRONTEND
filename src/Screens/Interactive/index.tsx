@@ -202,6 +202,7 @@ class ChatVid extends Component<IProps> {
       await this.uploadThumbnail();
       toast.info("Uploading video ...");
       await this.uploadVideo();
+      console.log("reveanl is ", this.state.reveal);
       const textProps = {
         text: this.state.text,
         textColor: this.state.textColor,
@@ -334,6 +335,7 @@ class ChatVid extends Component<IProps> {
   };
 
   render() {
+    console.log("reveanl is ", this.state.reveal);
     return (
       <>
         <Header

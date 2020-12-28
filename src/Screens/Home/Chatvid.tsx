@@ -191,8 +191,15 @@ const ResponderTab = (props: any) => {
   const [activeType, setActiveType] = React.useState(0);
   const handlecheck = (_id: any) => {
     setPerson(_id);
+    const step = props.chatvid?.steps[0];
+    setStp(step);
+    const responsePerson = stp?.replies?.filter(
+      (reply: any) => reply?.peopleId?._id === resPerson
+    );
+    console.log(stp);
+    console.log("responsePerson", responsePerson);
     // console.log("single chatvid", props.chatvid);
-    // const step = props.chatvid?.steps[0];
+
     // props.chatvid?.steps.map((step: any) => {
     //   if (step.responseType === "Multiple-Choice") {
     //     if (step.replies.length > 0) return setStp((step = step || undefined));
@@ -296,7 +303,10 @@ const ResponderTab = (props: any) => {
       </div>
     );
   };
-
+  const handleStep = (step: any, ind: any) => {
+    setStp(step);
+    setIndex(ind);
+  };
   let unique: any = {};
   const responders: any = props.chatvid.people?.filter(
     (person: any, index: number) => {
@@ -362,8 +372,7 @@ const ResponderTab = (props: any) => {
                     className="stepAvatarWrapper"
                     style={{ opacity: step === stp ? 1 : 0.6 }}
                     onClick={() => {
-                      setStp(step);
-                      setIndex(ind);
+                      handleStep(step, ind);
                     }}
                   >
                     <Typography variant="h4"> STEP </Typography>
