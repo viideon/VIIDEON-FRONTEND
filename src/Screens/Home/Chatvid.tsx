@@ -99,6 +99,12 @@ type IProps = {
     deviceType: string
   ) => void;
 };
+function sortByResponse(data: any) {
+  let chatvidsorted: any = data.sort((a: any, b: any) => {
+    return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+  });
+  return chatvidsorted;
+}
 class Dashboard extends Component<IProps> {
   state = {
     tab: 0,
@@ -368,11 +374,11 @@ const ResponderTab = (props: any) => {
             <KeyboardArrowDownIcon />
           </IconButton>
         </Paper>
-        {responders?.map((person: any, ind: number) => {
+        {sortByResponse(responders)?.map((person: any, ind: number) => {
           return renderCard(
             props.chatvid.name,
             person.name,
-            props.chatvid.createdAt,
+            person.updatedAt,
             person._id
           );
         })}

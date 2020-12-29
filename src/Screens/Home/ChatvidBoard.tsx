@@ -252,7 +252,7 @@ class Dashboard extends Component<IProps, IState> {
                 return this.renderResponders(
                   person,
                   chatvid.name,
-                  new Date(chatvid.createdAt),
+                  new Date(person.updatedAt),
                   ind,
                   index
                 );

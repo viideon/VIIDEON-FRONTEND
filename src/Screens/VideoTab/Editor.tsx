@@ -481,16 +481,16 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
         return;
       case "bottom-left":
         x = 20;
-        y = this.canvas.height - this.img.height - 30;
+        y = this.canvas.height - this.img.height - 40;
         this.setState({ logoX: x, logoY: y }, () => this.updateCanvas());
         return;
       case "bottom-right":
-        x = this.canvas.width - this.img.width - 30;
-        y = this.canvas.height - this.img.height - 30;
+        x = this.canvas.width - this.img.width - 40;
+        y = this.canvas.height - this.img.height - 40;
         this.setState({ logoX: x, logoY: y }, () => this.updateCanvas());
         return;
       case "top-right":
-        x = this.canvas.width - this.img.width - 30;
+        x = this.canvas.width - this.img.width - 40;
         this.setState({ logoX: x, logoY: 20 }, () => this.updateCanvas());
         return;
       default:

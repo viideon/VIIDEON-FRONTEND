@@ -2,7 +2,7 @@ import React from "react";
 import { toast } from "react-toastify";
 import VideoInfo from "../../components/VideoInfo";
 import { connect } from "react-redux";
-import { CircularProgress, Grid, } from "@material-ui/core";
+import { CircularProgress, Grid } from "@material-ui/core";
 import Colors from "../../constants/colors";
 import ThemeButton from "../../components/ThemeButton";
 import CanvasPlayer from "../../components/CanvasPlayer/EditingCanvas";
@@ -98,7 +98,7 @@ class VideoTabHeader extends React.Component<IProps> {
     title: "",
     themeName: "",
     open: false,
-    template: ""
+    template: "",
   };
   componentDidMount() {
     this.caluclateContainerHeight();
@@ -117,7 +117,7 @@ class VideoTabHeader extends React.Component<IProps> {
       video._id}`;
     navigator.permissions
       .query({ name: "clipboard-write" as PermissionName })
-      .then(result => {
+      .then((result) => {
         if (result.state === "granted" || result.state === "prompt") {
           navigator.clipboard.writeText(newClip);
         }
@@ -174,7 +174,7 @@ class VideoTabHeader extends React.Component<IProps> {
             </div>
           )}
           <div
-            ref={ref => {
+            ref={(ref) => {
               this.container = ref;
             }}
             style={{ width: "100%", height: this.state.height }}
@@ -208,14 +208,14 @@ class VideoTabHeader extends React.Component<IProps> {
             </div>
           </>
         ) : (
-            <h3 className="videoTitle">
-              {video && video.title}
-              <EditIcon
-                onClick={this.handleEditTitle}
-                style={{ cursor: "pointer" }}
-              />
-            </h3>
-          )}
+          <h3 className="videoTitle">
+            {video && video.title}
+            <EditIcon
+              onClick={this.handleEditTitle}
+              style={{ cursor: "pointer" }}
+            />
+          </h3>
+        )}
         <VideoInfo video={video} />
         <Grid container xs={12} sm={12} md={12} id="editingToolsWrapper">
           <Grid item xs={12} sm={12} md={6} id="editingWrapper">
@@ -253,7 +253,7 @@ class VideoTabHeader extends React.Component<IProps> {
                 width: "100%",
                 fontFamily: "Poppins",
                 fontWeight: "bolder",
-                fontSize: "larger"
+                fontSize: "larger",
               }}
             />
           </Grid>
@@ -335,31 +335,31 @@ const classes = {
     width: "100%",
     border: "solid",
     borderWidth: "1px",
-    borderColor: "#406c7f"
+    borderColor: "#406c7f",
   },
   input: {
     flex: 1,
     marginLeft: "1em",
     color: "#406c7f",
-    fontFamily: "Open Sans"
+    fontFamily: "Open Sans",
   },
   iconButton: {
     padding: 10,
     borderRadius: 0,
     background: "#406c7f",
-    color: "white"
-  }
+    color: "white",
+  },
 };
 
 const mapStateToProps = (state: any) => {
   return {
-    video: state.video.singleVideo
+    video: state.video.singleVideo,
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    updateVideo: (video: any) => dispatch(updateVideo(video))
+    updateVideo: (video: any) => dispatch(updateVideo(video)),
   };
 };
 

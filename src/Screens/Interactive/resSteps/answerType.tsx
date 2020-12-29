@@ -1118,7 +1118,7 @@ const AudioResponse = (props: any) => {
                 aria-label="save"
                 color="primary"
                 className={classes.buttonSuccess}
-                // id="fab"
+                id="fab"
                 // onClick={handleButtonClick}
               >
                 {recorded ? (
