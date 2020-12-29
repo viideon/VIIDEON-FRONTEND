@@ -252,9 +252,10 @@ class FinalTab extends Component<any> {
   }
 
   handleTabChange = (tab: number, isBack: string) => {
-    if (isBack && isBack == "resPage") {
-      window.location.reload();
-    }
+    // if (isBack && isBack == "resPage") {
+    //   window.location.reload();
+    // }
+    console.log("tab in handletabchange", tab);
     if (
       this.props.history.location.pathname.indexOf("/chatvid/step/") > -1 ||
       this.props.preview
@@ -855,7 +856,7 @@ const OpenEndedType = (props: any) => {
         <div className="captionDiv">
           <Typography variant="h3">
             {responseType === "Open-ended"
-              ? "How Would You like to answer a?"
+              ? "How Would You like to answer?"
               : responseType === "Multiple-Choice"
               ? "Choose a response"
               : `Schedule a meeting with ${userId.firstName ||
@@ -1088,6 +1089,8 @@ const AudioResponse = (props: any) => {
   const min = Math.floor(timer / 60) % 60;
   const sec = Math.floor(timer % 60);
 
+  console.log("conditions are", { recording, recorded });
+
   return (
     <div className="textResponseWrappreContainer">
       <div className="captionDiv">
@@ -1115,6 +1118,7 @@ const AudioResponse = (props: any) => {
                 aria-label="save"
                 color="primary"
                 className={classes.buttonSuccess}
+                // id="fab"
                 // onClick={handleButtonClick}
               >
                 {recorded ? (
@@ -1149,7 +1153,7 @@ const AudioResponse = (props: any) => {
             className={`BackBTN ${recorded && "fitContent"}`}
             startIcon={<NavigateBeforeOutlinedIcon />}
             onClick={() => {
-              !recorded ? handleTabChange(0, "resPage") : handleReset();
+              !recorded ? handleTabChange(0) : handleReset();
             }}
           >
             {!recorded ? "Back" : "Record Again"}

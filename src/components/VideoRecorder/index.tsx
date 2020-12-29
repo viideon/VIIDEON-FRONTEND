@@ -146,7 +146,7 @@ class Recording extends React.Component<IProps> {
         mimeType: "video/webm;codecs=vp8",
       });
       this.localStream = stream;
-      this.video.srcObject = this.localStream;
+      this.video.srcObject = this.localStream || "";
       this.setState({ isConnecting: false });
     });
   };

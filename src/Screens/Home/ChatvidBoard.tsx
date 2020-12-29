@@ -81,7 +81,11 @@ class Dashboard extends Component<IProps, IState> {
           console.log("reply type is ", reply.type);
           if (reply.type == "text") return this.setState({ activeType: 1 });
           if (reply.type == "audio") return this.setState({ activeType: 2 });
-          if (reply.type == "video") return this.setState({ activeType: 3 });
+          if (reply.type == "video") {
+            return this.setState({ activeType: 3 });
+          } else {
+            return this.setState({ activeType: 0 });
+          }
         });
       }
     });
@@ -233,20 +237,15 @@ class Dashboard extends Component<IProps, IState> {
             <div>
               <Typography variant="h6"> Responders </Typography>
             </div>
-            {console.log(this.props.chatvids)}
+            {/* {console.log(this.props.chatvids)} */}
 
             {this.props.chatvids?.map((chatvid: any, index: number) => {
               let unique: any = {};
-              console.log(
-                "🚀 ~ file: ChatvidBoard.tsx ~ line 240 ~ Dashboard ~ {this.props.chatvids?.map ~ unique",
-                unique
-              );
-
               const people = chatvid.people?.filter(
                 (person: any, index: number) =>
                   !unique[person._id] && (unique[person._id] = person) && person
               );
-              console.log("people in chatbord", people);
+              // console.log("people in chatbord", people);
 
               return sortByResponse(people)?.map((person: any, ind: number) => {
                 // console.log("person in chatbord", person);

@@ -200,19 +200,22 @@ const ResponderTab = (props: any) => {
     console.log("responsePerson", responsePerson);
     // console.log("single chatvid", props.chatvid);
 
-    // props.chatvid?.steps.map((step: any) => {
-    //   if (step.responseType === "Multiple-Choice") {
-    //     if (step.replies.length > 0) return setStp((step = step || undefined));
-    //   }
-    //   if (step.responseType === "Open-ended") {
-    //     step.replies?.map((reply: any) => {
-    //       console.log(reply);
-    //       if (reply.type == "text") return setActiveType(1);
-    //       if (reply.type == "audio") return setActiveType(2);
-    //       if (reply.type == "video") return setActiveType(3);
-    //     });
-    //   }
-    // });
+    props.chatvid?.steps.map((step: any) => {
+      if (step.responseType === "Multiple-Choice") {
+        if (step.replies.length > 0) return setStp((step = step || undefined));
+      }
+      if (step.responseType === "Open-ended") {
+        const responsePerson = stp?.replies?.filter(
+          (reply: any) => reply?.peopleId?._id === resPerson
+        );
+        responsePerson?.map((reply: any) => {
+          console.log(reply);
+          if (reply.type == "text") return setActiveType(1);
+          if (reply.type == "audio") return setActiveType(2);
+          if (reply.type == "video") return setActiveType(3);
+        });
+      }
+    });
     // setStp(step);
   };
 
@@ -304,8 +307,20 @@ const ResponderTab = (props: any) => {
     );
   };
   const handleStep = (step: any, ind: any) => {
+    console.log("resPerson in step", resPerson);
     setStp(step);
     setIndex(ind);
+    if (step.responseType === "Open-ended") {
+      const responsePerson1 = step?.replies?.filter(
+        (reply: any) => reply?.peopleId?._id === resPerson
+      );
+      responsePerson1?.map((reply: any) => {
+        console.log(reply);
+        if (reply.type == "text") return setActiveType(1);
+        if (reply.type == "audio") return setActiveType(2);
+        if (reply.type == "video") return setActiveType(3);
+      });
+    }
   };
   let unique: any = {};
   const responders: any = props.chatvid.people?.filter(

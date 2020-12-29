@@ -209,6 +209,7 @@
 }
 .AudioIconWrapper .PlayIcons {
   color: #fdb415;
+  position: absolute;
 }
 .AudioIconWrapper .RecordingIcons {
   font-size: 7rem;
@@ -216,15 +217,15 @@
 }
 .AudioIconWrapper svg {
   font-size: 7rem;
-  color: lightgrey;
+  /* color: lightgrey; */
 }
 
-.AudioIconWrapper .makeStyles-buttonSuccess-6 .MuiSvgIcon-root {
+.AudioIconWrapper #fab .MuiSvgIcon-root {
   color: #fdb415;
   z-index: 2;
   cursor: pointer;
 }
-.AudioIconWrapper .makeStyles-buttonSuccess-6 {
+.AudioIconWrapper #fab {
   background-color: transparent !important;
   border: none !important;
   display: flex !important;
