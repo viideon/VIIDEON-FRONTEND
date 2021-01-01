@@ -128,7 +128,13 @@ class Chatvid extends Component<IProps> {
             className="backButton"
             onClick={() => this.props.mobileViewChatVid("showSideBar")}
           >
-            Back
+            <img
+              src="/images/backicon.png"
+              width="40px"
+              height="40px"
+              alt="edit"
+              style={{}}
+            />
           </button>
         </div>
         <InfoHeader {...this.props} />
@@ -657,23 +663,40 @@ const InfoHeader = (props: any) => {
             md={8}
             lg={8}
           >
-            <Typography variant="h3"> {chatvid?.name} </Typography>
+            <Typography
+              className="chatvidNameMob"
+              style={{ fontSize: "3vw" }}
+              variant="h3"
+            >
+              {" "}
+              {chatvid?.name}{" "}
+            </Typography>
             <div className="chatvidEditToolsWrapper">
               <div
                 onClick={() =>
                   props.history.push(`/chatvids/edit/${chatvid && chatvid._id}`)
                 }
+                className="mobileIconDiv"
               >
                 {" "}
-                <EditIcon /> Edit{" "}
+                <EditIcon className="iconsMob" />{" "}
+                <span className="iconMobile">Edit </span>
               </div>
-              <div onClick={() => alert("Feature Coming Soon")}>
+              <div
+                onClick={() => alert("Feature Coming Soon")}
+                className="mobileIconDiv"
+              >
                 {" "}
-                <FileCopyIcon /> Duplicate
+                <FileCopyIcon className="iconsMob" />
+                <span className="iconMobile"> Duplicate</span>
               </div>
-              <div onClick={() => alert("Feature Coming Soon")}>
+              <div
+                onClick={() => alert("Feature Coming Soon")}
+                className="mobileIconDiv"
+              >
                 {" "}
-                <SettingsRoundedIcon /> Settings
+                <SettingsRoundedIcon className="iconsMob" />
+                <span className="iconMobile"> Settings</span>
               </div>
               <div
                 onClick={() => {
@@ -685,8 +708,10 @@ const InfoHeader = (props: any) => {
                     handleDeleteChatvid(chatvid._id);
                   }
                 }}
+                className="mobileIconDiv"
               >
-                <DeleteIcon /> Delete
+                <DeleteIcon className="iconsMob" />
+                <span className="iconMobile"> Delete</span>
               </div>
             </div>
           </Grid>

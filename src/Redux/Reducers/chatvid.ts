@@ -6,7 +6,7 @@ let initialState: any = {
   resChatvid: {},
   selectedChatvid: {},
   stats: {},
-  mobileViewChatVid:"showChatVid"
+  mobileViewChatVid:"showSideBar"
 };
 let sortedChatvid:any=[]
 const chatvidReducer = (state = initialState, action: any) => {

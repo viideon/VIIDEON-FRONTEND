@@ -69,16 +69,16 @@
 .logoIcon {
   width: 40%;
 }
-.arrowIcon{
+.arrowIcon {
   margin-left: -20px;
 }
-@media only screen and (max-width: 1150px){
-  .arrowIcon{
+@media only screen and (max-width: 1150px) {
+  .arrowIcon {
     margin-left: -10px;
   }
 }
-@media only screen and (max-width: 900px){
-  .arrowIcon{
+@media only screen and (max-width: 900px) {
+  .arrowIcon {
     margin-left: -5px;
   }
 }
@@ -125,5 +125,12 @@
   }
   .headerStyle {
     font-size: 1.5em;
+  }
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+  .HeaderContainer {
+    height: 25px !important;
+    position: sticky;
+    top: 14px !important;
   }
 }

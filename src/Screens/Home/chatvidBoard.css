@@ -15,7 +15,7 @@
   width: 90% !important;
   background: #f2f2f2;
   border-radius: 8px;
-  padding: 2%;
+  padding: 1%;
   margin-bottom: 2%;
   cursor: pointer;
 }
@@ -424,7 +424,6 @@
   border-radius: 12px;
   height: 14%;
   height: 45px;
-  background: #dde1e4;
 }
 /* END Chatvid.tsx */
 @media (max-width: 1213px), (min-width: 1099px) {
@@ -576,7 +575,7 @@
   }
   .thumbnailInChatvidHead {
     position: relative;
-    top: 12%;
+    /* top: 12%; */
   }
   .backButton {
     width: 100%;
@@ -597,13 +596,80 @@
 /* Mobile Media Query */
 /* Portrait and Landscape */
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+  .shuffleButton {
+    position: relative !important;
+    top: -54px !important;
+    left: -39px !important;
+    width: 24% !important;
+  }
   .chatVidShareOptions {
     max-width: 50% !important;
     flex-basis: 70% !important;
     position: relative;
     left: 15%;
+    top: 13px;
   }
   .dashChatvidTopHeaderWrapper {
     min-width: 100%;
+    position: relative;
+    bottom: 65px !important;
+  }
+  .tabsWrapperChatvid {
+    position: relative !important;
+    top: -55px !important;
+  }
+  .chatVidTabsWrapper {
+    position: relative !important;
+    top: -54px !important;
+  }
+  .chatvidNameMob {
+    font-size: 25px !important;
+  }
+  .iconMobile {
+    font-size: 13px !important;
+  }
+  .thumbnail {
+    max-width: 100%;
+  }
+  .mobileIconDiv {
+    width: 66%;
+  }
+  .dashChatvidTopHeaderWrapper .sendChatvidBTNWrapper .MuiButton-contained {
+    margin-left: 115px;
+    font-weight: bold !important;
+    font-size: 13px !important;
+    width: 43% !important;
+  }
+  .iconsMob {
+    font-size: 15px !important;
+  }
+  ._responseWrapper {
+    height: auto !important;
+  }
+  .wrapperHomeContent {
+    padding: 1rem !important;
+    padding-top: 3rem !important;
+  }
+  .stepAvatarWrapper {
+    margin: 0px !important;
+    height: 36px !important;
+    width: 36px !important;
+  }
+  .stepAvatarWrapper .MuiTypography-h4 {
+    display: none;
+    font-size: 0.4rem !important;
+  }
+  .stepAvatarWrapper .MuiTypography-h1 {
+    font-size: 1.1rem !important;
+  }
+  .respondersCardWrapper {
+    width: 77% !important;
+    position: relative;
+    left: 37px !important;
+  }
+  .AddMoreSteps {
+    width: 77% !important;
+    position: relative;
+    left: 37px !important;
   }
 }

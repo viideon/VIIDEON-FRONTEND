@@ -150,7 +150,10 @@ class SideBar extends Component<IProps, IState> {
             OptionIcons: true,
             activeSideBar2: activeSideBar2 === "/chatvids",
           })}
-          onClick={() => this.handleChangeTab("/chatvids")}
+          onClick={() => {
+            this.props.mobileViewChatVid("showChatVid");
+            this.handleChangeTab("/chatvids");
+          }}
         >
           {/* <i className="fab fa-microsoft" style={iconStyle} />   */}
           <span className="" style={{ color: "black", fontWeight: "bold" }}>
