@@ -6,7 +6,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  DialogActions
+  DialogActions,
 } from "@material-ui/core";
 import { getAssets } from "../../Redux/Actions/asset";
 import { getLogoAssets, getThumbnailAssets } from "../../Redux/Selectors";
@@ -25,7 +25,7 @@ interface IProps {
 class AssetPicker extends React.Component<IProps> {
   state = {
     assetUrl: "",
-    currenSelection: null
+    currenSelection: null,
   };
   componentDidMount() {
     this.props.getAssets();
@@ -65,7 +65,7 @@ class AssetPicker extends React.Component<IProps> {
         scroll="paper"
       >
         <DialogTitle>
-          Select {this.props.logoAssets ? "Logo" : "Thumbnail"}
+          Selectay {this.props.logoAssets ? "Logo" : "Thumbnail"}
         </DialogTitle>
         <DialogContent>
           <div className="wrapperAssetPicker">
@@ -109,7 +109,7 @@ class AssetPicker extends React.Component<IProps> {
               width: "120px",
               marginRight: "5px",
               backgroundColor: Colors.darkGrey,
-              color: Colors.white
+              color: Colors.white,
             }}
             onClick={this.cancelSelection}
             name="Cancel"
@@ -118,7 +118,7 @@ class AssetPicker extends React.Component<IProps> {
             style={{
               width: "120px",
               backgroundColor: Colors.themeBlue,
-              color: Colors.white
+              color: Colors.white,
             }}
             onClick={this.onPick}
             name="OK"
@@ -136,12 +136,12 @@ const mapStateToProps = (state: any, ownProps: any) => {
     assets = getThumbnailAssets(state);
   }
   return {
-    assets: assets
+    assets: assets,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    getAssets: () => dispatch(getAssets())
+    getAssets: () => dispatch(getAssets()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AssetPicker);

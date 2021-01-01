@@ -13,6 +13,7 @@ import Colors from "../../constants/colors";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import SearchBar from "../SearchBar";
 import ThemeButton from "../ThemeButton";
+import { toast } from "react-toastify";
 import "./style.css";
 import { boolean } from "yup";
 
@@ -39,6 +40,7 @@ type IState = {
   isMenu: boolean;
   currentChatvid: any;
 };
+
 class SideBar extends Component<IProps, IState> {
   constructor(props: any) {
     super(props);
@@ -59,6 +61,15 @@ class SideBar extends Component<IProps, IState> {
     this.props.history.push(path);
   };
 
+  copyUrl = () => {
+    const url = `${process.env.REACT_APP_DOMAIN}/chatvid/res/${this.state
+      .currentChatvid && this.state.currentChatvid._id}`;
+    console.log("url is ", url);
+    console.log("copyurl", this.state.currentChatvid);
+    navigator.clipboard.writeText(url);
+    toast.info("Url copied to clipboard");
+  };
+
   toggleLogoutModal = () => {
     this.setState({ logoutModal: !this.state.logoutModal });
   };
@@ -66,9 +77,6 @@ class SideBar extends Component<IProps, IState> {
     if (!this.state.isMenu) {
       this.props.selectChatvid(chatvid);
       this.handleChangeTab(`/chatvids/form/${chatvid._id}`);
-      this.setState({
-        currentChatvid: chatvid,
-      });
     }
   };
   renderChatvids = (chatvids: any) => {
@@ -103,7 +111,11 @@ class SideBar extends Component<IProps, IState> {
     this.setState({ anchorEl: null });
     this.props.deletechatvid(id, this.props.history);
   };
-  handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  handleClick = (event: React.MouseEvent<HTMLButtonElement>, chatvid: any) => {
+    event.stopPropagation();
+    this.setState({
+      currentChatvid: chatvid,
+    });
     this.setState({ anchorEl: event.currentTarget, isMenu: true });
   };
   handleClose = () => {
@@ -171,6 +183,7 @@ class SideBar extends Component<IProps, IState> {
                     {vids.steps[0]?.videoId && (
                       <div
                         key={index}
+                        id="myDiv"
                         className={classname({
                           OptionIcons: true,
                           activeSideBar2:
@@ -197,50 +210,58 @@ class SideBar extends Component<IProps, IState> {
                         >
                           {vids.name}{" "}
                         </span>
-                        <span className="vertIcon" onClick={this.handleClick}>
+                        <span
+                          className="vertIcon"
+                          id="my-dots"
+                          onClick={(e: any) => this.handleClick(e, vids)}
+                        >
                           <MoreVertIcon style={{ color: "#000" }} />
                         </span>
-                        {/* <DeleteDialog
-        open={this.openDeleteDialog}
-        closeDeleteDialog={this.closeDeleteDialog}
-        deletingVideo={deletingVideo}
-        deleteVideo={deleteAction}
-      /> */}
 
-                        {this.state.currentChatvid._id === vids._id && (
-                          <Menu
-                            id="menuVideoCard"
-                            anchorEl={this.state.anchorEl}
-                            keepMounted
-                            open={Boolean(this.state.anchorEl)}
-                            onClose={this.handleClose}
+                        <Menu
+                          id="menuVideoCard"
+                          anchorEl={this.state.anchorEl}
+                          keepMounted
+                          open={Boolean(this.state.anchorEl)}
+                          onClose={this.handleClose}
+                        >
+                          <MenuItem
+                            onClick={() => {
+                              this.props.selectChatvid(
+                                this.state.currentChatvid
+                              );
+                              this.props.history.push(
+                                `/chatvids/edit/${this.state.currentChatvid &&
+                                  this.state.currentChatvid._id}`
+                              );
+                            }}
+                            style={{ padding: "10px" }}
                           >
-                            <MenuItem
-                              onClick={() =>
-                                this.props.history.push(
-                                  `/chatvids/edit/${vids && vids._id}`
+                            Edit
+                          </MenuItem>
+                          <MenuItem
+                            onClick={() => {
+                              if (
+                                window.confirm(
+                                  "Are you sure? you want to delete this ChatVid?"
                                 )
+                              ) {
+                                this.deleteAction(
+                                  this.state.currentChatvid._id
+                                );
                               }
-                            >
-                              Edit
-                            </MenuItem>
-                            <MenuItem
-                              onClick={() => {
-                                if (
-                                  window.confirm(
-                                    "Are you sure? you want to delete this ChatVid?"
-                                  )
-                                ) {
-                                  this.deleteAction(
-                                    this.state.currentChatvid._id
-                                  );
-                                }
-                              }}
-                            >
-                              Delete
-                            </MenuItem>
-                          </Menu>
-                        )}
+                            }}
+                            style={{ padding: "10px" }}
+                          >
+                            Delete
+                          </MenuItem>
+                          <MenuItem
+                            style={{ padding: "10px" }}
+                            onClick={this.copyUrl}
+                          >
+                            Copy Url
+                          </MenuItem>
+                        </Menu>
                       </div>
                     )}
                   </div>

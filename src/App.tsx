@@ -10,13 +10,12 @@ import { PersistGate } from "redux-persist/integration/react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 toast.configure({
   autoClose: 4000,
   pauseOnHover: false,
   hideProgressBar: true,
   pauseOnFocusLoss: false,
-  limit: 2
+  limit: 2,
 });
 
 const sagaMiddleware = creatSagaMiddleware();
@@ -46,7 +45,11 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <ToastContainer style={{ zIndex: 223123123 }} />
+        <ToastContainer
+          autoClose={2000}
+          limit={3}
+          style={{ zIndex: 223123123 }}
+        />
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <Routes />

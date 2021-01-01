@@ -118,7 +118,7 @@ class Dashboard extends Component<IProps> {
                 onClick={() => this.props.history.push("/chatvid")}
               >
                 <VideocamIcon style={iconStyle} />
-                <h5 className="cursorPointer">Record a Video</h5>
+                <h5 className="cursorPointer">Record/Upload a Chatvid</h5>
               </div>
             </Grid>
             <Grid item xs={6} md={3}>
@@ -127,7 +127,7 @@ class Dashboard extends Component<IProps> {
                 onClick={() => this.navigate("upload")}
               >
                 <PublishIcon style={iconStyle} />
-                <h5 className="cursorPointer">Upload a Video</h5>
+                <h5 className="cursorPointer">Record/Upload a Video</h5>
               </div>
             </Grid>
             <Grid item xs={6} md={3}>

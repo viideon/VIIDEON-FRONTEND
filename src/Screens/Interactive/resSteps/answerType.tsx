@@ -592,7 +592,17 @@ class FinalTab extends Component<any> {
             variant="determinate"
             value={this.state.percentage}
           />
-          <Grid style={{ height: "100%" }} item xs={12} sm={12} md={12} lg={12}>
+          <Grid
+            style={{
+              position: this.props.screenType == "web" ? "relative" : "inherit",
+              height: "100%",
+            }}
+            item
+            xs={12}
+            sm={12}
+            md={12}
+            lg={12}
+          >
             <div
               className="overLayText"
               style={{
@@ -603,7 +613,7 @@ class FinalTab extends Component<any> {
               <div
                 className="videoText"
                 style={{
-                  minHeight: this.props.screenType == "web" ? "90%" : "55%",
+                  minHeight: this.props.screenType == "web" ? "90%" : "50%",
                 }}
               >
                 <Typography

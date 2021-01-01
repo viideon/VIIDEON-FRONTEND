@@ -10,6 +10,7 @@ import "../style.css";
 class FinalTab extends Component<any> {
   state = {
     title: "",
+    isClicked: false,
   };
 
   handleChange = (e: any) => {
@@ -24,12 +25,14 @@ class FinalTab extends Component<any> {
       toast.error("Enter chatvid title!");
       return 0;
     } else {
+      this.setState({ isClicked: true });
       this.props.moveToNextStep();
       this.setState({
         title: "",
       });
     }
   };
+
   render() {
     return (
       <Grid container className="overLayWrapperTab">
@@ -96,11 +99,14 @@ class FinalTab extends Component<any> {
                   margin: "1%",
                 }}
               >
+                {console.log("final", this.state.isClicked)}
                 <Button
                   color="default"
                   className="BackBTN"
                   // startIcon={<NavigateBeforeOutlinedIcon />}
-                  onClick={() => this.props.moveBack(true)}
+                  onClick={() =>
+                    !this.state.isClicked && this.props.moveBack(true)
+                  }
                 >
                   Go Back
                 </Button>

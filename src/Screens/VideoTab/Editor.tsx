@@ -188,8 +188,9 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
         this.setState({ logoPath: logoProps.url, iconPos: logoProps.position });
       }
       if (textProps) {
+        debugger;
         this.setState({
-          text: textProps.text,
+          text: textProps.text ? textProps.text : "",
           textColor: textProps.textColor,
           fontSize: textProps.fontSize,
           vAlign: textProps.vAlign,
@@ -388,6 +389,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
     canvasTxt.align = this.state.align;
     canvasTxt.justify = false;
     canvasTxt.lineHeight = null;
+    debugger;
     canvasTxt.drawText(
       context2,
       this.state.text,
@@ -425,6 +427,17 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
     canvasTxt.align = this.state.align;
     canvasTxt.lineHeight = 20;
     canvasTxt.fontSize = (this.state.fontSize / 100) * (width - 80);
+    debugger;
+    console.log(
+      "context2",
+      context2,
+      "state",
+      this.state,
+      "width",
+      width,
+      "height",
+      height
+    );
     canvasTxt.drawText(
       context2,
       this.state.text,
@@ -433,6 +446,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
       width - 50,
       height - 50
     );
+    console.log("video", video, "img", img);
     let logoDimension = 0.2 * width;
     context2.drawImage(
       img,
@@ -442,6 +456,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
       logoDimension
     );
     let idata = context2.getImageData(0, 0, width, height);
+    console.log("idata is ", idata);
     context.putImageData(idata, 0, 0);
   };
   updateCanvas = () => {
@@ -455,6 +470,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
     );
   };
   changeText = (e: React.ChangeEvent<HTMLInputElement>) => {
+    debugger;
     this.setState({ text: e.target.value }, () => this.updateCanvas());
   };
   handleChangeColor = (color: any) => {
@@ -481,16 +497,16 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
         return;
       case "bottom-left":
         x = 20;
-        y = this.canvas.height - this.img.height - 40;
+        y = this.canvas.height - this.img.height - 30;
         this.setState({ logoX: x, logoY: y }, () => this.updateCanvas());
         return;
       case "bottom-right":
-        x = this.canvas.width - this.img.width - 40;
-        y = this.canvas.height - this.img.height - 40;
+        x = this.canvas.width - this.img.width - 30;
+        y = this.canvas.height - this.img.height - 30;
         this.setState({ logoX: x, logoY: y }, () => this.updateCanvas());
         return;
       case "top-right":
-        x = this.canvas.width - this.img.width - 40;
+        x = this.canvas.width - this.img.width - 30;
         this.setState({ logoX: x, logoY: 20 }, () => this.updateCanvas());
         return;
       default:
@@ -680,6 +696,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
       canvasTxt.vAlign = this.state.vAlign;
       canvasTxt.align = this.state.align;
       canvasTxt.lineHeight = 20;
+      debugger;
       canvasTxt.drawText(
         thumbnailContext,
         this.state.text,
@@ -750,7 +767,10 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
           onClose={this.handleClose}
           aria-labelledby="responsive-dialog-title"
         >
-          <DialogTitle id="responsive-dialog-title"> Edit {type} </DialogTitle>
+          <DialogTitle id="responsive-dialog-title">
+            {" "}
+            Editay {type}{" "}
+          </DialogTitle>
           <DialogContent>
             <div className="wrapperEditLogoText">
               <Grid container style={{ position: "relative" }}>
