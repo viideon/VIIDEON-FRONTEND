@@ -339,3 +339,14 @@
     margin-top: 1px;
   }
 }
+@media only screen and (min-device-width: 298px) and (max-device-width: 767px) {
+  ._choiceOption .MuiTypography-h5 {
+    width: auto !important;
+    font-size: 10px !important;
+    height: 40px !important;
+    margin: auto !important;
+  }
+  .captionDiv .MuiTypography-h3 {
+    font-weight: normal !important;
+  }
+}

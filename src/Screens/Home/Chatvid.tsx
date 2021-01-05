@@ -274,7 +274,7 @@ const StepsTab = (props: any) => {
         </div>
         <Typography variant="h5"  style={{wid}}> {choice.text} </Typography> */}
         <div
-          className="_choiceProgressBar"
+          className={`_choiceProgressBar ${percentage === 100 && "_choicebar"}`}
           style={{ width: `${percentage}%`, backgroundColor: "#f0cc79" }}
         >
           <Typography
@@ -630,8 +630,10 @@ const InfoHeader = (props: any) => {
     return re.test(String(email).toLowerCase());
   }
   const handleShare = () => {
+    console.log("handleShare email", props.user?.email);
     if (!validateEmail(email)) return toast.error("Enter a valid Email");
     props.emailVideo({
+      senderEmail: props.user?.email,
       email: email,
       videoThumnail: props.chatvid && props.chatvid.thumbnail,
       videoLink: url,

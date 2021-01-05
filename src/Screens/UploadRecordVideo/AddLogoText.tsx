@@ -336,6 +336,8 @@ class AddLogoText extends React.Component<IProps, IState> {
       toast.info("Please upload a logo");
       return;
     }
+    console.log("image ", this.canvas.width);
+    console.log("image ", this.img.width);
     this.setState({ iconPos: position });
     let x, y: any;
     switch (position) {
@@ -344,16 +346,17 @@ class AddLogoText extends React.Component<IProps, IState> {
         return;
       case "bottom-left":
         x = 20;
-        y = this.canvas.height - this.img.height - 20;
+        y = this.canvas.height - this.img.height - this.img.height / 2;
         this.setState({ logoX: x, logoY: y }, () => this.updateCanvas());
         return;
       case "bottom-right":
-        x = this.canvas.width - this.img.width - 20;
-        y = this.canvas.height - this.img.height - 20;
+        x = this.canvas.width - this.img.width - this.img.width / 2;
+        y = this.canvas.height - this.img.height - this.img.height / 2;
         this.setState({ logoX: x, logoY: y }, () => this.updateCanvas());
         return;
       case "top-right":
-        x = this.canvas.width - this.img.width - 20;
+        x = this.canvas.width - this.img.width - this.img.width / 2;
+        console.log("x", x);
         this.setState({ logoX: x, logoY: 20 }, () => this.updateCanvas());
         return;
       default:
@@ -766,7 +769,7 @@ class AddLogoText extends React.Component<IProps, IState> {
                   backgroundColor: "rgb(34, 185, 255)",
                 }}
               >
-                Select from Assets
+                Select from Assetsz
               </Button>
               <h5 className="positionTxt">Change Logo Position</h5>
               <Button

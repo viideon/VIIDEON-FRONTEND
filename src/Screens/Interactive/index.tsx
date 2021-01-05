@@ -165,7 +165,7 @@ class ChatVid extends Component<IProps> {
       this.state.responseType === "Multiple-Choice" &&
       this.state.choices.length < 2
     ) {
-      return toast.error("Adda atleast two multiple choices");
+      return toast.error("Add at least two multiple choices");
     }
     if (this.state.isAddStep && this.state.chatvidId) {
       this.props.history.location.pathname !== "/chatvid" &&

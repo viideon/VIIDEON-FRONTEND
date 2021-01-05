@@ -188,7 +188,6 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
         this.setState({ logoPath: logoProps.url, iconPos: logoProps.position });
       }
       if (textProps) {
-        debugger;
         this.setState({
           text: textProps.text ? textProps.text : "",
           textColor: textProps.textColor,
@@ -389,7 +388,6 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
     canvasTxt.align = this.state.align;
     canvasTxt.justify = false;
     canvasTxt.lineHeight = null;
-    debugger;
     canvasTxt.drawText(
       context2,
       this.state.text,
@@ -427,7 +425,6 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
     canvasTxt.align = this.state.align;
     canvasTxt.lineHeight = 20;
     canvasTxt.fontSize = (this.state.fontSize / 100) * (width - 80);
-    debugger;
     console.log(
       "context2",
       context2,
@@ -470,7 +467,6 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
     );
   };
   changeText = (e: React.ChangeEvent<HTMLInputElement>) => {
-    debugger;
     this.setState({ text: e.target.value }, () => this.updateCanvas());
   };
   handleChangeColor = (color: any) => {
@@ -491,23 +487,81 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
     }
     this.setState({ iconPos: position });
     let x, y: any;
+    console.log("resolution width", window.innerWidth);
+    console.log("resolution height", window.innerHeight);
+    let logoPositions = {
+      topLeft: {
+        x: 20,
+        y: 20,
+      },
+      bottomeLeft: {
+        x: 20,
+        y: this.canvas.height - this.img.height - 30,
+      },
+      bottomRight: {
+        x: this.canvas.width - this.img.width - 30,
+        y: this.canvas.height - this.img.height - 30,
+      },
+      topRight: {
+        x: this.canvas.width - this.img.width - 30,
+        y: 20,
+      },
+    };
+    if (window.innerWidth >= 298 && window.innerWidth <= 767) {
+      // logoPositions = {
+      //   topLeft: {
+      //     x: 20,
+      //     y: 20
+      //   },
+      //   bottomeLeft: {
+      //     x: 20,
+      //     y = this.canvas.height - this.img.height - 30
+      //   },
+      //   bottomRight :{
+      //     x = this.canvas.width - this.img.width - 30
+      //     y = this.canvas.height - this.img.height - 30;
+      //   },
+      //   topRight :{
+      //     x = this.canvas.width - this.img.width - 30;
+      //     y=20
+      //   }
+      // }
+    }
     switch (position) {
       case "top-left":
-        this.setState({ logoX: 20, logoY: 20 }, () => this.updateCanvas());
+        this.setState(
+          { logoX: logoPositions.topLeft.x, logoY: logoPositions.topLeft.y },
+          () => this.updateCanvas()
+        );
         return;
       case "bottom-left":
         x = 20;
         y = this.canvas.height - this.img.height - 30;
-        this.setState({ logoX: x, logoY: y }, () => this.updateCanvas());
+        this.setState(
+          {
+            logoX: logoPositions.bottomeLeft.x,
+            logoY: logoPositions.bottomRight.y,
+          },
+          () => this.updateCanvas()
+        );
         return;
       case "bottom-right":
         x = this.canvas.width - this.img.width - 30;
         y = this.canvas.height - this.img.height - 30;
-        this.setState({ logoX: x, logoY: y }, () => this.updateCanvas());
+        this.setState(
+          {
+            logoX: logoPositions.bottomRight.x,
+            logoY: logoPositions.bottomRight.y,
+          },
+          () => this.updateCanvas()
+        );
         return;
       case "top-right":
         x = this.canvas.width - this.img.width - 30;
-        this.setState({ logoX: x, logoY: 20 }, () => this.updateCanvas());
+        this.setState(
+          { logoX: logoPositions.topRight.x, logoY: logoPositions.topRight.y },
+          () => this.updateCanvas()
+        );
         return;
       default:
         return;
@@ -696,7 +750,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
       canvasTxt.vAlign = this.state.vAlign;
       canvasTxt.align = this.state.align;
       canvasTxt.lineHeight = 20;
-      debugger;
+      // debugger;
       canvasTxt.drawText(
         thumbnailContext,
         this.state.text,

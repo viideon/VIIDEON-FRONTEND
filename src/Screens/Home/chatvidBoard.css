@@ -595,12 +595,15 @@
 
 /* Mobile Media Query */
 /* Portrait and Landscape */
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+@media only screen and (min-device-width: 298px) and (max-device-width: 767px) {
   .shuffleButton {
     position: relative !important;
     top: -54px !important;
     left: -39px !important;
     width: 24% !important;
+  }
+  .backButton {
+    background: transparent !important;
   }
   .chatVidShareOptions {
     max-width: 50% !important;
@@ -671,5 +674,21 @@
     width: 77% !important;
     position: relative;
     left: 37px !important;
+  }
+  .wrapperChatvidDashboard {
+    position: relative !important;
+    top: -50px !important;
+  }
+  .responderDiv {
+    text-align: center !important;
+    padding: 7px !important;
+  }
+  ._choiceProgressBar {
+    padding: 4.5% !important;
+    max-width: 94% !important;
+  }
+  ._choicebar {
+    width: 94% !important;
+    max-width: 94% !important;
   }
 }

@@ -195,7 +195,8 @@ const iconStyle = {
 };
 const mapStateToProps = (state: any) => {
   return {
-    videoCount: state.video.videoCount - state.video.campaignCount,
+    // videoCount: state.video.videoCount - state.video.campaignCount,
+    videoCount: state.video.videoCount,
     viewCount: state.video.viewCount,
     campaignCount: state.video.campaignCount,
     user: state.auth.user,

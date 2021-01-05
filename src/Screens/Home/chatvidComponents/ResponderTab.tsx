@@ -202,6 +202,7 @@ const ResponderTab = (props: any) => {
             <KeyboardArrowDownIcon />
           </IconButton>
         </Paper>
+        {console.log("responder length", responders)}
         {sortByResponse(responders)?.map((person: any, ind: number) => {
           return renderCard(
             props.chatvid.name,

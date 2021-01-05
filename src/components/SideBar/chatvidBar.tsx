@@ -5,6 +5,7 @@ import {
   selectChatvid,
   mobileViewChatVid,
   deletechatvid,
+  getChatvids,
 } from "../../Redux/Actions/chatvid";
 import classname from "classnames";
 import DeleteDialog from "../Reusable/DeleteDialog";
@@ -28,6 +29,7 @@ type IProps = {
   deletechatvid: (_id: string, history: any) => void;
   selectChatvid: (chatvid: any) => void;
   mobileViewChatVid: (v: any) => void;
+  getChatvids: () => void;
 };
 type IState = {
   activeTab: string;
@@ -107,9 +109,13 @@ class SideBar extends Component<IProps, IState> {
     });
   };
   deleteAction = (id: string) => {
-    console.log(id, this.state.currentChatvid._id);
-    this.setState({ anchorEl: null });
+    //this.props.history.push("/")
     this.props.deletechatvid(id, this.props.history);
+    // if (this.props.history.location.pathname === "/chatvids") {
+    //   this.props.deletechatvid(id, this.props.history);
+    //   window.location.reload();
+    // }
+    this.setState({ anchorEl: null });
   };
   handleClick = (event: React.MouseEvent<HTMLButtonElement>, chatvid: any) => {
     event.stopPropagation();
@@ -296,6 +302,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     deletechatvid: (_id: string, history: any) =>
       dispatch(deletechatvid(_id, history)),
+    getChatvids: () => dispatch(getChatvids()),
     selectChatvid: (chatvid: any) => dispatch(selectChatvid(chatvid)),
     mobileViewChatVid: (v: any) => dispatch(mobileViewChatVid(v)),
   };

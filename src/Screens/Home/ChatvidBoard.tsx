@@ -229,12 +229,18 @@ class Dashboard extends Component<IProps, IState> {
             className="backButton"
             onClick={() => this.props.mobileViewChatVid("showSideBar")}
           >
-            Back
+            <img
+              src="/images/backicon.png"
+              width="40px"
+              height="40px"
+              alt="edit"
+              style={{}}
+            />
           </button>
         </div>
         <Grid container className="wrapperChatvidDashboard">
           <Grid item className="responderWrapper" xs={12} sm={12} md={4} lg={4}>
-            <div>
+            <div className="responderDiv">
               <Typography variant="h6"> Responders </Typography>
             </div>
             {/* {console.log(this.props.chatvids)} */}

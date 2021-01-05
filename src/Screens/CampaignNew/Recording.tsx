@@ -108,6 +108,7 @@ class Recording extends React.Component<IProps> {
       showQualityInput: false,
     });
     setTimeout(() => this.startRecord(), 3000);
+    console.log("template in recording", this.props.template);
     setTimeout(
       () => this.stopRecord(),
       parseInt(this.props.template.duration) * 1000 + 4000
@@ -206,6 +207,7 @@ class Recording extends React.Component<IProps> {
     return (
       <div className="recordingWrapperDiv">
         <Typography variant="h4" className="shotNo">
+          {console.log("campaing", this.state)}
           Shot {this.state.currentStep}{" "}
         </Typography>
         <Grid container>

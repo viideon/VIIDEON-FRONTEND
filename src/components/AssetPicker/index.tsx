@@ -65,7 +65,7 @@ class AssetPicker extends React.Component<IProps> {
         scroll="paper"
       >
         <DialogTitle>
-          Selectay {this.props.logoAssets ? "Logo" : "Thumbnail"}
+          Select {this.props.logoAssets ? "Logo" : "Thumbnail"}
         </DialogTitle>
         <DialogContent>
           <div className="wrapperAssetPicker">

@@ -17,6 +17,7 @@ import {
   selectID,
 } from "../../Selectors/index";
 import { toast } from "react-toastify";
+import { type } from "os";
 
 function* getChatVidsSaga(action: any) {
   try {
@@ -26,7 +27,6 @@ function* getChatVidsSaga(action: any) {
       let chatvidsorted :any = result.data.message.sort((a:any,b:any)=>{
         return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
       })
-console.log("saga",chatvidsorted)
       yield put({ type: types.GET_CHATVIDS_SUCCESS, payload: result.data.message });
     } else {
       yield put({ type: types.GET_CHATVIDS_FAILURE });
@@ -159,9 +159,22 @@ function* deleteChatVid(action: any) {
     const payload = action.payload;
     const result = yield chatVidDelete(payload);
     if (result.status === 200) {
-      toast.success(result.data?.message || "Succesful.");
+      // toast.success(result.data?.message || "Succesful.");
+      console.log("path is ",action.history.location.pathname)
+      toast.success("Succesful Deleted.");
+      yield put({ type: types.DELETE_CHATVID_SUCCESS });
+      if(action.history.location.pathname === "/chatvids"){  
+      //  window.location.reload();
+        action.history.push("/")
+         yield put({type: types.GET_CHATVIDS_REQUEST}) 
+         action.history.push("/chatvids") 
+
+      }else{
+      // yield put(push("/chatvids"));
       action.history.push("/chatvids")
-      return yield put({ type: types.DELETE_CHATVID_SUCCESS });
+      }
+      
+      
     }
   } catch (error) {
     yield put({ type: types.DELETE_CHATVID_FAILURE });

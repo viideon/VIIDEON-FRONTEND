@@ -608,6 +608,7 @@ class FinalTab extends Component<any> {
               style={{
                 display: "flex",
                 flexDirection: "column",
+                width: this.props.screenType == "web" ? "100%" : "auto",
               }}
             >
               <div
