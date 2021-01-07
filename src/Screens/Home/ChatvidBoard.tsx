@@ -101,15 +101,14 @@ class Dashboard extends Component<IProps, IState> {
   setStp = (step: any, stpIndex: number) => {
     const { selectedPerson }: any = this.state;
     this.setState({ step, stpIndex });
-    console.log("setstp", step, "stepIndex", stpIndex);
-    console.log("selected person in step", selectedPerson._id);
+
     if (step.responseType === "Open-ended") {
       let personResponse1 = step.replies?.filter(
         (reply: any) => reply?.peopleId?._id === selectedPerson._id
       );
-      console.log("response in step ", personResponse1);
+      // console.log("response in step ", personResponse1);
       personResponse1?.map((reply: any) => {
-        console.log("step reply ", reply);
+        // console.log("step reply ", reply);
         if (reply.type == "text") return this.setState({ activeType: 1 });
         if (reply.type == "audio") return this.setState({ activeType: 2 });
         if (reply.type == "video") return this.setState({ activeType: 3 });
@@ -269,7 +268,7 @@ class Dashboard extends Component<IProps, IState> {
             {selectedChatvid?.name && (
               <Typography variant="h6">
                 {" "}
-                Response on{" "}
+                Response on {console.log("selected chatvid", selectedChatvid)}
                 {`${selectedChatvid.name} - ${new Date(
                   selectedChatvid.createdAt
                 ).toLocaleString()}`}{" "}

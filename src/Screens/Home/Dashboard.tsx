@@ -62,7 +62,7 @@ class Dashboard extends Component<IProps> {
             </h3>
           </div>
           <Grid container spacing={2} className="dashHeaderWrapper">
-            {console.log(this.props.videoCount)}
+            {/* {console.log(this.props.videoCount)} */}
             <Grid item xs={6} md={3}>
               <Link to="/videos" className="link-style">
                 <HeaderCard
@@ -115,19 +115,19 @@ class Dashboard extends Component<IProps> {
             <Grid item xs={6} md={3}>
               <div
                 className="actionsHomePage"
-                onClick={() => this.props.history.push("/chatvid")}
+                onClick={() => this.navigate("upload")}
               >
-                <VideocamIcon style={iconStyle} />
-                <h5 className="cursorPointer">Record/Upload a Chatvid</h5>
+                <PublishIcon style={iconStyle} />
+                <h5 className="cursorPointer">Record/Upload a Video</h5>
               </div>
             </Grid>
             <Grid item xs={6} md={3}>
               <div
                 className="actionsHomePage"
-                onClick={() => this.navigate("upload")}
+                onClick={() => this.props.history.push("/chatvid")}
               >
-                <PublishIcon style={iconStyle} />
-                <h5 className="cursorPointer">Record/Upload a Video</h5>
+                <VideocamIcon style={iconStyle} />
+                <h5 className="cursorPointer">Record/Upload a Chatvid</h5>
               </div>
             </Grid>
             <Grid item xs={6} md={3}>

@@ -320,7 +320,7 @@ export function* getVideoCount() {
   try {
     const userId = yield select(selectID);
     const result = yield call(videoCount, userId);
-    console.log("in saga",result.data)
+    
 
     if (result.status === 200) {
       yield put({
@@ -339,7 +339,7 @@ export function* getCampaignCount() {
   try {
     const userId = yield select(selectID);
     const result = yield call(campaignCount, userId);
-    console.log("in saga campain", result.data)
+    
     if (result.status === 200) {
       yield put({
         type: types.COUNT_CAMPAIGN_SUCCESS,

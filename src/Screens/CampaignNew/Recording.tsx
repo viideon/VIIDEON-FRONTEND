@@ -46,6 +46,7 @@ class Recording extends React.Component<IProps> {
   video: any;
   localStream: any;
   toastOptions: any = { autoClose: 2000 };
+  autoStopPromise: any = null;
 
   componentDidMount() {
     this.setupMedia();
@@ -109,7 +110,7 @@ class Recording extends React.Component<IProps> {
     });
     setTimeout(() => this.startRecord(), 3000);
     console.log("template in recording", this.props.template);
-    setTimeout(
+    this.autoStopPromise = setTimeout(
       () => this.stopRecord(),
       parseInt(this.props.template.duration) * 1000 + 4000
     );
@@ -129,10 +130,13 @@ class Recording extends React.Component<IProps> {
     this.setState({
       timerTimeout: setInterval(this.trackTime, 1000),
     });
+    console.log("recordingStatus", this.state.recordingStatus);
   };
 
   stopRecord = () => {
     clearInterval(this.state.timerTimeout);
+    clearTimeout(this.autoStopPromise);
+
     this.setState({
       showTimer: false,
       recordingStatus: false,
@@ -207,7 +211,7 @@ class Recording extends React.Component<IProps> {
     return (
       <div className="recordingWrapperDiv">
         <Typography variant="h4" className="shotNo">
-          {console.log("campaing", this.state)}
+          {/* {console.log("campaing", this.state)} */}
           Shot {this.state.currentStep}{" "}
         </Typography>
         <Grid container>

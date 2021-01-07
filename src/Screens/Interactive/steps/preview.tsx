@@ -18,10 +18,6 @@ import "../response.css";
 
 const mobileView = () => {};
 const ChatvidPreviewTab = (props: any) => {
-  console.log(
-    "🚀 ~ file: preview.tsx ~ line 21 ~ ChatvidPreviewTab ~ props",
-    props
-  );
   const [active, setActive] = useState("web");
   return (
     <div>

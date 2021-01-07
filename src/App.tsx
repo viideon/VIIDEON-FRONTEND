@@ -7,7 +7,14 @@ import persistedReducer from "./Redux/Reducers";
 import rootSaga from "./Redux/Sagas/index";
 import Routes from "./Routes";
 import { PersistGate } from "redux-persist/integration/react";
-import { ToastContainer, toast } from "react-toastify";
+import {
+  ToastContainer,
+  toast,
+  Slide,
+  Zoom,
+  Flip,
+  Bounce,
+} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 toast.configure({
@@ -47,7 +54,8 @@ class App extends Component {
       <div className="App">
         <ToastContainer
           autoClose={2000}
-          limit={3}
+          transition={Zoom}
+          limit={1}
           style={{ zIndex: 223123123 }}
         />
         <Provider store={store}>

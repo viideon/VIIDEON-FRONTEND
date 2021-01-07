@@ -16,7 +16,7 @@ const CampaignTemplateCard: React.FC<IProps> = ({
   template,
 }) => {
   const moveToRecording = () => {
-    console.log("template is ", template);
+    // console.log("template is ", template);
     proceedToRecording(template);
   };
   return (

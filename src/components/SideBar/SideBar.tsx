@@ -55,6 +55,16 @@ class SideBar extends Component<IProps, IState> {
         <div
           className={classname({
             OptionIcons: true,
+            activeSideBar: activeSideBar === "/videos",
+          })}
+          onClick={() => this.handleChangeTab("/videos")}
+        >
+          <i className="fab fa-microsoft" style={iconStyle} />
+          <span className="IconNameStyling">My Videos</span>
+        </div>
+        <div
+          className={classname({
+            OptionIcons: true,
             dashboardOption: true,
             activeSideBar: activeSideBar === "/chatvids",
           })}
@@ -64,16 +74,6 @@ class SideBar extends Component<IProps, IState> {
         >
           <i className="fas fa-tachometer-alt dashboard" style={iconStyle} />
           <span className="IconNameStyling">Switch to chatvid</span>
-        </div>
-        <div
-          className={classname({
-            OptionIcons: true,
-            activeSideBar: activeSideBar === "/videos",
-          })}
-          onClick={() => this.handleChangeTab("/videos")}
-        >
-          <i className="fab fa-microsoft" style={iconStyle} />
-          <span className="IconNameStyling">My Videos</span>
         </div>
         {/* <Tooltip title="Feature Coming Soon" enterDelay={0}>
           <div className={classname({"OptionIcons": true, "activeSideBar": activeSideBar === "/"})} onClick={() => alert("Feature Coming Soon")}>

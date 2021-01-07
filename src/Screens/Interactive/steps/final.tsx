@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Grid, Typography, Button } from "@material-ui/core";
 import CancelIcon from "@material-ui/icons/Cancel";
 import { toast } from "react-toastify";
+import Loading from "../../../components/Loading";
 import "react-tabs/style/react-tabs.css";
 import "../style.css";
 
@@ -21,7 +22,7 @@ class FinalTab extends Component<any> {
   };
   finalize = () => {
     if (this.state.title === "") {
-      console.log(this.props.state);
+      // console.log(this.props.state);
       toast.error("Enter chatvid title!");
       return 0;
     } else {
@@ -35,7 +36,11 @@ class FinalTab extends Component<any> {
 
   render() {
     return (
-      <Grid container className="overLayWrapperTab">
+      <Grid
+        container
+        className="overLayWrapperTab"
+        style={{ opacity: `${this.state.isClicked ? 0.7 : 1}` }}
+      >
         <div className="finalTabHeader">
           <CancelIcon className="finalCancel" />
           <Typography variant="h2">Almost Done!</Typography>
@@ -81,8 +86,9 @@ class FinalTab extends Component<any> {
                   className="NextBTN"
                   // endIcon={<KeyboardArrowRightIcon />}
                   onClick={this.finalize}
+                  disabled={this.state.isClicked}
                 >
-                  Create chatvid
+                  {this.state.isClicked ? <Loading /> : "Create chatvid"}
                 </Button>
               </Grid>
               <Grid
@@ -99,11 +105,12 @@ class FinalTab extends Component<any> {
                   margin: "1%",
                 }}
               >
-                {console.log("final", this.state.isClicked)}
+                {/* {console.log("final", this.state.isClicked)} */}
                 <Button
                   color="default"
                   className="BackBTN"
                   // startIcon={<NavigateBeforeOutlinedIcon />}
+                  disabled={this.state.isClicked}
                   onClick={() =>
                     !this.state.isClicked && this.props.moveBack(true)
                   }

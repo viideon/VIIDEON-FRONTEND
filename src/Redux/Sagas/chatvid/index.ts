@@ -61,7 +61,9 @@ function* saveChatVidSaga(action: any) {
     if (result.status === 200) {
       yield put({ type: types.SAVE_CHATVID_SUCCESS });
       yield put({ type: types.GET_CHATVIDS_REQUEST });
-      toast.info("Chatvid saved successfully!");
+      toast.success("Chatvid saved successfully!",{
+        hideProgressBar: true,
+      });
       yield put(push("/chatvids"));
       action.history.push("/chatvids")
     } else {
@@ -83,7 +85,9 @@ function* addChatvidStep(action: any) {
     if (result.status === 200) {
       yield put({ type: types.ADD_STEP_TO_CHATVID_SUCCESS });
     //  yield put({ type: types.GET_CHATVIDS_REQUEST })
-      toast.info("Added Successfully!");
+      toast.success("Added Successfully!",{
+        hideProgressBar: true,
+      });
       action.history.push("/chatvids");
     } else {
       yield put({ type: types.ADD_STEP_TO_CHATVID_FAILURE });
@@ -99,10 +103,13 @@ function* addChatvidStep(action: any) {
 function* replyToAChatvidSaga(action: any) {
   try {
     const payload = action.payload;
+    // console.log("reply payload in saga",payload)
     const result = yield replyToAChatvid(payload);
     if (result.status === 200) {
       yield put({ type: types.REPLY_TO_CHATVID_SUCCESS });
-      toast.info("Replied Successfully!");
+      toast.success("Replied Successfully!",{
+        hideProgressBar: true,
+      });
     } else {
       yield put({ type: types.REPLY_TO_CHATVID_FAILURE });
       toast.error("Something Went Wrong");
@@ -142,7 +149,7 @@ function* saveMetricsSaga(action: any) {
 }
 
 function* getMetricsData(action: any) {
-  console.log("getAnalytics in saga")
+  
   try {
     const payload = action.payload;
     const result = yield getMetrics(payload);
@@ -160,8 +167,10 @@ function* deleteChatVid(action: any) {
     const result = yield chatVidDelete(payload);
     if (result.status === 200) {
       // toast.success(result.data?.message || "Succesful.");
-      console.log("path is ",action.history.location.pathname)
-      toast.success("Succesful Deleted.");
+      // console.log("path is ",action.history.location.pathname)
+      toast.success("Succesful Deleted.",{
+        hideProgressBar: true,
+      });
       yield put({ type: types.DELETE_CHATVID_SUCCESS });
       if(action.history.location.pathname === "/chatvids"){  
       //  window.location.reload();
@@ -186,11 +195,12 @@ function* emailVideo(action: any) {
   try {
     const payload = action.payload;
     // payload.userId = userId;
-    console.log(payload)
     const result = yield emailVideoSend(payload);
     if (result.status === 200) {
       // yield put({ type: types.ADD_STEP_TO_CHATVID_SUCCESS });
-      toast.success("Successfully");
+      toast.success("Sent Successfully",{
+        hideProgressBar: true,
+      });
 
     } else {
       // yield put({ type: types.ADD_STEP_TO_CHATVID_FAILURE });

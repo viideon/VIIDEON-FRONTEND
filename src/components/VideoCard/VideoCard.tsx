@@ -72,7 +72,7 @@ const VideoCard: FC<IProps> = ({
     navigator.clipboard.writeText(
       `${process.env.REACT_APP_DOMAIN}/watch/${id}`
     );
-    toast.info("Url copied to clipboard");
+    toast("Url copied to clipboard");
   };
 
   return (

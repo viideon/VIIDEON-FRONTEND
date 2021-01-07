@@ -18,7 +18,7 @@ import atom from "../../assets/atom.png";
 const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email("Enter Correct Email")
-    .required("Enter Email")
+    .required("Enter Email"),
 });
 type IProps = {
   navigation: any;
@@ -44,7 +44,7 @@ class ForgotPassword extends React.Component<IProps, IState> {
       emailError: false,
       passwordError: false,
       invalidEmailError: false,
-      verifySuccessModals: false
+      verifySuccessModals: false,
     };
   }
   componentDidUpdate(prevProps: any) {
@@ -76,7 +76,7 @@ class ForgotPassword extends React.Component<IProps, IState> {
                   position: "fixed",
                   bottom: "-13%",
                   left: "-3%",
-                  opacity: "0.5"
+                  opacity: "0.5",
                 }}
               >
                 <img style={{ width: "30%" }} src={atom} alt="logo" />
@@ -86,7 +86,7 @@ class ForgotPassword extends React.Component<IProps, IState> {
           <Grid item xs={12} md={5} sm={12} style={{ zIndex: 231231232 }}>
             <div className="secondLayoutMainContainer">
               <p className="loginTwo">Reset Password</p>
-              <div className="createAccount">
+              <div className="createAccount" style={{ marginBottom: "0em" }}>
                 <p className="account">{Constants.DONT_HAVE_ACCOUNT_YET}</p>
                 <div>
                   <p
@@ -99,6 +99,19 @@ class ForgotPassword extends React.Component<IProps, IState> {
                   </p>
                 </div>
               </div>
+              <div className="createAccountSignup">
+                <p className="accountSignup">{Constants.ALREADY_HAD_ACCOUNT}</p>
+                <div>
+                  <p
+                    className="create"
+                    onClick={() => {
+                      this.props.history.push("/login");
+                    }}
+                  >
+                    Login here
+                  </p>
+                </div>
+              </div>
               <div className="wrapperLoader">
                 {loading && (
                   <span className="innerWrapperLoader">
@@ -107,15 +120,15 @@ class ForgotPassword extends React.Component<IProps, IState> {
                 )}
               </div>
               <Formik
-                onSubmit={values => {
+                onSubmit={(values) => {
                   this.props.forgotPassword({ email: values.email });
                 }}
                 initialValues={{
-                  email: ""
+                  email: "",
                 }}
                 validationSchema={validationSchema}
               >
-                {formik => (
+                {(formik) => (
                   <>
                     <div className="formGroups">
                       <Label text={Constants.EMAIL_ADDRESS} />
@@ -148,7 +161,7 @@ class ForgotPassword extends React.Component<IProps, IState> {
                             "linear-gradient(to right, #fcb317, #8bb589, #61b5b3)",
                           fontFamily: "Poppins",
                           fontWeight: "bolder",
-                          fontSize: "larger"
+                          fontSize: "larger",
                         }}
                         // style={{ marginTop: 18, minWidth: "150px", backgroundColor: Colors.themePurple, color: Colors.white }}
                       />
@@ -166,12 +179,12 @@ class ForgotPassword extends React.Component<IProps, IState> {
 
 const mapStateToProps = (state: any) => {
   return {
-    auth: state.auth
+    auth: state.auth,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    forgotPassword: (email: any) => dispatch(forgotPassword(email))
+    forgotPassword: (email: any) => dispatch(forgotPassword(email)),
   };
 };
 

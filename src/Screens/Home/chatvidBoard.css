@@ -19,7 +19,21 @@
   margin-bottom: 2%;
   cursor: pointer;
 }
-
+.toasts {
+  background: yellow !important;
+  color: red !important;
+  position: relative;
+  top: 95px !important;
+  right: 18px !important;
+  width: 91%;
+  overflow: hidden;
+  font-weight: bolder;
+  background-color: rgb(70, 22, 16);
+}
+.fancy-progress-bar {
+  color: green !important;
+  background-color: skyblue !important;
+}
 .wrapperChatvidDashboard .respondersCardWrapper {
   background: #ffffff;
 }

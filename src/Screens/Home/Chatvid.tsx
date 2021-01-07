@@ -11,7 +11,7 @@ import {
 import classname from "classnames";
 import Colors from "../../constants/colors";
 import ThemeButton from "../../components/ThemeButton";
-import { toast } from "react-toastify";
+import { toast, Flip } from "react-toastify";
 
 import { Grid, Typography, TextField, Button } from "@material-ui/core";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
@@ -621,7 +621,14 @@ const InfoHeader = (props: any) => {
 
   const copyUrl = () => {
     navigator.clipboard.writeText(url);
-    toast.info("Url copied to clipboard");
+    toast("Url copied to clipboard", {
+      // position: "top-center",
+      autoClose: 1000,
+      transition: Flip,
+      // hideProgressBar: true,
+      // className: "toasts",
+      progressClassName: "fancy-progress-bar",
+    });
   };
 
   const handleChange = (e: any) => setEmail(e.target.value);

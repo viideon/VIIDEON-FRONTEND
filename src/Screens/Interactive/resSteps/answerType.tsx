@@ -147,7 +147,7 @@ class FinalTab extends Component<any> {
         } = this.props.resChatvid.steps[
           this.state.currentStepNo
         ].videoId.textProps;
-        console.log("first reveal", reveal);
+        // console.log("first reveal", reveal);
         this.setState({
           text,
           align,
@@ -255,7 +255,7 @@ class FinalTab extends Component<any> {
     // if (isBack && isBack == "resPage") {
     //   window.location.reload();
     // }
-    console.log("tab in handletabchange", tab);
+    // console.log("tab in handletabchange", tab);
     if (
       this.props.history.location.pathname.indexOf("/chatvid/step/") > -1 ||
       this.props.preview
@@ -342,18 +342,18 @@ class FinalTab extends Component<any> {
     ].videoId.textProps;
     if (!validateEmail(userEmail)) return toast.error("Enter a valid Email");
     if (!userName) return toast.error("Enter a valid Email");
-    console.log("before Replying", userEmail);
-    console.log("before replying selecetd chatvid", selectedChatvid);
+    // console.log("before Replying", userEmail);
+    // console.log("before replying selecetd chatvid", selectedChatvid);
     let selected = [];
     selected = selectedChatvid?.people?.filter((p: any) => {
       return p.email === userEmail;
     });
-    if (selected.length !== 0)
+    if (selected && selected.length !== 0)
       return toast.error(
         "You have Submitted Respone with this email Please Use Another...."
       );
 
-    console.log("before Replying selected email", selected);
+    // console.log("before Replying selected email", selected);
 
     toast.info("Repling....");
 
@@ -371,7 +371,9 @@ class FinalTab extends Component<any> {
       email: userEmail,
       name: userName,
     };
-    if (auth.user?._id) people.userId = auth.user?._id;
+    if (auth.user?._id) {
+      people.userId = auth.user?._id;
+    }
     const reply = {
       chatvidId: resChatvid._id,
       stepId: resChatvid.steps[currentStepNo]._id,
@@ -1100,7 +1102,7 @@ const AudioResponse = (props: any) => {
   const min = Math.floor(timer / 60) % 60;
   const sec = Math.floor(timer % 60);
 
-  console.log("conditions are", { recording, recorded });
+  // console.log("conditions are", { recording, recorded });
 
   return (
     <div className="textResponseWrappreContainer">

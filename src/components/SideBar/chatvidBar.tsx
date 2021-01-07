@@ -69,7 +69,8 @@ class SideBar extends Component<IProps, IState> {
     console.log("url is ", url);
     console.log("copyurl", this.state.currentChatvid);
     navigator.clipboard.writeText(url);
-    toast.info("Url copied to clipboard");
+    toast("Url copied to clipboard");
+    this.setState({ anchorEl: null, isMenu: false });
   };
 
   toggleLogoutModal = () => {
@@ -111,10 +112,6 @@ class SideBar extends Component<IProps, IState> {
   deleteAction = (id: string) => {
     //this.props.history.push("/")
     this.props.deletechatvid(id, this.props.history);
-    // if (this.props.history.location.pathname === "/chatvids") {
-    //   this.props.deletechatvid(id, this.props.history);
-    //   window.location.reload();
-    // }
     this.setState({ anchorEl: null });
   };
   handleClick = (event: React.MouseEvent<HTMLButtonElement>, chatvid: any) => {

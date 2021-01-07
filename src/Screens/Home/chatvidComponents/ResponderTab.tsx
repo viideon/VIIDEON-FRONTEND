@@ -15,7 +15,7 @@ import VolumeUpRoundedIcon from "@material-ui/icons/VolumeUpRounded";
 import PermMediaIcon from "@material-ui/icons/PermMedia";
 
 function sortByResponse(data: any) {
-  let chatvidsorted: any = data.sort((a: any, b: any) => {
+  let chatvidsorted: any = data?.sort((a: any, b: any) => {
     return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
   });
   return chatvidsorted;
@@ -141,7 +141,7 @@ const ResponderTab = (props: any) => {
     );
   };
   const handleStep = (step: any, ind: any) => {
-    console.log("resPerson in step", resPerson);
+    // console.log("resPerson in step", resPerson);
     setStp(step);
     setIndex(ind);
     if (step.responseType === "Open-ended") {
@@ -149,7 +149,7 @@ const ResponderTab = (props: any) => {
         (reply: any) => reply?.peopleId?._id === resPerson
       );
       responsePerson1?.map((reply: any) => {
-        console.log(reply);
+        // console.log(reply);
         if (reply.type == "text") return setActiveType(1);
         if (reply.type == "audio") return setActiveType(2);
         if (reply.type == "video") return setActiveType(3);
@@ -202,7 +202,7 @@ const ResponderTab = (props: any) => {
             <KeyboardArrowDownIcon />
           </IconButton>
         </Paper>
-        {console.log("responder length", responders)}
+        {/* {console.log("responder length", responders)} */}
         {sortByResponse(responders)?.map((person: any, ind: number) => {
           return renderCard(
             props.chatvid.name,

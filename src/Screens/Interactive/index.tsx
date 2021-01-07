@@ -198,7 +198,8 @@ class ChatVid extends Component<IProps> {
     if (responseType === "Multiple-Choice" && this.state.choices.length < 1)
       return toast.warn("Add Choice(s) first");
     try {
-      toast.info("Uploading thumbnail ...");
+      // toast.info("Uploading thumbnail ...");
+      toast.info("Your chatVid Creating...");
       await this.uploadThumbnail();
       toast.info("Uploading video ...");
       await this.uploadVideo();
@@ -243,7 +244,7 @@ class ChatVid extends Component<IProps> {
         );
         return this.props.addStepToChatvid(chatvid, this.props.history);
       }
-      toast.info("Storing Chatvid ...");
+      // toast.info("Storing Chatvid ...");
       !this.state.isAddStep &&
         this.props.saveVideo(chatvid, this.props.history);
     } catch (error) {}

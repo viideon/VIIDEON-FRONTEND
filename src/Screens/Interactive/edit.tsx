@@ -227,17 +227,15 @@ function HorizontalNonLinearStepper(props: any) {
 
   const handleStep = (step: number) => () => {
     console.log("steps in handle with props ", props?.chatvid?.steps);
-    console.log("steps in handle with ", steps);
-    console.log("step is ", step);
+
     const index = steps.findIndex((x: any) => x == step);
-    console.log("index is ", index);
+    // console.log("index is ", index);
     const obj = steps[index - 1];
-    console.log("obj is ", obj);
+    // console.log("obj is ", obj);
     const newIndex = props?.chatvid?.steps.findIndex(
       (x: any) => x._id === obj._id
     );
 
-    console.log("newIndex is ", newIndex);
     setActiveStep(step);
     props.history.push(`/chatvid/step/${props.chatvid._id}/${newIndex + 2}`);
   };
@@ -304,8 +302,8 @@ function HorizontalNonLinearStepper(props: any) {
   return (
     <div className={classes.root}>
       <Stepper nonLinear activeStep={activeStep}>
-        {console.log("steps in edit", steps)}
-        {console.log("steps in edit with props", props?.chatvid?.steps)}
+        {/* {console.log("steps in edit", steps)} */}
+
         {steps &&
           steps.map((step: any, index: number) => (
             <Step key={index} style={{ marginRight: !isNaN(step) ? "4%" : "" }}>

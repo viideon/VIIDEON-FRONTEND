@@ -124,7 +124,7 @@ class VideoTabHeader extends React.Component<IProps> {
       });
 
     // navigator.clipboard.writeText();
-    toast.info("Url copied to clipboard");
+    toast("Url copied to clipboard");
   };
   componentWillUnmount() {
     window.removeEventListener("resize", this.caluclateContainerHeight);

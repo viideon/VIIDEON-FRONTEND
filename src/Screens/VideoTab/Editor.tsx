@@ -425,16 +425,16 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
     canvasTxt.align = this.state.align;
     canvasTxt.lineHeight = 20;
     canvasTxt.fontSize = (this.state.fontSize / 100) * (width - 80);
-    console.log(
-      "context2",
-      context2,
-      "state",
-      this.state,
-      "width",
-      width,
-      "height",
-      height
-    );
+    // console.log(
+    //   "context2",
+    //   context2,
+    //   "state",
+    //   this.state,
+    //   "width",
+    //   width,
+    //   "height",
+    //   height
+    // );
     canvasTxt.drawText(
       context2,
       this.state.text,
@@ -443,7 +443,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
       width - 50,
       height - 50
     );
-    console.log("video", video, "img", img);
+    // console.log("video", video, "img", img);
     let logoDimension = 0.2 * width;
     context2.drawImage(
       img,
@@ -453,7 +453,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
       logoDimension
     );
     let idata = context2.getImageData(0, 0, width, height);
-    console.log("idata is ", idata);
+    // console.log("idata is ", idata);
     context.putImageData(idata, 0, 0);
   };
   updateCanvas = () => {
@@ -487,8 +487,8 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
     }
     this.setState({ iconPos: position });
     let x, y: any;
-    console.log("resolution width", window.innerWidth);
-    console.log("resolution height", window.innerHeight);
+    // console.log("resolution width", window.innerWidth);
+    // console.log("resolution height", window.innerHeight);
     let logoPositions = {
       topLeft: {
         x: 20,

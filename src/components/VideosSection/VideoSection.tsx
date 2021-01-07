@@ -45,6 +45,7 @@ class VideoSection extends Component<IProps> {
     searchText: "",
     gridView: true,
     deleteDialog: false,
+    showAllVideos: false,
   };
   constructor(props: any) {
     super(props);
@@ -52,6 +53,7 @@ class VideoSection extends Component<IProps> {
   }
   componentDidMount() {
     this.props.getUserVideos(this.props.videoType);
+    console.log("videotype", this.props.videoType);
   }
 
   componentWillUnmount() {
@@ -64,6 +66,7 @@ class VideoSection extends Component<IProps> {
   }
   loadMore = () => {
     this.props.getUserVideos(this.props.videoType);
+    this.setState({ showAllVideos: true });
   };
   navigateToVideoTab = (id: string) => {
     this.props.history.push(`/videotab/${id}`);
@@ -106,9 +109,14 @@ class VideoSection extends Component<IProps> {
 
   render() {
     const { userVideos, loadingVideos } = this.props;
-    // const myvideos = userVideos.filter(c=> !c.isChatvid)
-    // console.log("userVideos videos", userVideos)
-    // console.log("myvideos videos", myvideos)
+    const myvideos = userVideos && userVideos.filter((c) => !c.isChatvid);
+    console.log("videos", myvideos);
+    console.log(userVideos && userVideos);
+    let showVideoslength = this.state.showAllVideos
+      ? myvideos?.length
+      : 10 || (myvideos.length > 10 && myvideos.length - 5);
+    console.log("showall", this.state.showAllVideos);
+    // console.log("userVideos videos", userideos)
     const { gridView } = this.state;
     let videoTitle;
     if (this.props.videoType === "allVideos") {
@@ -152,23 +160,37 @@ class VideoSection extends Component<IProps> {
 
         {gridView ? (
           <Grid container spacing={3}>
-            {userVideos &&
-              userVideos
-                .filter((c) => !c.isChatvid)
-                .map((video: any) => (
-                  <Grid item xs={12} sm={6} md={4} lg={4} key={video._id}>
-                    <VideoCard
-                      title={video.title}
-                      url={video.url}
-                      thumbnail={video.thumbnail}
-                      id={video._id}
-                      deleteVideo={this.deleteVideo}
-                      date={video.date}
-                      video={video}
-                      onClick={() => this.navigateToVideoTab(video._id)}
-                    />
-                  </Grid>
-                ))}
+            {myvideos && myvideos.length === 0 ? (
+              <h3
+                style={{
+                  opacity: "0.2",
+                  width: "100%",
+                  textAlign: "center",
+                  position: "relative",
+                  top: "20px",
+                }}
+              >{`${
+                this.props.videoType === "allVideos"
+                  ? "No Videos Found Yet"
+                  : "No Campaigns Found Yet"
+              }`}</h3>
+            ) : (
+              myvideos.slice(0, showVideoslength).map((video: any) => (
+                <Grid item xs={12} sm={6} md={4} lg={4} key={video._id}>
+                  {console.log("video is ", video)}
+                  <VideoCard
+                    title={video.title}
+                    url={video.url}
+                    thumbnail={video.thumbnail}
+                    id={video._id}
+                    deleteVideo={this.deleteVideo}
+                    date={video.date}
+                    video={video}
+                    onClick={() => this.navigateToVideoTab(video._id)}
+                  />
+                </Grid>
+              ))
+            )}
           </Grid>
         ) : (
           <div className="listWrapper">
@@ -207,7 +229,9 @@ class VideoSection extends Component<IProps> {
         )}
         <div className="loadMoreWrapper">{loadingVideos && <Loading />}</div>
         <div className="loadMoreWrapper">
-          {this.props.loadMore && (
+          {console.log("myvideos ", myvideos)}
+          {console.log("load more is ", this.props.loadMore)}
+          {myvideos.length > 10 && this.props.loadMore && (
             <button className="loadMore" onClick={this.loadMore}>
               Load More
             </button>

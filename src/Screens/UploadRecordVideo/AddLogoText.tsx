@@ -336,8 +336,8 @@ class AddLogoText extends React.Component<IProps, IState> {
       toast.info("Please upload a logo");
       return;
     }
-    console.log("image ", this.canvas.width);
-    console.log("image ", this.img.width);
+    // console.log("image ", this.canvas.width);
+    // console.log("image ", this.img.width);
     this.setState({ iconPos: position });
     let x, y: any;
     switch (position) {
@@ -356,7 +356,7 @@ class AddLogoText extends React.Component<IProps, IState> {
         return;
       case "top-right":
         x = this.canvas.width - this.img.width - this.img.width / 2;
-        console.log("x", x);
+        // console.log("x", x);
         this.setState({ logoX: x, logoY: 20 }, () => this.updateCanvas());
         return;
       default:
@@ -769,7 +769,7 @@ class AddLogoText extends React.Component<IProps, IState> {
                   backgroundColor: "rgb(34, 185, 255)",
                 }}
               >
-                Select from Assetsz
+                Select from Assets
               </Button>
               <h5 className="positionTxt">Change Logo Position</h5>
               <Button
