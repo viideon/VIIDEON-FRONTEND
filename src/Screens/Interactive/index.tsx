@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { toast } from "react-toastify";
+import { toast, Flip } from "react-toastify";
 import { config } from "../../config/aws";
 import { withRouter } from "react-router-dom";
 import AWS from "aws-sdk";
@@ -199,7 +199,10 @@ class ChatVid extends Component<IProps> {
       return toast.warn("Add Choice(s) first");
     try {
       // toast.info("Uploading thumbnail ...");
-      toast.info("Your chatVid Creating...");
+      toast("Your chatVid Creating...", {
+        autoClose: 2000,
+        transition: Flip,
+      });
       await this.uploadThumbnail();
       toast.info("Uploading video ...");
       await this.uploadVideo();

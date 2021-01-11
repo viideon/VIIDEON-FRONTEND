@@ -111,11 +111,10 @@ class VideoSection extends Component<IProps> {
     const { userVideos, loadingVideos } = this.props;
     const myvideos = userVideos && userVideos.filter((c) => !c.isChatvid);
     console.log("videos", myvideos);
-    console.log(userVideos && userVideos);
-    let showVideoslength = this.state.showAllVideos
-      ? myvideos?.length
-      : 10 || (myvideos.length > 10 && myvideos.length - 5);
-    console.log("showall", this.state.showAllVideos);
+    // let showVideoslength = this.state.showAllVideos
+    //   ? myvideos?.length
+    //   : 10 || (myvideos.length > 10 && myvideos.length - 5);
+    // console.log("showall", this.state.showAllVideos);
     // console.log("userVideos videos", userideos)
     const { gridView } = this.state;
     let videoTitle;
@@ -175,7 +174,7 @@ class VideoSection extends Component<IProps> {
                   : "No Campaigns Found Yet"
               }`}</h3>
             ) : (
-              myvideos.slice(0, showVideoslength).map((video: any) => (
+              myvideos.map((video: any) => (
                 <Grid item xs={12} sm={6} md={4} lg={4} key={video._id}>
                   {console.log("video is ", video)}
                   <VideoCard
@@ -229,9 +228,8 @@ class VideoSection extends Component<IProps> {
         )}
         <div className="loadMoreWrapper">{loadingVideos && <Loading />}</div>
         <div className="loadMoreWrapper">
-          {console.log("myvideos ", myvideos)}
-          {console.log("load more is ", this.props.loadMore)}
-          {myvideos.length > 10 && this.props.loadMore && (
+          {console.log("video", myvideos.length)}
+          {this.props.loadMore && myvideos.length > 8 && (
             <button className="loadMore" onClick={this.loadMore}>
               Load More
             </button>

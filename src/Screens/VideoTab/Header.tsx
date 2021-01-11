@@ -1,5 +1,5 @@
 import React from "react";
-import { toast } from "react-toastify";
+import { toast, Flip } from "react-toastify";
 import VideoInfo from "../../components/VideoInfo";
 import { connect } from "react-redux";
 import { CircularProgress, Grid } from "@material-ui/core";
@@ -124,7 +124,11 @@ class VideoTabHeader extends React.Component<IProps> {
       });
 
     // navigator.clipboard.writeText();
-    toast("Url copied to clipboard");
+    toast("Url copied to clipboard", {
+      autoClose: 1000,
+      transition: Flip,
+      hideProgressBar: true,
+    });
   };
   componentWillUnmount() {
     window.removeEventListener("resize", this.caluclateContainerHeight);

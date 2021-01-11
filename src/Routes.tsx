@@ -27,6 +27,8 @@ import UploadRecord from "../src/Screens/UploadRecordVideo";
 import ResponseChatvid from "../src/Screens/Interactive/response";
 import EditChatvid from "../src/Screens/Interactive/edit";
 
+import Thankyou from "../src/Screens/Interactive/steps/Thankyou";
+
 import Videos from "./Screens/Home/Videos";
 import Chatvid from "./Screens/Home/Chatvid";
 import Dashboard from "./Screens/Home/Dashboard";
@@ -64,6 +66,7 @@ class Routes extends Component<IProps> {
               <Route exact path="/watch/:id" component={Watch} />
               <Route exact path="/chatVid" component={InterActive} />
               <Route exact path="/chatVid/step/:id*" component={InterActive} />
+              <Route exact path="/thankyou" component={Thankyou} />
               <Route
                 exact
                 path="/watch/:id/cta"

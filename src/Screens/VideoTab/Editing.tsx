@@ -664,7 +664,7 @@ class Editing extends React.Component<IProps, IState> {
         ) {
           toast.info("Generating new thumbnail", { autoClose: 1000 });
           await this.updateThumbnail();
-          toast.info("Thumbnail generated", { autoClose: 1000 });
+          // toast.info("Thumbnail generated", { autoClose: 1000 });
           const video = {
             id: this.props.videoId,
             logoProps,

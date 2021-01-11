@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { toast } from 'react-toastify'
-import { isVideo } from '../../../constants/constants'
+import { toast } from "react-toastify";
+import { isVideo } from "../../../constants/constants";
 
 import { Grid, Select, MenuItem, InputLabel } from "@material-ui/core";
-import CancelIcon from '@material-ui/icons/Cancel';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import CancelIcon from "@material-ui/icons/Cancel";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 
 import VideoRecorder from "../../../components/VideoRecorder";
 
@@ -44,7 +44,7 @@ class RecorderTab extends Component<any, RState> {
 
   constructor(props: any) {
     super(props);
-    this.onDrop = files => {
+    this.onDrop = (files) => {
       this.props.toggleSendVariable();
       this.getThumbnailfromFile(files[0]);
       this.setState({ files });
@@ -70,7 +70,6 @@ class RecorderTab extends Component<any, RState> {
       thumbnailUrl: "",
       selectedValue: 1,
     };
-
   }
 
   componentDidMount() {
@@ -80,7 +79,7 @@ class RecorderTab extends Component<any, RState> {
 
   titleNameHandler = (event: any) => {
     this.setState({
-      title: event.target.value
+      title: event.target.value,
     });
   };
 
@@ -94,8 +93,11 @@ class RecorderTab extends Component<any, RState> {
         this.canvas.getContext("2d").drawImage(this.video, 0, 0, 1280, 720);
         this.canvas.toBlob((blob: any) => {
           this.setState({ thumbnail: blob }, () => {
-          const { thumbnail,  videoRecord } = this.state;
-            this.props.proceedToNext(thumbnail, this.props.uploaded ? this.props.video : videoRecord);
+            const { thumbnail, videoRecord } = this.state;
+            this.props.proceedToNext(
+              thumbnail,
+              this.props.uploaded ? this.props.video : videoRecord
+            );
           });
         }, "image/jpeg");
       }, 2000);
@@ -107,11 +109,13 @@ class RecorderTab extends Component<any, RState> {
   };
 
   save = async () => {
-    toast.info("Wait! we are getting things ready!")
-    await this.getThumbnailfromFile(this.props.uploaded ? this.props.video : this.state.videoRecord);
+    toast("Wait! we are getting things ready!");
+    await this.getThumbnailfromFile(
+      this.props.uploaded ? this.props.video : this.state.videoRecord
+    );
   };
 
-  setQuality = (e: any) => this.setState({ selectedValue: e.target.value })
+  setQuality = (e: any) => this.setState({ selectedValue: e.target.value });
   render() {
     return (
       <>
@@ -122,15 +126,17 @@ class RecorderTab extends Component<any, RState> {
           {...this.props}
         />
         <div className="interActiveRecorderContainer">
-          { }
+          {}
           <VideoRecorder
             getBlob={(blob: any) => {
               this.props.toggleSendVariable();
               this.setState({ videoRecord: blob });
             }}
             reset={() => {
-              this.props.onChange({ target: { name: "uploaded", value: false } })
-              this.props.onChange({ target: { name: "video", value: 0 } })
+              this.props.onChange({
+                target: { name: "uploaded", value: false },
+              });
+              this.props.onChange({ target: { name: "video", value: 0 } });
               this.setState({ videoRecord: null });
             }}
             proceed={this.save}
@@ -140,19 +146,19 @@ class RecorderTab extends Component<any, RState> {
             video={this.props.video}
           />
           <canvas
-            ref={ref => {
+            ref={(ref) => {
               this.canvas = ref;
             }}
             style={{ position: "absolute", left: "-2000px" }}
           />
           <video
-            ref={ref => {
+            ref={(ref) => {
               this.video = ref;
             }}
             style={{ opacity: 0.00001, position: "absolute", left: "-999px" }}
           />
           <canvas
-            ref={ref => {
+            ref={(ref) => {
               this.thumbCanvas = ref;
             }}
             height={720}
@@ -160,7 +166,7 @@ class RecorderTab extends Component<any, RState> {
             style={{ display: "none" }}
           />
           <canvas
-            ref={ref => {
+            ref={(ref) => {
               this.testRef = ref;
             }}
             height={720}
@@ -172,19 +178,18 @@ class RecorderTab extends Component<any, RState> {
             alt="logo"
             // src={this.state.logoPath ? this.state.logoPath : null}
             style={{ display: "none" }}
-            ref={ref => {
+            ref={(ref) => {
               this.image = ref;
             }}
           />
         </div>
       </>
-    )
+    );
   }
 }
 
-
 const RecoderSettingHeader = (props: any) => {
-  const videElm = React.useRef(null)
+  const videElm = React.useRef(null);
   const { setQuality, selectValue, history } = props;
 
   React.useEffect(() => {
@@ -194,27 +199,28 @@ const RecoderSettingHeader = (props: any) => {
         elm.src = null;
       }
     }
-  }, [props.uploaded])
+  }, [props.uploaded]);
 
   const handleUploadFile = (file: any) => {
     if (!file) return;
     if (isVideo(file.target.files[0])) {
       toast.info("Added");
-      props.onChange({ target: { name: "video", value: file.target.files[0] } })
-      props.onChange({ target: { name: "uploaded", value: true } })
+      props.onChange({
+        target: { name: "video", value: file.target.files[0] },
+      });
+      props.onChange({ target: { name: "uploaded", value: true } });
       props.toggleSendVariable();
     } else {
-      toast.error("Invalid file type!")
+      toast.error("Invalid file type!");
     }
-
-  }
+  };
 
   const click = (event: any) => {
     const elm: any = document.getElementById("inputVideo");
     if (elm) {
       elm.click();
     }
-  }
+  };
 
   return (
     <div className="settingHeader">
@@ -238,26 +244,38 @@ const RecoderSettingHeader = (props: any) => {
         <Grid item xs={12} sm={12} md={4} lg={4}></Grid>
         <Grid item xs={12} sm={12} md={4} lg={4}>
           <div className="UploadAndCancelWrapper">
-            <CloudUploadIcon className="cursorPointer" onClick={click} /> <p> Upload from Computer </p> <CancelIcon className="cursorPointer cancelIcon" onClick={() => history.push("/")} />
+            <CloudUploadIcon className="cursorPointer" onClick={click} />{" "}
+            <p> Upload from Computer </p>{" "}
+            <CancelIcon
+              className="cursorPointer cancelIcon"
+              onClick={() => history.push("/")}
+            />
           </div>
         </Grid>
-        <input style={{ display: "none" }} ref={videElm} type="file" id="inputVideo" name="video" accept="video/*" onChange={handleUploadFile} />
+        <input
+          style={{ display: "none" }}
+          ref={videElm}
+          type="file"
+          id="inputVideo"
+          name="video"
+          accept="video/*"
+          onChange={handleUploadFile}
+        />
       </Grid>
     </div>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state: any) => {
   return {
     auth: state.auth,
     videoUser: state.video,
     savedVideoId: state.video.savedVideoId,
-    progressEmail: state.video.progressEmail
+    progressEmail: state.video.progressEmail,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
-  return {
-  }
+  return {};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecorderTab);

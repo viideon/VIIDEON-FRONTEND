@@ -66,7 +66,9 @@ function* saveUserVideo(action: any) {
         type: types.GET_SAVED_VIDEO_ID,
         payload: result.data.video._id
       });
-      toast.info("Saved Successfully");
+      toast.success("Saved Successfully",{
+        hideProgressBar:true
+      });
     } else {
       yield put({ type: types.VIDEO_SAVE_FAILURE });
       toast.error("Something Went Wrong");
@@ -304,7 +306,7 @@ export function* deleteVideo(action: any) {
         payload: updatedVideos
       });
       yield put({ type: types.ENABLE_DELETEDIALOG });
-      toast.info("Video deleted");
+      toast.success("Successfully Deleted");
     } else {
       yield put({ type: types.DELETE_VIDEO_FAILURE });
       yield put({ type: types.ENABLE_DELETEDIALOG });

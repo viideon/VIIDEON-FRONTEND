@@ -14,7 +14,7 @@ import Colors from "../../constants/colors";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import SearchBar from "../SearchBar";
 import ThemeButton from "../ThemeButton";
-import { toast } from "react-toastify";
+import { toast, Flip } from "react-toastify";
 import "./style.css";
 import { boolean } from "yup";
 
@@ -69,7 +69,12 @@ class SideBar extends Component<IProps, IState> {
     console.log("url is ", url);
     console.log("copyurl", this.state.currentChatvid);
     navigator.clipboard.writeText(url);
-    toast("Url copied to clipboard");
+    toast("Url copied to clipboard", {
+      autoClose: 1000,
+      transition: Flip,
+      hideProgressBar: true,
+      // className: "toasts",
+    });
     this.setState({ anchorEl: null, isMenu: false });
   };
 
@@ -243,7 +248,7 @@ class SideBar extends Component<IProps, IState> {
                             }}
                             style={{ padding: "10px" }}
                           >
-                            Edit
+                            Edit Steps
                           </MenuItem>
                           <MenuItem
                             onClick={() => {

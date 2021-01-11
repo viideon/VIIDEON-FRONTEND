@@ -11,7 +11,7 @@ import {
   Theme,
   makeStyles,
 } from "@material-ui/core/styles";
-import { toast } from "react-toastify";
+import { toast, Flip } from "react-toastify";
 import { Grid, Typography, TextField, Button } from "@material-ui/core";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
@@ -340,8 +340,16 @@ class FinalTab extends Component<any> {
     const { text, align, vAlign, fontSize } = resChatvid.steps[
       this.state.currentStepNo
     ].videoId.textProps;
-    if (!validateEmail(userEmail)) return toast.error("Enter a valid Email");
-    if (!userName) return toast.error("Enter a valid Email");
+    if (!validateEmail(userEmail))
+      return toast.error("Enter a valid Email", {
+        hideProgressBar: true,
+        transition: Flip,
+      });
+    if (!userName)
+      return toast.error("Enter a valid Email", {
+        hideProgressBar: true,
+        transition: Flip,
+      });
     // console.log("before Replying", userEmail);
     // console.log("before replying selecetd chatvid", selectedChatvid);
     let selected = [];
@@ -352,11 +360,8 @@ class FinalTab extends Component<any> {
       return toast.error(
         "You have Submitted Respone with this email Please Use Another...."
       );
-
     // console.log("before Replying selected email", selected);
-
-    toast.info("Repling....");
-
+    toast("Repling...");
     const type =
       resChatvid.steps[currentStepNo].responseType === "Multiple-Choice"
         ? "choice"
@@ -488,7 +493,8 @@ class FinalTab extends Component<any> {
     }
     //check if its a final step is done
     if (resChatvid.steps.length === currentStepNo + 1) {
-      this.props.history.push("/");
+      // this.props.history.push("/chatvids");
+      this.props.history.push("/thankyou");
     }
   };
 
@@ -624,6 +630,7 @@ class FinalTab extends Component<any> {
                   style={{
                     display: display ? display : "flex",
                     height: "100%",
+                    color: "white",
                     justifyContent: justifyContent ? justifyContent : "",
                     alignItems: alignItems ? alignItems : "",
                     // textAlign: align ? align : "left",

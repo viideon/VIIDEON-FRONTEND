@@ -2,7 +2,7 @@ import React, { FC, useState } from "react";
 import { connect } from "react-redux";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { Grid, Menu, MenuItem } from "@material-ui/core";
-import { toast } from "react-toastify";
+import { toast, Flip } from "react-toastify";
 import VideoInfo from "../VideoInfo";
 import DeleteDialog from "../Reusable/DeleteDialog";
 import { thumbnailDefault } from "../../constants/constants";
@@ -72,7 +72,12 @@ const VideoCard: FC<IProps> = ({
     navigator.clipboard.writeText(
       `${process.env.REACT_APP_DOMAIN}/watch/${id}`
     );
-    toast("Url copied to clipboard");
+    toast("Url copied to clipboard", {
+      autoClose: 1000,
+      transition: Flip,
+      hideProgressBar: true,
+      // className: "toasts",
+    });
   };
 
   return (

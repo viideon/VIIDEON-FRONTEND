@@ -166,9 +166,9 @@ function* deleteChatVid(action: any) {
     const payload = action.payload;
     const result = yield chatVidDelete(payload);
     if (result.status === 200) {
-      // toast.success(result.data?.message || "Succesful.");
+      // toast.success(result.data?.message || "Successful.");
       // console.log("path is ",action.history.location.pathname)
-      toast.success("Succesful Deleted.",{
+      toast.success("Successfully Deleted.",{
         hideProgressBar: true,
       });
       yield put({ type: types.DELETE_CHATVID_SUCCESS });

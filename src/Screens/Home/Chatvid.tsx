@@ -622,12 +622,10 @@ const InfoHeader = (props: any) => {
   const copyUrl = () => {
     navigator.clipboard.writeText(url);
     toast("Url copied to clipboard", {
-      // position: "top-center",
       autoClose: 1000,
       transition: Flip,
-      // hideProgressBar: true,
+      hideProgressBar: true,
       // className: "toasts",
-      progressClassName: "fancy-progress-bar",
     });
   };
 
@@ -689,7 +687,7 @@ const InfoHeader = (props: any) => {
               >
                 {" "}
                 <EditIcon className="iconsMob" />{" "}
-                <span className="iconMobile">Edit </span>
+                <span className="iconMobile">Edit Steps </span>
               </div>
               <div
                 onClick={() => alert("Feature Coming Soon")}

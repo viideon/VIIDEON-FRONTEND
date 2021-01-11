@@ -118,7 +118,9 @@ class Dashboard extends Component<IProps> {
                 onClick={() => this.navigate("upload")}
               >
                 <PublishIcon style={iconStyle} />
-                <h5 className="cursorPointer">Record/Upload a Video</h5>
+                <h5 className="cursorPointer">
+                  Record/Upload a Single Video Message
+                </h5>
               </div>
             </Grid>
             <Grid item xs={6} md={3}>

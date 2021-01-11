@@ -228,9 +228,7 @@
   background: #ffffff;
   margin: 1%;
   padding: 1%;
-  padding-left: 4%;
   border-radius: 10px;
-  padding-right: 4%;
   display: flex;
   cursor: pointer;
 }
@@ -585,7 +583,7 @@
   }
   .chatVidInfoGrid {
     position: relative;
-    left: -10%;
+    /* left: -10%; */
   }
   .thumbnailInChatvidHead {
     position: relative;
@@ -623,7 +621,7 @@
     max-width: 50% !important;
     flex-basis: 70% !important;
     position: relative;
-    left: 15%;
+    left: 22%;
     top: 13px;
   }
   .dashChatvidTopHeaderWrapper {

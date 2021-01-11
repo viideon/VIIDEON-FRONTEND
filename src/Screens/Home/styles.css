@@ -21,17 +21,17 @@
   padding-top: 1em;
   overflow: hidden;
 }
-.chatVidInfoGrid{
-  justify-content: space-evenly;
+.chatVidInfoGrid {
+  justify-content: inherit;
 }
-.chatVidInfoShareOptions{
-  align-items: center
+.chatVidInfoShareOptions {
+  align-items: center;
 }
 .MuiButton-textPrimary {
   color: #fdb415 !important;
 }
 .MuiButton-outlinedPrimary {
-  color:  #fdb415 !important;
+  color: #fdb415 !important;
   border: 1px solid #fdb415 !important;
 }
 .CardComponent {

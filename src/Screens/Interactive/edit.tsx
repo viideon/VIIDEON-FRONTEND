@@ -10,6 +10,7 @@ import { AuthState } from "../../Redux/Types/auth";
 import "react-tabs/style/react-tabs.css";
 
 import Header from "../../components/Header/Header";
+import Thankyou from "./steps/Thankyou";
 import { Grid, Typography } from "@material-ui/core";
 import CancelIcon from "@material-ui/icons/Cancel";
 import "./style.css";
@@ -307,6 +308,7 @@ function HorizontalNonLinearStepper(props: any) {
         {steps &&
           steps.map((step: any, index: number) => (
             <Step key={index} style={{ marginRight: !isNaN(step) ? "4%" : "" }}>
+              {console.log("step is ", step)}
               {step?.videoId?.thumbnail ? (
                 <div className="thumbnaiForStepper">
                   <img
@@ -339,6 +341,13 @@ function HorizontalNonLinearStepper(props: any) {
               )}
             </Step>
           ))}
+        <div className="thumbnaiForStepper">
+          <img
+            src="/images/thankyou.png"
+            alt="thumbnail"
+            className="thumbnail"
+          />
+        </div>
       </Stepper>
     </div>
   );
