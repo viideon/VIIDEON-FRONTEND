@@ -256,13 +256,14 @@ class Dashboard extends Component<IProps, IState> {
               //   sortByResponse( replies).map((reply: any) =>
               //   replydate=reply.createdAt
               // )
+              console.log("in chatbord", chatvid);
               const people = chatvid.people?.filter(
                 (person: any, index: number) =>
                   !unique[person._id] && (unique[person._id] = person) && person
               );
               // console.log("people in chatbord", people);
               return sortByResponse(people)?.map((person: any, ind: number) => {
-                console.log("person in chatbord", person);
+                // console.log("person in chatbord", person);
                 return this.renderResponders(
                   person,
                   chatvid.name,

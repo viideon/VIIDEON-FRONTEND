@@ -19,6 +19,7 @@ export function replyToAChatvid(chatvid: any) {
   return API.post(`/chatvid/reply`, chatvid);
 }
 export function updateStepJump(step: any) {
+  console.log("jump step in api",step)
   return API.patch(`/chatvid/step`, step);
 }
 export function saveMetrics(payload: any) {

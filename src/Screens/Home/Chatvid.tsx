@@ -687,7 +687,7 @@ const InfoHeader = (props: any) => {
               >
                 {" "}
                 <EditIcon className="iconsMob" />{" "}
-                <span className="iconMobile">Edit Steps </span>
+                <span className="iconMobile">Add More Video Steps </span>
               </div>
               <div
                 onClick={() => alert("Feature Coming Soon")}

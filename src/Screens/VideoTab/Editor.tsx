@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { toast } from "react-toastify";
+import { toast, Flip } from "react-toastify";
 import { config } from "../../config/aws";
 import { Grid, Tooltip, LinearProgress, TextField } from "@material-ui/core";
 import Loading from "../../components/Loading";
@@ -275,7 +275,10 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
       return;
     }
     if (musicFile !== null) {
-      toast.info("Add a title and  click upload to save this asset");
+      toast("Add a title and  click upload to save this asset", {
+        autoClose: 3000,
+        transition: Flip,
+      });
       this.setState({ musicFileSelected: true, musicFile: musicFile });
     } else {
       toast.error("Failed to select a file try again");

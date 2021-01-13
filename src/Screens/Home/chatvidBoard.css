@@ -221,6 +221,7 @@
 }
 .chatvidEditToolsWrapper {
   display: flex;
+  width: 120%;
 }
 
 .chatvidEditToolsWrapper div {

@@ -16,7 +16,7 @@ import { connect } from "react-redux";
 import ChipInput from "material-ui-chip-input";
 import canvasTxt from "canvas-txt";
 import { CompactPicker } from "react-color";
-import { toast } from "react-toastify";
+import { toast, Flip } from "react-toastify";
 import AssetPicker from "../../components/AssetPicker";
 import MusicAssetPicker from "../../components/MusicAssetPicker";
 import {
@@ -505,7 +505,10 @@ class AddLogoText extends React.Component<IProps, IState> {
       return;
     }
     if (musicFile !== null) {
-      toast.info("Add a title and  click upload to save this asset");
+      toast("Add a title and  click upload to save this asset", {
+        autoClose: 3000,
+        transition: Flip,
+      });
       this.setState({ musicFileSelected: true, musicFile: musicFile });
     } else {
       toast.error("Failed to select a file try again");

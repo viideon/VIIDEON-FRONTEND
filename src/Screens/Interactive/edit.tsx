@@ -241,13 +241,29 @@ function HorizontalNonLinearStepper(props: any) {
     props.history.push(`/chatvid/step/${props.chatvid._id}/${newIndex + 2}`);
   };
 
-  const handleJump = async (stepId: any, index: number, jumpTo: number) => {
-    editSteps[stepId] = { jumpTo: jumpTo };
+  const handleJump = async (
+    stepId: any,
+    index: number,
+    jumpTo: any,
+    length: any
+  ) => {
+    // if (jumpTo == "end") {
+    //   // editSteps[stepId] = { jumpTo: length };
+    //   // await setEditSteps({ ...editSteps });
+    //   // let step: any = {
+    //   //   _id: stepId,
+    //   //   jumpTo: length,
+    //   // };
+    //   // props.updateStepJump(step);
+    //   return console.log("step before jump to end", stepId, jumpTo, length);
+    // }
+    editSteps[stepId] = { jumpTo: jumpTo === "end" ? -3 : jumpTo };
     await setEditSteps({ ...editSteps });
     let step: any = {
       _id: stepId,
-      jumpTo,
+      jumpTo: jumpTo === "end" ? -3 : jumpTo,
     };
+    console.log("step before jump to", step);
     props.updateStepJump(step);
   };
   const handleChoiceJump = async (
@@ -255,32 +271,62 @@ function HorizontalNonLinearStepper(props: any) {
     choiceId: string,
     choiceInd: number,
     stepInd: number,
-    value: number
+    value: any,
+    length: any
   ) => {
+    // if (value == "end") {
+    //   // if (!editSteps[stepId]) editSteps[stepId] = {};
+    //   // editSteps[stepId][choiceId] = {};
+    //   // editSteps[stepId][choiceId] = { jumpTo: length };
+    //   // await setEditSteps((oldSteps: any) => {
+    //   //   return { ...oldSteps, ...editSteps };
+    //   // });
+    //   // let step: any = {
+    //   //   _id: stepId,
+    //   //   jumpChoice: {},
+    //   // };
+    //   // step.jumpChoice[choiceId] = length;
+    //   // props.updateStepJump(step);
+    //   return console.log("step before jump to end", stepId, value, length + 1);
+    // }else{
+
+    // }
+
     if (!editSteps[stepId]) editSteps[stepId] = {};
     editSteps[stepId][choiceId] = {};
-    editSteps[stepId][choiceId] = { jumpTo: value };
+    editSteps[stepId][choiceId] = {
+      jumpTo: value === "end " ? length : value,
+    };
     await setEditSteps((oldSteps: any) => {
       return { ...oldSteps, ...editSteps };
     });
+
     let step: any = {
       _id: stepId,
       jumpChoice: {},
     };
-    step.jumpChoice[choiceId] = value;
+    step.jumpChoice[choiceId] = value === "end " ? length : value;
     props.updateStepJump(step);
   };
 
   const renderLogic = (step: any, length: number, index: number) => {
     return (
       <>
+        {console.log("step", step, "length", length, "index", index)}
         {step.responseType === "Multiple-Choice" ? (
           step.choices.map((choice: any, ind: number) => {
             return (
               <ChatvidRedirectionLogics
                 text={`If option ${upperCaseAlp[ind]} jump to`}
-                onChange={(event: number) =>
-                  handleChoiceJump(step._id, choice._id, ind, index, event)
+                onChange={(event: any) =>
+                  handleChoiceJump(
+                    step._id,
+                    choice._id,
+                    ind,
+                    index,
+                    event,
+                    length
+                  )
                 }
                 choiceInd={ind}
                 length={length}
@@ -291,7 +337,9 @@ function HorizontalNonLinearStepper(props: any) {
         ) : (
           <ChatvidRedirectionLogics
             text="Always move to "
-            onChange={(event: number) => handleJump(step._id, index, event)}
+            onChange={(event: any) =>
+              handleJump(step._id, index, event, length)
+            }
             length={length}
             index={index}
           />
@@ -301,14 +349,18 @@ function HorizontalNonLinearStepper(props: any) {
   };
 
   return (
-    <div className={classes.root}>
-      <Stepper nonLinear activeStep={activeStep}>
+    <div className={classes.root} style={{ display: "flex" }}>
+      <Stepper
+        nonLinear
+        activeStep={activeStep}
+        style={{ marginRight: "125px" }}
+      >
         {/* {console.log("steps in edit", steps)} */}
 
         {steps &&
           steps.map((step: any, index: number) => (
             <Step key={index} style={{ marginRight: !isNaN(step) ? "4%" : "" }}>
-              {console.log("step is ", step)}
+              {/* {console.log("step is ", step)} */}
               {step?.videoId?.thumbnail ? (
                 <div className="thumbnaiForStepper">
                   <img
@@ -341,14 +393,12 @@ function HorizontalNonLinearStepper(props: any) {
               )}
             </Step>
           ))}
-        <div className="thumbnaiForStepper">
-          <img
-            src="/images/thankyou.png"
-            alt="thumbnail"
-            className="thumbnail"
-          />
-        </div>
       </Stepper>
+      <img
+        src="/images/thankyou.png"
+        alt="thumbnail"
+        className="thumbnail thankuImg"
+      />
     </div>
   );
 }

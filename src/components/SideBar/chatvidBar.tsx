@@ -248,7 +248,7 @@ class SideBar extends Component<IProps, IState> {
                             }}
                             style={{ padding: "10px" }}
                           >
-                            Edit Steps
+                            Add More Video Steps
                           </MenuItem>
                           <MenuItem
                             onClick={() => {

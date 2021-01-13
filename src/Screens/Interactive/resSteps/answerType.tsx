@@ -128,13 +128,14 @@ class FinalTab extends Component<any> {
       this.setState({ isFull: nextProps.isFull });
     }
   };
-
   settingUPMedia = () => {
+    // if (this.state.currentStepNo === -4) return;
     if (this.videoRef) {
       if (this.props.video) {
         this.videoRef.src = URL.createObjectURL(this.props.video);
         this.settingTextProps(this.props);
       } else {
+        console.log("for url", this.state.currentStepNo);
         let url = this.props.resChatvid.steps[this.state.currentStepNo].videoId
           .url;
         this.videoRef.src = url;
@@ -175,7 +176,8 @@ class FinalTab extends Component<any> {
   };
 
   handleLoadedMetaData = () => {
-    this.videoRef.play();
+    console.log("video ref", this.videoRef);
+    this.videoRef?.play();
     this.calculateDuration();
   };
 
@@ -217,6 +219,7 @@ class FinalTab extends Component<any> {
   };
 
   calculateDuration = () => {
+    // if (this.state.currentStepNo === -4) return;
     let percentage = 0;
     if (!this.videoRef && !this.videoRef && !this.videoRef?.currentTime)
       return percentage;
@@ -320,6 +323,7 @@ class FinalTab extends Component<any> {
   handleJumpAndMove = () => {};
 
   handleReply = async () => {
+    // debugger;
     if (
       this.props.history.location.pathname.indexOf("/chatvid/step/") > -1 ||
       this.props.preview
@@ -391,7 +395,10 @@ class FinalTab extends Component<any> {
 
     this.props.send({ people, reply, open: false, tab: 0 });
     this.setState({ ansText: "" });
-
+    //check if its a end step is done
+    if (resChatvid.steps[currentStepNo].jumpTo === -3) {
+      this.props.history.push("/thankyou");
+    }
     // steps are greater than 1 and less than last step
     if (
       resChatvid.steps.length > 1 &&
@@ -410,6 +417,10 @@ class FinalTab extends Component<any> {
           this.setState({ currentStepNo: currentStepNo + 1 });
         }
       } else {
+        console.log(
+          "res chatvid step numbr ",
+          resChatvid.steps[currentStepNo].jumpTo
+        );
         if (resChatvid.steps[currentStepNo].jumpTo) {
           this.setState({
             currentStepNo: resChatvid.steps[currentStepNo].jumpTo - 1,
@@ -438,6 +449,7 @@ class FinalTab extends Component<any> {
         }
       );
     }
+
     // Last step
     if (resChatvid.steps.length === currentStepNo + 1) {
       if (resChatvid.steps.length > 1) {
@@ -491,6 +503,7 @@ class FinalTab extends Component<any> {
       analyticsPayload.isCompleted = true;
       this.props.saveAnalytics(analyticsPayload);
     }
+
     //check if its a final step is done
     if (resChatvid.steps.length === currentStepNo + 1) {
       // this.props.history.push("/chatvids");
@@ -756,9 +769,11 @@ const MobileOpenEndedType = (props: any) => {
   } = props;
 
   let { steps, userId } = resChatvid;
-  let { responseType, choices, calendar } = steps
-    ? steps[props.currentStepNo]
-    : { responseType: "", choices: "", calendar: "" };
+  // console.log("steps for responstype", steps);
+  let { responseType, choices, calendar } =
+    steps && steps[props.currentStepNo]
+      ? steps[props.currentStepNo]
+      : { responseType: "", choices: "", calendar: "" };
   if (preview) {
     responseType = resType;
     choices = props.choices;
@@ -770,7 +785,7 @@ const MobileOpenEndedType = (props: any) => {
       <div className="mobilecaptionDiv">
         <Typography variant="h3">
           {responseType === "Open-ended"
-            ? "How Would You like to answer?"
+            ? " How would you like people to respond to this ChatVid?"
             : responseType === "Multiple-Choice"
             ? "Choose a response"
             : `Schedule a meeting with ${userId.firstName || userId.lastName}.`}
@@ -858,7 +873,7 @@ const OpenEndedType = (props: any) => {
   } = props;
 
   let { steps, userId } = resChatvid;
-
+  console.log("currentstepNo", props.currentStepNo);
   let { responseType, choices, calendar } = steps
     ? steps[props.currentStepNo]
     : { responseType: "", choices: "", calendar: "" };
@@ -876,7 +891,7 @@ const OpenEndedType = (props: any) => {
         <div className="captionDiv">
           <Typography variant="h3">
             {responseType === "Open-ended"
-              ? "How Would You like to answer?"
+              ? " How would you like people to respond to this ChatVid?"
               : responseType === "Multiple-Choice"
               ? "Choose a response"
               : `Schedule a meeting with ${userId.firstName ||
