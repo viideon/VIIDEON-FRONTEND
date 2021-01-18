@@ -290,6 +290,16 @@
   font-family: "Poppins";
   font-weight: bold;
 }
+._calendly {
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  height: 40vh;
+}
+
+._2LpwQ___Wrapper__cls1._1cMla___Wrapper__media-tablet-up {
+  margin-top: 5px !important;
+}
 @media only screen and (max-width: 1612px) {
   .IconWrapper {
     width: 200px;

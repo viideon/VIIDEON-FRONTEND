@@ -17,7 +17,7 @@ type IProps = {
   history: any;
   toggleSendVariable: () => void;
   getChatvid: (chatvidId: string) => void;
-  replyToAChatvid: (reply: any) => void;
+  replyToAChatvid: (reply: any, logo: any) => void;
 };
 
 class ChatVid extends Component<IProps> {
@@ -55,7 +55,7 @@ class ChatVid extends Component<IProps> {
   };
 
   sendReply = (reply: any) => {
-    this.props.replyToAChatvid(reply);
+    this.props.replyToAChatvid(reply, "logo");
   };
 
   renderSteps = () => {
@@ -92,7 +92,8 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getChatvid: (chatvidId: string) => dispatch(getChatvid(chatvidId)),
-    replyToAChatvid: (reply: any) => dispatch(replyToAChatvid(reply)),
+    replyToAChatvid: (reply: any, logo: any) =>
+      dispatch(replyToAChatvid(reply, logo)),
     toggleSendVariable: () => dispatch(toggleSendVariable()),
   };
 };

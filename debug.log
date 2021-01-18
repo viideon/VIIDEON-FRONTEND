@@ -11,3 +11,18 @@
 [0105/150030.938:ERROR:process_info.cc(359)] UncheckedAllocate
 [0107/123308.800:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
 [0113/171250.916:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[0114/173332.036:ERROR:process_info.cc(359)] UncheckedAllocate
+[0114/173431.946:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[0114/173431.946:ERROR:exception_snapshot_win.cc(99)] thread ID 3844 not found in process
+[0114/173431.961:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[0114/173431.961:ERROR:exception_snapshot_win.cc(99)] thread ID 6300 not found in process
+[0114/173431.961:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[0114/173431.961:ERROR:exception_snapshot_win.cc(99)] thread ID 13080 not found in process
+[0114/173431.977:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[0114/173431.977:ERROR:exception_snapshot_win.cc(99)] thread ID 12744 not found in process
+[0114/173431.977:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[0114/173431.977:ERROR:exception_snapshot_win.cc(99)] thread ID 11192 not found in process
+[0114/173431.993:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[0114/173431.993:ERROR:exception_snapshot_win.cc(99)] thread ID 13188 not found in process
+[0118/171014.200:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\mg\AppData\Local\Google\Chrome\User Data\Crashpad\attachments\80b7e6bd-84c2-45ae-8edb-0f25bba55db2: The system cannot find the path specified. (0x3)
+[0118/171014.202:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)

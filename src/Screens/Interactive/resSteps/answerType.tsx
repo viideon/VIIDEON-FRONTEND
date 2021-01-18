@@ -785,7 +785,7 @@ const MobileOpenEndedType = (props: any) => {
       <div className="mobilecaptionDiv">
         <Typography variant="h3">
           {responseType === "Open-ended"
-            ? " How would you like people to respond to this ChatVid?"
+            ? "Alright! How would you like people to respond to this ChatVid?"
             : responseType === "Multiple-Choice"
             ? "Choose a response"
             : `Schedule a meeting with ${userId.firstName || userId.lastName}.`}
@@ -891,7 +891,7 @@ const OpenEndedType = (props: any) => {
         <div className="captionDiv">
           <Typography variant="h3">
             {responseType === "Open-ended"
-              ? " How would you like people to respond to this ChatVid?"
+              ? "Alright! How would you like people to respond to this ChatVid?"
               : responseType === "Multiple-Choice"
               ? "Choose a response"
               : `Schedule a meeting with ${userId.firstName ||
@@ -900,7 +900,12 @@ const OpenEndedType = (props: any) => {
         </div>
         <div style={{ background: "white" }}>
           <div className="previewTitle"></div>
-          <div className="optionDiv">
+          <div
+            className="optionDiv"
+            style={{
+              padding: responseType !== "Multiple-Choice" ? "0px" : "4%",
+            }}
+          >
             {responseType === "Open-ended" ? (
               <>
                 <div
@@ -954,14 +959,16 @@ const OpenEndedType = (props: any) => {
               </div>
             ) : (
               <>
-                {calendar && (
-                  <InlineWidget
-                    url={calendar}
-                    styles={{ width: "100%", height: "100%" }}
-                  />
-                )}
+                <div className="_calendly">
+                  {calendar && (
+                    <InlineWidget
+                      url={calendar}
+                      styles={{ width: "100%", height: "100%" }}
+                    />
+                  )}
 
-                {/* <Button> Book a meeting </Button> */}
+                  {/* <Button> Book a meeting </Button> */}
+                </div>
               </>
             )}
           </div>

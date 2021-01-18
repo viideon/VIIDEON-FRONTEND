@@ -30,10 +30,11 @@ export function saveChatvid(chatVid: any, history: any) {
   }
 }
 
-export function replyToAChatvid(reply: any) {
+export function replyToAChatvid(reply: any,logo:any) {
   return {
     type: types.REPLY_TO_CHATVID_REQUEST,
-    payload: reply
+    payload: reply,
+    logo
   }
 }
 

@@ -57,6 +57,7 @@ class Routes extends Component<IProps> {
                 path="/chatVid/res/:id"
                 component={ResponseChatvid}
               />
+              <Route exact path="/thankyou" component={Thankyou} />
               <Route exact path="/chatvids/" component={ChatvidBoard} />
               <Route exact path="/chatvids/form/:id" component={Chatvid} />
               <Route exact path="/chatvids/edit/:id" component={EditChatvid} />
@@ -66,7 +67,7 @@ class Routes extends Component<IProps> {
               <Route exact path="/watch/:id" component={Watch} />
               <Route exact path="/chatVid" component={InterActive} />
               <Route exact path="/chatVid/step/:id*" component={InterActive} />
-              <Route exact path="/thankyou" component={Thankyou} />
+
               <Route
                 exact
                 path="/watch/:id/cta"
@@ -95,6 +96,7 @@ class Routes extends Component<IProps> {
                 path="/chatVid/res/:id"
                 component={ResponseChatvid}
               />
+              <Route exact path="/thankyou" component={Thankyou} />
               <Route exact path="/login*" component={SignIn} />
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/forgotPassword" component={ForgotPassword} />

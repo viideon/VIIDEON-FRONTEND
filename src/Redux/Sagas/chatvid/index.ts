@@ -103,8 +103,9 @@ function* addChatvidStep(action: any) {
 function* replyToAChatvidSaga(action: any) {
   try {
     const payload = action.payload;
-    // console.log("reply payload in saga",payload)
-    const result = yield replyToAChatvid(payload);
+    const logo = action.logo;
+    console.log("action in saga",action)
+    const result = yield replyToAChatvid(payload)
     if (result.status === 200) {
       yield put({ type: types.REPLY_TO_CHATVID_SUCCESS });
       toast.success("Replied Successfully!",{

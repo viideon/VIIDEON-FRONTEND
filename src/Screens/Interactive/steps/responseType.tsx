@@ -56,7 +56,7 @@ class ResponseType extends Component<any> {
               Alright!
             </Typography>
             <Typography variant="h6" className="QuestionHeading">
-              How would you like people to respond to this ChatVid?
+              Alright! How would you like people to respond to this ChatVid?
             </Typography>
 
             <Grid

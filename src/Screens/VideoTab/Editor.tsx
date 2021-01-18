@@ -18,6 +18,7 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import { url } from "inspector";
 const s3 = new AWS.S3(config);
 const ICON_DIMENSION = 100;
 
@@ -710,6 +711,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
         url: this.state.backgroundMusicUrl,
         musicVolume: parseFloat(this.state.musicVolume),
       };
+      console.log("musicprops", musicProps);
       if (this.props.video) {
         const { video } = this.props;
         if (
@@ -741,6 +743,9 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
     } catch (error) {
       toast.info("Error in updating");
     }
+  };
+  musicUpload = () => {
+    toast.error("Please Click on UPLOAD First");
   };
   updateThumbnail = () => {
     return new Promise((resolve, reject) => {
@@ -824,10 +829,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
           onClose={this.handleClose}
           aria-labelledby="responsive-dialog-title"
         >
-          <DialogTitle id="responsive-dialog-title">
-            {" "}
-            Editay {type}{" "}
-          </DialogTitle>
+          <DialogTitle id="responsive-dialog-title"> Edit{type} </DialogTitle>
           <DialogContent>
             <div className="wrapperEditLogoText">
               <Grid container style={{ position: "relative" }}>
@@ -925,8 +927,12 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
               </Grid>
               <div style={{ textAlign: "end" }}>
                 <ThemeButton
-                  name="Update"
-                  onClick={this.updateVideoLogoText}
+                  name="Updateay"
+                  onClick={
+                    !this.state.musicFileSelected
+                      ? this.updateVideoLogoText
+                      : this.musicUpload
+                  }
                   style={{
                     border: "none",
                     background: "#16B272",

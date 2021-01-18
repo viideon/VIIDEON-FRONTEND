@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import { config } from "../../config/aws";
 import AWS from "aws-sdk";
 
+import thankyou from "../../assets/thankyou.png";
+
 import { updateJump } from "../../Redux/Actions/chatvid";
 import { VideoState } from "../../Redux/Types/videos";
 import { AuthState } from "../../Redux/Types/auth";
@@ -163,6 +165,7 @@ const makemeSteps = (chatvid: any) => {
 };
 
 function HorizontalNonLinearStepper(props: any) {
+  const img = "/images/thankyou.PNG";
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState<{ [k: number]: boolean }>(
@@ -394,11 +397,7 @@ function HorizontalNonLinearStepper(props: any) {
             </Step>
           ))}
       </Stepper>
-      <img
-        src="/images/thankyou.png"
-        alt="thumbnail"
-        className="thumbnail thankuImg"
-      />
+      <img src={img} alt="thumbnail" className="thumbnail thankuImg" />
     </div>
   );
 }
