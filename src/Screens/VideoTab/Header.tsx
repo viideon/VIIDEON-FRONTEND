@@ -8,6 +8,8 @@ import ThemeButton from "../../components/ThemeButton";
 import CanvasPlayer from "../../components/CanvasPlayer/EditingCanvas";
 import VideoEditor from "./Editor";
 
+import Sleek from "../Templates/Sleek";
+
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
@@ -31,15 +33,22 @@ export interface SimpleDialogProps {
   selectedValue: string;
   onClose: (value: string) => void;
 }
-
+export interface SimpleDialogProps2 {
+  open: boolean;
+  themeName: string;
+  selectedTheme: any;
+  video: any;
+  onClose: (value: string) => void;
+}
 function SimpleDialog(props: SimpleDialogProps) {
   const { onClose, selectedValue, open } = props;
 
   const handleClose = () => {
+    // console.log("tem value2", selectedValue);
     onClose(selectedValue);
   };
-
-  const handleListItemClick = (value: string) => {
+  const handleListItemClick = (value: any) => {
+    // console.log("tem value", value?.name);
     onClose(value);
   };
 
@@ -55,7 +64,7 @@ function SimpleDialog(props: SimpleDialogProps) {
           {availableTheme.map((theme: any) => (
             <ListItem
               button
-              onClick={() => handleListItemClick(theme.name)}
+              onClick={() => handleListItemClick(theme)}
               key={theme.name}
             >
               <img className="avatarImage" src={theme.avatar} alt="avatar" />
@@ -63,6 +72,46 @@ function SimpleDialog(props: SimpleDialogProps) {
             </ListItem>
           ))}
         </List>
+      </Dialog>
+    </div>
+  );
+}
+function SimpleDialog2(props: SimpleDialogProps2) {
+  // console.log("props2", props);
+  const { onClose, themeName, selectedTheme, open, video } = props;
+  console.log("for vid", video);
+
+  const handleClose = () => {
+    onClose(themeName);
+  };
+  const handleListItemClick = (value: any) => {
+    onClose(value);
+  };
+  return (
+    <div className="emailTmplateDialogWrapper">
+      <Dialog
+        onClose={handleClose}
+        aria-labelledby="simple-dialog-title"
+        open={open}
+      >
+        <DialogTitle id="simple-dialog-title">Preview of Template</DialogTitle>
+        <div>
+          <ListItemText
+            style={{ textAlign: "center" }}
+            primary={selectedTheme.name}
+          />
+          <Sleek />
+          {/* <iframe
+            src="/template/sleek.html"
+            style={{ width: "100%", height: "77vh" }}
+            title="Sleak"
+          ></iframe> */}
+          {/* <img
+            className="avatarImage templatePreview"
+            src={selectedTheme.avatar}
+            alt="avatar"
+          /> */}
+        </div>
       </Dialog>
     </div>
   );
@@ -97,7 +146,9 @@ class VideoTabHeader extends React.Component<IProps> {
     editTitle: false,
     title: "",
     themeName: "",
+    selectedTheme: "",
     open: false,
+    forPreviewOpen: false,
     template: "",
   };
   componentDidMount() {
@@ -155,20 +206,30 @@ class VideoTabHeader extends React.Component<IProps> {
   handleTemplate = () => {
     this.setState({ open: true });
   };
+  handleTemplatePreview = () => {
+    this.state.selectedTheme && this.setState({ forPreviewOpen: true });
+  };
 
-  handleCloseTemplate = (name: string) => {
-    if (!name) return this.setState({ open: false });
+  handleCloseTemplate = (theme: any) => {
+    this.setState({ selectedTheme: theme });
+    console.log("tem in on close", theme);
+    console.log("video for thm ", this.props.video);
+    if (!theme.name) return this.setState({ open: false });
     const { video } = this.props;
     let newVideo: any = video;
     newVideo.id = video?._id;
-    newVideo.eMailTemplate = name;
+    newVideo.eMailTemplate = theme.name;
     this.props.updateVideo(newVideo);
     this.setState({ open: false });
+  };
+  handleCloseTemplate2 = () => {
+    this.setState({ forPreviewOpen: false });
   };
 
   render() {
     const { video } = this.props;
-    const { editTitle, themeName, open } = this.state;
+    // console.log("video is ", video);
+    const { editTitle, themeName, open, forPreviewOpen } = this.state;
     return (
       <div className="headerTab">
         <Grid item xs={12} sm={12} md={12} id="wrapperHeader">
@@ -260,6 +321,22 @@ class VideoTabHeader extends React.Component<IProps> {
                 fontSize: "larger",
               }}
             />
+            {}
+            <ThemeButton
+              name="Preview Template"
+              onClick={this.handleTemplatePreview}
+              style={{
+                opacity: `${this.state.selectedTheme ? "1" : "0.5"}`,
+                marginTop: 18,
+                border: `1px solid ${Colors.themeGolden}`,
+                color: Colors.themeGolden,
+                background: Colors.white,
+                width: "100%",
+                fontFamily: "Poppins",
+                fontWeight: "bolder",
+                fontSize: "larger",
+              }}
+            />
           </Grid>
         </Grid>
         <div className="copyURL_Wrapper">
@@ -325,6 +402,13 @@ class VideoTabHeader extends React.Component<IProps> {
           selectedValue={themeName}
           open={open}
           onClose={this.handleCloseTemplate}
+        />
+        <SimpleDialog2
+          themeName={themeName}
+          selectedTheme={this.state.selectedTheme}
+          open={forPreviewOpen}
+          onClose={this.handleCloseTemplate2}
+          video={video}
         />
       </div>
     );

@@ -110,7 +110,7 @@ class VideoSection extends Component<IProps> {
   render() {
     const { userVideos, loadingVideos } = this.props;
     const myvideos = userVideos && userVideos.filter((c) => !c.isChatvid);
-    console.log("videos", myvideos);
+    // console.log("videos", myvideos);
     // let showVideoslength = this.state.showAllVideos
     //   ? myvideos?.length
     //   : 10 || (myvideos.length > 10 && myvideos.length - 5);
@@ -176,7 +176,7 @@ class VideoSection extends Component<IProps> {
             ) : (
               myvideos.map((video: any) => (
                 <Grid item xs={12} sm={6} md={4} lg={4} key={video._id}>
-                  {console.log("video is ", video)}
+                  {/* {console.log("video for card ", video)} */}
                   <VideoCard
                     title={video.title}
                     url={video.url}

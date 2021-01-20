@@ -35,6 +35,7 @@ import Dashboard from "./Screens/Home/Dashboard";
 import CampaignList from "./Screens/Home/Campaigns";
 import Contacts from "./Screens/Connections/Contacts";
 import ChatvidBoard from "./Screens/Home/ChatvidBoard";
+import Sleek from "./Screens/Templates/Sleek";
 
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import { store } from "./App";
@@ -57,6 +58,7 @@ class Routes extends Component<IProps> {
                 path="/chatVid/res/:id"
                 component={ResponseChatvid}
               />
+              <Route exact path="/sleek" component={Sleek} />
               <Route exact path="/thankyou" component={Thankyou} />
               <Route exact path="/chatvids/" component={ChatvidBoard} />
               <Route exact path="/chatvids/form/:id" component={Chatvid} />
@@ -96,6 +98,7 @@ class Routes extends Component<IProps> {
                 path="/chatVid/res/:id"
                 component={ResponseChatvid}
               />
+
               <Route exact path="/thankyou" component={Thankyou} />
               <Route exact path="/login*" component={SignIn} />
               <Route exact path="/signup" component={Signup} />

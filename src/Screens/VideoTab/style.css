@@ -334,6 +334,13 @@
   width: 100px;
   margin-right: 1em;
 }
+.templatePreview {
+  display: block;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+}
 
 .headerTab .MuiDialog-paperWidthSm {
   width: 60% !important;
@@ -354,4 +361,7 @@
 .headerTab .MuiListItem-button {
   box-shadow: 0px 5px 5px #888888;
   margin: 0.5em !important;
+}
+.MuiDialog-paperWidthSm {
+  width: 100% !important;
 }

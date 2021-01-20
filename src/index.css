@@ -39,17 +39,18 @@ code {
 @font-face {
   font-family: "Poppins";
   src: local("Poppins"), url(./assets//fonts/Poppins-Bold.ttf) format("ttf");
-  font-weight: bold
+  font-weight: bold;
 }
 @font-face {
   font-family: "Poppins";
-  src: local("Poppins"), url(./assets//fonts/Poppins-ExtraBold.ttf) format("ttf");
-  font-weight: bolder
+  src: local("Poppins"),
+    url(./assets//fonts/Poppins-ExtraBold.ttf) format("ttf");
+  font-weight: bolder;
 }
 @font-face {
   font-family: "Poppins";
   src: local("Poppins"), url(./assets//fonts/Poppins-Medium.ttf) format("ttf");
-  font-weight: 500
+  font-weight: 500;
 }
 @font-face {
   font-family: "Open Sans";

@@ -8,7 +8,9 @@ import ThemeButton from "../../components/ThemeButton";
 import AssetPicker from "../../components/AssetPicker";
 import MusicAssetPicker from "../../components/MusicAssetPicker";
 import { addAsset, addMusicAsset } from "../../Redux/Actions/asset";
-import { updateVideo } from "../../Redux/Actions/videos";
+import { updateVideo, cleanSingleVideo } from "../../Redux/Actions/videos";
+import Sleek from "../Templates/sleek";
+
 import AWS from "aws-sdk";
 import S3FileUpload from "react-s3";
 import canvasTxt from "canvas-txt";
@@ -43,6 +45,7 @@ interface EditorProps {
   updateVideo: (video: any) => void;
   addAsset: (asset: any) => void;
   addMusicAsset: (asset: any) => void;
+  cleanSingleVideo: () => void;
 }
 interface EditState {
   file: File | null;
@@ -738,6 +741,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
           };
           this.props.updateVideo(video);
         }
+        this.props.cleanSingleVideo();
         this.handleClose();
       }
     } catch (error) {
@@ -927,7 +931,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
               </Grid>
               <div style={{ textAlign: "end" }}>
                 <ThemeButton
-                  name="Updateay"
+                  name="Update"
                   onClick={
                     !this.state.musicFileSelected
                       ? this.updateVideoLogoText
@@ -1266,6 +1270,7 @@ const mapDispatchToProps = (dispatch: any) => {
     updateVideo: (video: any) => dispatch(updateVideo(video)),
     addAsset: (asset: any) => dispatch(addAsset(asset)),
     addMusicAsset: (asset: any) => dispatch(addMusicAsset(asset)),
+    cleanSingleVideo: () => dispatch(cleanSingleVideo()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(VideoEditor);

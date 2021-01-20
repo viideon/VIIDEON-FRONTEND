@@ -294,11 +294,18 @@
   width: 100%;
   margin: 0px;
   padding: 0px;
-  height: 40vh;
+  height: 50vh;
+  margin-top: -35px;
 }
 
+.page_region /deep/ ._2LpwQ___Wrapper__cls1._1cMla___Wrapper__media-tablet-up {
+  margin-top: 5px !important;
+}
 ._2LpwQ___Wrapper__cls1._1cMla___Wrapper__media-tablet-up {
   margin-top: 5px !important;
+}
+._2LpwQ___Wrapper__cls1 {
+  margin-top: 0px !important;
 }
 @media only screen and (max-width: 1612px) {
   .IconWrapper {

@@ -21,7 +21,7 @@ const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
     getVideo(params.id);
     setTimeout(() => enableLinks(false), 1000);
     return () => {
-      // cleanSingleVideo();
+      cleanSingleVideo();
     };
   }, [getVideo, params.id]);
 
@@ -30,7 +30,7 @@ const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
       <Header
         styles={{
           backgroundImage:
-            "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"
+            "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))",
         }}
       />
       <div className="wrapperVideoTab">
@@ -98,13 +98,13 @@ const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
 };
 const mapStateToProps = (state: any) => {
   return {
-    loadingVideo: state.video.loadingVideo
+    loadingVideo: state.video.loadingVideo,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getVideo: (id: any) => dispatch(getVideo(id)),
-    cleanSingleVideo: () => dispatch(cleanSingleVideo())
+    cleanSingleVideo: () => dispatch(cleanSingleVideo()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(VideoTab);

@@ -26,3 +26,11 @@
 [0114/173431.993:ERROR:exception_snapshot_win.cc(99)] thread ID 13188 not found in process
 [0118/171014.200:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\mg\AppData\Local\Google\Chrome\User Data\Crashpad\attachments\80b7e6bd-84c2-45ae-8edb-0f25bba55db2: The system cannot find the path specified. (0x3)
 [0118/171014.202:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[0120/165145.886:ERROR:process_info.cc(359)] UncheckedAllocate
+[0120/180703.370:ERROR:process_info.cc(359)] UncheckedAllocate
+[0120/181938.202:ERROR:process_info.cc(359)] UncheckedAllocate
+[0120/181938.204:ERROR:process_info.cc(359)] UncheckedAllocate
+[0120/181938.287:ERROR:process_info.cc(359)] UncheckedAllocate
+[0120/182356.058:ERROR:process_info.cc(359)] UncheckedAllocate
+[0120/182858.951:ERROR:process_info.cc(359)] UncheckedAllocate
+[0120/182859.584:ERROR:process_info.cc(359)] UncheckedAllocate
