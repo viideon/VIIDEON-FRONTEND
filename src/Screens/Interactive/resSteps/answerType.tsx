@@ -785,7 +785,7 @@ const MobileOpenEndedType = (props: any) => {
       <div className="mobilecaptionDiv">
         <Typography variant="h3">
           {responseType === "Open-ended"
-            ? "Alright! How would you like people to respond to this ChatVid?"
+            ? " Alright! How would you like people to respond to this ChatVid?"
             : responseType === "Multiple-Choice"
             ? "Choose a response"
             : `Schedule a meeting with ${userId.firstName || userId.lastName}.`}
@@ -889,9 +889,10 @@ const OpenEndedType = (props: any) => {
       <div style={{ height: "100%", backgroundColor: "white" }}>
         <div className="preview"></div>
         <div className="captionDiv">
+          {console.log("for text", props.history.location.pathname)}
           <Typography variant="h3">
             {responseType === "Open-ended"
-              ? "Alright! How would you like people to respond to this ChatVid?"
+              ? "HOW WOULD YOU LIKE TO RESPOND?"
               : responseType === "Multiple-Choice"
               ? "Choose a response"
               : `Schedule a meeting with ${userId.firstName ||

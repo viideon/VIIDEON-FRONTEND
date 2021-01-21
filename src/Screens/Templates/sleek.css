@@ -121,3 +121,32 @@ div.right a {
   font-weight: bold;
   cursor: pointer;
 }
+.p2 {
+  margin: 0px;
+  color: black;
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  max-width: 300px;
+  width: 100%;
+  border-top: 1.5px solid black;
+  border-bottom: 1.5px solid black;
+  cursor: pointer;
+}
+.img4 {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.p3 {
+  margin-bottom: 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: black;
+}
+.p4 {
+  margin-top: 0;
+  font-size: 14px;
+  color: black;
+}

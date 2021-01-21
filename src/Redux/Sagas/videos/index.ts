@@ -10,6 +10,7 @@ import {
   updateUserVideo,
   deleteVideoById,
   getSingleVideo,
+  getSingleTemplate,
   sendMultiEmails,
   deleteDataAws,
   updateVideoWatch,
@@ -31,18 +32,19 @@ import { toast } from "react-toastify";
 function* sendVideoOnEmail(action: any) {
   try {
     let isConfig = yield select(isEmailConfigPresent);
-    if (!isConfig) {
-      yield put({ type: types.VIDEO_SEND_FAILURE });
-      toast.info(
-        "Please add an email configuration to send email's on your behalf"
-      );
-      return;
-    }
+    // if (!isConfig) {
+    //   yield put({ type: types.VIDEO_SEND_FAILURE });
+    //   toast.info(
+    //     "Please add an email configuration to send email's on your behalf"
+    //   );
+    //   return;
+    // }
     let userId = yield select(selectID);
     const payload = action.payload;
     payload.userId = userId;
 
     const result = yield sendVideoToEmail(payload);
+    
 
     if (result.status === 200) {
       yield put({ type: types.VIDEO_SEND_SUCCESS, payload: result.message });
@@ -54,6 +56,7 @@ function* sendVideoOnEmail(action: any) {
   } catch (error) {
     yield put({ type: types.VIDEO_SEND_FAILURE });
     toast.error(error.message);
+    
   }
 }
 
@@ -236,6 +239,21 @@ function* updateVideo(action: any) {
   }
 }
 
+function* getTemplate(action: any) {
+  try {
+    const result = yield call(getSingleTemplate, action.payload);
+    if (result.status === 200) {
+      yield put({ type: types.GET_TEMPLATE_SUCCESS, payload: result.data.template });
+    } else {
+      yield put({ type: types.GET_TEMPLATE_FAIL });
+      toast.info("No Template Found");
+    }
+  } catch (err) {
+    yield put({ type: types.GET_TEMPLATE_FAIL });
+    toast.error(err);
+  }
+}
+
 function* getVideo(action: any) {
   try {
     const result = yield call(getSingleVideo, action.payload);
@@ -363,6 +381,7 @@ export function* videoWatcher() {
   yield takeEvery(types.UPDATE_VIDEO, updateVideo);
   yield takeEvery(types.DELETE_VIDEO, deleteVideo);
   yield takeEvery(types.GET_VIDEO, getVideo);
+  yield takeEvery(types.GET_TEMPLATE,getTemplate );
   yield takeEvery(types.SEND_MULTIPLE_EMAIL, sendMultipleEmail);
   yield takeLatest(types.COUNT_VIDEO, getVideoCount);
   yield takeLatest(types.COUNT_CAMPAIGN, getCampaignCount);

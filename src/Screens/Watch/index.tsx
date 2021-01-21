@@ -4,7 +4,7 @@ import CanvasPlayer from "../../components/CanvasPlayer/EditingCanvas";
 import {
   getVideo,
   updateVideoViews,
-  updateVideoWatch
+  updateVideoWatch,
 } from "../../Redux/Actions/videos";
 import Grid from "@material-ui/core/Grid";
 import Loading from "../../components/Loading";
@@ -21,7 +21,7 @@ interface IProps {
 class Watch extends React.Component<IProps> {
   container: any;
   state = {
-    height: "100px"
+    height: "100px",
   };
   componentDidMount() {
     this.container = this.refs.container;
@@ -49,6 +49,7 @@ class Watch extends React.Component<IProps> {
     const { video, loadingVideo } = this.props;
     return (
       <div className="contentWatch">
+        {console.log("in watch", video)}
         <div className="containerWatch">
           <Grid container>
             <Grid item md={3} sm={2} xs={1}></Grid>
@@ -63,7 +64,7 @@ class Watch extends React.Component<IProps> {
                 ref="container"
                 style={{
                   width: "100%",
-                  height: this.state.height
+                  height: this.state.height,
                 }}
               >
                 {video && (
@@ -105,14 +106,14 @@ class Watch extends React.Component<IProps> {
 const mapStateToProps = (state: any) => {
   return {
     video: state.video.singleVideo,
-    loadingVideo: state.video.loadingVideo
+    loadingVideo: state.video.loadingVideo,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getVideo: (id: string) => dispatch(getVideo(id)),
     updateVideoViews: (id: any) => dispatch(updateVideoViews(id)),
-    updateVideoWatch: (id: any) => dispatch(updateVideoWatch(id))
+    updateVideoWatch: (id: any) => dispatch(updateVideoWatch(id)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Watch);

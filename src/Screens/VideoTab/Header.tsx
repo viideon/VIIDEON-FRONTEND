@@ -9,6 +9,7 @@ import CanvasPlayer from "../../components/CanvasPlayer/EditingCanvas";
 import VideoEditor from "./Editor";
 
 import Sleek from "../Templates/Sleek";
+import Spread from "../Templates/Spread";
 
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
@@ -39,6 +40,10 @@ export interface SimpleDialogProps2 {
   selectedTheme: any;
   video: any;
   onClose: (value: string) => void;
+}
+export interface SelectedTemplteProps {
+  video: any;
+  selectedTheme: any;
 }
 function SimpleDialog(props: SimpleDialogProps) {
   const { onClose, selectedValue, open } = props;
@@ -76,6 +81,24 @@ function SimpleDialog(props: SimpleDialogProps) {
     </div>
   );
 }
+function SelectedTemplte(props: SelectedTemplteProps) {
+  const { video, selectedTheme } = props;
+  switch (selectedTheme.name) {
+    case "Sleek":
+      return <Sleek video={video} />;
+    case "Spread":
+      return <Spread video={video} />;
+    default:
+      return (
+        <img
+          className="avatarImage templatePreview"
+          src={selectedTheme.avatar}
+          alt="avatar"
+        />
+      );
+  }
+}
+
 function SimpleDialog2(props: SimpleDialogProps2) {
   // console.log("props2", props);
   const { onClose, themeName, selectedTheme, open, video } = props;
@@ -94,24 +117,19 @@ function SimpleDialog2(props: SimpleDialogProps2) {
         aria-labelledby="simple-dialog-title"
         open={open}
       >
-        <DialogTitle id="simple-dialog-title">Preview of Template</DialogTitle>
-        <div>
+        {/* <DialogTitle id="simple-dialog-title">Preview of Template</DialogTitle>
+        
           <ListItemText
             style={{ textAlign: "center" }}
             primary={selectedTheme.name}
-          />
-          <Sleek />
-          {/* <iframe
+          /> */}
+        <SelectedTemplte video={video} selectedTheme={selectedTheme} />
+
+        {/* <iframe
             src="/template/sleek.html"
             style={{ width: "100%", height: "77vh" }}
             title="Sleak"
           ></iframe> */}
-          {/* <img
-            className="avatarImage templatePreview"
-            src={selectedTheme.avatar}
-            alt="avatar"
-          /> */}
-        </div>
       </Dialog>
     </div>
   );
@@ -166,15 +184,16 @@ class VideoTabHeader extends React.Component<IProps> {
     const { video } = this.props;
     const newClip = `${process.env.REACT_APP_DOMAIN}/watch/${video &&
       video._id}`;
-    navigator.permissions
-      .query({ name: "clipboard-write" as PermissionName })
-      .then((result) => {
-        if (result.state === "granted" || result.state === "prompt") {
-          navigator.clipboard.writeText(newClip);
-        }
-      });
+    console.log("newClip", newClip);
+    // navigator.permissions
+    //   .query({ name: "clipboard-write" as PermissionName })
+    //   .then((result) => {
+    //     if (result.state === "granted" || result.state === "prompt") {
+    //       navigator.clipboard.writeText(newClip);
+    //     }
+    //   });
 
-    // navigator.clipboard.writeText();
+    navigator.clipboard.writeText(newClip);
     toast("Url copied to clipboard", {
       autoClose: 1000,
       transition: Flip,
@@ -347,7 +366,6 @@ class VideoTabHeader extends React.Component<IProps> {
                 video._id}`}
             />
             <IconButton
-              type="submit"
               style={classes.iconButton}
               aria-label="edit"
               onClick={this.copyUrl}

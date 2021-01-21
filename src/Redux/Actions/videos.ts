@@ -60,6 +60,12 @@ export function getVideo(id: string) {
     payload: id
   };
 }
+export function getTemplate(tempName: any) {
+  return {
+    type: types.GET_TEMPLATE,
+    payload: tempName
+  };
+}
 
 export function deleteVideo(id: string) {
   return {

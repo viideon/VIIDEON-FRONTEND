@@ -364,4 +364,5 @@
 }
 .MuiDialog-paperWidthSm {
   width: 100% !important;
+  max-width: 720px !important;
 }

@@ -52,9 +52,6 @@ class ResponseType extends Component<any> {
               className="tabCancelHead"
               onClick={() => this.props.history.push("/")}
             />
-            <Typography variant="h6" className="topHeading">
-              Alright!
-            </Typography>
             <Typography variant="h6" className="QuestionHeading">
               Alright! How would you like people to respond to this ChatVid?
             </Typography>

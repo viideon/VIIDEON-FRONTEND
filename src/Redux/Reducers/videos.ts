@@ -14,7 +14,8 @@ let initialState: any = {
   watchCount: 0,
   emailOpenCount: 0,
   ctaCount: 0,
-  emailShareCount: 0
+  emailShareCount: 0,
+  getSingleTemplate:null
 };
 const videoReducer = (state = initialState, action: any) => {
   switch (action.type) {
@@ -122,6 +123,12 @@ const videoReducer = (state = initialState, action: any) => {
         error: action.payload,
         loadingVideos: false
       };
+      case types.GET_TEMPLATE_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+        loadingTemplate: false
+      };
     case types.COUNT_VIDEO_SUCCESS:
       return {
         ...state,
@@ -155,6 +162,10 @@ const videoReducer = (state = initialState, action: any) => {
       return { ...state, loadingVideo: true };
     case types.GET_VIDEO_SUCCESS:
       return { ...state, loadingVideo: false, singleVideo: action.payload };
+      case types.GET_TEMPLATE:
+      return { ...state, loadingTemplate: true };
+      case types.GET_TEMPLATE_SUCCESS:
+      return { ...state,loadingTemplate: false, getSingleTemplate: action.payload };
     case types.GET_SAVED_VIDEO_ID:
       return { ...state, savedVideoId: action.payload };
     case types.SEND_MULTIPLE_EMAIL:

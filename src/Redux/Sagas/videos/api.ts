@@ -19,6 +19,7 @@ export async function updateCtaVideo(id: any) {
   return API.post("/video/update/cta", { id });
 }
 export async function sendVideoToEmail(video: any) {
+  console.log("videoemail in api",video)
   return API.post("/email/send", video);
 }
 
@@ -56,6 +57,11 @@ export async function deleteVideoById(callObj: any) {
   return API.delete("/video", {
     params: { id: callObj.videoId, pageNo: callObj.pageNo }
   });
+}
+
+export async function getSingleTemplate(name: any) {
+  console.log("tempname",name)
+  return API.get("/video/getTemplate", { params: { name } });
 }
 export async function getSingleVideo(id: string) {
   return API.get("/video/single", { params: { id } });

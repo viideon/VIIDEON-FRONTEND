@@ -12,7 +12,7 @@ import * as Constants from "../../constants/constants";
 import { reg } from "../../constants/emailRegEx";
 import {
   sendVideoToEmail,
-  sendMultipleEmails
+  sendMultipleEmails,
 } from "../../Redux/Actions/videos";
 import { EmailVideo, MultiEmail } from "../../Redux/Types/videos";
 import "./style.css";
@@ -29,12 +29,12 @@ interface IProps {
 class Share extends React.Component<IProps> {
   state = {
     recieverEmail: "",
-    emails: []
+    emails: [],
   };
 
   emailHandler = (event: any) => {
     this.setState({
-      recieverEmail: event.target.value
+      recieverEmail: event.target.value,
     });
   };
 
@@ -48,7 +48,7 @@ class Share extends React.Component<IProps> {
 
   handleDeleteChip = (delEmail: any) => {
     this.setState({
-      emails: this.state.emails.filter((email: string) => email !== delEmail)
+      emails: this.state.emails.filter((email: string) => email !== delEmail),
     });
   };
   submitEmail = () => {
@@ -63,8 +63,9 @@ class Share extends React.Component<IProps> {
       const recieverEmail = this.state.recieverEmail;
       const video = {
         videoId: id,
-        recieverEmail
+        recieverEmail,
       };
+      console.log("receiver Email", video);
       this.props.sendVideoToEmail(video);
       this.setState({ recieverEmail: "" });
     }
@@ -81,7 +82,7 @@ class Share extends React.Component<IProps> {
       const emails = this.state.emails.join();
       const emailVideoObj = {
         recieverEmail: emails,
-        videoId: id
+        videoId: id,
       };
       this.props.sendMultipleEmail(emailVideoObj);
       this.setState({ emails: [] });
@@ -109,7 +110,7 @@ class Share extends React.Component<IProps> {
                   value={this.state.recieverEmail}
                   name="recieverEmail"
                   InputLabelProps={{
-                    shrink: true
+                    shrink: true,
                   }}
                   onChange={this.emailHandler}
                 />
@@ -118,7 +119,7 @@ class Share extends React.Component<IProps> {
                 style={{
                   background: Colors.themeGreen,
                   color: Colors.white,
-                  marginTop: "15px"
+                  marginTop: "15px",
                 }}
                 onClick={this.submitEmail}
                 name={Constants.SEND_THROUGH_EMAIL}
@@ -129,8 +130,8 @@ class Share extends React.Component<IProps> {
                   value={this.state.emails}
                   placeholder="Enter email and press enter"
                   fullWidth
-                  onAdd={chips => this.handleChipAdd(chips)}
-                  onDelete={chip => this.handleDeleteChip(chip)}
+                  onAdd={(chips) => this.handleChipAdd(chips)}
+                  onDelete={(chip) => this.handleDeleteChip(chip)}
                 />
               </div>
 
@@ -138,7 +139,7 @@ class Share extends React.Component<IProps> {
                 style={{
                   background: Colors.themeGreen,
                   color: Colors.white,
-                  marginTop: "15px"
+                  marginTop: "15px",
                 }}
                 onClick={this.sendMultipleEmail}
                 name="Broadcast"
@@ -156,7 +157,7 @@ const mapStateToProps = (state: any) => {
     progressEmail: state.video.progressEmail,
     loading: state.video.loading,
     isVideoUpdating: state.video.isVideoUpdating,
-    video: state.video.singleVideo
+    video: state.video.singleVideo,
   };
 };
 
@@ -164,7 +165,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     sendVideoToEmail: (video: EmailVideo) => dispatch(sendVideoToEmail(video)),
     sendMultipleEmail: (emailVideoObj: MultiEmail) =>
-      dispatch(sendMultipleEmails(emailVideoObj))
+      dispatch(sendMultipleEmails(emailVideoObj)),
   };
 };
 export default withRouter<any, any>(
