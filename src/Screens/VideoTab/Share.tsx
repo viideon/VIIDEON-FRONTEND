@@ -65,7 +65,7 @@ class Share extends React.Component<IProps> {
         videoId: id,
         recieverEmail,
       };
-      console.log("receiver Email", video);
+      // console.log("receiver Email", video);
       this.props.sendVideoToEmail(video);
       this.setState({ recieverEmail: "" });
     }
@@ -79,11 +79,14 @@ class Share extends React.Component<IProps> {
       toast.error("No video saved try again");
       return;
     } else {
+      // console.log("email in state", this.state.emails);
       const emails = this.state.emails.join();
+      // console.log("emails after join", emails);
       const emailVideoObj = {
         recieverEmail: emails,
         videoId: id,
       };
+      // console.log("emailObject", emailVideoObj);
       this.props.sendMultipleEmail(emailVideoObj);
       this.setState({ emails: [] });
     }

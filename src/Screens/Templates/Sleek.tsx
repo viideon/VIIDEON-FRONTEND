@@ -48,7 +48,7 @@ const Sleek = ({ video }: any) => {
                             font-size: 30px;
                             color: black;
                           ">
-                            VideonPRO 
+                            Viideon
                         </h1>
                     </td>
                 </tr>
@@ -76,7 +76,7 @@ const Sleek = ({ video }: any) => {
     <tr align="center">
         <td align="center" style="padding: 30px 0px 30px 0px">
             <p style="margin: 0px;color: black;">
-                VideonPRO is a video communication platform design for sale
+                Viideon is a video communication platform design for sale
             </p>
             <p style="margin: 0px;color: black;">
                 and marketing leaders. Learn more at
@@ -85,7 +85,7 @@ const Sleek = ({ video }: any) => {
                   color: black;
                   font-weight: bold;
                   cursor: pointer;
-                ">videonpro.com</a>
+                ">viideon.com</a>
             </p>
         </td>
     </tr>
@@ -146,7 +146,7 @@ const Sleek = ({ video }: any) => {
                 <tr>
                     <td width="33%" align="center">
                         <p style=" font-size: 12px; padding-left: 5px;color: black;">
-                            &copy; 2020 VideonPro All Rights Reserved
+                            &copy; 2020 Viideon All Rights Reserved
                         </p>
                     </td>
                     <td width="33%" align="center"></td>
@@ -157,7 +157,7 @@ const Sleek = ({ video }: any) => {
                 height: 20px;
                 margin-right: 5px;
               " />
-                        <span style="color: black;">Sent with VideonPro</span>
+                        <span style="color: black;">Sent with Viideon</span>
                     </td>
                 </tr>
             </table>

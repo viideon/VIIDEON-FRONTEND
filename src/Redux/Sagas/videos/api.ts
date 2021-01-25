@@ -24,6 +24,7 @@ export async function sendVideoToEmail(video: any) {
 }
 
 export async function sendMultiEmails(video: any) {
+  // console.log("multiemail in api",video)
   return API.post("/email/send", video);
 }
 

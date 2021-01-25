@@ -267,6 +267,7 @@ class Overview extends React.Component<IProps> {
                 {assetUploading && <LinearProgress />}
                 <Typography variant="h4">Logo</Typography>
                 <Grid xs={12} sm={4}>
+                  {console.log("imglogo", img)}
                   {img ? (
                     <CardMedia
                       component="img"

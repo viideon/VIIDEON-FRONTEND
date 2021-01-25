@@ -110,7 +110,7 @@ const Spread = ({ video }: any) => {
       <div class="mainWrapper">
       <div class="headerWrapper1">
       <img src="https://videonpro.s3.amazonaws.com/assets/logo.png" class="headerImage"/>
-      <h1 class="headerH1">VideonPRO</h1>
+      <h1 class="headerH1">Viideon</h1>
       <p class="headerP">Join our movement</p>
             
           </div>
@@ -129,7 +129,7 @@ const Spread = ({ video }: any) => {
         <div class="footerWrapper w3-row w3-center">
           <div class="w3-third">
               <a href="videonpro.com">
-                <button class="btn watchVideoBtn">VideoPro.com</button>
+                <button class="btn watchVideoBtn">Viideo.com</button>
               </a>
             <div class="w3-row w3-center copyRightWrapper">
               <span class="w3-third">
@@ -138,12 +138,12 @@ const Spread = ({ video }: any) => {
                 </a>
               </span>
               <span class="w3-twothird">
-                <p>Sent using VideonPRO</p>
+                <p>Sent using Viideon</p>
               </span>
             </div>
           </div>
           <div class="w3-twothird w3-center">
-            <p>VideonPRO is a video communication platform design for sale and marketing leaders. Learn more at videonpro.com</p>
+            <p>Viideon is a video communication platform design for sale and marketing leaders. Learn more at viideon.com</p>
             <div>
               <a href="https://www.facebook.com/">
                 <button class="fbBtn socialBtn">F</button>

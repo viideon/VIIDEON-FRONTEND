@@ -271,14 +271,14 @@ function* getVideo(action: any) {
 
 function* sendMultipleEmail(action: any) {
   try {
-    let isConfig = yield select(isEmailConfigPresent);
-    if (!isConfig) {
-      yield put({ type: types.MULTIPLE_EMAIL_FAILED });
-      toast.info(
-        "Please add an email configuration to send email's on your behalf"
-      );
-      return;
-    }
+    // let isConfig = yield select(isEmailConfigPresent);
+    // if (!isConfig) {
+    //   yield put({ type: types.MULTIPLE_EMAIL_FAILED });
+    //   toast.info(
+    //     "Please add an email configuration to send email's on your behalf"
+    //   );
+    //   return;
+    // }
     let userId = yield select(selectID);
     const payload = action.payload;
     payload.userId = userId;
