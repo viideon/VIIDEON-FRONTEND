@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { toast, Flip } from "react-toastify";
 import VideoInfo from "../../components/VideoInfo";
 import { connect } from "react-redux";
-import { CircularProgress, Grid } from "@material-ui/core";
+import { CircularProgress, Grid, TextField } from "@material-ui/core";
 import Colors from "../../constants/colors";
 import ThemeButton from "../../components/ThemeButton";
 import CanvasPlayer from "../../components/CanvasPlayer/EditingCanvas";
 import VideoEditor from "./Editor";
+import EmailInstruction from "../../components/Reusable/EmailInstruction";
+import { withRouter } from "react-router-dom";
 
 import Sleek from "../Templates/Sleek";
 import Spread from "../Templates/Spread";
@@ -19,7 +21,12 @@ import DoneIcon from "@material-ui/icons/Done";
 import MailIcon from "@material-ui/icons/Mail";
 import DirectionsIcon from "@material-ui/icons/Directions";
 
-import { updateVideo } from "../../Redux/Actions/videos";
+import {
+  updateVideo,
+  sendVideoToEmail,
+  sendMultipleEmails,
+} from "../../Redux/Actions/videos";
+import { reg } from "../../constants/emailRegEx";
 
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -40,6 +47,14 @@ export interface SimpleDialogProps2 {
   selectedTheme: any;
   video: any;
   onClose: (value: string) => void;
+}
+export interface shareDialogProps {
+  open: boolean;
+  themeName: string;
+  receiverEmail: string;
+  onClose: (value: string) => void;
+  emailHandler: (event: any) => void;
+  submitEmail: () => void;
 }
 export interface SelectedTemplteProps {
   video: any;
@@ -102,7 +117,6 @@ function SelectedTemplte(props: SelectedTemplteProps) {
 function SimpleDialog2(props: SimpleDialogProps2) {
   // console.log("props2", props);
   const { onClose, themeName, selectedTheme, open, video } = props;
-  console.log("for vid", video);
 
   const handleClose = () => {
     onClose(themeName);
@@ -134,6 +148,52 @@ function SimpleDialog2(props: SimpleDialogProps2) {
     </div>
   );
 }
+function ShareDialog(props: shareDialogProps) {
+  const {
+    onClose,
+    open,
+    themeName,
+    receiverEmail,
+    emailHandler,
+    submitEmail,
+  } = props;
+
+  const handleClose = () => {
+    onClose(themeName);
+  };
+
+  return (
+    <Dialog
+      onClose={handleClose}
+      aria-labelledby="simple-dialog-title"
+      open={open}
+    >
+      <div style={{ padding: "6%" }}>
+        <EmailInstruction heading="Reciever Email" />
+        <TextField
+          placeholder="Enter email address"
+          fullWidth
+          type="text"
+          value={receiverEmail}
+          name="receiverEmail"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          onChange={emailHandler}
+        />
+        <ThemeButton
+          style={{
+            background: Colors.themeGreen,
+            color: Colors.white,
+            marginTop: "15px",
+          }}
+          onClick={submitEmail}
+          name={"SEND_THROUGH_EMAIL"}
+        />
+      </div>
+    </Dialog>
+  );
+}
 
 interface Video {
   url: string;
@@ -152,6 +212,8 @@ interface Video {
 interface IProps {
   video?: Video;
   updateVideo: (video: any) => void;
+  sendVideoToEmail: (email: any) => void;
+  match: any;
 }
 
 class VideoTabHeader extends React.Component<IProps> {
@@ -167,7 +229,9 @@ class VideoTabHeader extends React.Component<IProps> {
     selectedTheme: "",
     open: false,
     forPreviewOpen: false,
+    forShare: false,
     template: "",
+    receiverEmail: "",
   };
   componentDidMount() {
     this.caluclateContainerHeight();
@@ -228,6 +292,9 @@ class VideoTabHeader extends React.Component<IProps> {
   handleTemplatePreview = () => {
     this.state.selectedTheme && this.setState({ forPreviewOpen: true });
   };
+  handleShareandSend = () => {
+    this.setState({ forShare: true });
+  };
 
   handleCloseTemplate = (theme: any) => {
     this.setState({ selectedTheme: theme });
@@ -244,11 +311,48 @@ class VideoTabHeader extends React.Component<IProps> {
   handleCloseTemplate2 = () => {
     this.setState({ forPreviewOpen: false });
   };
+  handleCloseShare = () => {
+    this.setState({ forShare: false });
+  };
+  emailHandler = (event: any) => {
+    this.setState({
+      receiverEmail: event.target.value,
+    });
+  };
+  submitEmail = () => {
+    console.log(this.state.receiverEmail);
+    const { id } = this.props.match.params;
+    console.log(id);
+    if (id === "") {
+      return toast.warn("No video to share");
+    } else if (this.state.receiverEmail === "") {
+      return toast.warn("Add an Email");
+    } else if (reg.test(this.state.receiverEmail) === false) {
+      return toast.warn("Invalid Email");
+    } else {
+      const recieverEmail = this.state.receiverEmail;
+      const video = {
+        videoId: id,
+        recieverEmail,
+      };
+      console.log("receiver Email", video);
+      // this.props.sendVideoToEmail(video);
+
+      this.setState({ forShare: false });
+    }
+  };
 
   render() {
     const { video } = this.props;
     // console.log("video is ", video);
-    const { editTitle, themeName, open, forPreviewOpen } = this.state;
+    const {
+      editTitle,
+      themeName,
+      open,
+      forPreviewOpen,
+      forShare,
+      receiverEmail,
+    } = this.state;
     return (
       <div className="headerTab">
         <Grid item xs={12} sm={12} md={12} id="wrapperHeader">
@@ -388,7 +492,11 @@ class VideoTabHeader extends React.Component<IProps> {
             </IconButton>
           </Paper>
         </div>
-        <ThemeButton style={Colors.themeGradientBtn} name="Share & Send" />
+        <ThemeButton
+          style={Colors.themeGradientBtn}
+          name="Share & Send"
+          onClick={this.handleShareandSend}
+        />
         {this.state.editText && (
           <VideoEditor
             toggle={() => {
@@ -428,6 +536,14 @@ class VideoTabHeader extends React.Component<IProps> {
           onClose={this.handleCloseTemplate2}
           video={video}
         />
+        <ShareDialog
+          themeName={themeName}
+          open={forShare}
+          onClose={this.handleCloseShare}
+          receiverEmail={receiverEmail}
+          emailHandler={this.emailHandler}
+          submitEmail={this.submitEmail}
+        />
       </div>
     );
   }
@@ -466,7 +582,10 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     updateVideo: (video: any) => dispatch(updateVideo(video)),
+    sendVideoToEmail: (video: any) => dispatch(sendVideoToEmail(video)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(VideoTabHeader);
+export default withRouter<any, any>(
+  connect(mapStateToProps, mapDispatchToProps)(VideoTabHeader)
+);

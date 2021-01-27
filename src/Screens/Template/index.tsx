@@ -240,6 +240,7 @@ class Overview extends React.Component<IProps> {
                 md={12}
                 lg={12}
                 style={{ overflow: "scroll", marginTop: "10px" }}
+                className="dangerously"
               >
                 {this.props.preview && (
                   <div

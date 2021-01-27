@@ -36,6 +36,7 @@ export const getIndustriesAPI = () => {
 }
 
 export const getPreviewApi = (settings: any) => {
+  console.log("in api for get preview",settings)
   return API.post("/user/preview/", {settings});
 }
 
