@@ -4,7 +4,7 @@ import { Button, Tooltip, CircularProgress } from "@material-ui/core";
 import {
   getEmailConfigurations,
   addEmailConfiguration,
-  deleteEmailConfig
+  deleteEmailConfig,
 } from "../../Redux/Actions/email";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
@@ -25,7 +25,7 @@ interface IProps {
 }
 class Configuration extends React.Component<IProps> {
   state = {
-    deleteDialog: false
+    deleteDialog: false,
   };
   componentDidMount() {
     this.props.getEmailConfigurations();
@@ -37,6 +37,7 @@ class Configuration extends React.Component<IProps> {
   }
   responseGoogle = (response: any) => {
     if (response.code) {
+      console.log("a", response);
       this.props.addEmailConfiguration(response.code);
     }
   };
@@ -72,7 +73,7 @@ class Configuration extends React.Component<IProps> {
                 </Tooltip>
               </span>
             </div>
-            <div className="connectAccount">
+            <div className="connectAccount" style={{ display: "none" }}>
               <GoogleLogin
                 clientId={`${process.env.REACT_APP_OAUTH_ID}`}
                 render={(renderProps: any) => (
@@ -81,7 +82,7 @@ class Configuration extends React.Component<IProps> {
                     variant="contained"
                     style={{
                       backgroundColor: "#e7505a",
-                      color: "#fff"
+                      color: "#fff",
                     }}
                   >
                     Connect to Gmail
@@ -148,14 +149,14 @@ const mapStateToProps = (state: any) => {
     emailConfigs: state.email.emailConfigurations,
     loading: state.email.loading,
     isDeleting: state.email.isDeleting,
-    showDeleteDialog: state.email.showDeleteDialog
+    showDeleteDialog: state.email.showDeleteDialog,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getEmailConfigurations: () => dispatch(getEmailConfigurations()),
     addEmailConfiguration: (code: any) => dispatch(addEmailConfiguration(code)),
-    deleteEmailConfig: (id: any) => dispatch(deleteEmailConfig(id))
+    deleteEmailConfig: (id: any) => dispatch(deleteEmailConfig(id)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Configuration);

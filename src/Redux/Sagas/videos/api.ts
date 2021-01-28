@@ -22,6 +22,10 @@ export async function sendVideoToEmail(video: any) {
   console.log("videoemail in api",video)
   return API.post("/email/send", video);
 }
+export async function getSingleTemplate(video: any) {
+  console.log("tempname",video)
+  return API.post("/video/getTemplate", video );
+}
 
 export async function sendMultiEmails(video: any) {
   // console.log("multiemail in api",video)
@@ -60,10 +64,6 @@ export async function deleteVideoById(callObj: any) {
   });
 }
 
-export async function getSingleTemplate(name: any) {
-  console.log("tempname",name)
-  return API.get("/video/getTemplate", { params: { name } });
-}
 export async function getSingleVideo(id: string) {
   return API.get("/video/single", { params: { id } });
 }

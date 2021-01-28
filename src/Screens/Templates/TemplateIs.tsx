@@ -2,16 +2,23 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { getTemplate } from "../../Redux/Actions/videos";
 
-const TemplateIs = ({ getTemplate, getSingleTemplate }: any) => {
+const TemplateIs = ({
+  getTemplate,
+  getSingleTemplate,
+  tempName,
+  video,
+}: any) => {
   useEffect(() => {
-    getTemplate("sleek");
+    getTemplate(video);
   }, []);
   return (
-    <div>
-      <h1>template</h1>
-      <div dangerouslySetInnerHTML={{ __html: getSingleTemplate }}></div>
-      {/* {getSingleTemplate} */}
-      {console.log("temp from api is", getSingleTemplate)}
+    <div className="showtemplate">
+      {getSingleTemplate && (
+        <div dangerouslySetInnerHTML={{ __html: getSingleTemplate }}></div>
+      )}
+      {/* <div dangerouslySetInnerHTML={{ __html: getSingleTemplate }}></div> */}
+
+      {/* {console.log("template from api in component", getSingleTemplate)} */}
     </div>
   );
 };

@@ -7,7 +7,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  DialogActions
+  DialogActions,
 } from "@material-ui/core";
 import Colors from "../../constants/colors";
 import { Grid, Radio } from "@material-ui/core";
@@ -26,7 +26,7 @@ interface IProps {
 class AssetPicker extends React.Component<IProps> {
   state = {
     assetUrl: "",
-    currenSelection: null
+    currenSelection: null,
   };
   componentDidMount() {
     this.props.getMusicAsset();
@@ -106,7 +106,7 @@ class AssetPicker extends React.Component<IProps> {
               </Grid>
             </TabPanel>
             <TabPanel>
-              <h2>Any content 2</h2>
+              <h2>Any content 2 helo</h2>
             </TabPanel>
           </Tabs>
         </DialogContent>
@@ -116,7 +116,7 @@ class AssetPicker extends React.Component<IProps> {
               width: "120px",
               marginRight: "5px",
               backgroundColor: Colors.darkGrey,
-              color: Colors.white
+              color: Colors.white,
             }}
             onClick={this.cancelSelection}
             name="Cancel"
@@ -125,7 +125,7 @@ class AssetPicker extends React.Component<IProps> {
             style={{
               width: "120px",
               backgroundColor: Colors.themeBlue,
-              color: Colors.white
+              color: Colors.white,
             }}
             onClick={this.onPick}
             name="OK"
@@ -137,12 +137,12 @@ class AssetPicker extends React.Component<IProps> {
 }
 const mapStateToProps = (state: any) => {
   return {
-    musicAssets: state.asset.musicAssets
+    musicAssets: state.asset.musicAssets,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    getMusicAsset: () => dispatch(getMusicAsset())
+    getMusicAsset: () => dispatch(getMusicAsset()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AssetPicker);

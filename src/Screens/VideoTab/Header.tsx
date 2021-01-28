@@ -10,8 +10,11 @@ import VideoEditor from "./Editor";
 import EmailInstruction from "../../components/Reusable/EmailInstruction";
 import { withRouter } from "react-router-dom";
 
+import ChipInput from "material-ui-chip-input";
+
 import Sleek from "../Templates/Sleek";
 import Spread from "../Templates/Spread";
+import Templates from "../Templates/TemplateIs";
 
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
@@ -55,6 +58,10 @@ export interface shareDialogProps {
   onClose: (value: string) => void;
   emailHandler: (event: any) => void;
   submitEmail: () => void;
+  sendMultipleEmail: () => void;
+  emails: any;
+  handleChipAdd: (email: any) => void;
+  handleDeleteChip: (email: any) => void;
 }
 export interface SelectedTemplteProps {
   video: any;
@@ -81,16 +88,23 @@ function SimpleDialog(props: SimpleDialogProps) {
       >
         <DialogTitle id="simple-dialog-title">Select E-mail theme</DialogTitle>
         <List component="div">
-          {availableTheme.map((theme: any) => (
-            <ListItem
-              button
-              onClick={() => handleListItemClick(theme)}
-              key={theme.name}
-            >
-              <img className="avatarImage" src={theme.avatar} alt="avatar" />
-              <ListItemText primary={theme.name} />
-            </ListItem>
-          ))}
+          {availableTheme.map(
+            (theme: any) =>
+              theme.name == "Spread" && (
+                <ListItem
+                  button
+                  onClick={() => handleListItemClick(theme)}
+                  key={theme.name}
+                >
+                  <img
+                    className="avatarImage"
+                    src={theme.avatar}
+                    alt="avatar"
+                  />
+                  <ListItemText primary={theme.name} />
+                </ListItem>
+              )
+          )}
         </List>
       </Dialog>
     </div>
@@ -98,11 +112,13 @@ function SimpleDialog(props: SimpleDialogProps) {
 }
 function SelectedTemplte(props: SelectedTemplteProps) {
   const { video, selectedTheme } = props;
+  console.log(selectedTheme.name);
+
   switch (selectedTheme.name) {
     case "Sleek":
       return <Sleek video={video} />;
     case "Spread":
-      return <Spread video={video} />;
+      return <Templates tempName={selectedTheme.name} video={video} />;
     default:
       return (
         <img
@@ -156,6 +172,10 @@ function ShareDialog(props: shareDialogProps) {
     receiverEmail,
     emailHandler,
     submitEmail,
+    handleChipAdd,
+    handleDeleteChip,
+    sendMultipleEmail,
+    emails,
   } = props;
 
   const handleClose = () => {
@@ -169,7 +189,7 @@ function ShareDialog(props: shareDialogProps) {
       open={open}
     >
       <div style={{ padding: "6%" }}>
-        <EmailInstruction heading="Reciever Email" />
+        <EmailInstruction heading="Receiver Email" />
         <TextField
           placeholder="Enter email address"
           fullWidth
@@ -190,6 +210,25 @@ function ShareDialog(props: shareDialogProps) {
           onClick={submitEmail}
           name={"SEND_THROUGH_EMAIL"}
         />
+        <div className="formGroupMultiple" style={{ padding: "2%" }}>
+          <EmailInstruction heading="Broadcast" />
+          <ChipInput
+            value={emails}
+            placeholder="Enter email and press enter"
+            fullWidth
+            onAdd={(chips) => handleChipAdd(chips)}
+            onDelete={(chip) => handleDeleteChip(chip)}
+          />
+          <ThemeButton
+            style={{
+              background: Colors.themeGreen,
+              color: Colors.white,
+              marginTop: "15px",
+            }}
+            onClick={sendMultipleEmail}
+            name="Broadcast"
+          />
+        </div>
       </div>
     </Dialog>
   );
@@ -213,6 +252,8 @@ interface IProps {
   video?: Video;
   updateVideo: (video: any) => void;
   sendVideoToEmail: (email: any) => void;
+  sendMultipleEmail: (emails: any) => void;
+
   match: any;
 }
 
@@ -232,6 +273,7 @@ class VideoTabHeader extends React.Component<IProps> {
     forShare: false,
     template: "",
     receiverEmail: "",
+    emails: [],
   };
   componentDidMount() {
     this.caluclateContainerHeight();
@@ -319,10 +361,20 @@ class VideoTabHeader extends React.Component<IProps> {
       receiverEmail: event.target.value,
     });
   };
+  handleChipAdd = (email: any) => {
+    if (reg.test(email) === false) {
+      toast.error("Not a valid email");
+      return;
+    }
+    this.setState({ emails: [...this.state.emails, email] });
+  };
+  handleDeleteChip = (delEmail: any) => {
+    this.setState({
+      emails: this.state.emails.filter((email: string) => email !== delEmail),
+    });
+  };
   submitEmail = () => {
-    console.log(this.state.receiverEmail);
     const { id } = this.props.match.params;
-    console.log(id);
     if (id === "") {
       return toast.warn("No video to share");
     } else if (this.state.receiverEmail === "") {
@@ -336,9 +388,35 @@ class VideoTabHeader extends React.Component<IProps> {
         recieverEmail,
       };
       console.log("receiver Email", video);
-      // this.props.sendVideoToEmail(video);
+      this.props.sendVideoToEmail(video);
 
       this.setState({ forShare: false });
+    }
+  };
+  sendMultipleEmail = () => {
+    console.log(this.state.emails);
+
+    const { id } = this.props.match.params;
+    if (this.state.emails.length === 0) {
+      toast.error("No email provided");
+      return;
+    } else if (!id) {
+      toast.error("No video saved try again");
+      return;
+    } else if (this.state.emails.length === 1) {
+      toast.error("Please add atleast two emails");
+      return;
+    } else {
+      // console.log("email in state", this.state.emails);
+      const emails = this.state.emails.join();
+      // console.log("emails after join", emails);
+      const emailVideoObj = {
+        recieverEmail: emails,
+        videoId: id,
+      };
+      console.log("emailObject", emailVideoObj);
+      this.props.sendMultipleEmail(emailVideoObj);
+      this.setState({ emails: [] });
     }
   };
 
@@ -352,6 +430,7 @@ class VideoTabHeader extends React.Component<IProps> {
       forPreviewOpen,
       forShare,
       receiverEmail,
+      emails,
     } = this.state;
     return (
       <div className="headerTab">
@@ -541,8 +620,12 @@ class VideoTabHeader extends React.Component<IProps> {
           open={forShare}
           onClose={this.handleCloseShare}
           receiverEmail={receiverEmail}
+          emails={emails}
           emailHandler={this.emailHandler}
           submitEmail={this.submitEmail}
+          handleChipAdd={this.handleChipAdd}
+          handleDeleteChip={this.handleDeleteChip}
+          sendMultipleEmail={this.sendMultipleEmail}
         />
       </div>
     );
@@ -583,6 +666,8 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     updateVideo: (video: any) => dispatch(updateVideo(video)),
     sendVideoToEmail: (video: any) => dispatch(sendVideoToEmail(video)),
+    sendMultipleEmail: (emailVideoObj: any) =>
+      dispatch(sendMultipleEmails(emailVideoObj)),
   };
 };
 

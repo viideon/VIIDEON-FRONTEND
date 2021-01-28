@@ -78,6 +78,9 @@ class Share extends React.Component<IProps> {
     } else if (!id) {
       toast.error("No video saved try again");
       return;
+    } else if (this.state.emails.length === 1) {
+      toast.error("Please add atleast two emails");
+      return;
     } else {
       // console.log("email in state", this.state.emails);
       const emails = this.state.emails.join();
@@ -105,7 +108,7 @@ class Share extends React.Component<IProps> {
                 {progressEmail && <Loading />}
               </div>
               <div>
-                <EmailInstruction heading="Reciever Email" />
+                <EmailInstruction heading="Receiver Email" />
                 <TextField
                   placeholder="Enter email address"
                   fullWidth

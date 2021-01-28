@@ -11,6 +11,12 @@ import {
   LinearProgress,
   TextField,
 } from "@material-ui/core";
+
+import TwitterIcon from "@material-ui/icons/Twitter";
+import LinkedInIcon from "@material-ui/icons/LinkedIn";
+import YouTubeIcon from "@material-ui/icons/YouTube";
+import FacebookIcon from "@material-ui/icons/Facebook";
+
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -56,6 +62,10 @@ class Overview extends React.Component<IProps> {
       text1: "",
       text2: "",
     },
+    fbUrl: "",
+    twitterUrl: "",
+    youtubeUrl: "",
+    linkedinUrl: "",
   };
 
   componentDidMount() {}
@@ -114,12 +124,25 @@ class Overview extends React.Component<IProps> {
   };
 
   getPrivew = () => {
-    const { name, colors, text, img } = this.state;
+    const {
+      name,
+      colors,
+      text,
+      img,
+      fbUrl,
+      twitterUrl,
+      youtubeUrl,
+      linkedinUrl,
+    } = this.state;
     if (!name) return toast.error("choose a template first");
     let settings = {
       name,
       colors,
       text,
+      fbUrl,
+      twitterUrl,
+      youtubeUrl,
+      linkedinUrl,
       logoUrl: img,
     };
     this.props.getPreview(settings);
@@ -163,12 +186,25 @@ class Overview extends React.Component<IProps> {
   };
 
   saveSettings = () => {
-    const { name, colors, text, img } = this.state;
+    const {
+      name,
+      colors,
+      text,
+      img,
+      fbUrl,
+      twitterUrl,
+      youtubeUrl,
+      linkedinUrl,
+    } = this.state;
     if (!name) return toast.error("choose a template first");
     let settings = {
       name,
       colors,
       text,
+      fbUrl,
+      twitterUrl,
+      youtubeUrl,
+      linkedinUrl,
       logoUrl: img,
       userId: this.props.user,
     };
@@ -177,7 +213,16 @@ class Overview extends React.Component<IProps> {
   };
 
   render() {
-    const { name, img, text, assetUploading } = this.state;
+    const {
+      name,
+      img,
+      text,
+      assetUploading,
+      fbUrl,
+      twitterUrl,
+      youtubeUrl,
+      linkedinUrl,
+    } = this.state;
     return (
       <>
         <Header
@@ -214,40 +259,46 @@ class Overview extends React.Component<IProps> {
                     id="selectTemplate"
                     name="name"
                     value={name}
-                    style={{ fontSize: "0.6rem" }}
+                    style={{ fontSize: "1rem" }}
                     onChange={this.onChange}
                   >
                     {availableTheme &&
                       availableTheme.map((theme, index) => {
                         return (
-                          <MenuItem
-                            key={index}
-                            value={theme.name}
-                            style={{ fontSize: "11px" }}
-                          >
-                            {" "}
-                            {theme.name}{" "}
-                          </MenuItem>
+                          theme.name == "Spread" && (
+                            <MenuItem
+                              key={index}
+                              value={theme.name}
+                              style={{ fontSize: "14px" }}
+                            >
+                              {" "}
+                              {theme.name}{" "}
+                            </MenuItem>
+                          )
                         );
                       })}
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                lg={12}
-                style={{ overflow: "scroll", marginTop: "10px" }}
-                className="dangerously"
-              >
-                {this.props.preview && (
-                  <div
-                    dangerouslySetInnerHTML={{ __html: this.props.preview }}
-                  ></div>
-                )}
-              </Grid>
+              {this.state.name ? (
+                <Grid
+                  item
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  lg={12}
+                  style={{ overflow: "scroll", marginTop: "10px" }}
+                  className="dangerously"
+                >
+                  {this.props.preview && (
+                    <div
+                      dangerouslySetInnerHTML={{ __html: this.props.preview }}
+                    ></div>
+                  )}
+                </Grid>
+              ) : (
+                <h1>No Theme Selected</h1>
+              )}
             </Grid>
             <Grid
               item
@@ -355,7 +406,66 @@ class Overview extends React.Component<IProps> {
                     multiline
                     fullWidth
                     name="text"
+                    placeholder="Enter text"
                     value={text}
+                    onChange={this.onChange}
+                    id="editMessage"
+                    variant="outlined"
+                  />
+                </Grid>
+                {/* social links */}
+                <Typography variant="h4">Add Your Social Links</Typography>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
+                  <FacebookIcon style={{ marginTop: "9px" }} />{" "}
+                  <TextField
+                    size="small"
+                    style={{ width: "95%" }}
+                    fullWidth
+                    name="fbUrl"
+                    placeholder="Enter facebook URL"
+                    value={fbUrl}
+                    onChange={this.onChange}
+                    id="editMessage"
+                    variant="outlined"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
+                  <TwitterIcon style={{ marginTop: "9px" }} />{" "}
+                  <TextField
+                    size="small"
+                    style={{ width: "95%" }}
+                    fullWidth
+                    name="twitterUrl"
+                    placeholder="Enter twitter URL"
+                    value={twitterUrl}
+                    onChange={this.onChange}
+                    id="editMessage"
+                    variant="outlined"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
+                  <YouTubeIcon style={{ marginTop: "9px" }} />{" "}
+                  <TextField
+                    size="small"
+                    style={{ width: "95%" }}
+                    fullWidth
+                    name="youtubeUrl"
+                    placeholder="Enter Youtube URL"
+                    value={youtubeUrl}
+                    onChange={this.onChange}
+                    id="editMessage"
+                    variant="outlined"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
+                  <LinkedInIcon style={{ marginTop: "9px" }} />{" "}
+                  <TextField
+                    size="small"
+                    style={{ width: "95%" }}
+                    fullWidth
+                    name="linkedinUrl"
+                    placeholder="Enter LinkedIn URL"
+                    value={linkedinUrl}
                     onChange={this.onChange}
                     id="editMessage"
                     variant="outlined"

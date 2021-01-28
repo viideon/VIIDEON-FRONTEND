@@ -243,7 +243,7 @@ function* getTemplate(action: any) {
   try {
     const result = yield call(getSingleTemplate, action.payload);
     if (result.status === 200) {
-      yield put({ type: types.GET_TEMPLATE_SUCCESS, payload: result.data.template });
+      yield put({ type: types.GET_TEMPLATE_SUCCESS, payload: result.data.templateIs });
     } else {
       yield put({ type: types.GET_TEMPLATE_FAIL });
       toast.info("No Template Found");

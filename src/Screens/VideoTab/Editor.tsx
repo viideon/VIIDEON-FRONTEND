@@ -845,6 +845,40 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
                 <Grid item xs={12} sm={6} md={6} lg={6}>
                   <video ref={this.video} controls={videoLoaded} width="100%" />
                 </Grid>
+                {type === "Music" && (
+                  <div
+                    style={{
+                      width: "30%",
+                      padding: "5px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                    }}
+                  >
+                    <h5 style={{ fontWeight: "bold" }}>
+                      INSTRUCTIONS FOR ADDING MUSIC:
+                    </h5>
+                    <p>
+                      1. Please select your own music to upload from your
+                      computer or mobile device. Or you can select from an
+                      existing music asset in your music library.
+                    </p>
+                    <p>
+                      2. If you “Select to Upload” a window will pop up allowing
+                      you to upload your own music. If you “Select From Assets”
+                      a window will pop up with your existing library.
+                    </p>
+                    <p>
+                      3. If you “Select to Upload” you must give that selection
+                      a name. Then Adjust the Volume (we recommend around the
+                      10% mark for videos that include Voice Over or On Camera
+                      Speakers).
+                    </p>
+                    <p>
+                      Then CLICK on the next red UPLOAD button, and your video
+                      will be ready to preview, with music.
+                    </p>
+                  </div>
+                )}
               </Grid>
               <Grid container style={{ position: "relative" }}>
                 <Grid item xs={12} sm={6} md={6} lg={6}>
@@ -871,6 +905,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
                   this.img = ref;
                 }}
               />
+
               <audio
                 src={backgroundMusicUrl}
                 ref={(ref) => {
@@ -1165,7 +1200,7 @@ const EditMusic = (props: any) => {
   return (
     <>
       <h3 className="addLogoMessage">
-        Add Music
+        Add Music3
         <Tooltip title="upload audio music" placement="top">
           <span style={iconStyle}>
             <i className="fas fa-info"></i>

@@ -39,12 +39,13 @@ class MusicAssets extends React.Component<IProps> {
           </TabPanel>
           <TabPanel>
             <Grid container className="wrapperMusicAssets">
-              {musicAssets &&
+              <h1>helo</h1>
+              {/* {musicAssets &&
                 musicAssets.map((asset: any) => (
                   <Grid item xs={12} sm={6} md={4} lg={4} key={asset._id}>
                     <MusicAsset asset={asset} />
                   </Grid>
-                ))}
+                ))} */}
             </Grid>
           </TabPanel>
         </Tabs>
@@ -54,7 +55,7 @@ class MusicAssets extends React.Component<IProps> {
 }
 const mapStateToProps = (state: any) => {
   return {
-    musicAssets: state.asset.musicAssets
+    musicAssets: state.asset.musicAssets,
   };
 };
 // const mapDispatchToProps = (dispatch: any) => {
