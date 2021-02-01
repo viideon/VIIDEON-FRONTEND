@@ -10,7 +10,8 @@ import {
   getTemplatesApi,
   getIndustriesAPI,
   getPreviewApi,
-  saveSettingsApi
+  saveSettingsApi,
+  getPublicMusicApi
 } from "./api";
 import {
   selectID,
@@ -79,6 +80,34 @@ function* getUserAsset() {
       const errorMessage = "Failed to fetch user assets, There was some error.";
       toast.error(errorMessage);
       yield put({ type: types.GET_ASSETS_FAILURE });
+    }
+  }
+}
+function* getPublicMusicAsset() {
+  try {
+    const result = yield getPublicMusicApi();
+    console.log("getpublicmusic is ",result)
+    if (result.status === 200) {
+      yield put({
+        type: types.GET_PUBLIC_MUSIC_SUCCESS,
+        payload: result.data.musicAssetIs
+      });
+    } else {
+      yield put({ type: types.GET_PUBLIC_MUSIC_FAILURE });
+    }
+  } catch (error) {
+    if (error.response) {
+      const errorMessage = error.response.data.message;
+      toast.error(errorMessage);
+      yield put({ type: types.GET_PUBLIC_MUSIC_FAILURE });
+    } else if (error.request) {
+      const errorMessage = "Error. Please check your internet connection.";
+      toast.error(errorMessage);
+      yield put({ type: types.GET_PUBLIC_MUSIC_FAILURE });
+    } else {
+      const errorMessage = "Failed to fetch user assets, There was some error.";
+      toast.error(errorMessage);
+      yield put({ type: types.GET_PUBLIC_MUSIC_FAILURE })   
     }
   }
 }
@@ -273,6 +302,7 @@ function* saveSettings(action: any) {
 export function* assetWatcher() {
   yield takeEvery(types.ADD_ASSET, addUserAsset);
   yield takeEvery(types.GET_ASSETS, getUserAsset);
+  yield takeEvery(types.GET_PUBLIC_MUSIC, getPublicMusicAsset);
   yield takeEvery(types.DELETE_ASSET, deleteUserAsset);
   yield takeEvery(types.ADD_MUSIC, addMusicAsset);
   yield takeEvery(types.DELETE_MUSIC, deleteMusicAsset);

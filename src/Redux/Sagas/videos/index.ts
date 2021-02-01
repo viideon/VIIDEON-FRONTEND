@@ -32,13 +32,13 @@ import { toast } from "react-toastify";
 function* sendVideoOnEmail(action: any) {
   try {
     let isConfig = yield select(isEmailConfigPresent);
-    // if (!isConfig) {
-    //   yield put({ type: types.VIDEO_SEND_FAILURE });
-    //   toast.info(
-    //     "Please add an email configuration to send email's on your behalf"
-    //   );
-    //   return;
-    // }
+    if (!isConfig) {
+      yield put({ type: types.VIDEO_SEND_FAILURE });
+      toast.info(
+        "Please add an email configuration to send email's on your behalf"
+      );
+      return;
+    }
     let userId = yield select(selectID);
     const payload = action.payload;
     payload.userId = userId;
@@ -271,14 +271,14 @@ function* getVideo(action: any) {
 
 function* sendMultipleEmail(action: any) {
   try {
-    // let isConfig = yield select(isEmailConfigPresent);
-    // if (!isConfig) {
-    //   yield put({ type: types.MULTIPLE_EMAIL_FAILED });
-    //   toast.info(
-    //     "Please add an email configuration to send email's on your behalf"
-    //   );
-    //   return;
-    // }
+    let isConfig = yield select(isEmailConfigPresent);
+    if (!isConfig) {
+      yield put({ type: types.MULTIPLE_EMAIL_FAILED });
+      toast.info(
+        "Please add an email configuration to send email's on your behalf"
+      );
+      return;
+    }
     let userId = yield select(selectID);
     const payload = action.payload;
     payload.userId = userId;

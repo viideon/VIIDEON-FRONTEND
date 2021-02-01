@@ -67,3 +67,8 @@ export function saveTemplateSetting(setting: any) {
     payload: setting
   }
 }
+export function getPublicMusicAsset() {
+  return {
+    type: types.GET_PUBLIC_MUSIC
+  };
+}

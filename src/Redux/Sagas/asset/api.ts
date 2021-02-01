@@ -43,3 +43,7 @@ export const getPreviewApi = (settings: any) => {
 export const saveSettingsApi = (settings: any) => {
   return API.post("/user/template/", {settings});
 }
+
+export async function getPublicMusicApi() {
+  return API.get("/asset/getpublicmusic");
+}

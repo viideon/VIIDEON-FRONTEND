@@ -10,6 +10,8 @@ const initialState = {
   isDeletingAsset: false,
   loadingTemplates: false,
   preview: "",
+  publicAssets:null,
+  errMessage:null
 }
 
 const assetsReducer = (state = initialState, action: any) => {
@@ -96,6 +98,10 @@ const assetsReducer = (state = initialState, action: any) => {
       return { ...state, selectedIndustry: action.payload };
     case types.PREVIEW_SUCCESS:
       return { ...state, preview: action.payload }
+      case types.GET_PUBLIC_MUSIC_SUCCESS:
+      return { ...state, publicAssets:action.payload };
+      case types.GET_PUBLIC_MUSIC_FAILURE:
+        return { ...state, errMessage: null };
     default: {
       return state;
     }

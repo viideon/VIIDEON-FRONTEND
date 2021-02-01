@@ -37,13 +37,14 @@ class Configuration extends React.Component<IProps> {
   }
   responseGoogle = (response: any) => {
     if (response.code) {
-      console.log("a", response);
+      console.log("responseGoogle", response);
       this.props.addEmailConfiguration(response.code);
     }
   };
   handleLoginFailure = (response: any) => {
+    console.log("handleLoginFailure this", response);
     if (response.error !== "popup_closed_by_user") {
-      toast.error("Failed to authorize , please try again");
+      toast.error("Failed to authorize, please try again");
     }
   };
   openDeleteDialog = () => {
@@ -73,7 +74,7 @@ class Configuration extends React.Component<IProps> {
                 </Tooltip>
               </span>
             </div>
-            <div className="connectAccount" style={{ display: "none" }}>
+            <div className="connectAccount">
               <GoogleLogin
                 clientId={`${process.env.REACT_APP_OAUTH_ID}`}
                 render={(renderProps: any) => (

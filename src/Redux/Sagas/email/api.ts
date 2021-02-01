@@ -2,6 +2,8 @@ import API from "../../../lib/Api";
 
 export async function saveEmailConfig(configObj: any) {
   const { code, userId } = configObj;
+  console.log("code",code)
+  console.log("userId ",userId)
   return API.post("/email/config", { code, userId });
 }
 export async function getUserConfig(userId: any) {

@@ -11,15 +11,17 @@ import {
 } from "@material-ui/core";
 import Colors from "../../constants/colors";
 import { Grid, Radio } from "@material-ui/core";
-import { getMusicAsset } from "../../Redux/Actions/asset";
+import { getMusicAsset, getPublicMusicAsset } from "../../Redux/Actions/asset";
 import "react-tabs/style/react-tabs.css";
 import "./style.css";
 
 interface IProps {
   getMusicAsset: () => void;
+  getPublicMusicAsset: () => void;
   isOpen: boolean;
   toggle: () => void;
   musicAssets: [any];
+  publicMusic: any;
   onPick: (image: any) => void;
 }
 
@@ -30,11 +32,13 @@ class AssetPicker extends React.Component<IProps> {
   };
   componentDidMount() {
     this.props.getMusicAsset();
+    this.props.getPublicMusicAsset();
   }
   componentDidUpdate(prevProps: any) {
     if (this.props.isOpen !== prevProps.isOpen && this.props.isOpen) {
       this.setState({ assetUrl: "", currenSelection: null });
       this.props.getMusicAsset();
+      this.props.getPublicMusicAsset();
     }
   }
   onPick = () => {
@@ -46,8 +50,10 @@ class AssetPicker extends React.Component<IProps> {
     this.props.onPick(this.state.assetUrl);
     this.props.toggle();
   };
-  selectAsset = (url: any, i: any) => {
-    this.setState({ assetUrl: url, currenSelection: i });
+  selectAsset = (url: any, id: any) => {
+    this.setState({ assetUrl: url, currenSelection: id });
+    console.log("url", url);
+    console.log("id", id);
     toast.info("Asset selected, Click ok to proceed");
   };
   cancelSelection = () => {
@@ -56,7 +62,7 @@ class AssetPicker extends React.Component<IProps> {
     );
   };
   render() {
-    const { musicAssets } = this.props;
+    const { musicAssets, publicMusic } = this.props;
     return (
       <Dialog
         open={this.props.isOpen}
@@ -76,13 +82,49 @@ class AssetPicker extends React.Component<IProps> {
             <TabPanel>
               <Grid container>
                 {musicAssets &&
-                  musicAssets.map((asset: any, i) => (
+                  musicAssets.map((asset: any, i: any) => (
                     <Grid item md={4} lg={4} sm={6} key={i}>
                       <div className="pickerHeaderMusic">
                         <Radio
-                          checked={i === this.state.currenSelection}
-                          onChange={() => this.selectAsset(asset.url, i)}
-                          value={i}
+                          checked={asset._id === this.state.currenSelection}
+                          onChange={() =>
+                            this.selectAsset(asset.url, asset._id)
+                          }
+                          value={asset._id}
+                          color="default"
+                          size="small"
+                        />
+                        <h5
+                          className={
+                            asset._id === this.state.currenSelection
+                              ? "selectedMusicHeading"
+                              : "musicHeading"
+                          }
+                        >
+                          {asset.title}
+                        </h5>
+                      </div>
+                      <audio
+                        src={asset.url}
+                        controls
+                        style={{ outline: "none" }}
+                      />
+                    </Grid>
+                  ))}
+              </Grid>
+            </TabPanel>
+            <TabPanel>
+              <Grid container>
+                {publicMusic &&
+                  publicMusic.map((asset: any, i: any) => (
+                    <Grid item md={4} lg={4} sm={6} key={i}>
+                      <div className="pickerHeaderMusic">
+                        <Radio
+                          checked={asset._id === this.state.currenSelection}
+                          onChange={() =>
+                            this.selectAsset(asset.url, asset._id)
+                          }
+                          value={asset._id}
                           color="default"
                           size="small"
                         />
@@ -104,9 +146,6 @@ class AssetPicker extends React.Component<IProps> {
                     </Grid>
                   ))}
               </Grid>
-            </TabPanel>
-            <TabPanel>
-              <h2>Any content 2 helo</h2>
             </TabPanel>
           </Tabs>
         </DialogContent>
@@ -138,11 +177,13 @@ class AssetPicker extends React.Component<IProps> {
 const mapStateToProps = (state: any) => {
   return {
     musicAssets: state.asset.musicAssets,
+    publicMusic: state.asset.publicAssets,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getMusicAsset: () => dispatch(getMusicAsset()),
+    getPublicMusicAsset: () => dispatch(getPublicMusicAsset()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AssetPicker);
