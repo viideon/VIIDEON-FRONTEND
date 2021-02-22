@@ -9,6 +9,7 @@ export async function getAssetApi(userId: any) {
 }
 export async function deleteAssetApi(queryObj: any) {
   const { userId, assetId } = queryObj;
+  // console.log(queryObj)
   return API.delete("/asset/remove", { params: { userId, assetId } });
 }
 
@@ -21,6 +22,7 @@ export async function getMusicApi(userId: any) {
 }
 export async function deleteMusicApi(queryObj: any) {
   const { userId, assetId } = queryObj;
+  // console.log("in api",queryObj)
   return API.delete("/asset/remove/music", { params: { userId, assetId } });
 }
 export async function getTemplates() {
@@ -41,6 +43,7 @@ export const getPreviewApi = (settings: any) => {
 }
 
 export const saveSettingsApi = (settings: any) => {
+  console.log("settings in api ,",settings)
   return API.post("/user/template/", {settings});
 }
 

@@ -141,9 +141,9 @@ class UploadRecord extends Component<IProps, IState> {
       toast.warn("Enter a video title");
       return;
     }
-    this.setState({
-      title: "",
-    });
+    // this.setState({
+    //   title: "",
+    // });
     this.setState({ fileProgress: true, progressFile: 0 });
     let s3 = new AWS.S3(config);
     const options = {
@@ -320,7 +320,7 @@ class UploadRecord extends Component<IProps, IState> {
                                       name="name"
                                       value={this.state.title}
                                       onChange={this.titleNameHandler}
-                                      placeholder="Give your video an amazing title"
+                                      placeholder="Give your videon an amazing title"
                                       type="text"
                                       label="Video Title"
                                       fullWidth

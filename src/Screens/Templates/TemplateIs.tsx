@@ -9,6 +9,7 @@ const TemplateIs = ({
   video,
 }: any) => {
   useEffect(() => {
+    console.log(video);
     getTemplate(video);
   }, []);
   return (
@@ -16,9 +17,8 @@ const TemplateIs = ({
       {getSingleTemplate && (
         <div dangerouslySetInnerHTML={{ __html: getSingleTemplate }}></div>
       )}
-      {/* <div dangerouslySetInnerHTML={{ __html: getSingleTemplate }}></div> */}
 
-      {/* {console.log("template from api in component", getSingleTemplate)} */}
+      {console.log("template from api in component", getSingleTemplate)}
     </div>
   );
 };

@@ -242,6 +242,7 @@ function* updateVideo(action: any) {
 function* getTemplate(action: any) {
   try {
     const result = yield call(getSingleTemplate, action.payload);
+    console.log("result for sleek is ",result)
     if (result.status === 200) {
       yield put({ type: types.GET_TEMPLATE_SUCCESS, payload: result.data.templateIs });
     } else {

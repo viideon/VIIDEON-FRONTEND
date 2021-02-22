@@ -2,10 +2,15 @@ import React from "react";
 import Home from "../Home/Home";
 import { connect } from "react-redux";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import BackspaceIcon from "@material-ui/icons/Backspace";
 // import { RiDeleteBack2Line } from "react-icons/ri";
-// import DeleteDialog from "../../components/Reusable/DeleteDialogGeneric";
-import { deleteAsset, getPublicMusicAsset } from "../../Redux/Actions/asset";
-import { Grid } from "@material-ui/core";
+import DeleteDialog from "../../components/Reusable/DeleteDialogGeneric";
+import {
+  deleteAsset,
+  getPublicMusicAsset,
+  deleteMusicAsset,
+} from "../../Redux/Actions/asset";
+import { Grid, Button } from "@material-ui/core";
 import "react-tabs/style/react-tabs.css";
 import "./style.css";
 
@@ -13,14 +18,23 @@ interface IProps {
   musicAssets: [any];
   publicMusic: any;
   // deleteAsset: (assetId: any) => void;
+  deleteMusicAsset: (assetId: any) => void;
   getPublicMusicAsset: () => void;
   // isDeletingAsset: boolean;
 }
 
 class MusicAssets extends React.Component<IProps> {
+  state = {
+    deleteDialog: false,
+  };
   componentDidMount() {
     this.props.getPublicMusicAsset();
   }
+  handleDelete = (asset: any) => {
+    console.log(asset._id);
+    this.props.deleteMusicAsset(asset._id);
+  };
+
   render() {
     const { musicAssets, publicMusic } = this.props;
     return (
@@ -37,7 +51,22 @@ class MusicAssets extends React.Component<IProps> {
               {musicAssets &&
                 musicAssets.map((asset: any) => (
                   <Grid item xs={12} sm={6} md={4} lg={4} key={asset._id}>
-                    <MusicAsset asset={asset} />
+                    <BackspaceIcon
+                      className="delIcon"
+                      onClick={() => {
+                        if (
+                          window.confirm(
+                            "Are you sure,you want to delete this music asset?"
+                          )
+                        ) {
+                          this.handleDelete(asset);
+                        }
+                      }}
+                    />
+                    <MusicAsset
+                      asset={asset}
+                      handleDelete={this.handleDelete}
+                    />
                   </Grid>
                 ))}
             </Grid>
@@ -65,13 +94,14 @@ const mapStateToProps = (state: any) => {
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    deleteMusicAsset: (assetId: any) => dispatch(deleteMusicAsset(assetId)),
     deleteAsset: (assetId: any) => dispatch(deleteAsset(assetId)),
     getPublicMusicAsset: () => dispatch(getPublicMusicAsset()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(MusicAssets);
 
-const MusicAsset = ({ asset }: any) => {
+const MusicAsset = ({ asset, handleDelete }: any) => {
   // const [open, setOpen] = React.useState(false);
   // const [showDeleteBtn, setDeleteBtn] = React.useState(false);
 

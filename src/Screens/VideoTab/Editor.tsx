@@ -494,8 +494,6 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
     }
     this.setState({ iconPos: position });
     let x, y: any;
-    // console.log("resolution width", window.innerWidth);
-    // console.log("resolution height", window.innerHeight);
     let logoPositions = {
       topLeft: {
         x: 20,
@@ -1153,7 +1151,7 @@ const EditLogo = (props: any) => {
       >
         Select from Assets
       </Button>
-      <h5 className="positionTxt">Change Logo Position</h5>
+      <h5 className="positionTxt">Change Logoo Position</h5>
       <Button
         style={logoPositionBtn}
         onClick={() => setIconPosition("top-left")}

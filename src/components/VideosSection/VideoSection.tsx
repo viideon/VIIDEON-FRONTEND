@@ -109,8 +109,9 @@ class VideoSection extends Component<IProps> {
 
   render() {
     const { userVideos, loadingVideos } = this.props;
+    console.log("before videos", userVideos);
     const myvideos = userVideos && userVideos.filter((c) => !c.isChatvid);
-    // console.log("videos", myvideos);
+    console.log("now videos", myvideos);
     // let showVideoslength = this.state.showAllVideos
     //   ? myvideos?.length
     //   : 10 || (myvideos.length > 10 && myvideos.length - 5);

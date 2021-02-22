@@ -265,16 +265,14 @@ class Overview extends React.Component<IProps> {
                     {availableTheme &&
                       availableTheme.map((theme, index) => {
                         return (
-                          theme.name == "Spread" && (
-                            <MenuItem
-                              key={index}
-                              value={theme.name}
-                              style={{ fontSize: "14px" }}
-                            >
-                              {" "}
-                              {theme.name}{" "}
-                            </MenuItem>
-                          )
+                          <MenuItem
+                            key={index}
+                            value={theme.name}
+                            style={{ fontSize: "14px" }}
+                          >
+                            {" "}
+                            {theme.name}{" "}
+                          </MenuItem>
                         );
                       })}
                   </Select>

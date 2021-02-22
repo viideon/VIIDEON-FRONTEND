@@ -32,6 +32,13 @@
 .hideDeleteBtn {
   display: none;
 }
+.delIcon {
+  display: flex !important;
+  margin: auto;
+  position: relative;
+  top: 33px;
+  left: 64px;
+}
 @media (max-width: 400px) {
   .wrapperMusicAssets {
     padding: 0px;

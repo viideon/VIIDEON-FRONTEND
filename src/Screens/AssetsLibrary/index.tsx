@@ -37,12 +37,12 @@ class AssetsLibray extends React.Component<IProps> {
 const mapStateToProps = (state: any) => {
   return {
     assets: state.asset.assets,
-    isDeletingAsset: state.asset.isDeletingAsset
+    isDeletingAsset: state.asset.isDeletingAsset,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    deleteAsset: (assetId: any) => dispatch(deleteAsset(assetId))
+    deleteAsset: (assetId: any) => dispatch(deleteAsset(assetId)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AssetsLibray);
@@ -58,6 +58,7 @@ const Asset = ({ asset, deleteAsset, isDeletingAsset }: any) => {
     setDeleteBtn(false);
   };
   const deleteAction = () => {
+    console.log(asset._id);
     deleteAsset(asset._id);
   };
   const openDeleteDialog = () => {

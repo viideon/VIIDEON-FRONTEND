@@ -76,6 +76,7 @@
   overflow: auto;
 }
 .videoScreen {
+  width: 50%;
   min-height: 40%;
   max-height: 40%;
 }

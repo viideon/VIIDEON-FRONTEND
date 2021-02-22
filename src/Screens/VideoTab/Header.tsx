@@ -88,23 +88,16 @@ function SimpleDialog(props: SimpleDialogProps) {
       >
         <DialogTitle id="simple-dialog-title">Select E-mail theme</DialogTitle>
         <List component="div">
-          {availableTheme.map(
-            (theme: any) =>
-              theme.name == "Spread" && (
-                <ListItem
-                  button
-                  onClick={() => handleListItemClick(theme)}
-                  key={theme.name}
-                >
-                  <img
-                    className="avatarImage"
-                    src={theme.avatar}
-                    alt="avatar"
-                  />
-                  <ListItemText primary={theme.name} />
-                </ListItem>
-              )
-          )}
+          {availableTheme.map((theme: any) => (
+            <ListItem
+              button
+              onClick={() => handleListItemClick(theme)}
+              key={theme.name}
+            >
+              <img className="avatarImage" src={theme.avatar} alt="avatar" />
+              <ListItemText primary={theme.name} />
+            </ListItem>
+          ))}
         </List>
       </Dialog>
     </div>
@@ -113,21 +106,34 @@ function SimpleDialog(props: SimpleDialogProps) {
 function SelectedTemplte(props: SelectedTemplteProps) {
   const { video, selectedTheme } = props;
   console.log(selectedTheme.name);
+  console.log("video is for sleek ", video);
 
-  switch (selectedTheme.name) {
-    case "Sleek":
-      return <Sleek video={video} />;
-    case "Spread":
-      return <Templates tempName={selectedTheme.name} video={video} />;
-    default:
-      return (
-        <img
-          className="avatarImage templatePreview"
-          src={selectedTheme.avatar}
-          alt="avatar"
-        />
-      );
+  if (selectedTheme.name) {
+    return <Templates tempName={selectedTheme.name} video={video} />;
+  } else {
+    return (
+      <img
+        className="avatarImage templatePreview"
+        src={selectedTheme.avatar}
+        alt="avatar"
+      />
+    );
   }
+
+  // switch (selectedTheme.name) {
+  //   case "Sleek":
+
+  //   case "Spread":
+  //     return <Templates tempName={selectedTheme.name} video={video} />;
+  //   default:
+  //     return (
+  // <img
+  //   className="avatarImage templatePreview"
+  //   src={selectedTheme.avatar}
+  //   alt="avatar"
+  // />
+  //     );
+  // }
 }
 
 function SimpleDialog2(props: SimpleDialogProps2) {
