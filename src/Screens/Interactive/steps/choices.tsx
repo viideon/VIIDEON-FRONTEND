@@ -16,7 +16,7 @@ import "../style.css";
 class MultiChoice extends Component<any> {
   state = {
     fitVideo: true,
-    cats: [""],
+    cats: ["Hi, I would like to know more about ViideOn."],
   };
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ fitVideo: event.target.checked });
@@ -30,7 +30,7 @@ class MultiChoice extends Component<any> {
   };
 
   addCat = (e: any) => {
-    let cats = [...this.state.cats, ""];
+    let cats = [...this.state.cats, `choice${this.state.cats.length + 1}`];
     this.setState({ cats });
     this.props.onChange({ target: { name: "choices", value: cats } });
   };

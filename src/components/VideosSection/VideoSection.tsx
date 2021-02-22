@@ -230,7 +230,8 @@ class VideoSection extends Component<IProps> {
         <div className="loadMoreWrapper">{loadingVideos && <Loading />}</div>
         <div className="loadMoreWrapper">
           {console.log("video", myvideos.length)}
-          {this.props.loadMore && myvideos.length > 8 && (
+          {this.props.loadMore && (
+            //  myvideos.length > 5 &&
             <button className="loadMore" onClick={this.loadMore}>
               Load More
             </button>

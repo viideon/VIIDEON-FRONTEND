@@ -246,9 +246,6 @@ class Dashboard extends Component<IProps, IState> {
             {this.props.chatvids?.map((chatvid: any, index: number) => {
               let unique: any = {};
               let replydate: any;
-              {
-                // console.log("chatvid", chatvid);
-              }
               // let stepIs = chatvid.steps?.map((step: any) => step.replies);
               // console.log("stepIs", stepIs);
               // stepIs.map((replies: any) =>
@@ -261,13 +258,12 @@ class Dashboard extends Component<IProps, IState> {
                 (person: any, index: number) =>
                   !unique[person._id] && (unique[person._id] = person) && person
               );
-              // console.log("people in chatbord", people);
               return sortByResponse(people)?.map((person: any, ind: number) => {
-                // console.log("person in chatbord", person);
                 return this.renderResponders(
                   person,
                   chatvid.name,
-                  new Date(person.updatedAt),
+                  new Date(chatvid.createdAt),
+                  // new Date(person.updatedAt),
                   ind,
                   index
                 );
