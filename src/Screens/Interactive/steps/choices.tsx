@@ -30,7 +30,7 @@ class MultiChoice extends Component<any> {
   };
 
   addCat = (e: any) => {
-    let cats = [...this.state.cats, `choice${this.state.cats.length + 1}`];
+    let cats = [...this.state.cats, ""];
     this.setState({ cats });
     this.props.onChange({ target: { name: "choices", value: cats } });
   };

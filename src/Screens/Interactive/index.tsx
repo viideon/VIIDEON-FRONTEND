@@ -30,6 +30,7 @@ type IProps = {
   videoUser: VideoState;
   chatvids: any;
   toggleSendVariable: () => void;
+  checkchoices: () => void;
   saveVideo: (video: any, history: any) => void;
   addStepToChatvid: (step: any, history: any) => void;
 };
@@ -152,13 +153,20 @@ class ChatVid extends Component<IProps> {
   moveToCalender = () => {
     this.setState({ step: 4, responseType: "Calendly" });
   };
+  checkchoices = () => {
+    console.log("choices are ", this.state.choices);
+    for (const c of this.state.choices) {
+      if (!c || c === "") return false;
+    }
+    return true;
+  };
 
   moveTofinal = () => {
     const { isClicked } = this.state;
     if (isClicked) {
       return toast.error("Wait for your Response");
     }
-    console.log("in step index", this.state);
+    console.log("in step index", this.state.choices);
     if (this.state.responseType === "Calendly" && !this.state.calendar)
       return toast.error("Add a link first!");
     if (
@@ -166,6 +174,11 @@ class ChatVid extends Component<IProps> {
       this.state.choices.length < 2
     ) {
       return toast.error("Add at least two multiple choices");
+    } else if (
+      this.state.responseType === "Multiple-Choice" &&
+      !this.checkchoices()
+    ) {
+      return toast.error("Please fill the multiple choices");
     }
     if (this.state.isAddStep && this.state.chatvidId) {
       this.props.history.location.pathname !== "/chatvid" &&

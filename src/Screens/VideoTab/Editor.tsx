@@ -167,6 +167,8 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
     const { video } = this.props;
     if (video) {
       const { logoProps, textProps, musicProps } = video;
+      console.log("textprops", textProps);
+
       try {
         if (musicProps && musicProps.url) {
           let res = await fetch(musicProps.url);
@@ -194,8 +196,8 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
       if (textProps) {
         this.setState({
           text: textProps.text ? textProps.text : "",
-          textColor: textProps.textColor,
-          fontSize: textProps.fontSize,
+          textColor: textProps.textColor ? textProps.textColor : "#fff",
+          fontSize: textProps.fontSize ? textProps.fontSize : 5,
           vAlign: textProps.vAlign,
           align: textProps.align,
         });
@@ -488,6 +490,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
     this.setState({ musicTitle: e.target.value });
   };
   setIconPosition = (position: string) => {
+    console.log("window.innerWidth is ", window.innerWidth);
     if (this.state.logoPath === null) {
       toast.info("Please upload a logo");
       return;
@@ -512,26 +515,26 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
         y: 20,
       },
     };
-    if (window.innerWidth >= 298 && window.innerWidth <= 767) {
-      // logoPositions = {
-      //   topLeft: {
-      //     x: 20,
-      //     y: 20
-      //   },
-      //   bottomeLeft: {
-      //     x: 20,
-      //     y = this.canvas.height - this.img.height - 30
-      //   },
-      //   bottomRight :{
-      //     x = this.canvas.width - this.img.width - 30
-      //     y = this.canvas.height - this.img.height - 30;
-      //   },
-      //   topRight :{
-      //     x = this.canvas.width - this.img.width - 30;
-      //     y=20
-      //   }
-      // }
-    }
+    // if (window.innerWidth >= 298 && window.innerWidth <= 767) {
+    //   logoPositions = {
+    //     topLeft: {
+    //       x: 20,
+    //       y: 20,
+    //     },
+    //     bottomeLeft: {
+    //       x: 20,
+    //       y: this.canvas.height - this.img.height - 30,
+    //     },
+    //     bottomRight: {
+    //       x: this.canvas.width - this.img.width - 30,
+    //       y: this.canvas.height - this.img.height - 30,
+    //     },
+    //     topRight: {
+    //       x: this.canvas.width - this.img.width - 30,
+    //       y: 20,
+    //     },
+    //   };
+    // }
     switch (position) {
       case "top-left":
         this.setState(

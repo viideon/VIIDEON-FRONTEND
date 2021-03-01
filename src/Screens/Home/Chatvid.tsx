@@ -664,6 +664,7 @@ const InfoHeader = (props: any) => {
           </Grid>
           <Grid
             className="chatVidShareOptions"
+            style={{ marginLeft: "40px" }}
             item
             xs={10}
             sm={10}
@@ -672,7 +673,7 @@ const InfoHeader = (props: any) => {
           >
             <Typography
               className="chatvidNameMob"
-              style={{ fontSize: "3vw" }}
+              style={{ fontSize: "3vw", marginLeft: "6px" }}
               variant="h3"
             >
               {" "}
