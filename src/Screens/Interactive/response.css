@@ -34,7 +34,7 @@
   color: #fdb415;
 }
 .videoFULL {
-  object-fit: cover !important;
+  object-fit: fill !important;
   margin-top: inherit;
 }
 .preview {

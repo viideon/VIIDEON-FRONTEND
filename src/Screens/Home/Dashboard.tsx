@@ -25,6 +25,7 @@ type IProps = {
   videoCount: number;
   campaignCount: number;
   viewCount: number;
+  emailConfig: any;
   user: any;
   auth: any;
   getEmailConfigurations: () => void;
@@ -154,7 +155,8 @@ class Dashboard extends Component<IProps> {
             </Grid>
           </Grid>
         </div>
-
+        {console.log("email config", this.props.emailConfig)}
+        {console.log("login user is", user)}
         <Dialog
           open={!auth.isEmailConfigured}
           aria-labelledby="alert-dialog-title"
@@ -203,6 +205,7 @@ const mapStateToProps = (state: any) => {
     campaignCount: state.video.campaignCount,
     user: state.auth.user,
     auth: state.auth,
+    emailConfig: state.email.emailConfigurations,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {

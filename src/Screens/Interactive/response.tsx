@@ -42,9 +42,9 @@ class ChatVid extends Component<IProps> {
 
   UNSAFE_componentWillReceiveProps(nextProps: any) {
     console.log("res chat is ", nextProps.resChatvid);
-    if (!nextProps.resChatvid) {
-      return alert("Chatvid not exists");
-    }
+    // if (!nextProps.resChatvid) {
+    //   return alert("Chatvid not exists");
+    // }
     if (
       nextProps.resChatvid &&
       nextProps.resChatvid._id &&
