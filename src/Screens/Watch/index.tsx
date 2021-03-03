@@ -48,56 +48,68 @@ class Watch extends React.Component<IProps> {
   render() {
     const { video, loadingVideo } = this.props;
     return (
-      <div className="contentWatch">
-        {console.log("in watch", video)}
-        <div className="containerWatch">
-          <Grid container>
-            <Grid item md={3} sm={2} xs={1}></Grid>
-            <Grid item md={6} sm={8} xs={10} id="wrapperWatch">
-              {loadingVideo && (
-                <div style={{ marginLeft: "45%", marginTop: "20%" }}>
-                  <Loading />
-                </div>
-              )}
+      <div>
+        {video ? (
+          <div className="contentWatch">
+            {console.log("in watch", video)}
+            <div className="containerWatch">
+              <Grid container>
+                <Grid item md={3} sm={2} xs={1}></Grid>
+                <Grid item md={6} sm={8} xs={10} id="wrapperWatch">
+                  {loadingVideo && (
+                    <div style={{ marginLeft: "45%", marginTop: "20%" }}>
+                      <Loading />
+                    </div>
+                  )}
 
-              <div
-                ref="container"
-                style={{
-                  width: "100%",
-                  height: this.state.height,
-                }}
-              >
-                {video && (
-                  <CanvasPlayer
-                    muted={false}
-                    autoPlay={false}
-                    loop={false}
-                    src={video.url}
-                    logoProps={video.logoProps}
-                    textProps={video.textProps}
-                    thumbnail={video.thumbnail}
-                    watched={this.watched}
-                    musicProps={video.musicProps}
-                  />
-                )}
-              </div>
-              {!loadingVideo && !video && (
-                <h3 style={{ textAlign: "center" }}>No Video to display</h3>
-              )}
-              {video && (
-                <div className="descriptionWatch">
-                  <h3>{video.title}</h3>
-                  {video.description && <p>{video.description}</p>}
-                </div>
-              )}
-            </Grid>
-            <Grid item md={3} sm={2} xs={1}></Grid>
-          </Grid>
-        </div>
-        <div className="footerWatch">
-          <span>Powered By </span>
-          <a href="https://videonpro.app">videonPro</a>
-        </div>
+                  <div
+                    ref="container"
+                    style={{
+                      width: "100%",
+                      height: this.state.height,
+                    }}
+                  >
+                    {video && (
+                      <CanvasPlayer
+                        muted={false}
+                        autoPlay={false}
+                        loop={false}
+                        src={video.url}
+                        logoProps={video.logoProps}
+                        textProps={video.textProps}
+                        thumbnail={video.thumbnail}
+                        watched={this.watched}
+                        musicProps={video.musicProps}
+                      />
+                    )}
+                  </div>
+                  {!loadingVideo && !video && (
+                    <h3 style={{ textAlign: "center" }}>No Video to display</h3>
+                  )}
+                  {video && (
+                    <div className="descriptionWatch">
+                      <h3>{video.title}</h3>
+                      {video.description && <p>{video.description}</p>}
+                    </div>
+                  )}
+                </Grid>
+                <Grid item md={3} sm={2} xs={1}></Grid>
+              </Grid>
+            </div>
+            <div className="footerWatch">
+              <span>Powered By </span>
+              <a href="https://videonpro.app">videonPro</a>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <div className="descriptionWatch">
+              <h1 style={{ textAlign: "center", padding: "10px" }}>
+                Media does not exists
+              </h1>
+            </div>
+          </div>
+        )}
       </div>
     );
   }

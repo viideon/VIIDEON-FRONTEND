@@ -42,7 +42,10 @@ class FinalTab extends Component<any> {
         style={{ opacity: `${this.state.isClicked ? 0.7 : 1}` }}
       >
         <div className="finalTabHeader">
-          <CancelIcon className="finalCancel" />
+          <CancelIcon
+            className="finalCancel"
+            onClick={() => !this.state.isClicked && this.props.moveBack(true)}
+          />
           <Typography variant="h2">Almost Done!</Typography>
           <Typography variant="subtitle1">Name your chatvid...</Typography>
         </div>

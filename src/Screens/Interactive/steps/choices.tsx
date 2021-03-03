@@ -16,7 +16,7 @@ import "../style.css";
 class MultiChoice extends Component<any> {
   state = {
     fitVideo: true,
-    cats: ["Hi, I would like to know more about ViideOn."],
+    cats: [""],
   };
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ fitVideo: event.target.checked });

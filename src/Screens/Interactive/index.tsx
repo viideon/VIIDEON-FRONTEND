@@ -164,7 +164,7 @@ class ChatVid extends Component<IProps> {
   moveTofinal = () => {
     const { isClicked } = this.state;
     if (isClicked) {
-      return toast.error("Wait for your Response");
+      return toast.error("Wait f or your Response");
     }
     console.log("in step index", this.state.choices);
     if (this.state.responseType === "Calendly" && !this.state.calendar)
@@ -217,7 +217,7 @@ class ChatVid extends Component<IProps> {
         transition: Flip,
       });
       await this.uploadThumbnail();
-      toast.info("Uploading video ...");
+      toast.info("Uploading video...");
       await this.uploadVideo();
       console.log("reveanl is ", this.state.reveal);
       const textProps = {
