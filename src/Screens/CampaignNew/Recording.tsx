@@ -94,6 +94,7 @@ class Recording extends React.Component<IProps> {
         mimeType: "video/webm;codecs=vp9",
       });
       this.localStream = stream;
+
       this.video.srcObject = this.localStream;
       this.setState({ isConnecting: false });
     });
@@ -110,12 +111,30 @@ class Recording extends React.Component<IProps> {
     });
     setTimeout(() => this.startRecord(), 3000);
     console.log("template in recording", this.props.template);
-    this.autoStopPromise = setTimeout(
-      () => this.stopRecord(),
-      parseInt(this.props.template.duration) * 1000 + 4000
+    console.log("duration in recording", this.props.template.duration);
+    console.log("steps in recording", this.props.template.totalSteps);
+    console.log(
+      "step duration is",
+      this.props.template?.steps[this.state.currentStep - 1].duration
+    );
+    console.log(
+      parseInt(
+        this.props.template?.steps[this.state.currentStep - 1].duration
+      ) *
+        1000 +
+        4000
     );
   };
   startRecord = () => {
+    console.log("start recording");
+    this.autoStopPromise = setTimeout(
+      () => this.stopRecord(),
+      parseInt(
+        this.props.template?.steps[this.state.currentStep - 1].duration
+      ) *
+        1000 +
+        1000
+    );
     this.setState({
       showCountdown: false,
       recordingStatus: true,
@@ -123,6 +142,7 @@ class Recording extends React.Component<IProps> {
       count: 0,
     });
     if (this.state.currentStep === 1) {
+      console.log("current step", this.state.currentStep);
       this.recordVideo.startRecording();
     } else {
       this.recordVideo.resumeRecording();
@@ -134,8 +154,11 @@ class Recording extends React.Component<IProps> {
   };
 
   stopRecord = () => {
+    console.log("stop recording", this.autoStopPromise);
     clearInterval(this.state.timerTimeout);
     clearTimeout(this.autoStopPromise);
+    console.log("timer is ", this.state.timerTimeout);
+    console.log("count is  ", this.state.count);
 
     this.setState({
       showTimer: false,

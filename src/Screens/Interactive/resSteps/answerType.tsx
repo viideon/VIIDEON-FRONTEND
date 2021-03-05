@@ -682,7 +682,7 @@ class FinalTab extends Component<any> {
             <video
               id="iframVideo"
               ref={(ref) => (this.videoRef = ref)}
-              className={`${isFit ? "videoFULL" : ""}`}
+              className={`${isFit ? "videoFULL" : "videoFull2"}`}
               controls
               controlsList="nodownload nofullscreen noremoteplayback"
               width="100%"

@@ -37,7 +37,7 @@ const videoPersistConfig = {
     "emailOpenCount",
     "ctaCount",
     "watchCount",
-    "singleVideo"
+    "singleVideo",
   ],
   blacklist: ["isVideoUpdated", "videoSaved", "videos",]
 };

@@ -38,12 +38,54 @@ class Dashboard extends Component<IProps> {
     showDashboard: true,
     showVideos: false,
     emailNoteOpen: !this.props?.auth?.isEmailConfigured,
+    emailConfigSttus: false,
   };
   componentDidMount() {
     this.props.getVideoCount();
     this.props.getCampaignCount();
     this.props.getEmailConfigurations();
+    console.log(
+      "email config",
+      this.props.emailConfig && this.props.emailConfig
+      // this.props.isEmailConfigured()
+    );
   }
+
+  emailConfigWarning = () => {
+    return (
+      <Dialog
+        open={!this.props.auth.isEmailConfigured}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle style={{ color: "#fdb415" }} id="alert-dialog-title">
+          {"Kindly configure your gmail"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            By configuring gmail you can enjoy all the features of VIDEON PRO.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => this.props.history.push(`/configuration`)}
+            variant="outlined"
+            color="primary"
+          >
+            Configure
+          </Button>
+          <Button
+            onClick={() => this.EmailConfigStatus()}
+            color="secondary"
+            variant="outlined"
+          >
+            Later
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
+  };
+
   navigate = (show?: string) => {
     this.props.history.push({ pathname: "/video/create", show: show });
   };
@@ -53,6 +95,7 @@ class Dashboard extends Component<IProps> {
   };
   render() {
     const { user, auth } = this.props;
+    const { loading, emailConfigurations } = this.props.emailConfig;
 
     return (
       <Home>
@@ -155,38 +198,11 @@ class Dashboard extends Component<IProps> {
             </Grid>
           </Grid>
         </div>
-        {console.log("email config", this.props.emailConfig)}
-        {console.log("login user is", user)}
-        <Dialog
-          open={!auth.isEmailConfigured}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle style={{ color: "#fdb415" }} id="alert-dialog-title">
-            {"Kindly configure your gmail"}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              By configuring gmail you can enjoy all the features of VIDEON PRO.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              onClick={() => this.props.history.push(`/configuration`)}
-              variant="outlined"
-              color="primary"
-            >
-              Configure
-            </Button>
-            <Button
-              onClick={() => this.EmailConfigStatus()}
-              color="secondary"
-              variant="outlined"
-            >
-              Later
-            </Button>
-          </DialogActions>
-        </Dialog>
+        {console.log("loading", loading)}
+        {console.log("emailConfigurations", emailConfigurations)}
+        {!loading &&
+          emailConfigurations.length < 1 &&
+          this.emailConfigWarning()}
       </Home>
     );
   }
@@ -198,6 +214,10 @@ const iconStyle = {
   color: "#FFFFFF",
 };
 const mapStateToProps = (state: any) => {
+  console.log(
+    " state.email.emailConfigurations",
+    state.email.emailConfigurations
+  );
   return {
     // videoCount: state.video.videoCount - state.video.campaignCount,
     videoCount: state.video.videoCount,
@@ -205,7 +225,7 @@ const mapStateToProps = (state: any) => {
     campaignCount: state.video.campaignCount,
     user: state.auth.user,
     auth: state.auth,
-    emailConfig: state.email.emailConfigurations,
+    emailConfig: state.email,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {

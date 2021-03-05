@@ -21,10 +21,11 @@ class Campaign extends React.Component {
     musicProps: {},
     logoBlob: "",
     thumbnailBlob: "",
-    template: null
+    template: null,
   };
 
   saveVideo = (finalBlob: any) => {
+    console.log("finalblobe ", finalBlob);
     this.setState({ recordedVideo: finalBlob });
   };
   saveEditedVideo = (editedVideoBlob: any) => {
@@ -34,7 +35,7 @@ class Campaign extends React.Component {
     this.setState({
       logoProps: logoProps,
       textProps: textProps,
-      musicProps: musicProps
+      musicProps: musicProps,
     });
   };
   saveLogoBlob = (blob: any) => {
@@ -49,11 +50,7 @@ class Campaign extends React.Component {
   renderCampaignSteps = () => {
     switch (this.state.currentStep) {
       case 0:
-        return (
-          <Industry
-            moveToNextStep={this.moveToNextStep}
-          />
-        );
+        return <Industry moveToNextStep={this.moveToNextStep} />;
       case 1:
         return (
           <SelectTemplate
@@ -69,7 +66,7 @@ class Campaign extends React.Component {
             template={this.state.template}
             moveBack={this.moveBack}
           />
-        )
+        );
       case 3:
         return (
           <Recording
@@ -135,7 +132,12 @@ class Campaign extends React.Component {
   render() {
     return (
       <>
-        <Header styles={{backgroundImage:"linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"}}/>
+        <Header
+          styles={{
+            backgroundImage:
+              "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))",
+          }}
+        />
         <div className="containerCampaign">{this.renderCampaignSteps()}</div>
       </>
     );
