@@ -109,7 +109,7 @@ const Spread = ({ video }: any) => {
     <body style="text-align: -webkit-center;">
       <div class="mainWrapper">
       <div class="headerWrapper1">
-      <img src="https://videonpro.s3.amazonaws.com/assets/logo.png" class="headerImage"/>
+      <img src="https://viideon.s3.amazonaws.com/assets/logo.png" class="headerImage"/>
       <h1 class="headerH1">Viideon</h1>
       <p class="headerP">Join our movement</p>
             
@@ -121,20 +121,20 @@ const Spread = ({ video }: any) => {
         src="${video?.thumbnail}" />
      <p style="color: white">${video?.title}</p>
             <div class="thumbnailWrapper">
-              <img style="width: 80px;margin-top: 29%" src="https://videonpro.s3.amazonaws.com/assets/logo.png" /> 
+              <img style="width: 80px;margin-top: 29%" src="https://viideon.s3.amazonaws.com/assets/logo.png" /> 
             </div>
           </a>
         </div>
     
         <div class="footerWrapper w3-row w3-center">
           <div class="w3-third">
-              <a href="videonpro.com">
+              <a href="viideon.com">
                 <button class="btn watchVideoBtn">Viideo.com</button>
               </a>
             <div class="w3-row w3-center copyRightWrapper">
               <span class="w3-third">
-                <a href="videonpro.com">
-                  <img style="width: 45px; height: 45px;" src="https://videonpro.s3.amazonaws.com/assets/logo.png">
+                <a href="viideon.com">
+                  <img style="width: 45px; height: 45px;" src="https://viideon.s3.amazonaws.com/assets/logo.png">
                 </a>
               </span>
               <span class="w3-twothird">
@@ -169,4 +169,4 @@ const Spread = ({ video }: any) => {
 };
 
 export default Spread;
-// background-image: url('https://videonpro.s3.amazonaws.com/assets/spreadHeader.jpg');
+// background-image: url('https://viideon.s3.amazonaws.com/assets/spreadHeader.jpg');

@@ -10,7 +10,7 @@ class LandingPage extends React.Component {
         <div className="headerLandingPage">
           <div className="portionHeaderLanding"></div>
           <div className="portionHeaderLanding logoHeaderLanding">
-            <h3 className="logoLanding">videonPRO</h3>
+            <h3 className="logoLanding">viideon</h3>
           </div>
           <div className="portionHeaderLanding linksHeaderLanding">
             <div>
@@ -31,9 +31,9 @@ class LandingPage extends React.Component {
           <Grid container>
             <Grid item xs={12} md={7}>
               <div className="headingLandingPage">
-                <h1>VideonPro</h1>
+                <h1>Viideon</h1>
                 <p>
-                  videonPro lets you record video and create video campaigns on
+                  viideon lets you record video and create video campaigns on
                   the go. You can send and share these campaigns to reach out to
                   your audience and create opportunities for yourself and your
                   business.

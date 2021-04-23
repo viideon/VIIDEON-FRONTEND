@@ -98,7 +98,7 @@ class Watch extends React.Component<IProps> {
             </div>
             <div className="footerWatch">
               <span>Powered By </span>
-              <a href="https://videonpro.app">videonPro</a>
+              <a href="https://app.viideon.com">viideon</a>
             </div>
           </div>
         ) : (

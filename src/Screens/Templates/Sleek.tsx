@@ -39,7 +39,7 @@ const Sleek = ({ video }: any) => {
             
             border-bottom: 2px solid black;
                         ">
-                        <img src=" https://videonpro.s3.amazonaws.com/assets/logo.png"
+                        <img src=" https://viideon.s3.amazonaws.com/assets/logo.png"
                             style="width: 40px; height: 40px; opacity: 1;margin-top: 50%;" />
                         <h1 style="
                             padding-bottom: 0px;
@@ -124,17 +124,17 @@ const Sleek = ({ video }: any) => {
                 <tr>
                     <td width="25%" align="center" style="border-right: 1.5px solid">
                         <img width="24px" height="24px"
-                            src="https://videonpro.s3.us-west-1.amazonaws.com/1600681828680logo.jpeg" />
+                            src="https://viideon.s3.us-west-1.amazonaws.com/1600681828680logo.jpeg" />
                     </td>
                     <td style="border-right: 1.5px solid" width="25%" align="center"><img width="24px" height="24px"
-                            src="https://videonpro.s3.us-west-1.amazonaws.com/1600681828680logo.jpeg" /></td>
+                            src="https://viideon.s3.us-west-1.amazonaws.com/1600681828680logo.jpeg" /></td>
                     <td style="border-right: 1.5px solid" width="25%" align="center">
                         <img width="24px" height="24px"
-                            src="https://videonpro.s3.us-west-1.amazonaws.com/1600681828680logo.jpeg" />
+                            src="https://viideon.s3.us-west-1.amazonaws.com/1600681828680logo.jpeg" />
                     </td>
                     <td width="25%" align="center">
                         <img width="24px" height="24px"
-                            src="https://videonpro.s3.us-west-1.amazonaws.com/1600681828680logo.jpeg" />
+                            src="https://viideon.s3.us-west-1.amazonaws.com/1600681828680logo.jpeg" />
                     </td>
                 </tr>
             </table>
@@ -151,7 +151,7 @@ const Sleek = ({ video }: any) => {
                     </td>
                     <td width="33%" align="center"></td>
                     <td width="33%" align="center">
-                        <img src="https://videonpro.s3.amazonaws.com/assets/logo.png" style="
+                        <img src="https://viideon.s3.amazonaws.com/assets/logo.png" style="
                 width: 20px;
                 opacity: 1;
                 height: 20px;
