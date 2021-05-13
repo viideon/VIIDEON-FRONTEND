@@ -138,7 +138,10 @@ export const CONCLUSION_INSTRUCTION_Q_FOUR =
   " Tell your audience about why you are the right choice for patients";
 
 export const availableTheme = [
-  { name: "Spread", avatar: require("../assets/email-theme/Spread.png") },
+  { 
+    name: "Spread",
+    avatar: require("../assets/email-theme/Spread.png")
+  },
   {
     name: "Streamlined",
     avatar: require("../assets/email-theme/Streamlined.png")
@@ -147,7 +150,10 @@ export const availableTheme = [
     name: "Simple Blue",
     avatar: require("../assets/email-theme/SimpleBlue.png")
   },
-  { name: "Sleek", avatar: require("../assets/email-theme/Sleek.png") },
+  { 
+    name: "Sleek",
+    avatar: require("../assets/email-theme/Sleek.png")
+  },
   {
     name: "Social Business",
     avatar: require("../assets/email-theme/SocialBusiness.png")
@@ -168,7 +174,10 @@ export const availableTheme = [
     name: "Modern Simple",
     avatar: require("../assets/email-theme/ModernSimple.png")
   },
-  { name: "Ocean", avatar: require("../assets/email-theme/Ocean.png") }
+  {
+    name: "Ocean",
+    avatar: require("../assets/email-theme/Ocean.png")
+  }
 ];
 
 export function isVideo(file) {
