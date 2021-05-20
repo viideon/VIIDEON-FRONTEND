@@ -45,10 +45,9 @@ function* sendVideoOnEmail(action: any) {
 
     const result = yield sendVideoToEmail(payload);
     
-
     if (result.status === 200) {
       yield put({ type: types.VIDEO_SEND_SUCCESS, payload: result.message });
-      toast.info("Email Sent Successfully");
+      toast.info("Email(s) Successfully Sent");
     } else {
       yield put({ type: types.VIDEO_SEND_FAILURE });
       toast.error("Something Went Wrong");
@@ -287,7 +286,7 @@ function* sendMultipleEmail(action: any) {
     const result = yield call(sendMultiEmails, payload);
     if (result.status === 200) {
       yield put({ type: types.MULTIPLE_EMAIL_SUCCESS });
-      toast.info("Email's sent");
+      toast.info("Email(s) Successfully Sent");
     } else {
       yield put({ type: types.MULTIPLE_EMAIL_FAILED });
       toast.error("Failed to send email's");
