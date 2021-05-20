@@ -33,10 +33,14 @@ type IState = {
   lastName: string;
   userName: string;
   mobileNumber: string;
-  timeZone: string;
   businessPhone: string;
+  address: string;
   webAddress: string;
-  title: string;
+  facebookAddress: string;
+  twitterAddress: string;
+  youtubeAddress: string;
+  linkedinAddress: string;
+  timeZone: string;
   affiliateId: string;
   url: string;
   avatarUploading: boolean;
@@ -52,10 +56,14 @@ class Profile extends Component<IProps, IState> {
       lastName: this.props.profile!.user!.lastName || "",
       userName: this.props.profile!.user!.userName || "",
       mobileNumber: this.props.profile!.user!.mobileNumber || "",
-      timeZone: this.props.profile!.user!.timeZone || "",
       businessPhone: this.props.profile!.user!.businessPhone || "",
+      address: this.props.profile!.user!.address || "",
       webAddress: this.props.profile!.user!.webAddress || "",
-      title: this.props.profile!.user!.title || "",
+      facebookAddress: this.props.profile!.user!.facebookAddress || "",
+      twitterAddress: this.props.profile!.user!.twitterAddress || "",
+      youtubeAddress: this.props.profile!.user!.youtubeAddress || "",
+      linkedinAddress: this.props.profile!.user!.linkedinAddress || "",
+      timeZone: this.props.profile!.user!.timeZone || "",
       affiliateId: this.props.profile!.user!.affiliateId || "",
       url: this.props.profile!.user!.url || "",
       avatarUploading: false
@@ -73,10 +81,14 @@ class Profile extends Component<IProps, IState> {
       lastName,
       userName,
       mobileNumber,
-      timeZone,
       businessPhone,
+      address,
       webAddress,
-      title,
+      facebookAddress,
+      twitterAddress,
+      youtubeAddress,
+      linkedinAddress,
+      timeZone,
       affiliateId,
       url
     } = this.state;
@@ -86,10 +98,14 @@ class Profile extends Component<IProps, IState> {
       lastName,
       userName,
       mobileNumber,
-      timeZone,
       businessPhone,
+      address,
       webAddress,
-      title,
+      facebookAddress,
+      twitterAddress,
+      youtubeAddress,
+      linkedinAddress,
+      timeZone,
       affiliateId,
       userId: this.props.profile!.user!._id,
       url
@@ -295,6 +311,98 @@ class Profile extends Component<IProps, IState> {
                       shrink: true
                     }}
                   />
+
+                  <TextField
+                    name="businessPhone"
+                    value={this.state.businessPhone}
+                    onChange={this.onChange}
+                    label="Business Phone"
+                    fullWidth
+                    margin="normal"
+                    type="text"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
+
+                  <TextField
+                    name="address"
+                    value={this.state.address}
+                    onChange={this.onChange}
+                    label="Office Address"
+                    fullWidth
+                    margin="normal"
+                    type="text"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
+
+                  <TextField
+                    name="webAddress"
+                    value={this.state.webAddress}
+                    onChange={this.onChange}
+                    label="Web Address"
+                    fullWidth
+                    margin="normal"
+                    type="text"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
+
+                  <TextField
+                    name="facebookAddress"
+                    value={this.state.facebookAddress}
+                    onChange={this.onChange}
+                    label="Facebook Address"
+                    fullWidth
+                    margin="normal"
+                    type="text"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
+
+                  <TextField
+                    name="twitterAddress"
+                    value={this.state.twitterAddress}
+                    onChange={this.onChange}
+                    label="Twitter Address"
+                    fullWidth
+                    margin="normal"
+                    type="text"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
+
+                  <TextField
+                    name="youtubeAddress"
+                    value={this.state.youtubeAddress}
+                    onChange={this.onChange}
+                    label="Youtube Address"
+                    fullWidth
+                    margin="normal"
+                    type="text"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
+
+                  <TextField
+                    name="linkedinAddress"
+                    value={this.state.linkedinAddress}
+                    onChange={this.onChange}
+                    label="LinkedIn Address"
+                    fullWidth
+                    margin="normal"
+                    type="text"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
+
                   <TextField
                     select
                     name="timeZone"
@@ -318,60 +426,14 @@ class Profile extends Component<IProps, IState> {
                     })}
                   </TextField>
 
-                  <TextField
-                    name="businessPhone"
-                    value={this.state.businessPhone}
-                    onChange={this.onChange}
-                    label="Business Phone"
-                    fullWidth
-                    margin="normal"
-                    type="text"
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                  />
-                  <TextField
-                    name="webAddress"
-                    value={this.state.webAddress}
-                    onChange={this.onChange}
-                    label="Web Address"
-                    fullWidth
-                    margin="normal"
-                    type="text"
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                  />
-                  <TextField
-                    type="text"
-                    name="title"
-                    value={this.state.title}
-                    onChange={this.onChange}
-                    label="Web Address"
-                    fullWidth
-                    margin="normal"
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                    style={{ marginBottom: "30px" }}
-                  />
-
-                  <ThemeButton
-                    style={{
-                      backgroundColor: "rgb(34, 185, 255)",
-                      color: "#fff"
-                    }}
-                    onClick={() => this.update()}
-                    name={`${Constants.UPDATE}`}
-                  />
                   <ThemeButton
                     style={{
                       backgroundColor: "rgb(34, 185, 255)",
                       color: "#fff",
-                      margin: "2%"
+                      margin: "10px 0"
                     }}
-                    onClick={() => {this.props.history.push("/template")}}
-                    name="Edit Template"
+                    onClick={() => this.update()}
+                    name={`${Constants.UPDATE}`}
                   />
                 </div>
 

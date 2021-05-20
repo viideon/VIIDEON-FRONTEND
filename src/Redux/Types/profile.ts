@@ -15,10 +15,14 @@ export interface UserProfile {
   lastName: string;
   userName: string;
   mobileNumber: string;
-  timeZone: string;
   businessPhone: string;
+  address: string;
   webAddress: string;
-  title: string;
+  facebookAddress: string;
+  twitterAddress: string;
+  youtubeAddress: string;
+  linkedinAddress: string;
+  timeZone: string;
   affiliateId: string;
   url?: string;
   _id?: string;
