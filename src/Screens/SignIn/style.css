@@ -1,0 +1,195 @@
+.firstLayoutContainer {
+  background-color: rgba(39, 51, 62, 0.6);
+  height: 100%;
+  min-height: 100%;
+  background-image: linear-gradient(
+    -36deg,
+    #fcb317,
+    #61b5b3,
+    #61b5b3
+  ) !important;
+}
+.firstLayoutMainContainer {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: bolder;
+  font-size: 54px;
+  font-family: "Poppins";
+  padding-left: 0% !important;
+}
+
+.firstLayoutMainContainer img {
+  width: 25%;
+}
+
+.signUp {
+  padding-top: 12%;
+  color: white;
+  font-size: 60px;
+}
+.logoSignin {
+  margin-top: -14px;
+  color: white;
+  font-size: 4rem;
+  font-weight: 700 !important;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.login {
+  color: white;
+  font-size: 25px;
+  font-family: "Poppins", sans-serif;
+}
+.secondLayoutMainContainer {
+  padding-left: 10%;
+  padding-right: 10%;
+}
+.loginTwo {
+  padding-top: 15%;
+  color: #0e2633 !important;
+  font-size: 55px;
+  font-weight: 600;
+  font-family: "Poppins";
+}
+.loginDescription {
+  font-family: "Open Sans";
+  color: #406c7f;
+  font-size: 20px;
+}
+.createAccount {
+  margin-top: 2em !important;
+  display: flex;
+  font-family: "Poppins", sans-serif;
+  color: #406c7f !important;
+  z-index: 123;
+}
+.account {
+  font-size: 16px;
+  color: #406c7f !important;
+  margin-bottom: 1rem;
+  font-family: "Poppins", sans-serif;
+}
+
+.create {
+  padding-left: 10px;
+  font-size: 16px;
+  color: #fdb415 !important;
+  font-weight: bold;
+  cursor: pointer;
+  vertical-align: bottom;
+  z-index: 123;
+}
+.textInput {
+  display: flex;
+  width: 100%;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #9f55ff;
+  border-radius: 10rem;
+  justify-content: space-between;
+}
+.btnBottomWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.forgotPassword {
+  padding-top: 24px;
+  font-size: 1.1em;
+  color: #406c7f !important;
+  cursor: pointer;
+  z-index: 123;
+}
+
+.form-control:focus {
+  color: #495057;
+  background-color: #fff !important;
+  outline: 0;
+  box-shadow: none !important;
+}
+.wrapperLoader {
+  position: relative;
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+}
+.innerWrapperLoader {
+  position: absolute;
+  top: 0;
+}
+
+.MuiInputBase-root {
+  width: -webkit-fill-available;
+}
+
+.inputFields {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  font-family: "Open Sans" !important;
+  line-height: 18px !important;
+  color: #0e2633 !important;
+  background-color: transparent !important;
+  background-repeat: no-repeat;
+  background-size: 18px 18px;
+  background-position: 95% center;
+  outline: none !important;
+  border-radius: 5px;
+  border: 1px solid #000;
+  padding: 10px 10px;
+  height: 35px;
+}
+
+.loginBtnWrapper {
+  text-align: center;
+  width: 100%;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"),
+    url(../../assets//fonts/Poppins-Regular.ttf) format("ttf");
+}
+@font-face {
+  font-family: "Open Sans";
+  src: local("Poppins"),
+    url(../../assets//fonts/OpenSans-Regular.ttf) format("ttf");
+}
+
+@media only screen and (max-width: 400px) {
+  .firstLayoutContainer {
+    height: 60vh;
+  }
+  .createAccount {
+    display: flex;
+    flex-wrap: wrap;
+    font-family: "Poppins", sans-serif;
+  }
+  .account {
+    margin-bottom: 0rem;
+  }
+
+  .create {
+    padding-left: 0px;
+  }
+  .forgotPassword {
+    padding-top: 18px;
+    font-size: 13px;
+    color: #646f79;
+    z-index: 123;
+  }
+  .secondLayoutMainContainer {
+    padding-bottom: 20px;
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  .signUp {
+    font-size: 30px;
+  }
+  .logoSignin {
+    font-size: 3rem;
+  }
+}

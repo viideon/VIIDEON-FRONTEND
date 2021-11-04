@@ -3,20 +3,20 @@ const styles = {
     display: "flex"
   },
   headerCardOne: {
-    margin: "15px",
-    backgroundColor: "#3598DC"
+    padding: "15px",
+    backgroundColor: "#46adf0"
   },
   headerCardTwo: {
-    margin: "15px",
-    backgroundColor: "#e7505a"
+    padding: "15px",
+    backgroundColor: "#44be8b"
   },
   headerCardThree: {
-    margin: "15px",
-    backgroundColor: "#32c5d2"
+    padding: "15px",
+    backgroundColor: "#936ee0"
   },
   headerCardFour: {
-    margin: "15px",
-    backgroundColor: "#8e44ad"
+    padding: "15px",
+    backgroundColor: "#f9686b"
   }
 };
 export default styles;

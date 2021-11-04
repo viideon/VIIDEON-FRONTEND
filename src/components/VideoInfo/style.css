@@ -1,0 +1,22 @@
+.itemsInfo {
+  padding-left: 1px;
+  padding-right: 1px;
+}
+.mainInfoContainer {
+  margin-left: 7px;
+  font-size: 14px;
+  color: #406c7f;
+  display: inline-block;
+}
+.firstInfoContainer {
+  font-size: 14px;
+  color: #406c7f;
+  display: inline-block;
+}
+.videoDateWrapper {
+  font-size: 14px;
+  color: #406c7f;
+  display: inline-block;
+  font-family: "Open Sans";
+  margin-right: 1em;
+}

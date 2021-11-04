@@ -1,0 +1,523 @@
+.videoStreamWrapper {
+  position: relative;
+  background-color: #000;
+  width: 100%;
+  padding-top: 56.25%;
+  height: 0px;
+}
+.videoStreamWrapper .loadingText {
+  color: #fff;
+  transition: all 0.5ms ease-in;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+}
+.showNotSupported {
+  color: #fff;
+  transition: all 0.5ms ease-in;
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+}
+.iconRecording {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}
+.counterRecording {
+  color: #fff;
+  font-size: 100px;
+  transition: all 0.5ms ease-in;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  text-shadow: 1px 2px rgba(0, 0, 0, 0.5);
+}
+.timerRecording {
+  color: #fff !important;
+  background: rgba(70, 70, 70, 0.4) !important;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+
+  align-items: center;
+  bottom: 0;
+  width: 100%;
+  top: auto !important;
+  left: auto !important;
+  margin: 0 !important;
+  font-family: "Poppins";
+  font-weight: bold;
+  font-size: xx-large;
+  z-index: 2;
+}
+.containerCampaign {
+  margin-top: 100px;
+  margin-bottom: 20px;
+}
+.wrapperBtnRecording {
+  display: flex;
+  justify-content: center;
+}
+
+.addNote .MuiFormControlLabel-label {
+  color: #ffffff;
+  font-family: "Poppins";
+  font-size: 0.8rem !important;
+}
+/* -----recording screen wrapper */
+.customeRecWrapper {
+  text-align: center;
+  padding: 5px;
+}
+.introHeading {
+  padding-top: 40px !important;
+}
+.recordHeading {
+  text-align: center;
+  font-weight: 700;
+  padding: 10px 0px 5px 0px;
+  color: #0071bc;
+
+  margin-bottom: 15px;
+}
+
+/* ------prev newxt buttons wrappers */
+.btnSingleWrap {
+  padding: 20px 5px;
+  display: flex;
+  justify-content: flex-end;
+}
+.btnDoubleWrap {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 5px;
+}
+/* -- */
+.wrapperMerge {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.labelUploadSection {
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+.addLogoMessage {
+  padding: 20px 0px;
+}
+.positionTxt {
+  padding-top: 20px;
+}
+#formInput input {
+  padding: 8px !important;
+}
+.optionalText {
+  font-size: 10px;
+  color: #636363;
+  font-weight: 400;
+}
+.wrapperPreviewVideo {
+  position: relative;
+  background-color: #000;
+  width: 100%;
+  padding-top: 56.25%;
+  height: 0px;
+}
+.btnEditVideo {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 5px;
+}
+.MuiLinearProgress-root {
+  height: 14px !important;
+}
+.recordQualityInput {
+  margin-top: 15px;
+  text-align: start;
+  display: flex;
+  width: 100% !important;
+  justify-content: space-between;
+}
+.recordQualityInput .qualityWrapper,
+.recordQualityInput .btnWrapper {
+  display: flex;
+  width: 50%;
+}
+.recordQualityInput .btnWrapper {
+  justify-content: space-evenly;
+}
+.recordQualityInput .MuiInputLabel-root {
+  width: 25% !important;
+  font-family: Poppins;
+  color: #000000;
+  inline-size: -webkit-fill-available;
+  align-self: center;
+  margin-bottom: 0%;
+}
+#videoQuality {
+  border: 1px solid gray;
+  border-radius: 8px;
+  padding: 7px;
+}
+.recordQualityInput .MuiInput-underline {
+  width: 45%;
+}
+.recordQualityInput .MuiInput-underline:before,
+.recordQualityInput .MuiInput-underline:after {
+  border-bottom: none;
+}
+
+.recordQualityInput .MuiInput-underline:hover:not(.Mui-disabled):before {
+  border-bottom: none;
+}
+.recordingBtn {
+  border: 4px solid #ffffff;
+  color: #ff0202;
+  border-radius: 50%;
+  width: 90px !important;
+  height: 90px !important;
+  margin: 6px;
+  background: #ff0202;
+  outline: none;
+  z-index: 2;
+}
+.recordingBtn:hover {
+  background: #ff0202;
+}
+.stopBtnWrapper {
+  background: #ffffff;
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.stopBtn {
+  color: #ff0202;
+  border-radius: 4px;
+  width: 40px !important;
+  height: 40px !important;
+  background: #ff0202;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+.pauseBtnWrapper {
+  background: #ffffff;
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 2;
+}
+.pauseBtn {
+  color: #ffffff;
+  width: 65px !important;
+  height: 65px !important;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.cancelAction {
+  color: #ffffff;
+  width: 65px !important;
+  height: 65px !important;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+.stopBtn:hover {
+  background: #406c7f;
+  color: #406c7f;
+}
+
+.pauseBtn:hover {
+  color: #406c7f;
+}
+
+.videoStreamWrapper button:focus {
+  outline: none !important;
+}
+
+.NoteWrapper {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  padding-top: 2%;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.NoteWrapper .MuiFormControl-root,
+.NoteWrapper .MuiTextField-root {
+  /* display: flex; */
+  align-content: center;
+  justify-content: center;
+  position: relative;
+  left: 2vw;
+  width: 80%;
+  height: 80%;
+}
+
+#overlayNote {
+  text-align: center;
+  /* background-color: blueviolet; */
+  position: relative;
+  /* top:80%; */
+  font-family: "Poppins";
+  color: rgb(233, 219, 219);
+  font-size: 20px;
+  align-content: center;
+  justify-content: center;
+  max-height: 100px;
+  /* font-weight: bold; */
+  /* line-height: 1; */
+}
+
+.safeAreaWrapper {
+  display: flex;
+  overflow: hidden;
+  position: absolute;
+  flex-direction: row;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  top: 0;
+}
+
+.fcY {
+  /* width: calc((100vw - 88.8889vh) / 2); */
+  width: 25%;
+  height: 100%;
+  background: rgba(253, 180, 21, 0.3);
+  z-index: 1;
+  animation: 2.8s ease-in-out 0s 1 normal none running fQCAJR;
+}
+
+.fcR {
+  /* width: calc((100vw - 88.8889vh) / 2); */
+  width: 25%;
+  height: 100%;
+  background: rgba(253, 180, 21, 0.3);
+  z-index: 1;
+  animation: 2.8s ease-in-out 0s 1 normal none running bITvZI;
+}
+
+.recorderActionWrapper {
+  display: flex;
+  width: 100%;
+  height: 133px;
+  justify-content: center;
+  align-items: center;
+  background: #0e2633;
+}
+
+@keyframes fQCAJR {
+  0% {
+    transform: translateX(-25vw);
+  }
+  10% {
+    transform: translateX(0px);
+  }
+}
+
+@keyframes bITvZI {
+  0% {
+    transform: translateX(25vw);
+  }
+  10% {
+    transform: translateX(0px);
+  }
+}
+
+@media (max-width: 1400px) {
+  .recorderActionWrapper {
+    height: auto;
+    padding: 2%;
+  }
+  .recordingBtn,
+  .stopBtnWrapper {
+    width: 70px !important;
+    height: 70px !important;
+  }
+  .stopBtn {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  .pauseBtnWrapper {
+    height: 50px;
+    width: 50px;
+  }
+  .pauseBtn,
+  .cancelAction {
+    height: 50px !important;
+  }
+}
+@media (min-width: 1080px) {
+  .recordQualityInput .btnWrapper #reset {
+    width: 20% !important;
+    margin: 6px;
+  }
+  .recordQualityInput .btnWrapper #done {
+    width: 60% !important;
+    margin: 6px;
+  }
+}
+
+@media (max-width: 1080px) {
+  .recordingBtn,
+  .stopBtnWrapper {
+    width: 55px !important;
+    height: 55px !important;
+  }
+  .stopBtn {
+    width: 33px !important;
+    height: 33px !important;
+  }
+  .pauseBtnWrapper {
+    height: 40px;
+    width: 40px;
+  }
+  .pauseBtn,
+  .cancelAction {
+    width: 40px !important;
+  }
+}
+@media (max-width: 800px) {
+  .recordingBtn,
+  .stopBtnWrapper {
+    width: 40px !important;
+    height: 40px !important;
+    border: 3px solid #ffffff;
+  }
+  .stopBtn {
+    width: 25px !important;
+    height: 25px !important;
+  }
+  .pauseBtnWrapper {
+    height: 30px;
+    width: 30px;
+    left: 62%;
+    top: 90%;
+  }
+  .pauseBtn,
+  .cancelAction {
+    height: 32px !important;
+  }
+  .timerRecording {
+    padding: 1px;
+    font-size: x-large;
+  }
+}
+@media (max-width: 720px) {
+  .recordQualityInput .qualityWrapper,
+  .recordQualityInput .btnWrapper {
+    width: 100%;
+    flex-direction: column;
+  }
+  .recordQualityInput .qualityWrapper label,
+  .recordQualityInput .qualityWrapper div {
+    width: 100% !important;
+    margin: 2px;
+  }
+  .recordQualityInput .btnWrapper button {
+    width: 100% !important;
+    margin: 6px;
+  }
+}
+@media (max-width: 500px) {
+  .btnDoubleWrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px 5px;
+  }
+  .recordingBtn {
+    border: 4px solid #d3d3d3;
+    width: 32px;
+    height: 32px;
+  }
+  .counterRecording {
+    font-size: 30px;
+  }
+  .timerRecording {
+    padding: 1px;
+    font-size: large;
+  }
+  .recordQualityInput {
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .recordQualityInput .qualityWrapper,
+  .recordQualityInput .btnWrapper {
+    width: 100%;
+    flex-direction: column;
+  }
+  .recordQualityInput .qualityWrapper label,
+  .recordQualityInput .qualityWrapper div {
+    width: 100% !important;
+    margin: 2px;
+  }
+  .recordQualityInput .btnWrapper button {
+    width: 100% !important;
+    margin: 6px;
+  }
+}
+@media (max-width: 420px) {
+  .NoteWrapper {
+    overflow: scroll;
+  }
+
+  .addNote {
+    width: 100%;
+    margin: 1%;
+  }
+  .showNotSupported {
+    font-size: x-small;
+  }
+  .recordingBtn {
+    width: 27px;
+    height: 27px;
+    left: 50%;
+    top: 80%;
+    border: 3px solid #ffffff;
+  }
+  .stopBtnWrapper {
+    height: 27px;
+    width: 27px;
+    left: 35%;
+    top: 85%;
+  }
+  .stopBtn {
+    width: 17px !important;
+    height: 17px !important;
+  }
+  .pauseBtnWrapper {
+    height: 27px;
+    width: 27px;
+    left: 65%;
+    top: 85%;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .pauseBtn,
+  .cancelAction {
+    height: 25px !important;
+  }
+}

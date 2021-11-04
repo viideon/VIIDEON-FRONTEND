@@ -1,45 +1,71 @@
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { applyMiddleware, createStore } from 'redux';
-import { Provider } from 'react-redux';
-import creatSagaMiddleware from 'redux-saga';
-// import Footer from './components/layout/footer';
-import Home from '../src/Screens/Home/Home';
-import SignIn from '../src/Screens/SIgnIn/SignIn';
-import SignUp from '../src/Screens/SignUp/SignUp';
-// import Pages from './components/Pages';
-// import AboutUs from './components/aboutUs/index';
-// import Welcome from './components/layout/welcome';
-import rootReducer from './Redux/Reducers';
-import rootSaga from './Redux/Sagas/index';
-import VideoTab from './Screens/VideoTab/VideoTab';
-import Profile from './Screens/Profile/index';
+import React, { Component } from "react";
+import { applyMiddleware, createStore, compose } from "redux";
+import { Provider } from "react-redux";
+import { persistStore } from "redux-persist";
+import creatSagaMiddleware from "redux-saga";
+import persistedReducer from "./Redux/Reducers";
+import rootSaga from "./Redux/Sagas/index";
+import Routes from "./Routes";
+import { PersistGate } from "redux-persist/integration/react";
+import {
+  ToastContainer,
+  toast,
+  Slide,
+  Zoom,
+  Flip,
+  Bounce,
+} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure({
+  autoClose: 4000,
+  pauseOnHover: false,
+  hideProgressBar: true,
+  pauseOnFocusLoss: false,
+  limit: 2,
+});
 
 const sagaMiddleware = creatSagaMiddleware();
-const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      <Provider store={store}>
-        <Router>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/signin" component={SignIn} />
-            <Route exact path="/signup" component={SignUp} />
-            <Route exact path="/videotab" component={VideoTab} />
-            <Route exact path="/profile" component={Profile} />
-            {/* <Route exact path="/Home" component={Home} /> */}
-
-            {/* <Route path="/aboutus" component={AboutUs} />
-          <Route path="/welcome" component={Welcome} />
-
-          <Route path="*" component={Pages} /> */}
-          </Switch>
-          {/* <Footer /> */}
-        </Router>
-      </Provider>
-    </div>
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
+}
+let enhancer;
+if (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
+  enhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(
+    applyMiddleware(sagaMiddleware)
   );
-};
+} else {
+  enhancer = compose(applyMiddleware(sagaMiddleware));
+}
+
+export const store = createStore(persistedReducer, {}, enhancer);
+const persistor = persistStore(store);
+
+class App extends Component {
+  componentDidMount() {
+    window.addEventListener("blur", () => {
+      toast.dismiss();
+    });
+  }
+  render() {
+    return (
+      <div className="App">
+        <ToastContainer
+          autoClose={2000}
+          transition={Zoom}
+          limit={1}
+          style={{ zIndex: 223123123 }}
+        />
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <Routes />
+          </PersistGate>
+        </Provider>
+      </div>
+    );
+  }
+}
 sagaMiddleware.run(rootSaga);
 export default App;

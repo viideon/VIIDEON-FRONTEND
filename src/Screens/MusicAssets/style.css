@@ -1,0 +1,46 @@
+.wrapperMusicAssets {
+  padding: 20px;
+}
+.assetHeading {
+  padding: 15px 0px 15px 10px;
+  font-weight: bolder;
+}
+.imgAssetLib {
+  object-fit: contain;
+  max-height: 100%;
+  max-width: 100%;
+}
+.wrapperAudioLib {
+  padding: 10px;
+}
+.wrapperAudioLib h5 {
+  padding-left: 10px;
+}
+.showDeleteBtn {
+  display: block;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background: none;
+}
+.showDeleteBtn:focus {
+  outline: none;
+}
+.hideDeleteBtn {
+  display: none;
+}
+.delIcon {
+  display: flex !important;
+  margin: auto;
+  position: relative;
+  top: 33px;
+  left: 64px;
+}
+@media (max-width: 400px) {
+  .wrapperMusicAssets {
+    padding: 0px;
+  }
+}

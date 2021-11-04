@@ -1,60 +1,368 @@
-#videoTabWrap{
-    text-align: center;
-    /* flex-wrap: nowrap;  */
-    /* justify-content: center; */
-    /* overflow: hidden; */
-    
-    
-}
-#videoTabNavLink p{
-    color: #22b9ff;
-    margin-top: 5px;
-    font-size: large;
-}
-@media screen and (max-width:580px) {
-    #videoTabNavLink p{
-        color: red;
-        margin-top: 5px;
-        font-size: large;
-    }
-    
-}
-#videoTabNavLink{
-    padding: .5rem 3rem;
+.wrapperTabVideo {
+  padding-bottom: 25px;
+  border-bottom: 1px solid #ecf0f3;
+  margin-bottom: 20px;
+  height: 100%;
+  background: white;
+  box-shadow: 5px 5px 15px lightgrey;
+  margin: 1em;
+  padding: 1em;
+  border-radius: 10px;
+  text-align: -webkit-center;
 }
 
-#videoTabIcon{
-    color: #22b9ff;
+.wrapperTabVideo .video-progress {
+  display: flex;
+}
+
+.headerTab {
+  width: 80%;
+  margin: 1em;
+  margin-top: 3em;
+  text-align: left;
+}
+#descriptionLabel {
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+#videoTabWrap {
+  text-align: center;
+}
+
+#editingToolsWrapper {
+}
+
+#editingWrapper {
+  width: 80%;
+  padding: 1%;
+}
+
+#templateWrapper {
+  padding: 1%;
+  width: 80%;
+}
+
+.nav-tabs {
+  border-bottom: 1px solid #ecf0f3 !important;
+  margin-bottom: 15px;
+}
+#videoTabNavLink p {
+  color: #22b9ff;
+  margin-top: 5px;
+  font-size: large;
+}
+#videoTabNavLink {
+  padding: 0.5rem 3rem;
+}
+.videoTabIcon {
+  color: #22b9ff;
+  font-size: large;
+}
+#headerText {
+  color: #646c9a;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+.justifyCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.headerTab .videoTitle {
+  margin: 1em 0em;
+  font-family: "Poppins";
+  font-weight: bold;
+  color: #0f2733;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.headerTab .editVideoTitle {
+  margin: 1em 0em;
+  font-family: "Poppins";
+  font-weight: bold;
+  color: #0f2733;
+  margin-bottom: 16px;
+  text-align: left;
+  border: none;
+  outline: none !important;
+}
+
+.editVideoTitle :focus,
+.editVideoTitle :active,
+.editVideoTitle :hover,
+.editVideoTitle :visited,
+.editVideoTitle :active {
+  border: none !important;
+  outline: none !important;
+}
+
+.wrapperVideoTab .react-tabs__tab-list {
+  border-bottom: 4px solid #fcb414;
+  overflow: hidden;
+}
+.wrapperVideoTab .react-tabs__tab--selected {
+  background: #fcb414 !important;
+  color: white;
+  font-family: "Poppins";
+}
+.wrapperVideoTab .react-tabs__tab {
+  background: #e0e0e0;
+  margin-right: 4px;
+  border-radius: 0% !important;
+  border: none;
+  text-align: center;
+}
+.wrapperVideoTab .react-tabs__tab--selected .videoTabIcon {
+  color: white;
+}
+.wrapperVideoTab .videoTabIcon {
+  color: black;
+}
+
+@media screen and (max-width: 580px) {
+  #videoTabNavLink p {
+    color: red;
+    margin-top: 5px;
     font-size: large;
-}
-#headerVideo{
-    height: 100%;
-    width: 100%;
-}
-#headerText{
-color: #646c9a ;
-}
-#descriptionLabel{
-    /* display: flex;
-    align-items: center; */
+  }
+  #headerText {
+    padding-top: 20px;
+    padding-bottom: 10px;
+    padding-left: 0px;
+  }
 }
 
 /* ---------------------Editing------------ */
 .video-container {
-    position: relative;
-    padding-bottom: 56.25%;
-    height: 0;
-    overflow: hidden;
+  position: relative;
+  padding-bottom: 59.25%;
+  height: 0;
+  overflow: hidden;
+}
+.video-container iframe,
+.video-container object,
+.video-container embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+#videoStyle {
+  width: 100%;
+}
+
+#uploadInput {
+  display: none;
+}
+.editingTabWrapper {
+  padding-top: 10px;
+  padding-bottom: 40px;
+}
+.wrapperEditThumbnail {
+  padding-top: 30px;
+}
+.btnEditThumbnailWrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.wrapperEditTitle {
+  padding-top: 40px;
+}
+.thumbnaillEditMsg {
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+}
+.progressEditing {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, 0);
+}
+.progressVideoLoaded {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, 0);
+}
+.wrapperEditLogoText {
+  margin-top: 20px;
+}
+.musicVolumeAdjust {
+  margin-top: 20px;
+  display: flex;
+  width: 40%;
+  flex-direction: column;
+}
+.musicVolumeAdjust label {
+  font-size: medium;
+  font-weight: bold;
+}
+/* -----------analtics tab----------- */
+.wrapperAnalytics {
+  padding-bottom: 20px;
+}
+
+.wrapperVideoTab {
+  padding: 5%;
+  position: relative;
+  background: #f2f2f2;
+}
+
+#tabVideo {
+  outline: none;
+}
+@media screen and (max-width: 580px) {
+  .wrapperVideoTab {
+    padding-top: 12%;
   }
-  .video-container iframe,
-  .video-container object,
-  .video-container embed {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+}
+
+/* --------Detail Tab  */
+.colDetailTab {
+  padding: 0px !important;
+}
+
+.dashboardTop {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* -------detail tab---- */
+.descriptionTextArea {
+  min-height: 150px;
+  width: 100%;
+  border-color: #22b9ff;
+  outline: none !important;
+}
+@media (max-width: 380px) {
+  #descriptionLabel {
+    font-size: 12px;
   }
-  #videoStyle {
-    width: 100%;
+  #videoTabNavLink p {
+    color: #22b9ff;
+    margin-top: 5px;
+    font-size: large;
   }
+  #videoTabNavLink {
+    padding: 0.5rem 2rem;
+  }
+}
+#formInput input {
+  padding: 8px !important;
+}
+
+.share-icons {
+  cursor: pointer;
+}
+.video-tabs {
+  cursor: pointer;
+}
+/* ----------- Design tab  ----------- */
+.designTabWrapper {
+  font-family: "Open Sans";
+  color: #0f2733;
+  margin-left: 1em;
+}
+.designTabWrapper .MuiInputBase-root,
+.designTabWrapper .MuiInput-root {
+  width: 30%;
+}
+
+.designTabWrapper .MuiInput-underline,
+.designTabWrapper .Mui-focused:focus,
+.designTabWrapper .Mui-focused {
+  border: none !important;
+  border-bottom: none !important;
+}
+
+.designTabWrapper .MuiInput-underline:before,
+.designTabWrapper .Mui-focused,
+.designTabWrapper .Mui-focused::after {
+  border: none !important;
+  border-bottom: none !important;
+}
+
+.designTabWrapper .MuiInput-underline:hover:not(.Mui-disabled):before,
+.designTabWrapper .Mui-focused,
+.designTabWrapper .Mui-focused {
+  border: none !important;
+  border-bottom: none !important;
+}
+
+.designTabWrapper #logoPositionSelect {
+  border: 1px solid gray;
+  border-radius: 8px;
+  padding: 7px;
+}
+
+.roundWrapper .circle-picker {
+  width: 40% !important;
+  flex-wrap: nowrap !important;
+  overflow-x: scroll !important;
+  margin-top: 8px !important;
+  margin-bottom: 8px !important;
+  padding: 2px;
+}
+.roundWrapper .circle-picker div {
+  width: 15px !important;
+  height: 15px !important;
+}
+
+.roundWrapper .chrome-picker {
+  margin-top: 8px !important;
+}
+
+.videoTabSearhcWrapper {
+  width: 100%;
+  margin-top: 1em;
+}
+
+.videoTabSearhcWrapper .MuiFormControl-root,
+.videoTabSearhcWrapper .MuiInputBase-formControl {
+  width: 100%;
+  border-radius: 8px;
+  color: #0e2633;
+  border-color: #0e2633;
+}
+
+.avatarImage {
+  width: 100px;
+  margin-right: 1em;
+}
+.templatePreview {
+  display: block;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+}
+
+.headerTab .MuiDialog-paperWidthSm {
+  width: 60% !important;
+  max-width: 60% !important;
+}
+
+.headerTab .MuiListItem-root {
+  width: 250px !important;
+}
+
+.headerTab .MuiList-root,
+.headerTab .MuiList-padding {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.headerTab .MuiListItem-button {
+  box-shadow: 0px 5px 5px #888888;
+  margin: 0.5em !important;
+}
+.MuiDialog-paperWidthSm {
+  width: 100% !important;
+  max-width: 720px !important;
+}

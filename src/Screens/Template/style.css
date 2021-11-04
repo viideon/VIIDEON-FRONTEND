@@ -1,0 +1,115 @@
+.templatePrefWrapper {
+  background: #f2f2f2;
+  /* height: 100%; */
+  padding: 2%;
+}
+
+.tempPreviewWrapper {
+  background: #ffffff;
+  border-radius: 2%;
+  min-height: 70vh;
+  margin: 1% !important;
+  padding: 2% !important;
+}
+
+.tempPreviewWrapper h4 {
+  color: #fcb41f !important;
+  font-family: "Poppins";
+  margin-bottom: 2% !important;
+  font-size: 20px;
+}
+
+.tempEditToolsWrapper {
+  margin: 1% !important;
+}
+
+.tempEditToolsWrapper h4 {
+  color: #fcb41f !important;
+  font-family: "Poppins";
+  padding-bottom: 2%;
+  border-bottom: 4px solid #fcb41f;
+  width: 100% !important;
+  margin-bottom: 2% !important;
+}
+
+.tempEditLogoWrapper {
+  margin: 1% !important;
+  margin-bottom: 3% !important;
+}
+.logoIMGs {
+  width: 180px !important;
+}
+.logoIMG {
+  background: #406d7f !important;
+  width: 180px !important;
+  color: #fff;
+  text-align: center !important;
+}
+.tempEditLogoWrapper .logoIMG svg {
+  width: 80px !important;
+  height: 80px !important;
+  margin-top: 26%;
+}
+.tempEditColorWrapper {
+  margin: 1% !important;
+  margin-bottom: 3% !important;
+}
+
+.tempEditColorWrapper p {
+  color: #fcb41f;
+  font-family: "Poppins";
+  font-size: 10px;
+}
+
+.colorCircleWrapper {
+  height: min-content;
+  display: -webkit-inline-box;
+}
+.colorCircleWrapper .colorCircles {
+  width: 40px !important;
+  height: 40px !important;
+  background: #000;
+  border: 4px solid #fff;
+  border-radius: 50% !important;
+}
+.colorName {
+  color: #000 !important;
+  font-size: medium !important;
+  margin: 6px !important;
+}
+
+.tempEditMessageWrapper {
+  margin: 1% !important;
+  margin-bottom: 3% !important;
+}
+
+.tempEditMessageWrapper p {
+  color: #fcb41f;
+  font-family: "Poppins";
+  font-size: 10px;
+}
+
+#editMessage {
+  border-color: #406d7f !important;
+  /* background: #FFF !important; */
+  outline-color: #406d7f !important;
+}
+
+.previewBTN {
+  background: #406d7f !important;
+  color: #fff !important;
+  width: 50% !important;
+  font-size: 20px !important;
+  font-weight: bold !important;
+  font-family: "Poppins" !important;
+  text-transform: none !important;
+}
+.saveChangesBTN {
+  background-image: linear-gradient(to right, #fcb317, #8bb589, #61b5b3);
+  color: #fff !important;
+  width: 100% !important;
+  font-family: "Poppins" !important;
+  font-weight: bolder !important;
+  font-size: larger !important;
+  text-transform: none !important;
+}

@@ -1,20 +1,158 @@
-.MainDrawer{
-    width: auto;
-    background-color: #2C3541;
-    border-radius: 1px;
-    height: 100vh;
-    opacity: 5px;
-    padding: 15px;
-    box-shadow: 0 0 10px lightgrey;
+.MainDrawer {
+  background-color: transparent;
+  border-radius: 1px;
+  height: 95vh;
+  min-height: 700px;
+  opacity: 5px;
+  width: 235px;
+  position: fixed !important;
+  padding-top: 5em;
+  margin-left: 0;
+  transition: left 1s cubic-bezier(0.82, 0.085, 0.395, 0.895);
+
+  overflow-y: hidden;
+  margin-bottom: 10%;
+  /* padding-bottom: 5%; */
 }
-.OptionIcons{
-    display: flex;
-    flex-direction: row;
-    margin-top: 10px;
-    margin-bottom: 10px;
+.vertIcon {
+  cursor: pointer;
+  display: inline-block;
+  margin-left: auto;
 }
-.IconNameStyling{
-    color: white;
-    margin-left: 20px;
-    font-size: 15px;
+.MainDrawerHide {
+  transform: translateX(-1000px);
+  display: none;
+}
+.wrapperProfileSidebar {
+  width: 100%;
+  height: 15%;
+  margin-bottom: 10px;
+  background-color: #222933;
+  border-bottom: 1px solid white;
+  color: white;
+}
+.wrapperAvatarSidebar {
+  width: 2.7rem;
+  height: 2.7rem;
+  border-radius: 50%;
+  margin-right: 10px;
+  border: 2px solid white;
+  background: rgb(142, 172, 9);
+}
+.avatarSidebar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.infoProfile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 12px;
+  word-break: break-all;
+}
+.wrapperDetails {
+  display: flex;
+  padding: 30px 10px 20px 10px;
+  font-size: 0.8rem;
+  color: #fff;
+  /* color: #202020; */
+}
+
+.OptionIcons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 10px;
+  color: #ffffff;
+}
+.OptionIcons:hover {
+  background-color: #fcb414;
+  cursor: pointer;
+  color: #0f2733;
+}
+.OptionIcons2 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 10px;
+  color: #ffffff;
+}
+.OptionIcons2:hover {
+  color: black;
+  background-color: white;
+  cursor: pointer;
+}
+.IconNameStyling {
+  font-family: "Poppins", sans-serif;
+  color: #ffffff;
+  margin-left: 20px;
+  font-weight: 300 !important;
+  cursor: pointer;
+}
+.dashboardOption {
+  margin-bottom: 20px;
+  color: #fff !important;
+}
+.dashboardOption .IconNameStyling {
+  color: #fff;
+}
+.dashboardOption .dashboard {
+  color: #fff !important;
+}
+.assetLibrary {
+  margin-top: 10px;
+}
+
+.activeSideBar {
+  background-color: #fcb414;
+}
+.activeSideBar2 {
+  background-color: white;
+}
+.activeSideBar .IconNameStyling {
+  color: #0f2733;
+}
+.activeSideBar2 .IconNameStyling2 {
+  color: #0f2733;
+}
+
+/* ChatvidBar */
+
+.chatvidScroollingBar {
+  overflow: scroll;
+  padding-bottom: 35%;
+  margin-bottom: 25%;
+  height: 64% !important;
+}
+.thumbnailInChatvidBar {
+  width: 3em;
+  height: 3em;
+  cursor: pointer;
+  display: flex;
+  border-radius: 18%;
+}
+.thumbnailInChatvidBar img {
+  width: 100%;
+  object-fit: cover;
+}
+@media only screen and (max-width: 768px) {
+  .MainDrawer {
+    /* display: none;
+    transform: translateX(-1000%); */
+    width: 100%;
+  }
+  .wrapperHomeContent {
+    /* display:none */
+  }
+  .maindrawer {
+    display: none;
+  }
+  /* .wrapperBody{
+    display:none
+  } */
+}
+.MuiPaper-elevation8 {
+  box-shadow: none !important;
 }

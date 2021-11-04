@@ -1,27 +1,58 @@
-/* :root {
-  --primary-color: '#4ac4ac';
-} */
-
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Courier New', 'Lato',
-    'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-    'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: "Open Sans", sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-
+body > #root > div {
+  height: 100vh;
+}
 code {
-  font-family: 'Courier New', 'Lato', Menlo, Monaco, Consolas, 'Courier New',
+  font-family: "Courier New", "Lato", Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
+.cursorPointer {
+  cursor: pointer !important;
+}
+
 :root {
-  --pink-color: #FF49C3;
-  --lite-bg-color: #F8F8F8;
-  --dark-bg-color: #ECECEC;
+  font-family: "Open Sans", sans-serif !important;
+  --pink-color: #ff49c3;
+  --lite-bg-color: #f8f8f8;
+  --dark-bg-color: #ececec;
   --gray: #575756;
-  --tutu: #FFEFF9;
-  --lite-pink-color: #FF6DCF;
+  --tutu: #ffeff9;
+  --lite-pink-color: #ff6dcf;
+  --gray-theme: #48465b;
+  --dark-gray: #333333;
+  --blue-theme: #46adf0;
+  --purple-theme: #936ee0;
+  --orange-theme: #f9686b;
+  --green-theme: #44be8b;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"), url(./assets//fonts/Poppins-Regular.ttf) format("ttf");
+}
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"), url(./assets//fonts/Poppins-Bold.ttf) format("ttf");
+  font-weight: bold;
+}
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"),
+    url(./assets//fonts/Poppins-ExtraBold.ttf) format("ttf");
+  font-weight: bolder;
+}
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"), url(./assets//fonts/Poppins-Medium.ttf) format("ttf");
+  font-weight: 500;
+}
+@font-face {
+  font-family: "Open Sans";
+  src: local("Poppins"), url(./assets//fonts/OpenSans-Regular.ttf) format("ttf");
 }

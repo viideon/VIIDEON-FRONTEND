@@ -1,0 +1,707 @@
+.wrapperChatvidDashboard {
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+._responseWrapper {
+  background: #ffffff;
+  padding: 10px 20px 5px 20px;
+  height: 80vh;
+  border-radius: 8px;
+  overflow: scroll !important;
+}
+
+.respondersCardWrapper {
+  width: 90% !important;
+  background: #f2f2f2;
+  border-radius: 8px;
+  padding: 1%;
+  margin-bottom: 2%;
+  cursor: pointer;
+}
+.toasts {
+  background: yellow !important;
+  color: red !important;
+  position: relative;
+  top: 95px !important;
+  right: 18px !important;
+  width: 91%;
+  overflow: hidden;
+  font-weight: bolder;
+  background-color: rgb(70, 22, 16);
+}
+.fancy-progress-bar {
+  color: green !important;
+  background-color: skyblue !important;
+}
+.wrapperChatvidDashboard .respondersCardWrapper {
+  background: #ffffff;
+}
+
+.activeResponder {
+  background: #f0cc79 !important;
+  width: 100% !important;
+}
+._stepsCirclesWrapper {
+  display: flex;
+}
+._stepsCirclesWrapper .stepAvatarWrapper {
+  padding: 1%;
+  cursor: pointer;
+}
+.respondersCardWrapper .avatarWrapper {
+  background: #fdb415;
+  border-radius: 50%;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  padding: 20%;
+  color: white;
+}
+
+.respondersCardWrapper .resCardBody {
+  align-self: center;
+}
+
+.chosed {
+  color: #ffffff;
+  background: #fdb415;
+}
+.responderName {
+  /* font-size: 0.3rem !important; */
+  color: #0e2633 !important;
+  line-height: 1 !important;
+  font-weight: bold !important;
+  font-family: "Open Sans" !important;
+  margin-left: 1.5rem !important;
+}
+
+.resDetials {
+  font-size: 0.8rem !important;
+  color: #273338 !important;
+  font-family: "Open Sans" !important;
+  margin-left: 1.5rem !important;
+}
+.openEndDetails {
+  font-size: 0.8rem !important;
+  color: #273338 !important;
+  font-family: "Open Sans" !important;
+}
+.openEndName {
+  /* font-size: 0.3rem !important; */
+  color: #0e2633 !important;
+  line-height: 1 !important;
+  font-weight: bold !important;
+  font-family: "Open Sans" !important;
+}
+.link-style {
+  text-decoration: none;
+  color: none;
+  cursor: pointer;
+}
+.link-style:hover {
+  text-decoration: none;
+  color: none;
+}
+
+/* CHATVID.TSX */
+
+._stepsDetailsWrapper {
+  border: 2px solid #fdb415;
+  margin-top: 2%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+._stepsDetailsWrapper ._stepsDetailsHeader {
+  background: #fdb415;
+  display: flex;
+  justify-content: space-between;
+  padding: 1%;
+}
+._stepsDetailsWrapper ._stepsDetailsBody {
+  background: #ffffff;
+}
+._stepsDetailsBody .optionDiv {
+  flex-direction: column;
+  height: 100% !important;
+  justify-content: center;
+}
+._stepsDetailsBody .optionDiv .IconWrapper {
+  width: 100px;
+  height: 100px;
+  margin: 1%;
+}
+._stepsDetailsBody .optionDiv .IconWrapper .MuiTypography-h1 {
+  font-size: 2.5rem;
+}
+._stepsDetailsBody .optionDiv .IconWrapper .MuiTypography-subtitle1 {
+  font-size: medium;
+}
+._stepsDetailsBody .optionDiv .IconWrapper .MuiSvgIcon-root {
+  font-size: 3rem;
+}
+
+._stepsDetailsBody .optionDiv .IconWrapper:hover,
+._stepsDetailsBody .optionDiv .IconWrapper:hover .MuiSvgIcon-root,
+._stepsDetailsBody .optionDiv .activeIcon,
+._stepsDetailsBody .optionDiv .activeIcon .MuiSvgIcon-root {
+  background: #fdb415 !important;
+  color: #ffffff !important;
+}
+
+._stepTYPEandIcon {
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+}
+._stepTYPEandIcon .MuiSvgIcon-root {
+  font-size: 2em;
+}
+._stepTYPEandIcon .MuiTypography-root {
+  font-size: 1.5rem;
+  margin-left: 8px;
+  font-weight: bold;
+}
+._step_NO {
+}
+._whiteCircle {
+  color: #000000;
+  background: #ffffff;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  font-weight: bold;
+  font-family: Poppins;
+  padding: 10%;
+}
+._stepsDetailsBody {
+  justify-content: space-between;
+}
+
+._stepsDetailsResWrapper {
+  background: #f2f2f2;
+  margin: 3% !important;
+  border-radius: 6px !important;
+  padding: 1%;
+}
+
+.dashChatvidTopHeaderWrapper {
+  margin-bottom: 2%;
+}
+.dashChatvidTopHeaderWrapper .MuiGrid-grid-lg-4 {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-end;
+}
+.dashChatvidTopHeaderWrapper .sendChatvidBTNWrapper {
+  display: contents;
+}
+.dashChatvidTopHeaderWrapper .sendChatvidBTNWrapper .MuiButton-contained {
+  width: 70% !important;
+  font-size: xx-large;
+  text-transform: none !important;
+  padding: 0 !important;
+  margin: 0;
+}
+.thumbnailInChatvidHead {
+  display: flex;
+  overflow: hidden;
+  object-fit: cover;
+  object-position: center;
+  height: 7em;
+  width: 7em;
+  border-radius: 13px;
+}
+.thumbnailInChatvidHead img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.chatvidEditToolsWrapper {
+  display: flex;
+  width: 150%;
+}
+
+.chatvidEditToolsWrapper div {
+  color: blue;
+  background: #ffffff;
+  margin: 0.5%;
+  padding: 1%;
+  border-radius: 10px;
+  display: flex;
+  cursor: pointer;
+}
+.dashChatvidTopHeaderWrapper .copyChatvidURL .MuiPaper-elevation1 {
+  border-color: #fdb415 !important;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.dashChatvidTopHeaderWrapper
+  .copyChatvidURL
+  .MuiPaper-elevation1
+  .MuiButtonBase-root {
+  background: #fdb415 !important;
+}
+.dashChatvidTopHeaderWrapper
+  .copyChatvidURL
+  .MuiPaper-elevation1
+  .MuiInputBase-root {
+  margin-left: 0.4em !important;
+  font-size: small;
+  font-weight: bold;
+}
+
+.tabsWrapperChatvid {
+  border-bottom: 6px solid #fdb415;
+}
+.tabsBTNwrapper {
+  display: flex;
+}
+.tabsBTN {
+  background: #ffffff;
+  border-radius: 6px 6px 0px 0px;
+  padding: 1%;
+  width: 10em;
+  display: flex;
+  margin-right: 2%;
+  justify-content: center;
+  font-family: "Poppins";
+  font-weight: bold;
+  cursor: pointer;
+}
+.tabsWrapperChatvid .tabsBTNwrapper .active {
+  background: #fdb415;
+  color: #ffffff;
+}
+.replyIconWrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  color: #fdb415;
+}
+.replyIconWrapper svg {
+  font-size: inherit;
+}
+.tabsWrapperChatvid .replyIconWrapper svg {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.chatVidTabsWrapper {
+  background: #ffffff;
+  margin-top: -1px;
+  border-radius: 0px 0px 8px 8px;
+  padding: 1%;
+}
+.responderWrapper {
+  border-right: 1px solid #fdb415;
+  overflow: scroll !important;
+}
+.wrapperChatvidDashboard .responderWrapper {
+  height: 80vh;
+}
+.stepAvatarWrapper {
+  background: #fdb415;
+  border-radius: 50%;
+  padding: 5%;
+  height: 3.5em;
+  width: 3.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 2px;
+}
+.stepAvatarWrapper .MuiTypography-h4 {
+  color: #ffffff;
+  font-family: "Poppins";
+  font-size: 0.6rem;
+  font-weight: bold;
+}
+.stepAvatarWrapper .MuiTypography-h1 {
+  color: #ffffff;
+  font-family: "Poppins";
+  font-size: 1.7rem;
+}
+
+.replyWrapper_DASH {
+  border: 2px solid #fdb415;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 2%;
+}
+.replyWrapper_DASH .MuiGrid-grid-xs-2 {
+  background: #f2f2f2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1%;
+  justify-content: center;
+}
+.replyWrapper_DASH .avatarWrapper {
+  background: #fdb415;
+  border-radius: 50%;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  padding: 14%;
+  color: white;
+}
+.replyBodyWrapperContainer {
+  align-self: center;
+  background: rgb(255, 255, 255);
+  text-align: center;
+}
+
+._stepTabsChoices {
+  justify-content: space-between;
+  padding: 0px;
+  max-height: 65px !important;
+}
+._choiceProgressBar {
+  /* background-color: #f0cc79; */
+  padding: 2.5%;
+  border-bottom-left-radius: 7px;
+  border-top-left-radius: 7px;
+}
+._choiceProgressBar h5 {
+  margin: 1px;
+  color: #000000;
+  font-weight: 400 !important;
+}
+
+._choicePrcWrapper {
+  padding: 1%;
+  text-align: center;
+  background-color: #fdb415;
+  width: 95px;
+  border-bottom-right-radius: 7px;
+  border-top-right-radius: 7px;
+}
+._s h3 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #ffffff;
+}
+._P {
+  color: #ffffff;
+  font-weight: 400;
+}
+
+.AddMoreSteps {
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #fdb415;
+  padding: 2%;
+  color: #fdb415;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+/* METRICS */
+
+.chartBoardContainer {
+  background: #fdb415;
+  display: flex;
+  border-radius: 8px;
+  box-shadow: 0px 2px 8px -4px #000000;
+  color: #ffffff;
+  justify-content: space-around;
+}
+.chartBoard {
+  display: flex;
+  flex-direction: column;
+  padding: 1%;
+  align-items: flex-end;
+}
+._StatsContainer {
+  display: flex;
+  padding-right: 6%;
+}
+._statsLabel {
+}
+.chartGraphContainer {
+  padding: 1%;
+}
+.shuffleButton {
+  display: none;
+}
+.backButton {
+  float: right;
+  margin: 5px;
+  border: navajowhite;
+  width: 20%;
+  border-radius: 12px;
+  height: 14%;
+  height: 45px;
+}
+/* END Chatvid.tsx */
+@media (max-width: 1213px), (min-width: 1099px) {
+}
+@media only screen and (max-width: 1230px) {
+  .chatVidInfoShareOptions {
+    margin-left: 1px;
+    max-width: 35%;
+  }
+  .chatvidEditToolsWrapper {
+    display: grid;
+  }
+  .dashChatvidTopHeaderWrapper {
+    margin-left: 1px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  ._choiceProgressBar {
+    max-width: 80% !important;
+  }
+}
+@media (min-width: 1025px) and (max-width: 1280px) {
+  /* CSS */
+}
+
+@media only screen and (min-width: 1226px) {
+  .chatVidInfoShareOptions {
+    max-width: 35%;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .MainDrawer {
+    display: inherit !important;
+  }
+  .wrapperHomeContent {
+    display: inherit !important;
+  }
+}
+@media only screen and (min-width: 769px) {
+  .MainDrawer {
+    display: inherit !important;
+  }
+  .wrapperHomeContent {
+    display: inherit !important;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .shuffleButton {
+    display: inherit;
+  }
+  .wrapperHomeContent {
+    margin-left: 0px;
+    /* width: 100vw; */
+    width: 100% !important;
+    margin-top: 16px;
+  }
+  .wrapperHomeContentFull {
+    margin-top: 16px;
+  }
+  .wrapperChatvidDashboard {
+    margin-top: 35px;
+  }
+  .dashChatvidTopHeaderWrapper .MuiGrid-grid-lg-4 {
+    flex-direction: column;
+    align-content: flex-end;
+  }
+  .replyIconWrapper {
+    width: 100%;
+  }
+  .thumbnailInChatvidHead {
+    position: relative;
+    top: 9%;
+    height: 10em;
+  }
+  .backButton {
+    width: 100%;
+  }
+  .chatVidInfoShareOptions {
+    position: relative;
+    left: -10%;
+  }
+  .sidebarMain {
+    display: none;
+  }
+}
+/* Tablet Media Query */
+@media only screen and (min-device-width: 600px) and (max-width: 767px) {
+  .chatVidInfoGrid {
+    display: flex !important;
+    justify-content: space-between !important;
+  }
+  .chatVidShareOptions {
+    max-width: 70% !important;
+    flex-basis: 70% !important;
+  }
+  .replyIconWrappe {
+    width: 100% !important;
+    float: right !important;
+  }
+}
+@media (min-width: 600px) {
+  .chatVidShareOptions {
+    max-width: 70% !important;
+    flex-basis: 70% !important;
+  }
+}
+@media only screen and (max-width: 550px) {
+  .wrapperHomeContent {
+    margin-top: 40px;
+    width: 100vw;
+  }
+  .wrapperChatvidDashboard {
+    margin-top: 25px;
+  }
+  .wrapperHomeContentFull {
+    margin-top: 40px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .wrapperHomeContent {
+    margin-top: 40px;
+    width: 100vw;
+  }
+  .wrapperChatvidDashboard {
+    margin-top: 10px;
+  }
+  .wrapperHomeContentFull {
+    margin-top: 40px;
+  }
+  .dashboardTopLeft {
+    font-weight: 550 !important;
+    font-size: 20px !important;
+  }
+  .actionsHomePage h5 {
+    font-size: 1em !important;
+  }
+  .thumbnail {
+    max-width: inherit;
+  }
+  .replyIconWrapper {
+    width: 100%;
+  }
+  .chatVidInfoGrid {
+    position: relative;
+    /* left: -10%; */
+  }
+  .thumbnailInChatvidHead {
+    position: relative;
+    /* top: 12%; */
+  }
+  .backButton {
+    width: 100%;
+  }
+  .chatVidInfoShareOptions {
+    position: relative;
+    left: -4%;
+  }
+}
+
+@media (min-width: 400px) {
+  .chatVidShareOptions {
+    max-width: 57% !important;
+    flex-basis: 57% !important;
+  }
+}
+
+/* Mobile Media Query */
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 298px) and (max-device-width: 767px) {
+  .shuffleButton {
+    position: relative !important;
+    top: -54px !important;
+    left: -39px !important;
+    width: 24% !important;
+  }
+  .backButton {
+    background: transparent !important;
+  }
+  .chatVidShareOptions {
+    max-width: 50% !important;
+    flex-basis: 70% !important;
+    position: relative;
+    left: 22%;
+    top: 13px;
+  }
+  .dashChatvidTopHeaderWrapper {
+    min-width: 100%;
+    position: relative;
+    bottom: 65px !important;
+  }
+  .tabsWrapperChatvid {
+    position: relative !important;
+    top: -55px !important;
+  }
+  .chatVidTabsWrapper {
+    position: relative !important;
+    top: -54px !important;
+  }
+  .chatvidNameMob {
+    font-size: 25px !important;
+  }
+  .iconMobile {
+    font-size: 13px !important;
+  }
+  .thumbnail {
+    max-width: 100%;
+  }
+  .mobileIconDiv {
+    width: 66%;
+  }
+  .dashChatvidTopHeaderWrapper .sendChatvidBTNWrapper .MuiButton-contained {
+    margin-left: 115px;
+    font-weight: bold !important;
+    font-size: 13px !important;
+    width: 43% !important;
+  }
+  .iconsMob {
+    font-size: 15px !important;
+  }
+  ._responseWrapper {
+    height: auto !important;
+  }
+  .wrapperHomeContent {
+    padding: 1rem !important;
+    padding-top: 3rem !important;
+  }
+  .stepAvatarWrapper {
+    margin: 0px !important;
+    height: 36px !important;
+    width: 36px !important;
+  }
+  .stepAvatarWrapper .MuiTypography-h4 {
+    display: none;
+    font-size: 0.4rem !important;
+  }
+  .stepAvatarWrapper .MuiTypography-h1 {
+    font-size: 1.1rem !important;
+  }
+  .respondersCardWrapper {
+    width: 77% !important;
+    position: relative;
+    left: 37px !important;
+  }
+  .AddMoreSteps {
+    width: 77% !important;
+    position: relative;
+    left: 37px !important;
+  }
+  .wrapperChatvidDashboard {
+    position: relative !important;
+    top: -50px !important;
+  }
+  .responderDiv {
+    text-align: center !important;
+    padding: 7px !important;
+  }
+  ._choiceProgressBar {
+    padding: 4.5% !important;
+    max-width: 94% !important;
+  }
+  ._choicebar {
+    width: 94% !important;
+    max-width: 94% !important;
+  }
+}

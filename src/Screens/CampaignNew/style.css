@@ -1,0 +1,488 @@
+.videoStreamWrapper {
+  position: relative;
+  background-color: #000;
+  width: 100%;
+  padding-top: 56.25%;
+  height: 0px;
+}
+.videoStreamWrapper .loadingText {
+  color: #fff;
+  transition: all 0.5ms ease-in;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+}
+.iconRecording {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}
+.counterRecording {
+  color: #fff;
+  font-size: 100px;
+  transition: all 0.5ms ease-in;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  text-shadow: 1px 2px rgba(0, 0, 0, 0.5);
+}
+.timerRecording {
+  color: #000;
+  background-color: #fff;
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 5px;
+}
+.containerCampaign {
+  padding-top: 10px;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  background: #F2F2F2;
+  height: inherit !important;
+}
+.wrapperBtnRecording {
+  display: flex;
+  justify-content: center;
+}
+/* -----overveiw screen wrapper */
+.overviewWrapperDiv {
+  padding: 2%;
+  background: #F2F2F2;
+}
+
+.overviewWrapperDiv h4 {
+  text-align: center;
+  padding-bottom: 30px;
+  color: #fcb414;
+  border-bottom: 6px solid #fcb414;
+  margin-bottom: 1.8%;
+}
+
+.descriptOfTemplate {
+  margin-top: 2%;
+
+}
+.descriptOfTemplate h3 {
+  font-weight: bold;
+  font-family: "Poppins";
+}
+.stepGridWrapper {
+  background: #ffffff !important;
+  height: 100%;
+  border-radius: 2%;
+  padding: 4%;
+  overflow-y: scroll;
+  margin: 8px !important;
+}
+.stepHead {
+  height: 50px;
+  width: 80%;
+  border-bottom: 1px solid #4D4D4D;
+  margin-bottom: 2%;
+  padding: 1%;
+  display: flex;
+  justify-content: right;
+}
+
+.stepHead h4 {
+  border: none !important;
+  margin-right: 4%;
+  margin-left: 4%;
+  font-weight: bold !important;
+  /* align-self: center !important; */
+}
+.stepHead h5 {
+  /* font-family: "Poppins"; */
+  font-weight: bold;
+  font-size: 14px;
+  align-self: center;
+}
+.viewsWrapper {
+  width: 70%;
+  margin: 8px !important;
+}
+.thumbnailView {
+  border: 3px solid #3b94d2;
+}
+.continueBTN {
+  background-image: linear-gradient(to right, #fcb317, #8bb589, #61b5b3);
+  margin-top: 18 !important;
+  color: #fff !important;
+  width: 80% !important;
+  height: 60px;
+  font-family: "Poppins" !important;
+  font-weight: bolder !important;
+  font-size: larger !important
+}
+.moveBackBTN {
+  margin-top: 18 !important;
+  background: #fcb317 !important;
+  color: #fff !important;
+  width: 20% !important;
+  font-family: Poppins !important;
+  font-weight: bolder !important;
+  font-size: larger !important
+}
+.actionBTNsWrapper {
+  margin-top: 3% !important;
+}
+
+.alignRight {
+  text-align: right !important;
+}
+/* -----recording screen wrapper */
+.recordingWrapperDiv {
+  padding: 2%;
+  background: #F2F2F2;
+}
+.shotNo {
+  margin-left: 2% !important;
+  color: #fcb317;
+  font-weight: 600 !important;
+  font-size: 22px;
+  font-family: "Poppins";
+  padding-bottom: 1.5%;
+  margin-bottom: 2% !important;
+  border-bottom: 4px solid #fcb317;
+}
+.recorderWrapper {
+  margin-left: 30px;
+  text-align: center;
+  /* border: 1px solid #cdcdcd; */
+  padding: 10px 20px 10px 20px;
+  /* border-radius: 4px; */
+}
+.instructionWrapper {
+  padding: 30px 20px 10px 30px;
+  margin-right: 30px;
+  -webkit-animation: fadein 2s;
+  -moz-animation: fadein 2s;
+  -ms-animation: fadein 2s;
+  -o-animation: fadein 2s;
+  animation: fadein 2s;;
+}
+.instructionText {
+  padding-top: 20px;
+}
+.instructionHeading {
+  padding: 60px 0px 0px 0px;
+  color: #0071bc;
+}
+.instructionLength {
+  font-size: 0.8em;
+  padding-top: 5px;
+}
+.exampleTxt {
+  font-weight: bold;
+}
+.introHeading {
+  padding-top: 40px !important;
+}
+.recordHeading {
+  text-align: center;
+  font-weight: 700;
+  padding: 10px 0px 5px 0px;
+  color: #0071bc;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+.addLogoHeading {
+  text-align: center;
+  color: #ff4301;
+  margin-bottom: 15px;
+  font-weight: 700;
+  padding: 10px 0px 5px 0px;
+  text-transform: uppercase;
+}
+
+/* ------prev newxt buttons wrappers */
+.btnSingleWrap {
+  padding: 20px 5px;
+  display: flex;
+  justify-content: flex-end;
+}
+.btnDoubleWrap {
+  display: flex;
+  justify-content: center;
+  padding: 20px 5px;
+}
+/* -- */
+.wrapperMerge {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.labelUploadSection {
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+.addLogoMessage {
+  padding-bottom: 10px;
+  font-size: 25px;
+  text-transform: uppercase;
+  color: #2f2519;
+}
+.positionTxt {
+  color: #2f2519;
+  padding-top: 20px;
+  font-size: 16px;
+}
+#formInput input {
+  padding: 8px !important;
+}
+.optionalText {
+  font-size: 10px;
+  color: #636363;
+  font-weight: 400;
+}
+.wrapperPreviewVideo {
+  position: relative;
+  background-color: #000;
+  width: 100%;
+  padding-top: 56.25%;
+  height: 0px;
+}
+.btnEditVideo {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 5px;
+}
+#formInput .MuiLinearProgress-root {
+  height: 14px !important;
+}
+.recordQualityInput {
+  width: 272px;
+  margin-top: 15px;
+  text-align: start;
+}
+.wrapperAddLogoText {
+  border-radius: 4px;
+  padding: 10px 30px 10px 30px;
+  background: #fff;
+  box-shadow: 0px 0px 3px #d3d3d3;
+}
+.addLogoDiv {
+  box-shadow: 0 0 10px #cdcdcd;
+  padding: 31px;
+  margin-top: 51px;
+  margin-right: 30px;
+}
+.addTextDiv {
+  box-shadow: 0 0 10px #cdcdcd;
+  padding: 31px;
+  margin-top: 51px;
+}
+.compact-picker {
+  width: 360px !important;
+}
+/* -----select template css goes here */
+.wrapperSelectTemplate {
+  padding: 10px 20px;
+}
+.wrapperSelectTemplate h4 {
+  text-align: center;
+  padding-bottom: 30px;
+  color: #fcb414;
+}
+
+.wrapperSelectTemplate .MuiPaper-elevation1 {
+  border-radius: 0 0 8px 8px !important;
+}
+
+.wrapperSelectTemplate .MuiCardMedia-img,
+.wrapperSelectTemplate .MuiCardMedia-media {
+  border: 2px solid #3b94d2;
+}
+
+.TemplateWrapperContainer .MuiTypography-h5,
+.TemplateWrapperContainer .MuiTypography-gutterBottom {
+  text-align: center;
+  color: #000;
+  font-weight: 500;
+  font-size: 22px;
+  font-family: "Poppins";
+}
+
+.chosenIndustry {
+  background: #ffcc01 !important;
+  color: #fff !important;
+  font-family: "Poppins" !important;
+}
+
+.chosenIndustry .MuiCardMedia-img,
+.chosenIndustry .MuiCardMedia-media {
+  border: 2px solid #fd7527;
+}
+
+.chosenIndustryName {
+  font-size: 28px !important ;
+  font-family: "Poppins" !important;
+  font-weight: 500 !important;
+}
+
+.changeIndustryBtn {
+  color: #feb315 !important;
+  outline-color: #feb315 !important;
+  border: 3px solid #feb315 !important;
+  width: 70% !important;
+  font-family: "Poppins" !important;
+  font-size: 18px !important;
+  font-weight: bold !important;
+  height: 64px !important;
+  padding: 0% !important;
+}
+
+.campCards {
+  margin: 2%;
+}
+/* ---step recording css */
+.wrapperStep {
+  /* border: 1px solid #cdcdcd; */
+  width: 100%;
+  /* border-radius: 4px; */
+}
+.wrapperStepHeader {
+  /* border-bottom: 1px solid #cdcdcd; */
+}
+.wrapperStepHeader p {
+  padding: 10px 20px 10px 20px;
+}
+.wrapperStepExamples {
+  padding: 10px 20px 10px 20px;
+}
+
+.choseIndustryContainer .changeIndustryBtn {
+  margin-top: 4% !important;
+}
+
+@media (max-width: 960px) {
+  .actionBTNsWrapper {
+    /* text-align: center !important; */
+  }
+  .actionBTNsWrapper .moveBackBTN {
+    /* margin: 2%; */
+    width: 50% !important;
+  }
+  .actionBTNsWrapper .alignRight {
+    /* text-align: center !important; */
+  }
+  .actionBTNsWrapper .continueBTN {
+    /* width: 50% !important; */
+    /* text-align: center !important; */
+  }
+}
+
+@media (max-width: 600px) {
+  .choseIndustryContainer {
+    margin-bottom: 6%;
+    padding-bottom: 6%;
+    border-bottom: 2px solid #fcb414;
+  }
+  .overviewWrapperDiv .actionBTNsWrapper, .recorderWrapper .actionBTNsWrapper  {
+    text-align: center !important;
+    margin-top: 8% !important;
+    margin-bottom: 4% !important;
+  }
+  .actionBTNsWrapper .moveBackBTN {
+    margin: 2%;
+    width: 80% !important;
+  }
+  .recorderWrapper .changeIndustryBtn {
+    margin: 2%;
+    width: 60% !important;
+  }
+  .actionBTNsWrapper .alignRight {
+    text-align: center !important;
+  }
+  .sm-none {
+    display: none !important;
+  }
+}
+
+@media (max-width: 500px) {
+  .btnDoubleWrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px 5px;
+  }
+  .compact-picker {
+    width: 200px !important;
+  }
+  .counterRecording {
+    font-size: 50px;
+  }
+  .timerRecording {
+    padding: 1px;
+  }
+  .timerRecording span {
+    font-size: 0.6em;
+  }
+  .viewsWrapper {
+    width: 100% !important;
+    padding: 2%;
+  }
+  .thumbnailView {
+    width: 100% !important;
+  }
+  .recorderWrapper {
+    padding: 2% !important;
+    margin-left: 0% !important;
+  }
+
+}
+
+@media (max-width: 400px) {
+  .overviewWrapperDiv .actionBTNsWrapper{
+    text-align: center !important;
+    margin-top: 8% !important;
+    margin-bottom: 4% !important;
+  }
+}
+
+.avatarImage {
+  width: 100px;
+  margin-right: 1em;
+}
+
+.emailTmplateDialogWrapper .MuiDialog-paperWidthSm {
+  width: 60% !important;
+  max-width: 60% !important;
+}
+
+.emailTmplateDialogWrapper .MuiListItem-root {
+  width: 250px !important;
+}
+
+.emailTmplateDialogWrapper .MuiList-root,
+.emailTmplateDialogWrapper .MuiList-padding {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.emailTmplateDialogWrapper .MuiListItem-button {
+  box-shadow: 0px 5px 5px #888888;
+  margin: 0.5em !important;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"),
+    url(../../assets//fonts/Poppins-Regular.ttf) format("ttf");
+}
+@font-face {
+  font-family: "Open Sans";
+  src: local("Poppins"),
+    url(../../assets//fonts/OpenSans-Regular.ttf) format("ttf");
+}

@@ -1,20 +1,88 @@
-.CardMain{
-    width: 230px;
-    height: 130px;
-    margin-top: 30px;
+.CardMain {
+  width: 100%;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #000000;
+  cursor: pointer;
 }
-.Title{
-    display: flex;
-    justify-content: flex-end;
-    padding-right: 20px;
-    font-size: 30px;
-    margin-top:20px;
 
+.cardTitle {
+  font-size: 40px;
+  color: #000000;
+  font-weight: 600;
+  font-family: "Poppins";
 }
-.Description{
-    display: flex;
-    margin-top: -10px;
-    justify-content: flex-end;
-    padding-right: 20px;
-    font-size: 15px;
+.cardText {
+  font-size: 16px;
+  letter-spacing: 0;
+  font-weight: 300;
+  font-family: "Poppins";
+}
+
+.Description {
+  padding-top: 5px;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+.iconCards {
+  font-size: 15px;
+}
+.wrapperIconCard {
+  text-align: right;
+}
+.detailsCard {
+  width: 70%;
+  display: flex;
+  margin-top: 0%;
+  align-items: center;
+  justify-content: center;
+}
+.detailCardHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: baseline;
+  align-items: center;
+  margin-left: 10px;
+}
+.CardMain .MuiLinearProgress-barColorPrimary {
+  background-color: #d3d3d3 !important;
+}
+.CardMain .MuiLinearProgress-root {
+  height: 2px !important;
+}
+
+@media only screen and (max-width: 960px) {
+  .cardTitle {
+    font-size: 2.2rem !important;
+    font-weight: 500 !important;
+  }
+  .iconCards {
+    font-size: 25px !important;
+    margin: 16px !important;
+  }
+}
+@media (max-width: 400px) {
+  .detailCardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .cardTitle {
+    font-size: 30px !important;
+    font-weight: 400 !important;
+  }
+  .cardText {
+    font-size: 12px;
+  }
+  .iconCards {
+    font-size: 20px !important;
+    /* margin: 16px !important; */
+  }
+  .detailsCard {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
 }

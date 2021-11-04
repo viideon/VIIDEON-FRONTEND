@@ -1,110 +1,110 @@
-import React, { useState } from 'react';
-import { TabContent, TabPane, Nav, NavItem, NavLink, Container } from 'reactstrap';
-import classnames from 'classnames';
-import { FaInfo, FaChartLine, FaCut, FaPalette, FaRegEye, FaReply } from "react-icons/fa";
-import './style.css';
-import Header from './Header';
-import Detail from './Detail';
-import Editing from './Editing';
-import Design from './Design';
-import Privacy from './Privacy';
-import VideoReplies from './VideoReplies';
-// import PercentageCircle from 'reactjs-percentage-circle';
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { getVideo, cleanSingleVideo } from "../../Redux/Actions/videos";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import Grid from "@material-ui/core/Grid";
+import "react-tabs/style/react-tabs.css";
+import { FaInfo, FaChartLine, FaShare } from "react-icons/fa";
+import PaletteIcon from "@material-ui/icons/Palette";
+import VideoTabHeader from "./Header";
+import Detail from "./Detail";
+import Share from "./Share";
+import Analytics from "./Analytics";
+import Design from "./Design";
+import Header from "../../components/Header/Header";
+import "./style.css";
 
+const VideoTab = ({ match: { params }, getVideo, cleanSingleVideo }: any) => {
+  const [isDisabled, enableLinks] = useState(true);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    getVideo(params.id);
+    setTimeout(() => enableLinks(false), 1000);
+    return () => {
+      cleanSingleVideo();
+    };
+  }, [getVideo, params.id]);
 
-
-const Example = () => {
-    const [activeTab, setActiveTab] = useState('1');
-    const toggle = (tab: any) => {
-        if (activeTab !== tab) setActiveTab(tab);
-    }
-    return (
-        <Container fluid>
-            <br /><br />
-            <Header />
-            <br /><br />
-            <Nav tabs id="videoTabWrap">
-                <NavItem >
-                    <NavLink id="videoTabNavLink"
-                        className={classnames({ active: activeTab === '1' })}
-                        onClick={() => { toggle('1'); }}
-                    >
-                        <span><i><FaInfo id="videoTabIcon" /></i></span>
-                        <p>DETAILS</p>
-                    </NavLink>
-                </NavItem>
-                <NavItem>
-                    <NavLink id="videoTabNavLink"
-                        className={classnames({ active: activeTab === '2' })}
-
-                        onClick={() => { toggle('2'); }}
-                    >
-                        <span><i><FaChartLine id="videoTabIcon" /></i></span>
-                        <p>ANALYTICS</p>
-                    </NavLink>
-                </NavItem>
-                <NavItem>
-                    <NavLink id="videoTabNavLink"
-                        className={classnames({ active: activeTab === '3' })}
-                        onClick={() => { toggle('3'); }}
-                    >
-                        <span><i><FaCut id="videoTabIcon" /></i></span>
-                        <p>EDITING</p>
-                    </NavLink>
-                </NavItem>
-                <NavItem>
-                    <NavLink id="videoTabNavLink"
-                        className={classnames({ active: activeTab === '4' })}
-                        onClick={() => { toggle('4'); }}
-                    >
-                        <span><i><FaPalette id="videoTabIcon" /></i></span>
-                        <p>DESIGN</p>
-                    </NavLink>
-                </NavItem>
-                <NavItem>
-                    <NavLink id="videoTabNavLink"
-                        className={classnames({ active: activeTab === '5' })}
-                        onClick={() => { toggle('5'); }}
-                    >
-                        <span><i><FaRegEye id="videoTabIcon" /></i></span>
-                        <p>PRIVACY</p>
-                    </NavLink>
-                </NavItem>
-                <NavItem>
-                    <NavLink id="videoTabNavLink"
-                        className={classnames({ active: activeTab === '6' })}
-                        onClick={() => { toggle('6'); }}
-                    >
-                        <span><i><FaReply id="videoTabIcon" /></i></span>
-                        <p>VIDEO REPLIES</p>
-                    </NavLink>
-                </NavItem>
-            </Nav>
-            <TabContent activeTab={activeTab}>
-                <TabPane tabId="1">
-                    <Container>
-                        <Detail />
-                    </Container>
-
-                </TabPane>
-                <TabPane tabId="2">
-                    <h4>Tab 2</h4>
-                </TabPane>
-                <TabPane tabId="3">
-                    <Editing />
-                </TabPane>
-                <TabPane tabId="4">
-                    <Design />
-                </TabPane>
-                <TabPane tabId="5">
-                    <Privacy />
-                </TabPane>
-                <TabPane tabId="6">
-                    <VideoReplies />
-                </TabPane>
-            </TabContent>
-        </Container>
-    );
-}
-
-export default Example;
+  return (
+    <>
+      <Header
+        styles={{
+          backgroundImage:
+            "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))",
+        }}
+      />
+      <div className="wrapperVideoTab">
+        <Grid container>
+          <Grid item xs={12} md={6} sm={12}>
+            <div className="wrapperTabVideo">
+              <VideoTabHeader />
+            </div>
+          </Grid>
+          <Grid item xs={12} md={6} sm={12} style={{ marginTop: "1em" }}>
+            <Tabs>
+              <TabList>
+                <Tab disabled={isDisabled}>
+                  <div className="videoTabIcon">
+                    <FaInfo />
+                  </div>
+                  <div>DETAILS</div>
+                </Tab>
+                <Tab disabled={isDisabled}>
+                  <div className="videoTabIcon">
+                    <FaChartLine />
+                  </div>
+                  <div>ANALYTICS</div>
+                </Tab>
+                {/* <Tab>
+                  <div className="videoTabIcon">
+                    <FaCut />
+                  </div>
+                  <div>EDITING</div>
+                </Tab> */}
+                <Tab>
+                  <div className="videoTabIcon">
+                    <PaletteIcon />
+                  </div>
+                  <div>EDITING</div>
+                </Tab>
+                <Tab disabled={isDisabled}>
+                  <div className="videoTabIcon">
+                    <FaShare />
+                  </div>
+                  <div>SHARE</div>
+                </Tab>
+              </TabList>
+              <TabPanel forceRender>
+                <Detail />
+              </TabPanel>
+              <TabPanel>
+                <Analytics />
+              </TabPanel>
+              {/* <TabPanel>
+                <Editing videoId={params.id} />
+              </TabPanel> */}
+              <TabPanel>
+                <Design />
+              </TabPanel>
+              <TabPanel>
+                <Share />
+              </TabPanel>
+            </Tabs>
+          </Grid>
+        </Grid>
+      </div>
+    </>
+  );
+};
+const mapStateToProps = (state: any) => {
+  return {
+    loadingVideo: state.video.loadingVideo,
+  };
+};
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    getVideo: (id: any) => dispatch(getVideo(id)),
+    cleanSingleVideo: () => dispatch(cleanSingleVideo()),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(VideoTab);

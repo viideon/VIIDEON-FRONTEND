@@ -1,0 +1,36 @@
+.wrapperTopDrawer {
+  background-color: #0f2733;
+  opacity: 5px;
+  box-shadow: 0 0 10px lightgrey;
+  transition: transform 2s ease-in;
+}
+.OptionIcons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 10px;
+  color: #9fa5b3;
+}
+.OptionIcons:hover {
+  background-color: #2c3542;
+  cursor: pointer;
+  color: #0f2733;
+}
+
+.OptionIcons:hover .IconNameStyling,
+.OptionIcons:hover .dashboard {
+  color: #0f2733 !important;
+}
+.IconNameStyling {
+  font-family: "Poppins", sans-serif;
+  color: #b4bcc8;
+  margin-left: 20px;
+  font-size: 1rem;
+  font-weight: 400;
+  cursor: pointer;
+}
+.dashboardOptionTop,
+.dashboard,
+.IconNameStyling {
+  color: #fff !important;
+}

@@ -1,0 +1,373 @@
+.responseTypeWrapper {
+  width: 100%;
+  height: inherit !important;
+  flex-direction: row;
+  background-color: #f2f2f2;
+}
+
+.mainVideoContainer {
+  height: 100vh !important;
+  background: inherit;
+  /* width: 100%; */
+}
+.mainVideoContainer .MuiGrid-item {
+  display: flex;
+  /* margin-top: -66%; */
+}
+.mainVideoContainer canvas {
+  object-fit: contain;
+  width: 100% !important;
+}
+.ResponseAndTypeWrapper {
+  height: inherit !important;
+  background: inherit;
+  /* width: 100%; */
+  /* background-color: white; */
+}
+.overLayText {
+  display: flex;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  padding: 1%;
+  width: calc(100% - 50%);
+  color: #fdb415;
+}
+.videoFULL {
+  object-fit: cover !important;
+  margin-top: inherit;
+}
+.videoFull2 {
+  object-fit: fill !important;
+  margin-top: inherit;
+}
+.preview {
+  position: absolute;
+}
+.previewText {
+  position: relative;
+  left: -50%;
+  text-align: center;
+  top: 12%;
+  bottom: -23%;
+  opacity: 0.7;
+  z-index: 0;
+  padding: 36px;
+  color: rgb(12, 12, 12);
+}
+.captionDiv {
+  background: #fdb415;
+  height: 50% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2%;
+}
+.mobilecaptionDiv {
+  background: none;
+  height: 15% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2%;
+}
+.mobilecaptionDiv .MuiTypography-h3 {
+  font-family: "Poppins";
+  color: #fdb415;
+  font-weight: bold;
+  font-size: 25px;
+}
+.captionDiv .MuiTypography-h3 {
+  font-family: "Poppins";
+  color: #ffffff;
+  font-weight: bold;
+  margin-left: 8%;
+  margin-right: 8%;
+}
+.captionDiv .MuiTypography-h6 {
+  color: #fff !important;
+  font-size: 1.5rem;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 800 !important;
+  line-height: 1.6;
+  letter-spacing: 0.0075em;
+  text-align: center;
+}
+.optionDiv {
+  height: 50% !important;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 4%;
+}
+.mobileoptionDiv {
+  height: 50% !important;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-evenly;
+}
+.mobileType {
+  position: absoulte;
+  height: 70%;
+  display: flex;
+  align-items: flex-end;
+}
+.IconWrapper {
+  border: 1px solid #fbd145;
+  border-radius: 50%;
+  width: 240px;
+  height: 240px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  color: #fdb415 !important;
+  cursor: pointer;
+}
+.IconWrapper .MuiTypography-h1 {
+  font-family: "Poppins";
+  font-weight: bold;
+}
+.mobileIconWrapper {
+  border: 1px solid #fbd145;
+  border-radius: 50%;
+  width: 115px;
+  height: 105px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  color: white !important;
+  cursor: pointer;
+  background-color: #fbd145;
+}
+
+.mobileIconWrapper .MuiTypography-h1 {
+  font-family: "Poppins";
+  font-weight: bold;
+  font-size: 2rem;
+}
+.mobileIconWrapper .MuiTypography-subtitle1 {
+  font-family: "Poppins";
+}
+.IconWrapper .MuiTypography-subtitle1 {
+  font-family: "Poppins";
+  font-weight: bold;
+  font-size: x-large;
+}
+.IconWrapper .MuiSvgIcon-root {
+  font-size: 6rem;
+  color: #fdb415 !important;
+}
+
+/* Text Response  */
+.textResponseWrappreContainer {
+  height: 100%;
+}
+.textResponseWrappreContainer .optionDiv {
+  flex-direction: column;
+  justify-content: space-between;
+}
+.previewTitle {
+  color: #fdb415;
+  background-color: white;
+  padding: 5px;
+  font-size: 1.25rem;
+  text-align: left;
+  margin-left: 1rem;
+  margin-top: 1rem;
+  font-weight: 800;
+}
+._response_txtField {
+  border: 2px solid #fdb415 !important;
+  border-radius: 4px;
+  outline: none !important;
+}
+._response_txtField:focus {
+  outline: none !important;
+}
+._response_txtField .MuiOutlinedInput-notchedOutline {
+  border: none !important;
+}
+._response_txtField .MuiOutlinedInput-notchedOutline:focus,
+._response_txtField .MuiInputBase-formControl:focus,
+._response_txtField .MuiInputBase-formControl:hover {
+  outline: none !important;
+  border: none !important;
+}
+.responseNavigationWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+.responseNavigationWrapper button {
+  width: 20% !important;
+}
+
+.AudioIconWrapper {
+  display: flex;
+  align-self: center;
+  border: 4px solid lightgrey;
+  border-radius: 50%;
+  padding: 4%;
+  cursor: pointer;
+}
+.AudioIconWrapper .PlayIcons {
+  color: #fdb415;
+  position: absolute;
+}
+.AudioIconWrapper .RecordingIcons {
+  font-size: 7rem;
+  color: lightgrey;
+}
+.AudioIconWrapper svg {
+  font-size: 7rem;
+  /* color: lightgrey; */
+}
+
+.AudioIconWrapper #fab .MuiSvgIcon-root {
+  color: #fdb415;
+  z-index: 2;
+  cursor: pointer;
+}
+.AudioIconWrapper #fab {
+  background-color: transparent !important;
+  border: none !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  box-shadow: none !important;
+}
+
+.AudioIconWrapper .makeStyles-fabProgress-7 {
+  top: -46px;
+  left: -70px;
+}
+
+.AudioIconWrapper .makeStyles-fabProgress-7 .MuiCircularProgress-svg,
+.AudioIconWrapper .MuiCircularProgress-colorPrimary {
+  color: #fdb415;
+}
+
+.audioTimer {
+  align-self: center;
+  font-family: "Poppins";
+  font-weight: 500;
+  letter-spacing: 0em;
+}
+
+#fitContent {
+  width: fit-content !important;
+}
+
+/* Video Response */
+.ResponseAndTypeWrapper
+  .customeRecWrapper
+  .videoStreamWrapper
+  .safeAreaWrapper {
+  display: none;
+}
+.videoResponseRight {
+  height: 100%;
+}
+
+.videoResponseWrappreContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+}
+
+/* Multple choice */
+.optionsWrapper {
+  width: 100%;
+}
+._choiceOption {
+  border: 1.5px solid #fdb415;
+  border-radius: 8px;
+  padding: 3%;
+  margin: 2%;
+  display: flex;
+  align-items: center;
+  color: #fdb415;
+  cursor: pointer;
+}
+._choiceOption .MuiTypography-h5 {
+  font-family: "Poppins";
+  font-weight: bold;
+}
+._calendly {
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  height: 50vh;
+  margin-top: -35px;
+}
+
+.page_region /deep/ ._2LpwQ___Wrapper__cls1._1cMla___Wrapper__media-tablet-up {
+  margin-top: 5px !important;
+}
+._2LpwQ___Wrapper__cls1._1cMla___Wrapper__media-tablet-up {
+  margin-top: 5px !important;
+}
+._2LpwQ___Wrapper__cls1 {
+  margin-top: 0px !important;
+}
+@media only screen and (max-width: 1612px) {
+  .IconWrapper {
+    width: 200px;
+    height: 200px;
+  }
+}
+@media only screen and (max-width: 1360px) {
+  .IconWrapper {
+    width: 180px;
+    height: 180px;
+  }
+  .IconWrapper .MuiTypography-subtitle1 {
+    font-family: "Poppins";
+    font-weight: bold;
+    font-size: large;
+  }
+  .IconWrapper .MuiTypography-h1,
+  .IconWrapper .MuiSvgIcon-root {
+    font-size: 5rem;
+  }
+}
+@media only screen and (max-width: 1280px) {
+  .IconWrapper {
+    width: 160px;
+    height: 160px;
+  }
+}
+@media only screen and (max-width: 1080px) {
+  .IconWrapper {
+    width: 140px;
+    height: 140px;
+  }
+  .IconWrapper .MuiTypography-h1,
+  .IconWrapper .MuiSvgIcon-root {
+    font-size: 4rem;
+  }
+}
+@media only screen and (max-width: 960px) {
+}
+@media only screen and (max-width: 720px) {
+}
+@media only screen and (max-width: 550px) {
+}
+
+@media only screen and (max-width: 600px) {
+  .mainVideoContainer {
+    margin-top: 1px;
+  }
+}
+@media only screen and (min-device-width: 298px) and (max-device-width: 767px) {
+  ._choiceOption .MuiTypography-h5 {
+    width: auto !important;
+    font-size: 10px !important;
+    height: 40px !important;
+    margin: auto !important;
+  }
+  .captionDiv .MuiTypography-h3 {
+    font-weight: normal !important;
+  }
+}

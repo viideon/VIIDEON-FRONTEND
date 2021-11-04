@@ -1,0 +1,23 @@
+.wrapperRows {
+  display: flex;
+  flex-wrap: wrap;
+}
+.wrapperModal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.wrapperLogout {
+  width: 40%;
+  background-color: #fff;
+  outline: none;
+}
+.headerStyle {
+  padding: 0px 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#modalStyle {
+  outline: none !important;
+}

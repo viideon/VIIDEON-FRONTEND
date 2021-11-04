@@ -1,29 +1,31 @@
-import { types, ProfileState } from "../Types/profile";
+import { types } from "../Types/profile";
 
-const initialState: ProfileState = {};
+const initialState: any = {
+  loading: false
+};
 
 const profileReducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case types.PROFILE_REQUEST:
+    case types.ADD_PROFILE_DATA:
+      return { ...state, user: action.payload.user };
+    case types.PROFILE_UPDATE_REQUEST:
       return {
         ...state,
         loading: true
       };
-    case types.PROFILE_SUCCESS:
+    case types.PROFILE_UPDATE_SUCCESS:
       return {
         ...state,
         loading: false,
-        success: action.payload
+        user: action.payload
       };
-    case types.PROFILE_FAILURE:
+    case types.PROFILE_UPDATE_FAILURE:
       return {
         ...state,
-        error: true,
-        loading: false,
-        errorMessage: action.payload.message
+        loading: false
       };
     default: {
-      return { ...state };
+      return state;
     }
   }
 };

@@ -1,0 +1,722 @@
+.interActiveRecorderContainer {
+  width: 100%;
+  border-radius: 5px;
+  margin: auto;
+  margin-top: 1%;
+  opacity: 5px;
+  padding: 15px;
+  box-shadow: 0 0 10px lightgrey;
+  padding-top: 0%;
+}
+
+/* PREVIEW TABSSS */
+.textpreview {
+  background: white;
+  margin-left: 10px;
+  font-size: 20px;
+  margin: 0px;
+  text-align: center;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  color: #fdb415;
+}
+.previewTab {
+  height: inherit;
+  padding: 1%;
+  background: #f2f2f2;
+}
+.previewTabswrapper {
+  display: flex;
+  justify-content: center;
+}
+.previewTabswrapper .tabIconWrapper {
+  background: lightgrey;
+  border-radius: 50%;
+  padding: 1%;
+  color: #ffffff;
+  margin: 1%;
+  cursor: pointer !important;
+}
+.previewTabswrapper .active {
+  color: #ffffff;
+  background: #fdb415;
+  cursor: pointer !important;
+}
+
+.chatvidPreviewWrapper {
+  margin: 4%;
+}
+.chatvidPreviewWrapper svg {
+  color: #ffffff;
+}
+.chatvidPreviewWrapper .responseTypeWrapper {
+  border-radius: 0px 0px 8px 8px;
+}
+.chatvidPreviewWrapper .responseTypeWrapper .mainVideoContainer {
+  background: #ffffff;
+  height: auto !important;
+}
+/* .chatvidPreviewWrapper .responseTypeWrapper .mainVideoContainer .MuiGrid-item{
+  margin-top: 0px !important;
+} */
+.chatvidPreviewWrapper
+  .responseTypeWrapper
+  .mainVideoContainer
+  .MuiGrid-item
+  .overLayText {
+  width: calc(100% - 70%);
+  top: auto;
+  height: 90%;
+}
+.videoText {
+  min-height: 55%;
+  max-height: 40%;
+  min-width: 100%;
+  overflow-wrap: anywhere;
+  overflow: auto;
+}
+.videoScreen {
+  width: 50%;
+  min-height: 40%;
+  max-height: 40%;
+}
+.chatvidPreviewWrapper .responseTypeWrapper .optionDiv {
+  background: #ffffff;
+  overflow: hidden;
+  padding-bottom: 10%;
+}
+
+.previewTopHead {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 8px 8px 0px 0px;
+  padding: 1%;
+  align-items: center;
+  background-image: linear-gradient(to right, #fcb317, #8bb589, #61b5b3);
+}
+.previewTopHead div {
+  display: flex;
+}
+.previewTopHead span {
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  margin: 4px;
+}
+.closeWindow {
+  color: red !important;
+}
+.minmizeWindow {
+  color: orange !important;
+}
+.expandWindow {
+  color: green !important;
+}
+.previewSearchHead {
+  background: gainsboro;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  padding-left: 2%;
+  padding-right: 2%;
+}
+.previewSearchHead .MuiPaper-root {
+  height: auto;
+  box-shadow: none;
+  background: gray;
+  width: 80%;
+}
+.reverse {
+  transform: rotate(180deg);
+}
+
+.chatvidPreviewWrapper .responseTypeWrapper .IconWrapper {
+  width: 140px;
+  height: 140px;
+}
+.chatvidPreviewWrapper .responseTypeWrapper .IconWrapper .MuiTypography-h1,
+.chatvidPreviewWrapper .responseTypeWrapper .IconWrapper .MuiSvgIcon-root {
+  font-size: 4rem;
+}
+
+/* Landing  */
+.LandingQuestionWrapper {
+  /* background: beige; */
+  height: inherit;
+  align-content: center;
+  text-align: center;
+}
+.LandingQuestionWrapper .MuiGrid-item {
+  display: flex;
+  justify-content: center;
+}
+.LandingQuestionWrapper .MuiTypography-h4 {
+  font-family: "Poppins";
+  font-weight: bold;
+  font-size: 1rem;
+}
+.LandingQuestionWrapper .MuiSvgIcon-root {
+  font-size: 5em !important;
+}
+.LandingQuestionWrapper .MuiGrid-item div {
+  background: #fdb415;
+  border-radius: 50%;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 8px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+/* Recorder */
+.settingHeader {
+  background: #406c7f;
+  width: 100%;
+  height: 70px;
+  display: flex;
+}
+
+.interActiveRecorderContainer .react-tabs__tab-list {
+  border-bottom: 6px solid #fcb414;
+  overflow: hidden;
+}
+
+.interActiveRecorderContainer .react-tabs__tab {
+  border: none;
+  margin-right: 4px;
+  background: #e0e0e0;
+  font-family: "Poppins";
+  font-weight: bold;
+}
+
+.interActiveRecorderContainer .react-tabs__tab div {
+  place-items: center;
+}
+
+.interActiveRecorderContainer .react-tabs__tab--selected {
+  background: #fcb414;
+  color: #ffffff;
+  border-bottom: 1px solid #fcb414;
+  border-radius: 0%;
+}
+
+.mainHeader {
+  color: #0071bc;
+  font-size: 20px;
+  font-weight: 700;
+}
+.titleHeader {
+  color: #9eacb4;
+  font-size: 17px;
+  font-weight: 500;
+}
+.uploadPanelBorder {
+  border-style: dashed;
+  border-radius: 1px;
+  border-color: #0f2733;
+}
+.wrapperUploadPanel {
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+}
+.Dropzone {
+  height: 200px;
+  width: 200px;
+  background-color: #fff;
+  border: 2px dashed rgb(187, 186, 186);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 16px;
+}
+.FileInput {
+  display: none;
+}
+.btnSaveVideo {
+  margin-right: 3px;
+}
+.fileInformationDiv {
+  box-shadow: 0 0 4px #dadada;
+  padding: 3px 5px 2px 10px;
+  word-wrap: break-word;
+}
+.labelUploadSection {
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.formGroupMultiple {
+  padding-top: 15px;
+}
+.interActiveRecorderContainer #formInput input {
+  padding: 8px 0px 8px 8px !important;
+}
+.qualityItemWrapper {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100% !important;
+  margin: 6px;
+}
+.qualityItemWrapper .MuiFormLabel-root {
+  color: #ffffff;
+  font-family: "Poppins";
+  font-weight: bold;
+  font-size: x-large;
+}
+.qualityItemWrapper .MuiInputBase-root {
+  width: 50% !important;
+  color: #ffffff !important;
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+  padding: 1%;
+}
+.qualityItemWrapper svg {
+  color: #ffffff !important;
+}
+.qualityItemWrapper .MuiInputBase-root ::after,
+.qualityItemWrapper .MuiInputBase-root :active,
+.qualityItemWrapper .MuiInputBase-root :focus,
+.qualityItemWrapper .MuiInputBase-root :hover,
+.qualityItemWrapper .MuiInputBase-root :visited,
+.qualityItemWrapper .MuiInputBase-root ::before {
+  border: none !important;
+  outline: none !important;
+}
+.UploadAndCancelWrapper {
+  height: 100%;
+  color: #ffffff !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 6px;
+}
+.UploadAndCancelWrapper p {
+  margin: 0%;
+  margin-left: 2%;
+  font-size: large;
+  font-weight: bold;
+}
+.cancelIcon {
+  width: 70px !important;
+  height: 50px !important;
+  border-left: 2px solid;
+  margin-left: 3%;
+}
+
+/* OverLay */
+.overLayWrapperTab {
+  background: #f2f2f2;
+  height: inherit;
+}
+.actionTab {
+  background: #ffffff;
+  height: 100%;
+  width: inherit;
+  padding: 2%;
+  padding-left: 4%;
+  padding-right: 4%;
+}
+.tabCancelHead {
+  height: 65px !important;
+  width: 65px !important;
+  color: #406c7f;
+  float: right;
+}
+.actionTab .topHeading {
+  color: #fdb415;
+  font-family: "Poppins";
+  font-weight: 600;
+  margin-top: 6%;
+}
+.actionTab .QuestionHeading {
+  color: #fdb415;
+  font-family: "Poppins";
+  font-weight: 600;
+}
+.actionLabels {
+  color: #406c7f;
+  font-weight: bold !important;
+  font-family: "Open Sans";
+  font-size: 1rem !important;
+}
+.actionTab #OverLayText {
+}
+.textOverLayWrapper {
+  padding-top: 2%;
+  padding-bottom: 5%;
+}
+.actionTab .MuiToggleButtonGroup-root {
+  align-items: center;
+  border-radius: 8px;
+}
+.actionTab .MuiDivider-flexItem {
+  color: #406c7f;
+  margin-left: 2%;
+  margin-right: 2%;
+  background: #406c7f;
+}
+.textAdjustmentWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+.textAdjustmentWrapper .MuiGrid-item {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 2%;
+  margin-top: 2%;
+}
+.textAdjustmentWrapper .MuiButtonBase-root {
+  background: #406c7f;
+  color: #ffffff;
+}
+.textAdjustmentWrapper .MuiToggleButton-root:hover {
+  background: #fdb415;
+}
+.textAdjustmentWrapper button:focus,
+.textAdjustmentWrapper .Mui-selected {
+  outline: none;
+  background: #fdb415 !important;
+  color: #ffffff;
+}
+
+.revealWrapper {
+  display: flex;
+  margin-top: 8%;
+  margin-bottom: 4%;
+  justify-content: space-between;
+}
+.revealWrapper .MuiTypography-root {
+  width: 45% !important;
+}
+.fitWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+.ToggleActionsWrapper {
+  justify-content: flex-end !important;
+  margin-top: 4% !important;
+  position: relative !important;
+  bottom: 0 !important;
+}
+.ToggleActionsWrapper .MuiGrid-item {
+  justify-content: flex-end !important;
+  text-align: end !important;
+}
+.ToggleActionsWrapper svg {
+  /* width: 35px !important;
+  height: 35px !important; */
+}
+.BackBTN {
+  background: #ff404e !important;
+  color: #fff !important;
+  width: 80% !important;
+  height: 40px;
+  font-family: "Poppins" !important;
+  font-weight: bolder !important;
+  font-size: small !important;
+}
+.NextBTN {
+  background-image: linear-gradient(to right, #fdb415, #8bb589, #61b5b3);
+  color: #fff !important;
+  width: 80% !important;
+  height: 40px;
+  font-family: "Poppins" !important;
+  font-weight: bolder !important;
+  font-size: small !important;
+}
+
+/* QA */
+.optionCardWrapper {
+  border: 2px solid #3a94d2;
+  border-radius: 8px;
+  margin-top: 2%;
+  padding: 2%;
+  cursor: pointer;
+}
+.optionCardWrapper .MuiGrid-grid-sm-2 {
+  text-align: center;
+  align-self: center;
+}
+.optionCardWrapper .MuiGrid-grid-sm-2 svg {
+  width: 40% !important;
+  height: 40% !important;
+  color: #3a94d2;
+}
+.optionCardWrapper:hover {
+  background: #fdb415;
+  border: 2px solid #fdb415;
+}
+.optionCardWrapper:hover svg,
+.optionCardWrapper:hover .MuiTypography-root {
+  color: #ffffff;
+}
+.cardBody .MuiTypography-root {
+  color: #3a94d2;
+  font-family: "Poppins";
+}
+.cardBody .MuiTypography-h6 {
+  font-weight: bold !important;
+}
+
+/* CHOICES */
+.ChoiceCardWrapper {
+  border: 2px solid #3a94d2;
+  border-radius: 8px;
+  margin-top: 2%;
+  padding: 2%;
+  justify-content: space-between;
+}
+.ChoiceCardWrapper .MuiGrid-grid-sm-1 {
+  text-align: end;
+  cursor: pointer;
+  align-self: center;
+}
+.ChoiceTxt .MuiTypography-subtitle1 {
+  color: #3a94d2;
+  font-family: "Poppins" !important;
+  font-weight: bold !important;
+}
+.ChoiceInput,
+.ChoiceInput:focus {
+  border: none !important;
+  outline: none !important;
+  width: 100%;
+}
+.ChoiceImg {
+  color: #406c7f;
+}
+.addChoice {
+  background: #3a94d2;
+  color: #ffffff;
+  border-radius: 8px;
+  margin-top: 2%;
+  padding: 2%;
+  cursor: pointer;
+}
+.addChoice .MuiGrid-grid-sm-1 {
+  align-self: center;
+}
+/* .addChoiceImg {
+
+} */
+.AddChoiceTxt .MuiTypography-subtitle1 {
+  font-size: 1.23rem;
+  font-family: "Poppins" !important;
+  font-weight: bold !important;
+}
+.CalendarGroupWrapper {
+  justify-content: space-between;
+}
+.CalendarGroupWrapper .MuiGrid-grid-sm-1 {
+  align-self: center;
+}
+.CalendarICON {
+  width: auto !important;
+  height: auto !important;
+  color: #3a94d2;
+}
+.addCalandarInputWrapper {
+}
+.linkInput {
+  width: 100%;
+  padding: 2%;
+  border-radius: 8px;
+  border: 0.5px solid #3a94d2;
+  color: #406c7f;
+  font-family: "Poppins";
+  font-weight: bold !important;
+}
+.linkInput:focus {
+  outline: none !important;
+}
+.finalTabHeader {
+  width: 100%;
+  height: 300px;
+  background: #fdb415;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.finalCancel {
+  position: absolute;
+  top: 61px;
+  right: 1%;
+  color: #ffffff !important;
+  width: 80px !important;
+  height: 80px !important;
+}
+.finalTabHeader .MuiTypography-h2 {
+  color: #ffffff;
+  font-family: "Poppins";
+  font-weight: bold;
+}
+.finalTabHeader .MuiTypography-subtitle1 {
+  color: #ffffff;
+  font-family: "Poppins";
+  font-weight: bold;
+  font-size: 26px;
+}
+.finalFormContainer {
+  justify-content: center;
+  text-align: center;
+}
+.EnterName {
+  border-radius: 8px;
+  border: 1px solid #fdb415;
+  background: none;
+  padding: 1%;
+  padding-left: 1.5%;
+  width: 60%;
+  font-family: "Poppins" !important;
+  font-weight: bold !important;
+  line-height: 2em !important;
+  color: #406c7f;
+}
+.EnterName:focus {
+  outline: none !important;
+}
+
+/* Edit chatvid */
+.EditChatvidMainContainer {
+}
+.EditChatvidMainContainer .finalTabHeader {
+}
+.EditChatvidMainContainer .finalTabHeader .finalCancel {
+}
+.stepperWrapperContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  overflow: hidden;
+}
+.stepperWrapperContainer .makeStyles-root-15 {
+  overflow: scroll;
+  padding-left: 4%;
+  padding-right: 4%;
+}
+.stepperWrapperContainer .makeStyles-root-15 .MuiStepper-horizontal {
+  width: max-content;
+  overflow: scroll;
+}
+
+.stepperWrapperContainer .makeStyles-root-2 {
+  overflow: scroll;
+  padding-left: 4%;
+  padding-right: 4%;
+}
+.stepperWrapperContainer .makeStyles-root-2 .MuiStepper-horizontal {
+  width: max-content;
+  /* overflow: scroll; */
+}
+.stepperWrapperContainer .MuiStepButton-root {
+  margin: 0% !important;
+  padding: 0% !important;
+}
+.thumbnaiForStepper {
+  height: 150px;
+  width: 150px;
+  object-fit: cover;
+  object-position: center;
+}
+.thumbnaiForThankyou {
+  height: 150px;
+  width: 150px;
+  object-fit: cover;
+  object-position: center;
+}
+.thumbnaiForThankyou img {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+}
+.thumbnaiForStepper img {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+}
+.thankuImg {
+  width: 15%;
+  height: 20vh;
+  margin: 35px;
+  padding: 10px;
+}
+.MuiStepConnector-root {
+  flex: 0 !important;
+}
+.EditChatvidMainContainer .MuiStepLabel-horizontal {
+  flex-direction: column-reverse;
+  justify-content: space-between;
+}
+.stepLogicContainer {
+  margin-bottom: 12px;
+}
+#edit-chatvid-select-jump-to {
+  background: transparent;
+  border: transparent;
+}
+
+/* Edit End */
+@media only screen and (max-width: 960px) {
+  .settingHeader {
+    height: auto;
+    padding: 2%;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .interActiveRecorderContainer {
+    margin-top: 8%;
+  }
+}
+@media only screen and (max-width: 640px) {
+  .LandingQuestionWrapper .MuiGrid-item {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+@media only screen and (max-width: 550px) {
+  .LandingQuestionWrapper .MuiGrid-item div {
+    width: 250px;
+    height: 250px;
+  }
+  .interActiveRecorderContainer {
+    margin-top: 22%;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .interActiveRecorderContainer {
+    margin-top: 24%;
+    width: 80%;
+  }
+  .LandingQuestionWrapper .MuiGrid-item div {
+    width: 200px;
+    height: 200px;
+  }
+  .LandingQuestionWrapper .MuiTypography-h4 {
+    font-size: 0.8rem;
+  }
+}
+@media screen and (min-width: 1000px) {
+  .chatvidPreviewWrapper .responseTypeWrapper {
+    overflow: hidden !important;
+    height: 680px !important;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .previewTabswrapper {
+    display: none;
+  }
+}

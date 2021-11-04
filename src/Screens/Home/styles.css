@@ -1,21 +1,216 @@
-/* .MianContainer{
-    margin-left: -100px;
-    margin-right: -200px;
-} */
-.CardComponent{
-    padding: 10px;
+.videonAppWrapper {
+  background-image: linear-gradient(
+    -36deg,
+    rgb(97, 181, 179),
+    rgb(97, 181, 179),
+    rgb(252, 179, 23)
+  );
+  height: 100%;
+  padding-top: 1em;
+  overflow: hidden;
 }
-.VideoCardComponent{
-    width: 189vh;
+.videonChatvidAppWrapper {
+  background-image: linear-gradient(
+    -36deg,
+    rgb(252, 179, 23),
+    rgb(252, 179, 23),
+    rgb(97, 181, 179),
+    #54bdf7
+  );
+  height: 100%;
+  padding-top: 1em;
+  overflow: hidden;
 }
-#homeContainerWrap{
-padding: 0%;
-margin: 0%;
-max-width: 95%;
+.chatVidInfoGrid {
+  justify-content: inherit;
 }
-#headerCardWrap{
-    display: flex;
+.chatVidInfoShareOptions {
+  align-items: center;
 }
-#videoTypeInput{
-    width: 80%;
+.MuiButton-textPrimary {
+  color: #fdb415 !important;
+}
+.MuiButton-outlinedPrimary {
+  color: #fdb415 !important;
+  border: 1px solid #fdb415 !important;
+}
+.CardComponent {
+  padding: 10px;
+}
+.VideoCardComponent {
+  width: 189vh;
+}
+#homeContainerWrap {
+  padding: 0%;
+  margin: 0%;
+  max-width: 95%;
+}
+#headerCardWrap {
+  display: flex;
+}
+#videoTypeInput {
+  width: 80%;
+}
+.wrapperHomeContent {
+  margin-top: 36px;
+  width: calc(100% - 235px);
+  margin-left: 235px;
+  padding: 3em;
+  height: -webkit-fill-available;
+  background: #f1f1f1;
+  border-radius: 10px 0px 0px 0px;
+  overflow: scroll;
+}
+.wrapperHomeContentFull {
+  margin-top: 36px;
+  width: 100%;
+  padding: 3em;
+  height: -webkit-fill-available;
+  background: #f1f1f1;
+  border-radius: 10px 0px 0px 0px;
+  overflow: scroll;
+}
+
+.actionsHomePage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2px;
+  height: 170px;
+  border-radius: 8px;
+  background-color: #fdb415;
+}
+.actionsHomePage h5 {
+  font-size: 1em;
+  font-family: "Poppins";
+  color: #ffffff;
+  font-weight: 600;
+}
+.wrapperActivityHome {
+  /* background: #f3f7fa; */
+  padding-top: 40px;
+  /* box-shadow: -2px 3px 7px #d3d3d3; */
+  padding-bottom: 40px;
+  margin-top: 20px;
+  text-align: -webkit-center;
+  justify-content: space-between;
+}
+.wrapperDashboard {
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+.cntrlText {
+  color: #9eacb4;
+  font-size: 0.9rem;
+  font-weight: 400 !important;
+}
+.dashboardTop {
+  display: flex;
+  padding-top: 10px;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  align-items: center;
+}
+.dashboardTopLeft {
+  color: #0f2733;
+  font-weight: 600;
+  font-family: "Poppins";
+}
+.dashboardTopRight {
+  font-size: 14px;
+  display: flex;
+  vertical-align: middle;
+  align-items: center;
+  justify-content: space-around;
+  min-width: 150px;
+}
+.dashboardTopRight .homeDashIcon {
+  color: #696969;
+}
+.dashHeaderWrapper {
+  background: white;
+  border-radius: 4px;
+  box-shadow: 2px 4px 10px 0px #888888;
+}
+.txtDash {
+  font-size: 12px;
+  margin-top: 2px;
+}
+.footerDashboard {
+  height: 30px;
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  /* background: #f3f7fa; */
+}
+.navFooterIcons {
+  padding-left: 12px;
+  padding-right: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 235px;
+  color: #ffffff;
+  height: 100%;
+}
+.wrapperDashVideos {
+  margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 768px) {
+  .wrapperHomeContent {
+    margin-left: 0px;
+    width: 100vw;
+    margin-top: 16px;
+  }
+  .wrapperHomeContentFull {
+    margin-top: 16px;
+  }
+  .wrapperDashboard {
+    margin-top: 35px;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .wrapperHomeContent {
+    margin-top: 40px;
+    width: 100vw;
+  }
+  .wrapperDashboard {
+    margin-top: 25px;
+  }
+  .wrapperHomeContentFull {
+    margin-top: 40px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .wrapperHomeContent {
+    margin-top: 40px;
+    width: 100vw;
+  }
+  .wrapperDashboard {
+    margin-top: 10px;
+  }
+  .wrapperHomeContentFull {
+    margin-top: 40px;
+  }
+  .dashboardTopLeft {
+    font-weight: 550 !important;
+    font-size: 20px !important;
+  }
+  .actionsHomePage h5 {
+    font-size: 1em !important;
+  }
+}
+
+.link-style {
+  text-decoration: none;
+  color: none;
+  cursor: pointer;
+}
+.link-style:hover {
+  text-decoration: none;
+  color: none;
 }

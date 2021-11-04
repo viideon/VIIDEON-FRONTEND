@@ -1,3 +1,22 @@
+.wrapperProfileSection {
+  padding-top: 6%;
+}
+@media only screen and (max-width: 768px) {
+  .wrapperProfileSection {
+    padding-top: 8%;
+  }
+}
+@media only screen and (max-width: 550px) {
+  .wrapperProfileSection {
+    padding-top: 8%;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .wrapperProfileSection {
+    padding-top: 12%;
+  }
+}
 #profilePhotoWrap {
   border-radius: 5px;
   padding-bottom: 10px;
@@ -9,7 +28,7 @@
   display: flex;
   padding-top: 5px;
   padding-bottom: 0%;
-  color: blue;
+  color: #0071bc;
 }
 #infoCircleStyle {
   margin-top: 5px;
@@ -24,76 +43,75 @@
 #profileImgWrap {
   display: flex;
   justify-content: center;
+  width: 160px;
+  border-radius: 5px;
+  height: 160px;
+  background: #cdcdcd;
+  margin: auto;
 }
 #profileImgStyle {
-  border-radius: 5px;
-  width: 160px;
-  height: 160px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
-#profileImgLabelWrap{
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+.profileImgLabelWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
-#profileImgLabelStyle {
-  padding: 5px;
-  background-color: royalblue;
-  color: #ffffff;
-  cursor: pointer;
 
-}
-#profileSelectInput{
-position: absolute;
-display: none;
+#profileSelectInput {
+  position: absolute;
+  display: none;
 }
 
 /* --------------------------------Your Profile Style------------------------------------------------------------ */
 
-#yourProfileWrap{
+#yourProfileWrap {
   border-radius: 5px;
   padding-bottom: 10px;
   margin: 30px;
   box-shadow: 0px 0px 5px #cac6c6;
   padding: 20px;
 }
-#yourProfielHead{
-  color: blue;
+#yourProfielHead {
+  color: #0071bc;
 }
 
-#formInput Input{
+#formInput input {
   border-top: none;
   border-left: none;
   border-right: none;
   padding: 0%;
   border-radius: 0%;
 }
- #typeInput:focus {
+#typeInput:focus {
   color: #575756;
   background-color: #fff;
   border-color: #cac6c6;
   outline: 0;
   box-shadow: none;
 }
-#fromFields{
+#fromFields {
   padding: 0%;
 }
-#yourProfileUpdateBtn{
-  background-color: rgb(48, 126, 156);
+#yourProfileUpdateBtn {
+  background-color: rgb(34, 185, 255);
   border: none;
   border-radius: 0%;
 }
-#memberDubbPara{
+#memberVideonText {
   font-size: small;
   font-weight: 200;
 }
-#typeSelectInput{
+#typeSelectInput {
   border-top: none;
   border-left: none;
   border-right: none;
   padding: 0%;
   border-radius: 0%;
 }
-#typeSelectInput:focus{
+#typeSelectInput:focus {
   color: #575756;
   background-color: #fff;
   border-color: #cac6c6;
@@ -102,18 +120,31 @@ display: none;
 }
 
 /* ------------------------------------------Link Dubb Account-------------------------------- */
-#linkAccountHead{
-  color: blue;
+#linkAccountHead {
+  color: #0071bc;
 }
-#linkAccountWrap{
+#linkAccountWrap {
   border-radius: 5px;
   padding-bottom: 10px;
   margin: 30px;
   box-shadow: 0px 0px 5px #cac6c6;
   padding: 20px;
 }
-#linkAccountSendBtn{
+#linkAccountSendBtn {
   background-color: rgb(48, 126, 156);
   border: none;
   border-radius: 0%;
+}
+.profileBtn {
+  padding: 5px;
+  color: #fff;
+  background-color: rgb(34, 185, 255) !important;
+  border-color: #3598dc !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+.profileBtn:hover {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.26);
+}
+.formProfile .MuiInputBase-input {
+  margin-bottom: 15px;
 }
