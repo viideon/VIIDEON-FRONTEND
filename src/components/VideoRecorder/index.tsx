@@ -142,7 +142,7 @@ class Recording extends React.Component<IProps> {
   requestUserMedia = () => {
     this.captureUserMedia((stream: any) => {
       this.recordVideo = RecordRTC(stream, {
-        type: "video/webm",
+        type: "video",
         mimeType: "video/webm;codecs=vp8",
       });
       this.localStream = stream;
@@ -189,6 +189,45 @@ class Recording extends React.Component<IProps> {
     this.stopAndGetBlob(getBlob);
   };
 
+  getSeekableBlob = (inputBlob: any, callback: any) => {
+    // EBML.js copyrights goes to: https://github.com/legokichi/ts-ebml
+    // @ts-ignore
+    if (typeof window.EBML === 'undefined') {
+      throw new Error('Please link: https://www.webrtc-experiment.com/EBML.js');
+    }
+
+    // @ts-ignore
+    var reader = new window.EBML.Reader();
+    // @ts-ignore
+    var decoder = new window.EBML.Decoder();
+    // @ts-ignore
+    var tools = window.EBML.tools;
+
+    var fileReader = new FileReader();
+    fileReader.onload = function(e) {
+      var ebmlElms = decoder.decode(this.result);
+      const validEmlType = ["m", "u", "i", "f", "s", "8", "b", "d"] // This is from elm type of the lib
+      ebmlElms = ebmlElms?.filter((elm: { type: string; }) => validEmlType.includes(elm.type))
+
+      ebmlElms.forEach(function(element: any) {
+        reader.read(element);
+      });
+      reader.stop();
+
+      /** --- Breaks here. --- */
+      var refinedMetadataBuf = tools.makeMetadataSeekable(reader.metadatas, reader.duration, reader.cues);
+
+      // @ts-ignore
+      var body = this.result.slice(reader.metadataSize);
+      var newBlob = new Blob([refinedMetadataBuf, body], {
+        type: 'video/webm'
+      });
+
+      callback(newBlob);
+    };
+    fileReader.readAsArrayBuffer(inputBlob);
+  }
+
   stopAndGetBlob = (getBlob: boolean) => {
     if (!this.recordVideo) return toast.error("Camera's access denied!");
     let that = this;
@@ -203,7 +242,7 @@ class Recording extends React.Component<IProps> {
     } else {
       try {
         this.recordVideo.stopRecording(() => {
-          window.getSeekableBlob(this.recordVideo.getBlob(), function(
+          this.getSeekableBlob(this.recordVideo.getBlob(), function(
             seekableBlob: any
           ) {
             that.stopStream();
