@@ -201,7 +201,8 @@ class Dashboard extends Component<IProps> {
         {console.log("loading", loading)}
         {console.log("emailConfigurations", emailConfigurations)}
         {!loading &&
-          emailConfigurations.length < 1 &&
+            emailConfigurations &&
+            emailConfigurations.length < 1 &&
           this.emailConfigWarning()}
       </Home>
     );
@@ -214,10 +215,6 @@ const iconStyle = {
   color: "#FFFFFF",
 };
 const mapStateToProps = (state: any) => {
-  console.log(
-    " state.email.emailConfigurations",
-    state.email.emailConfigurations
-  );
   return {
     // videoCount: state.video.videoCount - state.video.campaignCount,
     videoCount: state.video.videoCount,
