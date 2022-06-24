@@ -14,6 +14,7 @@ import { CompactPicker } from "react-color";
 import { toast, Flip } from "react-toastify";
 import { getIconPosition } from "../../lib/helpers";
 import "./style.css";
+import {AuthState} from "../../Redux/Types/auth";
 
 interface IProps {
   saveLogoBlob: (blob: any) => void;
@@ -24,6 +25,7 @@ interface IProps {
   saveThumbnailBlob: (blob: any) => void;
   addAsset: (asset: any) => void;
   addMusicAsset: (asset: any) => void;
+  auth: AuthState;
 }
 interface IState {
   logoPath: any;
@@ -275,7 +277,7 @@ class AddLogo extends React.Component<IProps, IState> {
       const logoOptions = {
         Bucket: config.bucketName,
         ACL: config.ACL,
-        Key: Date.now().toString() + "logo.jpeg",
+        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}logo.jpeg`,
         Body: logoBlob,
       };
       this.s3.upload(logoOptions, (err: any, data: any) => {
@@ -387,7 +389,7 @@ class AddLogo extends React.Component<IProps, IState> {
       const musicOptions = {
         Bucket: config.bucketName,
         ACL: config.ACL,
-        Key: Date.now().toString() + this.state.musicFile.name,
+        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}${this.state.musicFile.name}`,
         Body: this.state.musicFile,
       };
       this.s3.upload(musicOptions, (err: any, data: any) => {
@@ -856,10 +858,18 @@ const logoPositionBtn = {
   fontSize: "11px",
   border: "1px solid #696969",
 };
+
 const mapDispatchToProps = (dispatch: any) => {
   return {
     addAsset: (asset: any) => dispatch(addAsset(asset)),
     addMusicAsset: (asset: any) => dispatch(addMusicAsset(asset)),
   };
 };
-export default connect(null, mapDispatchToProps)(AddLogo);
+
+const mapStateToProps = (state: any) => {
+  return {
+    auth: state.auth
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddLogo);

@@ -36,6 +36,7 @@ import {
   saveTemplateSetting,
 } from "../../Redux/Actions/asset";
 import "./style.css";
+import {AuthState} from "../../Redux/Types/auth";
 
 const s3 = new AWS.S3(config);
 interface IProps {
@@ -43,6 +44,7 @@ interface IProps {
   saveSettings: (settings: any) => void;
   preview: any;
   user: any;
+  auth: AuthState;
 }
 
 class Overview extends React.Component<IProps> {
@@ -164,7 +166,7 @@ class Overview extends React.Component<IProps> {
       const logoOptions = {
         Bucket: config.bucketName,
         ACL: config.ACL,
-        Key: Date.now().toString() + "logo.jpeg",
+        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}logo.jpeg`,
         Body: logoBlob,
       };
       s3.upload(logoOptions, (err: any, data: any) => {
@@ -640,6 +642,7 @@ const mapStateToProps = (state: any) => {
   return {
     preview: state.asset.preview,
     user: state.auth.user,
+    auth: state.auth,
   };
 };
 

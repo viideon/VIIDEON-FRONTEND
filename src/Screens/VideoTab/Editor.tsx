@@ -21,6 +21,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { url } from "inspector";
+import {AuthState} from "../../Redux/Types/auth";
 const s3 = new AWS.S3(config);
 const ICON_DIMENSION = 100;
 
@@ -46,6 +47,7 @@ interface EditorProps {
   addAsset: (asset: any) => void;
   addMusicAsset: (asset: any) => void;
   cleanSingleVideo: () => void;
+  auth: AuthState;
 }
 interface EditState {
   file: File | null;
@@ -299,7 +301,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
       const musicOptions = {
         Bucket: config.bucketName,
         ACL: config.ACL,
-        Key: Date.now().toString() + this.state.musicFile.name,
+        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}${this.state.musicFile.name}`,
         Body: this.state.musicFile,
       };
       s3.upload(musicOptions, (err: any, data: any) => {
@@ -667,7 +669,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
       const logoOptions = {
         Bucket: config.bucketName,
         ACL: config.ACL,
-        Key: Date.now().toString() + "logo.jpeg",
+        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}logo.jpeg`,
         Body: logoBlob,
       };
       s3.upload(logoOptions, (err: any, data: any) => {
@@ -789,7 +791,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
       const thumbnailOptions = {
         Bucket: config.bucketName,
         ACL: config.ACL,
-        Key: Date.now().toString() + "thumbnail.jpeg",
+        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}thumbnail.jpeg`,
         Body: blob,
       };
       s3.upload(thumbnailOptions, (err: any, data: any) => {
@@ -1298,6 +1300,7 @@ const logoPositionBtn = {
 const mapStateToProps = (state: any, ownProps: any) => {
   return {
     isVideoUpdating: state.video.isVideoUpdating,
+    auth: state.auth,
   };
 };
 

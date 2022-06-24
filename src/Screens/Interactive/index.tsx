@@ -86,7 +86,7 @@ class ChatVid extends Component<IProps> {
       const options = {
         Bucket: config.bucketName,
         ACL: config.ACL,
-        Key: Date.now().toString() + "thumbnail.jpeg",
+        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}thumbnail.jpeg`,
         Body: this.state.thumbnailBlob,
       };
       s3.upload(options, (err: any, data: any) => {
@@ -113,7 +113,7 @@ class ChatVid extends Component<IProps> {
       const options = {
         Bucket: config.bucketName,
         ACL: config.ACL,
-        Key: Date.now().toString() + ".webm",
+        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}.webm`,
         Body: this.state.video,
       };
       s3.upload(options, (err: any, data: any) => {

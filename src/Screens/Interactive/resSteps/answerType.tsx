@@ -191,7 +191,7 @@ class FinalTab extends Component<any> {
       const options = {
         Bucket: config.bucketName,
         ACL: config.ACL,
-        Key: Date.now().toString() + "replyAudioURL.mp3",
+        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}replyAudioURL.mp3`,
         Body: file,
       };
       s3.upload(options, (err: any, data: any) => {
@@ -279,7 +279,7 @@ class FinalTab extends Component<any> {
       const options = {
         Bucket: config.bucketName,
         ACL: config.ACL,
-        Key: Date.now().toString() + "replyVideoURL.mp3",
+        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}replyVideoURL.mp3`,
         Body: file,
       };
       s3.upload(options, (err: any, data: any) => {
