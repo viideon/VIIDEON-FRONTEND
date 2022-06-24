@@ -24,6 +24,7 @@ import { config } from "../../config/aws";
 import { getIconPosition } from "../../lib/helpers";
 import ThemeButton from "../../components/ThemeButton";
 import "./style.css";
+import {AuthState} from "../../Redux/Types/auth";
 
 interface IState {
   file: File | null;
@@ -73,6 +74,7 @@ interface IProps {
   videoId?: string | null;
   video: Video;
   isVideoUpdating: boolean;
+  auth: AuthState;
 }
 const ICON_DIMENSION = 100;
 class Editing extends React.Component<IProps, IState> {
@@ -311,7 +313,7 @@ class Editing extends React.Component<IProps, IState> {
       const musicOptions = {
         Bucket: config.bucketName,
         ACL: config.ACL,
-        Key: Date.now().toString() + this.state.musicFile.name,
+        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}${this.state.musicFile.name}`,
         Body: this.state.musicFile,
       };
       this.s3.upload(musicOptions, (err: any, data: any) => {
@@ -611,9 +613,9 @@ class Editing extends React.Component<IProps, IState> {
       const logoOptions = {
         Bucket: config.bucketName,
         ACL: config.ACL,
-        Key: Date.now().toString() + "logo.jpeg",
+        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}logo.jpeg`,
         Body: logoBlob,
-      };
+       };
       this.s3.upload(logoOptions, (err: any, data: any) => {
         if (err) {
           toast.error(err);
@@ -726,7 +728,7 @@ class Editing extends React.Component<IProps, IState> {
       const thumbnailOptions = {
         Bucket: config.bucketName,
         ACL: config.ACL,
-        Key: Date.now().toString() + "thumbnail.jpeg",
+        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}thumbnail.jpeg`,
         Body: blob,
       };
       this.s3.upload(thumbnailOptions, (err: any, data: any) => {
@@ -1227,6 +1229,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
   return {
     video: state.video.singleVideo,
     isVideoUpdating: state.video.isVideoUpdating,
+    auth: state.auth,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {

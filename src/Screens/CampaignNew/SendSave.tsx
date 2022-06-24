@@ -165,7 +165,7 @@ class SendSave extends React.Component<IProps> {
       const options = {
         Bucket: config.bucketName,
         ACL: config.ACL,
-        Key: Date.now().toString() + ".webm",
+        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}.webm`,
         Body: this.props.previewVideo
       };
       this.s3
@@ -191,7 +191,7 @@ class SendSave extends React.Component<IProps> {
       const thumbnailOptions = {
         Bucket: config.bucketName,
         ACL: config.ACL,
-        Key: Date.now().toString() + "thumbnail.jpeg",
+        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}thumbnail.jpeg`,
         Body: this.props.thumbnailBlob
       };
 

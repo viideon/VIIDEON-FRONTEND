@@ -149,13 +149,13 @@ class UploadRecord extends Component<IProps, IState> {
     const options = {
       Bucket: config.bucketName,
       ACL: config.ACL,
-      Key: Date.now().toString() + this.state.files[0].name,
+      Key: `${this.props.auth!.user!._id}/${Date.now().toString()}${this.state.files[0].name}`,
       Body: this.state.files[0],
     };
     const thumbnailOptions = {
       Bucket: config.bucketName,
       ACL: config.ACL,
-      Key: Date.now().toString() + ".jpeg",
+      Key: `${this.props.auth!.user!._id}/${Date.now().toString()}.jpeg`,
       Body: this.state.thumbnail,
     };
     s3.upload(options, (err: any, data: any) => {

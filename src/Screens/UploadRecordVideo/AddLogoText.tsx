@@ -311,7 +311,7 @@ class AddLogoText extends React.Component<IProps, IState> {
       const logoOptions = {
         Bucket: config.bucketName,
         ACL: config.ACL,
-        Key: Date.now().toString() + "logo.jpeg",
+        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}logo.jpeg`,
         Body: logoBlob,
       };
       this.s3.upload(logoOptions, (err: any, data: any) => {
@@ -446,7 +446,7 @@ class AddLogoText extends React.Component<IProps, IState> {
       const options = {
         Bucket: config.bucketName,
         ACL: config.ACL,
-        Key: Date.now().toString() + ".webm",
+        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}.webm`,
         Body: this.props.videoToEdit,
       };
       this.s3
@@ -474,7 +474,7 @@ class AddLogoText extends React.Component<IProps, IState> {
       const musicOptions = {
         Bucket: config.bucketName,
         ACL: config.ACL,
-        Key: Date.now().toString() + this.state.musicFile.name,
+        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}${this.state.musicFile.name}`,
         Body: this.state.musicFile,
       };
       this.s3.upload(musicOptions, (err: any, data: any) => {
@@ -527,7 +527,7 @@ class AddLogoText extends React.Component<IProps, IState> {
       const thumbnailOptions = {
         Bucket: config.bucketName,
         ACL: config.ACL,
-        Key: Date.now().toString() + "thumbnail.jpeg",
+        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}thumbnail.jpeg`,
         Body: this.state.thumbnailBlob,
       };
 

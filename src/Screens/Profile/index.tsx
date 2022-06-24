@@ -123,8 +123,8 @@ class Profile extends Component<IProps, IState> {
     const options = {
       Bucket: config.bucketName,
       ACL: config.ACL,
-      Key: Date.now().toString(),
-      Body: e.target.files[0]
+      Key: `${this.props.auth!.user!._id}/${Date.now().toString()}`,
+      Body: e.target.files[0],
     };
     this.s3.upload(options, (err: any, data: any) => {
       if (err) {
@@ -169,8 +169,8 @@ class Profile extends Component<IProps, IState> {
       const logoOptions = {
         Bucket: config.bucketName,
         ACL: config.ACL,
-        Key: Date.now().toString() + "logo.jpeg",
-        Body: logoBlob
+        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}logo.jpeg`,
+        Body: logoBlob,
       };
       this.s3.upload(logoOptions, (err: any, data: any) => {
         if (err) {
