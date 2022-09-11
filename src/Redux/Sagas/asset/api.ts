@@ -34,7 +34,7 @@ export const getTemplatesApi = () => {
 };
 
 export const getIndustriesAPI = () => {
-  return API.get("/industry/");
+  return API.get("/industry");
 }
 
 export const getPreviewApi = (settings: any) => {
