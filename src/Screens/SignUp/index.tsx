@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import InputRound from "../../components/InputRound/InputRoundIcon";
 import { connect } from "react-redux";
 import { registerUser } from "../../Redux/Actions/register";
-import { RegisterState } from "../../Redux/Types/register";
+import {RegisterState} from "../../Redux/Types/register";
 import { User } from "../../Redux/Types/register";
 import * as Constants from "../../constants/constants";
 import Loading from "../../components/Loading";
@@ -18,6 +18,7 @@ import Colors from "../../constants/colors";
 
 import whiteLogo from "../../assets/logo.png";
 import atom from "../../assets/atom.png";
+import {Auth} from "aws-amplify";
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()
@@ -41,6 +42,7 @@ interface IProps {
 interface IState {
   next: boolean;
   showNext: boolean;
+  creatingCognitoUser: boolean;
 }
 
 class Signup extends React.Component<IProps, IState> {
@@ -48,7 +50,8 @@ class Signup extends React.Component<IProps, IState> {
     super(props);
     this.state = {
       next: false,
-      showNext: true
+      showNext: true,
+      creatingCognitoUser: false,
     };
   }
 
@@ -65,6 +68,40 @@ class Signup extends React.Component<IProps, IState> {
   onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ [e.target.name]: e.target.value } as Pick<IState, any>);
   };
+
+  onSubmit = async (values: any) => {
+    try {
+      this.setState({creatingCognitoUser: true} as Pick<IState, any>);
+      await Auth.signUp({
+        username: values.email,
+        password: values.password,
+        attributes: {
+          email: values.email,
+          given_name: values.firstName,
+          family_name: values.lastName,
+        },
+      });
+      await Auth.signIn(values.email, values.password);
+      const _user = {
+        email: values.email,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        userName: values.userName,
+        password: values.password
+      };
+      this.setState({creatingCognitoUser: false} as Pick<IState, any>);
+      return this.props.register(_user);
+    } catch (error) {
+      this.setState({creatingCognitoUser: false} as Pick<IState, any>);
+      if (error.name === 'UsernameExistsException') {
+        toast.error('Please sign in to continue.');
+      } else if (error.name === 'InvalidPasswordException') {
+        toast.error('The provided password is invalid.');
+      } else {
+        toast.error('We are having trouble processing your request. Please try again later.');
+      }
+    }
+  }
 
   nextHandler = (email: any, error: any, touched: any) => {
     if (email === "") {
@@ -121,16 +158,7 @@ class Signup extends React.Component<IProps, IState> {
                 )}
               </div>
               <Formik
-                onSubmit={values => {
-                  const user = {
-                    email: values.email,
-                    firstName: values.firstName,
-                    lastName: values.lastName,
-                    userName: values.userName,
-                    password: values.password
-                  };
-                  this.props.register(user);
-                }}
+                onSubmit={this.onSubmit}
                 initialValues={{
                   password: "",
                   firstName: "",
