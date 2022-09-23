@@ -41,7 +41,7 @@ if (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
 export const store = createStore(persistedReducer, {}, enhancer);
 const persistor = persistStore(store);
 
-// Amplify.Logger.LOG_LEVEL = 'DEBUG';
+Amplify.Logger.LOG_LEVEL = 'DEBUG';
 
 Amplify.configure({
   Auth: {
