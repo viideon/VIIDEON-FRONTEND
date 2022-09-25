@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import { types } from "../Types/email";
 
 const initialState: any = {
@@ -26,12 +28,14 @@ const emailReducer = (state = initialState, action: any) => {
         loading: true
       };
     case types.GET_USER_EMAIL_CONFIG_SUCCESS:
-      //console.log("email configurations in reducer", state.emailConfigurations)
-      return {
+      const _state = {
         ...state,
-        emailConfigurations: [...action.payload],
-        loading: false
-      };
+        loading: false,
+      }
+      if (!_.isNil(action.payload)) {
+        _state.emailConfigurations = [action.payload];
+      }
+      return _state;
     case types.GET_USER_EMAIL_CONFIG_FAILURE:
       return {
         ...state,

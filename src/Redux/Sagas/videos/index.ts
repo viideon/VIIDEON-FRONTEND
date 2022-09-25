@@ -26,7 +26,7 @@ import {
   getPageNo,
   isLoadMore,
   isEmailConfigPresent
-} from "../../Selectors/index";
+} from "../../Selectors";
 import { toast } from "react-toastify";
 
 function* sendVideoOnEmail(action: any) {
@@ -45,13 +45,8 @@ function* sendVideoOnEmail(action: any) {
 
     const result = yield sendVideoToEmail(payload);
     
-    if (result.status === 200) {
-      yield put({ type: types.VIDEO_SEND_SUCCESS, payload: result.message });
-      toast.info("Email(s) Successfully Sent");
-    } else {
-      yield put({ type: types.VIDEO_SEND_FAILURE });
-      toast.error("Something Went Wrong");
-    }
+    yield put({ type: types.VIDEO_SEND_SUCCESS, payload: result.message });
+    toast.info("Email(s) Successfully Sent");
   } catch (error) {
     yield put({ type: types.VIDEO_SEND_FAILURE });
     toast.error(error.message);
@@ -62,19 +57,14 @@ function* sendVideoOnEmail(action: any) {
 function* saveUserVideo(action: any) {
   try {
     const result = yield saveVideo(action.payload);
-    if (result.status === 201) {
-      yield put({ type: types.VIDEO_SAVE_SUCESS });
-      yield put({
-        type: types.GET_SAVED_VIDEO_ID,
-        payload: result.data.video._id
-      });
-      toast.success("Saved Successfully",{
-        hideProgressBar:true
-      });
-    } else {
-      yield put({ type: types.VIDEO_SAVE_FAILURE });
-      toast.error("Something Went Wrong");
-    }
+    yield put({ type: types.VIDEO_SAVE_SUCESS });
+    yield put({
+      type: types.GET_SAVED_VIDEO_ID,
+      payload: result.video._id
+    });
+    toast.success("Saved Successfully",{
+      hideProgressBar:true
+    });
   } catch (error) {
     yield put({ type: types.VIDEO_SAVE_FAILURE, payload: error });
     toast.error(error.message);
@@ -82,24 +72,16 @@ function* saveUserVideo(action: any) {
 }
 function* updateView(action: any) {
   try {
-    const result = yield updateVideoViews(action.payload);
-    if (result.status === 200) {
-      yield put({ type: types.UPDATE_VIEW_SUCCESS });
-    } else {
-      yield put({ type: types.UPDATE_VIEW_FAILURE });
-    }
+    yield updateVideoViews(action.payload);
+    yield put({ type: types.UPDATE_VIEW_SUCCESS });
   } catch (error) {
     yield put({ type: types.UPDATE_VIEW_FAILURE, payload: error });
   }
 }
 function* updateWatch(action: any) {
   try {
-    const result = yield updateVideoWatch(action.payload);
-    if (result.status === 200) {
-      yield put({ type: types.UPDATE_VIDEO_WATCH_SUCCESS });
-    } else {
-      yield put({ type: types.UPDATE_VIDEO_WATCH_FAILURE });
-    }
+    yield updateVideoWatch(action.payload);
+    yield put({ type: types.UPDATE_VIDEO_WATCH_SUCCESS });
   } catch (error) {
     yield put({ type: types.UPDATE_VIDEO_WATCH_FAILURE, payload: error });
     toast.error(error.message);
@@ -111,7 +93,7 @@ function* getCampaignVideoSagas(action: any) {
     if (result.status === 200) {
       yield put({
         type: types.GET_CAMPAIGN_VIDEOS_SUCCESS,
-        payload: result.data
+        payload: result
       });
     } else {
       yield put({ type: types.GET_CAMPAIGN_VIDEOS_FAILURE });
@@ -124,12 +106,8 @@ function* getCampaignVideoSagas(action: any) {
 }
 function* updateEmailShareSagas(action: any) {
   try {
-    const result = yield updateEmailShare(action.payload);
-    if (result.status === 200) {
-      yield put({ type: types.UPDATE_EMAIL_SHARE_SUCCESS });
-    } else {
-      yield put({ type: types.UPDATE_EMAIL_SHARE_FAILURE });
-    }
+    yield updateEmailShare(action.payload);
+    yield put({ type: types.UPDATE_EMAIL_SHARE_SUCCESS });
   } catch (error) {
     yield put({ type: types.UPDATE_EMAIL_SHARE_FAILURE, payload: error });
     toast.error(error.message);
@@ -137,12 +115,8 @@ function* updateEmailShareSagas(action: any) {
 }
 function* updateVideoCta(action: any) {
   try {
-    const result = yield updateCtaVideo(action.payload);
-    if (result.status === 200) {
-      yield put({ type: types.UPDATE_VIDEO_CTA_SUCCESS });
-    } else {
-      yield put({ type: types.UPDATE_VIDEO_CTA_FAILURE });
-    }
+    yield updateCtaVideo(action.payload);
+    yield put({ type: types.UPDATE_VIDEO_CTA_SUCCESS });
   } catch (error) {
     yield put({ type: types.UPDATE_VIDEO_CTA_FAILURE });
   }
@@ -163,22 +137,17 @@ function* getUserVideos(action: any) {
       result = yield call(getCampaignVideos, queryObj);
     }
     yield put({ type: types.LOADMORE_TRUE });
-    if (result.status === 200 && result.data.message.length < 9) {
+    if (result.message.length < 9) {
       yield put({
         type: types.GET_USER_VIDEOS_SUCCESS,
-        payload: result.data.message
+        payload: result.message
       });
       yield put({ type: types.DISABLE_LOADMORE });
-    } else if (result.status === 200) {
+    } else {
       yield put({ type: types.LOADMORE_TRUE });
       yield put({
         type: types.GET_USER_VIDEOS_SUCCESS,
-        payload: result.data.message
-      });
-    } else {
-      yield put({
-        type: types.GET_USER_VIDEOS_FAILED,
-        payload: result.data.message
+        payload: result.message
       });
     }
   } catch (error) {
@@ -202,17 +171,10 @@ function* searchUserVideos(action: any) {
       result = yield call(getCampaignVideosByTitle, queryObj);
     }
     yield put({ type: types.DISABLE_LOADMORE });
-    if (result.status === 200) {
-      yield put({
-        type: types.SEARCH_VIDEOS_SUCCESS,
-        payload: result.data.message
-      });
-    } else {
-      yield put({
-        type: types.GET_USER_VIDEOS_FAILED,
-        payload: result.data.message
-      });
-    }
+     yield put({
+      type: types.SEARCH_VIDEOS_SUCCESS,
+      payload: result.message
+    });
   } catch (error) {
     toast.error("Failed to fetch user videos please try again");
     yield put({ type: types.GET_USER_VIDEOS_FAILED, payload: error });
@@ -221,17 +183,9 @@ function* searchUserVideos(action: any) {
 function* updateVideo(action: any) {
   try {
     const result = yield call(updateUserVideo, action.payload);
-    if (result.status === 200) {
-      const responseVideo = result.data.video;
-      yield put({ type: types.UPDATE_VIDEO_SUCCESS, payload: responseVideo });
-      toast.info("Updated");
-    } else {
-      toast.error("Update failed, please try again");
-      yield put({
-        type: types.UPDATE_VIDEO_FAIL,
-        payload: result.data.message
-      });
-    }
+    const responseVideo = result.video;
+    yield put({ type: types.UPDATE_VIDEO_SUCCESS, payload: responseVideo });
+    toast.info("Updated");
   } catch (error) {
     toast.error("Update failed, please try again");
     yield put({ type: types.UPDATE_VIDEO_FAIL, payload: error });
@@ -241,13 +195,7 @@ function* updateVideo(action: any) {
 function* getTemplate(action: any) {
   try {
     const result = yield call(getSingleTemplate, action.payload);
-    console.log("result for sleek is ",result)
-    if (result.status === 200) {
-      yield put({ type: types.GET_TEMPLATE_SUCCESS, payload: result.data.templateIs });
-    } else {
-      yield put({ type: types.GET_TEMPLATE_FAIL });
-      toast.info("No Template Found");
-    }
+    yield put({ type: types.GET_TEMPLATE_SUCCESS, payload: result.templateIs });
   } catch (err) {
     yield put({ type: types.GET_TEMPLATE_FAIL });
     toast.error(err);
@@ -257,12 +205,7 @@ function* getTemplate(action: any) {
 function* getVideo(action: any) {
   try {
     const result = yield call(getSingleVideo, action.payload);
-    if (result.status === 200) {
-      yield put({ type: types.GET_VIDEO_SUCCESS, payload: result.data.video });
-    } else {
-      yield put({ type: types.GET_VIDEO_FAILURE });
-      toast.info("Not a valid video link");
-    }
+    yield put({ type: types.GET_VIDEO_SUCCESS, payload: result.video });
   } catch (err) {
     yield put({ type: types.GET_VIDEO_FAILURE });
     toast.error(err);
@@ -283,14 +226,9 @@ function* sendMultipleEmail(action: any) {
     const payload = action.payload;
     payload.userId = userId;
 
-    const result = yield call(sendMultiEmails, payload);
-    if (result.status === 200) {
-      yield put({ type: types.MULTIPLE_EMAIL_SUCCESS });
-      toast.info("Email(s) Successfully Sent");
-    } else {
-      yield put({ type: types.MULTIPLE_EMAIL_FAILED });
-      toast.error("Failed to send email's");
-    }
+    yield call(sendMultiEmails, payload);
+    yield put({ type: types.MULTIPLE_EMAIL_SUCCESS });
+    toast.info("Email(s) Successfully Sent");
   } catch (error) {
     yield put({ type: types.MULTIPLE_EMAIL_FAILED });
     toast.error(error.message);
@@ -308,30 +246,25 @@ export function* deleteVideo(action: any) {
   try {
     const result = yield call(deleteVideoById, callObj);
 
-    if (result.status === 200) {
-      yield put({ type: types.DELETE_VIDEO_SUCCESS });
-      const videos = yield select(selectVideos);
-      const updatedVideos = videos.filter(
-        (video: any) => video._id !== videoId
-      );
-      const removedVideo = videos.find((video: any) => video._id === videoId);
-      if (result.data.nextVideo && loadNew) {
-        updatedVideos.push(result.data.nextVideo);
-      }
-      deleteDataAws(removedVideo.url);
-      yield put({
-        type: types.UPDATE_VIDEOS_AFTEREDELETE,
-        payload: updatedVideos
-      });
-      yield put({ type: types.ENABLE_DELETEDIALOG });
-      toast.success("Successfully Deleted");
-    } else {
-      yield put({ type: types.DELETE_VIDEO_FAILURE });
-      yield put({ type: types.ENABLE_DELETEDIALOG });
-      toast.error("Failed to delete video");
+    yield put({ type: types.DELETE_VIDEO_SUCCESS });
+    const videos = yield select(selectVideos);
+    const updatedVideos = videos.filter(
+      (video: any) => video._id !== videoId
+    );
+    const removedVideo = videos.find((video: any) => video._id === videoId);
+    if (result.nextVideo && loadNew) {
+      updatedVideos.push(result.nextVideo);
     }
+    deleteDataAws(removedVideo.url);
+    yield put({
+      type: types.UPDATE_VIDEOS_AFTEREDELETE,
+      payload: updatedVideos
+    });
+    yield put({ type: types.ENABLE_DELETEDIALOG });
+    toast.success("Successfully Deleted");
   } catch (err) {
     yield put({ type: types.DELETE_VIDEO_FAILURE });
+  yield put({ type: types.ENABLE_DELETEDIALOG });
     toast.error(err.message);
   }
 }
@@ -340,16 +273,11 @@ export function* getVideoCount() {
   try {
     const userId = yield select(selectID);
     const result = yield call(videoCount, userId);
-    
 
-    if (result.status === 200) {
-      yield put({
-        type: types.COUNT_VIDEO_SUCCESS,
-        payload: result.data
-      });
-    } else {
-      yield put({ type: types.COUNT_VIDEO_FAIL });
-    }
+    yield put({
+      type: types.COUNT_VIDEO_SUCCESS,
+      payload: result
+    });
   } catch (error) {
     yield put({ type: types.COUNT_VIDEO_FAIL });
   }
@@ -360,14 +288,10 @@ export function* getCampaignCount() {
     const userId = yield select(selectID);
     const result = yield call(campaignCount, userId);
     
-    if (result.status === 200) {
-      yield put({
-        type: types.COUNT_CAMPAIGN_SUCCESS,
-        payload: result.data.count
-      });
-    } else {
-      yield put({ type: types.COUNT_CAMPAIGN_FAILURE });
-    }
+    yield put({
+      type: types.COUNT_CAMPAIGN_SUCCESS,
+      payload: result.count
+    });
   } catch (error) {
     yield put({ type: types.COUNT_CAMPAIGN_FAILURE });
   }

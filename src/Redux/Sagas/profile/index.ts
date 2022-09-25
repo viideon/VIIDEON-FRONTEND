@@ -9,7 +9,7 @@ function* updateProfileUser(action: any) {
     if (result.status === 201) {
       yield put({
         type: types.PROFILE_UPDATE_SUCCESS,
-        payload: result.data.user
+        payload: result.user
       });
       toast.info("Update Profile Successfully");
     } else {

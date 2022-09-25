@@ -17,7 +17,7 @@ import {
   selectID,
   selectAssets,
   selectMusicAssets
-} from "../../Selectors/index";
+} from "../../Selectors";
 import { toast } from "react-toastify";
 
 function* addUserAsset(action: any) {
@@ -27,12 +27,8 @@ function* addUserAsset(action: any) {
     asset: action.payload
   };
   try {
-    const result = yield addAssetApi(queryObj);
-    if (result.status === 201) {
-      yield put({ type: types.ADD_ASSET_SUCCESS });
-    } else {
-      toast.error("Failed to add your asset try again");
-    }
+    yield addAssetApi(queryObj);
+    yield put({ type: types.ADD_ASSET_SUCCESS });
   } catch (error) {
     toast.error("Failed to add your asset try again");
   }
@@ -45,12 +41,8 @@ function* addMusicAsset(action: any) {
     asset: action.payload
   };
   try {
-    const result = yield addMusicApi(queryObj);
-    if (result.status === 201) {
-      yield put({ type: types.ADD_MUSIC_SUCCESS });
-    } else {
-      toast.error("Failed to add your asset try again");
-    }
+    yield addMusicApi(queryObj);
+    yield put({ type: types.ADD_MUSIC_SUCCESS });
   } catch (error) {
     toast.error("Failed to add your asset try again");
   }
@@ -59,15 +51,13 @@ function* getUserAsset() {
   let userId = yield select(selectID);
   try {
     const result = yield getAssetApi(userId);
-    if (result.status === 200) {
-      yield put({
-        type: types.GET_ASSETS_SUCCESS,
-        payload: result.data.assets
-      });
-    } else {
-      yield put({ type: types.GET_ASSETS_FAILURE });
-    }
+    yield put({
+      type: types.GET_ASSETS_SUCCESS,
+      payload: result.assets
+    });
   } catch (error) {
+    console.log('Error loading user asset', error);
+    console.error(error);
     if (error.response) {
       const errorMessage = error.response.data.message;
       toast.error(errorMessage);
@@ -87,14 +77,10 @@ function* getPublicMusicAsset() {
   try {
     const result = yield getPublicMusicApi();
     console.log("getpublicmusic is ",result)
-    if (result.status === 200) {
-      yield put({
-        type: types.GET_PUBLIC_MUSIC_SUCCESS,
-        payload: result.data.musicAssetIs
-      });
-    } else {
-      yield put({ type: types.GET_PUBLIC_MUSIC_FAILURE });
-    }
+    yield put({
+      type: types.GET_PUBLIC_MUSIC_SUCCESS,
+      payload: result.musicAssetIs
+    });
   } catch (error) {
     if (error.response) {
       const errorMessage = error.response.data.message;
@@ -115,14 +101,10 @@ function* getMusicAsset() {
   let userId = yield select(selectID);
   try {
     const result = yield getMusicApi(userId);
-    if (result.status === 200) {
-      yield put({
-        type: types.GET_MUSIC_SUCCESS,
-        payload: result.data.musicAssets
-      });
-    } else {
-      yield put({ type: types.GET_MUSIC_FAILURE });
-    }
+    yield put({
+      type: types.GET_MUSIC_SUCCESS,
+      payload: result.musicAssets
+    });
   } catch (error) {
     if (error.response) {
       const errorMessage = error.response.data.message;
@@ -147,18 +129,13 @@ function* deleteUserAsset(action: any) {
     assetId
   };
   try {
-    const result = yield deleteAssetApi(queryObj);
-    if (result.status === 200) {
-      const assets = yield select(selectAssets);
-      const updatedAssets = assets.filter(
-        (asset: any) => asset._id !== assetId
-      );
-      yield put({ type: types.DELETE_ASSET_SUCCESS, payload: updatedAssets });
-      toast.info("Asset deleted");
-    } else {
-      yield put({ type: types.DELETE_ASSET_FAILURE });
-      toast.info("Failed to delete asset");
-    }
+    yield deleteAssetApi(queryObj);
+    const assets = yield select(selectAssets);
+    const updatedAssets = assets.filter(
+      (asset: any) => asset._id !== assetId
+    );
+    yield put({ type: types.DELETE_ASSET_SUCCESS, payload: updatedAssets });
+    toast.info("Asset deleted");
   } catch (error) {
     yield put({ type: types.DELETE_ASSET_FAILURE });
     toast.info("Failed to delete asset");
@@ -172,34 +149,25 @@ function* deleteMusicAsset(action: any) {
     assetId
   };
   try {
-    const result = yield deleteMusicApi(queryObj);
-    if (result.status === 200) {
-      const assets = yield select(selectMusicAssets);
-      const updatedAssets = assets.filter(
-        (asset: any) => asset._id !== assetId
-      );
-      yield put({ type: types.DELETE_MUSIC_SUCCESS, payload: updatedAssets });
-      toast.info("Asset deleted");
-    } else {
-      yield put({ type: types.DELETE_MUSIC_FAILURE });
-      toast.info("Failed to delete asset");
-    }
+    yield deleteMusicApi(queryObj);
+    const assets = yield select(selectMusicAssets);
+    const updatedAssets = assets.filter(
+      (asset: any) => asset._id !== assetId
+    );
+    yield put({ type: types.DELETE_MUSIC_SUCCESS, payload: updatedAssets });
+    toast.info("Asset deleted");
   } catch (error) {
     yield put({ type: types.DELETE_MUSIC_FAILURE });
     toast.info("Failed to delete asset");
   }
 }
-function* getCampaignTemplates(action: any) {
+function* getCampaignTemplates() {
   try {
     const result = yield getTemplatesApi();
-    if (result.status === 200) {
-      yield put({
-        type: types.GET_CAMPAIGN_TEMPLATES_SUCCESS,
-        payload: result.data.templates
-      });
-    } else {
-      yield put({ type: types.GET_CAMPAIGN_TEMPLATES_FAILURE });
-    }
+    yield put({
+      type: types.GET_CAMPAIGN_TEMPLATES_SUCCESS,
+      payload: result.templates
+    });
   } catch (error) {
     console.log("error", error);
     if (error.response) {
@@ -217,17 +185,13 @@ function* getCampaignTemplates(action: any) {
     }
   }
 }
-function* getIndustries(action: any) {
+function* getIndustries() {
   try {
     const result = yield getIndustriesAPI();
-    if (result.status === 200) {
-      yield put({
-        type: types.GET_INDUSTRIES_SUCCESS,
-        payload: result.data.industries
-      });
-    } else {
-      yield put({ type: types.GET_INDUSTRIES_FAILURE });
-    }
+    yield put({
+      type: types.GET_INDUSTRIES_SUCCESS,
+      payload: result.industries
+    });
   } catch (error) {
     console.log("error", error);
     if (error.response) {
@@ -248,14 +212,10 @@ function* getIndustries(action: any) {
 function* getPreview(action: any) {
   try {
     const result = yield getPreviewApi(action.payload);
-    if (result.status === 200) {
-      yield put({
-        type: types.PREVIEW_SUCCESS,
-        payload: result.data.template
-      });
-    } else {
-      yield put({ type: types.PREVIEW_FAILURE });
-    }
+    yield put({
+      type: types.PREVIEW_SUCCESS,
+      payload: result.template
+    });
   } catch (error) {
     console.log("error", error);
     if (error.response) {
@@ -276,12 +236,7 @@ function* getPreview(action: any) {
 function* saveSettings(action: any) {
   try {
     const result = yield saveSettingsApi(action.payload);
-    if (result.status === 200) {
-      toast.info(result.data.message);
-    } else {
-      toast.error("Settings try again!");
-      yield put({ type: types.SAVE_SETTINGS_FAILURE });
-    }
+    toast.info(result.message);
   } catch (error) {
     console.log("error", error);
     if (error.response) {

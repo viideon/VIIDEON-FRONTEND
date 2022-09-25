@@ -15,19 +15,18 @@ import {
 } from "./api";
 import {
   selectID,
-} from "../../Selectors/index";
+} from "../../Selectors";
 import { toast } from "react-toastify";
-import { type } from "os";
 
-function* getChatVidsSaga(action: any) {
+function* getChatVidsSaga() {
   try {
     let userId = yield select(selectID);
     const result = yield getChatvids(userId);
     if (result.status === 200) {
-      let chatvidsorted :any = result.data.message.sort((a:any,b:any)=>{
+      result.message.sort((a:any,b:any)=>{
         return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
       })
-      yield put({ type: types.GET_CHATVIDS_SUCCESS, payload: result.data.message });
+      yield put({ type: types.GET_CHATVIDS_SUCCESS, payload: result.message });
     } else {
       yield put({ type: types.GET_CHATVIDS_FAILURE });
       toast.error("Something Went Wrong");
@@ -41,7 +40,7 @@ function* getChatVidSaga(action: any) {
   try {
     const result = yield getChatvid(action.payload);
     if (result.status === 200) {
-      yield put({ type: types.GET_CHATVID_SUCCESS, payload: result.data.message[0] });
+      yield put({ type: types.GET_CHATVID_SUCCESS, payload: result.message[0] });
     } else {
       yield put({ type: types.GET_CHATVID_FAILURE });
       toast.error("Something Went Wrong");
@@ -103,8 +102,6 @@ function* addChatvidStep(action: any) {
 function* replyToAChatvidSaga(action: any) {
   try {
     const payload = action.payload;
-    const logo = action.logo;
-    console.log("action in saga",action)
     const result = yield replyToAChatvid(payload)
     if (result.status === 200) {
       yield put({ type: types.REPLY_TO_CHATVID_SUCCESS });
@@ -155,7 +152,7 @@ function* getMetricsData(action: any) {
     const payload = action.payload;
     const result = yield getMetrics(payload);
     if (result.status === 200) {
-      return yield put({ type: types.GET_ANALYTICS_CHATVID_SUCCESS, payload: result.data.stats });
+      return yield put({ type: types.GET_ANALYTICS_CHATVID_SUCCESS, payload: result.stats });
     }
   } catch (error) {
     yield put({ type: types.GET_ANALYTICS_CHATVID_FAILURE });

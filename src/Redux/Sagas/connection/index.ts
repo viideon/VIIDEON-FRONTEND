@@ -9,7 +9,7 @@ function* addContact(action: any) {
     if (result.status === 201) {
       yield put({
         type: types.ADD_CONTACT_SUCCESS,
-        payload: result.data.contact
+        payload: result.contact
       });
       toast.info("Contact Added");
     } else {

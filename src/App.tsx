@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { applyMiddleware, createStore, compose } from "redux";
+import {Amplify} from 'aws-amplify';
 import { Provider } from "react-redux";
 import { persistStore } from "redux-persist";
 import creatSagaMiddleware from "redux-saga";
@@ -10,10 +11,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import {
   ToastContainer,
   toast,
-  Slide,
   Zoom,
-  Flip,
-  Bounce,
 } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -42,6 +40,26 @@ if (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
 
 export const store = createStore(persistedReducer, {}, enhancer);
 const persistor = persistStore(store);
+
+// Amplify.Logger.LOG_LEVEL = 'DEBUG';
+
+Amplify.configure({
+  Auth: {
+    identityPoolId: process.env.REACT_APP_COGNITO_IDENTITY_POOL_ID,
+    region: process.env.REACT_APP_COGNITO_REGION,
+    userPoolId: process.env.REACT_APP_COGNITO_USER_POOL_ID,
+    userPoolWebClientId: process.env.REACT_APP_COGNITO_USER_POOL_WEB_CLIENT_ID,
+    authenticationFlowType: 'USER_SRP_AUTH'
+  },
+  API: {
+    endpoints: [
+      {
+        name: 'Backend',
+        endpoint: process.env.REACT_APP_APIURL,
+      },
+    ],
+  },
+});
 
 class App extends Component {
   componentDidMount() {

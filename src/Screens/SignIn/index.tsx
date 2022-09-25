@@ -21,6 +21,7 @@ import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 
 import whiteLogo from "../../assets/logo.png";
 import atom from "../../assets/atom.png";
+import {Auth} from "aws-amplify";
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()
@@ -90,15 +91,49 @@ class Signin extends React.Component<IProps, IState> {
       );
     }
   }
+
   onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ [e.target.name]: e.target.value } as Pick<IState, any>);
   };
+
+  onSubmit = async (values: any) => {
+    try {
+      // values => {
+      //   const user = {
+      //     email: values.email,
+      //     password: values.password
+      //   };
+      //   this.setState({ email: values.email });
+      //   this.props.login(user);
+      // }
+      const user = await Auth.signIn(values.email, values.password);
+      this.setState({email: values.email});
+      this.props.login(
+        {
+          email: user.attributes.email,
+          user: {
+            firstName: user.attributes.given_name,
+            lastName: user.attributes.family_name,
+            userName: user.attributes.email,
+            _id: user.attributes.sub,
+          },
+        }
+      );
+      // this.props.history.push("/");
+    } catch (error) {
+      console.log('Error signing in', {error});
+      console.error(error);
+      toast.error('You have entered an incorrect username or password.');
+    }
+  }
+
   resendVerificationEmail = () => {
-    if (reg.test(this.state.email) === false) {
+    if (!reg.test(this.state.email)) {
       toast.error("The email address is not valid");
     }
     this.props.resendEmail({ email: this.state.email });
   };
+
   render() {
     const { loading } = this.props.auth;
     return (
@@ -146,14 +181,7 @@ class Signin extends React.Component<IProps, IState> {
                 )}
               </div>
               <Formik
-                onSubmit={values => {
-                  const user = {
-                    email: values.email,
-                    password: values.password
-                  };
-                  this.setState({ email: values.email });
-                  this.props.login(user);
-                }}
+                onSubmit={this.onSubmit}
                 initialValues={{
                   password: "",
                   email: ""

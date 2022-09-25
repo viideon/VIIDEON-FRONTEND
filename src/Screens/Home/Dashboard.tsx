@@ -44,11 +44,6 @@ class Dashboard extends Component<IProps> {
     this.props.getVideoCount();
     this.props.getCampaignCount();
     this.props.getEmailConfigurations();
-    console.log(
-      "email config",
-      this.props.emailConfig && this.props.emailConfig
-      // this.props.isEmailConfigured()
-    );
   }
 
   emailConfigWarning = () => {
@@ -94,7 +89,7 @@ class Dashboard extends Component<IProps> {
     this.props.history.push("/");
   };
   render() {
-    const { user, auth } = this.props;
+    const { user } = this.props;
     const { loading, emailConfigurations } = this.props.emailConfig;
 
     return (
@@ -106,7 +101,6 @@ class Dashboard extends Component<IProps> {
             </h3>
           </div>
           <Grid container spacing={2} className="dashHeaderWrapper">
-            {/* {console.log(this.props.videoCount)} */}
             <Grid item xs={6} md={3}>
               <Link to="/videos" className="link-style">
                 <HeaderCard
@@ -198,8 +192,6 @@ class Dashboard extends Component<IProps> {
             </Grid>
           </Grid>
         </div>
-        {console.log("loading", loading)}
-        {console.log("emailConfigurations", emailConfigurations)}
         {!loading &&
             emailConfigurations &&
             emailConfigurations.length < 1 &&
