@@ -111,10 +111,12 @@ class Signin extends React.Component<IProps, IState> {
       this.props.login(
         {
           email: user.attributes.email,
-          firstName: user.attributes.given_name,
-          lastName: user.attributes.family_name,
-          userName: user.attributes.email,
-          _id: user.attributes.sub,
+          user: {
+            firstName: user.attributes.given_name,
+            lastName: user.attributes.family_name,
+            userName: user.attributes.email,
+            _id: user.attributes.sub,
+          },
         }
       );
       // this.props.history.push("/");
@@ -126,7 +128,7 @@ class Signin extends React.Component<IProps, IState> {
   }
 
   resendVerificationEmail = () => {
-    if (reg.test(this.state.email) === false) {
+    if (!reg.test(this.state.email)) {
       toast.error("The email address is not valid");
     }
     this.props.resendEmail({ email: this.state.email });

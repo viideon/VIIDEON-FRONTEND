@@ -1,14 +1,12 @@
-import API from "../../../lib/Api";
+import {API} from 'aws-amplify';
 
 export async function saveEmailConfig(configObj: any) {
-  const { code, userId } = configObj;
-  console.log("code",code)
-  console.log("userId ",userId)
-  return API.post("/email/config", { code, userId });
+  const { code } = configObj;
+  return API.post('Backend', "/email/config", { body: { code } });
 }
-export async function getUserConfig(userId: any) {
-  return API.get("/email/config", { params: { userId } });
+export async function getUserConfig() {
+  return API.get('Backend', "/email/config", {});
 }
 export async function deleteConfig(id: any) {
-  return API.delete("/email/config", { params: { id: id } });
+  return API.del('Backend', "/email/config", { queryStringParameters: { id: id } });
 }
