@@ -1,82 +1,82 @@
-import API from "../../../lib/Api";
-import AWS from "aws-sdk";
+import {API} from 'aws-amplify';
+import S3 from "aws-sdk/clients/s3";
 import { config } from "../../../config/aws";
 
 export async function saveVideo(video: any) {
   console.log("video in api",video)
-  return API.post("/video", video);
+  return API.post('Backend', "/video", {body: video});
 }
 export async function updateVideoViews(id: any) {
-  return API.post("/video/updateViews", id);
+  return API.post('Backend', "/video/updateViews", {body: id});
 }
 export async function updateVideoWatch(id: any) {
-  return API.post("/video/updateWatch", id);
+  return API.post('Backend', "/video/updateWatch", {body: id});
 }
 export async function updateEmailShare(id: any) {
-  return API.post("/video/updateEmailShare", id);
+  return API.post('Backend', "/video/updateEmailShare", {body: id});
 }
 export async function updateCtaVideo(id: any) {
-  return API.post("/video/update/cta", { id });
+  return API.post('Backend', "/video/update/cta", { body: {id} });
 }
 export async function sendVideoToEmail(video: any) {
   console.log("videoemail in api",video)
-  return API.post("/email/send", video);
+  return API.post('Backend', "/email/send", {body: video});
 }
 export async function getSingleTemplate(video: any) {
   console.log("tempname",video)
-  return API.post("/video/getTemplate", video );
+  return API.post('Backend', "/video/getTemplate", {body: video} );
 }
 
 export async function sendMultiEmails(video: any) {
   // console.log("multiemail in api",video)
-  return API.post("/email/send", video);
+  return API.post('Backend', "/email/send", {body: video});
 }
 
 export async function getVideos() {
-  return API.get("/video");
+  return API.get('Backend', "/video", {});
 }
 export async function getVideosByUserId(queryObj: any) {
-  return API.get("/video/user", {
-    params: { id: queryObj.userId, page: queryObj.page }
+  return API.get('Backend', "/video/user", {
+    queryStringParameters: { id: queryObj.userId, page: queryObj.page }
   });
 }
 export async function getCampaignVideos(queryObj: any) {
-  return API.get("/video/campaignVideos", {
-    params: { id: queryObj.userId, page: queryObj.page }
+  return API.get('Backend', "/video/campaignVideos", {
+    queryStringParameters: { id: queryObj.userId, page: queryObj.page }
   });
 }
 export async function getVideosByTitle(queryObj: any) {
-  return API.get("/video/user", {
-    params: { id: queryObj.userId, page: queryObj.page, title: queryObj.title }
+  return API.get('Backend', "/video/user", {
+    queryStringParameters: { id: queryObj.userId, page: queryObj.page, title: queryObj.title }
   });
 }
 export async function getCampaignVideosByTitle(queryObj: any) {
-  return API.get("/video/campaignVideos", {
-    params: { id: queryObj.userId, page: queryObj.page, title: queryObj.title }
+  return API.get('Backend', "/video/campaignVideos", {
+    queryStringParameters: { id: queryObj.userId, page: queryObj.page, title: queryObj.title }
   });
 }
 export async function updateUserVideo(video: any) {
-  return API.patch("/video", video);
+  return API.patch('Backend', "/video", {body: video});
 }
 export async function deleteVideoById(callObj: any) {
-  return API.delete("/video", {
-    params: { id: callObj.videoId, pageNo: callObj.pageNo }
+  return API.del('Backend', "/video", {
+    queryStringParameters: { id: callObj.videoId, pageNo: callObj.pageNo }
   });
 }
 
 export async function getSingleVideo(id: string) {
-  return API.get("/video/single", { params: { id } });
+  return API.get('Backend', "/video/single", { queryStringParameters: { id } });
 }
 export async function videoCount(id: string) {
-  return API.get("/video/count", { params: { id: id } });
+  return API.get('Backend', "/video/count", { queryStringParameters: { id: id } });
 }
 export async function campaignCount(id: string) {
-  return API.get("/video/campaign/count", { params: { id: id } });
+  return API.get('Backend', "/video/campaign/count", { queryStringParameters: { id: id } });
 }
 export async function deleteDataAws(imageUrl: any) {
   if (imageUrl) {
     try {
-      const s3 = new AWS.S3(config);
+      const s3 = new S3();
       const index = imageUrl.indexOf(".com/");
       imageUrl = imageUrl.substring(index + 5);
       const options = {

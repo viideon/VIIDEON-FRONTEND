@@ -67,14 +67,14 @@ function* verifyUser(action: any) {
     if (result.status === 201) {
       yield put({
         type: types.VERIFY_SUCCESS,
-        payload: result.data.message
+        payload: result.message
       });
     } else {
       yield put({
         type: types.VERIFY_FAILURE,
-        payload: result.data.message
+        payload: result.message
       });
-      toast.error(result.data.message);
+      toast.error(result.message);
     }
   } catch (error) {
     if (error.response) {
@@ -99,14 +99,14 @@ function* forgotPassword(action: any) {
       toast.success("Reset Password link sent on given email");
       yield put({
         type: types.FORGOT_SUCCESS,
-        payload: result.data
+        payload: result
       });
       yield put({ type: types.RESET_FORGOT_SUCCESS_VARIABLE });
     } else {
       yield put({
         type: types.FORGOT_FAILURE
       });
-      toast.error(result.data.message);
+      toast.error(result.message);
     }
   } catch (error) {
     if (error.response) {
@@ -137,7 +137,7 @@ function* resendEmailSagas(action: any) {
       yield put({
         type: types.RESEND_EMAIL_FAILURE
       });
-      toast.error(result.data.message);
+      toast.error(result.message);
     }
   } catch (error) {
     if (error.response) {
@@ -162,13 +162,13 @@ function* resetPassword(action: any) {
       toast.success("Password changed successfully");
       yield put({
         type: types.RESET_SUCCESS,
-        payload: result.data
+        payload: result
       });
     } else {
       yield put({
         type: types.RESET_FAILURE
       });
-      toast.error(result.data.message);
+      toast.error(result.message);
     }
   } catch (error) {
     if (error.response) {

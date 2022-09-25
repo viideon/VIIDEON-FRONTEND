@@ -1,5 +1,5 @@
-import API from "../../../lib/Api";
+import {API} from 'aws-amplify';
 
 export async function updateProfileApi(profile: any) {
-  return API.patch(`/user/update/${profile.userId}`, profile);
+  return API.patch('Backend', `/user/update/${profile.userId}`, {body: profile});
 }
