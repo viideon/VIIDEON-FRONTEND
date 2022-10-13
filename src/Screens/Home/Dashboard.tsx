@@ -161,7 +161,7 @@ class Dashboard extends Component<IProps> {
                 </h5>
               </div>
             </Grid>
-            <Grid item xs={6} md={3}>
+            {/* <Grid item xs={6} md={3}>
               <div
                 className="actionsHomePage"
                 onClick={() => this.props.history.push("/chatvid")}
@@ -169,8 +169,8 @@ class Dashboard extends Component<IProps> {
                 <VideocamIcon style={iconStyle} />
                 <h5 className="cursorPointer">Record/Upload a Chatvid</h5>
               </div>
-            </Grid>
-            <Grid item xs={6} md={3}>
+            </Grid> */}
+            {/* <Grid item xs={6} md={3}>
               <div
                 className="actionsHomePage"
                 onClick={() => this.props.history.push("/campaign/new")}
@@ -178,8 +178,8 @@ class Dashboard extends Component<IProps> {
                 <ImageSearchIcon style={iconStyle} />
                 <h5 className="cursorPointer">Create a Campaign</h5>
               </div>
-            </Grid>
-            <Grid item xs={6} md={3}>
+            </Grid> */}
+            {/* <Grid item xs={6} md={3}>
               <Tooltip title="Feature Coming Soon">
                 <div
                   className="actionsHomePage"
@@ -189,7 +189,7 @@ class Dashboard extends Component<IProps> {
                   <h5 className="cursorPointer">Analytics</h5>
                 </div>
               </Tooltip>
-            </Grid>
+            </Grid> */}
           </Grid>
         </div>
         {!loading &&

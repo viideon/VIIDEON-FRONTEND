@@ -112,7 +112,7 @@ const Header: React.FC<IProps> = ({
             </span>
           </Tooltip>
           <Tooltip title="Campaign">
-            <Link to="/campaign">
+            {/* <Link to="/campaign"> */}
               <span>
                 <i className="fas fa-flag" style={iconStyle}></i>
               </span>
@@ -121,6 +121,7 @@ const Header: React.FC<IProps> = ({
 
           <span>
             <Tooltip title="Feature Coming Soon">
+            <Link to="/configuration">
               <i className="fas fa-cog" style={iconStyle}></i>
             </Tooltip>
             <Menu
@@ -130,7 +131,7 @@ const Header: React.FC<IProps> = ({
               open={Boolean(anchorEl)}
               onClose={handleClosePopup}
             >
-              <MenuItem onClick={() => navigateTo("profile")}>Profile</MenuItem>
+              {/* <MenuItem onClick={() => navigateTo("profile")}>Profile</MenuItem> */}
               <MenuItem onClick={() => toggleLogoutModal()}>Logout</MenuItem>
             </Menu>
           </span>
