@@ -51,7 +51,7 @@ class Routes extends Component<IProps> {
   render() {
     return (
       <Router>
-        {this.props.auth.loggedInStatus !== true ? (
+        {this.props.auth.loggedInStatus === true ? (
           <>
             <Switch>
               <Route exact path="/" component={Dashboard} />
