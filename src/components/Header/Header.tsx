@@ -112,17 +112,20 @@ const Header: React.FC<IProps> = ({
             </span>
           </Tooltip>
           <Tooltip title="Campaign">
-            {/* <Link to="/campaign"> */}
+            <Link to= "">
               <span>
                 <i className="fas fa-flag" style={iconStyle}></i>
               </span>
-            </Link>
+              </Link>
           </Tooltip>
 
           <span>
-            <Tooltip title="Feature Coming Soon">
-            <Link to="/configuration">
-              <i className="fas fa-cog" style={iconStyle}></i>
+            <Tooltip title="Configuration">
+              <Link to="/configuration">
+                <span>
+                  <i className="fas fa-cog" style={iconStyle}></i>
+                 </span>
+              </Link>
             </Tooltip>
             <Menu
               disableScrollLock={true}
