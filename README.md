@@ -7,6 +7,10 @@ In your `.env` file, ensure the following are defined:
 * `REACT_APP_APIURL`: URL to the backend server
 * `REACT_APP_OAUTH_ID`: OAUTH ID from Google
 * `REACT_APP_DOMAIN`: Domain of the application (most likely `https://app.viideon.com`)
+* `REACT_APP_COGNITO_IDENTITY_POOL_ID`: Cognito Identity Pool ID to use for authentication
+* `REACT_APP_COGNITO_REGION`: Region that the Cognito Identity Pool is in
+* `REACT_APP_COGNITO_USER_POOL_ID`: Cognito User Pool ID for the app
+* `REACT_APP_COGNITO_USER_POOL_WEB_CLIENT_ID`: Web Client ID for the Cognito User Pool
 
 ### Running the app locally
 
