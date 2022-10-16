@@ -34,6 +34,7 @@ import VideocamIcon from "@material-ui/icons/Videocam";
 import "./style.css";
 import fileUploadIcon from "../../assets/uploadCircle.png";
 import Header from "../../components/Header/Header";
+import * as api from '../../util/api';
 
 type IProps = {
   auth: AuthState;
@@ -136,7 +137,7 @@ class UploadRecord extends Component<IProps, IState> {
       this.setState({ emails: [] });
     }
   };
-  uploadFileHandler = () => {
+  uploadFileHandler = async () => {
     if (this.state.title === "") {
       toast.warn("Enter a video title");
       return;
@@ -145,47 +146,47 @@ class UploadRecord extends Component<IProps, IState> {
     //   title: "",
     // });
     this.setState({ fileProgress: true, progressFile: 0 });
-    let s3 = new AWS.S3(config);
-    const options = {
-      Bucket: config.bucketName,
-      ACL: config.ACL,
-      Key: `${this.props.auth!.user!._id}/${Date.now().toString()}${this.state.files[0].name}`,
-      Body: this.state.files[0],
-    };
-    const thumbnailOptions = {
-      Bucket: config.bucketName,
-      ACL: config.ACL,
-      Key: `${this.props.auth!.user!._id}/${Date.now().toString()}.jpeg`,
-      Body: this.state.thumbnail,
-    };
-    s3.upload(options, (err: any, data: any) => {
-      if (err) {
-        this.setState({ fileProgress: false });
-        toast.error(err);
-        return;
-      }
-      this.setState({ urlRecord: data.Location });
-      s3.upload(thumbnailOptions, (err: any, data: any) => {
-        if (err) {
-          toast.error(err);
-          return;
+    try {
+      // @ts-ignore
+      const fileResponse = await api.uploadFile(
+        this.state.files[0].name,
+        this.state.files[0],
+        {
+          onUploadProgress: (progressEvent: { loaded: number; total: number; }) => {
+            let uploaded: number = (progressEvent.loaded * 100) / progressEvent.total;
+            this.setState({ progressFile: uploaded });
+          }
         }
-        const video = {
-          title: this.state.title,
-          url: this.state.urlRecord,
-          userId: this.props.auth!.user!._id,
-          thumbnail: data.Location,
-          campaign: false,
-          isVideo: true,
-        };
-        this.setState({ fileProgress: false });
-        console.log("video in upload", video);
-        this.props.saveVideo(video);
-      });
-    }).on("httpUploadProgress", (progress) => {
-      let uploaded: number = (progress.loaded * 100) / progress.total;
-      this.setState({ progressFile: uploaded });
-    });
+      );
+      this.setState({ urlRecord: fileResponse.filename });
+      // @ts-ignore
+      const thumbnailResponse = await api.uploadFile(
+        `${this.state.files[0].name}-thumbnail`,
+        this.state.thumbnail,
+        {
+          onUploadProgress: (progressEvent: { loaded: number; total: number; }) => {
+            let uploaded: number = (progressEvent.loaded * 100) / progressEvent.total;
+            this.setState({ progressFile: uploaded });
+          },
+        },
+      );
+      const video = {
+        title: this.state.title,
+        url: fileResponse.filename,
+        userId: this.props.auth!.user!._id,
+        thumbnail: thumbnailResponse.filename,
+        campaign: false,
+        isVideo: true,
+      };
+      this.setState({ fileProgress: false });
+      console.log("video in upload", video);
+      this.props.saveVideo(video);
+    } catch (error) {
+      console.error(error);
+      this.setState({ fileProgress: false });
+      toast.error(error);
+      return;
+    }
   };
 
   submitEmail = () => {
