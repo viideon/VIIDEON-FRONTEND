@@ -1,8 +1,9 @@
 import axios from 'axios';
-import _ from 'lodash';
+import {API} from 'aws-amplify';
 
 /**
  * @param {string} url
+ * @param {any} [config]
  */
 const _delete = (url, config) => {
   return axios.delete(url, config);
@@ -10,6 +11,7 @@ const _delete = (url, config) => {
 
 /**
  * @param {string} url
+ * @param {any} [config]
  */
 const _get = (url, config) => {
   return axios.get(url, config);
@@ -18,6 +20,7 @@ const _get = (url, config) => {
 /**
  * @param {string} url
  * @param {any} body
+ * @param {any} [config]
  */
 const _patch = (url, body, config) => {
   return axios.patch(url, body, config);
@@ -26,6 +29,7 @@ const _patch = (url, body, config) => {
 /**
  * @param {string} url
  * @param {any} body
+ * @param {any} [config]
  */
 const _post = (url, body, config) => {
   return axios.post(url, body, config);
@@ -34,35 +38,43 @@ const _post = (url, body, config) => {
 /**
  * @param {string} url
  * @param {string} body
- * @param {{secured: boolean, token: string, headers: boolean}} options
+ * @param {any} [config]
  */
 const _put = (url, body, config) => {
+  console.log('Calling _put', {url, body, config});
   return axios.put(url, body, config);
 }
 
 /**
- * @param {any} assetId
- * @param {{ name: string; type: any; }} image
- * @param {any} token
+ * @param {any} image
  * @param {any} filename
- * @param {undefined} [config]
+ * @param {any} [config]
  */
 export const uploadFile = async (filename, image, config) => {
-  const url = await _post(
-      `${process.env.REACT_APP_BACKEND_ENDPOINT}/user/signedUrl`,
-      {
+  console.log('Uploading file', {filename, config});
+  const url = await API.post(
+    'Backend',
+    '/user/signedUrl',
+    {
+      body: {
         filename,
         contentType: image.type
       },
-      config
+    },
   );
+  console.log('Signed URL created', {url, image});
   await _put(
-      url.data.signedRequest,
+      url.signedRequest,
       image,
-      config
+      {
+        ...config,
+        headers: {
+          'Content-Type': image.type,
+        }
+      }
   );
   return {
-    filename: url.data.key,
+    filename: url.key,
     contentType: image.type,
   };
 }
