@@ -1,15 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import Header from "../../components/Header/Header";
-import AWS from "aws-sdk";
-import { config } from "../../config/aws";
 import {
   Grid,
   Typography,
   CardMedia,
   Button,
   LinearProgress,
-  TextField,
+  TextField
 } from "@material-ui/core";
 
 import TwitterIcon from "@material-ui/icons/Twitter";
@@ -26,6 +24,8 @@ import { availableTheme } from "../../constants/constants";
 import { toast } from "react-toastify";
 import { SketchPicker } from "react-color";
 
+import { v4 as uuid } from "uuid";
+
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
@@ -33,12 +33,12 @@ import MuiDialogActions from "@material-ui/core/DialogActions";
 
 import {
   previewTemplate,
-  saveTemplateSetting,
+  saveTemplateSetting
 } from "../../Redux/Actions/asset";
 import "./style.css";
-import {AuthState} from "../../Redux/Types/auth";
+import { AuthState } from "../../Redux/Types/auth";
+import * as api from "../../util/api";
 
-const s3 = new AWS.S3(config);
 interface IProps {
   getPreview: (settings: any) => void;
   saveSettings: (settings: any) => void;
@@ -62,12 +62,12 @@ class Overview extends React.Component<IProps> {
       accent: "",
       link: "",
       text1: "",
-      text2: "",
+      text2: ""
     },
     fbUrl: "",
     twitterUrl: "",
     youtubeUrl: "",
-    linkedinUrl: "",
+    linkedinUrl: ""
   };
 
   componentDidMount() {}
@@ -134,7 +134,7 @@ class Overview extends React.Component<IProps> {
       fbUrl,
       twitterUrl,
       youtubeUrl,
-      linkedinUrl,
+      linkedinUrl
     } = this.state;
     if (!name) return toast.error("choose a template first");
     let settings = {
@@ -145,7 +145,7 @@ class Overview extends React.Component<IProps> {
       twitterUrl,
       youtubeUrl,
       linkedinUrl,
-      logoUrl: img,
+      logoUrl: img
     };
     this.props.getPreview(settings);
   };
@@ -154,7 +154,7 @@ class Overview extends React.Component<IProps> {
     this.setState({
       assetUploading: false,
       logoBlob,
-      img: URL.createObjectURL(logoBlob),
+      img: URL.createObjectURL(logoBlob)
     });
   };
 
@@ -163,22 +163,18 @@ class Overview extends React.Component<IProps> {
     this.setState({ assetUploading: true });
     const { logoBlob } = this.state;
     return new Promise((resolve, reject) => {
-      const logoOptions = {
-        Bucket: config.bucketName,
-        ACL: config.ACL,
-        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}logo.jpeg`,
-        Body: logoBlob,
-      };
-      s3.upload(logoOptions, (err: any, data: any) => {
-        if (err) {
-          toast.error(err);
-          this.setState({ assetUploading: false });
-          reject();
-          return;
-        }
-        this.setState({ logoPath: data.Location, img: data.Location });
+      api.uploadFile(
+          `${uuid}-logo`,
+          logoBlob,
+          {}
+      ).then((response: { filename: any; }) => {
+        this.setState({ logoPath: response.filename, img: response.filename });
         toast.info("Logo uploaded");
         resolve();
+      }).catch((error: any) => {
+        toast.error(error);
+        this.setState({ assetUploading: false });
+        reject();
       });
     });
   };
@@ -196,7 +192,7 @@ class Overview extends React.Component<IProps> {
       fbUrl,
       twitterUrl,
       youtubeUrl,
-      linkedinUrl,
+      linkedinUrl
     } = this.state;
     if (!name) return toast.error("choose a template first");
     let settings = {
@@ -208,7 +204,7 @@ class Overview extends React.Component<IProps> {
       youtubeUrl,
       linkedinUrl,
       logoUrl: img,
-      userId: this.props.user,
+      userId: this.props.user
     };
     this.props.saveSettings(settings);
     toast.info("Saving Settings");
@@ -223,14 +219,14 @@ class Overview extends React.Component<IProps> {
       fbUrl,
       twitterUrl,
       youtubeUrl,
-      linkedinUrl,
+      linkedinUrl
     } = this.state;
     return (
       <>
         <Header
           styles={{
             backgroundImage:
-              "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))",
+              "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"
           }}
         />
         <div className="templatePrefWrapper">
@@ -319,7 +315,6 @@ class Overview extends React.Component<IProps> {
                 {assetUploading && <LinearProgress />}
                 <Typography variant="h4">Logo</Typography>
                 <Grid xs={12} sm={4}>
-                  {console.log("imglogo", img)}
                   {img ? (
                     <CardMedia
                       component="img"
@@ -343,7 +338,7 @@ class Overview extends React.Component<IProps> {
                 >
                   <input
                     type="file"
-                    ref={(ref) => {
+                    ref={ref => {
                       this.fileRef = ref;
                     }}
                     onChange={this.onFileChange}
@@ -355,7 +350,7 @@ class Overview extends React.Component<IProps> {
                       background: "transparent",
                       color: "#fcb41f",
                       width: "80%",
-                      marginBottom: "9px",
+                      marginBottom: "9px"
                     }}
                     onClick={() => this.fileRef.click()}
                   >
@@ -366,7 +361,7 @@ class Overview extends React.Component<IProps> {
                     style={{
                       background: "#fcb41f",
                       color: "#fff",
-                      width: "80%",
+                      width: "80%"
                     }}
                     onClick={this.uploadLogo}
                   >
@@ -512,7 +507,7 @@ const Colors = (props: any) => {
             }}
             style={{
               color: primary ? primary : "",
-              background: primary ? primary : "",
+              background: primary ? primary : ""
             }}
           ></div>
           <p className="colorName">Primary Color</p>
@@ -525,7 +520,7 @@ const Colors = (props: any) => {
             }}
             style={{
               color: background ? background : "",
-              background: background ? background : "",
+              background: background ? background : ""
             }}
           ></div>
           <p className="colorName">Background Color</p>
@@ -540,7 +535,7 @@ const Colors = (props: any) => {
             }}
             style={{
               color: text1 ? text1 : "",
-              background: text1 ? text1 : "",
+              background: text1 ? text1 : ""
             }}
           ></div>
           <p className="colorName">Text 1</p>
@@ -553,7 +548,7 @@ const Colors = (props: any) => {
             }}
             style={{
               color: accent ? accent : "",
-              background: accent ? accent : "",
+              background: accent ? accent : ""
             }}
           ></div>
           <p className="colorName">Accent</p>
@@ -568,7 +563,7 @@ const Colors = (props: any) => {
             }}
             style={{
               color: text2 ? text2 : "",
-              background: text2 ? text2 : "",
+              background: text2 ? text2 : ""
             }}
           ></div>
           <p className="colorName">Text 2</p>
@@ -642,14 +637,14 @@ const mapStateToProps = (state: any) => {
   return {
     preview: state.asset.preview,
     user: state.auth.user,
-    auth: state.auth,
+    auth: state.auth
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getPreview: (settings: any) => dispatch(previewTemplate(settings)),
-    saveSettings: (settings: any) => dispatch(saveTemplateSetting(settings)),
+    saveSettings: (settings: any) => dispatch(saveTemplateSetting(settings))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Overview);
