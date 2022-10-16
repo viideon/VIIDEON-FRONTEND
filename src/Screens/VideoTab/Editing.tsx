@@ -1,6 +1,5 @@
 import React from "react";
-import AWS from "aws-sdk";
-import S3FileUpload from "react-s3";
+// import S3FileUpload from "react-s3";
 import Colors from "../../constants/colors";
 import { toast, Flip } from "react-toastify";
 import canvasTxt from "canvas-txt";
@@ -12,19 +11,21 @@ import {
   TextField,
   Button,
   Grid,
-  LinearProgress,
+  LinearProgress
 } from "@material-ui/core";
+import {v4 as uuid} from "uuid";
+
 import Loading from "../../components/Loading";
 import HelpIcon from "@material-ui/icons/Help";
 import { connect } from "react-redux";
 import { addAsset, addMusicAsset } from "../../Redux/Actions/asset";
 import { updateVideo } from "../../Redux/Actions/videos";
 import CanvasPlayer from "../../components/CanvasPlayer/EditingCanvas";
-import { config } from "../../config/aws";
 import { getIconPosition } from "../../lib/helpers";
 import ThemeButton from "../../components/ThemeButton";
 import "./style.css";
-import {AuthState} from "../../Redux/Types/auth";
+import { AuthState } from "../../Redux/Types/auth";
+import * as api from "../../util/api";
 
 interface IState {
   file: File | null;
@@ -125,13 +126,12 @@ class Editing extends React.Component<IProps, IState> {
       musicLoadingTimeout: null,
       musicVolume: "0.5",
       updatedThumbnailUrl: "",
-      videoHeight: "300px",
+      videoHeight: "300px"
     };
     this._isMounted = false;
   }
   container: any;
   componentDidMount() {
-    this.s3 = new AWS.S3(config);
     this.setUpCanvasEditing();
     this._isMounted = true;
     this.caluclateContainerHeight();
@@ -168,20 +168,18 @@ class Editing extends React.Component<IProps, IState> {
         if (musicProps && musicProps.url) {
           let res = await fetch(musicProps.url);
           let musicBlob = await res.blob();
-          const audioUrl = await window.URL.createObjectURL(musicBlob);
-          this.backgroundMusic.src = audioUrl;
+          this.backgroundMusic.src = await window.URL.createObjectURL(musicBlob);
           this.setState(
             {
               backgroundMusicUrl: musicProps.url,
-              musicVolume: musicProps.musicVolume.toString(),
+              musicVolume: musicProps.musicVolume.toString()
             },
             () => this.syncAudio()
           );
         }
         const response = await fetch(video.url);
         let videoBlob = await response.blob();
-        const videoUrl = await window.URL.createObjectURL(videoBlob);
-        this.video.src = videoUrl;
+        this.video.src = await window.URL.createObjectURL(videoBlob);
       } catch (err) {
         console.log("error in editing screen", err);
       }
@@ -194,7 +192,7 @@ class Editing extends React.Component<IProps, IState> {
           textColor: textProps.textColor,
           fontSize: textProps.fontSize,
           vAlign: textProps.vAlign,
-          align: textProps.align,
+          align: textProps.align
         });
       }
       this.setState({ videoLoaded: true });
@@ -271,18 +269,20 @@ class Editing extends React.Component<IProps, IState> {
     if (e.target.files![0] !== null) {
       let file = e.target.files![0];
       this.setState({ uploading: true });
-      S3FileUpload.uploadFile(file, config)
-        .then((data: any) => {
-          this.setState({ url: data.location, uploading: false }, () =>
+      api.uploadFile(
+          `${uuid}-thumbnail`,
+          file,
+          {}
+      ).then((response: { filename: any; }) => {
+        this.setState({ url: response.filename, uploading: false }, () =>
             this.props.addAsset({ type: "thumbnail", url: this.state.url })
-          );
-          this.saveChanges();
-          return;
-        })
-        .catch((err: any) => {
-          this.setState({ uploading: false });
-          toast.error(err);
-        });
+        );
+        this.saveChanges();
+        return;
+      }).catch((error: any) => {
+        this.setState({ uploading: false });
+        toast.error(error);
+      });
     } else {
       toast.error("No file selected");
     }
@@ -297,7 +297,7 @@ class Editing extends React.Component<IProps, IState> {
     if (musicFile !== null) {
       toast("Add a title and  click upload to save this asset", {
         autoClose: 3000,
-        transition: Flip,
+        transition: Flip
       });
       this.setState({ musicFileSelected: true, musicFile: musicFile });
     } else {
@@ -310,29 +310,25 @@ class Editing extends React.Component<IProps, IState> {
     } else {
       toast.info("Uploading music please wait");
       this.setState({ assetUploading: true });
-      const musicOptions = {
-        Bucket: config.bucketName,
-        ACL: config.ACL,
-        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}${this.state.musicFile.name}`,
-        Body: this.state.musicFile,
-      };
-      this.s3.upload(musicOptions, (err: any, data: any) => {
-        if (err) {
-          toast.error(err);
-          this.setState({ assetUploading: false });
-          return;
-        }
+      api.uploadFile(
+        `${uuid}-music`,
+          this.state.musicFile,
+        {}
+      ).then((response: { filename: any; }) => {
         toast.info("Asset Uploaded");
         this.setState({
-          backgroundMusicUrl: data.Location,
+          backgroundMusicUrl: response.filename,
           musicFile: null,
           musicFileSelected: false,
-          assetUploading: false,
+          assetUploading: false
         });
         this.props.addMusicAsset({
-          url: data.Location,
-          title: this.state.musicTitle,
+          url: response.filename,
+          title: this.state.musicTitle
         });
+      }).catch((error: any) => {
+        toast.error(error);
+        this.setState({ assetUploading: false });
       });
     }
   };
@@ -349,7 +345,7 @@ class Editing extends React.Component<IProps, IState> {
     }
     const video = {
       id: this.props.videoId,
-      thumbnail: this.state.url,
+      thumbnail: this.state.url
     };
     this.props.updateVideo(video);
     this.setState({ url: "" });
@@ -364,7 +360,7 @@ class Editing extends React.Component<IProps, IState> {
     }
     const video = {
       id: this.props.videoId,
-      title: this.state.newVideoTitle,
+      title: this.state.newVideoTitle
     };
     this.props.updateVideo(video);
     this.setState({ newVideoTitle: "" });
@@ -610,26 +606,22 @@ class Editing extends React.Component<IProps, IState> {
   }
   saveLogo = (logoBlob: any) => {
     return new Promise((resolve, reject) => {
-      const logoOptions = {
-        Bucket: config.bucketName,
-        ACL: config.ACL,
-        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}logo.jpeg`,
-        Body: logoBlob,
-       };
-      this.s3.upload(logoOptions, (err: any, data: any) => {
-        if (err) {
-          toast.error(err);
-          this.setState({ assetUploading: false });
-          reject();
-          return;
-        }
-        this.setState({ logoPath: data.Location }, () => {
+      api.uploadFile(
+          `${uuid}-logo`,
+          logoBlob,
+          {}
+      ).then((response: { filename: any; }) => {
+        this.setState({ logoPath: response.filename }, () => {
           setTimeout(() => {
             this.updateCanvas();
           }, 1000);
         });
-        this.props.addAsset({ type: "logo", url: data.Location });
+        this.props.addAsset({ type: "logo", url: response.filename });
         resolve();
+      }).catch((error: any) => {
+        toast.error(error);
+        this.setState({ assetUploading: false });
+        reject();
       });
     });
   };
@@ -641,7 +633,7 @@ class Editing extends React.Component<IProps, IState> {
     this.setState({ backgroundMusicUrl: path });
     toast.info("Wait while we add the music to the video");
     this.setState({
-      musicLoadingTimeout: setInterval(() => this.isMusicLoaded(), 3000),
+      musicLoadingTimeout: setInterval(() => this.isMusicLoaded(), 3000)
     });
   };
   updateVideoLogoText = async () => {
@@ -651,15 +643,15 @@ class Editing extends React.Component<IProps, IState> {
         textColor: this.state.textColor,
         fontSize: this.state.fontSize,
         vAlign: this.state.vAlign,
-        align: this.state.align,
+        align: this.state.align
       };
       const logoProps = {
         url: this.state.logoPath,
-        position: this.state.iconPos,
+        position: this.state.iconPos
       };
       const musicProps = {
         url: this.state.backgroundMusicUrl,
-        musicVolume: parseFloat(this.state.musicVolume),
+        musicVolume: parseFloat(this.state.musicVolume)
       };
       if (this.props.video) {
         const { video } = this.props;
@@ -675,7 +667,7 @@ class Editing extends React.Component<IProps, IState> {
             logoProps,
             textProps,
             musicProps,
-            thumbnail: this.state.updatedThumbnailUrl,
+            thumbnail: this.state.updatedThumbnailUrl
           };
           this.props.updateVideo(video);
         } else {
@@ -683,7 +675,7 @@ class Editing extends React.Component<IProps, IState> {
             id: this.props.videoId,
             logoProps,
             textProps,
-            musicProps,
+            musicProps
           };
           this.props.updateVideo(video);
         }
@@ -725,19 +717,15 @@ class Editing extends React.Component<IProps, IState> {
   };
   uploadUpdatedThumbnail = (blob: any) => {
     return new Promise((resolve, reject) => {
-      const thumbnailOptions = {
-        Bucket: config.bucketName,
-        ACL: config.ACL,
-        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}thumbnail.jpeg`,
-        Body: blob,
-      };
-      this.s3.upload(thumbnailOptions, (err: any, data: any) => {
-        if (err) {
-          reject();
-        } else {
-          this.setState({ updatedThumbnailUrl: data.Location });
-          resolve();
-        }
+      api.uploadFile(
+          `${uuid}-thumbnail`,
+          blob,
+          {}
+      ).then((response: { filename: any; }) => {
+        this.setState({ updatedThumbnailUrl: response.filename });
+        resolve();
+      }).catch((error: any) => {
+        reject(error);
       });
     });
   };
@@ -764,7 +752,7 @@ class Editing extends React.Component<IProps, IState> {
       showVideo,
       videoLoaded,
       musicFileSelected,
-      backgroundMusicUrl,
+      backgroundMusicUrl
     } = this.state;
     return (
       <div className="editingTabWrapper">
@@ -772,13 +760,13 @@ class Editing extends React.Component<IProps, IState> {
           <Grid item xs={1} md={2}></Grid>
           <Grid item xs={10} md={8} id="wrapper_main">
             <div
-              ref={(ref) => {
+              ref={ref => {
                 this.container = ref;
               }}
               style={{
                 visibility: showVideo ? "visible" : "hidden",
                 width: "100%",
-                height: this.state.videoHeight,
+                height: this.state.videoHeight
               }}
             >
               {video && (
@@ -843,7 +831,7 @@ class Editing extends React.Component<IProps, IState> {
                   onClick={this.triggerThumbnailUploadBtn}
                   style={{
                     background: Colors.themeGreen,
-                    color: Colors.white,
+                    color: Colors.white
                   }}
                 />
                 <ThemeButton
@@ -851,7 +839,7 @@ class Editing extends React.Component<IProps, IState> {
                   onClick={this.toggleThumbnailAssetPicker}
                   style={{
                     background: Colors.themeGreen,
-                    color: Colors.white,
+                    color: Colors.white
                   }}
                 />
               </div>
@@ -874,7 +862,7 @@ class Editing extends React.Component<IProps, IState> {
                   value={this.state.newVideoTitle}
                   name="recieverEmail"
                   InputLabelProps={{
-                    shrink: true,
+                    shrink: true
                   }}
                   onChange={this.changeTitle}
                 />
@@ -884,7 +872,7 @@ class Editing extends React.Component<IProps, IState> {
                   style={{
                     background: Colors.themeGreen,
                     color: Colors.white,
-                    marginTop: "20px",
+                    marginTop: "20px"
                   }}
                 />
               </div>
@@ -903,7 +891,7 @@ class Editing extends React.Component<IProps, IState> {
             )}
             <Grid item xs={12} sm={12} md={12} lg={6}>
               <video
-                ref={(ref) => {
+                ref={ref => {
                   this.video = ref;
                 }}
                 controls={videoLoaded}
@@ -914,7 +902,7 @@ class Editing extends React.Component<IProps, IState> {
           <Grid container style={{ position: "relative" }}>
             <Grid item xs={12} sm={12} md={12} lg={6}>
               <canvas
-                ref={(ref) => {
+                ref={ref => {
                   this.canvas = ref;
                 }}
                 style={{ transform: "rotate(-270px)" }}
@@ -922,7 +910,7 @@ class Editing extends React.Component<IProps, IState> {
             </Grid>
           </Grid>
           <canvas
-            ref={(ref) => {
+            ref={ref => {
               this.dummyCanvas = ref;
             }}
             style={{ display: "none" }}
@@ -932,13 +920,13 @@ class Editing extends React.Component<IProps, IState> {
             alt="logo"
             src={this.state.logoPath ? this.state.logoPath : null}
             style={{ display: "none" }}
-            ref={(ref) => {
+            ref={ref => {
               this.img = ref;
             }}
           />
           <audio
             src={backgroundMusicUrl}
-            ref={(ref) => {
+            ref={ref => {
               this.backgroundMusic = ref;
             }}
             loop
@@ -978,7 +966,7 @@ class Editing extends React.Component<IProps, IState> {
                     color: "#fff",
                     width: "135px",
                     backgroundColor: "#ff4301",
-                    margin: "0px 5px 10px 0px",
+                    margin: "0px 5px 10px 0px"
                   }}
                 >
                   Upload
@@ -989,7 +977,7 @@ class Editing extends React.Component<IProps, IState> {
                     color: "#fff",
                     marginLeft: "3px",
                     backgroundColor: "rgb(34, 185, 255)",
-                    margin: "0px 5px 10px 0px",
+                    margin: "0px 5px 10px 0px"
                   }}
                 >
                   Select from Assets
@@ -1046,7 +1034,7 @@ class Editing extends React.Component<IProps, IState> {
                       color: "#fff",
                       width: "135px",
                       backgroundColor: "#ff4301",
-                      margin: "0px 5px 10px 0px",
+                      margin: "0px 5px 10px 0px"
                     }}
                   >
                     Upload
@@ -1058,7 +1046,7 @@ class Editing extends React.Component<IProps, IState> {
                     style={{
                       color: "#fff",
                       backgroundColor: "#ff4301",
-                      margin: "0px 5px 10px 0px",
+                      margin: "0px 5px 10px 0px"
                     }}
                   >
                     Select to Upload
@@ -1069,7 +1057,7 @@ class Editing extends React.Component<IProps, IState> {
                   style={{
                     color: "#fff",
                     backgroundColor: "rgb(34, 185, 255)",
-                    margin: "0px 5px 10px 0px",
+                    margin: "0px 5px 10px 0px"
                   }}
                 >
                   Select from Assets
@@ -1196,12 +1184,12 @@ class Editing extends React.Component<IProps, IState> {
                 color: "rgb(255, 255, 255)",
                 marginTop: "20px",
                 marginBottom: "2px",
-                outline: "none",
+                outline: "none"
               }}
             />
           </div>
           <canvas
-            ref={(ref) => {
+            ref={ref => {
               this.thumbCanvas = ref;
             }}
             height={720}
@@ -1217,26 +1205,26 @@ const iconStyle = {
   fontSize: "15px",
   color: "#a9a9a9",
   marginLeft: "7px",
-  cursor: "pointer",
+  cursor: "pointer"
 };
 const logoPositionBtn = {
   marginBottom: "10px",
   marginLeft: "7px",
   fontSize: "11px",
-  border: "1px solid #696969",
+  border: "1px solid #696969"
 };
 const mapStateToProps = (state: any, ownProps: any) => {
   return {
     video: state.video.singleVideo,
     isVideoUpdating: state.video.isVideoUpdating,
-    auth: state.auth,
+    auth: state.auth
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
     updateVideo: (video: any) => dispatch(updateVideo(video)),
     addAsset: (asset: any) => dispatch(addAsset(asset)),
-    addMusicAsset: (asset: any) => dispatch(addMusicAsset(asset)),
+    addMusicAsset: (asset: any) => dispatch(addMusicAsset(asset))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Editing);
