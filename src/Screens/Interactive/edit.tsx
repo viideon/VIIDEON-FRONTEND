@@ -1,10 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { toast } from "react-toastify";
-import { config } from "../../config/aws";
-import AWS from "aws-sdk";
-
-import thankyou from "../../assets/thankyou.png";
 
 import { updateJump } from "../../Redux/Actions/chatvid";
 import { VideoState } from "../../Redux/Types/videos";
@@ -12,7 +7,6 @@ import { AuthState } from "../../Redux/Types/auth";
 import "react-tabs/style/react-tabs.css";
 
 import Header from "../../components/Header/Header";
-import Thankyou from "./steps/Thankyou";
 import { Grid, Typography } from "@material-ui/core";
 import CancelIcon from "@material-ui/icons/Cancel";
 import "./style.css";
@@ -24,7 +18,6 @@ import {
   makeStyles,
   Theme,
   createStyles,
-  withStyles,
 } from "@material-ui/core/styles";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
@@ -45,9 +38,9 @@ var month = [
   "September",
   "October",
   "November",
-  "December",
+  "December"
 ];
-const s3 = new AWS.S3(config);
+
 type IProps = {
   auth: AuthState;
   history: any;
@@ -76,7 +69,7 @@ class ChatVid extends Component<IProps> {
     title: "",
     choices: [],
     isAddStep: false,
-    chatvidId: "",
+    chatvidId: ""
   };
 
   componentDidMount() {
@@ -85,13 +78,13 @@ class ChatVid extends Component<IProps> {
       this.setState({
         isAddStep: true,
         chatvidId: pathname[3],
-        title: this.props.chatvids.selectedChatvid.name,
+        title: this.props.chatvids.selectedChatvid.name
       });
     }
   }
 
   render() {
-    const { name, createdAt, _id, steps } = this.props.chatvid;
+    const { name, createdAt, _id } = this.props.chatvid;
     var date: any = new Date(createdAt);
     date = `${month[date.getMonth()]} ${date.getDay()}, ${date.getFullYear()}`;
     return (
@@ -99,7 +92,7 @@ class ChatVid extends Component<IProps> {
         <Header
           styles={{
             backgroundImage:
-              "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))",
+              "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"
           }}
         />
         <Grid container className="EditChatvidMainContainer">
@@ -134,34 +127,31 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       width: "100%",
-      overflow: "scroll",
+      overflow: "scroll"
     },
     button: {
-      marginRight: theme.spacing(1),
+      marginRight: theme.spacing(1)
     },
     completed: {
-      display: "inline-block",
+      display: "inline-block"
     },
     instructions: {
       marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(1),
-    },
+      marginBottom: theme.spacing(1)
+    }
   })
 );
 
 const makemeSteps = (chatvid: any) => {
   var stpArray: any = [...Array(chatvid.steps.length * 2).keys()];
   var ind = 0;
-  const newStepArray: any = stpArray.map((item: any, index: number) => {
+  return stpArray.map((item: any, index: number) => {
     if (!(index % 2)) {
       item = chatvid.steps[ind];
       ind++;
     }
     return item;
   });
-  // console.log(newStepArray)
-
-  return newStepArray;
 };
 
 function HorizontalNonLinearStepper(props: any) {
@@ -200,7 +190,7 @@ function HorizontalNonLinearStepper(props: any) {
     "W",
     "X",
     "Y",
-    "Z",
+    "Z"
   ];
 
   const totalSteps = () => {
@@ -211,28 +201,28 @@ function HorizontalNonLinearStepper(props: any) {
     return Object.keys(completed).length;
   };
 
-  const isLastStep = () => {
-    return activeStep === totalSteps() - 1;
-  };
-
-  const allStepsCompleted = () => {
-    return completedSteps() === totalSteps();
-  };
-
-  const handleNext = () => {
-    const newActiveStep =
-      isLastStep() && !allStepsCompleted()
-        ? // It's the last step, but not all steps have been completed,
-          // find the first step that has been completed
-          steps.findIndex((step: any, i: number) => !(i in completed))
-        : activeStep + 1;
-    setActiveStep(newActiveStep);
-  };
+  // const isLastStep = () => {
+  //   return activeStep === totalSteps() - 1;
+  // };
+  //
+  // const allStepsCompleted = () => {
+  //   return completedSteps() === totalSteps();
+  // };
+  //
+  // const handleNext = () => {
+  //   const newActiveStep =
+  //     isLastStep() && !allStepsCompleted()
+  //       ? // It's the last step, but not all steps have been completed,
+  //         // find the first step that has been completed
+  //         steps.findIndex((step: any, i: number) => !(i in completed))
+  //       : activeStep + 1;
+  //   setActiveStep(newActiveStep);
+  // };
 
   const handleStep = (step: number) => () => {
     console.log("steps in handle with props ", props?.chatvid?.steps);
 
-    const index = steps.findIndex((x: any) => x == step);
+    const index = steps.findIndex((x: any) => x === step);
     // console.log("index is ", index);
     const obj = steps[index - 1];
     // console.log("obj is ", obj);
@@ -264,7 +254,7 @@ function HorizontalNonLinearStepper(props: any) {
     await setEditSteps({ ...editSteps });
     let step: any = {
       _id: stepId,
-      jumpTo: jumpTo === "end" ? -3 : jumpTo,
+      jumpTo: jumpTo === "end" ? -3 : jumpTo
     };
     console.log("step before jump to", step);
     props.updateStepJump(step);
@@ -298,7 +288,7 @@ function HorizontalNonLinearStepper(props: any) {
     if (!editSteps[stepId]) editSteps[stepId] = {};
     editSteps[stepId][choiceId] = {};
     editSteps[stepId][choiceId] = {
-      jumpTo: value === "end " ? length : value,
+      jumpTo: value === "end " ? length : value
     };
     await setEditSteps((oldSteps: any) => {
       return { ...oldSteps, ...editSteps };
@@ -306,7 +296,7 @@ function HorizontalNonLinearStepper(props: any) {
 
     let step: any = {
       _id: stepId,
-      jumpChoice: {},
+      jumpChoice: {}
     };
     step.jumpChoice[choiceId] = value === "end " ? length : value;
     props.updateStepJump(step);
@@ -409,12 +399,12 @@ const mapStateToProps = (state: any) => {
     savedVideoId: state.video.savedVideoId,
     progressEmail: state.video.progressEmail,
     chatvids: state.chatvids,
-    chatvid: state.chatvids.selectedChatvid,
+    chatvid: state.chatvids.selectedChatvid
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    updateStepJump: (step: any) => dispatch(updateJump(step)),
+    updateStepJump: (step: any) => dispatch(updateJump(step))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ChatVid);
