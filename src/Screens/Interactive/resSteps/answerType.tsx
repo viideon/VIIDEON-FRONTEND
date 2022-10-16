@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import VideoRecorder from "../../../components/VideoRecorder";
 import { deviceType } from "react-device-detect";
+import { v4 as uuid } from "uuid";
 
 import { saveAnalytics } from "../../../Redux/Actions/chatvid";
 
@@ -9,7 +10,7 @@ import {
   createStyles,
   withStyles,
   Theme,
-  makeStyles,
+  makeStyles
 } from "@material-ui/core/styles";
 import { toast, Flip } from "react-toastify";
 import { Grid, Typography, TextField, Button } from "@material-ui/core";
@@ -35,12 +36,10 @@ import VolumeUpRoundedIcon from "@material-ui/icons/VolumeUpRounded";
 import "react-tabs/style/react-tabs.css";
 import "../response.css";
 import { Email } from "aws-sdk/clients/codecommit";
-import AWS from "aws-sdk";
-import { config } from "../../../config/aws";
 
 import { InlineWidget } from "react-calendly";
+import * as api from "../../../util/api";
 
-const s3 = new AWS.S3(config);
 const MicRecorder = require("mic-recorder-to-mp3");
 
 function validateEmail(email: Email) {
@@ -59,7 +58,7 @@ var analyticsPayload = {
   chatvidId: "",
   isAnswered: false,
   isInteracted: false,
-  isCompleted: false,
+  isCompleted: false
 };
 
 class FinalTab extends Component<any> {
@@ -88,7 +87,7 @@ class FinalTab extends Component<any> {
     audioOBJ: {},
     currentStepNo: 0,
     isFull: false,
-    display: "",
+    display: ""
   };
 
   componentDidMount() {
@@ -136,15 +135,13 @@ class FinalTab extends Component<any> {
         this.settingTextProps(this.props);
       } else {
         console.log("for url", this.state.currentStepNo);
-        let url = this.props.resChatvid.steps[this.state.currentStepNo].videoId
-          .url;
-        this.videoRef.src = url;
+        this.videoRef.src = this.props.resChatvid.steps[this.state.currentStepNo].videoId.url;
         const {
           text,
           align,
           vAlign,
           fontSize,
-          reveal,
+          reveal
         } = this.props.resChatvid.steps[
           this.state.currentStepNo
         ].videoId.textProps;
@@ -156,8 +153,7 @@ class FinalTab extends Component<any> {
           reveal,
           fontSize: fontSize ? fontSize : "xx-large",
           isFull:
-            this.props.resChatvid.steps[this.state.currentStepNo].isFull ||
-            true,
+            this.props.resChatvid.steps[this.state.currentStepNo].isFull || true
         });
       }
       this.videoRef.addEventListener(
@@ -188,26 +184,19 @@ class FinalTab extends Component<any> {
   uploadAudio = (file: any) => {
     return new Promise((resolve, reject) => {
       // this.setState({ videoProgress: true, progressVideo: 0 });
-      const options = {
-        Bucket: config.bucketName,
-        ACL: config.ACL,
-        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}replyAudioURL.mp3`,
-        Body: file,
-      };
-      s3.upload(options, (err: any, data: any) => {
-        if (err) {
-          // this.setState({ videoProgress: false });
-          reject();
-        } else {
-          this.setState({
-            // videoProgress: false,
-            ansAudio: data.Location,
-          });
-          resolve();
-        }
-      }).on("httpUploadProgress", (progress: any) => {
-        // let uploaded: number = (progress.loaded * 100) / progress.total;
-        // this.setState({ progressVideo: uploaded });
+      const filename = uuid();
+      api.uploadFile(
+          `${filename}-replyAudioUrl`,
+          file,
+          {},
+      ).then((response: { filename: any; }) => {
+        this.setState({
+          // videoProgress: false,
+          ansAudio: response.filename,
+        });
+        resolve();
+      }).catch((error: any) => {
+        reject(error);
       });
     });
   };
@@ -276,26 +265,20 @@ class FinalTab extends Component<any> {
   uploadVideo = (file: any) => {
     toast.info("Uploading ...");
     return new Promise((resolve, reject) => {
-      const options = {
-        Bucket: config.bucketName,
-        ACL: config.ACL,
-        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}replyVideoURL.mp3`,
-        Body: file,
-      };
-      s3.upload(options, (err: any, data: any) => {
-        if (err) {
-          toast.error("something went wrong. Please try again later!");
-          reject();
-        } else {
-          this.setState({
-            ansVideo: data.Location,
-          });
-          toast.info("Uploaded");
-          resolve();
-        }
-      }).on("httpUploadProgress", (progress: any) => {
-        // let uploaded: number = (progress.loaded * 100) / progress.total;
-        // this.setState({ progressVideo: uploaded });
+      const filename = uuid();
+      api.uploadFile(
+          `${filename}-replyVideoUrl`,
+          file,
+          {}
+      ).then((response: { filename: any; }) => {
+        this.setState({
+          ansVideo: response.filename
+        });
+        toast.info("Uploaded");
+        resolve();
+      }).catch((error: any) => {
+        toast.error("something went wrong. Please try again later!");
+        reject(error);
       });
     });
   };
@@ -338,7 +321,7 @@ class FinalTab extends Component<any> {
       tab,
       choiceId,
       calendar,
-      currentStepNo,
+      currentStepNo
     } = this.state;
     const { resChatvid, auth, selectedChatvid } = this.props;
     const { text, align, vAlign, fontSize } = resChatvid.steps[
@@ -347,12 +330,12 @@ class FinalTab extends Component<any> {
     if (!validateEmail(userEmail))
       return toast.error("Enter a valid Email", {
         hideProgressBar: true,
-        transition: Flip,
+        transition: Flip
       });
     if (!userName)
       return toast.error("Enter a valid Email", {
         hideProgressBar: true,
-        transition: Flip,
+        transition: Flip
       });
     // console.log("before Replying", userEmail);
     // console.log("before replying selecetd chatvid", selectedChatvid);
@@ -378,7 +361,7 @@ class FinalTab extends Component<any> {
         : "calendar";
     let people: any = {
       email: userEmail,
-      name: userName,
+      name: userName
     };
     if (auth.user?._id) {
       people.userId = auth.user?._id;
@@ -390,7 +373,7 @@ class FinalTab extends Component<any> {
       url: (ansVideo ? ansVideo : ansAudio) || "",
       type: type,
       choiceId: choiceId,
-      calendar: calendar,
+      calendar: calendar
     };
 
     this.props.send({ people, reply, open: false, tab: 0 });
@@ -411,7 +394,7 @@ class FinalTab extends Component<any> {
         ) {
           this.setState({
             currentStepNo:
-              resChatvid.steps[currentStepNo].jumpChoice[choiceId] - 1,
+              resChatvid.steps[currentStepNo].jumpChoice[choiceId] - 1
           });
         } else {
           this.setState({ currentStepNo: currentStepNo + 1 });
@@ -423,7 +406,7 @@ class FinalTab extends Component<any> {
         );
         if (resChatvid.steps[currentStepNo].jumpTo) {
           this.setState({
-            currentStepNo: resChatvid.steps[currentStepNo].jumpTo - 1,
+            currentStepNo: resChatvid.steps[currentStepNo].jumpTo - 1
           });
         } else {
           this.setState({ currentStepNo: currentStepNo + 1 });
@@ -437,7 +420,7 @@ class FinalTab extends Component<any> {
           vAlign,
           fontSize: fontSize ? fontSize : "xx-large",
           text,
-          isFull: resChatvid.steps[this.state.currentStepNo].isFull,
+          isFull: resChatvid.steps[this.state.currentStepNo].isFull
         },
         () => {
           this.settingUPMedia();
@@ -462,7 +445,7 @@ class FinalTab extends Component<any> {
           ) {
             this.setState({
               currentStepNo:
-                resChatvid.steps[currentStepNo].jumpChoice[choiceId] - 1,
+                resChatvid.steps[currentStepNo].jumpChoice[choiceId] - 1
             });
           } else {
             this.setState({ currentStepNo: currentStepNo + 1 });
@@ -470,7 +453,7 @@ class FinalTab extends Component<any> {
         } else {
           if (resChatvid.steps[currentStepNo].jumpTo) {
             this.setState({
-              currentStepNo: resChatvid.steps[currentStepNo].jumpTo - 1,
+              currentStepNo: resChatvid.steps[currentStepNo].jumpTo - 1
             });
           } else {
             this.setState({ currentStepNo: currentStepNo + 1 });
@@ -484,7 +467,7 @@ class FinalTab extends Component<any> {
             vAlign,
             fontSize: fontSize ? fontSize : "xx-large",
             text,
-            isFull: resChatvid.steps[this.state.currentStepNo].isFull,
+            isFull: resChatvid.steps[this.state.currentStepNo].isFull
           },
           () => {
             this.settingUPMedia();
@@ -576,7 +559,6 @@ class FinalTab extends Component<any> {
       fontWeight,
       fontStyle,
       textDecoration,
-      dispaly,
     } = this.props;
     const justifyContent =
       align === "left"
@@ -598,7 +580,7 @@ class FinalTab extends Component<any> {
         container
         className="responseTypeWrapper"
         style={{
-          justifyContent: this.props.screenType == "web" ? "" : "center",
+          justifyContent: this.props.screenType === "web" ? "" : "center"
         }}
       >
         <Grid
@@ -615,8 +597,8 @@ class FinalTab extends Component<any> {
           />
           <Grid
             style={{
-              position: this.props.screenType == "web" ? "relative" : "inherit",
-              height: "100%",
+              position: this.props.screenType === "web" ? "relative" : "inherit",
+              height: "100%"
             }}
             item
             xs={12}
@@ -629,13 +611,13 @@ class FinalTab extends Component<any> {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                width: this.props.screenType == "web" ? "100%" : "auto",
+                width: this.props.screenType === "web" ? "100%" : "auto"
               }}
             >
               <div
                 className="videoText"
                 style={{
-                  minHeight: this.props.screenType == "web" ? "90%" : "50%",
+                  minHeight: this.props.screenType === "web" ? "90%" : "50%"
                 }}
               >
                 <Typography
@@ -650,7 +632,7 @@ class FinalTab extends Component<any> {
                     fontSize: fontSize ? fontSize : "x-large",
                     fontWeight: fontWeight ? "bold" : "normal",
                     fontStyle: fontStyle ? "italic" : "",
-                    textDecoration: textDecoration ? "underline" : "none",
+                    textDecoration: textDecoration ? "underline" : "none"
                   }}
                 >
                   {" "}
@@ -663,7 +645,7 @@ class FinalTab extends Component<any> {
                   style={{
                     display: this.props?.location?.pathname ? "none" : "flex",
                     flexDirection: "column",
-                    justifyContent: "space-evenly",
+                    justifyContent: "space-evenly"
                   }}
                 >
                   <MobileOpenEndedType
@@ -681,7 +663,7 @@ class FinalTab extends Component<any> {
 
             <video
               id="iframVideo"
-              ref={(ref) => (this.videoRef = ref)}
+              ref={ref => (this.videoRef = ref)}
               className={`${isFit ? "videoFULL" : "videoFull2"}`}
               controls
               controlsList="nodownload nofullscreen noremoteplayback"
@@ -698,9 +680,9 @@ class FinalTab extends Component<any> {
           lg={6}
           style={{
             display:
-              this.props.screenType == "web" || this.props?.location?.pathname
+              this.props.screenType === "web" || this.props?.location?.pathname
                 ? "block"
-                : "none",
+                : "none"
           }}
         >
           <Grid
@@ -765,7 +747,6 @@ const MobileOpenEndedType = (props: any) => {
     resChatvid,
     preview,
     resType,
-    screenType,
   } = props;
 
   let { steps, userId } = resChatvid;
@@ -869,7 +850,6 @@ const OpenEndedType = (props: any) => {
     resChatvid,
     preview,
     resType,
-    screenType,
   } = props;
 
   let { steps, userId } = resChatvid;
@@ -889,7 +869,6 @@ const OpenEndedType = (props: any) => {
       <div style={{ height: "100%", backgroundColor: "white" }}>
         <div className="preview"></div>
         <div className="captionDiv">
-          {console.log("for text", props.history.location.pathname)}
           <Typography variant="h3">
             {responseType === "Open-ended"
               ? "HOW WOULD YOU LIKE TO RESPOND?"
@@ -904,7 +883,7 @@ const OpenEndedType = (props: any) => {
           <div
             className="optionDiv"
             style={{
-              padding: responseType !== "Multiple-Choice" ? "0px" : "4%",
+              padding: responseType !== "Multiple-Choice" ? "0px" : "4%"
             }}
           >
             {responseType === "Open-ended" ? (
@@ -1052,7 +1031,7 @@ const AudioResponse = (props: any) => {
   };
 
   const trackTime = async () => {
-    await setTimer((time) => {
+    await setTimer(time => {
       if (time - 1 === 0) {
         handleStop();
       }
@@ -1082,7 +1061,7 @@ const AudioResponse = (props: any) => {
         .then(([buffer, blob]: any) => {
           const file = new File(buffer, "chatvidAnswer.mp3", {
             type: blob.type,
-            lastModified: Date.now(),
+            lastModified: Date.now()
           });
           if (blob && blob.size > 10) {
             setFile(file);
@@ -1106,7 +1085,7 @@ const AudioResponse = (props: any) => {
       setRecording(false);
       return toast.error("NO recording found!");
     }
-    await setProgress((progress) => 0);
+    await setProgress(progress => 0);
     progressHandler(player);
     player.play();
   };
@@ -1291,16 +1270,16 @@ const BorderLinearProgress = withStyles((theme: Theme) =>
       height: 10,
       borderRadius: 5,
       width: "100%",
-      display: "relative",
+      display: "relative"
     },
     colorPrimary: {
       backgroundColor:
-        theme.palette.grey[theme.palette.type === "light" ? 200 : 700],
+        theme.palette.grey[theme.palette.type === "light" ? 200 : 700]
     },
     bar: {
       borderRadius: 5,
-      backgroundColor: "#4ce",
-    },
+      backgroundColor: "#4ce"
+    }
   })
 )(LinearProgress);
 
@@ -1308,24 +1287,24 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: "flex",
-      alignItems: "center",
+      alignItems: "center"
     },
     wrapper: {
       margin: theme.spacing(1),
-      position: "relative",
+      position: "relative"
     },
     buttonSuccess: {
       backgroundColor: "#fdb415",
       "&:hover": {
-        backgroundColor: "#fdb415",
-      },
+        backgroundColor: "#fdb415"
+      }
     },
     fabProgress: {
       color: "#fdb415",
       position: "absolute",
       top: -70,
       left: -70,
-      zIndex: 1,
+      zIndex: 1
     },
     buttonProgress: {
       color: "#fdb415",
@@ -1333,8 +1312,8 @@ const useStyles = makeStyles((theme: Theme) =>
       top: "50%",
       left: "50%",
       marginTop: -12,
-      marginLeft: -12,
-    },
+      marginLeft: -12
+    }
   })
 );
 
@@ -1342,12 +1321,12 @@ const mapStateToProps = (state: any) => {
   return {
     auth: state.auth,
     resChatvid: state.chatvids.resChatvid,
-    selectedChatvid: state.chatvids.selectedChatvid,
+    selectedChatvid: state.chatvids.selectedChatvid
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    saveAnalytics: (payload: any) => dispatch(saveAnalytics(payload)),
+    saveAnalytics: (payload: any) => dispatch(saveAnalytics(payload))
   };
 };
 
