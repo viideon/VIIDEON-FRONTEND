@@ -12,7 +12,6 @@ import {
   getSingleVideo,
   getSingleTemplate,
   sendMultiEmails,
-  deleteDataAws,
   updateVideoWatch,
   updateEmailShare,
   getCampaignVideos,
@@ -44,13 +43,12 @@ function* sendVideoOnEmail(action: any) {
     payload.userId = userId;
 
     const result = yield sendVideoToEmail(payload);
-    
+
     yield put({ type: types.VIDEO_SEND_SUCCESS, payload: result.message });
     toast.info("Email(s) Successfully Sent");
   } catch (error) {
     yield put({ type: types.VIDEO_SEND_FAILURE });
     toast.error(error.message);
-    
   }
 }
 
@@ -62,8 +60,8 @@ function* saveUserVideo(action: any) {
       type: types.GET_SAVED_VIDEO_ID,
       payload: result.video._id
     });
-    toast.success("Saved Successfully",{
-      hideProgressBar:true
+    toast.success("Saved Successfully", {
+      hideProgressBar: true
     });
   } catch (error) {
     yield put({ type: types.VIDEO_SAVE_FAILURE, payload: error });
@@ -171,7 +169,7 @@ function* searchUserVideos(action: any) {
       result = yield call(getCampaignVideosByTitle, queryObj);
     }
     yield put({ type: types.DISABLE_LOADMORE });
-     yield put({
+    yield put({
       type: types.SEARCH_VIDEOS_SUCCESS,
       payload: result.message
     });
@@ -248,14 +246,10 @@ export function* deleteVideo(action: any) {
 
     yield put({ type: types.DELETE_VIDEO_SUCCESS });
     const videos = yield select(selectVideos);
-    const updatedVideos = videos.filter(
-      (video: any) => video._id !== videoId
-    );
-    const removedVideo = videos.find((video: any) => video._id === videoId);
+    const updatedVideos = videos.filter((video: any) => video._id !== videoId);
     if (result.nextVideo && loadNew) {
       updatedVideos.push(result.nextVideo);
     }
-    deleteDataAws(removedVideo.url);
     yield put({
       type: types.UPDATE_VIDEOS_AFTEREDELETE,
       payload: updatedVideos
@@ -264,7 +258,7 @@ export function* deleteVideo(action: any) {
     toast.success("Successfully Deleted");
   } catch (err) {
     yield put({ type: types.DELETE_VIDEO_FAILURE });
-  yield put({ type: types.ENABLE_DELETEDIALOG });
+    yield put({ type: types.ENABLE_DELETEDIALOG });
     toast.error(err.message);
   }
 }
@@ -287,7 +281,7 @@ export function* getCampaignCount() {
   try {
     const userId = yield select(selectID);
     const result = yield call(campaignCount, userId);
-    
+
     yield put({
       type: types.COUNT_CAMPAIGN_SUCCESS,
       payload: result.count
@@ -305,7 +299,7 @@ export function* videoWatcher() {
   yield takeEvery(types.UPDATE_VIDEO, updateVideo);
   yield takeEvery(types.DELETE_VIDEO, deleteVideo);
   yield takeEvery(types.GET_VIDEO, getVideo);
-  yield takeEvery(types.GET_TEMPLATE,getTemplate );
+  yield takeEvery(types.GET_TEMPLATE, getTemplate);
   yield takeEvery(types.SEND_MULTIPLE_EMAIL, sendMultipleEmail);
   yield takeLatest(types.COUNT_VIDEO, getVideoCount);
   yield takeLatest(types.COUNT_CAMPAIGN, getCampaignCount);
