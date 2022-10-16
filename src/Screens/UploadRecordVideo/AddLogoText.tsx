@@ -1,13 +1,14 @@
 import React from "react";
-import AWS from "aws-sdk";
 import { withRouter } from "react-router-dom";
+import { v4 as uuid } from "uuid";
+
 import Loading from "../../components/Loading";
 import {
   Grid,
   LinearProgress,
   Tooltip,
   TextField,
-  Button,
+  Button
 } from "@material-ui/core";
 import ThemeButton from "../../components/ThemeButton";
 import EmailInstruction from "../../components/Reusable/EmailInstruction";
@@ -23,15 +24,15 @@ import {
   sendVideoToEmail,
   saveVideo,
   toggleSendVariable,
-  sendMultipleEmails,
+  sendMultipleEmails
 } from "../../Redux/Actions/videos";
 import * as Constants from "../../constants/constants";
 import { reg } from "../../constants/emailRegEx";
 import { EmailVideo, VideoSave, MultiEmail } from "../../Redux/Types/videos";
 import { addAsset, addMusicAsset } from "../../Redux/Actions/asset";
 import { getIconPosition } from "../../lib/helpers";
-import { config } from "../../config/aws";
 import "./style.css";
+import * as api from "../../util/api";
 
 interface IProps {
   history: any;
@@ -65,7 +66,7 @@ interface IState {
   videoProgress: boolean;
   progressVideo: number;
   thumbnailUrl: string;
-  urlRecord: string;
+  videoUrl: string;
   title: string;
   emails: any;
   recieverEmail: string;
@@ -111,7 +112,7 @@ class AddLogoText extends React.Component<IProps, IState> {
       videoProgress: false,
       progressVideo: 0,
       thumbnailUrl: "",
-      urlRecord: "",
+      videoUrl: "",
       title: "",
       emails: [],
       recieverEmail: "",
@@ -121,13 +122,12 @@ class AddLogoText extends React.Component<IProps, IState> {
       musicFile: null,
       assetUploading: false,
       musicLoadingTimeout: null,
-      musicVolume: "0.5",
+      musicVolume: "0.5"
     };
   }
   componentDidMount() {
     this.props.toggleSendVariable();
     this.backgroundMusic = this.refs.backgroundMusic;
-    this.s3 = new AWS.S3(config);
     this.video = this.refs.video;
     this.video.src = URL.createObjectURL(this.props.videoToEdit);
     this.canvas = this.refs.canvas;
@@ -308,26 +308,22 @@ class AddLogoText extends React.Component<IProps, IState> {
   }
   saveLogo = (logoBlob: any) => {
     return new Promise((resolve, reject) => {
-      const logoOptions = {
-        Bucket: config.bucketName,
-        ACL: config.ACL,
-        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}logo.jpeg`,
-        Body: logoBlob,
-      };
-      this.s3.upload(logoOptions, (err: any, data: any) => {
-        if (err) {
-          toast.error(err);
-          this.setState({ assetUploading: false });
-          reject();
-          return;
-        }
-        this.setState({ logoPath: data.Location }, () => {
+      api.uploadFile(
+          `${uuid}-logo`,
+          logoBlob,
+          {}
+      ).then((response: { filename: any; }) => {
+        this.setState({ logoPath: response.filename }, () => {
           setTimeout(() => {
             this.updateCanvas();
           }, 1000);
         });
-        this.props.addAsset({ type: "logo", url: data.Location });
+        this.props.addAsset({ type: "logo", url: response.filename });
         resolve();
+      }).catch((error: any) => {
+        toast.error(error);
+        this.setState({ assetUploading: false });
+        reject(error);
       });
     });
   };
@@ -440,28 +436,31 @@ class AddLogoText extends React.Component<IProps, IState> {
       }, "image/jpeg");
     });
   };
-  uploadVideo = () => {
+  uploadVideo = (filename: string) => {
     return new Promise((resolve, reject) => {
       this.setState({ videoProgress: true, progressVideo: 0 });
-      const options = {
-        Bucket: config.bucketName,
-        ACL: config.ACL,
-        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}.webm`,
-        Body: this.props.videoToEdit,
-      };
-      this.s3
-        .upload(options, (err: any, data: any) => {
-          if (err) {
-            this.setState({ videoProgress: false });
-            reject();
-          } else {
-            this.setState({ urlRecord: data.Location, videoProgress: false });
-            resolve();
+      api
+        .uploadFile(filename, this.props.videoToEdit, {
+          onUploadProgress: (progressEvent: {
+            loaded: number;
+            total: number;
+          }) => {
+            let uploaded: number =
+              (progressEvent.loaded * 100) / progressEvent.total;
+            this.setState({ progressVideo: uploaded });
           }
         })
-        .on("httpUploadProgress", (progress: any) => {
-          let uploaded: number = (progress.loaded * 100) / progress.total;
-          this.setState({ progressVideo: uploaded });
+        .then((response: { filename: any }) => {
+          console.log("Video uploaded", { response });
+          this.setState({
+            videoProgress: false,
+            videoUrl: response.filename
+          });
+          resolve();
+        })
+        .catch((error: any) => {
+          console.error("Error uploading video", error);
+          reject(error);
         });
     });
   };
@@ -471,29 +470,25 @@ class AddLogoText extends React.Component<IProps, IState> {
     } else {
       toast.info("Uploading music please wait");
       this.setState({ assetUploading: true });
-      const musicOptions = {
-        Bucket: config.bucketName,
-        ACL: config.ACL,
-        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}${this.state.musicFile.name}`,
-        Body: this.state.musicFile,
-      };
-      this.s3.upload(musicOptions, (err: any, data: any) => {
-        if (err) {
-          toast.error(err);
-          this.setState({ assetUploading: false });
-          return;
-        }
+      api.uploadFile(
+          `${uuid}-music`,
+          this.state.musicFile,
+          {}
+      ).then((response: { filename: any; }) => {
         toast.info("Asset Uploaded");
         this.setState({
-          backgroundMusicUrl: data.Location,
+          backgroundMusicUrl: response.filename,
           musicFile: null,
           musicFileSelected: false,
-          assetUploading: false,
+          assetUploading: false
         });
         this.props.addMusicAsset({
-          url: data.Location,
-          title: this.state.musicTitle,
+          url: response.filename,
+          title: this.state.musicTitle
         });
+      }).catch((error: any) => {
+        toast.error(error);
+        this.setState({ assetUploading: false });
       });
     }
   };
@@ -507,7 +502,7 @@ class AddLogoText extends React.Component<IProps, IState> {
     if (musicFile !== null) {
       toast("Add a title and  click upload to save this asset", {
         autoClose: 3000,
-        transition: Flip,
+        transition: Flip
       });
       this.setState({ musicFileSelected: true, musicFile: musicFile });
     } else {
@@ -518,35 +513,34 @@ class AddLogoText extends React.Component<IProps, IState> {
     this.setState({ backgroundMusicUrl: path });
     toast.info("Wait while we add the music to the video");
     this.setState({
-      musicLoadingTimeout: setInterval(() => this.isMusicLoaded(), 3000),
+      musicLoadingTimeout: setInterval(() => this.isMusicLoaded(), 3000)
     });
   };
-  uploadThumbnail = () => {
+  uploadThumbnail = (filename: string) => {
     return new Promise((resolve, reject) => {
       this.setState({ videoProgress: true, progressVideo: 0 });
-      const thumbnailOptions = {
-        Bucket: config.bucketName,
-        ACL: config.ACL,
-        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}thumbnail.jpeg`,
-        Body: this.state.thumbnailBlob,
-      };
-
-      this.s3
-        .upload(thumbnailOptions, (err: any, data: any) => {
-          if (err) {
-            this.setState({ videoProgress: false });
-            reject();
-          } else {
-            this.setState({
-              videoProgress: false,
-              thumbnailUrl: data.Location,
-            });
-            resolve();
+      api
+        .uploadFile(filename, this.state.thumbnailBlob, {
+          onUploadProgress: (progressEvent: {
+            loaded: number;
+            total: number;
+          }) => {
+            let uploaded: number =
+              (progressEvent.loaded * 100) / progressEvent.total;
+            this.setState({ progressVideo: uploaded });
           }
         })
-        .on("httpUploadProgress", (progress: any) => {
-          let uploaded: number = (progress.loaded * 100) / progress.total;
-          this.setState({ progressVideo: uploaded });
+        .then((response: { filename: any }) => {
+          console.log("Thumbnail uploaded", response);
+          this.setState({
+            videoProgress: false,
+            thumbnailUrl: response.filename
+          });
+          resolve();
+        })
+        .catch((error: any) => {
+          console.error("Error uploading thumbnail", error);
+          reject(error);
         });
     });
   };
@@ -557,34 +551,35 @@ class AddLogoText extends React.Component<IProps, IState> {
     }
     try {
       toast.info("Generating thumbnail ...");
+      const filename = uuid();
       await this.getThumbnail();
-      await this.uploadThumbnail();
-      await this.uploadVideo();
+      await this.uploadThumbnail(`${filename}-thumbnail`);
+      await this.uploadVideo(`${filename}-video`);
       const textProps = {
         text: this.state.text,
         textColor: this.state.textColor,
         fontSize: this.state.fontSize,
         vAlign: this.state.vAlign,
-        align: this.state.align,
+        align: this.state.align
       };
       const logoProps = {
         url: this.state.logoPath,
-        position: this.state.iconPos,
+        position: this.state.iconPos
       };
       const musicProps = {
         url: this.state.backgroundMusicUrl,
-        musicVolume: parseFloat(this.state.musicVolume),
+        musicVolume: parseFloat(this.state.musicVolume)
       };
       const video = {
         title: this.state.title,
-        url: this.state.urlRecord,
+        url: this.state.videoUrl,
         userId: this.props.auth!.user!._id,
         thumbnail: this.state.thumbnailUrl,
         musicProps: musicProps,
         textProps: textProps,
         logoProps: logoProps,
         campaign: false,
-        isVideo: true,
+        isVideo: true
       };
       this.props.saveVideo(video);
     } catch (error) {
@@ -596,13 +591,13 @@ class AddLogoText extends React.Component<IProps, IState> {
       return toast.warn("Please save a video");
     } else if (this.state.recieverEmail === "") {
       return toast.warn("Add an Email");
-    } else if (reg.test(this.state.recieverEmail) === false) {
+    } else if (!reg.test(this.state.recieverEmail)) {
       return toast.warn("Invalid Email");
     } else {
       const recieverEmail = this.state.recieverEmail;
       const video = {
         videoId: this.props.savedVideoId,
-        recieverEmail,
+        recieverEmail
       };
       this.props.sendVideoToEmail(video);
       this.setState({ recieverEmail: "" });
@@ -619,7 +614,7 @@ class AddLogoText extends React.Component<IProps, IState> {
       const emails = this.state.emails.join();
       const emailVideoObj = {
         recieverEmail: emails,
-        videoId: this.props.savedVideoId,
+        videoId: this.props.savedVideoId
       };
       this.props.sendMultipleEmail(emailVideoObj);
       this.setState({ emails: [] });
@@ -627,12 +622,12 @@ class AddLogoText extends React.Component<IProps, IState> {
   };
   titleNameHandler = (event: any) => {
     this.setState({
-      title: event.target.value,
+      title: event.target.value
     });
   };
   emailHandler = (event: any) => {
     this.setState({
-      recieverEmail: event.target.value,
+      recieverEmail: event.target.value
     });
   };
   onChangeMusicTitle = (e: any) => {
@@ -646,7 +641,7 @@ class AddLogoText extends React.Component<IProps, IState> {
     }
   };
   handleChipAdd = (email: any) => {
-    if (reg.test(email) === false) {
+    if (!reg.test(email)) {
       toast.error("Not a valid email");
       return;
     }
@@ -654,7 +649,7 @@ class AddLogoText extends React.Component<IProps, IState> {
   };
   handleDeleteChip = (delEmail: any) => {
     this.setState({
-      emails: this.state.emails.filter((email: string) => email !== delEmail),
+      emails: this.state.emails.filter((email: string) => email !== delEmail)
     });
   };
   navigateToVideos = () => {
@@ -758,7 +753,7 @@ class AddLogoText extends React.Component<IProps, IState> {
                 style={{
                   color: "#fff",
                   width: "135px",
-                  backgroundColor: "#ff4301",
+                  backgroundColor: "#ff4301"
                 }}
               >
                 Upload
@@ -769,7 +764,7 @@ class AddLogoText extends React.Component<IProps, IState> {
                 style={{
                   color: "#fff",
                   marginLeft: "3px",
-                  backgroundColor: "rgb(34, 185, 255)",
+                  backgroundColor: "rgb(34, 185, 255)"
                 }}
               >
                 Select from Assets
@@ -825,7 +820,7 @@ class AddLogoText extends React.Component<IProps, IState> {
                   style={{
                     color: "#fff",
                     width: "135px",
-                    backgroundColor: "#ff4301",
+                    backgroundColor: "#ff4301"
                   }}
                 >
                   Upload
@@ -836,7 +831,7 @@ class AddLogoText extends React.Component<IProps, IState> {
                   onClick={this.triggerMusicUploadBtn}
                   style={{
                     color: "#fff",
-                    backgroundColor: "#ff4301",
+                    backgroundColor: "#ff4301"
                   }}
                 >
                   Select to Upload
@@ -847,7 +842,7 @@ class AddLogoText extends React.Component<IProps, IState> {
                 style={{
                   color: "#fff",
                   marginLeft: "3px",
-                  backgroundColor: "rgb(34, 185, 255)",
+                  backgroundColor: "rgb(34, 185, 255)"
                 }}
               >
                 Select from Assets
@@ -985,14 +980,14 @@ class AddLogoText extends React.Component<IProps, IState> {
                     fullWidth
                     margin="normal"
                     InputLabelProps={{
-                      shrink: true,
+                      shrink: true
                     }}
                     style={{ margin: "20px 0px" }}
                   />
                   <ThemeButton
                     style={{
                       backgroundColor: Colors.themeBlue,
-                      color: Colors.white,
+                      color: Colors.white
                     }}
                     disabled={this.state.videoProgress || loading}
                     onClick={this.saveVideo}
@@ -1015,7 +1010,7 @@ class AddLogoText extends React.Component<IProps, IState> {
                       value={this.state.recieverEmail}
                       name="recieverEmail"
                       InputLabelProps={{
-                        shrink: true,
+                        shrink: true
                       }}
                       onChange={this.emailHandler}
                     />
@@ -1026,7 +1021,7 @@ class AddLogoText extends React.Component<IProps, IState> {
                     style={{
                       backgroundColor: Colors.themeGreen,
                       color: Colors.white,
-                      marginTop: "15px",
+                      marginTop: "15px"
                     }}
                   />
                   <div className="formGroupMultiple">
@@ -1035,15 +1030,15 @@ class AddLogoText extends React.Component<IProps, IState> {
                       value={this.state.emails}
                       placeholder="Enter email and press enter"
                       fullWidth
-                      onAdd={(chips) => this.handleChipAdd(chips)}
-                      onDelete={(chip) => this.handleDeleteChip(chip)}
+                      onAdd={chips => this.handleChipAdd(chips)}
+                      onDelete={chip => this.handleDeleteChip(chip)}
                     />
                   </div>
                   <ThemeButton
                     style={{
                       backgroundColor: Colors.themeGreen,
                       color: Colors.white,
-                      marginTop: "15px",
+                      marginTop: "15px"
                     }}
                     onClick={this.sendMultipleEmail}
                     name="Broadcast"
@@ -1053,7 +1048,7 @@ class AddLogoText extends React.Component<IProps, IState> {
                       style={{
                         background: Colors.themeBlue,
                         color: Colors.white,
-                        marginTop: "30px",
+                        marginTop: "30px"
                       }}
                       onClick={this.navigateToVideos}
                       name="Done"
@@ -1085,13 +1080,13 @@ const iconStyle = {
   fontSize: "15px",
   color: "#a9a9a9",
   marginLeft: "7px",
-  cursor: "pointer",
+  cursor: "pointer"
 };
 const logoPositionBtn = {
   marginBottom: "10px",
   marginLeft: "7px",
   fontSize: "11px",
-  border: "1px solid #696969",
+  border: "1px solid #696969"
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
@@ -1101,7 +1096,7 @@ const mapDispatchToProps = (dispatch: any) => {
     saveVideo: (video: VideoSave) => dispatch(saveVideo(video)),
     toggleSendVariable: () => dispatch(toggleSendVariable()),
     sendMultipleEmail: (emailVideoObj: MultiEmail) =>
-      dispatch(sendMultipleEmails(emailVideoObj)),
+      dispatch(sendMultipleEmails(emailVideoObj))
   };
 };
 const mapStateToProps = (state: any) => {
@@ -1109,7 +1104,7 @@ const mapStateToProps = (state: any) => {
     auth: state.auth,
     videoUser: state.video,
     savedVideoId: state.video.savedVideoId,
-    progressEmail: state.video.progressEmail,
+    progressEmail: state.video.progressEmail
   };
 };
 export default withRouter<any, any>(
