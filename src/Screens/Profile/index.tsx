@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import AWS from "aws-sdk";
 import { connect } from "react-redux";
 import { FaInfoCircle } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { v4 as uuid } from "uuid";
 import { Tooltip, TextField, Grid } from "@material-ui/core";
 import { updateProfileUser } from "../../Redux/Actions/profile";
 import { addAsset } from "../../Redux/Actions/asset";
@@ -11,12 +11,12 @@ import { AuthState } from "../../Redux/Types/auth";
 import profileImg from "../../assets/profileImages/profileImg.png";
 import TimeZone from "../../components/TimeZone/Data/timezone.json";
 import * as Constants from "../../constants/constants";
-import { config } from "../../config/aws";
 import Loading from "../../components/Loading";
 import ThemeButton from "../../components/ThemeButton";
 import Header from "../../components/Header/Header";
 
 import "./style.css";
+import * as api from "../../util/api";
 
 type IProps = {
   history: any;
@@ -46,7 +46,6 @@ type IState = {
   avatarUploading: boolean;
 };
 class Profile extends Component<IProps, IState> {
-  s3: any = new AWS.S3(config);
   file: any;
   constructor(props: any) {
     super(props);
@@ -120,20 +119,17 @@ class Profile extends Component<IProps, IState> {
     toast.info("Uploading please wait");
     this.setState({ avatarUploading: true });
     this.getLogoFromProfilePic(e.target.files[0]);
-    const options = {
-      Bucket: config.bucketName,
-      ACL: config.ACL,
-      Key: `${this.props.auth!.user!._id}/${Date.now().toString()}`,
-      Body: e.target.files[0],
-    };
-    this.s3.upload(options, (err: any, data: any) => {
-      if (err) {
-        toast.error(err.message);
-        this.setState({ avatarUploading: false });
-        return;
-      }
-      this.setState({ avatarUploading: false, url: data.Location });
+    const filename = uuid();
+    api.uploadFile(
+      filename,
+      e.target.files[0],
+      {}
+    ).then((response: { filename: any; }) => {
+      this.setState({ avatarUploading: false, url: response.filename });
       toast.info("Click update button below to save changes");
+    }).catch((error: any) => {
+      toast.error(error.message);
+      this.setState({ avatarUploading: false });
     });
   };
   getLogoFromProfilePic = (file: any) => {
@@ -166,20 +162,16 @@ class Profile extends Component<IProps, IState> {
   };
   saveLogo = (logoBlob: any) => {
     return new Promise((resolve, reject) => {
-      const logoOptions = {
-        Bucket: config.bucketName,
-        ACL: config.ACL,
-        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}logo.jpeg`,
-        Body: logoBlob,
-      };
-      this.s3.upload(logoOptions, (err: any, data: any) => {
-        if (err) {
-          toast.error(err);
-          reject();
-          return;
-        }
-        this.props.addAsset({ type: "logo", url: data.Location });
+      api.uploadFile(
+          `${uuid}-logo`,
+          logoBlob,
+          {}
+      ).then((response: { filename: any; }) => {
+        this.props.addAsset({ type: "logo", url: response.filename });
         resolve();
+      }).catch((error: any) => {
+        toast.error(error);
+        reject();
       });
     });
   };
@@ -454,8 +446,10 @@ const mapStateToProps = (state: any) => {
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    updateProfile: (userProfile: UserProfile) => dispatch(updateProfileUser(userProfile)),
+    updateProfile: (userProfile: UserProfile) =>
+      dispatch(updateProfileUser(userProfile)),
     addAsset: (asset: any) => dispatch(addAsset(asset))
   };
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
