@@ -1,89 +1,85 @@
-import {API} from 'aws-amplify';
-import S3 from "aws-sdk/clients/s3";
-import { config } from "../../../config/aws";
+import { API } from "aws-amplify";
 
 export async function saveVideo(video: any) {
-  console.log("video in api",video)
-  return API.post('Backend', "/video", {body: video});
+  console.log("video in api", video);
+  return API.post("Backend", "/video", { body: video });
 }
 export async function updateVideoViews(id: any) {
-  return API.post('Backend', "/video/updateViews", {body: id});
+  return API.post("Backend", "/video/updateViews", { body: id });
 }
 export async function updateVideoWatch(id: any) {
-  return API.post('Backend', "/video/updateWatch", {body: id});
+  return API.post("Backend", "/video/updateWatch", { body: id });
 }
 export async function updateEmailShare(id: any) {
-  return API.post('Backend', "/video/updateEmailShare", {body: id});
+  return API.post("Backend", "/video/updateEmailShare", { body: id });
 }
 export async function updateCtaVideo(id: any) {
-  return API.post('Backend', "/video/update/cta", { body: {id} });
+  return API.post("Backend", "/video/update/cta", { body: { id } });
 }
 export async function sendVideoToEmail(video: any) {
-  console.log("videoemail in api",video)
-  return API.post('Backend', "/email/send", {body: video});
+  console.log("videoemail in api", video);
+  return API.post("Backend", "/email/send", { body: video });
 }
 export async function getSingleTemplate(video: any) {
-  console.log("tempname",video)
-  return API.post('Backend', "/video/getTemplate", {body: video} );
+  console.log("tempname", video);
+  return API.post("Backend", "/video/getTemplate", { body: video });
 }
 
 export async function sendMultiEmails(video: any) {
   // console.log("multiemail in api",video)
-  return API.post('Backend', "/email/send", {body: video});
+  return API.post("Backend", "/email/send", { body: video });
 }
 
 export async function getVideos() {
-  return API.get('Backend', "/video", {});
+  return API.get("Backend", "/video", {});
 }
 export async function getVideosByUserId(queryObj: any) {
-  return API.get('Backend', "/video/user", {
+  return API.get("Backend", "/video/user", {
     queryStringParameters: { id: queryObj.userId, page: queryObj.page }
   });
 }
 export async function getCampaignVideos(queryObj: any) {
-  return API.get('Backend', "/video/campaignVideos", {
+  return API.get("Backend", "/video/campaignVideos", {
     queryStringParameters: { id: queryObj.userId, page: queryObj.page }
   });
 }
 export async function getVideosByTitle(queryObj: any) {
-  return API.get('Backend', "/video/user", {
-    queryStringParameters: { id: queryObj.userId, page: queryObj.page, title: queryObj.title }
+  return API.get("Backend", "/video/user", {
+    queryStringParameters: {
+      id: queryObj.userId,
+      page: queryObj.page,
+      title: queryObj.title
+    }
   });
 }
 export async function getCampaignVideosByTitle(queryObj: any) {
-  return API.get('Backend', "/video/campaignVideos", {
-    queryStringParameters: { id: queryObj.userId, page: queryObj.page, title: queryObj.title }
+  return API.get("Backend", "/video/campaignVideos", {
+    queryStringParameters: {
+      id: queryObj.userId,
+      page: queryObj.page,
+      title: queryObj.title
+    }
   });
 }
 export async function updateUserVideo(video: any) {
-  return API.patch('Backend', "/video", {body: video});
+  return API.patch("Backend", "/video", { body: video });
 }
 export async function deleteVideoById(callObj: any) {
-  return API.del('Backend', "/video", {
+  return API.del("Backend", "/video", {
     queryStringParameters: { id: callObj.videoId, pageNo: callObj.pageNo }
   });
 }
 
 export async function getSingleVideo(id: string) {
-  return API.get('Backend', "/video/single", { queryStringParameters: { id } });
+  return API.get("Backend", "/video/single", { queryStringParameters: { id } });
 }
 export async function videoCount(id: string) {
-  return API.get('Backend', "/video/count", { queryStringParameters: { id: id } });
+  return API.get("Backend", "/video/count", {
+    queryStringParameters: { id: id }
+  });
 }
 export async function campaignCount(id: string) {
-  return API.get('Backend', "/video/campaign/count", { queryStringParameters: { id: id } });
-}
-export async function deleteDataAws(imageUrl: any) {
-  if (imageUrl) {
-    try {
-      const s3 = new S3();
-      const index = imageUrl.indexOf(".com/");
-      imageUrl = imageUrl.substring(index + 5);
-      const options = {
-        Bucket: config.bucketName,
-        Key: imageUrl
-      };
-      s3.deleteObject(options, () => {});
-    } catch (e) {}
-  }
+  return API.get("Backend", "/video/campaign/count", {
+    queryStringParameters: { id: id }
+  });
 }

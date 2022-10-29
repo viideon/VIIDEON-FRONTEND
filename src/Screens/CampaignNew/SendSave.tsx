@@ -8,23 +8,21 @@ import Label from "../../components/Reusable/Label";
 import Colors from "../../constants/colors";
 import CanvasPlayer from "../../components/CanvasPlayer/EditingCanvas";
 import ChipInput from "material-ui-chip-input";
-import AWS from "aws-sdk";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
-
-// import Button from '@material-ui/core/Button';
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
+import {v4 as uuid} from 'uuid';
 
 import { sendVideoToEmail, saveVideo, sendMultipleEmails, toggleSendVariable } from "../../Redux/Actions/videos";
 import { VideoState, EmailVideo, VideoSave, MultiEmail } from "../../Redux/Types/videos";
 import { AuthState } from "../../Redux/Types/auth";
 import * as Constants from "../../constants/constants";
 import { reg } from "../../constants/emailRegEx";
-import { config } from "../../config/aws";
+import * as api from '../../util/api';
 
 import "./style.css";
 
@@ -118,7 +116,6 @@ class SendSave extends React.Component<IProps> {
 
   componentDidMount() {
     this.props.toggleSendVariable();
-    this.s3 = new AWS.S3(config);
     this.caluclateContainerHeight();
     window.addEventListener("resize", this.caluclateContainerHeight);
   }
@@ -141,8 +138,9 @@ class SendSave extends React.Component<IProps> {
       return;
     }
     try {
-      await this.uploadThumbnail();
-      await this.uploadVideo();
+      const filename = uuid();
+      await this.uploadThumbnail(filename);
+      await this.uploadVideo(`${filename}-thumbnail`);
       const video = {
         title: this.state.title,
         url: this.state.urlRecord,
@@ -159,59 +157,51 @@ class SendSave extends React.Component<IProps> {
     }
   };
 
-  uploadVideo = () => {
+  uploadVideo = (filename: string) => {
     return new Promise((resolve, reject) => {
       this.setState({ videoProgress: true, progressVideo: 0 });
-      const options = {
-        Bucket: config.bucketName,
-        ACL: config.ACL,
-        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}.webm`,
-        Body: this.props.previewVideo
-      };
-      this.s3
-        .upload(options, (err: any, data: any) => {
-          if (err) {
-            this.setState({ videoProgress: false });
-            reject();
-          } else {
-            this.setState({ urlRecord: data.Location, videoProgress: false });
-            resolve();
+      api.uploadFile(
+          filename,
+          this.props.previewVideo,
+          {
+            onUploadProgress: (progressEvent: { loaded: number; total: number; }) => {
+              let uploaded: number = (progressEvent.loaded * 100) / progressEvent.total;
+              this.setState({ progressFile: uploaded });
+            }
           }
-        })
-        .on("httpUploadProgress", (progress: any) => {
-          let uploaded: number = (progress.loaded * 100) / progress.total;
-          this.setState({ progressVideo: uploaded });
+      ).then((response: { filename: any; }) => {
+        this.setState({
+          videoProgress: false,
+          thumbnailUrl: response.filename,
         });
+        resolve();
+      }).catch((error: any) => {
+        reject(error);
+      });
     });
   };
 
-  uploadThumbnail = () => {
+  uploadThumbnail = (filename: string) => {
     return new Promise((resolve, reject) => {
       this.setState({ videoProgress: true, progressVideo: 0 });
-      const thumbnailOptions = {
-        Bucket: config.bucketName,
-        ACL: config.ACL,
-        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}thumbnail.jpeg`,
-        Body: this.props.thumbnailBlob
-      };
-
-      this.s3
-        .upload(thumbnailOptions, (err: any, data: any) => {
-          if (err) {
-            this.setState({ videoProgress: false });
-            reject();
-          } else {
-            this.setState({
-              videoProgress: false,
-              thumbnailUrl: data.Location
-            });
-            resolve();
+      api.uploadFile(
+        filename,
+        this.props.thumbnailBlob,
+        {
+          onUploadProgress: (progressEvent: { loaded: number; total: number; }) => {
+            let uploaded: number = (progressEvent.loaded * 100) / progressEvent.total;
+            this.setState({ progressFile: uploaded });
           }
-        })
-        .on("httpUploadProgress", (progress: any) => {
-          let uploaded: number = (progress.loaded * 100) / progress.total;
-          this.setState({ progressVideo: uploaded });
+        }
+      ).then((response: { filename: any; }) => {
+        this.setState({
+          videoProgress: false,
+          thumbnailUrl: response.filename,
         });
+        resolve();
+      }).catch((error: any) => {
+        reject(error);
+      });
     });
   };
 
@@ -232,7 +222,7 @@ class SendSave extends React.Component<IProps> {
       return toast.warn("Please save a video");
     } else if (this.state.recieverEmail === "") {
       return toast.warn("Add an Email");
-    } else if (reg.test(this.state.recieverEmail) === false) {
+    } else if (!reg.test(this.state.recieverEmail)) {
       return toast.warn("Invalid Email");
     } else {
       const recieverEmail = this.state.recieverEmail;
@@ -266,7 +256,7 @@ class SendSave extends React.Component<IProps> {
   };
 
   handleChipAdd = (email: any) => {
-    if (reg.test(email) === false) {
+    if (!reg.test(email)) {
       toast.error("Not a valid email");
       return;
     }

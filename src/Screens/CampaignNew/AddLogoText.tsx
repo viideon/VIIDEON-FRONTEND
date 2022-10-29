@@ -1,20 +1,21 @@
 import React from "react";
-import AWS from "aws-sdk";
 import AssetPicker from "../../components/AssetPicker";
 import MusicAssetPicker from "../../components/MusicAssetPicker";
 import { LinearProgress } from "@material-ui/core";
 import { connect } from "react-redux";
 import { addAsset, addMusicAsset } from "../../Redux/Actions/asset";
-import { config } from "../../config/aws";
 import { Grid, Button, Tooltip, TextField } from "@material-ui/core";
 import ThemeButton from "../../components/ThemeButton";
 import Colors from "../../constants/colors";
 import canvasTxt from "canvas-txt";
 import { CompactPicker } from "react-color";
 import { toast, Flip } from "react-toastify";
+import { v4 as uuid } from "uuid";
+
 import { getIconPosition } from "../../lib/helpers";
 import "./style.css";
-import {AuthState} from "../../Redux/Types/auth";
+import { AuthState } from "../../Redux/Types/auth";
+import * as api from '../../util/api';
 
 interface IProps {
   saveLogoBlob: (blob: any) => void;
@@ -84,12 +85,11 @@ class AddLogo extends React.Component<IProps, IState> {
       assetUploading: false,
       isOpenMusicPicker: false,
       musicVolume: "0.5",
-      musicLoadingTimeout: null,
+      musicLoadingTimeout: null
     };
     this.draw = this.draw.bind(this);
   }
   componentDidMount() {
-    this.s3 = new AWS.S3(config);
     this.backgroundMusic = this.refs.backgroundMusic;
     this.video = this.refs.video;
     this.video.src = URL.createObjectURL(this.props.videoToEdit);
@@ -274,26 +274,23 @@ class AddLogo extends React.Component<IProps, IState> {
   }
   saveLogo = (logoBlob: any) => {
     return new Promise((resolve, reject) => {
-      const logoOptions = {
-        Bucket: config.bucketName,
-        ACL: config.ACL,
-        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}logo.jpeg`,
-        Body: logoBlob,
-      };
-      this.s3.upload(logoOptions, (err: any, data: any) => {
-        if (err) {
-          toast.error(err);
-          this.setState({ assetUploading: false });
-          reject();
-          return;
-        }
-        this.setState({ logoPath: data.Location }, () => {
+      const filename = uuid();
+      api.uploadFile(
+        `${filename}-logo`,
+        logoBlob,
+        {},
+      ).then((response: { filename: any; }) => {
+        this.setState({logoPath: response.filename}, () => {
           setTimeout(() => {
             this.updateCanvas();
           }, 1000);
         });
-        this.props.addAsset({ type: "logo", url: data.Location });
+        this.props.addAsset({ type: 'logo', url: response.filename });
         resolve();
+      }).catch((error: any) => {
+        toast.error(error);
+        this.setState({ assetUploading: false });
+        reject();
       });
     });
   };
@@ -386,29 +383,26 @@ class AddLogo extends React.Component<IProps, IState> {
     } else {
       toast.info("Uploading music please wait");
       this.setState({ assetUploading: true });
-      const musicOptions = {
-        Bucket: config.bucketName,
-        ACL: config.ACL,
-        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}${this.state.musicFile.name}`,
-        Body: this.state.musicFile,
-      };
-      this.s3.upload(musicOptions, (err: any, data: any) => {
-        if (err) {
-          toast.error(err);
-          this.setState({ assetUploading: false });
-          return;
-        }
+      const filename = uuid();
+      api.uploadFile(
+          `${filename}-music`,
+          this.state.musicFile,
+          {},
+      ).then((response: { filename: any; }) => {
         toast.info("Asset Uploaded");
         this.setState({
-          backgroundMusicUrl: data.Location,
+          backgroundMusicUrl: response.filename,
           musicFile: null,
           musicFileSelected: false,
-          assetUploading: false,
+          assetUploading: false
         });
         this.props.addMusicAsset({
-          url: data.Location,
-          title: this.state.musicTitle,
+          url: response.filename,
+          title: this.state.musicTitle
         });
+      }).catch((error: any) => {
+        toast.error(error);
+        this.setState({ assetUploading: false });
       });
     }
   };
@@ -422,7 +416,7 @@ class AddLogo extends React.Component<IProps, IState> {
     if (musicFile !== null) {
       toast("Add a title and  click upload to save this asset", {
         autoClose: 3000,
-        transition: Flip,
+        transition: Flip
       });
       this.setState({ musicFileSelected: true, musicFile: musicFile });
     } else {
@@ -440,7 +434,7 @@ class AddLogo extends React.Component<IProps, IState> {
     this.setState({ backgroundMusicUrl: path });
     toast.info("Wait while we add the music to the video");
     this.setState({
-      musicLoadingTimeout: setInterval(() => this.isMusicLoaded(), 3000),
+      musicLoadingTimeout: setInterval(() => this.isMusicLoaded(), 3000)
     });
   };
   onAssetPick = (path: any) => {
@@ -488,17 +482,17 @@ class AddLogo extends React.Component<IProps, IState> {
       textColor: this.state.textColor,
       fontSize: this.state.fontSize,
       vAlign: this.state.vAlign,
-      align: this.state.align,
+      align: this.state.align
     };
     const logoProps = {
       url: this.state.logoPath,
       position: this.state.iconPos,
       width: 50,
-      height: 50,
+      height: 50
     };
     const musicProps = {
       url: this.state.backgroundMusicUrl,
-      musicVolume: parseFloat(this.state.musicVolume),
+      musicVolume: parseFloat(this.state.musicVolume)
     };
     this.props.saveTextLogoProps(logoProps, textProps, musicProps);
     this.props.moveToNextStep();
@@ -599,7 +593,7 @@ class AddLogo extends React.Component<IProps, IState> {
                     style={{
                       color: "#fff",
                       width: "135px",
-                      backgroundColor: "#ff4301",
+                      backgroundColor: "#ff4301"
                     }}
                   >
                     Upload
@@ -610,7 +604,7 @@ class AddLogo extends React.Component<IProps, IState> {
                     style={{
                       color: "#fff",
                       marginLeft: "3px",
-                      backgroundColor: "rgb(34, 185, 255)",
+                      backgroundColor: "rgb(34, 185, 255)"
                     }}
                   >
                     Select from Assets
@@ -666,7 +660,7 @@ class AddLogo extends React.Component<IProps, IState> {
                       style={{
                         color: "#fff",
                         width: "135px",
-                        backgroundColor: "#ff4301",
+                        backgroundColor: "#ff4301"
                       }}
                     >
                       Upload
@@ -677,7 +671,7 @@ class AddLogo extends React.Component<IProps, IState> {
                       onClick={this.triggerMusicUploadBtn}
                       style={{
                         color: "#fff",
-                        backgroundColor: "#ff4301",
+                        backgroundColor: "#ff4301"
                       }}
                     >
                       Select to Upload
@@ -689,7 +683,7 @@ class AddLogo extends React.Component<IProps, IState> {
                     style={{
                       color: "#fff",
                       marginLeft: "3px",
-                      backgroundColor: "rgb(34, 185, 255)",
+                      backgroundColor: "rgb(34, 185, 255)"
                     }}
                   >
                     Select from Assets
@@ -813,7 +807,7 @@ class AddLogo extends React.Component<IProps, IState> {
                   backgroundColor: Colors.darkGrey,
                   color: Colors.white,
                   width: "150px",
-                  marginRight: "25px",
+                  marginRight: "25px"
                 }}
               />
               <ThemeButton
@@ -822,7 +816,7 @@ class AddLogo extends React.Component<IProps, IState> {
                 style={{
                   backgroundColor: Colors.themeBlue,
                   color: Colors.white,
-                  width: "150px",
+                  width: "150px"
                 }}
               />
 
@@ -850,19 +844,19 @@ const iconStyle = {
   fontSize: "15px",
   color: "#a9a9a9",
   marginLeft: "7px",
-  cursor: "pointer",
+  cursor: "pointer"
 };
 const logoPositionBtn = {
   marginBottom: "10px",
   marginLeft: "7px",
   fontSize: "11px",
-  border: "1px solid #696969",
+  border: "1px solid #696969"
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     addAsset: (asset: any) => dispatch(addAsset(asset)),
-    addMusicAsset: (asset: any) => dispatch(addMusicAsset(asset)),
+    addMusicAsset: (asset: any) => dispatch(addMusicAsset(asset))
   };
 };
 

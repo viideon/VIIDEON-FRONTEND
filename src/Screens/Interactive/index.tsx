@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { toast, Flip } from "react-toastify";
-import { config } from "../../config/aws";
 import { withRouter } from "react-router-dom";
-import AWS from "aws-sdk";
+import { v4 as uuid } from "uuid";
 
 import { saveChatvid, addStepToChatvid } from "../../Redux/Actions/chatvid";
 import { toggleSendVariable } from "../../Redux/Actions/videos";
@@ -22,8 +21,8 @@ import CalendarTab from "./steps/calendar";
 import FinalTab from "./steps/final";
 
 import "./style.css";
-import { createFalse } from "typescript";
-const s3 = new AWS.S3(config);
+import * as api from "../../util/api";
+
 type IProps = {
   auth: AuthState;
   history: any;
@@ -61,7 +60,7 @@ class ChatVid extends Component<IProps> {
     fontWeight: false,
     textDecoration: false,
     fontStyle: false,
-    isClicked: false,
+    isClicked: false
   };
 
   componentDidMount() {
@@ -70,63 +69,59 @@ class ChatVid extends Component<IProps> {
       this.setState({
         isAddStep: true,
         chatvidId: pathname[3],
-        title: this.props.chatvids.selectedChatvid.name,
+        title: this.props.chatvids.selectedChatvid.name
       });
     }
     if (pathname.length === 5) {
       this.setState({
-        stepNo: pathname[4] - 1 === 0 ? pathname[4] : pathname[4] - 1,
+        stepNo: pathname[4] - 1 === 0 ? pathname[4] : pathname[4] - 1
       });
     }
   }
 
-  uploadThumbnail = () => {
+  uploadThumbnail = (filename: string) => {
     return new Promise((resolve, reject) => {
       this.setState({ videoProgress: true, progressVideo: 0 });
-      const options = {
-        Bucket: config.bucketName,
-        ACL: config.ACL,
-        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}thumbnail.jpeg`,
-        Body: this.state.thumbnailBlob,
-      };
-      s3.upload(options, (err: any, data: any) => {
-        if (err) {
-          this.setState({ videoProgress: false });
-          reject();
-        } else {
-          this.setState({
-            videoProgress: false,
-            thumbnailUrl: data.Location,
-          });
-          resolve();
-        }
-      }).on("httpUploadProgress", (progress: any) => {
-        let uploaded: number = (progress.loaded * 100) / progress.total;
-        this.setState({ progressVideo: uploaded });
+      api.uploadFile(
+          filename,
+          this.state.thumbnailBlob,
+          {
+            onUploadProgress: (progressEvent: { loaded: number; total: number; }) => {
+              let uploaded: number = (progressEvent.loaded * 100) / progressEvent.total;
+              this.setState({ progressVideo: uploaded });
+            }
+          }
+      ).then((response: { filename: any; }) => {
+        this.setState({
+          videoProgress: false,
+          thumbnailUrl: response.filename
+        });
+        resolve();
+      }).catch((error: any) => {
+        this.setState({ videoProgress: false });
+        reject(error);
       });
     });
   };
 
-  uploadVideo = () => {
+  uploadVideo = (filename: string) => {
     return new Promise((resolve, reject) => {
       this.setState({ videoProgress: true, progressVideo: 0 });
-      const options = {
-        Bucket: config.bucketName,
-        ACL: config.ACL,
-        Key: `${this.props.auth!.user!._id}/${Date.now().toString()}.webm`,
-        Body: this.state.video,
-      };
-      s3.upload(options, (err: any, data: any) => {
-        if (err) {
-          this.setState({ videoProgress: false });
-          reject();
-        } else {
-          this.setState({ urlRecord: data.Location, videoProgress: false });
-          resolve();
-        }
-      }).on("httpUploadProgress", (progress: any) => {
-        let uploaded: number = (progress.loaded * 100) / progress.total;
-        this.setState({ progressVideo: uploaded });
+      api.uploadFile(
+          filename,
+          this.state.video,
+          {
+            onUploadProgress: (progressEvent: { loaded: number; total: number; }) => {
+              let uploaded: number = (progressEvent.loaded * 100) / progressEvent.total;
+              this.setState({ progressVideo: uploaded });
+            }
+          }
+      ).then((response: { filename: any; }) => {
+        this.setState({ urlRecord: response.filename, videoProgress: false });
+        resolve();
+      }).catch((error: any) => {
+        this.setState({ videoProgress: false });
+        reject(error);
       });
     });
   };
@@ -214,11 +209,12 @@ class ChatVid extends Component<IProps> {
       // toast.info("Uploading thumbnail ...");
       toast("Your chatVid Creating...", {
         autoClose: 2000,
-        transition: Flip,
+        transition: Flip
       });
-      await this.uploadThumbnail();
+      const filename = uuid();
+      await this.uploadThumbnail(`${filename}-thumbnail`);
       toast.info("Uploading video...");
-      await this.uploadVideo();
+      await this.uploadVideo(`${filename}-video`);
       console.log("reveanl is ", this.state.reveal);
       const textProps = {
         text: this.state.text,
@@ -229,7 +225,7 @@ class ChatVid extends Component<IProps> {
         reveal: this.state.reveal,
         fontWeight: this.state.fontWeight,
         fontStyle: this.state.fontStyle,
-        textDecoration: this.state.textDecoration,
+        textDecoration: this.state.textDecoration
       };
       const video = {
         title: this.state.title,
@@ -238,7 +234,7 @@ class ChatVid extends Component<IProps> {
         thumbnail: this.state.thumbnailUrl,
         textProps: textProps,
         campaign: false,
-        isChatvid: true,
+        isChatvid: true
       };
       let chatvid: any = {
         video,
@@ -247,7 +243,7 @@ class ChatVid extends Component<IProps> {
         calendar: this.state.calendar,
         urlRecord: this.state.urlRecord,
         title: this.state.title,
-        choices: this.state.choices,
+        choices: this.state.choices
       };
       if (this.state.isAddStep && this.state.chatvidId) {
         chatvid.chatvidId = this.state.chatvidId;
@@ -358,7 +354,7 @@ class ChatVid extends Component<IProps> {
         <Header
           styles={{
             backgroundImage:
-              "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))",
+              "linear-gradient(-90deg, rgb(97, 181, 179), rgb(97, 181, 179), rgb(252, 179, 23))"
           }}
         />
         {this.renderSteps()}
@@ -373,7 +369,7 @@ const mapStateToProps = (state: any) => {
     videoUser: state.video,
     savedVideoId: state.video.savedVideoId,
     progressEmail: state.video.progressEmail,
-    chatvids: state.chatvids,
+    chatvids: state.chatvids
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
@@ -382,7 +378,7 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(saveChatvid(chatvid, history)),
     addStepToChatvid: (step: any, history: any) =>
       dispatch(addStepToChatvid(step, history)),
-    toggleSendVariable: () => dispatch(toggleSendVariable()),
+    toggleSendVariable: () => dispatch(toggleSendVariable())
   };
 };
 
