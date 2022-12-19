@@ -143,7 +143,7 @@ class UploadRecord extends Component<IProps, IState> {
     // this.setState({
     //   title: "",
     // });
-    this.setState({ fileProgress: true, progressFile: 0 });
+    this.setState({ fileProgress: true, progressFile: 0, videoProgress: true });
     try {
       // @ts-ignore
       const fileResponse = await api.uploadFile(
@@ -162,9 +162,8 @@ class UploadRecord extends Component<IProps, IState> {
       );
       this.setState({ urlRecord: fileResponse.filename });
       // @ts-ignore
-      const thumbnailResponse = await api.uploadFile(
-        `${this.state.files[0].name}-thumbnail`,
-        this.state.thumbnail,
+      const thumbnailResponse = await api.generateThumbnail(
+        fileResponse.filename,
         {
           onUploadProgress: (progressEvent: {
             loaded: number;
@@ -180,16 +179,16 @@ class UploadRecord extends Component<IProps, IState> {
         title: this.state.title,
         url: fileResponse.filename,
         userId: this.props.auth!.user!._id,
-        thumbnail: thumbnailResponse.filename,
+        thumbnail: thumbnailResponse.thumbnail,
         campaign: false,
         isVideo: true
       };
-      this.setState({ fileProgress: false });
+      this.setState({ fileProgress: false, videoProgress: false });
       console.log("video in upload", video);
       this.props.saveVideo(video);
     } catch (error) {
       console.error(error);
-      this.setState({ fileProgress: false });
+      this.setState({ fileProgress: false, videoProgress: false });
       toast.error(error);
       return;
     }

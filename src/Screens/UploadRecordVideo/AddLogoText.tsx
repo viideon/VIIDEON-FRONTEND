@@ -552,9 +552,9 @@ class AddLogoText extends React.Component<IProps, IState> {
     try {
       toast.info("Generating thumbnail ...");
       const filename = uuid();
-      await this.getThumbnail();
-      await this.uploadThumbnail(`${filename}-thumbnail`);
-      await this.uploadVideo(`${filename}-video`);
+      await this.uploadVideo(`${filename}.mp4`);
+      const thumbnailResponse = await api.generateThumbnail(this.state.videoUrl, {});
+      this.setState({ thumbnailUrl: thumbnailResponse.thumbnail });
       const textProps = {
         text: this.state.text,
         textColor: this.state.textColor,

@@ -78,3 +78,20 @@ export const uploadFile = async (filename, image, config) => {
     contentType: image.type,
   };
 }
+
+/**
+ * @param {string} key
+ * @param {{ [x: string]: any; onUploadProgress?: (progressEvent: { loaded: number; total: number; }) => void; }} config
+ */
+export const generateThumbnail = (key, config) => {
+  return API.post(
+    'Backend',
+    '/video/thumbnail',
+    {
+      body: {
+        video: key,
+      },
+      ...config
+    }
+  );
+}
