@@ -220,12 +220,8 @@ function HorizontalNonLinearStepper(props: any) {
   // };
 
   const handleStep = (step: number) => () => {
-    console.log("steps in handle with props ", props?.chatvid?.steps);
-
     const index = steps.findIndex((x: any) => x === step);
-    // console.log("index is ", index);
     const obj = steps[index - 1];
-    // console.log("obj is ", obj);
     const newIndex = props?.chatvid?.steps.findIndex(
       (x: any) => x._id === obj._id
     );
@@ -256,7 +252,6 @@ function HorizontalNonLinearStepper(props: any) {
       _id: stepId,
       jumpTo: jumpTo === "end" ? -3 : jumpTo
     };
-    console.log("step before jump to", step);
     props.updateStepJump(step);
   };
   const handleChoiceJump = async (
@@ -305,7 +300,6 @@ function HorizontalNonLinearStepper(props: any) {
   const renderLogic = (step: any, length: number, index: number) => {
     return (
       <>
-        {console.log("step", step, "length", length, "index", index)}
         {step.responseType === "Multiple-Choice" ? (
           step.choices.map((choice: any, ind: number) => {
             return (
@@ -348,12 +342,10 @@ function HorizontalNonLinearStepper(props: any) {
         activeStep={activeStep}
         style={{ marginRight: "125px" }}
       >
-        {/* {console.log("steps in edit", steps)} */}
 
         {steps &&
           steps.map((step: any, index: number) => (
             <Step key={index} style={{ marginRight: !isNaN(step) ? "4%" : "" }}>
-              {/* {console.log("step is ", step)} */}
               {step?.videoId?.thumbnail ? (
                 <div className="thumbnaiForStepper">
                   <img

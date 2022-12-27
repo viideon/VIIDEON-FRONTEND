@@ -58,7 +58,6 @@ const Asset = ({ asset, deleteAsset, isDeletingAsset }: any) => {
     setDeleteBtn(false);
   };
   const deleteAction = () => {
-    console.log(asset._id);
     deleteAsset(asset._id);
   };
   const openDeleteDialog = () => {

@@ -35,7 +35,6 @@ function* getUserEmailConfig() {
       payload: result.configurations
     });
   } catch (error) {
-    console.log('getUserEmailConfig error', error);
     console.error(error);
     yield put({ type: types.GET_USER_EMAIL_CONFIG_FAILURE });
   }

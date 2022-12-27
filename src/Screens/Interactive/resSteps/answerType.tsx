@@ -39,6 +39,7 @@ import { Email } from "aws-sdk/clients/codecommit";
 
 import { InlineWidget } from "react-calendly";
 import * as api from "../../../util/api";
+import {Storage} from "aws-amplify";
 
 const MicRecorder = require("mic-recorder-to-mp3");
 
@@ -134,7 +135,6 @@ class FinalTab extends Component<any> {
         this.videoRef.src = URL.createObjectURL(this.props.video);
         this.settingTextProps(this.props);
       } else {
-        console.log("for url", this.state.currentStepNo);
         this.videoRef.src = this.props.resChatvid.steps[this.state.currentStepNo].videoId.url;
         const {
           text,
@@ -145,7 +145,6 @@ class FinalTab extends Component<any> {
         } = this.props.resChatvid.steps[
           this.state.currentStepNo
         ].videoId.textProps;
-        // console.log("first reveal", reveal);
         this.setState({
           text,
           align,
@@ -172,7 +171,6 @@ class FinalTab extends Component<any> {
   };
 
   handleLoadedMetaData = () => {
-    console.log("video ref", this.videoRef);
     this.videoRef?.play();
     this.calculateDuration();
   };
@@ -185,19 +183,29 @@ class FinalTab extends Component<any> {
     return new Promise((resolve, reject) => {
       // this.setState({ videoProgress: true, progressVideo: 0 });
       const filename = uuid();
-      api.uploadFile(
-          `${filename}-replyAudioUrl`,
-          file,
-          {},
-      ).then((response: { filename: any; }) => {
+      Storage.put(`${filename}-replyAudioUrl`, file, {
+        level: "private",
+      }).then((response: any) => {
         this.setState({
-          // videoProgress: false,
-          ansAudio: response.filename,
+          ansAudio: response.key,
         });
         resolve();
       }).catch((error: any) => {
         reject(error);
       });
+      // api.uploadFile(
+      //     `${filename}-replyAudioUrl`,
+      //     file,
+      //     {},
+      // ).then((response: { filename: any; }) => {
+      //   this.setState({
+      //     // videoProgress: false,
+      //     ansAudio: response.filename,
+      //   });
+      //   resolve();
+      // }).catch((error: any) => {
+      //   reject(error);
+      // });
     });
   };
 
@@ -221,7 +229,6 @@ class FinalTab extends Component<any> {
         .textProps.reveal;
       // reveal = this.state.reveal;
     }
-    // console.log("calculationg ", reveal.reveal, this.videoRef);
     if (reveal && reveal.length > 0) {
       if (
         this.videoRef?.currentTime >= reveal[0] &&
@@ -247,7 +254,6 @@ class FinalTab extends Component<any> {
     // if (isBack && isBack == "resPage") {
     //   window.location.reload();
     // }
-    // console.log("tab in handletabchange", tab);
     if (
       this.props.history.location.pathname.indexOf("/chatvid/step/") > -1 ||
       this.props.preview
@@ -266,13 +272,11 @@ class FinalTab extends Component<any> {
     toast.info("Uploading ...");
     return new Promise((resolve, reject) => {
       const filename = uuid();
-      api.uploadFile(
-          `${filename}-replyVideoUrl`,
-          file,
-          {}
-      ).then((response: { filename: any; }) => {
+      Storage.put(`${filename}-replyVideoUrl`, file, {
+        level: "private",
+      }).then((response: any) => {
         this.setState({
-          ansVideo: response.filename
+          ansVideo: response.key
         });
         toast.info("Uploaded");
         resolve();
@@ -280,6 +284,20 @@ class FinalTab extends Component<any> {
         toast.error("something went wrong. Please try again later!");
         reject(error);
       });
+      // api.uploadFile(
+      //     `${filename}-replyVideoUrl`,
+      //     file,
+      //     {}
+      // ).then((response: { filename: any; }) => {
+      //   this.setState({
+      //     ansVideo: response.filename
+      //   });
+      //   toast.info("Uploaded");
+      //   resolve();
+      // }).catch((error: any) => {
+      //   toast.error("something went wrong. Please try again later!");
+      //   reject(error);
+      // });
     });
   };
 
@@ -337,8 +355,6 @@ class FinalTab extends Component<any> {
         hideProgressBar: true,
         transition: Flip
       });
-    // console.log("before Replying", userEmail);
-    // console.log("before replying selecetd chatvid", selectedChatvid);
     let selected = [];
     selected = selectedChatvid?.people?.filter((p: any) => {
       return p.email === userEmail;
@@ -347,7 +363,6 @@ class FinalTab extends Component<any> {
       return toast.error(
         "You have Submitted Respone with this email Please Use Another...."
       );
-    // console.log("before Replying selected email", selected);
     toast("Repling...");
     const type =
       resChatvid.steps[currentStepNo].responseType === "Multiple-Choice"
@@ -400,10 +415,6 @@ class FinalTab extends Component<any> {
           this.setState({ currentStepNo: currentStepNo + 1 });
         }
       } else {
-        console.log(
-          "res chatvid step numbr ",
-          resChatvid.steps[currentStepNo].jumpTo
-        );
         if (resChatvid.steps[currentStepNo].jumpTo) {
           this.setState({
             currentStepNo: resChatvid.steps[currentStepNo].jumpTo - 1
@@ -750,7 +761,6 @@ const MobileOpenEndedType = (props: any) => {
   } = props;
 
   let { steps, userId } = resChatvid;
-  // console.log("steps for responstype", steps);
   let { responseType, choices, calendar } =
     steps && steps[props.currentStepNo]
       ? steps[props.currentStepNo]

@@ -8,6 +8,7 @@ import DeleteDialog from "../Reusable/DeleteDialog";
 import { thumbnailDefault } from "../../constants/constants";
 import moment from "moment";
 import "./styles.css";
+import {Storage} from "aws-amplify";
 interface Video {
   url: string;
   thumbnail?: string;
@@ -43,6 +44,14 @@ const VideoCard: FC<IProps> = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [thumbnailUrl, setThumbnailUrl] = React.useState(thumbnailDefault);
+
+  React.useEffect(() => {
+    if (thumbnail != null) {
+      Storage.get(thumbnail, {level: "protected"}).then((response => setThumbnailUrl(response)));
+    }
+  }, []);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -85,7 +94,7 @@ const VideoCard: FC<IProps> = ({
       <div className="videoPreview" onClick={onClick}>
         <img
           style={{ objectFit: "contain", maxHeight: "100%", maxWidth: "100%" }}
-          src={thumbnail ? thumbnail : thumbnailDefault}
+          src={thumbnailUrl}
           alt="preview"
         />
       </div>

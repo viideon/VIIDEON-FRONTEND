@@ -15,11 +15,9 @@ export function getChatvid(chatvidId: string) {
   });
 }
 export function replyToAChatvid(chatvid: any) {
-  console.log("email on reply response", chatvid);
   return API.post("Backend", `/chatvid/reply`, { body: chatvid });
 }
 export function updateStepJump(step: any) {
-  console.log("jump step in api", step);
   return API.patch("Backend", `/chatvid/step`, { body: step });
 }
 export function saveMetrics(payload: any) {
@@ -34,6 +32,5 @@ export function chatVidDelete(payload: any) {
   return API.del("Backend", `/chatvid/delete/${payload}`, {});
 }
 export function emailVideoSend(payload: any) {
-  console.log("in api payload", payload);
   return API.post("Backend", `/user/emailvideo`, { body: payload });
 }

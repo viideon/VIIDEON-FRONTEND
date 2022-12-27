@@ -33,6 +33,7 @@ import { addAsset, addMusicAsset } from "../../Redux/Actions/asset";
 import { getIconPosition } from "../../lib/helpers";
 import "./style.css";
 import * as api from "../../util/api";
+import {Storage} from "aws-amplify";
 
 interface IProps {
   history: any;
@@ -308,23 +309,38 @@ class AddLogoText extends React.Component<IProps, IState> {
   }
   saveLogo = (logoBlob: any) => {
     return new Promise((resolve, reject) => {
-      api.uploadFile(
-          `${uuid}-logo`,
-          logoBlob,
-          {}
-      ).then((response: { filename: any; }) => {
-        this.setState({ logoPath: response.filename }, () => {
+      Storage.put(`${uuid}-logo`, logoBlob, {
+        level: "private",
+      }).then((response: any) => {
+        this.setState({ logoPath: response.key }, () => {
           setTimeout(() => {
             this.updateCanvas();
           }, 1000);
         });
-        this.props.addAsset({ type: "logo", url: response.filename });
+        this.props.addAsset({ type: "logo", url: response.ey });
         resolve();
       }).catch((error: any) => {
         toast.error(error);
         this.setState({ assetUploading: false });
         reject(error);
       });
+      // api.uploadFile(
+      //     `${uuid}-logo`,
+      //     logoBlob,
+      //     {}
+      // ).then((response: { filename: any; }) => {
+      //   this.setState({ logoPath: response.filename }, () => {
+      //     setTimeout(() => {
+      //       this.updateCanvas();
+      //     }, 1000);
+      //   });
+      //   this.props.addAsset({ type: "logo", url: response.filename });
+      //   resolve();
+      // }).catch((error: any) => {
+      //   toast.error(error);
+      //   this.setState({ assetUploading: false });
+      //   reject(error);
+      // });
     });
   };
   setIconPosition = (position: string) => {
@@ -332,8 +348,6 @@ class AddLogoText extends React.Component<IProps, IState> {
       toast.info("Please upload a logo");
       return;
     }
-    // console.log("image ", this.canvas.width);
-    // console.log("image ", this.img.width);
     this.setState({ iconPos: position });
     let x, y: any;
     switch (position) {
@@ -352,7 +366,6 @@ class AddLogoText extends React.Component<IProps, IState> {
         return;
       case "top-right":
         x = this.canvas.width - this.img.width - this.img.width / 2;
-        // console.log("x", x);
         this.setState({ logoX: x, logoY: 20 }, () => this.updateCanvas());
         return;
       default:
@@ -439,29 +452,45 @@ class AddLogoText extends React.Component<IProps, IState> {
   uploadVideo = (filename: string) => {
     return new Promise((resolve, reject) => {
       this.setState({ videoProgress: true, progressVideo: 0 });
-      api
-        .uploadFile(filename, this.props.videoToEdit, {
-          onUploadProgress: (progressEvent: {
-            loaded: number;
-            total: number;
-          }) => {
-            let uploaded: number =
-              (progressEvent.loaded * 100) / progressEvent.total;
-            this.setState({ progressVideo: uploaded });
-          }
-        })
-        .then((response: { filename: any }) => {
-          console.log("Video uploaded", { response });
-          this.setState({
-            videoProgress: false,
-            videoUrl: response.filename
-          });
-          resolve();
-        })
-        .catch((error: any) => {
-          console.error("Error uploading video", error);
-          reject(error);
+      Storage.put(filename, this.props.videoToEdit, {
+        level: "protected",
+        progressCallback: (progressEvent: { loaded: number; total: number; }) => {
+          let uploaded: number = (progressEvent.loaded * 100) / progressEvent.total;
+          this.setState({ progressVideo: uploaded });
+        }
+      }).then((response: any) => {
+        this.setState({
+          videoProgress: false,
+          videoUrl: response.key
         });
+        resolve();
+      }).catch((error: any) => {
+        console.error("Error uploading video", error);
+        reject(error);
+      });
+      // api
+      //   .uploadFile(filename, this.props.videoToEdit, {
+      //     onUploadProgress: (progressEvent: {
+      //       loaded: number;
+      //       total: number;
+      //     }) => {
+      //       let uploaded: number =
+      //         (progressEvent.loaded * 100) / progressEvent.total;
+      //       this.setState({ progressVideo: uploaded });
+      //     }
+      //   })
+      //   .then((response: { filename: any }) => {
+      //     console.log("Video uploaded", { response });
+      //     this.setState({
+      //       videoProgress: false,
+      //       videoUrl: response.filename
+      //     });
+      //     resolve();
+      //   })
+      //   .catch((error: any) => {
+      //     console.error("Error uploading video", error);
+      //     reject(error);
+      //   });
     });
   };
   uploadAndSaveMusicAsset = () => {
@@ -470,26 +499,44 @@ class AddLogoText extends React.Component<IProps, IState> {
     } else {
       toast.info("Uploading music please wait");
       this.setState({ assetUploading: true });
-      api.uploadFile(
-          `${uuid}-music`,
-          this.state.musicFile,
-          {}
-      ).then((response: { filename: any; }) => {
+      Storage.put(`${uuid}-music`, this.state.musicFile, {
+        level: "private",
+      }).then((response: any) => {
         toast.info("Asset Uploaded");
         this.setState({
-          backgroundMusicUrl: response.filename,
+          backgroundMusicUrl: response.key,
           musicFile: null,
           musicFileSelected: false,
           assetUploading: false
         });
         this.props.addMusicAsset({
-          url: response.filename,
+          url: response.key,
           title: this.state.musicTitle
         });
       }).catch((error: any) => {
         toast.error(error);
         this.setState({ assetUploading: false });
       });
+      // api.uploadFile(
+      //     `${uuid}-music`,
+      //     this.state.musicFile,
+      //     {}
+      // ).then((response: { filename: any; }) => {
+      //   toast.info("Asset Uploaded");
+      //   this.setState({
+      //     backgroundMusicUrl: response.filename,
+      //     musicFile: null,
+      //     musicFileSelected: false,
+      //     assetUploading: false
+      //   });
+      //   this.props.addMusicAsset({
+      //     url: response.filename,
+      //     title: this.state.musicTitle
+      //   });
+      // }).catch((error: any) => {
+      //   toast.error(error);
+      //   this.setState({ assetUploading: false });
+      // });
     }
   };
   onMusicInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -516,34 +563,36 @@ class AddLogoText extends React.Component<IProps, IState> {
       musicLoadingTimeout: setInterval(() => this.isMusicLoaded(), 3000)
     });
   };
-  uploadThumbnail = (filename: string) => {
-    return new Promise((resolve, reject) => {
-      this.setState({ videoProgress: true, progressVideo: 0 });
-      api
-        .uploadFile(filename, this.state.thumbnailBlob, {
-          onUploadProgress: (progressEvent: {
-            loaded: number;
-            total: number;
-          }) => {
-            let uploaded: number =
-              (progressEvent.loaded * 100) / progressEvent.total;
-            this.setState({ progressVideo: uploaded });
-          }
-        })
-        .then((response: { filename: any }) => {
-          console.log("Thumbnail uploaded", response);
-          this.setState({
-            videoProgress: false,
-            thumbnailUrl: response.filename
-          });
-          resolve();
-        })
-        .catch((error: any) => {
-          console.error("Error uploading thumbnail", error);
-          reject(error);
-        });
-    });
-  };
+
+  // uploadThumbnail = (filename: string) => {
+  //   return new Promise((resolve, reject) => {
+  //     this.setState({ videoProgress: true, progressVideo: 0 });
+  //     api
+  //       .uploadFile(filename, this.state.thumbnailBlob, {
+  //         onUploadProgress: (progressEvent: {
+  //           loaded: number;
+  //           total: number;
+  //         }) => {
+  //           let uploaded: number =
+  //             (progressEvent.loaded * 100) / progressEvent.total;
+  //           this.setState({ progressVideo: uploaded });
+  //         }
+  //       })
+  //       .then((response: { filename: any }) => {
+  //         console.log("Thumbnail uploaded", response);
+  //         this.setState({
+  //           videoProgress: false,
+  //           thumbnailUrl: response.filename
+  //         });
+  //         resolve();
+  //       })
+  //       .catch((error: any) => {
+  //         console.error("Error uploading thumbnail", error);
+  //         reject(error);
+  //       });
+  //   });
+  // };
+
   saveVideo = async () => {
     if (this.state.title === "") {
       toast.warn("Enter a title to save video");

@@ -10,6 +10,8 @@ import VolumeOffIcon from "@material-ui/icons/VolumeOff";
 // import VolumeMuteIcon from "@material-ui/icons/VolumeMute";
 import VolumeDownIcon from "@material-ui/icons/VolumeDown";
 import "./style.css";
+import {Storage} from "aws-amplify";
+import {thumbnailDefault} from "../../constants/constants";
 
 interface IProps {
   muted: boolean;
@@ -36,6 +38,7 @@ interface IState {
   height: number;
   watched: boolean;
   musicVolume: number;
+  thumbnailUrl: string;
 }
 class EditingPlayer extends React.Component<IProps, IState> {
   canvasContext: any;
@@ -74,6 +77,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
       height: 0,
       watched: false,
       musicVolume: 0,
+      thumbnailUrl: thumbnailDefault,
     };
     this.unmounted = false;
     this.canvasContext = null;
@@ -169,7 +173,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
         this.canvasTmpCtx = this.tmpCanvas.getContext("2d");
         this.setState({ videoLoaded: true });
       } catch (err) {
-        console.log("error in local canvas ", err);
+        console.error("error in local canvas ", err);
       }
     } else {
       try {
@@ -182,7 +186,10 @@ class EditingPlayer extends React.Component<IProps, IState> {
             this.initializeVolume()
           );
         }
-        let videoResponse = await fetch(src);
+        if (this.props.thumbnail && this.props.thumbnail !== null) {
+          Storage.get(this.props.thumbnail, {level: "protected"}).then(response => this.setState({thumbnailUrl: response}));
+        }
+        let videoResponse = await fetch(await Storage.get(src, {level: "protected"}));
         let videoBlob = await videoResponse.blob();
         const videoUrl = await window.URL.createObjectURL(videoBlob);
         this.video.src = videoUrl;
@@ -191,7 +198,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
         this.canvasTmpCtx = this.tmpCanvas.getContext("2d");
         this.setState({ videoLoaded: true });
       } catch (err) {
-        console.log("error in editing canvas", err);
+        console.error("error in editing canvas", err);
       }
     }
     setTimeout(() => {
@@ -443,7 +450,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
                     maxHeight: "100%",
                     maxWidth: "100%",
                   }}
-                  src={thumbnail}
+                  src={this.state.thumbnailUrl}
                   alt="preview"
                 />
               )}

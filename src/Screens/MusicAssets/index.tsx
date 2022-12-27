@@ -31,7 +31,6 @@ class MusicAssets extends React.Component<IProps> {
     this.props.getPublicMusicAsset();
   }
   handleDelete = (asset: any) => {
-    console.log(asset._id);
     this.props.deleteMusicAsset(asset._id);
   };
 

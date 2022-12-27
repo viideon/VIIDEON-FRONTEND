@@ -121,7 +121,6 @@ class Signin extends React.Component<IProps, IState> {
       );
       // this.props.history.push("/");
     } catch (error) {
-      console.log('Error signing in', {error});
       console.error(error);
       toast.error('You have entered an incorrect username or password.');
     }

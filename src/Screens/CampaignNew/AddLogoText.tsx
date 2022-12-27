@@ -16,6 +16,7 @@ import { getIconPosition } from "../../lib/helpers";
 import "./style.css";
 import { AuthState } from "../../Redux/Types/auth";
 import * as api from '../../util/api';
+import {Storage} from "aws-amplify";
 
 interface IProps {
   saveLogoBlob: (blob: any) => void;
@@ -275,23 +276,38 @@ class AddLogo extends React.Component<IProps, IState> {
   saveLogo = (logoBlob: any) => {
     return new Promise((resolve, reject) => {
       const filename = uuid();
-      api.uploadFile(
-        `${filename}-logo`,
-        logoBlob,
-        {},
-      ).then((response: { filename: any; }) => {
-        this.setState({logoPath: response.filename}, () => {
+      Storage.put(`${filename}-logo`, logoBlob, {
+        level: "private",
+      }).then((response: any) => {
+        this.setState({logoPath: response.key}, () => {
           setTimeout(() => {
             this.updateCanvas();
           }, 1000);
         });
-        this.props.addAsset({ type: 'logo', url: response.filename });
+        this.props.addAsset({ type: 'logo', url: response.key });
         resolve();
       }).catch((error: any) => {
         toast.error(error);
         this.setState({ assetUploading: false });
         reject();
       });
+      // api.uploadFile(
+      //   `${filename}-logo`,
+      //   logoBlob,
+      //   {},
+      // ).then((response: { filename: any; }) => {
+      //   this.setState({logoPath: response.filename}, () => {
+      //     setTimeout(() => {
+      //       this.updateCanvas();
+      //     }, 1000);
+      //   });
+      //   this.props.addAsset({ type: 'logo', url: response.filename });
+      //   resolve();
+      // }).catch((error: any) => {
+      //   toast.error(error);
+      //   this.setState({ assetUploading: false });
+      //   reject();
+      // });
     });
   };
   setIconPosition = (position: string) => {
@@ -384,26 +400,44 @@ class AddLogo extends React.Component<IProps, IState> {
       toast.info("Uploading music please wait");
       this.setState({ assetUploading: true });
       const filename = uuid();
-      api.uploadFile(
-          `${filename}-music`,
-          this.state.musicFile,
-          {},
-      ).then((response: { filename: any; }) => {
+      Storage.put(`${filename}-music`, this.state.musicFile, {
+        level: "private",
+      }).then((response: any) => {
         toast.info("Asset Uploaded");
         this.setState({
-          backgroundMusicUrl: response.filename,
+          backgroundMusicUrl: response.key,
           musicFile: null,
           musicFileSelected: false,
           assetUploading: false
         });
         this.props.addMusicAsset({
-          url: response.filename,
+          url: response.key,
           title: this.state.musicTitle
         });
       }).catch((error: any) => {
         toast.error(error);
         this.setState({ assetUploading: false });
       });
+      // api.uploadFile(
+      //     `${filename}-music`,
+      //     this.state.musicFile,
+      //     {},
+      // ).then((response: { filename: any; }) => {
+      //   toast.info("Asset Uploaded");
+      //   this.setState({
+      //     backgroundMusicUrl: response.filename,
+      //     musicFile: null,
+      //     musicFileSelected: false,
+      //     assetUploading: false
+      //   });
+      //   this.props.addMusicAsset({
+      //     url: response.filename,
+      //     title: this.state.musicTitle
+      //   });
+      // }).catch((error: any) => {
+      //   toast.error(error);
+      //   this.setState({ assetUploading: false });
+      // });
     }
   };
   onMusicInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

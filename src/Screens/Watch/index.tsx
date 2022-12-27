@@ -51,7 +51,6 @@ class Watch extends React.Component<IProps> {
       <div>
         {video ? (
           <div className="contentWatch">
-            {console.log("in watch", video)}
             <div className="containerWatch">
               <Grid container>
                 <Grid item md={3} sm={2} xs={1}></Grid>

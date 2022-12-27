@@ -23,6 +23,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import DoneIcon from "@material-ui/icons/Done";
 import MailIcon from "@material-ui/icons/Mail";
 import DirectionsIcon from "@material-ui/icons/Directions";
+import {Storage} from "aws-amplify";
 
 import {
   updateVideo,
@@ -36,6 +37,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
+import _ from "lodash";
 
 const { availableTheme } = require("../../constants/constants");
 
@@ -71,11 +73,9 @@ function SimpleDialog(props: SimpleDialogProps) {
   const { onClose, selectedValue, open } = props;
 
   const handleClose = () => {
-    // console.log("tem value2", selectedValue);
     onClose(selectedValue);
   };
   const handleListItemClick = (value: any) => {
-    // console.log("tem value", value?.name);
     onClose(value);
   };
 
@@ -105,8 +105,6 @@ function SimpleDialog(props: SimpleDialogProps) {
 }
 function SelectedTemplte(props: SelectedTemplteProps) {
   const { video, selectedTheme } = props;
-  console.log(selectedTheme.name);
-  console.log("video is for sleek ", video);
 
   if (selectedTheme.name) {
     return <Templates tempName={selectedTheme.name} video={video} />;
@@ -137,7 +135,6 @@ function SelectedTemplte(props: SelectedTemplteProps) {
 }
 
 function SimpleDialog2(props: SimpleDialogProps2) {
-  // console.log("props2", props);
   const { onClose, themeName, selectedTheme, open, video } = props;
 
   const handleClose = () => {
@@ -280,10 +277,22 @@ class VideoTabHeader extends React.Component<IProps> {
     template: "",
     receiverEmail: "",
     emails: [],
+    url: "",
+    thumbnail: "",
   };
   componentDidMount() {
     this.caluclateContainerHeight();
     window.addEventListener("resize", this.caluclateContainerHeight);
+    console.log('VideoTabHeader componentDidMount', this.props.video);
+    if (this.props.video !== null) {
+      // @ts-ignore
+      Storage.get(this.props.video.url, {level: "protected"}).then(response => { this.setState({ url: response }) });
+      // @ts-ignore
+      if (!_.isNil(this.props.video.thumbnail) && !_.isEmpty(this.props.video.thumbnail)) {
+        // @ts-ignore
+        Storage.get(this.props.video.thumbnail, {level: "protected"}).then(response => { this.setState({thumbnail: response }) });
+      }
+    }
   }
   caluclateContainerHeight = () => {
     let calculatedVideoHeight = document.getElementById("wrapperHeader")
@@ -427,6 +436,7 @@ class VideoTabHeader extends React.Component<IProps> {
   };
 
   render() {
+    console.log('Header render', {state: this.state});
     const { video } = this.props;
     // console.log("video is ", video);
     const {
@@ -438,6 +448,8 @@ class VideoTabHeader extends React.Component<IProps> {
       receiverEmail,
       emails,
     } = this.state;
+    console.log('Header render props', {props: this.props});
+    // @ts-ignore
     return (
       <div className="headerTab">
         <Grid item xs={12} sm={12} md={12} id="wrapperHeader">

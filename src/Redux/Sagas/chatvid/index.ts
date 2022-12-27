@@ -93,7 +93,6 @@ function* addChatvidStep(action: any) {
       toast.error("Something Went Wrong");
     }
   } catch (error) {
-    console.log("error is", error.message)
     yield put({ type: types.ADD_STEP_TO_CHATVID_FAILURE });
     toast.error(error.message);
   }
@@ -165,7 +164,6 @@ function* deleteChatVid(action: any) {
     const result = yield chatVidDelete(payload);
     if (result.status === 200) {
       // toast.success(result.data?.message || "Successful.");
-      // console.log("path is ",action.history.location.pathname)
       toast.success("Successfully Deleted.",{
         hideProgressBar: true,
       });
@@ -205,7 +203,6 @@ function* emailVideo(action: any) {
       toast.error("Something Went Wrong");
     }
   } catch (error) {
-    // console.log("error is", error.message)
     yield put({ type: types.ADD_STEP_TO_CHATVID_FAILURE });
     // toast.error(error.message);
   }

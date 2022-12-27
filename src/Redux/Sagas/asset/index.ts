@@ -56,7 +56,6 @@ function* getUserAsset() {
       payload: result.assets
     });
   } catch (error) {
-    console.log('Error loading user asset', error);
     console.error(error);
     if (error.response) {
       const errorMessage = error.response.data.message;
@@ -76,7 +75,6 @@ function* getUserAsset() {
 function* getPublicMusicAsset() {
   try {
     const result = yield getPublicMusicApi();
-    console.log("getpublicmusic is ",result)
     yield put({
       type: types.GET_PUBLIC_MUSIC_SUCCESS,
       payload: result.musicAssetIs
@@ -169,7 +167,7 @@ function* getCampaignTemplates() {
       payload: result.templates
     });
   } catch (error) {
-    console.log("error", error);
+    console.error("error", error);
     if (error.response) {
       const errorMessage = error.response.data.message;
       toast.error(errorMessage);
@@ -193,7 +191,7 @@ function* getIndustries() {
       payload: result.industries
     });
   } catch (error) {
-    console.log("error", error);
+    console.error("error", error);
     if (error.response) {
       const errorMessage = error.response.data.message;
       toast.error(errorMessage);
@@ -217,7 +215,7 @@ function* getPreview(action: any) {
       payload: result.template
     });
   } catch (error) {
-    console.log("error", error);
+    console.error("error", error);
     if (error.response) {
       const errorMessage = error.response.data.message;
       toast.error(errorMessage);
@@ -238,7 +236,7 @@ function* saveSettings(action: any) {
     const result = yield saveSettingsApi(action.payload);
     toast.info(result.message);
   } catch (error) {
-    console.log("error", error);
+    console.error("error", error);
     if (error.response) {
       const errorMessage = error.response.data.message;
       toast.error(errorMessage);

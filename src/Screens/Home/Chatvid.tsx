@@ -105,7 +105,6 @@ class Chatvid extends Component<IProps> {
   componentDidMount() {
     // this.props.getChatvids();
     // this.props.getAnalytics(this.props.chatvid._id, new Date(), new Date(), "all");
-    // console.log(this.props.chatvid)
   }
   navigate = (show?: string) => {
     this.props.history.push({ pathname: "/video/create", show: show });
@@ -316,7 +315,6 @@ const StepsTab = (props: any) => {
             )
           }
         >
-          {console.log("steps in chatvid", props?.chatvid?.steps)}
           <AddCircleIcon />
           <Typography variant="subtitle1">Add more steps</Typography>
         </Grid>

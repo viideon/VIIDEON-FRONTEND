@@ -81,7 +81,6 @@ class Signup extends React.Component<IProps, IState> {
           family_name: values.lastName,
         },
       });
-      console.log('Cognito user registered')
       const _user = {
         userSub,
         email: values.email,
@@ -93,7 +92,6 @@ class Signup extends React.Component<IProps, IState> {
       this.setState({creatingCognitoUser: false} as Pick<IState, any>);
       return this.props.register(_user);
     } catch (error) {
-      console.log('Error creating user', error);
       console.error(error)
       this.setState({creatingCognitoUser: false} as Pick<IState, any>);
       if (error.name === 'UsernameExistsException') {

@@ -1,7 +1,6 @@
 import { API } from "aws-amplify";
 
 export async function saveVideo(video: any) {
-  console.log("video in api", video);
   return API.post("Backend", "/video", { body: video });
 }
 export async function updateVideoViews(id: any) {
@@ -17,16 +16,13 @@ export async function updateCtaVideo(id: any) {
   return API.post("Backend", "/video/update/cta", { body: { id } });
 }
 export async function sendVideoToEmail(video: any) {
-  console.log("videoemail in api", video);
   return API.post("Backend", "/email/send", { body: video });
 }
 export async function getSingleTemplate(video: any) {
-  console.log("tempname", video);
   return API.post("Backend", "/video/getTemplate", { body: video });
 }
 
 export async function sendMultiEmails(video: any) {
-  // console.log("multiemail in api",video)
   return API.post("Backend", "/email/send", { body: video });
 }
 
