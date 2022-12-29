@@ -310,7 +310,7 @@ class AddLogoText extends React.Component<IProps, IState> {
   saveLogo = (logoBlob: any) => {
     return new Promise((resolve, reject) => {
       Storage.put(`${uuid}-logo`, logoBlob, {
-        level: "private",
+        level: "protected",
       }).then((response: any) => {
         this.setState({ logoPath: response.key }, () => {
           setTimeout(() => {
@@ -480,7 +480,6 @@ class AddLogoText extends React.Component<IProps, IState> {
       //     }
       //   })
       //   .then((response: { filename: any }) => {
-      //     console.log("Video uploaded", { response });
       //     this.setState({
       //       videoProgress: false,
       //       videoUrl: response.filename
@@ -500,7 +499,7 @@ class AddLogoText extends React.Component<IProps, IState> {
       toast.info("Uploading music please wait");
       this.setState({ assetUploading: true });
       Storage.put(`${uuid}-music`, this.state.musicFile, {
-        level: "private",
+        level: "protected",
       }).then((response: any) => {
         toast.info("Asset Uploaded");
         this.setState({
@@ -579,7 +578,6 @@ class AddLogoText extends React.Component<IProps, IState> {
   //         }
   //       })
   //       .then((response: { filename: any }) => {
-  //         console.log("Thumbnail uploaded", response);
   //         this.setState({
   //           videoProgress: false,
   //           thumbnailUrl: response.filename

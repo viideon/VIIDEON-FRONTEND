@@ -11,6 +11,7 @@ import VolumeOffIcon from "@material-ui/icons/VolumeOff";
 import VolumeDownIcon from "@material-ui/icons/VolumeDown";
 import "./style.css";
 import {Storage} from "aws-amplify";
+import _ from "lodash";
 import {thumbnailDefault} from "../../constants/constants";
 
 interface IProps {
@@ -39,6 +40,7 @@ interface IState {
   watched: boolean;
   musicVolume: number;
   thumbnailUrl: string;
+  logoUrl: string;
 }
 class EditingPlayer extends React.Component<IProps, IState> {
   canvasContext: any;
@@ -78,6 +80,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
       watched: false,
       musicVolume: 0,
       thumbnailUrl: thumbnailDefault,
+      logoUrl: '',
     };
     this.unmounted = false;
     this.canvasContext = null;
@@ -87,41 +90,41 @@ class EditingPlayer extends React.Component<IProps, IState> {
       "top-left": () => {
         let logoDimension = 0.1 * this.edCanvas.width;
         this.canvasTmpCtx.drawImage(
-          this.logo,
-          20,
-          20,
-          logoDimension,
-          logoDimension
+            this.logo,
+            20,
+            20,
+            logoDimension,
+            logoDimension
         );
       },
       "top-right": () => {
         let logoDimension = 0.1 * this.edCanvas.width;
         this.canvasTmpCtx.drawImage(
-          this.logo,
-          this.edCanvas.width - logoDimension - 20,
-          20,
-          logoDimension,
-          logoDimension
+            this.logo,
+            this.edCanvas.width - logoDimension - 20,
+            20,
+            logoDimension,
+            logoDimension
         );
       },
       "bottom-right": () => {
         let logoDimension = 0.1 * this.edCanvas.width;
         this.canvasTmpCtx.drawImage(
-          this.logo,
-          this.edCanvas.width - logoDimension - 20,
-          this.edCanvas.height - logoDimension - 20,
-          logoDimension,
-          logoDimension
+            this.logo,
+            this.edCanvas.width - logoDimension - 20,
+            this.edCanvas.height - logoDimension - 20,
+            logoDimension,
+            logoDimension
         );
       },
       "bottom-left": () => {
         let logoDimension = 0.1 * this.edCanvas.width;
         this.canvasTmpCtx.drawImage(
-          this.logo,
-          20,
-          this.edCanvas.height - logoDimension - 20,
-          logoDimension,
-          logoDimension
+            this.logo,
+            20,
+            this.edCanvas.height - logoDimension - 20,
+            logoDimension,
+            logoDimension
         );
       },
     };
@@ -159,7 +162,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
     if (this.props.local && this.props.local === true) {
       try {
         if (musicProps && musicProps.url) {
-          let musicResponse = await fetch(musicProps.url);
+          let musicResponse = await fetch(await Storage.get(musicProps.url, {level: "protected"}));
           let musicBlob = await musicResponse.blob();
           const musicUrl = await window.URL.createObjectURL(musicBlob);
           this.backgroundMusic.src = musicUrl;
@@ -178,7 +181,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
     } else {
       try {
         if (musicProps && musicProps.url) {
-          let musicResponse = await fetch(musicProps.url);
+          let musicResponse = await fetch(await Storage.get(musicProps.url, {level: "protected"}));
           let musicBlob = await musicResponse.blob();
           const musicUrl = await window.URL.createObjectURL(musicBlob);
           this.backgroundMusic.src = musicUrl;
@@ -188,6 +191,9 @@ class EditingPlayer extends React.Component<IProps, IState> {
         }
         if (this.props.thumbnail && this.props.thumbnail !== null) {
           Storage.get(this.props.thumbnail, {level: "protected"}).then(response => this.setState({thumbnailUrl: response}));
+        }
+        if (_.has(this.props, 'logoProps') && _.has(this.props.logoProps, 'url')) {
+          Storage.get(this.props.logoProps.url, {level: "protected"}).then(response => this.setState({logoUrl: response}));
         }
         let videoResponse = await fetch(await Storage.get(src, {level: "protected"}));
         let videoBlob = await videoResponse.blob();
@@ -290,7 +296,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
     }
   };
 
-  onAnimationFrame() {
+  onAnimationFrame = async () => {
     const render = () => {
       const { textProps, logoProps } = this.props;
       const { width, height } = this.state;
@@ -538,7 +544,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
         />
         <img
           alt="logo"
-          src={logoProps && logoProps.url ? logoProps.url : null}
+          src={this.state.logoUrl !== '' ? this.state.logoUrl : undefined}
           style={{ display: "none" }}
           ref="logo"
         />

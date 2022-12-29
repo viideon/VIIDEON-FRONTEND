@@ -277,7 +277,7 @@ class AddLogo extends React.Component<IProps, IState> {
     return new Promise((resolve, reject) => {
       const filename = uuid();
       Storage.put(`${filename}-logo`, logoBlob, {
-        level: "private",
+        level: "protected",
       }).then((response: any) => {
         this.setState({logoPath: response.key}, () => {
           setTimeout(() => {
@@ -401,7 +401,7 @@ class AddLogo extends React.Component<IProps, IState> {
       this.setState({ assetUploading: true });
       const filename = uuid();
       Storage.put(`${filename}-music`, this.state.musicFile, {
-        level: "private",
+        level: "protected",
       }).then((response: any) => {
         toast.info("Asset Uploaded");
         this.setState({

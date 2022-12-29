@@ -320,6 +320,7 @@ class SendSave extends React.Component<IProps> {
     let { videoSaved, loading } = this.props.videoUser;
     let { progressEmail } = this.props;
     const { open, themeName } = this.state;
+
     return (
       <Grid container>
         <Grid item xs={1} sm={1} md={3} lg={3}></Grid>

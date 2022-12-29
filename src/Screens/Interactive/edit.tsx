@@ -244,7 +244,6 @@ function HorizontalNonLinearStepper(props: any) {
     //   //   jumpTo: length,
     //   // };
     //   // props.updateStepJump(step);
-    //   return console.log("step before jump to end", stepId, jumpTo, length);
     // }
     editSteps[stepId] = { jumpTo: jumpTo === "end" ? -3 : jumpTo };
     await setEditSteps({ ...editSteps });
@@ -275,7 +274,6 @@ function HorizontalNonLinearStepper(props: any) {
     //   // };
     //   // step.jumpChoice[choiceId] = length;
     //   // props.updateStepJump(step);
-    //   return console.log("step before jump to end", stepId, value, length + 1);
     // }else{
 
     // }

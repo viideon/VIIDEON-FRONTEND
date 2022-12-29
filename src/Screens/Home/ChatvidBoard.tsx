@@ -266,7 +266,7 @@ class Dashboard extends Component<IProps, IState> {
             {selectedChatvid?.name && (
               <Typography variant="h6">
                 {" "}
-                Response on {console.log("selected chatvid", selectedChatvid)}
+                Response on{" "}
                 {`${selectedChatvid.name} - ${new Date(
                   selectedChatvid.createdAt
                 ).toLocaleString()}`}{" "}

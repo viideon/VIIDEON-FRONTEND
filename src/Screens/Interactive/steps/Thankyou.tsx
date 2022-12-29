@@ -7,7 +7,6 @@ import { useHistory } from "react-router";
 const Thankyou = () => {
   const history = useHistory();
   const handleBack = () => {
-    console.log("thanku back", history);
     history.push("/");
   };
   return (

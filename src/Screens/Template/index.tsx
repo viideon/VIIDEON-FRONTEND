@@ -165,7 +165,7 @@ class Overview extends React.Component<IProps> {
     const { logoBlob } = this.state;
     return new Promise((resolve, reject) => {
       Storage.put(`${uuid}-logo`, logoBlob, {
-        level: "private",
+        level: "protected",
       }).then((response: any) => {
         this.setState({ logoPath: response.key, img: response.key });
         toast.info("Logo uploaded");

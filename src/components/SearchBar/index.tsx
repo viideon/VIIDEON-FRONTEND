@@ -137,11 +137,7 @@ export function ChatvidRedirectionLogics(props: any) {
   const classes = useStyles();
   const [age, setAge] = React.useState("");
   const choiceRedirection = [...Array(props.length).keys()];
-  console.log("choiceRedirection ", choiceRedirection);
-  console.log("age is ", age);
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    console.log("value for age in handle change", event.target.value);
-
     setAge(event.target.value as string);
     props.onChange(event.target.value as any);
   };

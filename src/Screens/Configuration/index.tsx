@@ -37,12 +37,10 @@ class Configuration extends React.Component<IProps> {
   }
   responseGoogle = (response: any) => {
     if (response.code) {
-      console.log("responseGoogle", response);
       this.props.addEmailConfiguration(response.code);
     }
   };
   handleLoginFailure = (response: any) => {
-    console.log("handleLoginFailure this", response);
     if (response.error !== "popup_closed_by_user") {
       toast.error("Failed to authorize, please try again");
     }

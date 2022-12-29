@@ -66,8 +66,6 @@ class SideBar extends Component<IProps, IState> {
   copyUrl = () => {
     const url = `${process.env.REACT_APP_DOMAIN}/chatvid/res/${this.state
       .currentChatvid && this.state.currentChatvid._id}`;
-    // console.log("url is ", url);
-    // console.log("copyurl", this.state.currentChatvid);
     navigator.clipboard.writeText(url);
     toast("Url copied to clipboard", {
       autoClose: 1000,

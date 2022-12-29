@@ -22,12 +22,13 @@ interface IProps {
   toggle: () => void;
   musicAssets: [any];
   publicMusic: any;
-  onPick: (image: any) => void;
+  onPick: (image: any, type: string) => void;
 }
 
 class AssetPicker extends React.Component<IProps> {
   state = {
     assetUrl: "",
+    type: "",
     currenSelection: null,
   };
   componentDidMount() {
@@ -47,13 +48,11 @@ class AssetPicker extends React.Component<IProps> {
       this.props.toggle();
       return;
     }
-    this.props.onPick(this.state.assetUrl);
+    this.props.onPick(this.state.assetUrl, this.state.type);
     this.props.toggle();
   };
-  selectAsset = (url: any, id: any) => {
-    this.setState({ assetUrl: url, currenSelection: id });
-    console.log("url", url);
-    console.log("id", id);
+  selectAsset = (url: any, id: any, type: string) => {
+    this.setState({ assetUrl: url, currenSelection: id, type });
     toast.info("Asset selected, Click ok to proceed");
   };
   cancelSelection = () => {
@@ -88,7 +87,7 @@ class AssetPicker extends React.Component<IProps> {
                         <Radio
                           checked={asset._id === this.state.currenSelection}
                           onChange={() =>
-                            this.selectAsset(asset.url, asset._id)
+                            this.selectAsset(asset.url, asset._id, "protected")
                           }
                           value={asset._id}
                           color="default"
@@ -105,7 +104,7 @@ class AssetPicker extends React.Component<IProps> {
                         </h5>
                       </div>
                       <audio
-                        src={asset.url}
+                        src={asset.signedUrl}
                         controls
                         style={{ outline: "none" }}
                       />
@@ -122,7 +121,7 @@ class AssetPicker extends React.Component<IProps> {
                         <Radio
                           checked={asset._id === this.state.currenSelection}
                           onChange={() =>
-                            this.selectAsset(asset.url, asset._id)
+                            this.selectAsset(asset.url, asset._id, "public")
                           }
                           value={asset._id}
                           color="default"
@@ -139,7 +138,7 @@ class AssetPicker extends React.Component<IProps> {
                         </h5>
                       </div>
                       <audio
-                        src={asset.url}
+                        src={asset.signedUrl}
                         controls
                         style={{ outline: "none" }}
                       />

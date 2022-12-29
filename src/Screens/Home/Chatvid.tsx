@@ -606,7 +606,6 @@ const Chart = (props: any) => {
 
 const InfoHeader = (props: any) => {
   const handleDeleteChatvid = (chatvid: any) => {
-    console.log(props.chatvid._id, chatvid);
     props.deletechatvid(chatvid, props.history);
   };
   const [open, setOpen] = React.useState(false);
@@ -633,7 +632,6 @@ const InfoHeader = (props: any) => {
     return re.test(String(email).toLowerCase());
   }
   const handleShare = () => {
-    console.log("handleShare email", props.user?.email);
     if (!validateEmail(email)) return toast.error("Enter a valid Email");
     props.emailVideo({
       senderEmail: props.user?.email,

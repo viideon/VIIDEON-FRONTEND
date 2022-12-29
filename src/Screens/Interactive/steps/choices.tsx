@@ -113,7 +113,6 @@ const CatInputs = (props: any) => {
     return (
       <Grid key={idx} container className="ChoiceCardWrapper">
         <Grid item sm={10} md={10} lg={10} className="ChoiceTxt">
-          {/* {console.log("multiple choices ", props.cat, idx)} */}
           <input
             type="text"
             name={idx}

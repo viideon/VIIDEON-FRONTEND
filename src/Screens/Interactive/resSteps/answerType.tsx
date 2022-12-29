@@ -184,7 +184,7 @@ class FinalTab extends Component<any> {
       // this.setState({ videoProgress: true, progressVideo: 0 });
       const filename = uuid();
       Storage.put(`${filename}-replyAudioUrl`, file, {
-        level: "private",
+        level: "protected",
       }).then((response: any) => {
         this.setState({
           ansAudio: response.key,
@@ -273,7 +273,7 @@ class FinalTab extends Component<any> {
     return new Promise((resolve, reject) => {
       const filename = uuid();
       Storage.put(`${filename}-replyVideoUrl`, file, {
-        level: "private",
+        level: "protected",
       }).then((response: any) => {
         this.setState({
           ansVideo: response.key
@@ -863,11 +863,9 @@ const OpenEndedType = (props: any) => {
   } = props;
 
   let { steps, userId } = resChatvid;
-  console.log("currentstepNo", props.currentStepNo);
   let { responseType, choices, calendar } = steps
     ? steps[props.currentStepNo]
     : { responseType: "", choices: "", calendar: "" };
-  // console.log("steps ", steps[props.currentStepNo]);
   if (preview) {
     responseType = resType;
     choices = props.choices;
@@ -1035,7 +1033,6 @@ const AudioResponse = (props: any) => {
         setTimeOutTimer(setInterval(trackTime, 1000));
       })
       .catch((error: any) => {
-        console.log("Error Whire recording: : ", error.message);
         setRecording(false);
       });
   };
@@ -1081,12 +1078,11 @@ const AudioResponse = (props: any) => {
         .catch((error: any) => {
           handleReset();
           toast.error("something went wrong");
-          console.log("EROR: WHILRE STOP: ", error.message);
         });
     } catch (error) {
       handleReset();
       toast.error("something went wrong");
-      console.log(error.message);
+      console.error(error.message);
     }
   };
 
@@ -1120,8 +1116,6 @@ const AudioResponse = (props: any) => {
 
   const min = Math.floor(timer / 60) % 60;
   const sec = Math.floor(timer % 60);
-
-  // console.log("conditions are", { recording, recorded });
 
   return (
     <div className="textResponseWrappreContainer">

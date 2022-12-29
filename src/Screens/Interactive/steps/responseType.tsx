@@ -23,7 +23,6 @@ class ResponseType extends Component<any> {
   };
 
   handleNext = (type: string) => {
-    // console.log("history in response", this.props.history.location.pathname);
     this.props.onChange({ target: { name: "responseType", value: type } });
     if (type === "Open-ended") {
       this.props.history.location.pathname !== "/chatvid" &&

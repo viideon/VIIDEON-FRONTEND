@@ -56,6 +56,7 @@ interface EditState {
   isOpenMusicPicker: boolean;
   newVideoTitle: string;
   logoPath: any;
+  logoUrl: any;
   logoX: number | string;
   logoY: number | string;
   text: string;
@@ -106,6 +107,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
       isOpenMusicPicker: false,
       newVideoTitle: "",
       logoPath: null,
+      logoUrl: null,
       logoX: 10,
       logoY: 10,
       text: "",
@@ -181,14 +183,14 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
             () => this.syncAudio()
           );
         }
-        const response = await fetch(video.url);
+        const response = await fetch(await Storage.get(video.url, {level: "protected"}));
         let videoBlob = await response.blob();
         this.video.src = await window.URL.createObjectURL(videoBlob);
       } catch (err) {
         console.error("error in editing screen", err);
       }
       if (logoProps) {
-        this.setState({ logoPath: logoProps.url, iconPos: logoProps.position });
+        this.setState({ logoPath: logoProps.url, logoUrl: await Storage.get(logoProps.url, {level: "protected"}), iconPos: logoProps.position });
       }
       if (textProps) {
         this.setState({
@@ -294,8 +296,8 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
     } else {
       toast.info("Uploading music please wait");
       this.setState({ assetUploading: true });
-      Storage.put(`${uuid}-music`, this.state.musicFile, {
-        level: "private",
+      Storage.put(`${uuid()}-music`, this.state.musicFile, {
+        level: "protected",
       }).then((response: any) => {
         toast.info("Asset Uploaded");
         this.setState({
@@ -309,6 +311,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
           title: this.state.musicTitle
         });
       }).catch((error: any) => {
+        console.error('Error saving file', error);
         toast.error(error);
         this.setState({ assetUploading: false });
       });
@@ -663,14 +666,16 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
   }
   saveLogo = (logoBlob: any) => {
     return new Promise((resolve, reject) => {
-      Storage.put(`${uuid}-logo`, logoBlob, {
-        level: "private",
+      Storage.put(`${uuid()}-logo`, logoBlob, {
+        level: "protected",
       }).then((response: any) => {
-        this.setState({ logoPath: response.key }, () => {
-          setTimeout(() => {
-            this.updateCanvas();
-          }, 1000);
-        });
+        Storage.get(response.key, {level: "protected"}).then(_response => {
+          this.setState({ logoPath: response.key, logoUrl: _response }, () => {
+            setTimeout(() => {
+              this.updateCanvas();
+            }, 1000);
+          });
+        })
         this.props.addAsset({ type: "logo", url: response.key });
         resolve();
       }).catch((error: any) => {
@@ -698,15 +703,20 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
     });
   };
   onLogoAssetPick = (path: any) => {
-    this.setState({ logoPath: path }, () => this.updateCanvas());
-    toast.info("updated");
+    Storage.get(path, {level: "protected"}).then(_response => {
+      this.setState({ logoPath: path, logoUrl: _response }, () => this.updateCanvas());
+      toast.info("updated");
+    })
   };
-  onMusicAssetPick = (path: any) => {
-    this.setState({ backgroundMusicUrl: path });
-    toast.info("Wait while we add the music to the video");
-    this.setState({
-      musicLoadingTimeout: setInterval(() => this.isMusicLoaded(), 3000)
-    });
+  onMusicAssetPick = (path: any, type: string) => {
+    // @ts-ignore
+    Storage.get(path, {level: type}).then((response: string) => {
+      this.setState({ backgroundMusicUrl: response });
+      toast.info("Wait while we add the music to the video");
+      this.setState({
+        musicLoadingTimeout: setInterval(() => this.isMusicLoaded(), 3000)
+      });
+    })
   };
   updateVideoLogoText = async () => {
     try {
@@ -925,7 +935,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
               <img
                 crossOrigin="anonymous"
                 alt="logo"
-                src={this.state.logoPath ? this.state.logoPath : null}
+                src={this.state.logoUrl ? this.state.logoUrl : null}
                 style={{ display: "none" }}
                 ref={ref => {
                   this.img = ref;
@@ -1226,7 +1236,7 @@ const EditMusic = (props: any) => {
   return (
     <>
       <h3 className="addLogoMessage">
-        Add Music3
+        Add Music
         <Tooltip title="upload audio music" placement="top">
           <span style={iconStyle}>
             <i className="fas fa-info"></i>

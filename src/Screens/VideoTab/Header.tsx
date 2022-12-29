@@ -283,7 +283,6 @@ class VideoTabHeader extends React.Component<IProps> {
   componentDidMount() {
     this.caluclateContainerHeight();
     window.addEventListener("resize", this.caluclateContainerHeight);
-    console.log('VideoTabHeader componentDidMount', this.props.video);
     if (this.props.video !== null) {
       // @ts-ignore
       Storage.get(this.props.video.url, {level: "protected"}).then(response => { this.setState({ url: response }) });
@@ -305,7 +304,6 @@ class VideoTabHeader extends React.Component<IProps> {
     const { video } = this.props;
     const newClip = `${process.env.REACT_APP_DOMAIN}/watch/${video &&
       video._id}`;
-    console.log("newClip", newClip);
     // navigator.permissions
     //   .query({ name: "clipboard-write" as PermissionName })
     //   .then((result) => {
@@ -355,8 +353,6 @@ class VideoTabHeader extends React.Component<IProps> {
 
   handleCloseTemplate = (theme: any) => {
     this.setState({ selectedTheme: theme });
-    console.log("tem in on close", theme);
-    console.log("video for thm ", this.props.video);
     if (!theme.name) return this.setState({ open: false });
     const { video } = this.props;
     let newVideo: any = video;
@@ -402,15 +398,12 @@ class VideoTabHeader extends React.Component<IProps> {
         videoId: id,
         recieverEmail,
       };
-      console.log("receiver Email", video);
       this.props.sendVideoToEmail(video);
 
       this.setState({ forShare: false });
     }
   };
   sendMultipleEmail = () => {
-    console.log(this.state.emails);
-
     const { id } = this.props.match.params;
     if (this.state.emails.length === 0) {
       toast.error("No email provided");
@@ -422,23 +415,18 @@ class VideoTabHeader extends React.Component<IProps> {
       toast.error("Please add atleast two emails");
       return;
     } else {
-      // console.log("email in state", this.state.emails);
       const emails = this.state.emails.join();
-      // console.log("emails after join", emails);
       const emailVideoObj = {
         recieverEmail: emails,
         videoId: id,
       };
-      console.log("emailObject", emailVideoObj);
       this.props.sendMultipleEmail(emailVideoObj);
       this.setState({ emails: [] });
     }
   };
 
   render() {
-    console.log('Header render', {state: this.state});
     const { video } = this.props;
-    // console.log("video is ", video);
     const {
       editTitle,
       themeName,
@@ -448,7 +436,6 @@ class VideoTabHeader extends React.Component<IProps> {
       receiverEmail,
       emails,
     } = this.state;
-    console.log('Header render props', {props: this.props});
     // @ts-ignore
     return (
       <div className="headerTab">
