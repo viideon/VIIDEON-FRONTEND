@@ -105,7 +105,6 @@ class Chatvid extends Component<IProps> {
   componentDidMount() {
     // this.props.getChatvids();
     // this.props.getAnalytics(this.props.chatvid._id, new Date(), new Date(), "all");
-    // console.log(this.props.chatvid)
   }
   navigate = (show?: string) => {
     this.props.history.push({ pathname: "/video/create", show: show });
@@ -316,7 +315,6 @@ const StepsTab = (props: any) => {
             )
           }
         >
-          {console.log("steps in chatvid", props?.chatvid?.steps)}
           <AddCircleIcon />
           <Typography variant="subtitle1">Add more steps</Typography>
         </Grid>
@@ -608,7 +606,6 @@ const Chart = (props: any) => {
 
 const InfoHeader = (props: any) => {
   const handleDeleteChatvid = (chatvid: any) => {
-    console.log(props.chatvid._id, chatvid);
     props.deletechatvid(chatvid, props.history);
   };
   const [open, setOpen] = React.useState(false);
@@ -635,7 +632,6 @@ const InfoHeader = (props: any) => {
     return re.test(String(email).toLowerCase());
   }
   const handleShare = () => {
-    console.log("handleShare email", props.user?.email);
     if (!validateEmail(email)) return toast.error("Enter a valid Email");
     props.emailVideo({
       senderEmail: props.user?.email,

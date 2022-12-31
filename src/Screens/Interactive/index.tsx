@@ -9,6 +9,7 @@ import { toggleSendVariable } from "../../Redux/Actions/videos";
 import { VideoState } from "../../Redux/Types/videos";
 import { AuthState } from "../../Redux/Types/auth";
 import "react-tabs/style/react-tabs.css";
+import {Auth, Storage} from "aws-amplify";
 
 import Header from "../../components/Header/Header";
 // steps
@@ -22,6 +23,7 @@ import FinalTab from "./steps/final";
 
 import "./style.css";
 import * as api from "../../util/api";
+import _ from "lodash";
 
 type IProps = {
   auth: AuthState;
@@ -79,50 +81,59 @@ class ChatVid extends Component<IProps> {
     }
   }
 
-  uploadThumbnail = (filename: string) => {
+  uploadThumbnail = async (filename: string) => {
+    const currentUser = await Auth.currentUserCredentials();
+    const thumbnailResponse = await api.generateThumbnail(
+        `protected/${currentUser.identityId}/${filename}`,
+        {
+          onUploadProgress: (progressEvent: {
+            loaded: number;
+            total: number;
+          }) => {
+            let uploaded: number =
+                (progressEvent.loaded * 100) / progressEvent.total;
+            this.setState({ progressVideo: uploaded });
+          }
+        }
+    );
+    return _.replace(thumbnailResponse.thumbnail, `protected/${currentUser.identityId}/`, '');
+  };
+
+  uploadVideo = (filename: string) => {
     return new Promise((resolve, reject) => {
       this.setState({ videoProgress: true, progressVideo: 0 });
-      api.uploadFile(
-          filename,
-          this.state.thumbnailBlob,
-          {
-            onUploadProgress: (progressEvent: { loaded: number; total: number; }) => {
-              let uploaded: number = (progressEvent.loaded * 100) / progressEvent.total;
-              this.setState({ progressVideo: uploaded });
-            }
-          }
-      ).then((response: { filename: any; }) => {
+      Storage.put(filename, this.state.video, {
+        level: "protected",
+        progressCallback: (progressEvent: { loaded: number; total: number; }) => {
+          let uploaded: number = (progressEvent.loaded * 100) / progressEvent.total;
+          this.setState({ progressVideo: uploaded });
+        }
+      }).then((response: any) => {
         this.setState({
           videoProgress: false,
-          thumbnailUrl: response.filename
+          urlRecord: response.key
         });
         resolve();
       }).catch((error: any) => {
         this.setState({ videoProgress: false });
         reject(error);
       });
-    });
-  };
-
-  uploadVideo = (filename: string) => {
-    return new Promise((resolve, reject) => {
-      this.setState({ videoProgress: true, progressVideo: 0 });
-      api.uploadFile(
-          filename,
-          this.state.video,
-          {
-            onUploadProgress: (progressEvent: { loaded: number; total: number; }) => {
-              let uploaded: number = (progressEvent.loaded * 100) / progressEvent.total;
-              this.setState({ progressVideo: uploaded });
-            }
-          }
-      ).then((response: { filename: any; }) => {
-        this.setState({ urlRecord: response.filename, videoProgress: false });
-        resolve();
-      }).catch((error: any) => {
-        this.setState({ videoProgress: false });
-        reject(error);
-      });
+      // api.uploadFile(
+      //     filename,
+      //     this.state.video,
+      //     {
+      //       onUploadProgress: (progressEvent: { loaded: number; total: number; }) => {
+      //         let uploaded: number = (progressEvent.loaded * 100) / progressEvent.total;
+      //         this.setState({ progressVideo: uploaded });
+      //       }
+      //     }
+      // ).then((response: { filename: any; }) => {
+      //   this.setState({ urlRecord: response.filename, videoProgress: false });
+      //   resolve();
+      // }).catch((error: any) => {
+      //   this.setState({ videoProgress: false });
+      //   reject(error);
+      // });
     });
   };
 
@@ -149,7 +160,6 @@ class ChatVid extends Component<IProps> {
     this.setState({ step: 4, responseType: "Calendly" });
   };
   checkchoices = () => {
-    console.log("choices are ", this.state.choices);
     for (const c of this.state.choices) {
       if (!c || c === "") return false;
     }
@@ -161,7 +171,6 @@ class ChatVid extends Component<IProps> {
     if (isClicked) {
       return toast.error("Wait f or your Response");
     }
-    console.log("in step index", this.state.choices);
     if (this.state.responseType === "Calendly" && !this.state.calendar)
       return toast.error("Add a link first!");
     if (
@@ -212,10 +221,9 @@ class ChatVid extends Component<IProps> {
         transition: Flip
       });
       const filename = uuid();
-      await this.uploadThumbnail(`${filename}-thumbnail`);
       toast.info("Uploading video...");
       await this.uploadVideo(`${filename}-video`);
-      console.log("reveanl is ", this.state.reveal);
+      const thumbnailResponse = await this.uploadThumbnail(this.state.urlRecord);
       const textProps = {
         text: this.state.text,
         textColor: this.state.textColor,
@@ -231,7 +239,7 @@ class ChatVid extends Component<IProps> {
         title: this.state.title,
         url: this.state.urlRecord,
         userId: this.props.auth!.user!._id,
-        thumbnail: this.state.thumbnailUrl,
+        thumbnail: thumbnailResponse,
         textProps: textProps,
         campaign: false,
         isChatvid: true
@@ -348,7 +356,6 @@ class ChatVid extends Component<IProps> {
   };
 
   render() {
-    console.log("reveanl is ", this.state.reveal);
     return (
       <>
         <Header

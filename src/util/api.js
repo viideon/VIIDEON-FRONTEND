@@ -41,7 +41,6 @@ const _post = (url, body, config) => {
  * @param {any} [config]
  */
 const _put = (url, body, config) => {
-  console.log('Calling _put', {url, body, config});
   return axios.put(url, body, config);
 }
 
@@ -51,7 +50,6 @@ const _put = (url, body, config) => {
  * @param {any} [config]
  */
 export const uploadFile = async (filename, image, config) => {
-  console.log('Uploading file', {filename, config});
   const url = await API.post(
     'Backend',
     '/user/signedUrl',
@@ -62,7 +60,6 @@ export const uploadFile = async (filename, image, config) => {
       },
     },
   );
-  console.log('Signed URL created', {url, image});
   await _put(
       url.signedRequest,
       image,

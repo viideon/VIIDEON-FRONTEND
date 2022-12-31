@@ -12,6 +12,9 @@ import { getAssets } from "../../Redux/Actions/asset";
 import { getLogoAssets, getThumbnailAssets } from "../../Redux/Selectors";
 import Colors from "../../constants/colors";
 import "./style.css";
+import {Storage} from "aws-amplify";
+import {thumbnailDefault} from "../../constants/constants";
+import _ from 'lodash';
 
 interface IProps {
   getAssets: () => void;
@@ -26,11 +29,63 @@ class AssetPicker extends React.Component<IProps> {
   state = {
     assetUrl: "",
     currenSelection: null,
+    assets: this.props.assets.map((asset: any, i: number) => {
+      return (
+        <div
+          className={`wrapperImgPicker`}
+          onClick={() => this.selectAsset(asset.url, i)}
+          key={i}
+        >
+          {this.props.logoAssets ? (
+            <img
+              alt="asset"
+              crossOrigin="anonymous"
+              src={thumbnailDefault}
+              className="imgAssetPicker"
+            />
+          ) : (
+            <img
+              alt="asset"
+              src={thumbnailDefault}
+              className="imgAssetPicker"
+            />
+          )}
+        </div>
+      )
+    })
   };
-  componentDidMount() {
+  componentDidMount = async () => {
     this.props.getAssets();
+    // this.setState({
+    //   assets: this.props.assets.map(async (asset, i) => {
+    //     return (
+    //       <div
+    //         className={`wrapperImgPicker ${
+    //             i === this.state.currenSelection ? "selected" : ""
+    //         }`}
+    //         onClick={() => this.selectAsset(asset.url, i)}
+    //         key={i}
+    //       >
+    //         {this.props.logoAssets ? (
+    //           <img
+    //             alt="asset"
+    //             crossOrigin="anonymous"
+    //             src={await Storage.get(asset.url, {level: "private"})}
+    //             className="imgAssetPicker"
+    //           />
+    //         ) : (
+    //           <img
+    //             alt="asset"
+    //             src={await Storage.get(asset.url, {level: "private"})}
+    //             className="imgAssetPicker"
+    //           />
+    //         )}
+    //       </div>
+    //     )
+    //   })
+    // })
   }
-  componentDidUpdate(prevProps: any) {
+  componentDidUpdate = async (prevProps: any) => {
     if (this.props.isOpen !== prevProps.isOpen && this.props.isOpen) {
       this.setState({ assetUrl: "", currenSelection: null });
       this.props.getAssets();
@@ -54,6 +109,7 @@ class AssetPicker extends React.Component<IProps> {
       this.props.toggle()
     );
   };
+
   render() {
     const { assets, logoAssets } = this.props;
     return (
@@ -82,13 +138,13 @@ class AssetPicker extends React.Component<IProps> {
                     <img
                       alt="asset"
                       crossOrigin="anonymous"
-                      src={asset.url}
+                      src={asset.signedUrl}
                       className="imgAssetPicker"
                     />
                   ) : (
                     <img
                       alt="asset"
-                      src={asset.url}
+                      src={asset.signedUrl}
                       className="imgAssetPicker"
                     />
                   )}

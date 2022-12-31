@@ -33,6 +33,8 @@ import "./style.css";
 import fileUploadIcon from "../../assets/uploadCircle.png";
 import Header from "../../components/Header/Header";
 import * as api from "../../util/api";
+import {Storage, Auth} from "aws-amplify";
+import _ from "lodash";
 
 type IProps = {
   auth: AuthState;
@@ -145,25 +147,17 @@ class UploadRecord extends Component<IProps, IState> {
     // });
     this.setState({ fileProgress: true, progressFile: 0, videoProgress: true });
     try {
-      // @ts-ignore
-      const fileResponse = await api.uploadFile(
-        this.state.files[0].name,
-        this.state.files[0],
-        {
-          onUploadProgress: (progressEvent: {
-            loaded: number;
-            total: number;
-          }) => {
-            let uploaded: number =
-              (progressEvent.loaded * 100) / progressEvent.total;
-            this.setState({ progressFile: uploaded });
-          }
+      const fileResponse = await Storage.put(this.state.files[0].name, this.state.files[0], {
+        level: "protected",
+        progressCallback: (progressEvent: { loaded: number; total: number; }) => {
+          let uploaded: number = (progressEvent.loaded * 100) / progressEvent.total;
+          this.setState({ progressFile: uploaded });
         }
-      );
-      this.setState({ urlRecord: fileResponse.filename });
-      // @ts-ignore
+      });
+      this.setState({ urlRecord: fileResponse.key });
+      const currentUser = await Auth.currentUserCredentials();
       const thumbnailResponse = await api.generateThumbnail(
-        fileResponse.filename,
+        `protected/${currentUser.identityId}/${fileResponse.key}`,
         {
           onUploadProgress: (progressEvent: {
             loaded: number;
@@ -175,16 +169,16 @@ class UploadRecord extends Component<IProps, IState> {
           }
         }
       );
+      const thumbnailUrl = _.replace(thumbnailResponse.thumbnail, `protected/${currentUser.identityId}/`, '');
       const video = {
         title: this.state.title,
-        url: fileResponse.filename,
+        url: fileResponse.key,
         userId: this.props.auth!.user!._id,
-        thumbnail: thumbnailResponse.thumbnail,
+        thumbnail: thumbnailUrl,
         campaign: false,
         isVideo: true
       };
       this.setState({ fileProgress: false, videoProgress: false });
-      console.log("video in upload", video);
       this.props.saveVideo(video);
     } catch (error) {
       console.error(error);

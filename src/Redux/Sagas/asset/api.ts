@@ -9,7 +9,6 @@ export async function getAssetApi(userId: any) {
 }
 export async function deleteAssetApi(queryObj: any) {
   const { userId, assetId } = queryObj;
-  // console.log(queryObj)
   return API.del('Backend', "/asset/remove", { queryStringParameters: { userId, assetId } });
 }
 
@@ -22,7 +21,6 @@ export async function getMusicApi(userId: any) {
 }
 export async function deleteMusicApi(queryObj: any) {
   const { userId, assetId } = queryObj;
-  // console.log("in api",queryObj)
   return API.del('Backend', "/asset/remove/music", { queryStringParameters: { userId, assetId } });
 }
 export async function getTemplates() {
@@ -38,12 +36,10 @@ export const getIndustriesAPI = () => {
 }
 
 export const getPreviewApi = (settings: any) => {
-  console.log("in api for get preview",settings)
   return API.post('Backend', "/user/preview/", {body: settings});
 }
 
 export const saveSettingsApi = (settings: any) => {
-  console.log("settings in api ,",settings)
   return API.post('Backend', "/user/template/", {body: settings});
 }
 

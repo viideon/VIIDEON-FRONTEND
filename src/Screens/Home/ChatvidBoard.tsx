@@ -62,9 +62,6 @@ class Dashboard extends Component<IProps, IState> {
 
   handleCheck = (index: number, person: any) => {
     const chatVid = this.props.chatvids[index];
-    // console.log(index);
-    console.log("chatvidbord", chatVid);
-    // console.log("chatvidbord person", person);
 
     const step = chatVid.steps[0];
 
@@ -76,9 +73,7 @@ class Dashboard extends Component<IProps, IState> {
         let personResponse = step.replies?.filter(
           (reply: any) => reply?.peopleId?._id === person._id
         );
-        console.log("PersonResponse", personResponse);
         personResponse?.map((reply: any) => {
-          console.log("reply type is ", reply.type);
           if (reply.type == "text") return this.setState({ activeType: 1 });
           if (reply.type == "audio") return this.setState({ activeType: 2 });
           if (reply.type == "video") {
@@ -106,9 +101,8 @@ class Dashboard extends Component<IProps, IState> {
       let personResponse1 = step.replies?.filter(
         (reply: any) => reply?.peopleId?._id === selectedPerson._id
       );
-      // console.log("response in step ", personResponse1);
+
       personResponse1?.map((reply: any) => {
-        // console.log("step reply ", reply);
         if (reply.type == "text") return this.setState({ activeType: 1 });
         if (reply.type == "audio") return this.setState({ activeType: 2 });
         if (reply.type == "video") return this.setState({ activeType: 3 });
@@ -247,13 +241,11 @@ class Dashboard extends Component<IProps, IState> {
               let unique: any = {};
               let replydate: any;
               // let stepIs = chatvid.steps?.map((step: any) => step.replies);
-              // console.log("stepIs", stepIs);
               // stepIs.map((replies: any) =>
               //   replies.length > 0 &&
               //   sortByResponse( replies).map((reply: any) =>
               //   replydate=reply.createdAt
               // )
-              console.log("in chatbord", chatvid);
               const people = chatvid.people?.filter(
                 (person: any, index: number) =>
                   !unique[person._id] && (unique[person._id] = person) && person
@@ -274,7 +266,7 @@ class Dashboard extends Component<IProps, IState> {
             {selectedChatvid?.name && (
               <Typography variant="h6">
                 {" "}
-                Response on {console.log("selected chatvid", selectedChatvid)}
+                Response on{" "}
                 {`${selectedChatvid.name} - ${new Date(
                   selectedChatvid.createdAt
                 ).toLocaleString()}`}{" "}

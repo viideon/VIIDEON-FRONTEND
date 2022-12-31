@@ -24,6 +24,7 @@ import AppsIcon from "@material-ui/icons/Apps";
 import CreateIcon from "@material-ui/icons/Create";
 import DeleteIcon from "@material-ui/icons/Delete";
 import "./styles.css";
+import {Storage} from "aws-amplify";
 
 type IProps = {
   history: any;
@@ -53,7 +54,6 @@ class VideoSection extends Component<IProps> {
   }
   componentDidMount() {
     this.props.getUserVideos(this.props.videoType);
-    console.log("videotype", this.props.videoType);
   }
 
   componentWillUnmount() {
@@ -109,14 +109,10 @@ class VideoSection extends Component<IProps> {
 
   render() {
     const { userVideos, loadingVideos } = this.props;
-    console.log("before videos", userVideos);
     const myvideos = userVideos && userVideos.filter((c) => !c.isChatvid);
-    console.log("now videos", myvideos);
     // let showVideoslength = this.state.showAllVideos
     //   ? myvideos?.length
     //   : 10 || (myvideos.length > 10 && myvideos.length - 5);
-    // console.log("showall", this.state.showAllVideos);
-    // console.log("userVideos videos", userideos)
     const { gridView } = this.state;
     let videoTitle;
     if (this.props.videoType === "allVideos") {
@@ -177,7 +173,6 @@ class VideoSection extends Component<IProps> {
             ) : (
               myvideos.map((video: any) => (
                 <Grid item xs={12} sm={6} md={4} lg={4} key={video._id}>
-                  {/* {console.log("video for card ", video)} */}
                   <VideoCard
                     title={video.title}
                     url={video.url}
@@ -229,7 +224,6 @@ class VideoSection extends Component<IProps> {
         )}
         <div className="loadMoreWrapper">{loadingVideos && <Loading />}</div>
         <div className="loadMoreWrapper">
-          {console.log("video", myvideos.length)}
           {this.props.loadMore && (
             //  myvideos.length > 5 &&
             <button className="loadMore" onClick={this.loadMore}>
@@ -281,6 +275,14 @@ const ListViewCard: React.FC<IPropsListCard> = ({
   navigateToVideo,
 }) => {
   const [open, setOpen] = React.useState(false);
+  const [thumbnailUrl, setThumbnailUrl] = React.useState(thumbnailDefault);
+
+  React.useEffect(() => {
+    if (thumbnail != null) {
+      Storage.get(thumbnail, {level: "protected"}).then((response => setThumbnailUrl(response)));
+    }
+  }, []);
+
   const deleteAction = () => {
     deleteVideo(id);
   };
@@ -317,7 +319,7 @@ const ListViewCard: React.FC<IPropsListCard> = ({
       <td className="centerContent">
         <img
           className="previewList"
-          src={thumbnail ? thumbnail : thumbnailDefault}
+          src={thumbnailUrl}
           alt="thumbnail"
         />
       </td>

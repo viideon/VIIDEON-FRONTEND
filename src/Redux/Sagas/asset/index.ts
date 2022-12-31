@@ -19,6 +19,8 @@ import {
   selectMusicAssets
 } from "../../Selectors";
 import { toast } from "react-toastify";
+import {asyncForEach} from "../../../util";
+import {Storage} from "aws-amplify";
 
 function* addUserAsset(action: any) {
   let userId = yield select(selectID);
@@ -51,12 +53,18 @@ function* getUserAsset() {
   let userId = yield select(selectID);
   try {
     const result = yield getAssetApi(userId);
+    const _assets: any[] = [];
+    yield asyncForEach(result.assets, async (asset: any) => {
+      _assets.push({
+        ...asset,
+        signedUrl: await Storage.get(asset.url, {level: "protected"}),
+      })
+    });
     yield put({
       type: types.GET_ASSETS_SUCCESS,
-      payload: result.assets
+      payload: _assets,
     });
   } catch (error) {
-    console.log('Error loading user asset', error);
     console.error(error);
     if (error.response) {
       const errorMessage = error.response.data.message;
@@ -76,10 +84,16 @@ function* getUserAsset() {
 function* getPublicMusicAsset() {
   try {
     const result = yield getPublicMusicApi();
-    console.log("getpublicmusic is ",result)
+    const _assets: any[] = [];
+    yield asyncForEach(result.musicAssetIs, async (asset: any) => {
+      _assets.push({
+        ...asset,
+        signedUrl: await Storage.get(asset.url, {level: "public"}),
+      })
+    });
     yield put({
       type: types.GET_PUBLIC_MUSIC_SUCCESS,
-      payload: result.musicAssetIs
+      payload: _assets
     });
   } catch (error) {
     if (error.response) {
@@ -101,9 +115,16 @@ function* getMusicAsset() {
   let userId = yield select(selectID);
   try {
     const result = yield getMusicApi(userId);
+    const _assets: any[] = [];
+    yield asyncForEach(result.musicAssets, async (asset: any) => {
+      _assets.push({
+        ...asset,
+        signedUrl: await Storage.get(asset.url, {level: "protected"}),
+      })
+    });
     yield put({
       type: types.GET_MUSIC_SUCCESS,
-      payload: result.musicAssets
+      payload: _assets
     });
   } catch (error) {
     if (error.response) {
@@ -169,7 +190,7 @@ function* getCampaignTemplates() {
       payload: result.templates
     });
   } catch (error) {
-    console.log("error", error);
+    console.error("error", error);
     if (error.response) {
       const errorMessage = error.response.data.message;
       toast.error(errorMessage);
@@ -193,7 +214,7 @@ function* getIndustries() {
       payload: result.industries
     });
   } catch (error) {
-    console.log("error", error);
+    console.error("error", error);
     if (error.response) {
       const errorMessage = error.response.data.message;
       toast.error(errorMessage);
@@ -217,7 +238,7 @@ function* getPreview(action: any) {
       payload: result.template
     });
   } catch (error) {
-    console.log("error", error);
+    console.error("error", error);
     if (error.response) {
       const errorMessage = error.response.data.message;
       toast.error(errorMessage);
@@ -238,7 +259,7 @@ function* saveSettings(action: any) {
     const result = yield saveSettingsApi(action.payload);
     toast.info(result.message);
   } catch (error) {
-    console.log("error", error);
+    console.error("error", error);
     if (error.response) {
       const errorMessage = error.response.data.message;
       toast.error(errorMessage);

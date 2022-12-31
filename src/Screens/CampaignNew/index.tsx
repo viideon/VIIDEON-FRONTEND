@@ -25,7 +25,6 @@ class Campaign extends React.Component {
   };
 
   saveVideo = (finalBlob: any) => {
-    console.log("finalblobe ", finalBlob);
     this.setState({ recordedVideo: finalBlob });
   };
   saveEditedVideo = (editedVideoBlob: any) => {

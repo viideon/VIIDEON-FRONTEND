@@ -10,6 +10,9 @@ import VolumeOffIcon from "@material-ui/icons/VolumeOff";
 // import VolumeMuteIcon from "@material-ui/icons/VolumeMute";
 import VolumeDownIcon from "@material-ui/icons/VolumeDown";
 import "./style.css";
+import {Storage} from "aws-amplify";
+import _ from "lodash";
+import {thumbnailDefault} from "../../constants/constants";
 
 interface IProps {
   muted: boolean;
@@ -23,6 +26,7 @@ interface IProps {
   local?: boolean;
   preview?: boolean;
   watched?: () => void;
+  identityId?: string;
 }
 interface IState {
   playing: boolean;
@@ -36,6 +40,8 @@ interface IState {
   height: number;
   watched: boolean;
   musicVolume: number;
+  thumbnailUrl: string;
+  logoUrl: string;
 }
 class EditingPlayer extends React.Component<IProps, IState> {
   canvasContext: any;
@@ -74,6 +80,8 @@ class EditingPlayer extends React.Component<IProps, IState> {
       height: 0,
       watched: false,
       musicVolume: 0,
+      thumbnailUrl: thumbnailDefault,
+      logoUrl: '',
     };
     this.unmounted = false;
     this.canvasContext = null;
@@ -83,41 +91,41 @@ class EditingPlayer extends React.Component<IProps, IState> {
       "top-left": () => {
         let logoDimension = 0.1 * this.edCanvas.width;
         this.canvasTmpCtx.drawImage(
-          this.logo,
-          20,
-          20,
-          logoDimension,
-          logoDimension
+            this.logo,
+            20,
+            20,
+            logoDimension,
+            logoDimension
         );
       },
       "top-right": () => {
         let logoDimension = 0.1 * this.edCanvas.width;
         this.canvasTmpCtx.drawImage(
-          this.logo,
-          this.edCanvas.width - logoDimension - 20,
-          20,
-          logoDimension,
-          logoDimension
+            this.logo,
+            this.edCanvas.width - logoDimension - 20,
+            20,
+            logoDimension,
+            logoDimension
         );
       },
       "bottom-right": () => {
         let logoDimension = 0.1 * this.edCanvas.width;
         this.canvasTmpCtx.drawImage(
-          this.logo,
-          this.edCanvas.width - logoDimension - 20,
-          this.edCanvas.height - logoDimension - 20,
-          logoDimension,
-          logoDimension
+            this.logo,
+            this.edCanvas.width - logoDimension - 20,
+            this.edCanvas.height - logoDimension - 20,
+            logoDimension,
+            logoDimension
         );
       },
       "bottom-left": () => {
         let logoDimension = 0.1 * this.edCanvas.width;
         this.canvasTmpCtx.drawImage(
-          this.logo,
-          20,
-          this.edCanvas.height - logoDimension - 20,
-          logoDimension,
-          logoDimension
+            this.logo,
+            20,
+            this.edCanvas.height - logoDimension - 20,
+            logoDimension,
+            logoDimension
         );
       },
     };
@@ -155,7 +163,12 @@ class EditingPlayer extends React.Component<IProps, IState> {
     if (this.props.local && this.props.local === true) {
       try {
         if (musicProps && musicProps.url) {
-          let musicResponse = await fetch(musicProps.url);
+          const musicConfig = {level: musicProps.type || 'protected'};
+          if (this.props.identityId) {
+            // @ts-ignore
+            musicConfig.identityId = this.props.identityId;
+          }
+          let musicResponse = await fetch(await Storage.get(musicProps.url, musicConfig));
           let musicBlob = await musicResponse.blob();
           const musicUrl = await window.URL.createObjectURL(musicBlob);
           this.backgroundMusic.src = musicUrl;
@@ -169,12 +182,17 @@ class EditingPlayer extends React.Component<IProps, IState> {
         this.canvasTmpCtx = this.tmpCanvas.getContext("2d");
         this.setState({ videoLoaded: true });
       } catch (err) {
-        console.log("error in local canvas ", err);
+        console.error("error in local canvas ", err);
       }
     } else {
       try {
         if (musicProps && musicProps.url) {
-          let musicResponse = await fetch(musicProps.url);
+          const musicConfig = {level: musicProps.type || 'protected'};
+          if (this.props.identityId) {
+            // @ts-ignore
+            musicConfig.identityId = this.props.identityId;
+          }
+          let musicResponse = await fetch(await Storage.get(musicProps.url, musicConfig));
           let musicBlob = await musicResponse.blob();
           const musicUrl = await window.URL.createObjectURL(musicBlob);
           this.backgroundMusic.src = musicUrl;
@@ -182,7 +200,31 @@ class EditingPlayer extends React.Component<IProps, IState> {
             this.initializeVolume()
           );
         }
-        let videoResponse = await fetch(src);
+        if (this.props.thumbnail && this.props.thumbnail !== null) {
+          const thumbnailConfig = {level: 'protected'};
+          if (this.props.identityId) {
+            // @ts-ignore
+            thumbnailConfig.identityId = this.props.identityId;
+          }
+          // @ts-ignore
+          Storage.get(this.props.thumbnail, thumbnailConfig).then(response => this.setState({thumbnailUrl: response}));
+        }
+        if (_.has(this.props, 'logoProps') && _.has(this.props.logoProps, 'url')) {
+          const logoConfig = {level: "protected"};
+          if (this.props.identityId) {
+            // @ts-ignore
+            logoConfig.identityId = this.props.identityId;
+          }
+          // @ts-ignore
+          Storage.get(this.props.logoProps.url, logoConfig).then(response => this.setState({logoUrl: response}));
+        }
+        const videoConfig = {level: 'protected'};
+        if (this.props.identityId) {
+          // @ts-ignore
+          videoConfig.identityId = this.props.identityId;
+        }
+        // @ts-ignore
+        let videoResponse = await fetch(await Storage.get(src, videoConfig));
         let videoBlob = await videoResponse.blob();
         const videoUrl = await window.URL.createObjectURL(videoBlob);
         this.video.src = videoUrl;
@@ -191,7 +233,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
         this.canvasTmpCtx = this.tmpCanvas.getContext("2d");
         this.setState({ videoLoaded: true });
       } catch (err) {
-        console.log("error in editing canvas", err);
+        console.error("error in editing canvas", err);
       }
     }
     setTimeout(() => {
@@ -283,7 +325,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
     }
   };
 
-  onAnimationFrame() {
+  onAnimationFrame = async () => {
     const render = () => {
       const { textProps, logoProps } = this.props;
       const { width, height } = this.state;
@@ -443,7 +485,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
                     maxHeight: "100%",
                     maxWidth: "100%",
                   }}
-                  src={thumbnail}
+                  src={this.state.thumbnailUrl}
                   alt="preview"
                 />
               )}
@@ -531,7 +573,7 @@ class EditingPlayer extends React.Component<IProps, IState> {
         />
         <img
           alt="logo"
-          src={logoProps && logoProps.url ? logoProps.url : null}
+          src={this.state.logoUrl !== '' ? this.state.logoUrl : undefined}
           style={{ display: "none" }}
           ref="logo"
         />

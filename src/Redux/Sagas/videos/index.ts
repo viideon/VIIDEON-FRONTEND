@@ -27,6 +27,8 @@ import {
   isEmailConfigPresent
 } from "../../Selectors";
 import { toast } from "react-toastify";
+import _ from "lodash";
+import {Storage} from "aws-amplify";
 
 function* sendVideoOnEmail(action: any) {
   try {
@@ -203,6 +205,12 @@ function* getTemplate(action: any) {
 function* getVideo(action: any) {
   try {
     const result = yield call(getSingleVideo, action.payload);
+    if (_.has(result.video, 'logoProps') && _.has(result.video.logoProps, 'url')) {
+      result.video.logoProps.signedUrl = yield Storage.get(result.video.logoProps.url, {level: "protected"});
+    }
+    if (_.has(result.video, 'musicProps') && _.has(result.video.musicProps, 'url')) {
+      result.video.musicProps.signedUrl = yield Storage.get(result.video.musicProps.url, {level: "protected"});
+    }
     yield put({ type: types.GET_VIDEO_SUCCESS, payload: result.video });
   } catch (err) {
     yield put({ type: types.GET_VIDEO_FAILURE });

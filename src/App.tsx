@@ -59,6 +59,12 @@ Amplify.configure({
       },
     ],
   },
+  Storage: {
+    AWSS3: {
+      bucket: process.env.REACT_APP_S3_BUCKET,
+      region: process.env.REACT_APP_S3_REGION,
+    }
+  }
 });
 
 class App extends Component {

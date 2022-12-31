@@ -25,6 +25,8 @@ import { reg } from "../../constants/emailRegEx";
 import * as api from '../../util/api';
 
 import "./style.css";
+import {Auth, Storage} from "aws-amplify";
+import _ from "lodash";
 
 const { availableTheme } = require("../../constants/constants");
 
@@ -139,13 +141,28 @@ class SendSave extends React.Component<IProps> {
     }
     try {
       const filename = uuid();
-      await this.uploadThumbnail(filename);
       await this.uploadVideo(`${filename}-thumbnail`);
+      const currentUser = await Auth.currentUserCredentials();
+      const thumbnailResponse = await api.generateThumbnail(
+          `protected/${currentUser.identityId}/${filename}`,
+          {
+            onUploadProgress: (progressEvent: {
+              loaded: number;
+              total: number;
+            }) => {
+              let uploaded: number =
+                  (progressEvent.loaded * 100) / progressEvent.total;
+              this.setState({ progressVideo: uploaded });
+            }
+          }
+      );
+      const thumbnailUrl = _.replace(thumbnailResponse.thumbnail, `protected/${currentUser.identityId}/`, '');
       const video = {
         title: this.state.title,
         url: this.state.urlRecord,
         userId: this.props.auth!.user!._id,
-        thumbnail: this.state.thumbnailUrl,
+        identityId: currentUser.identityId,
+        thumbnail: thumbnailUrl,
         textProps: this.props.textProps,
         logoProps: this.props.logoProps,
         musicProps: this.props.musicProps,
@@ -160,50 +177,80 @@ class SendSave extends React.Component<IProps> {
   uploadVideo = (filename: string) => {
     return new Promise((resolve, reject) => {
       this.setState({ videoProgress: true, progressVideo: 0 });
-      api.uploadFile(
-          filename,
-          this.props.previewVideo,
-          {
-            onUploadProgress: (progressEvent: { loaded: number; total: number; }) => {
-              let uploaded: number = (progressEvent.loaded * 100) / progressEvent.total;
-              this.setState({ progressFile: uploaded });
-            }
-          }
-      ).then((response: { filename: any; }) => {
+      Storage.put(filename, this.props.previewVideo, {
+        level: "protected",
+        progressCallback: (progressEvent: { loaded: number; total: number; }) => {
+          let uploaded: number = (progressEvent.loaded * 100) / progressEvent.total;
+          this.setState({ progressFile: uploaded });
+        }
+      }).then((response: any) => {
         this.setState({
           videoProgress: false,
-          thumbnailUrl: response.filename,
+          urlRecord: response.key,
         });
         resolve();
       }).catch((error: any) => {
         reject(error);
       });
+      // api.uploadFile(
+      //     filename,
+      //     this.props.previewVideo,
+      //     {
+      //       onUploadProgress: (progressEvent: { loaded: number; total: number; }) => {
+      //         let uploaded: number = (progressEvent.loaded * 100) / progressEvent.total;
+      //         this.setState({ progressFile: uploaded });
+      //       }
+      //     }
+      // ).then((response: { filename: any; }) => {
+      //   this.setState({
+      //     videoProgress: false,
+      //     thumbnailUrl: response.filename,
+      //   });
+      //   resolve();
+      // }).catch((error: any) => {
+      //   reject(error);
+      // });
     });
   };
 
-  uploadThumbnail = (filename: string) => {
-    return new Promise((resolve, reject) => {
-      this.setState({ videoProgress: true, progressVideo: 0 });
-      api.uploadFile(
-        filename,
-        this.props.thumbnailBlob,
-        {
-          onUploadProgress: (progressEvent: { loaded: number; total: number; }) => {
-            let uploaded: number = (progressEvent.loaded * 100) / progressEvent.total;
-            this.setState({ progressFile: uploaded });
-          }
-        }
-      ).then((response: { filename: any; }) => {
-        this.setState({
-          videoProgress: false,
-          thumbnailUrl: response.filename,
-        });
-        resolve();
-      }).catch((error: any) => {
-        reject(error);
-      });
-    });
-  };
+  // uploadThumbnail = (filename: string) => {
+  //   return new Promise((resolve, reject) => {
+  //     this.setState({ videoProgress: true, progressVideo: 0 });
+  //     Storage.put(filename, this.props.thumbnailBlob, {
+  //       level: "protected",
+  //       progressCallback: (progressEvent: { loaded: number; total: number; }) => {
+  //         let uploaded: number = (progressEvent.loaded * 100) / progressEvent.total;
+  //         this.setState({ progressFile: uploaded });
+  //       }
+  //     }).then((response: any) => {
+  //       this.setState({
+  //         videoProgress: false,
+  //         thumbnailUrl: response.key,
+  //       });
+  //       resolve();
+  //     }).catch((error: any) => {
+  //       reject(error);
+  //     });
+  //     // api.uploadFile(
+  //     //   filename,
+  //     //   this.props.thumbnailBlob,
+  //     //   {
+  //     //     onUploadProgress: (progressEvent: { loaded: number; total: number; }) => {
+  //     //       let uploaded: number = (progressEvent.loaded * 100) / progressEvent.total;
+  //     //       this.setState({ progressFile: uploaded });
+  //     //     }
+  //     //   }
+  //     // ).then((response: { filename: any; }) => {
+  //     //   this.setState({
+  //     //     videoProgress: false,
+  //     //     thumbnailUrl: response.filename,
+  //     //   });
+  //     //   resolve();
+  //     // }).catch((error: any) => {
+  //     //   reject(error);
+  //     // });
+  //   });
+  // };
 
   titleNameHandler = (event: any) => {
     this.setState({
@@ -289,6 +336,7 @@ class SendSave extends React.Component<IProps> {
     let { videoSaved, loading } = this.props.videoUser;
     let { progressEmail } = this.props;
     const { open, themeName } = this.state;
+
     return (
       <Grid container>
         <Grid item xs={1} sm={1} md={3} lg={3}></Grid>

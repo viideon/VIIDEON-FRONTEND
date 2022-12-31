@@ -66,7 +66,6 @@ class RecorderTab extends Component<any> {
   getMaxDuration = async (blob: any) => {
     const duration2 = await getBlobDuration(blob);
     let duration = Math.trunc(duration2);
-    console.log("in overlay", duration);
     this.setState({ duration });
   };
 

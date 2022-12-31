@@ -38,6 +38,7 @@ import {
 import "./style.css";
 import { AuthState } from "../../Redux/Types/auth";
 import * as api from "../../util/api";
+import {Storage} from "aws-amplify";
 
 interface IProps {
   getPreview: (settings: any) => void;
@@ -163,12 +164,10 @@ class Overview extends React.Component<IProps> {
     this.setState({ assetUploading: true });
     const { logoBlob } = this.state;
     return new Promise((resolve, reject) => {
-      api.uploadFile(
-          `${uuid}-logo`,
-          logoBlob,
-          {}
-      ).then((response: { filename: any; }) => {
-        this.setState({ logoPath: response.filename, img: response.filename });
+      Storage.put(`${uuid}-logo`, logoBlob, {
+        level: "protected",
+      }).then((response: any) => {
+        this.setState({ logoPath: response.key, img: response.key });
         toast.info("Logo uploaded");
         resolve();
       }).catch((error: any) => {
@@ -176,6 +175,19 @@ class Overview extends React.Component<IProps> {
         this.setState({ assetUploading: false });
         reject();
       });
+      // api.uploadFile(
+      //     `${uuid}-logo`,
+      //     logoBlob,
+      //     {}
+      // ).then((response: { filename: any; }) => {
+      //   this.setState({ logoPath: response.filename, img: response.filename });
+      //   toast.info("Logo uploaded");
+      //   resolve();
+      // }).catch((error: any) => {
+      //   toast.error(error);
+      //   this.setState({ assetUploading: false });
+      //   reject();
+      // });
     });
   };
 

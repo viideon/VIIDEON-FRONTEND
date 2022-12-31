@@ -14,6 +14,7 @@ import * as Constants from "../../constants/constants";
 import Loading from "../../components/Loading";
 import ThemeButton from "../../components/ThemeButton";
 import Header from "../../components/Header/Header";
+import {Storage} from "aws-amplify";
 
 import "./style.css";
 import * as api from "../../util/api";
@@ -120,17 +121,27 @@ class Profile extends Component<IProps, IState> {
     this.setState({ avatarUploading: true });
     this.getLogoFromProfilePic(e.target.files[0]);
     const filename = uuid();
-    api.uploadFile(
-      filename,
-      e.target.files[0],
-      {}
-    ).then((response: { filename: any; }) => {
-      this.setState({ avatarUploading: false, url: response.filename });
-      toast.info("Click update button below to save changes");
-    }).catch((error: any) => {
-      toast.error(error.message);
-      this.setState({ avatarUploading: false });
-    });
+    Storage.put(filename, e.target.files[0], {level: "private"})
+      .then(response => {
+        // @ts-ignore
+        this.setState({avatarUploading: false, url: response.key});
+        toast.info("Click update button below to save changes");
+      })
+        .catch(error => {
+          toast.error(error.message);
+          this.setState({ avatarUploading: false });
+        });
+    // api.uploadFile(
+    //   filename,
+    //   e.target.files[0],
+    //   {}
+    // ).then((response: { filename: any; }) => {
+    //   this.setState({ avatarUploading: false, url: response.filename });
+    //   toast.info("Click update button below to save changes");
+    // }).catch((error: any) => {
+    //   toast.error(error.message);
+    //   this.setState({ avatarUploading: false });
+    // });
   };
   getLogoFromProfilePic = (file: any) => {
     const width = 100;
@@ -162,17 +173,26 @@ class Profile extends Component<IProps, IState> {
   };
   saveLogo = (logoBlob: any) => {
     return new Promise((resolve, reject) => {
-      api.uploadFile(
-          `${uuid}-logo`,
-          logoBlob,
-          {}
-      ).then((response: { filename: any; }) => {
-        this.props.addAsset({ type: "logo", url: response.filename });
+      Storage.put(`${uuid}-logo`, logoBlob, {
+        level: "private",
+      }).then((response: any) => {
+        this.props.addAsset({ type: "logo", url: response.key });
         resolve();
       }).catch((error: any) => {
         toast.error(error);
         reject();
       });
+      // api.uploadFile(
+      //     `${uuid}-logo`,
+      //     logoBlob,
+      //     {}
+      // ).then((response: { filename: any; }) => {
+      //   this.props.addAsset({ type: "logo", url: response.filename });
+      //   resolve();
+      // }).catch((error: any) => {
+      //   toast.error(error);
+      //   reject();
+      // });
     });
   };
   render() {

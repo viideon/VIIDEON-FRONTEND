@@ -26,6 +26,8 @@ import ThemeButton from "../../components/ThemeButton";
 import "./style.css";
 import { AuthState } from "../../Redux/Types/auth";
 import * as api from "../../util/api";
+import {Storage} from "aws-amplify";
+import {thumbnailDefault} from "../../constants/constants";
 
 interface IState {
   file: File | null;
@@ -57,6 +59,8 @@ interface IState {
   musicVolume: string;
   updatedThumbnailUrl: string;
   videoHeight: string;
+  thumbnailUrl: string;
+  videoUrl: string;
 }
 interface Video {
   url: string;
@@ -126,7 +130,9 @@ class Editing extends React.Component<IProps, IState> {
       musicLoadingTimeout: null,
       musicVolume: "0.5",
       updatedThumbnailUrl: "",
-      videoHeight: "300px"
+      videoHeight: "300px",
+      thumbnailUrl: thumbnailDefault,
+      videoUrl: "",
     };
     this._isMounted = false;
   }
@@ -138,6 +144,10 @@ class Editing extends React.Component<IProps, IState> {
     window.addEventListener("resize", this.caluclateContainerHeight);
     this._isMounted &&
       setTimeout(() => this.setState({ showVideo: true }), 1000);
+    Storage.get(this.props.video.url, {level: "protected"}).then(response => this.setState({videoUrl: response}));
+    if (this.props.video.thumbnail != null) {
+      Storage.get(this.props.video.thumbnail, {level: "protected"}).then(response => this.setState({thumbnailUrl: response}));
+    }
   }
   caluclateContainerHeight = () => {
     let calculatedVideoHeight = document.getElementById("wrapper_main")
@@ -181,7 +191,7 @@ class Editing extends React.Component<IProps, IState> {
         let videoBlob = await response.blob();
         this.video.src = await window.URL.createObjectURL(videoBlob);
       } catch (err) {
-        console.log("error in editing screen", err);
+        console.error("error in editing screen", err);
       }
       if (logoProps) {
         this.setState({ logoPath: logoProps.url, iconPos: logoProps.position });
@@ -265,28 +275,29 @@ class Editing extends React.Component<IProps, IState> {
     this.backgroundMusic.currentTime = 0;
   };
 
-  onThumbnailFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files![0] !== null) {
-      let file = e.target.files![0];
-      this.setState({ uploading: true });
-      api.uploadFile(
-          `${uuid}-thumbnail`,
-          file,
-          {}
-      ).then((response: { filename: any; }) => {
-        this.setState({ url: response.filename, uploading: false }, () =>
-            this.props.addAsset({ type: "thumbnail", url: this.state.url })
-        );
-        this.saveChanges();
-        return;
-      }).catch((error: any) => {
-        this.setState({ uploading: false });
-        toast.error(error);
-      });
-    } else {
-      toast.error("No file selected");
-    }
-  };
+  // onThumbnailFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files![0] !== null) {
+  //     let file = e.target.files![0];
+  //     this.setState({ uploading: true });
+  //     api.uploadFile(
+  //         `${uuid}-thumbnail`,
+  //         file,
+  //         {}
+  //     ).then((response: { filename: any; }) => {
+  //       this.setState({ url: response.filename, uploading: false }, () =>
+  //           this.props.addAsset({ type: "thumbnail", url: this.state.url })
+  //       );
+  //       this.saveChanges();
+  //       return;
+  //     }).catch((error: any) => {
+  //       this.setState({ uploading: false });
+  //       toast.error(error);
+  //     });
+  //   } else {
+  //     toast.error("No file selected");
+  //   }
+  // };
+
   onMusicInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const audioTypes = /(\.|\/)(mp3|ogg|wav)$/i;
     let musicFile = e.target.files![0];
@@ -310,26 +321,44 @@ class Editing extends React.Component<IProps, IState> {
     } else {
       toast.info("Uploading music please wait");
       this.setState({ assetUploading: true });
-      api.uploadFile(
-        `${uuid}-music`,
-          this.state.musicFile,
-        {}
-      ).then((response: { filename: any; }) => {
+      Storage.put(`${uuid}-music`, this.state.musicFile, {
+        level: "protected",
+      }).then((response: any) => {
         toast.info("Asset Uploaded");
         this.setState({
-          backgroundMusicUrl: response.filename,
+          backgroundMusicUrl: response.key,
           musicFile: null,
           musicFileSelected: false,
           assetUploading: false
         });
         this.props.addMusicAsset({
-          url: response.filename,
+          url: response.key,
           title: this.state.musicTitle
         });
       }).catch((error: any) => {
         toast.error(error);
         this.setState({ assetUploading: false });
       });
+      // api.uploadFile(
+      //   `${uuid}-music`,
+      //     this.state.musicFile,
+      //   {}
+      // ).then((response: { filename: any; }) => {
+      //   toast.info("Asset Uploaded");
+      //   this.setState({
+      //     backgroundMusicUrl: response.filename,
+      //     musicFile: null,
+      //     musicFileSelected: false,
+      //     assetUploading: false
+      //   });
+      //   this.props.addMusicAsset({
+      //     url: response.filename,
+      //     title: this.state.musicTitle
+      //   });
+      // }).catch((error: any) => {
+      //   toast.error(error);
+      //   this.setState({ assetUploading: false });
+      // });
     }
   };
   onThumbnailAssetPick = (path: any) => {
@@ -606,23 +635,38 @@ class Editing extends React.Component<IProps, IState> {
   }
   saveLogo = (logoBlob: any) => {
     return new Promise((resolve, reject) => {
-      api.uploadFile(
-          `${uuid}-logo`,
-          logoBlob,
-          {}
-      ).then((response: { filename: any; }) => {
-        this.setState({ logoPath: response.filename }, () => {
+      Storage.put(`${uuid}-logo`, logoBlob, {
+        level: "protected",
+      }).then((response: any) => {
+        this.setState({ logoPath: response.key }, () => {
           setTimeout(() => {
             this.updateCanvas();
           }, 1000);
         });
-        this.props.addAsset({ type: "logo", url: response.filename });
+        this.props.addAsset({ type: "logo", url: response.key });
         resolve();
       }).catch((error: any) => {
         toast.error(error);
         this.setState({ assetUploading: false });
         reject();
       });
+      // api.uploadFile(
+      //     `${uuid}-logo`,
+      //     logoBlob,
+      //     {}
+      // ).then((response: { filename: any; }) => {
+      //   this.setState({ logoPath: response.filename }, () => {
+      //     setTimeout(() => {
+      //       this.updateCanvas();
+      //     }, 1000);
+      //   });
+      //   this.props.addAsset({ type: "logo", url: response.filename });
+      //   resolve();
+      // }).catch((error: any) => {
+      //   toast.error(error);
+      //   this.setState({ assetUploading: false });
+      //   reject();
+      // });
     });
   };
   onLogoAssetPick = (path: any) => {
@@ -660,7 +704,7 @@ class Editing extends React.Component<IProps, IState> {
           JSON.stringify(logoProps) !== JSON.stringify(video.logoProps)
         ) {
           toast.info("Generating new thumbnail", { autoClose: 1000 });
-          await this.updateThumbnail();
+          // await this.updateThumbnail();
           // toast.info("Thumbnail generated", { autoClose: 1000 });
           const video = {
             id: this.props.videoId,
@@ -684,51 +728,62 @@ class Editing extends React.Component<IProps, IState> {
       toast.info("Error in updating");
     }
   };
-  updateThumbnail = () => {
-    return new Promise((resolve, reject) => {
-      const thumbCanvas = this.thumbCanvas;
-      const thumbnailContext = thumbCanvas.getContext("2d");
-      const iconPos = getIconPosition(this.state.iconPos);
-      thumbnailContext.drawImage(this.video, 0, 0, 1280, 720);
-      thumbnailContext.fillStyle = this.state.textColor;
-      canvasTxt.fontSize = (this.state.fontSize / 100) * 1100;
-      canvasTxt.vAlign = this.state.vAlign;
-      canvasTxt.align = this.state.align;
-      canvasTxt.lineHeight = 20;
-      canvasTxt.drawText(
-        thumbnailContext,
-        this.state.text,
-        60,
-        60,
-        1280 - 120,
-        720 - 120
-      );
-      thumbnailContext.drawImage(this.img, iconPos.x, iconPos.y);
-      thumbCanvas.toBlob(async (blob: any) => {
-        try {
-          await this.uploadUpdatedThumbnail(blob);
-          resolve();
-        } catch (err) {
-          reject();
-        }
-        resolve();
-      }, "image/jpeg");
-    });
-  };
-  uploadUpdatedThumbnail = (blob: any) => {
-    return new Promise((resolve, reject) => {
-      api.uploadFile(
-          `${uuid}-thumbnail`,
-          blob,
-          {}
-      ).then((response: { filename: any; }) => {
-        this.setState({ updatedThumbnailUrl: response.filename });
-        resolve();
-      }).catch((error: any) => {
-        reject(error);
-      });
-    });
-  };
+
+  // updateThumbnail = () => {
+  //   return new Promise((resolve, reject) => {
+  //     const thumbCanvas = this.thumbCanvas;
+  //     const thumbnailContext = thumbCanvas.getContext("2d");
+  //     const iconPos = getIconPosition(this.state.iconPos);
+  //     thumbnailContext.drawImage(this.video, 0, 0, 1280, 720);
+  //     thumbnailContext.fillStyle = this.state.textColor;
+  //     canvasTxt.fontSize = (this.state.fontSize / 100) * 1100;
+  //     canvasTxt.vAlign = this.state.vAlign;
+  //     canvasTxt.align = this.state.align;
+  //     canvasTxt.lineHeight = 20;
+  //     canvasTxt.drawText(
+  //       thumbnailContext,
+  //       this.state.text,
+  //       60,
+  //       60,
+  //       1280 - 120,
+  //       720 - 120
+  //     );
+  //     thumbnailContext.drawImage(this.img, iconPos.x, iconPos.y);
+  //     thumbCanvas.toBlob(async (blob: any) => {
+  //       try {
+  //         await this.uploadUpdatedThumbnail(blob);
+  //         resolve();
+  //       } catch (err) {
+  //         reject();
+  //       }
+  //       resolve();
+  //     }, "image/jpeg");
+  //   });
+  // };
+  //
+  // uploadUpdatedThumbnail = (blob: any) => {
+  //   return new Promise((resolve, reject) => {
+  //     Storage.put(`${uuid}-thumbnail`, blob, {
+  //       level: "private",
+  //     }).then((response: any) => {
+  //       this.setState({ updatedThumbnailUrl: response.key });
+  //       resolve();
+  //     }).catch((error: any) => {
+  //       reject(error);
+  //     });
+  //     // api.uploadFile(
+  //     //     `${uuid}-thumbnail`,
+  //     //     blob,
+  //     //     {}
+  //     // ).then((response: { filename: any; }) => {
+  //     //   this.setState({ updatedThumbnailUrl: response.filename });
+  //     //   resolve();
+  //     // }).catch((error: any) => {
+  //     //   reject(error);
+  //     // });
+  //   });
+  // };
+
   syncAudio = () => {
     let videoVolume = this.video.volume * 100;
     this.backgroundMusic.volume =
@@ -774,10 +829,10 @@ class Editing extends React.Component<IProps, IState> {
                   muted={false}
                   autoPlay={false}
                   loop={false}
-                  src={video.url}
+                  src={this.state.videoUrl}
                   logoProps={video.logoProps}
                   textProps={video.textProps}
-                  thumbnail={video.thumbnail}
+                  thumbnail={this.state.thumbnailUrl}
                   musicProps={video.musicProps}
                 />
               )}
@@ -795,54 +850,54 @@ class Editing extends React.Component<IProps, IState> {
           <Grid item xs={1} md={2}></Grid>
           <Grid item xs={10} md={8}>
             <div className="wrapperEditThumbnail">
-              <input
-                id="uploadInput"
-                type="file"
-                onChange={this.onThumbnailFileChange}
-                ref={this.setThumbnailInputRef}
-                accept="image/x-png,image/gif,image/jpeg"
-              />
-              <h4 className="thumbnaillEditMsg">
-                Customize Thumbnail
-                <Tooltip
-                  title="upload a thumbnail for your video"
-                  placement="top"
-                  arrow
-                  style={{ marginLeft: "3px" }}
-                >
-                  <HelpIcon />
-                </Tooltip>
-              </h4>
-              <div className="progressEditing">
-                {this.state.uploading && <Loading />}
-              </div>
-              <div className="progressEditing">
-                {isVideoUpdating && <Loading height={60} width={60} />}
-              </div>
-              <AssetPicker
-                isOpen={this.state.isOpenThumbnailPicker}
-                toggle={this.toggleThumbnailAssetPicker}
-                logoAssets={false}
-                onPick={this.onThumbnailAssetPick}
-              />
-              <div className="btnEditThumbnailWrapper">
-                <ThemeButton
-                  name="Upload File"
-                  onClick={this.triggerThumbnailUploadBtn}
-                  style={{
-                    background: Colors.themeGreen,
-                    color: Colors.white
-                  }}
-                />
-                <ThemeButton
-                  name="Select from assets"
-                  onClick={this.toggleThumbnailAssetPicker}
-                  style={{
-                    background: Colors.themeGreen,
-                    color: Colors.white
-                  }}
-                />
-              </div>
+            {/*  <input*/}
+            {/*    id="uploadInput"*/}
+            {/*    type="file"*/}
+            {/*    onChange={this.onThumbnailFileChange}*/}
+            {/*    ref={this.setThumbnailInputRef}*/}
+            {/*    accept="image/x-png,image/gif,image/jpeg"*/}
+            {/*  />*/}
+            {/*  <h4 className="thumbnaillEditMsg">*/}
+            {/*    Customize Thumbnail*/}
+            {/*    <Tooltip*/}
+            {/*      title="upload a thumbnail for your video"*/}
+            {/*      placement="top"*/}
+            {/*      arrow*/}
+            {/*      style={{ marginLeft: "3px" }}*/}
+            {/*    >*/}
+            {/*      <HelpIcon />*/}
+            {/*    </Tooltip>*/}
+            {/*  </h4>*/}
+            {/*  <div className="progressEditing">*/}
+            {/*    {this.state.uploading && <Loading />}*/}
+            {/*  </div>*/}
+            {/*  <div className="progressEditing">*/}
+            {/*    {isVideoUpdating && <Loading height={60} width={60} />}*/}
+            {/*  </div>*/}
+            {/*  <AssetPicker*/}
+            {/*    isOpen={this.state.isOpenThumbnailPicker}*/}
+            {/*    toggle={this.toggleThumbnailAssetPicker}*/}
+            {/*    logoAssets={false}*/}
+            {/*    onPick={this.onThumbnailAssetPick}*/}
+            {/*  />*/}
+            {/*  <div className="btnEditThumbnailWrapper">*/}
+            {/*    <ThemeButton*/}
+            {/*      name="Upload File"*/}
+            {/*      onClick={this.triggerThumbnailUploadBtn}*/}
+            {/*      style={{*/}
+            {/*        background: Colors.themeGreen,*/}
+            {/*        color: Colors.white*/}
+            {/*      }}*/}
+            {/*    />*/}
+            {/*    <ThemeButton*/}
+            {/*      name="Select from assets"*/}
+            {/*      onClick={this.toggleThumbnailAssetPicker}*/}
+            {/*      style={{*/}
+            {/*        background: Colors.themeGreen,*/}
+            {/*        color: Colors.white*/}
+            {/*      }}*/}
+            {/*    />*/}
+            {/*  </div>*/}
               <div className="wrapperEditTitle">
                 <h4 className="thumbnaillEditMsg">
                   Customize Title

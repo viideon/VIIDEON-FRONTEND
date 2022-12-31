@@ -22,7 +22,6 @@ class FinalTab extends Component<any> {
   };
   finalize = () => {
     if (this.state.title === "") {
-      // console.log(this.props.state);
       toast.error("Enter chatvid title!");
       return 0;
     } else {
@@ -108,7 +107,6 @@ class FinalTab extends Component<any> {
                   margin: "1%",
                 }}
               >
-                {/* {console.log("final", this.state.isClicked)} */}
                 <Button
                   color="default"
                   className="BackBTN"
