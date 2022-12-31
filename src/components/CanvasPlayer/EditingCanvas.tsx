@@ -26,6 +26,7 @@ interface IProps {
   local?: boolean;
   preview?: boolean;
   watched?: () => void;
+  identityId?: string;
 }
 interface IState {
   playing: boolean;
@@ -162,7 +163,12 @@ class EditingPlayer extends React.Component<IProps, IState> {
     if (this.props.local && this.props.local === true) {
       try {
         if (musicProps && musicProps.url) {
-          let musicResponse = await fetch(await Storage.get(musicProps.url, {level: "protected"}));
+          const musicConfig = {level: musicProps.type || 'protected'};
+          if (this.props.identityId) {
+            // @ts-ignore
+            musicConfig.identityId = this.props.identityId;
+          }
+          let musicResponse = await fetch(await Storage.get(musicProps.url, musicConfig));
           let musicBlob = await musicResponse.blob();
           const musicUrl = await window.URL.createObjectURL(musicBlob);
           this.backgroundMusic.src = musicUrl;
@@ -181,7 +187,12 @@ class EditingPlayer extends React.Component<IProps, IState> {
     } else {
       try {
         if (musicProps && musicProps.url) {
-          let musicResponse = await fetch(await Storage.get(musicProps.url, {level: "protected"}));
+          const musicConfig = {level: musicProps.type || 'protected'};
+          if (this.props.identityId) {
+            // @ts-ignore
+            musicConfig.identityId = this.props.identityId;
+          }
+          let musicResponse = await fetch(await Storage.get(musicProps.url, musicConfig));
           let musicBlob = await musicResponse.blob();
           const musicUrl = await window.URL.createObjectURL(musicBlob);
           this.backgroundMusic.src = musicUrl;
@@ -190,12 +201,30 @@ class EditingPlayer extends React.Component<IProps, IState> {
           );
         }
         if (this.props.thumbnail && this.props.thumbnail !== null) {
-          Storage.get(this.props.thumbnail, {level: "protected"}).then(response => this.setState({thumbnailUrl: response}));
+          const thumbnailConfig = {level: 'protected'};
+          if (this.props.identityId) {
+            // @ts-ignore
+            thumbnailConfig.identityId = this.props.identityId;
+          }
+          // @ts-ignore
+          Storage.get(this.props.thumbnail, thumbnailConfig).then(response => this.setState({thumbnailUrl: response}));
         }
         if (_.has(this.props, 'logoProps') && _.has(this.props.logoProps, 'url')) {
-          Storage.get(this.props.logoProps.url, {level: "protected"}).then(response => this.setState({logoUrl: response}));
+          const logoConfig = {level: "protected"};
+          if (this.props.identityId) {
+            // @ts-ignore
+            logoConfig.identityId = this.props.identityId;
+          }
+          // @ts-ignore
+          Storage.get(this.props.logoProps.url, logoConfig).then(response => this.setState({logoUrl: response}));
         }
-        let videoResponse = await fetch(await Storage.get(src, {level: "protected"}));
+        const videoConfig = {level: 'protected'};
+        if (this.props.identityId) {
+          // @ts-ignore
+          videoConfig.identityId = this.props.identityId;
+        }
+        // @ts-ignore
+        let videoResponse = await fetch(await Storage.get(src, videoConfig));
         let videoBlob = await videoResponse.blob();
         const videoUrl = await window.URL.createObjectURL(videoBlob);
         this.video.src = videoUrl;

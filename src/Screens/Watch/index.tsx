@@ -73,6 +73,7 @@ class Watch extends React.Component<IProps> {
                         muted={false}
                         autoPlay={false}
                         loop={false}
+                        identityId={video.identityId}
                         src={video.url}
                         logoProps={video.logoProps}
                         textProps={video.textProps}

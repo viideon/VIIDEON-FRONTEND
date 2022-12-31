@@ -33,7 +33,8 @@ import { addAsset, addMusicAsset } from "../../Redux/Actions/asset";
 import { getIconPosition } from "../../lib/helpers";
 import "./style.css";
 import * as api from "../../util/api";
-import {Storage} from "aws-amplify";
+import {Auth, Storage} from "aws-amplify";
+import _ from "lodash";
 
 interface IProps {
   history: any;
@@ -52,6 +53,7 @@ interface IProps {
 
 interface IState {
   logoPath: any;
+  logoUrl: any;
   logoX: number | string;
   logoY: number | string;
   text: string;
@@ -73,6 +75,8 @@ interface IState {
   recieverEmail: string;
   musicTitle: string;
   backgroundMusicUrl: string;
+  backgroundMusicKey: string;
+  backgroundMusicType: string;
   musicFileSelected: boolean;
   musicFile: any;
   assetUploading: boolean;
@@ -97,6 +101,7 @@ class AddLogoText extends React.Component<IProps, IState> {
     super(props);
     this.state = {
       logoPath: null,
+      logoUrl: null,
       isAssetPicker: false,
       isOpenMusicPicker: false,
       logoX: 10,
@@ -119,6 +124,8 @@ class AddLogoText extends React.Component<IProps, IState> {
       recieverEmail: "",
       musicTitle: "",
       backgroundMusicUrl: "",
+      backgroundMusicKey: "",
+      backgroundMusicType: "",
       musicFileSelected: false,
       musicFile: null,
       assetUploading: false,
@@ -312,12 +319,14 @@ class AddLogoText extends React.Component<IProps, IState> {
       Storage.put(`${uuid}-logo`, logoBlob, {
         level: "protected",
       }).then((response: any) => {
-        this.setState({ logoPath: response.key }, () => {
-          setTimeout(() => {
-            this.updateCanvas();
-          }, 1000);
-        });
-        this.props.addAsset({ type: "logo", url: response.ey });
+        Storage.get(response.key, {level: "protected"}).then(_response => {
+          this.setState({ logoPath: response.key, logoUrl: _response }, () => {
+            setTimeout(() => {
+              this.updateCanvas();
+            }, 1000);
+          });
+        })
+        this.props.addAsset({ type: "logo", url: response.key });
         resolve();
       }).catch((error: any) => {
         toast.error(error);
@@ -420,8 +429,10 @@ class AddLogoText extends React.Component<IProps, IState> {
     );
   };
   onAssetPick = (path: any) => {
-    this.setState({ logoPath: path }, () => this.updateCanvas());
-    toast.info("updated");
+    Storage.get(path, {level: "protected"}).then(_response => {
+      this.setState({ logoPath: path, logoUrl: _response }, () => this.updateCanvas());
+      toast.info("updated");
+    })
   };
   getThumbnail = () => {
     return new Promise((resolve, reject) => {
@@ -555,12 +566,15 @@ class AddLogoText extends React.Component<IProps, IState> {
       toast.error("Failed to select a file try again");
     }
   };
-  onMusicAssetPick = (path: any) => {
-    this.setState({ backgroundMusicUrl: path });
-    toast.info("Wait while we add the music to the video");
-    this.setState({
-      musicLoadingTimeout: setInterval(() => this.isMusicLoaded(), 3000)
-    });
+  onMusicAssetPick = (path: any, type: string) => {
+    // @ts-ignore
+    Storage.get(path, {level: type}).then((response: string) => {
+      this.setState({ backgroundMusicUrl: response, backgroundMusicKey: path, backgroundMusicType: type });
+      toast.info("Wait while we add the music to the video");
+      this.setState({
+        musicLoadingTimeout: setInterval(() => this.isMusicLoaded(), 3000)
+      });
+    })
   };
 
   // uploadThumbnail = (filename: string) => {
@@ -600,8 +614,22 @@ class AddLogoText extends React.Component<IProps, IState> {
       toast.info("Generating thumbnail ...");
       const filename = uuid();
       await this.uploadVideo(`${filename}.mp4`);
-      const thumbnailResponse = await api.generateThumbnail(this.state.videoUrl, {});
-      this.setState({ thumbnailUrl: thumbnailResponse.thumbnail });
+      const currentUser = await Auth.currentUserCredentials();
+      const thumbnailResponse = await api.generateThumbnail(
+          `protected/${currentUser.identityId}/${this.state.videoUrl}`,
+          {
+            onUploadProgress: (progressEvent: {
+              loaded: number;
+              total: number;
+            }) => {
+              let uploaded: number =
+                  (progressEvent.loaded * 100) / progressEvent.total;
+              this.setState({ progressVideo: uploaded });
+            }
+          }
+      );
+      const thumbnailUrl = _.replace(thumbnailResponse.thumbnail, `protected/${currentUser.identityId}/`, '');
+      this.setState({ thumbnailUrl });
       const textProps = {
         text: this.state.text,
         textColor: this.state.textColor,
@@ -614,7 +642,8 @@ class AddLogoText extends React.Component<IProps, IState> {
         position: this.state.iconPos
       };
       const musicProps = {
-        url: this.state.backgroundMusicUrl,
+        url: this.state.backgroundMusicKey,
+        type: this.state.backgroundMusicType,
         musicVolume: parseFloat(this.state.musicVolume)
       };
       const video = {
@@ -626,10 +655,12 @@ class AddLogoText extends React.Component<IProps, IState> {
         textProps: textProps,
         logoProps: logoProps,
         campaign: false,
-        isVideo: true
+        isVideo: true,
+        identityId: currentUser.identityId,
       };
       this.props.saveVideo(video);
     } catch (error) {
+      console.error('Error saving video', error);
       toast.error("Failed to save video, Please try again");
     }
   };
@@ -763,7 +794,7 @@ class AddLogoText extends React.Component<IProps, IState> {
         <img
           crossOrigin="anonymous"
           alt="logo"
-          src={this.state.logoPath ? this.state.logoPath : null}
+          src={this.state.logoUrl ? this.state.logoUrl : null}
           style={{ display: "none" }}
           ref="image"
         />

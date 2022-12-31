@@ -9,7 +9,7 @@ import { toggleSendVariable } from "../../Redux/Actions/videos";
 import { VideoState } from "../../Redux/Types/videos";
 import { AuthState } from "../../Redux/Types/auth";
 import "react-tabs/style/react-tabs.css";
-import {Storage} from "aws-amplify";
+import {Auth, Storage} from "aws-amplify";
 
 import Header from "../../components/Header/Header";
 // steps
@@ -23,7 +23,7 @@ import FinalTab from "./steps/final";
 
 import "./style.css";
 import * as api from "../../util/api";
-import {generateThumbnail} from "../../util/api";
+import _ from "lodash";
 
 type IProps = {
   auth: AuthState;
@@ -82,7 +82,21 @@ class ChatVid extends Component<IProps> {
   }
 
   uploadThumbnail = async (filename: string) => {
-    return generateThumbnail(filename, {});
+    const currentUser = await Auth.currentUserCredentials();
+    const thumbnailResponse = await api.generateThumbnail(
+        `protected/${currentUser.identityId}/${filename}`,
+        {
+          onUploadProgress: (progressEvent: {
+            loaded: number;
+            total: number;
+          }) => {
+            let uploaded: number =
+                (progressEvent.loaded * 100) / progressEvent.total;
+            this.setState({ progressVideo: uploaded });
+          }
+        }
+    );
+    return _.replace(thumbnailResponse.thumbnail, `protected/${currentUser.identityId}/`, '');
   };
 
   uploadVideo = (filename: string) => {
@@ -225,7 +239,7 @@ class ChatVid extends Component<IProps> {
         title: this.state.title,
         url: this.state.urlRecord,
         userId: this.props.auth!.user!._id,
-        thumbnail: thumbnailResponse.thumbnail,
+        thumbnail: thumbnailResponse,
         textProps: textProps,
         campaign: false,
         isChatvid: true

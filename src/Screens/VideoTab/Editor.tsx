@@ -12,13 +12,11 @@ import { updateVideo, cleanSingleVideo } from "../../Redux/Actions/videos";
 import { v4 as uuid } from "uuid";
 import canvasTxt from "canvas-txt";
 import { CompactPicker } from "react-color";
-import { getIconPosition } from "../../lib/helpers";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { AuthState } from "../../Redux/Types/auth";
-import * as api from "../../util/api";
 import _ from "lodash";
 import {Storage} from "aws-amplify";
 const ICON_DIMENSION = 100;
@@ -71,6 +69,8 @@ interface EditState {
   videoLoaded: boolean;
   musicTitle: string;
   backgroundMusicUrl: string;
+  backgroundMusicKey: string;
+  backgroundMusicType: string;
   musicFileSelected: boolean;
   musicFile: any;
   musicLoadingTimeout: any;
@@ -122,6 +122,8 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
       videoLoaded: false,
       musicTitle: "",
       backgroundMusicUrl: "",
+      backgroundMusicKey: "",
+      backgroundMusicType: "",
       musicFileSelected: false,
       musicFile: null,
       musicLoadingTimeout: null,
@@ -711,7 +713,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
   onMusicAssetPick = (path: any, type: string) => {
     // @ts-ignore
     Storage.get(path, {level: type}).then((response: string) => {
-      this.setState({ backgroundMusicUrl: response });
+      this.setState({ backgroundMusicUrl: response, backgroundMusicKey: path, backgroundMusicType: type });
       toast.info("Wait while we add the music to the video");
       this.setState({
         musicLoadingTimeout: setInterval(() => this.isMusicLoaded(), 3000)
@@ -741,7 +743,8 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
         video.logoProps = logoProps;
       }
       const musicProps = {
-        url: this.state.backgroundMusicUrl,
+        url: this.state.backgroundMusicKey,
+        type: this.state.backgroundMusicType,
         musicVolume: parseFloat(this.state.musicVolume)
       };
       if (!_.isNil(this.state.backgroundMusicUrl)) {

@@ -235,7 +235,7 @@ class Recording extends React.Component<IProps> {
       try {
         this.recordVideo.stopRecording();
       } catch (error) {
-        console.log("error: ", error.message);
+        console.error("error: ", error.message);
         toast.error("No recording found");
       }
       this.props.reset && this.props.reset();
@@ -253,7 +253,7 @@ class Recording extends React.Component<IProps> {
           this.setState({ recordingStatus: false });
         });
       } catch (error) {
-        console.log("error: ", error.message);
+        console.error("error: ", error.message);
         toast.error("No recording found");
       }
     }
@@ -336,7 +336,7 @@ class Recording extends React.Component<IProps> {
     try {
       this.recordVideo && this.recordVideo.stopRecording();
     } catch (error) {
-      console.log("err: in stoping: ", error.message);
+      console.error("err: in stopping: ", error.message);
     }
     this.props.reset && this.props.reset();
     setTimeout(() => {
