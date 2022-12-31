@@ -11,6 +11,8 @@ In your `.env` file, ensure the following are defined:
 * `REACT_APP_COGNITO_REGION`: Region that the Cognito Identity Pool is in
 * `REACT_APP_COGNITO_USER_POOL_ID`: Cognito User Pool ID for the app
 * `REACT_APP_COGNITO_USER_POOL_WEB_CLIENT_ID`: Web Client ID for the Cognito User Pool
+* `REACT_APP_S3_BUCKET`: Bucket to use for storing user assets
+* `REACT_APP_S3_REGION`: AWS Region to communicate with
 
 ### Running the app locally
 

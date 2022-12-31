@@ -93,7 +93,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint src",
-    "deploy": "aws s3 sync build/ s3://app.viideon.com --acl public-read"
+    "deploy": "aws s3 sync build/ s3://app.viideon.com",
+    "deploy-dev": "aws s3 sync build/ s3://dev.app.viideon.com"
   },
   "eslintConfig": {
     "extends": "react-app"

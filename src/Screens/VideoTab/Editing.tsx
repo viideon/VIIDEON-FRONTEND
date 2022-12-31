@@ -321,7 +321,7 @@ class Editing extends React.Component<IProps, IState> {
     } else {
       toast.info("Uploading music please wait");
       this.setState({ assetUploading: true });
-      Storage.put(`${uuid}-music`, this.state.musicFile, {
+      Storage.put(`${uuid()}-music`, this.state.musicFile, {
         level: "protected",
       }).then((response: any) => {
         toast.info("Asset Uploaded");
@@ -635,7 +635,7 @@ class Editing extends React.Component<IProps, IState> {
   }
   saveLogo = (logoBlob: any) => {
     return new Promise((resolve, reject) => {
-      Storage.put(`${uuid}-logo`, logoBlob, {
+      Storage.put(`${uuid()}-logo`, logoBlob, {
         level: "protected",
       }).then((response: any) => {
         this.setState({ logoPath: response.key }, () => {
