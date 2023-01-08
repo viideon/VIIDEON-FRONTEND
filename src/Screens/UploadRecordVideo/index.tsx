@@ -176,7 +176,8 @@ class UploadRecord extends Component<IProps, IState> {
         userId: this.props.auth!.user!._id,
         thumbnail: thumbnailUrl,
         campaign: false,
-        isVideo: true
+        isVideo: true,
+        identityId: currentUser.identityId,
       };
       this.setState({ fileProgress: false, videoProgress: false });
       this.props.saveVideo(video);
