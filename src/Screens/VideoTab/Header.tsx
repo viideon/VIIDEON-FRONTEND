@@ -436,6 +436,7 @@ class VideoTabHeader extends React.Component<IProps> {
       receiverEmail,
       emails,
     } = this.state;
+    console.log('Header render', {video, editTitle, themeName, open, forPreviewOpen, forShare, receiverEmail, emails});
     // @ts-ignore
     return (
       <div className="headerTab">

@@ -809,6 +809,7 @@ class Editing extends React.Component<IProps, IState> {
       musicFileSelected,
       backgroundMusicUrl
     } = this.state;
+    console.log('Render editing', {showVideo, videoLoaded, musicFileSelected, backgroundMusicUrl})
     return (
       <div className="editingTabWrapper">
         <Grid container>

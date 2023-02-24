@@ -863,6 +863,7 @@ class VideoEditor extends React.Component<EditorProps, EditState> {
   render() {
     const { type } = this.props;
     const { videoLoaded, backgroundMusicUrl, open } = this.state;
+    console.log('Editor render', {videoLoaded, backgroundMusicUrl, open});
     return (
       <div>
         <Dialog
